@@ -32,8 +32,31 @@
                     <label for="new-password">كلمة المرور</label>
                     <input type="text" id="new-password" required placeholder="مثال: 0000">
                 </div>
+                <label class="checkbox-group">
+                    <input type="checkbox" id="multi-user-checkbox">
+                    يوزر متعدد (يسمح بدخول أكثر من جهاز في نفس الوقت)
+                </label>
                 <button type="submit" class="btn" style="background: linear-gradient(135deg, #10b981, #059669);">حفظ وإضافة الطالب</button>
             </form>
+        </div>
+        
+        <!-- Users Table -->
+        <div class="glass-container users-table-container">
+            <h3 style="color: white; margin: 0 0 15px 0; text-align: center;">الطلاب المسجلين</h3>
+            <table class="users-table">
+                <thead>
+                    <tr>
+                        <th>اسم المستخدم</th>
+                        <th>كلمة المرور</th>
+                        <th>الحالة</th>
+                        <th>النوع</th>
+                        <th>إجراءات</th>
+                    </tr>
+                </thead>
+                <tbody id="users-tbody">
+                    <tr><td colspan="5" style="text-align: center;">جاري التحميل...</td></tr>
+                </tbody>
+            </table>
         </div>
     </div>
 
@@ -55,6 +78,7 @@
             e.preventDefault();
             const user = document.getElementById('new-username').value.trim();
             const pass = document.getElementById('new-password').value.trim();
+            const isMultiUser = document.getElementById('multi-user-checkbox').checked;
             
             const btn = document.querySelector('.btn');
             const statusDiv = document.getElementById('status-msg');
@@ -66,7 +90,8 @@
                 // Save to Firestore directly
                 await db.collection("codes").doc(user).set({
                     password: pass,
-                    used: false
+                    used: false,
+                    isMultiUser: isMultiUser
                 });
 
                 statusDiv.className = 'success-msg';
@@ -76,6 +101,10 @@
                 // Reset form
                 document.getElementById('new-username').value = '';
                 document.getElementById('new-password').value = '';
+                document.getElementById('multi-user-checkbox').checked = false;
+
+                // Refresh Table
+                loadUsers();
             } catch (error) {
                 console.error(error);
                 statusDiv.className = 'error-msg';
@@ -86,6 +115,75 @@
             btn.innerText = 'حفظ وإضافة الطالب';
             btn.disabled = false;
         });
+
+        // Load Users
+        async function loadUsers() {
+            const tbody = document.getElementById('users-tbody');
+            try {
+                const snapshot = await db.collection("codes").get();
+                tbody.innerHTML = '';
+                
+                if (snapshot.empty) {
+                    tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">لا يوجد طلاب مسجلين بعد.</td></tr>';
+                    return;
+                }
+
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    const username = doc.id;
+                    const usedText = data.used ? '<span style="color:#f87171;">مستخدم 🔴</span>' : '<span style="color:#34d399;">غير مستخدم 🟢</span>';
+                    const typeText = data.isMultiUser ? '<span style="color:#60a5fa;">متعدد 👥</span>' : 'فردي 👤';
+                    
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${username}</td>
+                        <td>${data.password}</td>
+                        <td>${usedText}</td>
+                        <td>${typeText}</td>
+                        <td>
+                            <button class="action-btn reset-btn" onclick="resetUser('${username}')">تصفير الجهاز</button>
+                            <button class="action-btn delete-btn" onclick="deleteUser('${username}')">حذف</button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (error) {
+                console.error("Error loading users:", error);
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: red;">حدث خطأ في جلب البيانات</td></tr>';
+            }
+        }
+
+        // Delete User
+        window.deleteUser = async function(username) {
+            if(confirm(`هل أنت متأكد أنك تريد حذف الطالب "${username}" بشكل نهائي؟`)) {
+                try {
+                    await db.collection("codes").doc(username).delete();
+                    alert('تم الحذف بنجاح.');
+                    loadUsers();
+                } catch (error) {
+                    alert('حدث خطأ أثناء الحذف: ' + error.message);
+                }
+            }
+        }
+
+        // Reset User Device
+        window.resetUser = async function(username) {
+            if(confirm(`هل أنت متأكد أنك تريد تصفير المحاولات للطالب "${username}" ليتمكن من الدخول من جهاز جديد؟`)) {
+                try {
+                    await db.collection("codes").doc(username).update({
+                        used: false,
+                        deviceId: firebase.firestore.FieldValue.delete()
+                    });
+                    alert('تم تصفير المحاولات بنجاح. يمكنه الدخول الآن من جهاز جديد.');
+                    loadUsers();
+                } catch (error) {
+                    alert('حدث خطأ: ' + error.message);
+                }
+            }
+        }
+
+        // Initial Load
+        loadUsers();
 
         // Register Service Worker for Offline PWA
         if ('serviceWorker' in navigator) {

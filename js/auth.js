@@ -41,6 +41,13 @@ async function login(username, password) {
                 return { success: false, message: 'كلمة المرور غير صحيحة.' };
             }
 
+            // If it's a multi-user account, let them in without device checking
+            if (data.isMultiUser === true) {
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('currentUser', username);
+                return { success: true };
+            }
+
             // Get or create Device ID for this browser
             let localDeviceId = localStorage.getItem('device_id');
             if (!localDeviceId) {

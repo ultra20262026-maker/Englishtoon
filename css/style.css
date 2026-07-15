@@ -312,6 +312,84 @@ h1, h2, h3 {
 .grade-card:nth-child(even), .unit-card:nth-child(even) {
     animation-delay: 1s;
 }
+
+/* Admin Dashboard Table Styles */
+.users-table-container {
+    margin-top: 30px;
+    width: 100%;
+    overflow-x: auto;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.users-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: white;
+    text-align: right;
+}
+
+.users-table th, .users-table td {
+    padding: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.users-table th {
+    background: rgba(0, 0, 0, 0.4);
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.users-table tr:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.action-btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: inherit;
+    transition: all 0.2s;
+    margin-left: 5px;
+}
+
+.delete-btn {
+    background: rgba(239, 68, 68, 0.2);
+    color: #fca5a5;
+    border: 1px solid rgba(239, 68, 68, 0.4);
+}
+.delete-btn:hover {
+    background: rgba(239, 68, 68, 0.8);
+    color: white;
+}
+
+.reset-btn {
+    background: rgba(245, 158, 11, 0.2);
+    color: #fcd34d;
+    border: 1px solid rgba(245, 158, 11, 0.4);
+}
+.reset-btn:hover {
+    background: rgba(245, 158, 11, 0.8);
+    color: white;
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    color: white;
+    cursor: pointer;
+}
+.checkbox-group input {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
 .grade-card:nth-child(3n), .unit-card:nth-child(3n) {
     animation-delay: 2s;
 }

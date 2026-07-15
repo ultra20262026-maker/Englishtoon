@@ -15,7 +15,7 @@ foreach ($file in $files) {
 $jsonArray = ConvertTo-Json $fileList
 
 $swContent = @"
-const CACHE_NAME = 'english-toon-v1-offline';
+const CACHE_NAME = 'english-toon-v2-offline';
 const urlsToCache = $jsonArray;
 
 self.addEventListener('install', event => {
