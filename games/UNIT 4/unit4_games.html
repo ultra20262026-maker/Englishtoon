@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ألعاب الوحدة الرابعة - الصف الأول الإعدادي</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Outfit:wght@400;700;900&display=swap');
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Outfit', 'Cairo', sans-serif; }
+
+        body {
+            background-color: #0F172A;
+            color: #FFFFFF;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            background-image: radial-gradient(circle at top, rgba(30, 41, 59, 1), #0F172A);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            max-width: 1200px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #FCD34D;
+            text-shadow: 0 0 20px rgba(252, 211, 77, 0.5);
+        }
+
+        p {
+            font-size: 1.2rem;
+            color: #94A3B8;
+            margin-top: 1rem;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .card {
+            background: rgba(30, 41, 59, 0.8);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: white;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: skewX(-20deg); transition: 0.5s;
+        }
+        .card:hover::before { left: 150%; }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-icon {
+            font-size: 4.5rem;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.2));
+            transition: transform 0.3s;
+        }
+        .card:hover .card-icon { transform: scale(1.1); }
+
+        .card-title {
+            font-size: 1.6rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-desc {
+            color: #94A3B8;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>ألعاب الوحدة الرابعة (Smart Choices) 🎯</h1>
+        <p>اختيارات ذكية، قرارات سليمة، ومتعة لا تنتهي!</p>
+    </div>
+
+    <div class="grid-container">
+        <a href="unit4_game_lesson1.html" class="card" style="border-color: rgba(245,158,11,0.4);">
+            <div class="card-icon">⚖️</div>
+            <div class="card-title" style="color: #F59E0B;">الدرس الأول</div>
+            <div class="card-desc">ميزان القرارات</div>
+        </a>
+        <a href="unit4_game_lesson2.html" class="card" style="border-color: rgba(6,182,212,0.4);">
+            <div class="card-icon">🌉</div>
+            <div class="card-title" style="color: #06B6D4;">الدرس الثاني</div>
+            <div class="card-desc">بناء الجسر</div>
+        </a>
+        <a href="unit4_game_lesson3.html" class="card" style="border-color: rgba(16,185,129,0.4);">
+            <div class="card-icon">🏃</div>
+            <div class="card-title" style="color: #10B981;">الدرس الثالث</div>
+            <div class="card-desc">سباق البطل</div>
+        </a>
+        <a href="unit4_game_lesson4.html" class="card" style="border-color: rgba(59,130,246,0.4);">
+            <div class="card-icon">🚪</div>
+            <div class="card-title" style="color: #3B82F6;">الدرس الرابع</div>
+            <div class="card-desc">الباب السري</div>
+        </a>
+        <a href="unit4_game_lesson5.html" class="card" style="border-color: rgba(252,211,77,0.4);">
+            <div class="card-icon">🗼</div>
+            <div class="card-title" style="color: #FCD34D;">الدرس الخامس</div>
+            <div class="card-desc">منارة الإرشاد</div>
+        </a>
+        <a href="unit4_game_lesson6.html" class="card" style="border-color: rgba(234,179,8,0.4);">
+            <div class="card-icon">🧭</div>
+            <div class="card-title" style="color: #EAB308;">الدرس السادس</div>
+            <div class="card-desc">البوصلة الذهبية</div>
+        </a>
+    </div>
+</body>
+</html>

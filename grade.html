@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الوحدات الدراسية</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="dashboard-bg">
+
+    <div class="dashboard-wrapper">
+        <a href="dashboard.html" class="back-btn">← العودة للرئيسية</a>
+        
+        <div class="header glass-container" style="padding: 1rem 2rem; margin-bottom: 2rem;">
+            <div class="logo-container" style="flex-direction: row; gap: 1rem;">
+                <img src="images/logo_icon.png" alt="Logo" class="logo-icon" style="width:50px; height:50px;">
+                <div class="logo-text" style="font-size: 1.8rem; margin-top: 0;">English Toon</div>
+            </div>
+            <h1 id="grade-title" style="margin: 0 2rem; font-size: 1.5rem;">الوحدات</h1>
+            <div>
+                <button onclick="logout()" class="logout-btn">تسجيل الخروج</button>
+            </div>
+        </div>
+
+        <div class="grid-container" id="units-container" style="padding: 2rem;">
+            <!-- Units will be loaded here dynamically -->
+        </div>
+    </div>
+
+    <!-- Firebase Compat SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <script src="js/data.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        // Protect route
+        checkAuth();
+
+        // Get grade ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const gradeId = urlParams.get('id');
+
+        // Find grade details
+        const grade = GRADES_DATA.find(g => g.id === gradeId);
+        
+        if (!grade) {
+            window.location.href = 'dashboard.html';
+        } else {
+            document.getElementById('grade-title').innerText = grade.name + ' - الوحدات';
+
+            const container = document.getElementById('units-container');
+            
+            // Render 6 units
+            for (let i = 1; i <= UNITS_PER_GRADE; i++) {
+                const card = document.createElement('a');
+                card.href = getGamePath(gradeId, i);
+                card.className = 'glass-container unit-card';
+                card.innerHTML = `
+                    <div class="card-text" style="text-align: center; display: flex; flex-direction: column; align-items: center; gap: 10px;">
+                        <div class="unit-icon" style="margin:0; text-shadow: none;">🎮</div>
+                        <h2 style="margin:0; text-shadow: none;">الوحدة ${i}</h2>
+                        <span style="font-size: 0.9rem; opacity: 0.8; font-weight: normal;">العب الآن</span>
+                    </div>
+                `;
+                container.appendChild(card);
+            }
+        }
+
+        // Register Service Worker for Offline PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js');
+            });
+        }
+    </script>
+</body>
+</html>

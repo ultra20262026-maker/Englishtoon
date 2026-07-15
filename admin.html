@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة الإدارة - إنشاء حسابات</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="login-bg">
+    <div class="dashboard-header">
+        <h2 style="color: white; margin: 0; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">لوحة الإدارة ⚙️</h2>
+        <div>
+            <button onclick="window.location.href='dashboard.html'" class="admin-btn" style="background: rgba(59, 130, 246, 0.8);">العودة للألعاب</button>
+            <button onclick="logout()" class="logout-btn">تسجيل الخروج</button>
+        </div>
+    </div>
+
+    <div class="login-wrapper" style="min-height: calc(100vh - 80px); align-items: flex-start; padding-top: 50px;">
+        <div class="glass-container login-box" style="max-width: 600px;">
+            <div class="logo-container" style="margin-bottom: 20px;">
+                <div class="logo-text" style="font-size: 1.8rem;">إنشاء كود طالب جديد</div>
+            </div>
+            
+            <div id="status-msg"></div>
+
+            <form id="create-user-form">
+                <div class="input-group">
+                    <label for="new-username">اسم المستخدم للطالب</label>
+                    <input type="text" id="new-username" required placeholder="مثال: ahmed123">
+                </div>
+                <div class="input-group">
+                    <label for="new-password">كلمة المرور</label>
+                    <input type="text" id="new-password" required placeholder="مثال: 0000">
+                </div>
+                <button type="submit" class="btn" style="background: linear-gradient(135deg, #10b981, #059669);">حفظ وإضافة الطالب</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Firebase Compat SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <script src="js/data.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        // Only allow if logged in, ideally only admin, but for this simple app we just check login
+        checkAuth();
+        if (localStorage.getItem('currentUser') !== 'admin') {
+            alert('عذراً، هذه الصفحة مخصصة للأدمن فقط.');
+            window.location.href = 'dashboard.html';
+        }
+
+        document.getElementById('create-user-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const user = document.getElementById('new-username').value.trim();
+            const pass = document.getElementById('new-password').value.trim();
+            
+            const btn = document.querySelector('.btn');
+            const statusDiv = document.getElementById('status-msg');
+            
+            btn.innerText = 'جاري الإضافة...';
+            btn.disabled = true;
+
+            try {
+                // Save to Firestore directly
+                await db.collection("codes").doc(user).set({
+                    password: pass,
+                    used: false
+                });
+
+                statusDiv.className = 'success-msg';
+                statusDiv.innerText = 'تم إضافة الطالب بنجاح! يمكنه الدخول الآن.';
+                statusDiv.style.display = 'block';
+                
+                // Reset form
+                document.getElementById('new-username').value = '';
+                document.getElementById('new-password').value = '';
+            } catch (error) {
+                console.error(error);
+                statusDiv.className = 'error-msg';
+                statusDiv.innerText = 'حدث خطأ أثناء الإضافة: ' + error.message;
+                statusDiv.style.display = 'block';
+            }
+
+            btn.innerText = 'حفظ وإضافة الطالب';
+            btn.disabled = false;
+        });
+
+        // Register Service Worker for Offline PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js');
+            });
+        }
+    </script>
+</body>
+</html>

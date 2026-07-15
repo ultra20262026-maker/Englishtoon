@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بوابة الألعاب التعليمية - تسجيل الدخول</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="login-bg">
+
+    <div class="login-wrapper">
+        <div class="glass-container login-box">
+            <div class="logo-container">
+                <img src="images/logo_icon.png" alt="Logo" class="logo-icon">
+                <div class="logo-text">English Toon</div>
+            </div>
+            <div id="error-msg" class="error-msg"></div>
+            <form id="login-form">
+                <div class="input-group">
+                    <label for="username">اسم المستخدم</label>
+                    <input type="text" id="username" required placeholder="أدخل اسم المستخدم">
+                </div>
+                <div class="input-group">
+                    <label for="password">كلمة المرور</label>
+                    <input type="password" id="password" required placeholder="أدخل كلمة المرور">
+                </div>
+                <button type="submit" class="btn">تسجيل الدخول</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Firebase Compat SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <script src="js/data.js"></script>
+    <script src="js/auth.js"></script>
+    
+    <script>
+        // Redirect if already logged in this session
+        if (localStorage.getItem('isLoggedIn') === 'true') {
+            window.location.href = 'dashboard.html';
+        }
+
+        document.getElementById('login-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const user = document.getElementById('username').value.trim();
+            const pass = document.getElementById('password').value.trim();
+            
+            const btn = document.querySelector('.btn');
+            btn.innerText = 'جاري التحقق...';
+            btn.disabled = true;
+
+            const result = await login(user, pass);
+            
+            if (result.success) {
+                window.location.href = 'dashboard.html';
+            } else {
+                const errorDiv = document.getElementById('error-msg');
+                errorDiv.innerText = result.message;
+                errorDiv.style.display = 'block';
+                btn.innerText = 'تسجيل الدخول';
+                btn.disabled = false;
+            }
+        });
+
+        // Register Service Worker for Offline PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registered:', registration);
+                    })
+                    .catch(error => {
+                        console.log('ServiceWorker registration failed:', error);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>

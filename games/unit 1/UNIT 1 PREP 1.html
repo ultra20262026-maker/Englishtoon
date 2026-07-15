@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ألعاب الوحدة الأولى - الصف الأول الإعدادي</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Outfit:wght@400;700;900&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', 'Cairo', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1E1B4B, #312E81, #1E1B4B);
+            color: #F8FAFC;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        .header {
+            width: 100%;
+            padding: 2rem;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid rgba(255,255,255,0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(to right, #4F46E5, #EC4899, #F59E0B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.5rem;
+            color: #CBD5E1;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            width: 100%;
+            max-width: 1200px;
+            padding: 0 2rem 4rem 2rem;
+        }
+
+        .game-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            padding: 2rem;
+            text-align: center;
+            text-decoration: none;
+            color: white;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 250px;
+        }
+
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+            z-index: 1;
+        }
+
+        .game-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            border-color: #EC4899;
+            box-shadow: 0 20px 40px rgba(236, 72, 153, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .game-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            z-index: 2;
+            filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5));
+            transition: transform 0.3s;
+        }
+
+        .game-card:hover .game-icon {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        .game-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            z-index: 2;
+            margin-bottom: 0.5rem;
+        }
+
+        .game-lesson {
+            font-size: 1.2rem;
+            color: #94A3B8;
+            z-index: 2;
+        }
+
+        /* Card Colors */
+        .card-1:hover { border-color: #EF4444; box-shadow: 0 20px 40px rgba(239, 68, 68, 0.3); }
+        .card-2:hover { border-color: #3B82F6; box-shadow: 0 20px 40px rgba(59, 130, 246, 0.3); }
+        .card-3:hover { border-color: #F59E0B; box-shadow: 0 20px 40px rgba(245, 158, 11, 0.3); }
+        .card-4:hover { border-color: #D946EF; box-shadow: 0 20px 40px rgba(217, 70, 239, 0.3); }
+        .card-5:hover { border-color: #06B6D4; box-shadow: 0 20px 40px rgba(6, 182, 212, 0.3); }
+        .card-6:hover { border-color: #10B981; box-shadow: 0 20px 40px rgba(16, 185, 129, 0.3); }
+
+        /* Floating particles background */
+        .particles {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2.5rem; }
+            .games-grid { grid-template-columns: 1fr; padding: 0 1rem 2rem 1rem; }
+            .game-card { min-height: 200px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="particles" id="particles"></div>
+
+    <div class="header">
+        <h1>ألعاب الوحدة الأولى</h1>
+        <p>الصف الأول الإعدادي - Unit 1 PREP 1</p>
+    </div>
+
+    <div class="games-grid">
+        <a href="game_lesson1.html" class="game-card card-1">
+            <div class="game-icon">💣</div>
+            <div class="game-title">القنبلة الموقوتة</div>
+            <div class="game-lesson">الدرس الأول</div>
+        </a>
+        
+        <a href="game_lesson2.html" class="game-card card-2">
+            <div class="game-icon">🛸</div>
+            <div class="game-title">غزو الفضاء</div>
+            <div class="game-lesson">الدرس الثاني</div>
+        </a>
+
+        <a href="game_lesson3.html" class="game-card card-3">
+            <div class="game-icon">🏛️</div>
+            <div class="game-title">الهروب من المعبد</div>
+            <div class="game-lesson">الدرس الثالث</div>
+        </a>
+
+        <a href="game_lesson4.html" class="game-card card-4">
+            <div class="game-icon">🧙‍♂️</div>
+            <div class="game-title">فصل السحر</div>
+            <div class="game-lesson">الدرس الرابع</div>
+        </a>
+
+        <a href="game_lesson5.html" class="game-card card-5">
+            <div class="game-icon">🏙️</div>
+            <div class="game-title">ساعي بريد المستقبل (1)</div>
+            <div class="game-lesson">الدرس الخامس</div>
+        </a>
+
+        <a href="game_lesson6.html" class="game-card card-6">
+            <div class="game-icon">📬</div>
+            <div class="game-title">فرز البريد</div>
+            <div class="game-lesson">الدرس السادس</div>
+        </a>
+    </div>
+
+    <script>
+
+        // --- Audio System ---
+        let audioCtx;
+        function initAudio() {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+        }
+
+        function playTone(freq1, freq2, type, duration, vol=0.3) {
+            initAudio();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq1, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(freq2, audioCtx.currentTime + duration);
+            gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + duration);
+        }
+
+        function playCorrect() { 
+            playTone(400, 800, 'sine', 0.1); 
+            setTimeout(() => playTone(800, 1200, 'sine', 0.2), 100);
+        }
+        function playWrong() { 
+            playTone(300, 100, 'sawtooth', 0.3); 
+        }
+        function playGameOver() {
+            playTone(200, 50, 'sawtooth', 0.8, 0.5);
+            setTimeout(() => playTone(150, 40, 'square', 1.0, 0.5), 200);
+        }
+        function playWin() {
+            playTone(400, 600, 'sine', 0.1);
+            setTimeout(() => playTone(600, 800, 'sine', 0.1), 100);
+            setTimeout(() => playTone(800, 1200, 'sine', 0.4), 200);
+        }
+
+        // Generate floating particles
+        const particlesContainer = document.getElementById('particles');
+        for(let i=0; i<20; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            
+            const size = Math.random() * 50 + 10;
+            p.style.width = size + 'px';
+            p.style.height = size + 'px';
+            
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.animationDuration = (Math.random() * 15 + 10) + 's';
+            p.style.animationDelay = (Math.random() * 5) + 's';
+            
+            particlesContainer.appendChild(p);
+        }
+    </script>
+</body>
+</html>
