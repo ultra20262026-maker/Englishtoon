@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>البالونات الطائرة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Cairo:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; background: #8e44ad; font-family: 'Cairo', 'Fredoka One', sans-serif; overflow: hidden; touch-action: none; display: flex; align-items: center; justify-content: center; height: 100vh;}
+        .game-container { width: 95vw; height: 85vh; background: #9b59b6; border-radius: 20px; border: 5px solid #fff; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; flex-direction: column; align-items: center;}
+        .ui-top { position: absolute; top: 10px; left: 10px; right: 10px; display: flex; justify-content: space-between; font-size: 1.5rem; color: #fff; pointer-events: none; z-index: 30; font-weight: bold;}
+        .screen { position: absolute; inset: 0; background: rgba(0,0,0,0.8); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 100; text-align: center; color: white;}
+        button.start { font-family: 'Cairo', sans-serif; font-size: 2.5rem; padding: 15px 50px; background: #f1c40f; border: none; border-radius: 50px; color: #333; cursor: pointer; box-shadow: 0 8px 0 #d4ac0d;}
+        button.start:active { transform: translateY(8px); box-shadow: 0 0 0; }
+        .hidden-screen { display: none !important; }
+        
+        .target-box { background: rgba(255,255,255,0.9); border-radius: 20px; padding: 10px 30px; font-size: 3rem; color: #8e44ad; font-family: 'Fredoka One'; box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 25; margin-top: 50px; cursor: pointer;}
+        
+        .balloon { position: absolute; width: 80px; height: 100px; background: #e74c3c; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; display: flex; align-items: center; justify-content: center; font-size: 40px; cursor: pointer; box-shadow: inset -10px -10px 20px rgba(0,0,0,0.2); transition: transform 0.1s;}
+        .balloon::before { content: ''; position: absolute; bottom: -10px; border-left: 5px solid transparent; border-right: 5px solid transparent; border-bottom: 10px solid #e74c3c; }
+        .balloon::after { content: ''; position: absolute; bottom: -40px; width: 2px; height: 30px; background: rgba(255,255,255,0.5); }
+        .balloon:active { transform: scale(0.9); }
+    </style>
+</head>
+<body>
+    <div class="game-container" id="game-container">
+        <div class="ui-top">
+            <div>النقاط: <span id="score">0</span></div>
+            <div>البالونات الطائرة 🎈</div>
+        </div>
+        
+        <div class="target-box" id="target-box" onclick="if(currentWord) speak(currentWord.word)">word</div>
+        
+    </div>
+    <div id="start-screen" class="screen">
+        <h1 style="font-size: 4rem; color: #f1c40f;">البالونات الطائرة 🎈</h1>
+        <p style="font-size: 1.5rem;">فرقع البالون الذي يحمل الصورة المطابقة!</p>
+        <button class="start" onclick="startGame()">العب!</button>
+    </div>
+    <script>
+        
+const wordsData = [
+  { word: "duck", image: "🦆", type: "emoji" },
+  { word: "cow", image: "🐄", type: "emoji" },
+  { word: "chicken", image: "🐔", type: "emoji" },
+  { word: "horse", image: "🐎", type: "emoji" },
+  { word: "mouse", image: "🐭", type: "emoji" },
+  { word: "milk", image: "🥛", type: "emoji" },
+  { word: "mango", image: "🥭", type: "emoji" },
+  { word: "moon", image: "🌙", type: "emoji" },
+  { word: "monkey", image: "🐒", type: "emoji" },
+  { word: "goat", image: "🐐", type: "emoji" },
+  { word: "gloves", image: "🧤", type: "emoji" },
+  { word: "grapes", image: "🍇", type: "emoji" },
+  { word: "girl", image: "👧", type: "emoji" },
+  { word: "guitar", image: "🎸", type: "emoji" },
+  { word: "octopus", image: "🐙", type: "emoji" },
+  { word: "olive", image: "🫒", type: "emoji" },
+  { word: "ostrich", image: "🦤", type: "emoji" },
+  { word: "fox", image: "🦊", type: "emoji" },
+  { word: "fish", image: "🐟", type: "emoji" },
+  { word: "fork", image: "🍴", type: "emoji" },
+  { word: "frog", image: "🐸", type: "emoji" },
+  { word: "fan", image: "🪭", type: "emoji" }
+];
+
+const synth = window.speechSynthesis;
+function speak(text) {
+    const utterThis = new SpeechSynthesisUtterance(text);
+    utterThis.pitch = 1.3; utterThis.rate = 0.9;
+    synth.speak(utterThis);
+}
+
+const colors = ['#e74c3c', '#3498db', '#2ecc71', '#f1c40f', '#e67e22'];
+
+        let score = 0;
+        let currentWord = null;
+        let balloons = [];
+        let spawnInterval, loopInterval;
+
+        function setTarget() {
+            currentWord = wordsData[Math.floor(Math.random() * wordsData.length)];
+            document.getElementById('target-box').textContent = currentWord.word;
+            speak(currentWord.word);
+        }
+
+        function spawnBalloon() {
+            const isCorrect = Math.random() > 0.5;
+            const wordObj = isCorrect ? currentWord : wordsData[Math.floor(Math.random() * wordsData.length)];
+            const p = document.createElement('div');
+            p.className = 'balloon';
+            p.textContent = wordObj.image;
+            
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            p.style.backgroundColor = color;
+            p.style.setProperty('--b-color', color);
+            
+            p.dataset.x = Math.random() * (document.getElementById('game-container').clientWidth - 100);
+            p.dataset.y = document.getElementById('game-container').clientHeight + 50;
+            p.dataset.speedY = -(Math.random() * 2 + 1);
+            p.dataset.wobble = Math.random() * Math.PI * 2;
+            
+            p.style.left = p.dataset.x + 'px';
+            p.style.top = p.dataset.y + 'px';
+            
+            p.onclick = () => {
+                if(wordObj.word === currentWord.word) {
+                    speak('Pop!'); score+=10; document.getElementById('score').textContent=score;
+                    p.style.transform = 'scale(1.5)'; p.style.opacity = '0';
+                    setTimeout(()=>p.remove(), 200);
+                    balloons = balloons.filter(x=>x!==p); setTarget();
+                } else {
+                    speak('Oops!'); p.style.filter = 'grayscale(100%)'; 
+                    setTimeout(()=>{p.style.filter='none';}, 300);
+                }
+            };
+            document.getElementById('game-container').appendChild(p);
+            balloons.push(p);
+        }
+        
+        function gameLoop() {
+            for(let i=balloons.length-1; i>=0; i--) {
+                let p = balloons[i];
+                let y = parseFloat(p.dataset.y) + parseFloat(p.dataset.speedY);
+                p.dataset.y = y;
+                p.dataset.wobble = parseFloat(p.dataset.wobble) + 0.05;
+                let wobbleX = Math.sin(p.dataset.wobble) * 20;
+                
+                p.style.top = y + 'px';
+                p.style.transform = `translateX(${wobbleX}px)`;
+                
+                if(y < -150) { 
+                    p.remove(); balloons.splice(i, 1); 
+                }
+            }
+        }
+
+        function startGame() { 
+            document.getElementById('start-screen').classList.add('hidden-screen'); 
+            score=0; document.getElementById('score').textContent=score;
+            balloons.forEach(p=>p.remove()); balloons=[];
+            setTarget();
+            clearInterval(spawnInterval); clearInterval(loopInterval);
+            spawnInterval = setInterval(spawnBalloon, 1500);
+            loopInterval = setInterval(gameLoop, 30);
+        }
+    </script>
+</body>
+</html>

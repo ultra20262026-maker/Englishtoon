@@ -15,8 +15,19 @@ foreach ($file in $files) {
 $jsonArray = ConvertTo-Json $fileList
 
 $swContent = @"
-const CACHE_NAME = 'english-toon-v2-offline';
+const CACHE_NAME = 'english-toon-v3-offline';
 const urlsToCache = $jsonArray;
+
+// Always add core pages to cache as well
+const corePages = [
+  '/',
+  '/index.html',
+  '/dashboard.html',
+  '/grade.html',
+  '/admin.html',
+  '/unit.html'
+];
+urlsToCache.push(...corePages);
 
 self.addEventListener('install', event => {
     // Force immediate installation

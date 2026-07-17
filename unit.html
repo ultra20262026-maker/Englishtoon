@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ألعاب الوحدة</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        .game-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 150px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .game-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+        .game-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5));
+        }
+        .game-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            line-height: 1.4;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        .empty-state {
+            text-align: center;
+            padding: 50px;
+            color: white;
+            font-size: 1.5rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="dashboard-bg">
+
+    <div class="dashboard-wrapper">
+        <a id="back-link" href="#" class="back-btn">← العودة للوحدات</a>
+        
+        <div class="header glass-container" style="padding: 1rem 2rem; margin-bottom: 2rem;">
+            <div class="logo-container" style="flex-direction: row; gap: 1rem;">
+                <img src="images/logo_icon.png" alt="Logo" class="logo-icon" style="width:50px; height:50px;">
+                <div class="logo-text" style="font-size: 1.8rem; margin-top: 0;">English Toon</div>
+            </div>
+            <h1 id="unit-title" style="margin: 0 2rem; font-size: 1.5rem;">جاري التحميل...</h1>
+            <div>
+                <button onclick="logout()" class="logout-btn">تسجيل الخروج</button>
+            </div>
+        </div>
+
+        <div class="games-grid" id="games-container">
+            <!-- Games will be loaded here dynamically -->
+        </div>
+    </div>
+
+    <!-- Firebase Compat SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <script src="js/data.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        // Protect route
+        checkAuth();
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const gradeId = urlParams.get('grade');
+        const unitId = urlParams.get('unit');
+
+        // Set back button link
+        document.getElementById('back-link').href = `grade.html?id=${gradeId}`;
+
+        const grade = GRADES_DATA.find(g => g.id === gradeId);
+        if (!grade || !unitId) {
+            window.location.href = 'dashboard.html';
+        } else {
+            document.getElementById('unit-title').innerText = `${grade.name} - ألعاب الوحدة ${unitId}`;
+            
+            const container = document.getElementById('games-container');
+            
+            // Look up games from GAMES_MAP in data.js
+            let unitGames = [];
+            if (typeof GAMES_MAP !== 'undefined' && GAMES_MAP[gradeId] && GAMES_MAP[gradeId][unitId]) {
+                unitGames = GAMES_MAP[gradeId][unitId];
+            }
+
+            if (unitGames.length === 0) {
+                container.innerHTML = `<div class="empty-state">عذراً، لا توجد ألعاب مضافة في هذه الوحدة حالياً. 🚀</div>`;
+            } else {
+                const gameIcons = ['🎯', '🎲', '🧩', '🚀', '⭐', '🏆', '⚡', '🎮'];
+                
+                unitGames.forEach((game, index) => {
+                    const icon = gameIcons[index % gameIcons.length];
+                    const gamePath = `games/${gradeId}/unit${unitId}/${game.file}`;
+                    
+                    const card = document.createElement('a');
+                    card.href = gamePath;
+                    card.className = 'game-card';
+                    card.innerHTML = `
+                        <div class="game-icon">${icon}</div>
+                        <div class="game-title">${game.name}</div>
+                    `;
+                    container.appendChild(card);
+                });
+            }
+        }
+
+        // Register Service Worker for Offline PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js');
+            });
+        }
+    </script>
+</body>
+</html>

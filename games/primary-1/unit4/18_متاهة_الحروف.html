@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>متاهة الحروف</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Cairo:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; background: #2c3e50; font-family: 'Cairo', 'Fredoka One', sans-serif; overflow: hidden; touch-action: none; display: flex; align-items: center; justify-content: center; height: 100vh;}
+        .game-container { width: 95vw; height: 85vh; background: #34495e; border-radius: 20px; border: 5px solid #fff; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; flex-direction: column; align-items: center; justify-content: space-evenly;}
+        .ui-top { position: absolute; top: 10px; left: 10px; right: 10px; display: flex; justify-content: space-between; font-size: 1.5rem; color: #fff; pointer-events: none; z-index: 30; font-weight: bold;}
+        .screen { position: absolute; inset: 0; background: rgba(0,0,0,0.8); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 100; text-align: center; color: white;}
+        button.start { font-family: 'Cairo', sans-serif; font-size: 2.5rem; padding: 15px 50px; background: #2ecc71; border: none; border-radius: 50px; color: white; cursor: pointer; box-shadow: 0 8px 0 #27ae60;}
+        button.start:active { transform: translateY(8px); box-shadow: 0 0 0; }
+        .hidden-screen { display: none !important; }
+        
+        .letter-board { background: #f1c40f; color: #333; padding: 10px 40px; border-radius: 50px; font-family: 'Fredoka One'; font-size: 4rem; box-shadow: 0 5px 0 #d4ac0d; cursor: pointer;}
+        
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 90%; max-width: 500px;}
+        .opt-box { background: rgba(255,255,255,0.9); border-radius: 15px; padding: 10px; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.2s;}
+        .opt-box:active { transform: scale(0.9); }
+        .opt-content { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+        .opt-content img { width: 80%; height: 80%; object-fit: contain; }
+        .opt-content.emoji-mode { font-size: 60px; }
+    </style>
+</head>
+<body>
+    <div class="game-container" id="game-container">
+        <div class="ui-top">
+            <div>النقاط: <span id="score">0</span></div>
+            <div>متاهة الحروف 🔠</div>
+        </div>
+        
+        <div class="letter-board" id="letter-board" onclick="if(targetLetter) speak('Find words starting with ' + targetLetter)">A</div>
+        <div class="grid" id="grid"></div>
+        
+    </div>
+    <div id="start-screen" class="screen">
+        <h1 style="font-size: 4rem; color: #f1c40f;">متاهة الحروف 🔠</h1>
+        <p style="font-size: 1.5rem;">اختر الصور التي تبدأ بالحرف المطلوب!</p>
+        <button class="start" onclick="startGame()">العب!</button>
+    </div>
+    <script>
+        
+const wordsData = [
+  { word: "eye", image: "../images_unit4/pixar_eye_1782050332022.png", type: "img" },
+  { word: "mouth", image: "../images_unit4/pixar_mouth_1782050342052.png", type: "img" },
+  { word: "ear", image: "../images_unit4/pixar_ear_1782050353890.png", type: "img" },
+  { word: "head", image: "../images_unit4/pixar_head_1782050365861.png", type: "img" },
+  { word: "tongue", image: "../images_unit4/pixar_tongue_1782050382757.png", type: "img" },
+  { word: "arm", image: "../images_unit4/pixar_arm_1782050393224.png", type: "img" },
+  { word: "leg", image: "../images_unit4/pixar_leg_1782050404201.png", type: "img" },
+  { word: "foot", image: "../images_unit4/pixar_foot_1782050415844.png", type: "img" },
+  { word: "feet", image: "../images_unit4/pixar_feet_1782050434707.png", type: "img" },
+  { word: "toes", image: "../images_unit4/pixar_toes_1782050446071.png", type: "img" },
+  { word: "red", image: "../images_unit4/pixar_red_1782050458088.png", type: "img" },
+  { word: "rocket", image: "../images_unit4/pixar_rocket_1782050469083.png", type: "img" },
+  { word: "ring", image: "../images_unit4/pixar_ring_1782050484208.png", type: "img" },
+  { word: "rabbit", image: "../images_unit4/pixar_rabbit_1782050494082.png", type: "img" },
+  { word: "robot", image: "../images_unit4/pixar_robot_1782050505802.png", type: "img" },
+  { word: "egg", image: "../images_unit4/pixar_egg_1782050517755.png", type: "img" },
+  { word: "eggplant", image: "🍆", type: "emoji" },
+  { word: "enter", image: "🚪", type: "emoji" },
+  { word: "elephant", image: "🐘", type: "emoji" },
+  { word: "elbow", image: "💪", type: "emoji" },
+  { word: "touch", image: "👆", type: "emoji" },
+  { word: "hear", image: "👂", type: "emoji" },
+  { word: "see", image: "👀", type: "emoji" },
+  { word: "taste", image: "👅", type: "emoji" },
+  { word: "smell", image: "👃", type: "emoji" },
+  { word: "car", image: "🚗", type: "emoji" },
+  { word: "cat", image: "🐱", type: "emoji" },
+  { word: "carrot", image: "🥕", type: "emoji" },
+  { word: "cup", image: "☕", type: "emoji" },
+  { word: "cake", image: "🎂", type: "emoji" },
+  { word: "kite", image: "🪁", type: "emoji" },
+  { word: "king", image: "👑", type: "emoji" },
+  { word: "kitchen", image: "🍳", type: "emoji" },
+  { word: "key", image: "🔑", type: "emoji" },
+  { word: "hand", image: "✋", type: "emoji" },
+  { word: "nose", image: "👃", type: "emoji" }
+];
+
+const targetLetters = ['e', 'r', 'c', 'k', 't', 'h'];
+
+const synth = window.speechSynthesis;
+function speak(text) {
+    const utterThis = new SpeechSynthesisUtterance(text);
+    utterThis.pitch = 1.3; utterThis.rate = 0.9;
+    synth.speak(utterThis);
+}
+
+        let score = 0;
+        let targetLetter = null;
+        let canClick = true;
+        let neededCount = 0;
+        
+        function renderOption(w) {
+            if(w.type === 'emoji') return `<div class="opt-content emoji-mode">${w.image}</div>`;
+            return `<div class="opt-content"><img src="${w.image}"></div>`;
+        }
+
+        function spawnLevel() {
+            canClick = true;
+            targetLetter = targetLetters[Math.floor(Math.random()*targetLetters.length)];
+            
+            document.getElementById('letter-board').textContent = targetLetter.toUpperCase();
+            speak(targetLetter.toUpperCase());
+            
+            let correctWords = wordsData.filter(x => x.word.startsWith(targetLetter));
+            let correctSelection = correctWords.sort(()=>0.5-Math.random()).slice(0, 2);
+            if(correctSelection.length === 0) return spawnLevel();
+            neededCount = correctSelection.length;
+            
+            let others = wordsData.filter(x => !x.word.startsWith(targetLetter)).sort(()=>0.5-Math.random()).slice(0, 6 - correctSelection.length);
+            let optionsArr = [...correctSelection, ...others].sort(()=>0.5-Math.random());
+            
+            const grid = document.getElementById('grid');
+            grid.innerHTML = '';
+            
+            optionsArr.forEach(w => {
+                let box = document.createElement('div');
+                box.className = 'opt-box';
+                box.innerHTML = renderOption(w);
+                
+                box.onclick = () => {
+                    if(!canClick || box.classList.contains('found')) return;
+                    if(w.word.startsWith(targetLetter)) {
+                        speak(w.word); score+=10; document.getElementById('score').textContent=score;
+                        box.style.background = '#2ecc71'; box.style.transform = 'scale(0.9)';
+                        box.classList.add('found');
+                        neededCount--;
+                        if(neededCount <= 0) {
+                            canClick = false; setTimeout(spawnLevel, 1500);
+                        }
+                    } else {
+                        speak('No, ' + w.word); box.style.background = '#e74c3c'; setTimeout(()=>box.style.background='rgba(255,255,255,0.9)', 500);
+                    }
+                };
+                grid.appendChild(box);
+            });
+        }
+
+        function startGame() { 
+            document.getElementById('start-screen').classList.add('hidden-screen'); 
+            score=0; document.getElementById('score').textContent=score;
+            spawnLevel(); 
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>السلة السحرية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Cairo:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; background: #f39c12; font-family: 'Cairo', 'Fredoka One', sans-serif; overflow: hidden; touch-action: none; display: flex; align-items: center; justify-content: center; height: 100vh;}
+        .game-container { width: 95vw; height: 85vh; background: #e67e22; border-radius: 20px; border: 5px solid #fff; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; flex-direction: column; align-items: center;}
+        .ui-top { position: absolute; top: 10px; left: 10px; right: 10px; display: flex; justify-content: space-between; font-size: 1.5rem; color: #fff; pointer-events: none; z-index: 30; font-weight: bold;}
+        .screen { position: absolute; inset: 0; background: rgba(0,0,0,0.8); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 100; text-align: center; color: white;}
+        button.start { font-family: 'Cairo', sans-serif; font-size: 2.5rem; padding: 15px 50px; background: #2ecc71; border: none; border-radius: 50px; color: white; cursor: pointer; box-shadow: 0 8px 0 #27ae60;}
+        button.start:active { transform: translateY(8px); box-shadow: 0 0 0; }
+        .hidden-screen { display: none !important; }
+        
+        .target-box { background: white; border-radius: 20px; padding: 10px 30px; font-size: 3rem; color: #d35400; font-family: 'Fredoka One'; box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 25; margin-top: 50px; cursor: pointer;}
+        
+        .falling-item { position: absolute; width: 80px; height: 80px; background: rgba(255,255,255,0.9); border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 50px; cursor: pointer; box-shadow: 0 5px 0 rgba(0,0,0,0.2); transition: transform 0.2s;}
+        .falling-item:active { transform: scale(0.9); }
+        
+        .basket { position: absolute; bottom: 20px; font-size: 80px; z-index: 20;}
+    </style>
+</head>
+<body>
+    <div class="game-container" id="game-container">
+        <div class="ui-top">
+            <div>النقاط: <span id="score">0</span></div>
+            <div>السلة السحرية 🧺</div>
+        </div>
+        
+        <div class="target-box" id="target-box" onclick="if(currentWord) speak(currentWord.word)">word</div>
+        <div class="basket" id="basket">🧺</div>
+    </div>
+    <div id="start-screen" class="screen">
+        <h1 style="font-size: 4rem; color: #f1c40f;">السلة السحرية 🧺</h1>
+        <p style="font-size: 1.5rem;">انقر على الصورة الصحيحة لتسقط في السلة!</p>
+        <button class="start" onclick="startGame()">العب!</button>
+    </div>
+    <script>
+        
+const wordsData = [
+  { word: "duck", image: "🦆", type: "emoji" },
+  { word: "cow", image: "🐄", type: "emoji" },
+  { word: "chicken", image: "🐔", type: "emoji" },
+  { word: "horse", image: "🐎", type: "emoji" },
+  { word: "mouse", image: "🐭", type: "emoji" },
+  { word: "milk", image: "🥛", type: "emoji" },
+  { word: "mango", image: "🥭", type: "emoji" },
+  { word: "moon", image: "🌙", type: "emoji" },
+  { word: "monkey", image: "🐒", type: "emoji" },
+  { word: "goat", image: "🐐", type: "emoji" },
+  { word: "gloves", image: "🧤", type: "emoji" },
+  { word: "grapes", image: "🍇", type: "emoji" },
+  { word: "girl", image: "👧", type: "emoji" },
+  { word: "guitar", image: "🎸", type: "emoji" },
+  { word: "octopus", image: "🐙", type: "emoji" },
+  { word: "olive", image: "🫒", type: "emoji" },
+  { word: "ostrich", image: "🦤", type: "emoji" },
+  { word: "fox", image: "🦊", type: "emoji" },
+  { word: "fish", image: "🐟", type: "emoji" },
+  { word: "fork", image: "🍴", type: "emoji" },
+  { word: "frog", image: "🐸", type: "emoji" },
+  { word: "fan", image: "🪭", type: "emoji" }
+];
+
+const synth = window.speechSynthesis;
+function speak(text) {
+    const utterThis = new SpeechSynthesisUtterance(text);
+    utterThis.pitch = 1.3; utterThis.rate = 0.9;
+    synth.speak(utterThis);
+}
+
+        let score = 0;
+        let currentWord = null;
+        let items = [];
+        let spawnInterval, loopInterval;
+
+        function setTarget() {
+            currentWord = wordsData[Math.floor(Math.random() * wordsData.length)];
+            document.getElementById('target-box').textContent = currentWord.word;
+            speak(currentWord.word);
+        }
+
+        function spawnItem() {
+            const isCorrect = Math.random() > 0.5;
+            const wordObj = isCorrect ? currentWord : wordsData[Math.floor(Math.random() * wordsData.length)];
+            const p = document.createElement('div');
+            p.className = 'falling-item';
+            p.textContent = wordObj.image;
+            
+            p.dataset.x = Math.random() * (document.getElementById('game-container').clientWidth - 100);
+            p.dataset.y = -100;
+            p.dataset.speedY = Math.random() * 2 + 2;
+            
+            p.style.left = p.dataset.x + 'px';
+            p.style.top = p.dataset.y + 'px';
+            
+            p.onclick = () => {
+                if(wordObj.word === currentWord.word) {
+                    speak('Catch!'); score+=10; document.getElementById('score').textContent=score;
+                    p.style.top = (document.getElementById('game-container').clientHeight - 100) + 'px';
+                    p.style.left = (document.getElementById('game-container').clientWidth / 2 - 40) + 'px';
+                    setTimeout(()=>p.remove(), 200);
+                    items = items.filter(x=>x!==p); setTarget();
+                } else {
+                    speak('Oops!'); p.style.background = '#e74c3c'; 
+                    setTimeout(()=>{p.style.background='rgba(255,255,255,0.9)';}, 300);
+                }
+            };
+            document.getElementById('game-container').appendChild(p);
+            items.push(p);
+        }
+        
+        function gameLoop() {
+            for(let i=items.length-1; i>=0; i--) {
+                let p = items[i];
+                let y = parseFloat(p.dataset.y) + parseFloat(p.dataset.speedY);
+                p.dataset.y = y;
+                p.style.top = y + 'px';
+                
+                if(y > document.getElementById('game-container').clientHeight + 100) { 
+                    p.remove(); items.splice(i, 1); 
+                }
+            }
+        }
+
+        function startGame() { 
+            document.getElementById('start-screen').classList.add('hidden-screen'); 
+            score=0; document.getElementById('score').textContent=score;
+            items.forEach(p=>p.remove()); items=[];
+            setTarget();
+            clearInterval(spawnInterval); clearInterval(loopInterval);
+            spawnInterval = setInterval(spawnItem, 2000);
+            loopInterval = setInterval(gameLoop, 30);
+        }
+    </script>
+</body>
+</html>

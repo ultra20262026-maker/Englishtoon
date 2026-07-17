@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>سباق السيارات</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Cairo:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; background: #7f8c8d; font-family: 'Cairo', 'Fredoka One', sans-serif; overflow: hidden; touch-action: none; display: flex; align-items: center; justify-content: center; height: 100vh;}
+        .game-container { width: 95vw; height: 85vh; background: #95a5a6; border-radius: 20px; border: 5px solid #fff; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; flex-direction: column; align-items: center;}
+        .ui-top { position: absolute; top: 10px; left: 10px; right: 10px; display: flex; justify-content: space-between; font-size: 1.5rem; color: #fff; pointer-events: none; z-index: 30; font-weight: bold;}
+        .screen { position: absolute; inset: 0; background: rgba(0,0,0,0.8); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 100; text-align: center; color: white;}
+        button.start { font-family: 'Cairo', sans-serif; font-size: 2.5rem; padding: 15px 50px; background: #e74c3c; border: none; border-radius: 50px; color: white; cursor: pointer; box-shadow: 0 8px 0 #c0392b;}
+        button.start:active { transform: translateY(8px); box-shadow: 0 0 0; }
+        .hidden-screen { display: none !important; }
+        
+        .road { width: 100%; height: 100%; position: absolute; top: 0; display: flex; flex-direction: column;}
+        .lane { flex: 1; border-bottom: 5px dashed white; position: relative;}
+        .lane:last-child { border-bottom: none; }
+        
+        .car { font-size: 60px; position: absolute; left: 10px; z-index: 20; transition: top 0.3s ease; transform: scaleX(-1);}
+        
+        .target-box { background: white; border-radius: 20px; padding: 10px 30px; font-size: 3rem; color: #2c3e50; font-family: 'Fredoka One'; box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 25; position: absolute; top: 50px; left: 50%; transform: translateX(-50%); cursor: pointer;}
+        
+        .obstacle { position: absolute; right: -100px; width: 80px; height: 80px; background: white; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 50px; box-shadow: 0 5px 10px rgba(0,0,0,0.2); cursor: pointer;}
+    </style>
+</head>
+<body>
+    <div class="game-container" id="game-container">
+        <div class="ui-top">
+            <div>النقاط: <span id="score">0</span></div>
+            <div>سباق السيارات 🏎️</div>
+        </div>
+        
+        <div class="road" id="road">
+            <div class="lane" onclick="moveCar(0)"></div>
+            <div class="lane" onclick="moveCar(1)"></div>
+            <div class="lane" onclick="moveCar(2)"></div>
+        </div>
+        
+        <div class="car" id="car">🏎️</div>
+        
+        <div class="target-box" id="target-box" onclick="if(currentWord) speak(currentWord.word)">word</div>
+        
+    </div>
+    <div id="start-screen" class="screen">
+        <h1 style="font-size: 4rem; color: #e74c3c;">سباق السيارات 🏎️</h1>
+        <p style="font-size: 1.5rem;">انقر على المسار الذي يحتوي على الصورة الصحيحة لتفادي الاصطدام!</p>
+        <button class="start" onclick="startGame()">العب!</button>
+    </div>
+    <script>
+        
+const wordsData = [
+  { word: "duck", image: "🦆", type: "emoji" },
+  { word: "cow", image: "🐄", type: "emoji" },
+  { word: "chicken", image: "🐔", type: "emoji" },
+  { word: "horse", image: "🐎", type: "emoji" },
+  { word: "mouse", image: "🐭", type: "emoji" },
+  { word: "milk", image: "🥛", type: "emoji" },
+  { word: "mango", image: "🥭", type: "emoji" },
+  { word: "moon", image: "🌙", type: "emoji" },
+  { word: "monkey", image: "🐒", type: "emoji" },
+  { word: "goat", image: "🐐", type: "emoji" },
+  { word: "gloves", image: "🧤", type: "emoji" },
+  { word: "grapes", image: "🍇", type: "emoji" },
+  { word: "girl", image: "👧", type: "emoji" },
+  { word: "guitar", image: "🎸", type: "emoji" },
+  { word: "octopus", image: "🐙", type: "emoji" },
+  { word: "olive", image: "🫒", type: "emoji" },
+  { word: "ostrich", image: "🦤", type: "emoji" },
+  { word: "fox", image: "🦊", type: "emoji" },
+  { word: "fish", image: "🐟", type: "emoji" },
+  { word: "fork", image: "🍴", type: "emoji" },
+  { word: "frog", image: "🐸", type: "emoji" },
+  { word: "fan", image: "🪭", type: "emoji" }
+];
+
+const synth = window.speechSynthesis;
+function speak(text) {
+    const utterThis = new SpeechSynthesisUtterance(text);
+    utterThis.pitch = 1.3; utterThis.rate = 0.9;
+    synth.speak(utterThis);
+}
+
+        let score = 0;
+        let currentWord = null;
+        let obstacles = [];
+        let loopInterval;
+        let carLane = 1;
+
+        function moveCar(lane) {
+            carLane = lane;
+            updateCarPos();
+        }
+        
+        function updateCarPos() {
+            const laneHeight = document.getElementById('game-container').clientHeight / 3;
+            document.getElementById('car').style.top = (carLane * laneHeight + laneHeight/2 - 30) + 'px';
+        }
+
+        function setTarget() {
+            currentWord = wordsData[Math.floor(Math.random() * wordsData.length)];
+            document.getElementById('target-box').textContent = currentWord.word;
+            speak(currentWord.word);
+            
+            spawnObstacles();
+        }
+
+        function spawnObstacles() {
+            let selected = [...wordsData].sort(()=>0.5-Math.random()).slice(0, 3);
+            if(!selected.includes(currentWord)) selected[0] = currentWord;
+            selected.sort(()=>0.5-Math.random());
+            
+            const laneHeight = document.getElementById('game-container').clientHeight / 3;
+            
+            selected.forEach((w, i) => {
+                const obs = document.createElement('div');
+                obs.className = 'obstacle';
+                obs.innerHTML = w.image;
+                obs.dataset.word = w.word;
+                obs.dataset.lane = i;
+                
+                obs.style.top = (i * laneHeight + laneHeight/2 - 40) + 'px';
+                obs.dataset.x = document.getElementById('game-container').clientWidth;
+                obs.style.right = '0px'; // using right to push from right edge initially
+                
+                document.getElementById('game-container').appendChild(obs);
+                obstacles.push(obs);
+            });
+        }
+        
+        function gameLoop() {
+            let carHit = false;
+            for(let i=obstacles.length-1; i>=0; i--) {
+                let obs = obstacles[i];
+                let x = parseFloat(obs.dataset.x) - 5; // move left
+                obs.dataset.x = x;
+                obs.style.transform = `translateX(${document.getElementById('game-container').clientWidth - x}px)`; // move from right to left manually via transform or right property. Let's stick to left.
+                
+                // Simpler: use left property directly
+                obs.style.left = x + 'px';
+                obs.style.right = 'auto';
+                
+                // Check collision
+                if(x < 80 && x > 10) {
+                    if(parseInt(obs.dataset.lane) === carLane) {
+                        carHit = true;
+                        if(obs.dataset.word === currentWord.word) {
+                            speak('Vroom!'); score+=10; document.getElementById('score').textContent=score;
+                        } else {
+                            speak('Crash!'); 
+                            const car = document.getElementById('car');
+                            car.style.filter = 'hue-rotate(90deg)'; setTimeout(()=>car.style.filter='none', 300);
+                        }
+                    }
+                }
+                
+                if(x < -100) { 
+                    obs.remove(); obstacles.splice(i, 1); 
+                }
+            }
+            
+            if(carHit) {
+                obstacles.forEach(o=>o.remove()); obstacles=[];
+                setTimeout(setTarget, 500);
+            }
+        }
+
+        function startGame() { 
+            document.getElementById('start-screen').classList.add('hidden-screen'); 
+            score=0; document.getElementById('score').textContent=score;
+            carLane = 1;
+            updateCarPos();
+            obstacles.forEach(p=>p.remove()); obstacles=[];
+            setTarget();
+            clearInterval(loopInterval);
+            loopInterval = setInterval(gameLoop, 30);
+        }
+        
+        window.addEventListener('resize', updateCarPos);
+    </script>
+</body>
+</html>

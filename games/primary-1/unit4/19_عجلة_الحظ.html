@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>عجلة الحظ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Cairo:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; background: #f1c40f; font-family: 'Cairo', 'Fredoka One', sans-serif; overflow: hidden; touch-action: none; display: flex; align-items: center; justify-content: center; height: 100vh;}
+        .game-container { width: 95vw; height: 85vh; background: #e67e22; border-radius: 20px; border: 5px solid #fff; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; flex-direction: column; align-items: center; justify-content: space-evenly;}
+        .ui-top { position: absolute; top: 10px; left: 10px; right: 10px; display: flex; justify-content: space-between; font-size: 1.5rem; color: #fff; pointer-events: none; z-index: 30; font-weight: bold;}
+        .screen { position: absolute; inset: 0; background: rgba(0,0,0,0.8); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 100; text-align: center; color: white;}
+        button.start { font-family: 'Cairo', sans-serif; font-size: 2.5rem; padding: 15px 50px; background: #2ecc71; border: none; border-radius: 50px; color: white; cursor: pointer; box-shadow: 0 8px 0 #27ae60;}
+        button.start:active { transform: translateY(8px); box-shadow: 0 0 0; }
+        .hidden-screen { display: none !important; }
+        
+        .wheel-container { position: relative; width: 200px; height: 200px;}
+        .wheel { width: 100%; height: 100%; border-radius: 50%; border: 10px solid white; background: conic-gradient(#3498db 0deg 90deg, #e74c3c 90deg 180deg, #f1c40f 180deg 270deg, #2ecc71 270deg 360deg); display: flex; align-items: center; justify-content: center; font-size: 4rem; color: white; transition: transform 3s cubic-bezier(0.25, 0.1, 0.25, 1); box-shadow: 0 10px 20px rgba(0,0,0,0.3);}
+        .pointer { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 20px solid transparent; border-right: 20px solid transparent; border-top: 40px solid #2c3e50; z-index: 10;}
+        
+        .spin-btn { font-family: 'Cairo'; font-size: 1.5rem; padding: 10px 30px; background: #2c3e50; color: white; border: none; border-radius: 20px; cursor: pointer; margin-top: 20px; box-shadow: 0 5px 0 #1a252f;}
+        .spin-btn:active { transform: translateY(5px); box-shadow: 0 0 0; }
+        
+        .target-box { background: white; border-radius: 20px; padding: 10px; width: 120px; height: 120px; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 15px rgba(0,0,0,0.2); visibility: hidden;}
+        .target-box img { width: 80px; height: 80px; object-fit: contain; }
+        .target-box.emoji-mode { font-size: 60px; }
+        
+        .options { display: flex; gap: 15px; visibility: hidden;}
+        .opt-btn { padding: 10px 20px; font-family: 'Fredoka One'; font-size: 1.5rem; background: white; color: #e67e22; border: none; border-radius: 10px; cursor: pointer; box-shadow: 0 5px 0 rgba(0,0,0,0.2); }
+        .opt-btn:active { transform: translateY(5px); box-shadow: 0 0 0; }
+    </style>
+</head>
+<body>
+    <div class="game-container" id="game-container">
+        <div class="ui-top">
+            <div>النقاط: <span id="score">0</span></div>
+            <div>عجلة الحظ 🎡</div>
+        </div>
+        
+        <div class="wheel-container">
+            <div class="pointer"></div>
+            <div class="wheel" id="wheel">?</div>
+        </div>
+        <button class="spin-btn" id="spin-btn" onclick="spinWheel()">لف العجلة!</button>
+        
+        <div class="target-box" id="target-box"></div>
+        <div class="options" id="options"></div>
+        
+    </div>
+    <div id="start-screen" class="screen">
+        <h1 style="font-size: 4rem; color: #f1c40f;">عجلة الحظ 🎡</h1>
+        <p style="font-size: 1.5rem;">لف العجلة واكتشف الكلمة المخفية!</p>
+        <button class="start" onclick="startGame()">العب!</button>
+    </div>
+    <script>
+        
+const wordsData = [
+  { word: "eye", image: "../images_unit4/pixar_eye_1782050332022.png", type: "img" },
+  { word: "mouth", image: "../images_unit4/pixar_mouth_1782050342052.png", type: "img" },
+  { word: "ear", image: "../images_unit4/pixar_ear_1782050353890.png", type: "img" },
+  { word: "head", image: "../images_unit4/pixar_head_1782050365861.png", type: "img" },
+  { word: "tongue", image: "../images_unit4/pixar_tongue_1782050382757.png", type: "img" },
+  { word: "arm", image: "../images_unit4/pixar_arm_1782050393224.png", type: "img" },
+  { word: "leg", image: "../images_unit4/pixar_leg_1782050404201.png", type: "img" },
+  { word: "foot", image: "../images_unit4/pixar_foot_1782050415844.png", type: "img" },
+  { word: "feet", image: "../images_unit4/pixar_feet_1782050434707.png", type: "img" },
+  { word: "toes", image: "../images_unit4/pixar_toes_1782050446071.png", type: "img" },
+  { word: "red", image: "../images_unit4/pixar_red_1782050458088.png", type: "img" },
+  { word: "rocket", image: "../images_unit4/pixar_rocket_1782050469083.png", type: "img" },
+  { word: "ring", image: "../images_unit4/pixar_ring_1782050484208.png", type: "img" },
+  { word: "rabbit", image: "../images_unit4/pixar_rabbit_1782050494082.png", type: "img" },
+  { word: "robot", image: "../images_unit4/pixar_robot_1782050505802.png", type: "img" },
+  { word: "egg", image: "../images_unit4/pixar_egg_1782050517755.png", type: "img" },
+  { word: "eggplant", image: "🍆", type: "emoji" },
+  { word: "enter", image: "🚪", type: "emoji" },
+  { word: "elephant", image: "🐘", type: "emoji" },
+  { word: "elbow", image: "💪", type: "emoji" },
+  { word: "touch", image: "👆", type: "emoji" },
+  { word: "hear", image: "👂", type: "emoji" },
+  { word: "see", image: "👀", type: "emoji" },
+  { word: "taste", image: "👅", type: "emoji" },
+  { word: "smell", image: "👃", type: "emoji" },
+  { word: "car", image: "🚗", type: "emoji" },
+  { word: "cat", image: "🐱", type: "emoji" },
+  { word: "carrot", image: "🥕", type: "emoji" },
+  { word: "cup", image: "☕", type: "emoji" },
+  { word: "cake", image: "🎂", type: "emoji" },
+  { word: "kite", image: "🪁", type: "emoji" },
+  { word: "king", image: "👑", type: "emoji" },
+  { word: "kitchen", image: "🍳", type: "emoji" },
+  { word: "key", image: "🔑", type: "emoji" },
+  { word: "hand", image: "✋", type: "emoji" },
+  { word: "nose", image: "👃", type: "emoji" }
+];
+
+const synth = window.speechSynthesis;
+function speak(text) {
+    const utterThis = new SpeechSynthesisUtterance(text);
+    utterThis.pitch = 1.3; utterThis.rate = 0.9;
+    synth.speak(utterThis);
+}
+
+        let score = 0;
+        let currentWord = null;
+        let canClick = false;
+        let currentRot = 0;
+
+        function renderOption(w) {
+            if(w.type === 'emoji') return w.image;
+            return `<img src="${w.image}">`;
+        }
+        
+        function spinWheel() {
+            if(canClick) return;
+            document.getElementById('target-box').style.visibility = 'hidden';
+            document.getElementById('options').style.visibility = 'hidden';
+            document.getElementById('spin-btn').style.visibility = 'hidden';
+            
+            speak("Spinning!");
+            let extraDeg = Math.floor(Math.random() * 360) + 1080;
+            currentRot += extraDeg;
+            document.getElementById('wheel').style.transform = `rotate(${currentRot}deg)`;
+            
+            setTimeout(setupQuestion, 3000);
+        }
+
+        function setupQuestion() {
+            canClick = true;
+            let selected = [...wordsData].sort(()=>0.5-Math.random()).slice(0, 3);
+            currentWord = selected[Math.floor(Math.random()*3)];
+            
+            const tb = document.getElementById('target-box');
+            tb.style.visibility = 'visible';
+            if(currentWord.type === 'emoji') {
+                tb.innerHTML = currentWord.image;
+                tb.className = 'target-box emoji-mode';
+            } else {
+                tb.innerHTML = `<img src="${currentWord.image}">`;
+                tb.className = 'target-box';
+            }
+            speak("What is this?");
+            
+            const opts = document.getElementById('options');
+            opts.style.visibility = 'visible';
+            opts.innerHTML = '';
+            
+            selected.forEach(w => {
+                let btn = document.createElement('button');
+                btn.className = 'opt-btn';
+                btn.textContent = w.word;
+                
+                btn.onclick = () => {
+                    if(!canClick) return;
+                    if(w.word === currentWord.word) {
+                        speak('Correct!'); score+=10; document.getElementById('score').textContent=score;
+                        btn.style.background = '#2ecc71'; btn.style.color='white';
+                        canClick = false; 
+                        setTimeout(()=>{document.getElementById('spin-btn').style.visibility = 'visible';}, 1500);
+                    } else {
+                        speak('Try again'); btn.style.background = '#e74c3c'; btn.style.color='white';
+                        setTimeout(()=>{btn.style.background='white'; btn.style.color='#e67e22';}, 500);
+                    }
+                };
+                opts.appendChild(btn);
+            });
+        }
+
+        function startGame() { 
+            document.getElementById('start-screen').classList.add('hidden-screen'); 
+            score=0; document.getElementById('score').textContent=score;
+            document.getElementById('spin-btn').style.visibility = 'visible';
+        }
+    </script>
+</body>
+</html>

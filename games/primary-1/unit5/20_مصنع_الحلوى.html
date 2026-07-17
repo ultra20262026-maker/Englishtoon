@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>مصنع الحلوى</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Cairo:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; background: #fd79a8; font-family: 'Cairo', 'Fredoka One', sans-serif; overflow: hidden; touch-action: none; display: flex; align-items: center; justify-content: center; height: 100vh;}
+        .game-container { width: 95vw; height: 85vh; background: #e84393; border-radius: 20px; border: 5px solid #fff; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; flex-direction: column; align-items: center; justify-content: space-evenly;}
+        .ui-top { position: absolute; top: 10px; left: 10px; right: 10px; display: flex; justify-content: space-between; font-size: 1.5rem; color: #fff; pointer-events: none; z-index: 30; font-weight: bold;}
+        .screen { position: absolute; inset: 0; background: rgba(0,0,0,0.8); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 100; text-align: center; color: white;}
+        button.start { font-family: 'Cairo', sans-serif; font-size: 2.5rem; padding: 15px 50px; background: #ffeaa7; border: none; border-radius: 50px; color: #d63031; cursor: pointer; box-shadow: 0 8px 0 #fdcb6e;}
+        button.start:active { transform: translateY(8px); box-shadow: 0 0 0; }
+        .hidden-screen { display: none !important; }
+        
+        .target-box { background: white; border-radius: 20px; padding: 10px 30px; font-size: 3rem; color: #e84393; font-family: 'Fredoka One'; box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 25; margin-top: 50px;}
+        
+        .conveyor { width: 100%; height: 50px; background: #2d3436; position: absolute; top: 40%; z-index: 5; border-top: 5px dashed #636e72;}
+        .candy { position: absolute; font-size: 60px; top: calc(40% - 60px); cursor: pointer; transition: transform 0.2s;}
+        .candy:active { transform: scale(0.9); }
+        
+        .jars-container { display: flex; gap: 20px; position: absolute; bottom: 20px;}
+        .jar { width: 100px; height: 120px; border: 5px solid rgba(255,255,255,0.8); border-top: none; border-radius: 0 0 20px 20px; position: relative; background: rgba(255,255,255,0.2); display: flex; align-items: flex-end; justify-content: center; cursor: pointer; overflow: hidden;}
+        .jar::before { content: ''; position: absolute; top: -10px; left: -10px; right: -10px; height: 10px; background: rgba(255,255,255,0.8); border-radius: 5px; }
+        .jar-label { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 5px; border-radius: 5px; font-family: 'Fredoka One'; color: #e84393;}
+        .jar-content { font-size: 50px; transform: translateY(50px); transition: transform 0.3s;}
+        .jar.filled .jar-content { transform: translateY(0); }
+    </style>
+</head>
+<body>
+    <div class="game-container" id="game-container">
+        <div class="ui-top">
+            <div>النقاط: <span id="score">0</span></div>
+            <div>مصنع الحلوى 🍬</div>
+        </div>
+        
+        <div class="target-box" id="target-box" onclick="if(currentWord) speak(currentWord.word)">word</div>
+        
+        <div class="conveyor"></div>
+        
+        <div class="jars-container" id="jars-container"></div>
+        
+    </div>
+    <div id="start-screen" class="screen">
+        <h1 style="font-size: 4rem; color: #ffeaa7;">مصنع الحلوى 🍬</h1>
+        <p style="font-size: 1.5rem;">انقر على الحلوى المناسبة للوعاء المفتوح!</p>
+        <button class="start" onclick="startGame()">العب!</button>
+    </div>
+    <script>
+        
+const wordsData = [
+  { word: "duck", image: "🦆", type: "emoji" },
+  { word: "cow", image: "🐄", type: "emoji" },
+  { word: "chicken", image: "🐔", type: "emoji" },
+  { word: "horse", image: "🐎", type: "emoji" },
+  { word: "mouse", image: "🐭", type: "emoji" },
+  { word: "milk", image: "🥛", type: "emoji" },
+  { word: "mango", image: "🥭", type: "emoji" },
+  { word: "moon", image: "🌙", type: "emoji" },
+  { word: "monkey", image: "🐒", type: "emoji" },
+  { word: "goat", image: "🐐", type: "emoji" },
+  { word: "gloves", image: "🧤", type: "emoji" },
+  { word: "grapes", image: "🍇", type: "emoji" },
+  { word: "girl", image: "👧", type: "emoji" },
+  { word: "guitar", image: "🎸", type: "emoji" },
+  { word: "octopus", image: "🐙", type: "emoji" },
+  { word: "olive", image: "🫒", type: "emoji" },
+  { word: "ostrich", image: "🦤", type: "emoji" },
+  { word: "fox", image: "🦊", type: "emoji" },
+  { word: "fish", image: "🐟", type: "emoji" },
+  { word: "fork", image: "🍴", type: "emoji" },
+  { word: "frog", image: "🐸", type: "emoji" },
+  { word: "fan", image: "🪭", type: "emoji" }
+];
+
+const synth = window.speechSynthesis;
+function speak(text) {
+    const utterThis = new SpeechSynthesisUtterance(text);
+    utterThis.pitch = 1.3; utterThis.rate = 0.9;
+    synth.speak(utterThis);
+}
+
+        let score = 0;
+        let currentWord = null;
+        let candies = [];
+        let spawnInterval, loopInterval;
+        let currentJar = null;
+
+        function setTarget() {
+            currentWord = wordsData[Math.floor(Math.random() * wordsData.length)];
+            document.getElementById('target-box').innerHTML = currentWord.image;
+            speak(currentWord.word);
+            
+            const container = document.getElementById('jars-container');
+            container.innerHTML = '';
+            
+            const jar = document.createElement('div');
+            jar.className = 'jar';
+            jar.innerHTML = `<div class="jar-label">${currentWord.word}</div><div class="jar-content">${currentWord.image}</div>`;
+            container.appendChild(jar);
+            currentJar = jar;
+        }
+
+        function spawnCandy() {
+            const isCorrect = Math.random() > 0.5;
+            const wordObj = isCorrect ? currentWord : wordsData[Math.floor(Math.random() * wordsData.length)];
+            const p = document.createElement('div');
+            p.className = 'candy';
+            p.textContent = wordObj.image;
+            
+            p.dataset.x = document.getElementById('game-container').clientWidth;
+            p.dataset.speedX = -(Math.random() * 2 + 2);
+            
+            p.style.left = p.dataset.x + 'px';
+            
+            p.onclick = () => {
+                if(wordObj.word === currentWord.word) {
+                    speak('Sweet!'); score+=10; document.getElementById('score').textContent=score;
+                    p.style.transform = 'translateY(200px) scale(0.5)';
+                    currentJar.classList.add('filled');
+                    setTimeout(()=>p.remove(), 200);
+                    candies = candies.filter(x=>x!==p); 
+                    setTimeout(setTarget, 1000);
+                } else {
+                    speak('Sour!'); p.style.filter = 'grayscale(100%)'; 
+                    setTimeout(()=>{p.style.filter='none';}, 300);
+                }
+            };
+            document.getElementById('game-container').appendChild(p);
+            candies.push(p);
+        }
+        
+        function gameLoop() {
+            for(let i=candies.length-1; i>=0; i--) {
+                let p = candies[i];
+                let x = parseFloat(p.dataset.x) + parseFloat(p.dataset.speedX);
+                p.dataset.x = x;
+                p.style.left = x + 'px';
+                
+                if(x < -100) { 
+                    p.remove(); candies.splice(i, 1); 
+                }
+            }
+        }
+
+        function startGame() { 
+            document.getElementById('start-screen').classList.add('hidden-screen'); 
+            score=0; document.getElementById('score').textContent=score;
+            candies.forEach(p=>p.remove()); candies=[];
+            setTarget();
+            clearInterval(spawnInterval); clearInterval(loopInterval);
+            spawnInterval = setInterval(spawnCandy, 2000);
+            loopInterval = setInterval(gameLoop, 30);
+        }
+    </script>
+</body>
+</html>

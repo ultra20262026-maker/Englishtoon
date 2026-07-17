@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>الغيمة الماطرة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Cairo:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; background: #2c3e50; font-family: 'Cairo', 'Fredoka One', sans-serif; overflow: hidden; touch-action: none; display: flex; align-items: center; justify-content: center; height: 100vh;}
+        .game-container { width: 95vw; height: 85vh; background: #34495e; border-radius: 20px; border: 5px solid #fff; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; flex-direction: column; align-items: center;}
+        .ui-top { position: absolute; top: 10px; left: 10px; right: 10px; display: flex; justify-content: space-between; font-size: 1.5rem; color: #fff; pointer-events: none; z-index: 30; font-weight: bold;}
+        .screen { position: absolute; inset: 0; background: rgba(0,0,0,0.8); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 100; text-align: center; color: white;}
+        button.start { font-family: 'Cairo', sans-serif; font-size: 2.5rem; padding: 15px 50px; background: #3498db; border: none; border-radius: 50px; color: white; cursor: pointer; box-shadow: 0 8px 0 #2980b9;}
+        button.start:active { transform: translateY(8px); box-shadow: 0 0 0; }
+        .hidden-screen { display: none !important; }
+        
+        .target-box { background: white; border-radius: 20px; padding: 10px 30px; font-size: 3rem; color: #2c3e50; font-family: 'Fredoka One'; box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 25; margin-top: 50px; cursor: pointer;}
+        
+        .cloud { position: absolute; top: 120px; font-size: 100px; z-index: 20; transition: left 0.5s ease;}
+        
+        .raindrop { position: absolute; width: 60px; height: 60px; background: rgba(255,255,255,0.9); border-radius: 0 50% 50% 50%; transform: rotate(45deg); display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: inset -5px -5px 10px rgba(0,0,0,0.1); border: 2px solid #3498db;}
+        .raindrop span { transform: rotate(-45deg); font-family: 'Fredoka One'; font-size: 1.2rem; color: #2980b9;}
+        .raindrop:active { transform: scale(0.9) rotate(45deg); }
+    </style>
+</head>
+<body>
+    <div class="game-container" id="game-container">
+        <div class="ui-top">
+            <div>النقاط: <span id="score">0</span></div>
+            <div>الغيمة الماطرة 🌧️</div>
+        </div>
+        
+        <div class="target-box" id="target-box" onclick="if(currentWord) speak(currentWord.word)">word</div>
+        <div class="cloud" id="cloud">☁️</div>
+        
+    </div>
+    <div id="start-screen" class="screen">
+        <h1 style="font-size: 4rem; color: #3498db;">الغيمة الماطرة 🌧️</h1>
+        <p style="font-size: 1.5rem;">التقط قطرة المطر التي تحمل الكلمة الصحيحة!</p>
+        <button class="start" onclick="startGame()">العب!</button>
+    </div>
+    <script>
+        
+const wordsData = [
+  { word: "duck", image: "🦆", type: "emoji" },
+  { word: "cow", image: "🐄", type: "emoji" },
+  { word: "chicken", image: "🐔", type: "emoji" },
+  { word: "horse", image: "🐎", type: "emoji" },
+  { word: "mouse", image: "🐭", type: "emoji" },
+  { word: "milk", image: "🥛", type: "emoji" },
+  { word: "mango", image: "🥭", type: "emoji" },
+  { word: "moon", image: "🌙", type: "emoji" },
+  { word: "monkey", image: "🐒", type: "emoji" },
+  { word: "goat", image: "🐐", type: "emoji" },
+  { word: "gloves", image: "🧤", type: "emoji" },
+  { word: "grapes", image: "🍇", type: "emoji" },
+  { word: "girl", image: "👧", type: "emoji" },
+  { word: "guitar", image: "🎸", type: "emoji" },
+  { word: "octopus", image: "🐙", type: "emoji" },
+  { word: "olive", image: "🫒", type: "emoji" },
+  { word: "ostrich", image: "🦤", type: "emoji" },
+  { word: "fox", image: "🦊", type: "emoji" },
+  { word: "fish", image: "🐟", type: "emoji" },
+  { word: "fork", image: "🍴", type: "emoji" },
+  { word: "frog", image: "🐸", type: "emoji" },
+  { word: "fan", image: "🪭", type: "emoji" }
+];
+
+const synth = window.speechSynthesis;
+function speak(text) {
+    const utterThis = new SpeechSynthesisUtterance(text);
+    utterThis.pitch = 1.3; utterThis.rate = 0.9;
+    synth.speak(utterThis);
+}
+
+        let score = 0;
+        let currentWord = null;
+        let drops = [];
+        let spawnInterval, loopInterval;
+
+        function setTarget() {
+            currentWord = wordsData[Math.floor(Math.random() * wordsData.length)];
+            document.getElementById('target-box').innerHTML = currentWord.image;
+            speak(currentWord.word);
+        }
+
+        function spawnDrop() {
+            const isCorrect = Math.random() > 0.5;
+            const wordObj = isCorrect ? currentWord : wordsData[Math.floor(Math.random() * wordsData.length)];
+            const p = document.createElement('div');
+            p.className = 'raindrop';
+            p.innerHTML = `<span>${wordObj.word}</span>`;
+            
+            const cloudX = Math.random() * (document.getElementById('game-container').clientWidth - 100) + 50;
+            document.getElementById('cloud').style.left = (cloudX - 50) + 'px';
+            
+            p.dataset.x = cloudX - 30;
+            p.dataset.y = 200;
+            p.dataset.speedY = Math.random() * 2 + 1;
+            
+            p.style.left = p.dataset.x + 'px';
+            p.style.top = p.dataset.y + 'px';
+            
+            p.onclick = () => {
+                if(wordObj.word === currentWord.word) {
+                    speak('Splash!'); score+=10; document.getElementById('score').textContent=score;
+                    p.style.transform = 'scale(1.5) rotate(45deg)'; p.style.opacity = '0';
+                    setTimeout(()=>p.remove(), 200);
+                    drops = drops.filter(x=>x!==p); setTarget();
+                } else {
+                    speak('No!'); p.style.background = '#e74c3c'; 
+                    setTimeout(()=>{p.style.background='rgba(255,255,255,0.9)';}, 300);
+                }
+            };
+            document.getElementById('game-container').appendChild(p);
+            drops.push(p);
+        }
+        
+        function gameLoop() {
+            for(let i=drops.length-1; i>=0; i--) {
+                let p = drops[i];
+                let y = parseFloat(p.dataset.y) + parseFloat(p.dataset.speedY);
+                p.dataset.y = y;
+                p.style.top = y + 'px';
+                
+                if(y > document.getElementById('game-container').clientHeight + 100) { 
+                    p.remove(); drops.splice(i, 1); 
+                }
+            }
+        }
+
+        function startGame() { 
+            document.getElementById('start-screen').classList.add('hidden-screen'); 
+            score=0; document.getElementById('score').textContent=score;
+            document.getElementById('cloud').style.left = '50%';
+            drops.forEach(p=>p.remove()); drops=[];
+            setTarget();
+            clearInterval(spawnInterval); clearInterval(loopInterval);
+            spawnInterval = setInterval(spawnDrop, 1500);
+            loopInterval = setInterval(gameLoop, 30);
+        }
+    </script>
+</body>
+</html>
