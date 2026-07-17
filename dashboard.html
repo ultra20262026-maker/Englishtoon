@@ -46,7 +46,14 @@
 
         // Render Grades
         const container = document.getElementById('grades-container');
+        const allowedGrade = localStorage.getItem('allowedGrade') || 'all';
+
         GRADES_DATA.forEach(grade => {
+            // Filter logic
+            if (allowedGrade !== 'all' && allowedGrade !== grade.id && localStorage.getItem('currentUser') !== 'admin') {
+                return; // skip rendering this grade
+            }
+
             const card = document.createElement('a');
             card.href = `grade.html?id=${grade.id}`;
             card.className = 'glass-container grade-card';

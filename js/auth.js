@@ -45,6 +45,8 @@ async function login(username, password) {
             if (data.isMultiUser === true) {
                 localStorage.setItem('isLoggedIn', 'true');
                 localStorage.setItem('currentUser', username);
+                localStorage.setItem('allowedGrade', data.allowedGrade || 'all');
+                localStorage.setItem('allowedUnits', JSON.stringify(data.allowedUnits || 'all'));
                 return { success: true };
             }
 
@@ -61,6 +63,8 @@ async function login(username, password) {
                     // Same device! Let them in.
                     localStorage.setItem('isLoggedIn', 'true');
                     localStorage.setItem('currentUser', username);
+                    localStorage.setItem('allowedGrade', data.allowedGrade || 'all');
+                    localStorage.setItem('allowedUnits', JSON.stringify(data.allowedUnits || 'all'));
                     return { success: true };
                 } else {
                     // Different device! Block them.
@@ -76,6 +80,8 @@ async function login(username, password) {
 
             localStorage.setItem('isLoggedIn', 'true');
             localStorage.setItem('currentUser', username);
+            localStorage.setItem('allowedGrade', data.allowedGrade || 'all');
+            localStorage.setItem('allowedUnits', JSON.stringify(data.allowedUnits || 'all'));
             
             return { success: true };
         } else {
@@ -96,5 +102,7 @@ function checkAuth() {
 function logout() {
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('currentUser');
+    localStorage.removeItem('allowedGrade');
+    localStorage.removeItem('allowedUnits');
     window.location.href = 'index.html';
 }

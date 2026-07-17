@@ -32,6 +32,41 @@
                     <label for="new-password">كلمة المرور</label>
                     <input type="text" id="new-password" required placeholder="مثال: 0000">
                 </div>
+
+                <div class="input-group">
+                    <label for="grade-select">السماح بدخول الصف:</label>
+                    <select id="grade-select" onchange="toggleUnitSelect()" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.5); color: white; font-size: 1rem;">
+                        <option value="all">كل الصفوف (صلاحية كاملة)</option>
+                        <option value="primary-1">الصف الأول الابتدائي</option>
+                        <option value="primary-2">الصف الثاني الابتدائي</option>
+                        <option value="primary-3">الصف الثالث الابتدائي</option>
+                        <option value="primary-4">الصف الرابع الابتدائي</option>
+                        <option value="primary-5">الصف الخامس الابتدائي</option>
+                        <option value="primary-6">الصف السادس الابتدائي</option>
+                        <option value="prep-1">الصف الأول الإعدادي</option>
+                        <option value="prep-2">الصف الثاني الإعدادي</option>
+                        <option value="prep-3">الصف الثالث الإعدادي</option>
+                    </select>
+                </div>
+
+                <div class="input-group" id="unit-select-group" style="display: none;">
+                    <label>السماح بدخول الوحدات:</label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px;">
+                        <label class="checkbox-group" style="grid-column: span 2;">
+                            <input type="checkbox" id="all-units-checkbox" checked onchange="toggleSpecificUnits()">
+                            كل الوحدات في هذا الصف
+                        </label>
+                        <div id="specific-units-group" style="display: none; grid-column: span 2; grid-template-columns: 1fr 1fr; gap: 10px;">
+                            <label class="checkbox-group"><input type="checkbox" class="unit-checkbox" value="1"> الوحدة 1</label>
+                            <label class="checkbox-group"><input type="checkbox" class="unit-checkbox" value="2"> الوحدة 2</label>
+                            <label class="checkbox-group"><input type="checkbox" class="unit-checkbox" value="3"> الوحدة 3</label>
+                            <label class="checkbox-group"><input type="checkbox" class="unit-checkbox" value="4"> الوحدة 4</label>
+                            <label class="checkbox-group"><input type="checkbox" class="unit-checkbox" value="5"> الوحدة 5</label>
+                            <label class="checkbox-group"><input type="checkbox" class="unit-checkbox" value="6"> الوحدة 6</label>
+                        </div>
+                    </div>
+                </div>
+
                 <label class="checkbox-group">
                     <input type="checkbox" id="multi-user-checkbox">
                     يوزر متعدد (يسمح بدخول أكثر من جهاز في نفس الوقت)
@@ -48,6 +83,7 @@
                     <tr>
                         <th>اسم المستخدم</th>
                         <th>كلمة المرور</th>
+                        <th>الصلاحيات</th>
                         <th>الحالة</th>
                         <th>النوع</th>
                         <th>إجراءات</th>
@@ -74,12 +110,47 @@
             window.location.href = 'dashboard.html';
         }
 
+        function toggleUnitSelect() {
+            const gradeSelect = document.getElementById('grade-select');
+            const unitGroup = document.getElementById('unit-select-group');
+            if (gradeSelect.value === 'all') {
+                unitGroup.style.display = 'none';
+            } else {
+                unitGroup.style.display = 'block';
+            }
+        }
+
+        function toggleSpecificUnits() {
+            const allChecked = document.getElementById('all-units-checkbox').checked;
+            const specificGroup = document.getElementById('specific-units-group');
+            if (allChecked) {
+                specificGroup.style.display = 'none';
+            } else {
+                specificGroup.style.display = 'grid';
+            }
+        }
+
         document.getElementById('create-user-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             const user = document.getElementById('new-username').value.trim();
             const pass = document.getElementById('new-password').value.trim();
             const isMultiUser = document.getElementById('multi-user-checkbox').checked;
             
+            const gradeSelect = document.getElementById('grade-select').value;
+            let allowedUnits = 'all';
+            
+            if (gradeSelect !== 'all') {
+                const allUnitsChecked = document.getElementById('all-units-checkbox').checked;
+                if (!allUnitsChecked) {
+                    const checkboxes = document.querySelectorAll('.unit-checkbox:checked');
+                    allowedUnits = Array.from(checkboxes).map(cb => parseInt(cb.value));
+                    if (allowedUnits.length === 0) {
+                        alert('يجب اختيار وحدة واحدة على الأقل!');
+                        return;
+                    }
+                }
+            }
+
             const btn = document.querySelector('.btn');
             const statusDiv = document.getElementById('status-msg');
             
@@ -91,7 +162,9 @@
                 await db.collection("codes").doc(user).set({
                     password: pass,
                     used: false,
-                    isMultiUser: isMultiUser
+                    isMultiUser: isMultiUser,
+                    allowedGrade: gradeSelect,
+                    allowedUnits: allowedUnits
                 });
 
                 statusDiv.className = 'success-msg';
@@ -102,6 +175,10 @@
                 document.getElementById('new-username').value = '';
                 document.getElementById('new-password').value = '';
                 document.getElementById('multi-user-checkbox').checked = false;
+                document.getElementById('grade-select').value = 'all';
+                toggleUnitSelect();
+                document.getElementById('all-units-checkbox').checked = true;
+                toggleSpecificUnits();
 
                 // Refresh Table
                 loadUsers();
@@ -134,10 +211,21 @@
                     const usedText = data.used ? '<span style="color:#f87171;">مستخدم 🔴</span>' : '<span style="color:#34d399;">غير مستخدم 🟢</span>';
                     const typeText = data.isMultiUser ? '<span style="color:#60a5fa;">متعدد 👥</span>' : 'فردي 👤';
                     
+                    let gradeText = 'كل الصفوف';
+                    if (data.allowedGrade && data.allowedGrade !== 'all') {
+                        gradeText = data.allowedGrade;
+                        if (data.allowedUnits && data.allowedUnits !== 'all') {
+                            gradeText += ` (وحدات: ${data.allowedUnits.join(', ')})`;
+                        } else {
+                            gradeText += ' (كل الوحدات)';
+                        }
+                    }
+
                     const tr = document.createElement('tr');
                     tr.innerHTML = `
                         <td>${username}</td>
                         <td>${data.password}</td>
+                        <td style="font-size: 0.85rem; color: #fbbf24;">${gradeText}</td>
                         <td>${usedText}</td>
                         <td>${typeText}</td>
                         <td>

@@ -91,6 +91,24 @@
         const gradeId = urlParams.get('grade');
         const unitId = urlParams.get('unit');
 
+        // Security Check for direct linking
+        const allowedGrade = localStorage.getItem('allowedGrade') || 'all';
+        let allowedUnits = 'all';
+        try { allowedUnits = JSON.parse(localStorage.getItem('allowedUnits') || '"all"'); } catch(e) {}
+        
+        const isAdmin = localStorage.getItem('currentUser') === 'admin';
+
+        if (!isAdmin) {
+            if (allowedGrade !== 'all' && allowedGrade !== gradeId) {
+                alert('عذراً، غير مصرح لك بدخول هذا الصف.');
+                window.location.href = 'dashboard.html';
+            }
+            if (allowedUnits !== 'all' && !allowedUnits.includes(parseInt(unitId))) {
+                alert('عذراً، غير مصرح لك بدخول هذه الوحدة.');
+                window.location.href = `grade.html?id=${gradeId}`;
+            }
+        }
+
         // Set back button link
         document.getElementById('back-link').href = `grade.html?id=${gradeId}`;
 

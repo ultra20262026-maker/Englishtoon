@@ -50,9 +50,19 @@
             document.getElementById('grade-title').innerText = grade.name + ' - الوحدات';
 
             const container = document.getElementById('units-container');
+            const allowedUnitsStr = localStorage.getItem('allowedUnits');
+            let allowedUnits = 'all';
+            if (allowedUnitsStr) {
+                try { allowedUnits = JSON.parse(allowedUnitsStr); } catch (e) {}
+            }
             
             // Render 6 units
             for (let i = 1; i <= UNITS_PER_GRADE; i++) {
+                // Filter logic
+                if (allowedUnits !== 'all' && !allowedUnits.includes(i) && localStorage.getItem('currentUser') !== 'admin') {
+                    continue; // Skip rendering this unit
+                }
+
                 const card = document.createElement('a');
                 card.className = 'glass-container unit-card';
                 card.innerHTML = `
