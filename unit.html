@@ -35,10 +35,17 @@
             box-shadow: 0 8px 25px rgba(0,0,0,0.3);
             border-color: rgba(255, 255, 255, 0.4);
         }
-        .game-icon {
-            font-size: 3rem;
+        .game-icon-img {
+            width: 80px;
+            height: 80px;
             margin-bottom: 15px;
-            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5));
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        .game-card:hover .game-icon-img {
+            transform: scale(1.1) rotate(5deg);
         }
         .game-title {
             font-size: 1.2rem;
@@ -129,17 +136,17 @@
             if (unitGames.length === 0) {
                 container.innerHTML = `<div class="empty-state">عذراً، لا توجد ألعاب مضافة في هذه الوحدة حالياً. 🚀</div>`;
             } else {
-                const gameIcons = ['🎯', '🎲', '🧩', '🚀', '⭐', '🏆', '⚡', '🎮'];
+                const gameImages = ['images/game_icon_1.png', 'images/game_icon_2.png', 'images/game_icon_3.png', 'images/game_icon_4.png'];
                 
                 unitGames.forEach((game, index) => {
-                    const icon = gameIcons[index % gameIcons.length];
+                    const imgSrc = gameImages[index % gameImages.length];
                     const gamePath = `games/${gradeId}/unit${unitId}/${game.file}`;
                     
                     const card = document.createElement('a');
                     card.href = gamePath;
                     card.className = 'game-card';
                     card.innerHTML = `
-                        <div class="game-icon">${icon}</div>
+                        <img class="game-icon-img" src="${imgSrc}" alt="Game Icon">
                         <div class="game-title">${game.name}</div>
                     `;
                     container.appendChild(card);
