@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <script id="guard-script">
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            alert('عذراً، لا يمكنك الدخول لهذه اللعبة مباشرة. يرجى تسجيل الدخول أولاً.');
+            window.location.href = window.location.origin + (window.location.pathname.includes('/Englishtoon/') ? '/Englishtoon/' : '/');
+        }
+    </script>
+    <script src="../../../js/game-enhancements.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>كشف المصباح</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Cairo:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; background: #1a1a2e; font-family: 'Cairo', 'Fredoka One', sans-serif; overflow: hidden; touch-action: none; display: flex; align-items: center; justify-content: center; height: 100vh;}
+        .game-container { width: 95vw; height: 85vh; background: #16213e; border-radius: 20px; border: 5px solid #fff; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; flex-direction: column; align-items: center; justify-content: space-evenly;}
+        .ui-top { position: absolute; top: 10px; left: 10px; right: 10px; display: flex; justify-content: space-between; font-size: 1.5rem; color: #fff; pointer-events: none; z-index: 30; font-weight: bold;}
+        .screen { position: absolute; inset: 0; background: rgba(0,0,0,0.8); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 100; text-align: center; color: white;}
+        button.start { font-family: 'Cairo', sans-serif; font-size: 2.5rem; padding: 15px 50px; background: #f1c40f; border: none; border-radius: 50px; color: #333; cursor: pointer; box-shadow: 0 8px 0 #d4ac0d;}
+        button.start:active { transform: translateY(8px); box-shadow: 0 0 0; }
+        .hidden-screen { display: none !important; }
+        
+        .lamp { font-size: 120px; cursor: pointer; animation: float 3s infinite ease-in-out; position: relative; z-index: 20;}
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+        
+        .magic-word { font-size: 4rem; color: #f1c40f; font-family: 'Fredoka One'; text-shadow: 0 0 20px rgba(241,196,15,0.8); opacity: 0; transition: opacity 1s; position: absolute; top: -80px;}
+        .lamp.rubbed .magic-word { opacity: 1; }
+        
+        .options { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; z-index: 25; width: 100%;}
+        .opt-box { width: 100px; height: 100px; background: rgba(255,255,255,0.1); border: 3px solid #f1c40f; border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 60px; cursor: pointer; transition: transform 0.2s, background 0.2s;}
+        .opt-box:hover { background: rgba(255,255,255,0.2); }
+        .opt-box:active { transform: scale(0.9); }
+    </style>
+</head>
+<body>
+    <div class="game-container" id="game-container">
+        <div class="ui-top">
+            <div>النقاط: <span id="score">0</span></div>
+            <div>كشف المصباح 🪔</div>
+        </div>
+        
+        <div class="lamp" id="lamp" onclick="rubLamp()">🪔
+            <div class="magic-word" id="magic-word">word</div>
+        </div>
+        
+        <div class="options" id="options"></div>
+        
+    </div>
+    <div id="start-screen" class="screen">
+        <h1 style="font-size: 4rem; color: #f1c40f;">كشف المصباح 🪔</h1>
+        <p style="font-size: 1.5rem;">امسح المصباح لتكشف الكلمة، ثم اختر الصورة الصحيحة!</p>
+        <button class="start" onclick="startGame()">العب!</button>
+    </div>
+    <script>
+        
+const wordsData = [
+  { word: "lion", image: "🦁", type: "emoji" },
+  { word: "tiger", image: "🐯", type: "emoji" },
+  { word: "monkey", image: "🐒", type: "emoji" },
+  { word: "snake", image: "🐍", type: "emoji" },
+  { word: "elephant", image: "🐘", type: "emoji" },
+  { word: "giraffe", image: "🦒", type: "emoji" },
+  { word: "banana", image: "🍌", type: "emoji" },
+  { word: "boy", image: "👦", type: "emoji" },
+  { word: "ball", image: "⚽", type: "emoji" },
+  { word: "bird", image: "🐦", type: "emoji" },
+  { word: "bike", image: "🚲", type: "emoji" },
+  { word: "lunch", image: "🍱", type: "emoji" },
+  { word: "leaf", image: "🍃", type: "emoji" },
+  { word: "lamp", image: "🪔", type: "emoji" },
+  { word: "lemon", image: "🍋", type: "emoji" },
+  { word: "cat", image: "🐱", type: "emoji" },
+  { word: "turtle", image: "🐢", type: "emoji" },
+  { word: "dog", image: "🐶", type: "emoji" },
+  { word: "couch", image: "🛋️", type: "emoji" },
+  { word: "on", image: "🔛", type: "emoji" },
+  { word: "in", image: "📥", type: "emoji" },
+  { word: "under", image: "⬇️", type: "emoji" },
+  { word: "chair", image: "🪑", type: "emoji" },
+  { word: "cage", image: "🦜", type: "emoji" },
+  { word: "table", image: "🪟", type: "emoji" },
+  { word: "umbrella", image: "☂️", type: "emoji" },
+  { word: "up", image: "⬆️", type: "emoji" },
+  { word: "unlock", image: "🔓", type: "emoji" },
+  { word: "jam", image: "🍯", type: "emoji" },
+  { word: "jacket", image: "🧥", type: "emoji" },
+  { word: "jellyfish", image: "🪼", type: "emoji" },
+  { word: "jar", image: "🫙", type: "emoji" },
+  { word: "jeans", image: "👖", type: "emoji" }
+];
+
+const synth = window.speechSynthesis;
+function speak(text) {
+    const utterThis = new SpeechSynthesisUtterance(text);
+    utterThis.pitch = 1.3; utterThis.rate = 0.9;
+    synth.speak(utterThis);
+}
+
+        let score = 0;
+        let currentWord = null;
+        let canClick = false;
+        let lampRubbed = false;
+
+        function spawnLevel() {
+            canClick = false;
+            lampRubbed = false;
+            document.getElementById('lamp').classList.remove('rubbed');
+            
+            let selected = [...wordsData].sort(()=>0.5-Math.random()).slice(0, 3);
+            currentWord = selected[Math.floor(Math.random()*3)];
+            
+            document.getElementById('magic-word').textContent = currentWord.word;
+            
+            const opts = document.getElementById('options');
+            opts.innerHTML = '';
+            
+            selected.forEach(w => {
+                const btn = document.createElement('div');
+                btn.className = 'opt-box';
+                btn.innerHTML = w.image;
+                
+                btn.onclick = () => {
+                    if(!canClick) return;
+                    if(!lampRubbed) { speak('Rub the lamp first!'); return; }
+                    
+                    if(w.word === currentWord.word) {
+                        speak('Magic!'); score+=10; document.getElementById('score').textContent=score;
+                        btn.style.background = '#2ecc71'; btn.style.borderColor = '#27ae60';
+                        canClick = false; setTimeout(spawnLevel, 1500);
+                    } else {
+                        speak('Try again!'); btn.style.background = '#e74c3c'; btn.style.borderColor = '#c0392b';
+                        setTimeout(() => {
+                            btn.style.background = 'rgba(255,255,255,0.1)'; btn.style.borderColor = '#f1c40f';
+                        }, 1000);
+                    }
+                };
+                opts.appendChild(btn);
+            });
+        }
+        
+        function rubLamp() {
+            if(lampRubbed) {
+                speak(currentWord.word);
+                return;
+            }
+            lampRubbed = true;
+            document.getElementById('lamp').classList.add('rubbed');
+            speak(currentWord.word);
+            canClick = true;
+        }
+
+        function startGame() { 
+            document.getElementById('start-screen').classList.add('hidden-screen'); 
+            score=0; document.getElementById('score').textContent=score;
+            spawnLevel(); 
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,2314 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script id="guard-script">
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            alert('عذراً، لا يمكنك الدخول لهذه اللعبة مباشرة. يرجى تسجيل الدخول أولاً.');
+            window.location.href = window.location.origin + (window.location.pathname.includes('/Englishtoon/') ? '/Englishtoon/' : '/');
+        }
+    </script>
+    <script src="../../../js/game-enhancements.js"></script>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>Answer Dash — EduQuest</title>
+  <style>
+/* ═══════════════════════════════════════════════════════════
+   🎮 GAME SHELL — Shared CSS for ALL 24 games
+   Each game includes this file for the common chrome
+═══════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;800;900&family=Orbitron:wght@700;900&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  margin: 0; padding: 0;
+  min-height: 100vh;
+  background: #000;
+  font-family: 'Nunito', sans-serif;
+  color: #f0f0ff;
+  user-select: none;
+  -webkit-user-select: none;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+#game-wrap {
+  flex: 1;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── HUD ─────────────────────────────────────────────────── */
+#hud {
+  position: absolute; top: 0; left: 0; right: 0; z-index: 20;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 14px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.85) 0%, transparent 100%);
+  pointer-events: none;
+}
+#hud > * { pointer-events: all; }
+.hud-left, .hud-right { display: flex; align-items: center; gap: 10px; }
+.btn-back {
+  background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 10px; padding: 7px 14px; color: white; cursor: pointer;
+  font-family: 'Nunito', sans-serif; font-size: 0.8rem; font-weight: 800; transition: .2s;
+}
+.btn-back:hover { background: rgba(255,255,255,0.2); }
+.score-box {
+  font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 0.85rem;
+  color: #fbbf24; background: rgba(251,191,36,0.12); border: 1px solid rgba(251,191,36,0.3);
+  border-radius: 10px; padding: 5px 12px;
+}
+.level-box {
+  font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 0.75rem;
+  color: #a78bfa; background: rgba(167,139,250,0.12); border: 1px solid rgba(167,139,250,0.3);
+  border-radius: 10px; padding: 5px 12px;
+}
+.lives-box { display: flex; gap: 4px; align-items: center; }
+.life { font-size: 1.1rem; transition: all .3s; }
+.life.lost { opacity: 0.2; filter: grayscale(1); transform: scale(0.8); }
+#mute-btn {
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 10px; padding: 7px 10px; color: white; cursor: pointer;
+  font-size: 1rem; transition: .2s;
+}
+#mute-btn:hover { background: rgba(255,255,255,0.18); }
+
+/* ── Timer Bar ───────────────────────────────────────────── */
+#timer-bar-wrap {
+  position: absolute; top: 48px; left: 0; right: 0; height: 4px; z-index: 20;
+}
+#timer-bar {
+  height: 100%; width: 100%;
+  background: linear-gradient(90deg, #7c3aed, #06b6d4);
+  transition: width .1s linear;
+}
+#timer-bar.danger { background: linear-gradient(90deg, #ef4444, #dc2626); }
+
+/* ── Feedback Flash ──────────────────────────────────────── */
+#feedback-flash {
+  position: absolute; inset: 0; z-index: 25; pointer-events: none;
+  opacity: 0; transition: opacity .15s;
+}
+#feedback-flash.show-correct { background: rgba(34,197,94,0.18); opacity: 1; }
+#feedback-flash.show-wrong   { background: rgba(239,68,68,0.18);  opacity: 1; }
+
+/* ── Countdown ───────────────────────────────────────────── */
+#countdown {
+  position: absolute; inset: 0; z-index: 60;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.75);
+  font-family: 'Orbitron', sans-serif; font-size: 8rem; font-weight: 900;
+  color: white; 
+}
+#countdown.hidden { display: none; }
+
+/* ── SCREENS ─────────────────────────────────────────────── */
+.screen {
+  position: absolute; inset: 0; z-index: 50;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 1.5rem;
+  background: rgba(8,8,20,0.96); backdrop-filter: blur(20px);
+}
+.screen.hidden { display: none; }
+.game-logo { font-size: 5rem; margin-bottom: 0.75rem; animation: float 2.5s ease-in-out infinite; }
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-14px)} }
+.screen-title {
+  font-family: 'Fredoka One', sans-serif; font-size: clamp(1.6rem,5vw,2.8rem);
+  color: white; margin-bottom: 0.5rem;
+}
+.screen-sub {
+  font-size: 0.95rem; color: rgba(255,255,255,0.55);
+  max-width: 420px; line-height: 1.5; margin-bottom: 1.5rem;
+}
+.lesson-name-badge {
+  font-size: 0.75rem; font-weight: 800; letter-spacing: .08em;
+  background: rgba(124,58,237,0.2); border: 1px solid rgba(124,58,237,0.4);
+  border-radius: 100px; padding: 4px 14px; color: #c4b5fd; margin-bottom: 1rem;
+}
+
+/* Level buttons */
+.level-select { display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; margin-bottom: 1.5rem; }
+.level-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: .9rem 1.2rem; border-radius: 14px; border: 2px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.06); color: white; cursor: pointer; transition: all .2s; min-width: 100px;
+}
+.level-btn:hover { transform: translateY(-3px); background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.4); }
+.level-btn.active { border-color: #7c3aed; background: rgba(124,58,237,0.2); }
+.level-btn-stars { font-size: 0.95rem; }
+.level-btn-name  { font-weight: 900; font-size: 0.9rem; }
+.level-btn-desc  { font-size: 0.7rem; color: rgba(255,255,255,0.45); }
+
+/* Start button */
+.btn-start {
+  padding: 13px 38px; border-radius: 100px; border: none;
+  background: linear-gradient(135deg, #7c3aed, #4f46e5);
+  color: white; font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 1.05rem;
+  cursor: pointer;  transition: all .2s;
+}
+.btn-start:hover { transform: translateY(-3px);  }
+
+/* Result screen */
+.stars-display { display: flex; justify-content: center; gap: 10px; margin: 0.75rem 0; }
+.result-star { font-size: 3.2rem; opacity: 0.18; transition: all .4s; }
+.result-star.lit { opacity: 1; animation: starPop .6s ease; }
+@keyframes starPop { 0%{transform:scale(0.2) rotate(-30deg)} 70%{transform:scale(1.3) rotate(6deg)} 100%{transform:scale(1) rotate(0)} }
+.result-score {
+  font-family: 'Orbitron', sans-serif; font-size: 2.2rem; font-weight: 900; color: #fbbf24;
+}
+.result-msg { font-size: 1rem; color: rgba(255,255,255,0.6); margin: .4rem 0 1.5rem; max-width: 360px; }
+.result-btns { display: flex; gap: .75rem; flex-wrap: wrap; justify-content: center; }
+.btn-replay {
+  padding: 11px 24px; border-radius: 100px; border: 2px solid rgba(255,255,255,0.25);
+  background: transparent; color: white; font-family: 'Nunito', sans-serif;
+  font-weight: 800; font-size: .95rem; cursor: pointer; transition: .2s;
+}
+.btn-replay:hover { background: rgba(255,255,255,0.1); }
+.btn-home, .btn-next {
+  padding: 11px 24px; border-radius: 100px; border: none;
+  color: white; font-family: 'Nunito', sans-serif; font-weight: 800; font-size: .95rem;
+  cursor: pointer; transition: .2s;
+}
+.btn-next { background: linear-gradient(135deg, #22c55e, #16a34a);  }
+.btn-home { background: linear-gradient(135deg, #7c3aed, #4f46e5);  }
+.btn-next:hover, .btn-home:hover { transform: translateY(-2px); }
+
+/* ═══════════════════════════════════════════════════════
+   QUESTION LAYOUT — question top, choices bottom
+   Game canvas is FULLY VISIBLE in between
+═══════════════════════════════════════════════════════ */
+
+/* Wrapper — invisible, just a container */
+#question-zone {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+#question-zone > * { pointer-events: all; }
+
+/* ── Question text — TOP strip ───────────────────────── */
+#question-text {
+  font-family: 'Fredoka One', sans-serif;
+  font-size: clamp(1.15rem, 3.8vw, 1.8rem);
+  color: #ffffff;
+  text-align: center;
+  line-height: 1.35;
+  font-weight: 900;
+  /* dark pill background — only behind the text */
+  background: rgba(5, 5, 20, 0.82);
+  backdrop-filter: blur(6px);
+  padding: 10px 18px 12px;
+  border-bottom: 2px solid rgba(124,58,237,0.35);
+  
+  /* position at very top, below HUD */
+  margin-top: 52px;
+  pointer-events: none;
+}
+
+#q-counter {
+  font-size: .7rem; color: rgba(255,255,255,0.55);
+  margin-bottom: 4px; text-align: center;
+  font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+  display: block;
+}
+
+/* ── Choices — BOTTOM strip ──────────────────────────── */
+#choices {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px,1fr));
+  gap: 8px;
+  max-width: 760px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 10px 12px 14px;
+  background: linear-gradient(0deg, rgba(5,5,20,0.95) 0%, rgba(5,5,20,0.80) 80%, transparent 100%);
+}
+
+.choice-btn {
+  padding: 12px 10px;
+  border-radius: 14px;
+  border: 2px solid rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.10);
+  color: white;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: clamp(0.9rem, 2.6vw, 1.1rem);
+  cursor: pointer;
+  transition: all .18s;
+  text-align: center;
+  line-height: 1.25;
+}
+.choice-btn:hover:not(:disabled) {
+  background: rgba(255,255,255,0.20);
+  border-color: rgba(255,255,255,0.55);
+  transform: translateY(-2px);
+}
+.choice-btn.correct { background: rgba(34,197,94,0.35); border-color: #22c55e; }
+.choice-btn.wrong   { background: rgba(239,68,68,0.35);  border-color: #ef4444; }
+
+
+/* ALL QUESTIONS ARE MCQ — fill input always hidden */
+#fill-wrap { display: none !important; }
+
+#fill-input {
+  font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 800; text-align: center;
+  padding: 9px 18px; background: rgba(255,255,255,0.07);
+  border: 2px solid rgba(255,255,255,0.25); border-radius: 12px; color: white;
+  outline: none; width: 100%; max-width: 300px; caret-color: #7c3aed;
+}
+#fill-input::placeholder { color: rgba(255,255,255,0.3); }
+#fill-submit {
+  padding: 9px 28px; border-radius: 12px; border: none;
+  background: linear-gradient(135deg,#7c3aed,#4f46e5); color: white;
+  font-family: 'Nunito', sans-serif; font-size: .95rem; font-weight: 800;
+  cursor: pointer; transition: .2s;
+}
+#fill-submit:hover { transform: translateY(-2px); }
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width:500px) {
+  #choices { grid-template-columns: 1fr 1fr; }
+  .choice-btn { font-size: .82rem; padding: 8px 4px; }
+  .level-btn { min-width: 88px; padding: .75rem .9rem; }
+  .game-logo { font-size: 4rem; }
+}
+
+
+
+
+</style>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:#0a1a0a;overflow:hidden;font-family:'Fredoka One','Segoe UI',sans-serif}
+    #game-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0}
+    #app{position:fixed;inset:0;z-index:1;pointer-events:none}
+    #question-zone{
+      position:absolute;inset:0;z-index:20;
+      pointer-events:none;display:flex;
+      flex-direction:column;justify-content:space-between;
+      background:none;border:none;padding:0;
+    }
+    #question-zone > *{pointer-events:all}
+    #question-text{
+      font-family:'Fredoka One',sans-serif;
+      font-size:clamp(1.15rem,3.8vw,1.8rem);font-weight:900;
+      color:#fff;text-align:center;line-height:1.35;
+      background:rgba(5,5,20,0.88);backdrop-filter:blur(8px);
+      padding:10px 18px 14px;
+      border-bottom:2px solid rgba(255,255,255,0.15);
+      
+      margin-top:52px;pointer-events:none;
+    }
+    #q-counter{font-size:.7rem;color:rgba(255,255,255,0.55);background:rgba(5,5,20,0.88);padding:6px 18px 0;text-align:center;font-weight:800;letter-spacing:.1em;text-transform:uppercase;display:block;}
+    
+    
+    /* 4 large tap zone buttons at bottom */
+    #dash-btns{
+      display:grid;grid-template-columns:1fr 1fr;
+      gap:0;pointer-events:all;
+      flex-shrink:0;
+    }
+    .dash-btn{
+      border:none;padding:18px 8px;
+      font-family:'Fredoka One',sans-serif;
+      font-size:clamp(0.85rem,2.8vw,1.2rem);font-weight:900;
+      color:#fff;cursor:pointer;
+      min-height:70px;transition:filter 0.15s;
+      
+      position:relative;overflow:hidden;
+    }
+    .dash-btn:active{filter:brightness(0.8);}
+    .dash-btn-a{background:linear-gradient(135deg,#dc2626,#991b1b);}
+    .dash-btn-b{background:linear-gradient(135deg,#2563eb,#1d4ed8);}
+    .dash-btn-c{background:linear-gradient(135deg,#16a34a,#15803d);}
+    .dash-btn-d{background:linear-gradient(135deg,#d97706,#b45309);}
+    .dash-btn.correct-flash{animation:dashCorrect 0.5s;}
+    .dash-btn.wrong-flash{animation:dashWrong 0.4s;}
+    @keyframes dashCorrect{0%{filter:brightness(1)}50%{filter:brightness(2) saturate(2)}100%{filter:brightness(1)}}
+    @keyframes dashWrong{0%,50%,100%{filter:brightness(1)}25%{filter:brightness(0.4)}75%{filter:brightness(0.4)}}
+    .dash-label{font-size:0.65rem;opacity:0.7;display:block;margin-bottom:2px;letter-spacing:.08em}
+    #hud{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:8px 14px;background:rgba(0,10,0,0.85);backdrop-filter:blur(6px);pointer-events:all}
+    .hud-left,.hud-right{display:flex;align-items:center;gap:8px}
+    .btn-back{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.3);color:#fff;padding:4px 10px;border-radius:20px;cursor:pointer;font-size:0.85rem}
+    .level-box{background:rgba(255,220,50,0.2);border:1px solid rgba(255,220,50,0.5);color:#fde68a;padding:3px 10px;border-radius:12px;font-size:0.8rem;font-weight:700}
+    .score-box{background:rgba(255,255,255,0.15);color:#fff;padding:4px 10px;border-radius:12px;font-weight:700;font-size:0.9rem}
+    .lives-box{display:flex;gap:2px}
+    #mute-btn{background:none;border:none;color:#fff;font-size:1.2rem;cursor:pointer}
+    #timer-bar-wrap{position:fixed;top:46px;left:0;right:0;height:4px;background:rgba(255,255,255,0.2);z-index:99;pointer-events:none}
+    #timer-bar{height:100%;background:linear-gradient(90deg,#22c55e,#86efac);width:100%;transition:width 0.5s linear}
+    #feedback-flash{position:fixed;inset:0;pointer-events:none;z-index:200;opacity:0}
+    #feedback-flash.show-correct{animation:flashG 0.3s}
+    #feedback-flash.show-wrong{animation:flashR 0.3s}
+    @keyframes flashG{0%{background:rgba(34,197,94,0.5);opacity:1}100%{opacity:0}}
+    @keyframes flashR{0%{background:rgba(239,68,68,0.5);opacity:1}100%{opacity:0}}
+    #countdown{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;font-size:6rem;font-weight:900;color:#fff;z-index:300;pointer-events:none}
+    .hidden{display:none!important}
+    .screen{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(160deg,#0a1a0a 0%,#1a3a1a 100%);z-index:400;padding:20px}
+    .game-logo{font-size:5rem;margin-bottom:10px}
+    .lesson-name-badge{background:rgba(255,255,255,0.15);color:#bbf7d0;padding:4px 16px;border-radius:20px;font-size:0.85rem;margin-bottom:8px}
+    .screen-title{font-size:2.2rem;font-weight:900;color:#4ade80;font-size:0.95rem;margin:8px 0 20px;text-align:center}
+    .level-select{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;justify-content:center}
+    .level-btn{background:rgba(34,197,94,0.08);border:2px solid rgba(34,197,94,0.25);color:#bbf7d0;border-radius:16px;padding:12px 18px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;transition:all 0.2s;min-width:90px}
+    .level-btn.active,.level-btn:hover{background:rgba(34,197,94,0.2);border-color:#4ade80;transform:scale(1.05)}
+    .level-btn-stars{font-size:1rem}.level-btn-name{font-weight:700;font-size:0.95rem}.level-btn-desc{font-size:0.72rem;opacity:0.8}
+    .btn-start{background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;border:none;border-radius:30px;padding:14px 40px;font-size:1.2rem;font-weight:800;cursor:pointer;transition:transform 0.2s}
+    .btn-start:hover{transform:scale(1.05)}
+    .stars-display{display:flex;gap:8px;margin:12px 0}
+    .result-star{font-size:2.5rem;opacity:0.3;transition:all 0.5s}
+    .result-star.lit{opacity:1;transform:scale(1.2)}
+    .result-score{font-size:2rem;font-weight:900;color:#fde68a}
+    .result-msg{color:rgba(187,247,208,0.85);margin:8px 0 20px;font-size:1rem;text-align:center}
+    .result-btns{display:flex;gap:12px}
+    .btn-replay{background:#16a34a;color:#fff;border:none;border-radius:20px;padding:10px 24px;font-size:1rem;cursor:pointer}
+    .btn-home{background:rgba(255,255,255,0.1);color:#bbf7d0;border:1px solid rgba(34,197,94,0.4);border-radius:20px;padding:10px 24px;font-size:1rem;cursor:pointer}
+  </style>
+</head>
+<body>
+<canvas id="game-canvas"></canvas>
+<div id="app">
+  <div id="feedback-flash"></div>
+  <div id="countdown" class="hidden">3</div>
+  <div id="hud" style="pointer-events:all">
+    <div class="hud-left">
+      <button class="btn-back" onclick="alert('You are already at the home screen! This is a standalone game.')">&#8592; Back</button>
+      <div class="level-box" id="hud-level">&#11088; Easy</div>
+    </div>
+    <div class="hud-right">
+      <button id="mute-btn" onclick="SoundEngine.toggleMute()">&#128266;</button>
+      <div class="score-box">&#9889; <span id="hud-score">0</span></div>
+      <div class="lives-box">
+        <span class="life" id="life-1">&#10084;&#65039;</span>
+        <span class="life" id="life-2">&#10084;&#65039;</span>
+        <span class="life" id="life-3">&#10084;&#65039;</span>
+      </div>
+    </div>
+  </div>
+  <div id="timer-bar-wrap"><div id="timer-bar"></div></div>
+  <div id="question-zone">
+    <div id="q-counter">Q 1 / 5</div>
+    <div id="question-text">Dash through the correct door!</div>
+    <div id="choices"></div>
+    <div id="fill-wrap"></div>
+    <div id="dash-btns">
+      <button class="dash-btn dash-btn-a" id="dash-a" onclick="tryDoor(0)"><span class="dash-label">A</span><span id="lbl-a">...</span></button>
+      <button class="dash-btn dash-btn-b" id="dash-b" onclick="tryDoor(1)"><span class="dash-label">B</span><span id="lbl-b">...</span></button>
+      <button class="dash-btn dash-btn-c" id="dash-c" onclick="tryDoor(2)"><span class="dash-label">C</span><span id="lbl-c">...</span></button>
+      <button class="dash-btn dash-btn-d" id="dash-d" onclick="tryDoor(3)"><span class="dash-label">D</span><span id="lbl-d">...</span></button>
+    </div>
+  </div>
+  <div class="screen" id="screen-intro">
+    <div class="game-logo">&#127939;</div>
+    <div class="lesson-name-badge" id="lesson-badge">Loading...</div>
+    <div class="screen-title">Answer Dash</div>
+    <div class="screen-sub">Your runner is sprinting forward!<br>Tap the correct door button (A/B/C/D) to dash through!</div>
+    <div class="level-select">
+      <button class="level-btn active" data-level="1"><span class="level-btn-stars">&#11088;</span><span class="level-btn-name">Easy</span><span class="level-btn-desc">60s · 5 Q</span></button>
+      <button class="level-btn" data-level="2"><span class="level-btn-stars">&#11088;&#11088;</span><span class="level-btn-name">Medium</span><span class="level-btn-desc">45s · 8 Q</span></button>
+      <button class="level-btn" data-level="3"><span class="level-btn-stars">&#11088;&#11088;&#11088;</span><span class="level-btn-name">Hard</span><span class="level-btn-desc">30s · 10 Q</span></button>
+    </div>
+    <button class="btn-start" id="btn-launch">&#127939; Start Running!</button>
+  </div>
+  <div class="screen hidden" id="screen-result">
+    <div class="game-logo" id="result-emoji">&#127942;</div>
+    <div class="screen-title" id="result-title">Complete!</div>
+    <div class="stars-display">
+      <div class="result-star" id="rstar-1">&#11088;</div>
+      <div class="result-star" id="rstar-2">&#11088;</div>
+      <div class="result-star" id="rstar-3">&#11088;</div>
+    </div>
+    <div class="result-score" id="result-score">0/0</div>
+    <div class="result-msg" id="result-msg">...</div>
+    <div class="result-btns">
+      <button class="btn-replay" onclick="GameBase.replayGame()">&#128260; Retry</button>
+      <button class="btn-home" onclick="alert('You are already at the home screen! This is a standalone game.')">&#127968; Home</button>
+    </div>
+  </div>
+</div>
+<script>
+// ═══════════════════════════════════════════════════
+//  🔊 SOUND ENGINE — Web Audio API (no external files)
+// ═══════════════════════════════════════════════════
+const SoundEngine = (() => {
+  let ctx = null;
+  let bgNode = null, bgGain = null;
+  let muted = false;
+  const KEY = 'eduquest-muted';
+  muted = localStorage.getItem(KEY) === 'true';
+
+  function getCtx() {
+    if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+    if (ctx.state === 'suspended') ctx.resume();
+    return ctx;
+  }
+
+  function beep(freq, type, duration, vol=0.3, startTime=0) {
+    if (muted) return;
+    try {
+      const c = getCtx();
+      const o = c.createOscillator();
+      const g = c.createGain();
+      o.connect(g); g.connect(c.destination);
+      o.type = type;
+      o.frequency.setValueAtTime(freq, c.currentTime + startTime);
+      g.gain.setValueAtTime(vol, c.currentTime + startTime);
+      g.gain.exponentialRampToValueAtTime(0.001, c.currentTime + startTime + duration);
+      o.start(c.currentTime + startTime);
+      o.stop(c.currentTime + startTime + duration + 0.01);
+    } catch(e){}
+  }
+
+  const sounds = {
+    correct: () => { beep(523,  'sine', 0.12, 0.3); beep(659, 'sine', 0.12, 0.3, 0.1); beep(784, 'sine', 0.2, 0.3, 0.22); },
+    wrong:   () => { beep(220,  'sawtooth', 0.2, 0.25); beep(180, 'sawtooth', 0.25, 0.2, 0.15); },
+    click:   () => { beep(880,  'square',   0.07, 0.1); },
+    tick:    () => { beep(1100, 'square',   0.06, 0.08); },
+    stars:   () => { beep(784,  'sine',     0.12, 0.25); beep(988, 'sine', 0.12, 0.25, 0.1); beep(1175,'sine',0.18,0.25,0.22); },
+    levelup: () => {
+      [523,659,784,1047].forEach((f,i) => beep(f, 'sine', 0.15, 0.3, i*0.12));
+    },
+    gameover:() => { beep(311, 'sawtooth', 0.3, 0.3); beep(233, 'sawtooth', 0.4, 0.3, 0.25); beep(196,'sawtooth',0.5,0.3,0.55); },
+    shoot:   () => { beep(200, 'sawtooth', 0.08, 0.2); beep(100, 'sawtooth', 0.06, 0.15, 0.05); },
+    pop:     () => { beep(600, 'triangle', 0.1,  0.2); beep(400, 'triangle', 0.08, 0.15, 0.08); },
+    splash:  () => { beep(300, 'sine',     0.15, 0.2); beep(200, 'sine',     0.2,  0.2, 0.1); },
+    whoosh:  () => { beep(800, 'sine',     0.06, 0.15); beep(200, 'sine',     0.08, 0.1, 0.06); },
+    flip:    () => { beep(440, 'triangle', 0.08, 0.2); beep(550, 'triangle', 0.08, 0.2, 0.06); },
+    match:   () => { beep(523, 'sine',0.1,0.3); beep(659,'sine',0.1,0.3,0.08); beep(784,'sine',0.15,0.3,0.18); },
+    freeze:  () => { [1000,800,600,400].forEach((f,i)=>beep(f,'square',0.08,0.15,i*0.06)); },
+    launch:  () => { beep(200,'sawtooth',0.3,0.3); beep(300,'sine',0.2,0.2,0.15); beep(500,'sine',0.15,0.2,0.3); },
+    sword:   () => { beep(300,'sawtooth',0.06,0.3); beep(500,'square',0.06,0.2,0.05); },
+    thunder: () => { beep(60,'sawtooth',0.3,0.4); beep(40,'sawtooth',0.2,0.3,0.1); },
+  };
+
+  // BG ambient loop
+  function startBg(type='space') {
+    if (muted) return;
+    stopBg();
+    try {
+      const c = getCtx();
+      bgGain = c.createGain();
+      bgGain.gain.value = 0.04;
+      bgGain.connect(c.destination);
+
+      // simple drone
+      const freqs = type==='space'?[55,110,165]:[65,130,195];
+      freqs.forEach(f => {
+        const o = c.createOscillator();
+        o.type = 'sine'; o.frequency.value = f;
+        o.connect(bgGain); o.start();
+        if (!bgNode) bgNode = []; bgNode.push(o);
+      });
+    } catch(e){}
+  }
+  function stopBg() {
+    try { if (bgNode) { (Array.isArray(bgNode)?bgNode:[bgNode]).forEach(n=>n.stop()); } } catch(e){}
+    bgNode = null;
+  }
+
+  function play(name) { if (sounds[name]) sounds[name](); }
+  function toggleMute() {
+    muted = !muted;
+    localStorage.setItem(KEY, muted);
+    if (muted) stopBg();
+    return muted;
+  }
+  function isMuted() { return muted; }
+
+  return { play, startBg, stopBg, toggleMute, isMuted };
+})();
+window.SoundEngine = SoundEngine;
+
+</script>
+<script>
+// ═══════════════════════════════════════════════════
+//  💾 PROGRESS MANAGER — localStorage
+// ═══════════════════════════════════════════════════
+const Progress = (() => {
+  const KEY = 'eduquest-progress-v2';
+  function load()   { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e){ return {}; } }
+  function save(d)  { localStorage.setItem(KEY, JSON.stringify(d)); }
+  function setStars(lessonKey, stars) {
+    const d = load();
+    d[lessonKey] = Math.max(d[lessonKey] || 0, stars);
+    save(d);
+  }
+  function getStars(lessonKey) { return load()[lessonKey] || 0; }
+  function clearAll() { localStorage.removeItem(KEY); }
+  return { setStars, getStars, clearAll };
+})();
+window.Progress = Progress;
+
+</script>
+<script>
+const CURRICULUM = {
+  grade2: {
+    name: "Primary 2",
+    units: [
+{
+  "id": "u3",
+  "name": "Classroom Actions & Routines",
+  "games": [
+    "planet-hop",
+    "ice-break",
+    "code-breaker",
+    "answer-dash"
+  ],
+  "lessons": [
+    {
+      "id": "l1",
+      "name": "الدرس الاول - لعبة قفز الكواكب",
+      "topicName": "Daily Actions",
+      "gameType": "planet-hop",
+      "questions": [
+        {
+          "type": "mcq",
+          "q": "I ___ a shower in the morning.",
+          "choices": [
+            "drink",
+            "take",
+            "eat",
+            "wash"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ my hands before eating.",
+          "choices": [
+            "sleep",
+            "eat",
+            "wash",
+            "brush"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ my prayers five times a day.",
+          "choices": [
+            "drink",
+            "sleep",
+            "do",
+            "eat"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ on my uniform before school.",
+          "choices": [
+            "eat",
+            "sleep",
+            "put",
+            "drink"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ up at 7 o'clock.",
+          "choices": [
+            "sleep",
+            "drink",
+            "wake",
+            "eat"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ goodbye to my mother.",
+          "choices": [
+            "drink",
+            "sleep",
+            "say",
+            "eat"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ water when I am thirsty.",
+          "choices": [
+            "drink",
+            "brush",
+            "eat",
+            "wash"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ my homework in the afternoon.",
+          "choices": [
+            "play",
+            "do",
+            "drink",
+            "eat"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ my teeth twice a day.",
+          "choices": [
+            "ten",
+            "brush",
+            "dark",
+            "uncle"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ breakfast at home.",
+          "choices": [
+            "eat",
+            "play",
+            "board",
+            "child"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ football with my friends.",
+          "choices": [
+            "bright",
+            "play",
+            "sad",
+            "orange"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ my homework after school.",
+          "choices": [
+            "do",
+            "Friday",
+            "go",
+            "Welcome"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ home after school.",
+          "choices": [
+            "sit",
+            "run",
+            "go",
+            "come"
+          ],
+          "answer": 3
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ my bag with my books.",
+          "choices": [
+            "eat",
+            "wash",
+            "fill",
+            "drink"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ milk every day.",
+          "choices": [
+            "rectangle",
+            "drink",
+            "living",
+            "listen"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ in bed at night.",
+          "choices": [
+            "play",
+            "drink",
+            "sleep",
+            "eat"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ to school in the morning.",
+          "choices": [
+            "notebook",
+            "go",
+            "do",
+            "Lunch"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ TV with my family in the evening.",
+          "choices": [
+            "watch",
+            "eat",
+            "wash",
+            "drink"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ my teeth after every meal.",
+          "choices": [
+            "wash",
+            "sleep",
+            "eat",
+            "brush"
+          ],
+          "answer": 3
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ to school every day.",
+          "choices": [
+            "go",
+            "sit",
+            "come",
+            "run"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ football in the garden.",
+          "choices": [
+            "play",
+            "sleep",
+            "eat",
+            "wash"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ breakfast in the morning.",
+          "choices": [
+            "drink",
+            "eat",
+            "play",
+            "wash"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ my books in my bag.",
+          "choices": [
+            "drink",
+            "eat",
+            "wash",
+            "put"
+          ],
+          "answer": 3
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ the bus to school.",
+          "choices": [
+            "drink",
+            "eat",
+            "take",
+            "wash"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ my face every morning.",
+          "choices": [
+            "eat",
+            "drink",
+            "wash",
+            "brush"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ hello to my teacher.",
+          "choices": [
+            "drink",
+            "sleep",
+            "eat",
+            "say"
+          ],
+          "answer": 3
+        }
+      ]
+    },
+    {
+      "id": "l2",
+      "name": "الدرس الثاني - لعبة تكسير الثلج",
+      "topicName": "My Morning",
+      "gameType": "ice-break",
+      "questions": [
+        {
+          "type": "mcq",
+          "q": "My school ___ is white and blue.",
+          "choices": [
+            "pajamas",
+            "uniform",
+            "dress",
+            "swimsuit"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "I put on my school ___.",
+          "choices": [
+            "swimsuit",
+            "coat",
+            "pajamas",
+            "uniform"
+          ],
+          "answer": 3
+        },
+        {
+          "type": "mcq",
+          "q": "I say goodbye to my ___ before going to school.",
+          "choices": [
+            "parents",
+            "friend",
+            "neighbor",
+            "teacher"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "I put my books inside my ___.",
+          "choices": [
+            "bed",
+            "bag",
+            "chair",
+            "sofa"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "I say ___ to my mother before I leave.",
+          "choices": [
+            "Hello",
+            "Welcome",
+            "Please",
+            "Goodbye"
+          ],
+          "answer": 3
+        },
+        {
+          "type": "mcq",
+          "q": "I eat ___ in the morning.",
+          "choices": [
+            "board",
+            "breakfast",
+            "sharpener",
+            "take"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "First, I wash my ___.",
+          "choices": [
+            "face",
+            "book",
+            "board",
+            "bag"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "I take the ___ to school every day.",
+          "choices": [
+            "plane",
+            "bus",
+            "car only",
+            "train"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "I wear my school ___.",
+          "choices": [
+            "under",
+            "on",
+            "uniform",
+            "desk"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "I brush my ___ after breakfast.",
+          "choices": [
+            "eleven",
+            "teeth",
+            "garage",
+            "white"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "I wash my hands with water and ___.",
+          "choices": [
+            "soap",
+            "pen",
+            "bag",
+            "book"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "I arrive at school ___ every day.",
+          "choices": [
+            "sometimes",
+            "never",
+            "late",
+            "early"
+          ],
+          "answer": 3
+        },
+        {
+          "type": "mcq",
+          "q": "I comb my ___ in the morning.",
+          "choices": [
+            "bag",
+            "desk",
+            "hair",
+            "book"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "I carry my ___ to school.",
+          "choices": [
+            "table",
+            "sofa",
+            "bag",
+            "bed"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "I eat bread and drink milk for ___.",
+          "choices": [
+            "supper",
+            "breakfast",
+            "dinner",
+            "lunch"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "I say ___ to my mother when I leave.",
+          "choices": [
+            "Goodbye",
+            "Draw",
+            "tired",
+            "father"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "I arrive at school in the ___.",
+          "choices": [
+            "morning",
+            "afternoon",
+            "night",
+            "evening"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "I wake up at 7 ___ every morning.",
+          "choices": [
+            "days",
+            "o'clock",
+            "minutes",
+            "hours"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "I wash my ___ in the morning.",
+          "choices": [
+            "Stand",
+            "breakfast",
+            "Listen",
+            "face"
+          ],
+          "answer": 3
+        },
+        {
+          "type": "mcq",
+          "q": "School starts in the ___.",
+          "choices": [
+            "shower",
+            "kitchen",
+            "morning",
+            "Listen"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "I am ready for school. I pick up my ___.",
+          "choices": [
+            "bag",
+            "blanket",
+            "toy",
+            "pillow"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "I wake up at 7 ___.",
+          "choices": [
+            "get",
+            "kitchen",
+            "o'clock",
+            "brush"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "School starts at ___ o'clock.",
+          "choices": [
+            "eight",
+            "nine",
+            "ten",
+            "two"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "I comb my ___ before going to school.",
+          "choices": [
+            "hair",
+            "milk",
+            "map",
+            "hungry"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "My mother makes ___ for me every morning.",
+          "choices": [
+            "dinner",
+            "tea",
+            "breakfast",
+            "supper"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "Then, I brush my ___.",
+          "choices": [
+            "bag",
+            "board",
+            "teeth",
+            "book"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "I eat ___ before going to school.",
+          "choices": [
+            "dinner",
+            "snack",
+            "lunch",
+            "breakfast"
+          ],
+          "answer": 3
+        },
+        {
+          "type": "mcq",
+          "q": "I wear my ___ on my feet before going to school.",
+          "choices": [
+            "gloves",
+            "hat",
+            "pajamas",
+            "shoes"
+          ],
+          "answer": 3
+        }
+      ]
+    },
+    {
+      "id": "l3",
+      "name": "الدرس الثالث - لعبة فك الشفرة",
+      "topicName": "Days of the Week",
+      "gameType": "code-breaker",
+      "questions": [
+        {
+          "type": "mcq",
+          "q": "The day after Monday is ___.",
+          "choices": [
+            "Tuesday",
+            "Wednesday",
+            "Sunday",
+            "Thursday"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "Saturday comes after ___.",
+          "choices": [
+            "Monday",
+            "Friday",
+            "Wednesday",
+            "Tuesday"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "The fifth day of the week is ___.",
+          "choices": [
+            "Thursday",
+            "Tuesday",
+            "Friday",
+            "Wednesday"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "The seventh day of the week is ___.",
+          "choices": [
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "Today is Monday. Tomorrow is ___.",
+          "choices": [
+            "Thursday",
+            "Sunday",
+            "Wednesday",
+            "Tuesday"
+          ],
+          "answer": 3
+        },
+        {
+          "type": "mcq",
+          "q": "The fourth day of the week is ___.",
+          "choices": [
+            "Tuesday",
+            "Thursday",
+            "Monday",
+            "Wednesday"
+          ],
+          "answer": 3
+        },
+        {
+          "type": "mcq",
+          "q": "The day after Tuesday is ___.",
+          "choices": [
+            "aunt",
+            "clean",
+            "young",
+            "Wednesday"
+          ],
+          "answer": 3
+        },
+        {
+          "type": "mcq",
+          "q": "The first school day in Egypt is ___.",
+          "choices": [
+            "Saturday",
+            "Monday",
+            "Friday",
+            "Sunday"
+          ],
+          "answer": 3
+        },
+        {
+          "type": "mcq",
+          "q": "The day after Thursday is ___.",
+          "choices": [
+            "Friday",
+            "dark",
+            "under",
+            "lunch"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "Today is Thursday. Tomorrow is ___.",
+          "choices": [
+            "Sunday",
+            "Wednesday",
+            "Friday",
+            "Saturday"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "The day after Wednesday is ___.",
+          "choices": [
+            "Tuesday",
+            "Thursday",
+            "Friday",
+            "Monday"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "The day after Sunday is ___.",
+          "choices": [
+            "Friday",
+            "Tuesday",
+            "Saturday",
+            "Monday"
+          ],
+          "answer": 3
+        },
+        {
+          "type": "mcq",
+          "q": "Today is Friday. Yesterday was ___.",
+          "choices": [
+            "Sunday",
+            "Saturday",
+            "Thursday",
+            "Wednesday"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "The third day of the week is ___.",
+          "choices": [
+            "Monday",
+            "Tuesday",
+            "Sunday",
+            "Wednesday"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "The day after Friday is ___.",
+          "choices": [
+            "cousin",
+            "two",
+            "brown",
+            "Saturday"
+          ],
+          "answer": 3
+        },
+        {
+          "type": "mcq",
+          "q": "The day before Friday is ___.",
+          "choices": [
+            "Thursday",
+            "Wednesday",
+            "Saturday",
+            "Sunday"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "There are ___ days in a week.",
+          "choices": [
+            "eight",
+            "six",
+            "five",
+            "seven"
+          ],
+          "answer": 3
+        },
+        {
+          "type": "mcq",
+          "q": "The second day of the week is ___.",
+          "choices": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Sunday"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "Sunday comes before ___.",
+          "choices": [
+            "Thursday",
+            "Tuesday",
+            "Monday",
+            "Wednesday"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "The sixth day of the week is ___.",
+          "choices": [
+            "Wednesday",
+            "Saturday",
+            "Thursday",
+            "Friday"
+          ],
+          "answer": 3
+        },
+        {
+          "type": "mcq",
+          "q": "The day before Wednesday is ___.",
+          "choices": [
+            "Thursday",
+            "Friday",
+            "Tuesday",
+            "Monday"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "The first day of the week is ___.",
+          "choices": [
+            "Saturday",
+            "Friday",
+            "Monday",
+            "Sunday"
+          ],
+          "answer": 3
+        },
+        {
+          "type": "mcq",
+          "q": "We do NOT go to school on ___.",
+          "choices": [
+            "Friday",
+            "Monday",
+            "Tuesday",
+            "Wednesday"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "The day we rest from school is ___.",
+          "choices": [
+            "Friday",
+            "behind",
+            "breakfast",
+            "fourteen"
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": "l4",
+      "name": "الدرس الرابع - لعبة الركض السريع",
+      "topicName": "My School Day",
+      "gameType": "answer-dash",
+      "questions": [
+        {
+          "type": "mcq",
+          "q": "I ___ my face with water.",
+          "choices": [
+            "brush",
+            "drink",
+            "wash",
+            "eat"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ to bed at nine o'clock.",
+          "choices": [
+            "go",
+            "wake",
+            "drink",
+            "eat"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ on my chair in class.",
+          "choices": [
+            "sit",
+            "fly",
+            "run",
+            "stand"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ the questions in the test.",
+          "choices": [
+            "answer",
+            "play",
+            "drink",
+            "eat"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ home at two o'clock.",
+          "choices": [
+            "wake",
+            "go",
+            "sleep",
+            "eat"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ in my chair at school.",
+          "choices": [
+            "happy",
+            "Look",
+            "sad",
+            "sit"
+          ],
+          "answer": 3
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ my homework after lunch.",
+          "choices": [
+            "eat",
+            "do",
+            "play",
+            "drink"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ to the teacher carefully.",
+          "choices": [
+            "listen",
+            "eat",
+            "sleep",
+            "look"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ TV in the evening.",
+          "choices": [
+            "watch",
+            "eat",
+            "wash",
+            "drink"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ good night to my family.",
+          "choices": [
+            "say",
+            "drink",
+            "eat",
+            "sleep"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ up at 7 o'clock in the morning.",
+          "choices": [
+            "eat",
+            "go",
+            "sleep",
+            "wake"
+          ],
+          "answer": 3
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ at the board.",
+          "choices": [
+            "listen",
+            "look",
+            "sleep",
+            "eat"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ happy at school every day.",
+          "choices": [
+            "wash",
+            "drink",
+            "feel",
+            "eat"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ breakfast with my family.",
+          "choices": [
+            "drink",
+            "wash",
+            "sleep",
+            "eat"
+          ],
+          "answer": 3
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ my teeth with a toothbrush.",
+          "choices": [
+            "brush",
+            "drink",
+            "eat",
+            "wash"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ my friends in the playground.",
+          "choices": [
+            "meet",
+            "drink",
+            "eat",
+            "sleep"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ my teacher good morning.",
+          "choices": [
+            "brush",
+            "eat",
+            "sleep",
+            "greet"
+          ],
+          "answer": 3
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ my bag ready for tomorrow.",
+          "choices": [
+            "drink",
+            "eat",
+            "get",
+            "wash"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ breakfast before school.",
+          "choices": [
+            "uncle",
+            "shelf",
+            "grandmother",
+            "eat"
+          ],
+          "answer": 3
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ lunch when I get home.",
+          "choices": [
+            "drink",
+            "eat",
+            "wash",
+            "sleep"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ to school by bus.",
+          "choices": [
+            "run",
+            "go",
+            "fly",
+            "come"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ in my notebook.",
+          "choices": [
+            "look",
+            "draw",
+            "listen",
+            "write"
+          ],
+          "answer": 3
+        },
+        {
+          "type": "mcq",
+          "q": "I ___ to school every morning.",
+          "choices": [
+            "Lunch",
+            "go",
+            "nine",
+            "yellow"
+          ],
+          "answer": 1
+        }
+      ]
+    }
+  ]
+}
+    ]
+  }
+};
+</script>
+<script>
+// ═══════════════════════════════════════════════════════════════
+//  🎮 GAME BASE ENGINE — Handles questions, HUD, timer, results
+// ═══════════════════════════════════════════════════════════════
+
+const GameBase = (() => {
+
+  // ── URL Params ───────────────────────────────────────────────
+  const params    = new URLSearchParams(location.search);
+  const GRADE     = params.get('grade')  || 'grade2';
+  const UNIT_ID = 'u3';
+  const LES_ID = 'l4';
+  const LESSON_KEY = `${GRADE}-${UNIT_ID}-${LES_ID}`;
+
+  // ── State ────────────────────────────────────────────────────
+  let _questions = [], _qIndex = 0, _score = 0, _lives = 3;
+  let _timeLeft = 60, _totalTime = 60;
+  let _timerInterval = null, _selectedLevel = 1;
+  let _gameActive = false;
+  let _callbacks = {};
+
+  // ── Level config ─────────────────────────────────────────────
+  const LEVELS = {
+    1: { time:90, count:8,  label:'⭐ Easy',   hints:2 },
+    2: { time:60, count:15, label:'⭐⭐ Medium', hints:0 },
+    3: { time:45, count:25, label:'⭐⭐⭐ Hard',  hints:0 },
+  };
+
+  // ── Shuffle ──────────────────────────────────────────────────
+  function shuffle(arr) {
+    const a = [...arr];
+    for(let i=a.length-1;i>0;i--){
+      const j=Math.floor(Math.random()*(i+1));
+      [a[i],a[j]]=[a[j],a[i]];
+    }
+    return a;
+  }
+
+  // ── Prepare questions ────────────────────────────────────────
+  function prepareQuestions(all, level) {
+    const cfg = LEVELS[level];
+    const picked = shuffle(all).slice(0, Math.min(cfg.count, all.length));
+    return picked.map(q => {
+      if (q.type === 'mcq') {
+        const indexed = q.choices.map((c,i)=>({text:c,correct:i===q.answer}));
+        const sc = shuffle(indexed);
+        return { ...q, choices: sc.map(c=>c.text), answer: sc.findIndex(c=>c.correct) };
+      }
+      return {...q};
+    });
+  }
+
+  // ── Stars ─────────────────────────────────────────────────────
+  function calcStars(correct, total, timeLeft, totalTime) {
+    const acc  = correct / total;
+    const tBonus = timeLeft / totalTime;
+    if (acc >= 0.9 && tBonus > 0.4) return 3;
+    if (acc >= 0.7) return 2;
+    if (acc >= 0.5) return 1;
+    return 0;
+  }
+
+  // ── Timer ─────────────────────────────────────────────────────
+  function startTimer() {
+    stopTimer();
+    const barEl = document.getElementById('timer-bar');
+    _timerInterval = setInterval(() => {
+      _timeLeft -= 0.1;
+      if (barEl) barEl.style.width = Math.max(0, (_timeLeft/_totalTime)*100) + '%';
+      if (_timeLeft <= 8) SoundEngine.play('tick');
+      if (_timeLeft <= 0) { stopTimer(); endGame(); }
+    }, 100);
+  }
+  function stopTimer() { clearInterval(_timerInterval); }
+
+  // ── HUD ───────────────────────────────────────────────────────
+  function updateHUD() {
+    const scoreEl = document.getElementById('hud-score');
+    const levelEl = document.getElementById('hud-level');
+    if (scoreEl) scoreEl.textContent = _score;
+    if (levelEl) levelEl.textContent = LEVELS[_selectedLevel].label;
+    refreshLives();
+  }
+  function refreshLives() {
+    for(let i=1;i<=3;i++){
+      const el=document.getElementById(`life-${i}`);
+      if(el) el.className = 'life' + (i > _lives ? ' lost' : '');
+    }
+  }
+
+  // ── MCQ Choices Renderer ─────────────────────────────────────
+  function renderChoices(q) {
+    const choicesEl = document.getElementById('choices');
+    const fillEl    = document.getElementById('fill-wrap');
+    if (!choicesEl || !fillEl) return;
+
+    if (q.type === 'fill') {
+      choicesEl.style.display = 'none';
+      fillEl.style.display    = 'flex';
+      fillEl.innerHTML = `
+        <input id="fill-input" type="text" placeholder="Type your answer..." autocomplete="off" autocorrect="off" spellcheck="false"/>
+        <button id="fill-btn" onclick="GameBase.checkFill()">✓ Submit</button>
+      `;
+      const inp = document.getElementById('fill-input');
+      if (inp) {
+        inp.focus();
+        inp.addEventListener('keydown', e => { if (e.key === 'Enter') GameBase.checkFill(); });
+      }
+    } else {
+      fillEl.style.display    = 'none';
+      choicesEl.style.display = 'grid';
+      choicesEl.innerHTML = '';
+      (q.choices || []).forEach((choice, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'choice-btn';
+        btn.textContent = choice;
+        btn.id = `choice-btn-${idx}`;
+        btn.addEventListener('click', () => {
+          if (!_gameActive) return;
+          submitAnswer(idx);
+        });
+        choicesEl.appendChild(btn);
+      });
+    }
+  }
+
+  // ── Public: current question ──────────────────────────────────
+  function currentQ() { return _questions[_qIndex]; }
+
+  // ── Public: answer attempt (MCQ) ─────────────────────────────
+  function submitAnswer(choiceIndex) {
+    if (!_gameActive) return;
+    const q = currentQ();
+    if (!q) return;
+    // Disable all buttons briefly
+    document.querySelectorAll('.choice-btn').forEach(b => b.disabled = true);
+    if (choiceIndex === q.answer) handleCorrect();
+    else handleWrong();
+  }
+
+  // ── Public: fill check ────────────────────────────────────────
+  function checkFill() {
+    if (!_gameActive) return;
+    const inp = document.getElementById('fill-input');
+    if (!inp) return;
+    const val = inp.value.trim().toLowerCase();
+    const q   = currentQ();
+    const ans = (q.answer || '').toString().trim().toLowerCase();
+    if (val === ans) handleCorrect();
+    else handleWrong();
+  }
+
+  function handleCorrect() {
+    _score++;
+    updateHUD();
+    SoundEngine.play('correct');
+    flashFeedback('correct');
+    if (_callbacks.onCorrect) _callbacks.onCorrect();
+    setTimeout(() => advance(), 800);
+  }
+  function handleWrong() {
+    _lives--;
+    updateHUD();
+    SoundEngine.play('wrong');
+    flashFeedback('wrong');
+    if (_callbacks.onWrong) _callbacks.onWrong();
+    if (_lives <= 0) {
+      setTimeout(() => endGame(), 700);
+    } else {
+      setTimeout(() => advance(), 800);
+    }
+  }
+  function advance() {
+    _qIndex++;
+    if (_qIndex >= _questions.length) { endGame(); return; }
+    const q = currentQ();
+    if (_callbacks.onNextQ) _callbacks.onNextQ(q, _qIndex, _questions.length);
+    renderChoices(q);
+    updateQCounter();
+  }
+
+  function updateQCounter() {
+    const el = document.getElementById('q-counter');
+    if (el) el.textContent = `Q ${_qIndex+1} / ${_questions.length}`;
+  }
+
+  function flashFeedback(type) {
+    const el = document.getElementById('feedback-flash');
+    if (!el) return;
+    el.className = 'show-' + type;
+    setTimeout(() => el.className = '', 400);
+  }
+
+  // ── Start ─────────────────────────────────────────────────────
+  function startGame(level, allQuestions, callbacks) {
+    _selectedLevel = level;
+    _callbacks     = callbacks || {};
+    _questions     = prepareQuestions(allQuestions, level);
+    _qIndex = 0; _score = 0; _lives = 3;
+    _totalTime = LEVELS[level].time;
+    _timeLeft  = _totalTime;
+    _gameActive = true;
+    updateHUD();
+    startTimer();
+    const q = _questions[0];
+    if (_callbacks.onStart) _callbacks.onStart(q, 0, _questions.length);
+    renderChoices(q);
+    updateQCounter();
+    SoundEngine.startBg('space');
+  }
+
+  // ── End ───────────────────────────────────────────────────────
+  function endGame() {
+    _gameActive = false;
+    stopTimer();
+    SoundEngine.stopBg();
+    const total = _questions.length;
+    const stars = calcStars(_score, total, _timeLeft, _totalTime);
+    if (typeof Progress !== 'undefined') Progress.setStars(LESSON_KEY, stars);
+    if (_callbacks.onGameEnd) _callbacks.onGameEnd(_score, total, stars);
+    setTimeout(() => showResultScreen(_score, total, stars), 400);
+  }
+
+  function showResultScreen(score, total, stars) {
+    // Hide all game screens/canvases
+    const screen = document.getElementById('screen-result');
+    if (!screen) return;
+    screen.classList.remove('hidden');
+    const titleEl = document.getElementById('result-title');
+    const msgEl   = document.getElementById('result-msg');
+    const scoreEl = document.getElementById('result-score');
+    const emojiEl = document.getElementById('result-emoji');
+    const titles = ['Mission Failed!','Keep Trying!','Well Done!','Perfect! 🏆'];
+    const msgs   = ["Don't give up! Try again! 💪",'Good attempt! You can do better!','Great job! You\'re improving! 🌟','Outstanding! You mastered this lesson! 🚀'];
+    if (titleEl) titleEl.textContent = titles[stars];
+    if (msgEl)   msgEl.textContent   = msgs[stars];
+    if (scoreEl) scoreEl.textContent = `${score} / ${total}`;
+    if (emojiEl) emojiEl.textContent  = ['😅','🙂','😄','🏆'][stars];
+    [1,2,3].forEach((n,i) => {
+      const el = document.getElementById(`rstar-${n}`);
+      if (!el) return;
+      el.classList.remove('lit');
+      if (i < stars) setTimeout(() => { el.classList.add('lit'); SoundEngine.play('stars'); }, 400+i*350);
+    });
+    if (stars >= 2) setTimeout(() => SoundEngine.play('levelup'), 1400);
+    else setTimeout(() => SoundEngine.play('gameover'), 300);
+  }
+
+  // ── Navigation ────────────────────────────────────────────────
+  function goBack()  { location.href = '../../index.html'; }
+
+  function replayGame() {
+    // Reset state visually
+    const resultScreen = document.getElementById('screen-result');
+    const introScreen  = document.getElementById('screen-intro');
+    if (resultScreen) resultScreen.classList.add('hidden');
+    if (introScreen)  introScreen.classList.remove('hidden');
+    // Reset internal state so next startGame call starts fresh
+    _gameActive = false;
+    _qIndex = 0; _score = 0; _lives = 3;
+    stopTimer();
+    SoundEngine.stopBg();
+  }
+
+  function goNext()  { location.href = '../../index.html'; }
+
+  // ── Countdown ─────────────────────────────────────────────────
+  function runCountdown(onDone) {
+    const el = document.getElementById('countdown');
+    if (!el) { onDone(); return; }
+    el.classList.remove('hidden');
+    let n = 3;
+    el.textContent = n;
+    SoundEngine.play('tick');
+    const iv = setInterval(() => {
+      n--;
+      if (n <= 0) { clearInterval(iv); el.classList.add('hidden'); onDone(); }
+      else { el.textContent = n; SoundEngine.play('tick'); }
+    }, 900);
+  }
+
+  // ── Level select helper ───────────────────────────────────────
+  function bindLevelButtons() {
+    document.querySelectorAll('[data-level]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        _selectedLevel = parseInt(btn.dataset.level);
+        document.querySelectorAll('[data-level]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+  }
+
+  // ── Getters ───────────────────────────────────────────────────
+  function getLevel()     { return _selectedLevel; }
+  function getScore()     { return _score; }
+  function isActive()     { return _gameActive; }
+  function getQuestions() { return _questions; }
+  function getIndex()     { return _qIndex; }
+  function getInfo()      { return { GRADE, UNIT_ID, LES_ID, LESSON_KEY }; }
+
+  // ── Load questions from curriculum ────────────────────────────
+  function loadQuestions() {
+    const g = CURRICULUM[GRADE];
+    const u = g?.units.find(x => x.id === UNIT_ID);
+    const l = u?.lessons.find(x => x.id === LES_ID);
+    return l?.questions || [];
+  }
+
+  // ── Expose ────────────────────────────────────────────────────
+  return {
+    startGame, endGame, submitAnswer, checkFill,
+    currentQ, advance, renderChoices,
+    goBack, replayGame, goNext,
+    runCountdown, bindLevelButtons,
+    getLevel, getScore, isActive, getIndex, getQuestions,
+    getInfo, loadQuestions, shuffle,
+    LEVELS
+  };
+
+})();
+
+window.GameBase = GameBase;
+
+</script>
+<script>
+const canvas=document.getElementById('game-canvas'),ctx=canvas.getContext('2d');
+let W=0,H=0;
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
+resize();window.addEventListener('resize',resize);
+
+// Game state
+let gameActive=false,answered=false;
+let runnerX=0,runnerY=0,runnerVX=2.2;
+let runStep=0;
+let bgOffset=0;
+let particles=[];
+let correctIndex=0;
+let doorAnswered=-1;
+let doorFlash=0;
+let doorCorrect=false;
+let bumpBack=0;
+let doorColors=['#dc2626','#2563eb','#16a34a','#d97706'];
+let choices=[];
+
+const DOOR_COUNT=4;
+let doors=[];
+
+function buildDoors(){
+  const doorH=H*0.38;
+  const doorW=W*0.13;
+  const spacing=W*0.22;
+  const startX=W*0.55;
+  doors=[];
+  for(let i=0;i<4;i++){
+    doors.push({
+      x:startX+i*spacing,
+      w:doorW,h:doorH,
+      y:H*0.28,
+      color:doorColors[i],
+      index:i,
+      open:false,openAmt:0,
+      hit:false,hitCorrect:false,flash:0
+    });
+  }
+}
+
+function initRunner(){
+  runnerX=W*0.12;
+  runnerY=H*0.52;
+}
+
+function drawBackground(){
+  // sky gradient
+  const sky=ctx.createLinearGradient(0,0,0,H*0.65);
+  sky.addColorStop(0,'#0a2a0a');sky.addColorStop(1,'#1a4a1a');
+  ctx.fillStyle=sky;ctx.fillRect(0,0,W,H*0.65);
+
+  // scrolling road
+  const roadY=H*0.65;
+  ctx.fillStyle='#1a1a1a';ctx.fillRect(0,roadY,W,H-roadY);
+
+  // road lines
+  ctx.strokeStyle='rgba(255,255,100,0.5)';ctx.lineWidth=3;ctx.setLineDash([40,30]);
+  ctx.lineDashOffset=-bgOffset%70;
+  ctx.beginPath();ctx.moveTo(0,H*0.72);ctx.lineTo(W,H*0.72);ctx.stroke();
+  ctx.setLineDash([]);
+
+  // ground line
+  ctx.fillStyle='#2d5a2d';ctx.fillRect(0,roadY-6,W,10);
+
+  // trees scrolling
+  ctx.fillStyle='#1a3a1a';
+  for(let i=0;i<8;i++){
+    const tx=((i*220-bgOffset*0.5)%(W+200))-100;
+    const ty=roadY-60;
+    // trunk
+    ctx.fillStyle='#5a3a1a';ctx.fillRect(tx-5,ty,10,60);
+    // canopy
+    ctx.fillStyle='#1e5a1e';
+    ctx.beginPath();ctx.moveTo(tx,ty-50);ctx.lineTo(tx-25,ty);ctx.lineTo(tx+25,ty);ctx.closePath();ctx.fill();
+    ctx.fillStyle='#2d7a2d';
+    ctx.beginPath();ctx.moveTo(tx,ty-80);ctx.lineTo(tx-18,ty-30);ctx.lineTo(tx+18,ty-30);ctx.closePath();ctx.fill();
+  }
+}
+
+function drawDoors(){
+  if(!gameActive)return;
+  const choiceLabels=choices;
+  doors.forEach((d,i)=>{
+    const lbl=choiceLabels[i]||'';
+    // door frame
+    ctx.fillStyle='#4a3a1a';
+    ctx.fillRect(d.x-d.w/2-4,d.y-4,d.w+8,d.h+8);
+    // door panel
+    let col=d.color;
+    if(d.hit&&d.hitCorrect)col='#FFD700';
+    else if(d.hit&&!d.hitCorrect)col='#cc2222';
+    if(d.open){
+      // door opening animation
+      const openW=d.w*(1-d.openAmt);
+      ctx.fillStyle=col;ctx.fillRect(d.x-openW/2,d.y,openW,d.h);
+      // light through
+      if(d.openAmt>0.3){
+        const lg=ctx.createLinearGradient(d.x-d.w/2,d.y,d.x+d.w/2,d.y);
+        lg.addColorStop(0,'rgba(255,255,100,0)');lg.addColorStop(0.5,`rgba(255,255,100,${d.openAmt*0.6})`);lg.addColorStop(1,'rgba(255,255,100,0)');
+        ctx.fillStyle=lg;ctx.fillRect(d.x-d.w/2,d.y,d.w,d.h);
+      }
+      if(d.openAmt<1)d.openAmt+=0.06;
+    } else {
+      ctx.fillStyle=col;ctx.fillRect(d.x-d.w/2,d.y,d.w,d.h);
+    }
+    // door window
+    ctx.fillStyle='rgba(0,0,0,0.25)';
+    ctx.fillRect(d.x-d.w*0.3,d.y+d.h*0.12,d.w*0.6,d.h*0.25);
+    ctx.strokeStyle='rgba(255,255,255,0.3)';ctx.lineWidth=1.5;
+    ctx.strokeRect(d.x-d.w*0.3,d.y+d.h*0.12,d.w*0.6,d.h*0.25);
+    // letter label
+    ctx.fillStyle='rgba(255,255,255,0.9)';
+    ctx.font=`bold ${Math.max(10,d.w*0.18)}px Arial`;
+    ctx.textAlign='center';ctx.textBaseline='top';
+    ctx.shadowColor='rgba(0,0,0,0.8)';ctx.shadowBlur=4;
+    ctx.fillText(['A','B','C','D'][i],d.x,d.y+d.h*0.04);
+    // choice text
+    ctx.font=`bold ${Math.max(8,Math.min(13,d.w*0.15))}px Arial`;
+    ctx.textBaseline='middle';
+    const words=lbl.split(' ');
+    const lineH=d.h*0.13;
+    const startTy=d.y+d.h*0.6;
+    if(words.length===1){
+      ctx.fillText(lbl,d.x,startTy,d.w-8);
+    } else {
+      const half=Math.ceil(words.length/2);
+      ctx.fillText(words.slice(0,half).join(' '),d.x,startTy-lineH/2,d.w-8);
+      ctx.fillText(words.slice(half).join(' '),d.x,startTy+lineH/2,d.w-8);
+    }
+    ctx.shadowBlur=0;
+    if(d.flash>0){
+      ctx.fillStyle=`rgba(255,255,255,${d.flash*0.4})`;
+      ctx.fillRect(d.x-d.w/2,d.y,d.w,d.h);
+      d.flash-=0.08;
+    }
+  });
+}
+
+function drawRunner(){
+  const y=runnerY+bumpBack;
+  const leg=Math.sin(runStep)*12;
+  ctx.save();
+  ctx.translate(runnerX,y);
+  // shadow
+  ctx.fillStyle='rgba(0,0,0,0.25)';ctx.beginPath();ctx.ellipse(0,28,18,6,0,0,Math.PI*2);ctx.fill();
+  // legs
+  ctx.strokeStyle='#f97316';ctx.lineWidth=5;ctx.lineCap='round';
+  ctx.beginPath();ctx.moveTo(0,12);ctx.lineTo(-10+leg,26);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(0,12);ctx.lineTo(10-leg,26);ctx.stroke();
+  // arms
+  ctx.strokeStyle='#fbbf24';ctx.lineWidth=4;
+  ctx.beginPath();ctx.moveTo(0,2);ctx.lineTo(-12-leg/2,10+leg/2);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(0,2);ctx.lineTo(12+leg/2,10-leg/2);ctx.stroke();
+  // body
+  const bodyGrad=ctx.createLinearGradient(-8,-12,8,12);
+  bodyGrad.addColorStop(0,'#fbbf24');bodyGrad.addColorStop(1,'#f59e0b');
+  ctx.fillStyle=bodyGrad;ctx.beginPath();ctx.roundRect(-8,-12,16,24,4);ctx.fill();
+  // head
+  ctx.fillStyle='#fde68a';ctx.beginPath();ctx.arc(0,-18,12,0,Math.PI*2);ctx.fill();
+  ctx.strokeStyle='#d97706';ctx.lineWidth=2;ctx.stroke();
+  // face
+  ctx.fillStyle='#333';ctx.beginPath();ctx.arc(-4,-20,2.5,0,Math.PI*2);ctx.fill();
+  ctx.beginPath();ctx.arc(4,-20,2.5,0,Math.PI*2);ctx.fill();
+  ctx.strokeStyle='#333';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(0,-14,4,0.1,Math.PI-0.1);ctx.stroke();
+  ctx.restore();
+}
+
+function spawnTrail(){
+  particles.push({x:runnerX-10,y:runnerY+10,vx:-1+Math.random()*0.5,vy:-0.5+Math.random(),life:1,decay:0.08,s:4+Math.random()*3,color:'rgba(255,200,50,0.6)'});
+}
+
+function spawnConfetti(x,y){
+  for(let i=0;i<60;i++){
+    const a=Math.random()*Math.PI*2,sp=3+Math.random()*7;
+    particles.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp-4,life:1,decay:0.016,s:4+Math.random()*5,color:['#FFD700','#22c55e','#fff','#f97316'][Math.floor(Math.random()*4)]});
+  }
+}
+
+requestAnimationFrame(function loop(){
+  requestAnimationFrame(loop);
+  if(!gameActive&&!particles.length){
+    // idle animation
+    ctx.fillStyle='#0a1a0a';ctx.fillRect(0,0,W,H);
+    return;
+  }
+  bgOffset+=2.2;
+  drawBackground();
+  drawDoors();
+
+  // runner movement
+  if(gameActive){
+    runStep+=0.18;
+    if(bumpBack>0)bumpBack-=0.5;
+    if(bumpBack<0)bumpBack=0;
+    spawnTrail();
+    // runner slides toward doors
+    if(!answered){
+      const targetX=doors[1]?doors[1].x-40:W*0.45;
+      if(runnerX<targetX)runnerX+=2;
+    }
+  }
+  drawRunner();
+
+  // particles
+  particles.forEach(p=>{
+    ctx.save();ctx.globalAlpha=p.life;ctx.fillStyle=p.color;
+    ctx.translate(p.x,p.y);ctx.fillRect(-p.s/2,-p.s/4,p.s,p.s/2);
+    ctx.restore();p.x+=p.vx;p.y+=p.vy;p.vy+=0.08;p.life-=p.decay;
+  });
+  particles=particles.filter(p=>p.life>0);
+});
+
+function tryDoor(idx){
+  if(!gameActive||answered)return;
+  answered=true;
+  const d=doors[idx];
+  d.hit=true;d.hitCorrect=(idx===correctIndex);d.flash=1;
+  if(idx===correctIndex){
+    d.open=true;
+    setTimeout(()=>{spawnConfetti(d.x,d.y+d.h/2);},200);
+    setTimeout(()=>{runnerX=d.x+d.w;},400);
+  } else {
+    bumpBack=20;
+    setTimeout(()=>bumpBack=0,300);
+  }
+  // flash button
+  const btnIds=['dash-a','dash-b','dash-c','dash-d'];
+  const btn=document.getElementById(btnIds[idx]);
+  if(btn){btn.classList.add(idx===correctIndex?'correct-flash':'wrong-flash');setTimeout(()=>btn.classList.remove('correct-flash','wrong-flash'),600);}
+  GameBase.submitAnswer(idx);
+  setTimeout(()=>{answered=false;},700);
+}
+
+function showQuestion(q,idx,total){
+  GameBase.renderChoices(q);
+  document.getElementById('q-counter').textContent=`Q ${idx+1} / ${total}`;
+  document.getElementById('question-text').textContent=q.q;
+  choices=q.choices||[];
+  correctIndex=q.answer;
+  answered=false;
+  doors.forEach(d=>{d.open=false;d.openAmt=0;d.hit=false;d.hitCorrect=false;d.flash=0;});
+  runnerX=W*0.12;
+  // update button labels
+  const lids=['lbl-a','lbl-b','lbl-c','lbl-d'];
+  lids.forEach((id,i)=>{ const el=document.getElementById(id); if(el)el.textContent=choices[i]||''; });
+}
+
+try{const info=GameBase.getInfo();const g=CURRICULUM[info.GRADE];const u=g?.units.find(x=>x.id===info.UNIT_ID);const l=u?.lessons.find(x=>x.id===info.LES_ID);if(l)document.getElementById('lesson-badge').textContent=l.name;}catch(e){}
+GameBase.bindLevelButtons();
+document.getElementById('btn-launch').addEventListener('click',()=>{
+  document.getElementById('screen-intro').classList.add('hidden');
+  GameBase.runCountdown(()=>{
+    const allQ=GameBase.loadQuestions();
+    gameActive=true;buildDoors();initRunner();
+    GameBase.startGame(GameBase.getLevel(),allQ,{
+      onStart:showQuestion,onNextQ:showQuestion,
+      onWrong:()=>{bumpBack=20;},
+      onGameEnd:()=>{gameActive=false;}
+    });
+  });
+});
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+

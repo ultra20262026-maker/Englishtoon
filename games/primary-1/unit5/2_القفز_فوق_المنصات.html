@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <script id="guard-script">
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            alert('عذراً، لا يمكنك الدخول لهذه اللعبة مباشرة. يرجى تسجيل الدخول أولاً.');
+            window.location.href = window.location.origin + (window.location.pathname.includes('/Englishtoon/') ? '/Englishtoon/' : '/');
+        }
+    </script>
+    <script src="../../../js/game-enhancements.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>القفز فوق المنصات</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Cairo:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; background: #2c3e50; font-family: 'Cairo', 'Fredoka One', sans-serif; overflow: hidden; touch-action: none; display: flex; align-items: center; justify-content: center; height: 100vh;}
+        .game-container { width: 95vw; height: 85vh; background: linear-gradient(#2980b9, #2c3e50); border-radius: 20px; border: 5px solid #fff; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; flex-direction: column; align-items: center;}
+        .ui-top { position: absolute; top: 10px; left: 10px; right: 10px; display: flex; justify-content: space-between; font-size: 1.5rem; color: #fff; pointer-events: none; z-index: 30; font-weight: bold;}
+        .screen { position: absolute; inset: 0; background: rgba(0,0,0,0.8); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 100; text-align: center; color: white;}
+        button.start { font-family: 'Cairo', sans-serif; font-size: 2.5rem; padding: 15px 50px; background: #f1c40f; border: none; border-radius: 50px; color: #333; cursor: pointer; box-shadow: 0 8px 0 #d4ac0d;}
+        button.start:active { transform: translateY(8px); box-shadow: 0 0 0; }
+        .hidden-screen { display: none !important; }
+        
+        .hero { position: absolute; bottom: 20px; font-size: 60px; transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); z-index: 20;}
+        
+        .platform { position: absolute; background: #2ecc71; border-top: 5px solid #27ae60; border-radius: 10px; height: 20px; width: 120px; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 25px; cursor: pointer; box-shadow: 0 10px 0 #1e8449;}
+        .platform span { font-family: 'Fredoka One'; font-size: 1.5rem; color: white; background: rgba(0,0,0,0.5); padding: 2px 10px; border-radius: 10px;}
+        
+        .target-box { background: white; border-radius: 20px; padding: 10px; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 25; margin-top: 50px; font-size: 60px; cursor: pointer;}
+    </style>
+</head>
+<body>
+    <div class="game-container" id="game-container">
+        <div class="ui-top">
+            <div>النقاط: <span id="score">0</span></div>
+            <div>القفز فوق المنصات 🏃</div>
+        </div>
+        
+        <div class="target-box" id="target-box" onclick="if(currentWord) speak(currentWord.word)"></div>
+        <div class="hero" id="hero">🏃</div>
+        <div id="platforms-container"></div>
+    </div>
+    <div id="start-screen" class="screen">
+        <h1 style="font-size: 4rem; color: #f1c40f;">القفز فوق المنصات 🏃</h1>
+        <p style="font-size: 1.5rem;">انقر على المنصة التي تحمل الكلمة الصحيحة لتقفز إليها!</p>
+        <button class="start" onclick="startGame()">العب!</button>
+    </div>
+    <script>
+        
+const wordsData = [
+  { word: "duck", image: "🦆", type: "emoji" },
+  { word: "cow", image: "🐄", type: "emoji" },
+  { word: "chicken", image: "🐔", type: "emoji" },
+  { word: "horse", image: "🐎", type: "emoji" },
+  { word: "mouse", image: "🐭", type: "emoji" },
+  { word: "milk", image: "🥛", type: "emoji" },
+  { word: "mango", image: "🥭", type: "emoji" },
+  { word: "moon", image: "🌙", type: "emoji" },
+  { word: "monkey", image: "🐒", type: "emoji" },
+  { word: "goat", image: "🐐", type: "emoji" },
+  { word: "gloves", image: "🧤", type: "emoji" },
+  { word: "grapes", image: "🍇", type: "emoji" },
+  { word: "girl", image: "👧", type: "emoji" },
+  { word: "guitar", image: "🎸", type: "emoji" },
+  { word: "octopus", image: "🐙", type: "emoji" },
+  { word: "olive", image: "🫒", type: "emoji" },
+  { word: "ostrich", image: "🦤", type: "emoji" },
+  { word: "fox", image: "🦊", type: "emoji" },
+  { word: "fish", image: "🐟", type: "emoji" },
+  { word: "fork", image: "🍴", type: "emoji" },
+  { word: "frog", image: "🐸", type: "emoji" },
+  { word: "fan", image: "🪭", type: "emoji" }
+];
+
+const synth = window.speechSynthesis;
+function speak(text) {
+    const utterThis = new SpeechSynthesisUtterance(text);
+    utterThis.pitch = 1.3; utterThis.rate = 0.9;
+    synth.speak(utterThis);
+}
+
+        let score = 0;
+        let currentWord = null;
+        let canClick = true;
+        let level = 0;
+
+        function setTarget() {
+            currentWord = wordsData[Math.floor(Math.random() * wordsData.length)];
+            document.getElementById('target-box').innerHTML = currentWord.image;
+            speak(currentWord.word);
+        }
+
+        function spawnPlatforms() {
+            canClick = true;
+            setTarget();
+            
+            const container = document.getElementById('platforms-container');
+            container.innerHTML = '';
+            
+            let selected = [...wordsData].sort(()=>0.5-Math.random()).slice(0, 3);
+            if(!selected.includes(currentWord)) selected[0] = currentWord;
+            selected.sort(()=>0.5-Math.random());
+            
+            const yPos = [150, 300, 450];
+            const xPos = [20, 50, 80];
+            
+            selected.forEach((w, i) => {
+                const plat = document.createElement('div');
+                plat.className = 'platform';
+                plat.innerHTML = `<span>${w.word}</span>`;
+                
+                plat.style.bottom = yPos[i] + 'px';
+                plat.style.left = `calc(${xPos[i]}% - 60px)`;
+                
+                plat.onclick = () => {
+                    if(!canClick) return;
+                    if(w.word === currentWord.word) {
+                        speak('Jump!'); score+=10; document.getElementById('score').textContent=score;
+                        const hero = document.getElementById('hero');
+                        hero.style.bottom = (yPos[i] + 20) + 'px';
+                        hero.style.left = `calc(${xPos[i]}% - 30px)`;
+                        
+                        canClick = false; 
+                        setTimeout(() => {
+                            hero.style.bottom = '20px';
+                            hero.style.left = '50%';
+                            spawnPlatforms();
+                        }, 1000);
+                    } else {
+                        speak('No, ' + w.word);
+                        plat.style.background = '#e74c3c'; plat.style.boxShadow = '0 10px 0 #c0392b';
+                        setTimeout(()=>{plat.style.background='#2ecc71'; plat.style.boxShadow='0 10px 0 #1e8449';}, 500);
+                    }
+                };
+                container.appendChild(plat);
+            });
+        }
+
+        function startGame() { 
+            document.getElementById('start-screen').classList.add('hidden-screen'); 
+            score=0; document.getElementById('score').textContent=score;
+            document.getElementById('hero').style.left = '50%';
+            spawnPlatforms(); 
+        }
+    </script>
+</body>
+</html>

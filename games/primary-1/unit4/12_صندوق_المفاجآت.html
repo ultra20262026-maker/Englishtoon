@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <script id="guard-script">
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            alert('عذراً، لا يمكنك الدخول لهذه اللعبة مباشرة. يرجى تسجيل الدخول أولاً.');
+            window.location.href = window.location.origin + (window.location.pathname.includes('/Englishtoon/') ? '/Englishtoon/' : '/');
+        }
+    </script>
+    <script src="../../../js/game-enhancements.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>صندوق المفاجآت</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Cairo:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; background: #16a085; font-family: 'Cairo', 'Fredoka One', sans-serif; overflow: hidden; touch-action: none; display: flex; align-items: center; justify-content: center; height: 100vh;}
+        .game-container { width: 95vw; height: 85vh; background: #1abc9c; border-radius: 20px; border: 5px solid #fff; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; flex-direction: column; align-items: center; justify-content: space-evenly;}
+        .ui-top { position: absolute; top: 10px; left: 10px; right: 10px; display: flex; justify-content: space-between; font-size: 1.5rem; color: #fff; pointer-events: none; z-index: 30; font-weight: bold;}
+        .screen { position: absolute; inset: 0; background: rgba(0,0,0,0.8); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 100; text-align: center; color: white;}
+        button.start { font-family: 'Cairo', sans-serif; font-size: 2.5rem; padding: 15px 50px; background: #f39c12; border: none; border-radius: 50px; color: white; cursor: pointer; box-shadow: 0 8px 0 #d35400;}
+        button.start:active { transform: translateY(8px); box-shadow: 0 0 0; }
+        .hidden-screen { display: none !important; }
+        
+        .box-stage { width: 250px; height: 250px; background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="10" y="30" width="80" height="60" fill="%23d35400"/><rect x="5" y="20" width="90" height="20" fill="%23e67e22"/></svg>') no-repeat center; background-size: contain; position: relative; cursor: pointer; transform-origin: bottom center; transition: transform 0.2s;}
+        .box-stage.shake { animation: shakeBox 0.5s infinite; }
+        @keyframes shakeBox { 0% {transform: rotate(5deg);} 50% {transform: rotate(-5deg);} 100% {transform: rotate(5deg);} }
+        .box-stage.open { background: none; }
+        
+        .hidden-img { display: none; width: 150px; height: 150px; position: absolute; bottom: 50px; left: 50px;}
+        .hidden-img img { width: 100%; height: 100%; object-fit: contain; }
+        .hidden-img.emoji-mode { font-size: 100px; display: none; align-items: center; justify-content: center; left: 0; right: 0; margin: auto;}
+        
+        .box-stage.open .hidden-img { display: flex; animation: popUp 0.5s forwards;}
+        @keyframes popUp { 0% { transform: scale(0) translateY(50px); opacity: 0;} 100% { transform: scale(1) translateY(0); opacity: 1;} }
+        
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; width: 80%; max-width: 400px;}
+        .opt-box { background: white; color: #16a085; border-radius: 15px; padding: 20px; font-family: 'Fredoka One'; font-size: 2.5rem; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.2s; box-shadow: 0 5px 0 rgba(0,0,0,0.2);}
+        .opt-box:active { transform: scale(0.95); box-shadow: 0 0 0; }
+    </style>
+</head>
+<body>
+    <div class="game-container" id="game-container">
+        <div class="ui-top">
+            <div>النقاط: <span id="score">0</span></div>
+            <div>صندوق المفاجآت 🎁</div>
+        </div>
+        
+        <div class="box-stage shake" id="box-stage" onclick="openBox()">
+            <div class="hidden-img" id="hidden-img"></div>
+        </div>
+        
+        <div class="grid" id="grid"></div>
+        
+    </div>
+    <div id="start-screen" class="screen">
+        <h1 style="font-size: 4rem; color: #f1c40f;">صندوق المفاجآت 🎁</h1>
+        <p style="font-size: 1.5rem;">افتح الصندوق واكتشف الكلمة!</p>
+        <button class="start" onclick="startGame()">العب!</button>
+    </div>
+    <script>
+        
+const wordsData = [
+  { word: "eye", image: "../images_unit4/pixar_eye_1782050332022.png", type: "img" },
+  { word: "mouth", image: "../images_unit4/pixar_mouth_1782050342052.png", type: "img" },
+  { word: "ear", image: "../images_unit4/pixar_ear_1782050353890.png", type: "img" },
+  { word: "head", image: "../images_unit4/pixar_head_1782050365861.png", type: "img" },
+  { word: "tongue", image: "../images_unit4/pixar_tongue_1782050382757.png", type: "img" },
+  { word: "arm", image: "../images_unit4/pixar_arm_1782050393224.png", type: "img" },
+  { word: "leg", image: "../images_unit4/pixar_leg_1782050404201.png", type: "img" },
+  { word: "foot", image: "../images_unit4/pixar_foot_1782050415844.png", type: "img" },
+  { word: "feet", image: "../images_unit4/pixar_feet_1782050434707.png", type: "img" },
+  { word: "toes", image: "../images_unit4/pixar_toes_1782050446071.png", type: "img" },
+  { word: "red", image: "../images_unit4/pixar_red_1782050458088.png", type: "img" },
+  { word: "rocket", image: "../images_unit4/pixar_rocket_1782050469083.png", type: "img" },
+  { word: "ring", image: "../images_unit4/pixar_ring_1782050484208.png", type: "img" },
+  { word: "rabbit", image: "../images_unit4/pixar_rabbit_1782050494082.png", type: "img" },
+  { word: "robot", image: "../images_unit4/pixar_robot_1782050505802.png", type: "img" },
+  { word: "egg", image: "../images_unit4/pixar_egg_1782050517755.png", type: "img" },
+  { word: "eggplant", image: "🍆", type: "emoji" },
+  { word: "enter", image: "🚪", type: "emoji" },
+  { word: "elephant", image: "🐘", type: "emoji" },
+  { word: "elbow", image: "💪", type: "emoji" },
+  { word: "touch", image: "👆", type: "emoji" },
+  { word: "hear", image: "👂", type: "emoji" },
+  { word: "see", image: "👀", type: "emoji" },
+  { word: "taste", image: "👅", type: "emoji" },
+  { word: "smell", image: "👃", type: "emoji" },
+  { word: "car", image: "🚗", type: "emoji" },
+  { word: "cat", image: "🐱", type: "emoji" },
+  { word: "carrot", image: "🥕", type: "emoji" },
+  { word: "cup", image: "☕", type: "emoji" },
+  { word: "cake", image: "🎂", type: "emoji" },
+  { word: "kite", image: "🪁", type: "emoji" },
+  { word: "king", image: "👑", type: "emoji" },
+  { word: "kitchen", image: "🍳", type: "emoji" },
+  { word: "key", image: "🔑", type: "emoji" },
+  { word: "hand", image: "✋", type: "emoji" },
+  { word: "nose", image: "👃", type: "emoji" }
+];
+
+const synth = window.speechSynthesis;
+function speak(text) {
+    const utterThis = new SpeechSynthesisUtterance(text);
+    utterThis.pitch = 1.3; utterThis.rate = 0.9;
+    synth.speak(utterThis);
+}
+
+        let score = 0;
+        let currentWord = null;
+        let canClick = false;
+        let boxOpened = false;
+        let selectedOptions = [];
+
+        function renderOption(w) {
+            if(w.type === 'emoji') return `<div style="font-size:100px">${w.image}</div>`;
+            return `<img src="${w.image}">`;
+        }
+
+        function spawnLevel() {
+            canClick = false;
+            boxOpened = false;
+            selectedOptions = [...wordsData].sort(()=>0.5-Math.random()).slice(0, 4);
+            currentWord = selectedOptions[Math.floor(Math.random()*4)];
+            
+            const stage = document.getElementById('box-stage');
+            stage.className = 'box-stage shake';
+            
+            const hImg = document.getElementById('hidden-img');
+            hImg.innerHTML = renderOption(currentWord);
+            if(currentWord.type === 'emoji') hImg.className = 'hidden-img emoji-mode';
+            else hImg.className = 'hidden-img';
+            
+            document.getElementById('grid').innerHTML = '';
+        }
+        
+        function openBox() {
+            if(boxOpened) { speak(currentWord.word); return; }
+            boxOpened = true;
+            document.getElementById('box-stage').classList.remove('shake');
+            document.getElementById('box-stage').classList.add('open');
+            speak("What is this?");
+            
+            setTimeout(() => {
+                const grid = document.getElementById('grid');
+                selectedOptions.forEach(w => {
+                    let box = document.createElement('div');
+                    box.className = 'opt-box';
+                    box.textContent = w.word;
+                    
+                    box.onclick = () => {
+                        if(!canClick) return;
+                        if(w.word === currentWord.word) {
+                            speak('Great!'); score+=10; document.getElementById('score').textContent=score;
+                            box.style.background = '#2ecc71'; box.style.color = 'white';
+                            canClick = false; setTimeout(spawnLevel, 2000);
+                        } else {
+                            speak('Try again'); box.style.background = '#e74c3c'; box.style.color = 'white';
+                            setTimeout(()=>{box.style.background='white'; box.style.color='#16a085';}, 500);
+                        }
+                    };
+                    grid.appendChild(box);
+                });
+                canClick = true;
+            }, 1000);
+        }
+
+        function startGame() { 
+            document.getElementById('start-screen').classList.add('hidden-screen'); 
+            score=0; document.getElementById('score').textContent=score;
+            spawnLevel(); 
+        }
+    </script>
+</body>
+</html>

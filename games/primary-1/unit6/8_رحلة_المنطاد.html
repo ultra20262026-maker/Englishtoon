@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <script id="guard-script">
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            alert('عذراً، لا يمكنك الدخول لهذه اللعبة مباشرة. يرجى تسجيل الدخول أولاً.');
+            window.location.href = window.location.origin + (window.location.pathname.includes('/Englishtoon/') ? '/Englishtoon/' : '/');
+        }
+    </script>
+    <script src="../../../js/game-enhancements.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>رحلة المنطاد</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Cairo:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; background: #3498db; font-family: 'Cairo', 'Fredoka One', sans-serif; overflow: hidden; touch-action: none; display: flex; align-items: center; justify-content: center; height: 100vh;}
+        .game-container { width: 95vw; height: 85vh; background: #2980b9; border-radius: 20px; border: 5px solid #fff; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; flex-direction: column; align-items: center;}
+        .ui-top { position: absolute; top: 10px; left: 10px; right: 10px; display: flex; justify-content: space-between; font-size: 1.5rem; color: #fff; pointer-events: none; z-index: 30; font-weight: bold;}
+        .screen { position: absolute; inset: 0; background: rgba(0,0,0,0.8); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 100; text-align: center; color: white;}
+        button.start { font-family: 'Cairo', sans-serif; font-size: 2.5rem; padding: 15px 50px; background: #e74c3c; border: none; border-radius: 50px; color: white; cursor: pointer; box-shadow: 0 8px 0 #c0392b;}
+        button.start:active { transform: translateY(8px); box-shadow: 0 0 0; }
+        .hidden-screen { display: none !important; }
+        
+        .balloon { font-size: 100px; position: absolute; bottom: 20px; transition: bottom 1s ease-in-out; z-index: 20;}
+        
+        .target-box { background: white; border-radius: 20px; padding: 10px 30px; font-size: 3rem; color: #3498db; font-family: 'Fredoka One'; box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 25; margin-top: 50px; cursor: pointer;}
+        
+        .clouds-container { display: flex; gap: 30px; position: absolute; top: 150px; justify-content: center; width: 100%; flex-wrap: wrap;}
+        .cloud { width: 120px; height: 80px; background: white; border-radius: 50px; display: flex; align-items: center; justify-content: center; font-size: 40px; cursor: pointer; position: relative; box-shadow: 0 5px 10px rgba(0,0,0,0.2);}
+        .cloud::before, .cloud::after { content: ''; position: absolute; background: white; border-radius: 50%;}
+        .cloud::before { width: 60px; height: 60px; top: -20px; left: 15px;}
+        .cloud::after { width: 80px; height: 80px; top: -30px; right: 15px;}
+        .cloud span { z-index: 10; position: relative;}
+    </style>
+</head>
+<body>
+    <div class="game-container" id="game-container">
+        <div class="ui-top">
+            <div>النقاط: <span id="score">0</span></div>
+            <div>رحلة المنطاد 🎈</div>
+        </div>
+        
+        <div class="target-box" id="target-box" onclick="if(currentWord) speak(currentWord.word)">word</div>
+        
+        <div class="clouds-container" id="clouds-container"></div>
+        
+        <div class="balloon" id="balloon">🎈</div>
+        
+    </div>
+    <div id="start-screen" class="screen">
+        <h1 style="font-size: 4rem; color: #f1c40f;">رحلة المنطاد 🎈</h1>
+        <p style="font-size: 1.5rem;">انقر على الغيمة الصحيحة ليصعد المنطاد!</p>
+        <button class="start" onclick="startGame()">العب!</button>
+    </div>
+    <script>
+        
+const wordsData = [
+  { word: "lion", image: "🦁", type: "emoji" },
+  { word: "tiger", image: "🐯", type: "emoji" },
+  { word: "monkey", image: "🐒", type: "emoji" },
+  { word: "snake", image: "🐍", type: "emoji" },
+  { word: "elephant", image: "🐘", type: "emoji" },
+  { word: "giraffe", image: "🦒", type: "emoji" },
+  { word: "banana", image: "🍌", type: "emoji" },
+  { word: "boy", image: "👦", type: "emoji" },
+  { word: "ball", image: "⚽", type: "emoji" },
+  { word: "bird", image: "🐦", type: "emoji" },
+  { word: "bike", image: "🚲", type: "emoji" },
+  { word: "lunch", image: "🍱", type: "emoji" },
+  { word: "leaf", image: "🍃", type: "emoji" },
+  { word: "lamp", image: "🪔", type: "emoji" },
+  { word: "lemon", image: "🍋", type: "emoji" },
+  { word: "cat", image: "🐱", type: "emoji" },
+  { word: "turtle", image: "🐢", type: "emoji" },
+  { word: "dog", image: "🐶", type: "emoji" },
+  { word: "couch", image: "🛋️", type: "emoji" },
+  { word: "on", image: "🔛", type: "emoji" },
+  { word: "in", image: "📥", type: "emoji" },
+  { word: "under", image: "⬇️", type: "emoji" },
+  { word: "chair", image: "🪑", type: "emoji" },
+  { word: "cage", image: "🦜", type: "emoji" },
+  { word: "table", image: "🪟", type: "emoji" },
+  { word: "umbrella", image: "☂️", type: "emoji" },
+  { word: "up", image: "⬆️", type: "emoji" },
+  { word: "unlock", image: "🔓", type: "emoji" },
+  { word: "jam", image: "🍯", type: "emoji" },
+  { word: "jacket", image: "🧥", type: "emoji" },
+  { word: "jellyfish", image: "🪼", type: "emoji" },
+  { word: "jar", image: "🫙", type: "emoji" },
+  { word: "jeans", image: "👖", type: "emoji" }
+];
+
+const synth = window.speechSynthesis;
+function speak(text) {
+    const utterThis = new SpeechSynthesisUtterance(text);
+    utterThis.pitch = 1.3; utterThis.rate = 0.9;
+    synth.speak(utterThis);
+}
+
+        let score = 0;
+        let currentWord = null;
+        let canClick = true;
+        let heightLevel = 20;
+
+        function spawnLevel() {
+            canClick = true;
+            let selected = [...wordsData].sort(()=>0.5-Math.random()).slice(0, 3);
+            currentWord = selected[Math.floor(Math.random()*3)];
+            
+            document.getElementById('target-box').textContent = currentWord.word;
+            speak(currentWord.word);
+            
+            const container = document.getElementById('clouds-container');
+            container.innerHTML = '';
+            
+            selected.forEach(w => {
+                const c = document.createElement('div');
+                c.className = 'cloud';
+                c.innerHTML = `<span>${w.image}</span>`;
+                
+                c.onclick = () => {
+                    if(!canClick) return;
+                    canClick = false;
+                    
+                    if(w.word === currentWord.word) {
+                        speak('Up we go!'); score+=10; document.getElementById('score').textContent=score;
+                        heightLevel += 50;
+                        if(heightLevel > document.getElementById('game-container').clientHeight - 200) {
+                            heightLevel = 20; // reset
+                            speak('Great job!');
+                        }
+                        document.getElementById('balloon').style.bottom = heightLevel + 'px';
+                        setTimeout(spawnLevel, 1000);
+                    } else {
+                        speak('Oh no!');
+                        c.style.background = '#95a5a6';
+                        setTimeout(() => {
+                            c.style.background = 'white';
+                            canClick = true;
+                        }, 1000);
+                    }
+                };
+                container.appendChild(c);
+            });
+        }
+
+        function startGame() { 
+            document.getElementById('start-screen').classList.add('hidden-screen'); 
+            score=0; document.getElementById('score').textContent=score;
+            heightLevel = 20;
+            document.getElementById('balloon').style.bottom = heightLevel + 'px';
+            spawnLevel(); 
+        }
+    </script>
+</body>
+</html>
