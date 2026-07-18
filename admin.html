@@ -1,255 +1,544 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة الإدارة - إنشاء حسابات</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>لوحة التحكم الإدارية | Englishtoon</title>
+    <!-- Use FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a, #1e1b4b);
+            color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: 280px;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(20px);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            padding: 30px 20px;
+            box-shadow: -5px 0 25px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+        }
+
+        .sidebar-logo {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .sidebar-logo h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 4px 10px rgba(56, 189, 248, 0.2);
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: transparent;
+            border: 1px solid transparent;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(56, 189, 248, 0.1);
+            color: #38bdf8;
+            border-color: rgba(56, 189, 248, 0.3);
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.15);
+        }
+
+        .nav-link i {
+            font-size: 1.3rem;
+            width: 25px;
+        }
+
+        .back-btn {
+            margin-top: auto;
+            background: linear-gradient(135deg, #ef4444, #b91c1c);
+            color: white;
+            text-align: center;
+            padding: 15px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            transition: transform 0.2s;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(239, 68, 68, 0.3);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards and Form Styling */
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            color: #f1f5f9;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 15px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #cbd5e1;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 14px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+        }
+
+        /* Checkbox styling */
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .checkbox-container:hover {
+            background: rgba(0, 0, 0, 0.4);
+        }
+        .checkbox-container input {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        /* Action Buttons */
+        .action-btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #0ea5e9, #2563eb);
+            box-shadow: 0 5px 20px rgba(14, 165, 233, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(14, 165, 233, 0.4);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #10b981, #059669);
+            box-shadow: 0 5px 20px rgba(16, 185, 129, 0.3);
+        }
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+            font-weight: 600;
+            text-align: center;
+        }
+        .alert-success {
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid #10b981;
+            color: #34d399;
+        }
+        .alert-error {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid #ef4444;
+            color: #f87171;
+        }
+
+        /* Table */
+        .table-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: right;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        th {
+            color: #94a3b8;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .badge {
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .badge-green { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+        .badge-red { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+        .badge-blue { background: rgba(56, 189, 248, 0.2); color: #38bdf8; }
+
+        .btn-small {
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-right: 5px;
+        }
+
+        .btn-reset { background: #d97706; }
+        .btn-delete { background: #dc2626; }
+    </style>
 </head>
-<body class="login-bg">
-    <div class="dashboard-header">
-        <h2 style="color: white; margin: 0; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">لوحة الإدارة ⚙️</h2>
-        <div>
-            <button onclick="window.location.href='dashboard.html'" class="admin-btn" style="background: rgba(59, 130, 246, 0.8);">العودة للألعاب</button>
-            <button onclick="logout()" class="logout-btn">تسجيل الخروج</button>
+<body>
+
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+        <div class="sidebar-logo">
+            <h2>الإدارة <i class="fa-solid fa-gear"></i></h2>
         </div>
+        
+        <a class="nav-link active" onclick="switchTab('single-add', this)">
+            <i class="fa-solid fa-user-plus"></i> إضافة طالب
+        </a>
+        <a class="nav-link" onclick="switchTab('bulk-add', this)">
+            <i class="fa-solid fa-users-viewfinder"></i> التوليد المجمع
+        </a>
+        <a class="nav-link" onclick="switchTab('manage-users', this)">
+            <i class="fa-solid fa-table-list"></i> إدارة الحسابات
+        </a>
+
+        <button class="back-btn" onclick="window.location.href='dashboard.html'">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i> العودة للموقع
+        </button>
     </div>
 
-    <div class="login-wrapper" style="min-height: calc(100vh - 80px); align-items: flex-start; padding-top: 50px;">
-        <div class="glass-container login-box" style="max-width: 600px; margin-bottom: 20px;">
-            <div class="logo-container" style="margin-bottom: 20px;">
-                <div class="logo-text" style="font-size: 1.8rem;">إنشاء كود طالب جديد</div>
-            </div>
-            
-            <div id="status-msg"></div>
-
-            <form id="create-user-form">
-                <div class="input-group">
-                    <label for="new-username">اسم المستخدم للطالب</label>
-                    <input type="text" id="new-username" required placeholder="مثال: ahmed123">
-                </div>
-                <div class="input-group">
-                    <label for="new-password">كلمة المرور</label>
-                    <input type="text" id="new-password" required placeholder="مثال: 0000">
-                </div>
-
-                <div class="input-group">
-                    <label for="grade-select">السماح بدخول الصف:</label>
-                    <select id="grade-select" onchange="toggleUnitSelect()" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.5); color: white; font-size: 1rem;">
-                        <option value="all">كل الصفوف (صلاحية كاملة)</option>
-                        <option value="primary-1">الصف الأول الابتدائي</option>
-                        <option value="primary-2">الصف الثاني الابتدائي</option>
-                        <option value="primary-3">الصف الثالث الابتدائي</option>
-                        <option value="primary-4">الصف الرابع الابتدائي</option>
-                        <option value="primary-5">الصف الخامس الابتدائي</option>
-                        <option value="primary-6">الصف السادس الابتدائي</option>
-                        <option value="prep-1">الصف الأول الإعدادي</option>
-                        <option value="prep-2">الصف الثاني الإعدادي</option>
-                        <option value="prep-3">الصف الثالث الإعدادي</option>
-                    </select>
-                </div>
-
-                <div class="input-group" id="unit-select-group" style="display: none;">
-                    <label>السماح بدخول الوحدات:</label>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px;">
-                        <label class="checkbox-group" style="grid-column: span 2;">
-                            <input type="checkbox" id="all-units-checkbox" checked onchange="toggleSpecificUnits()">
-                            كل الوحدات في هذا الصف
-                        </label>
-                        <div id="specific-units-group" style="display: none; grid-column: span 2; grid-template-columns: 1fr 1fr; gap: 10px;">
-                            <label class="checkbox-group"><input type="checkbox" class="unit-checkbox" value="1"> الوحدة 1</label>
-                            <label class="checkbox-group"><input type="checkbox" class="unit-checkbox" value="2"> الوحدة 2</label>
-                            <label class="checkbox-group"><input type="checkbox" class="unit-checkbox" value="3"> الوحدة 3</label>
-                            <label class="checkbox-group"><input type="checkbox" class="unit-checkbox" value="4"> الوحدة 4</label>
-                            <label class="checkbox-group"><input type="checkbox" class="unit-checkbox" value="5"> الوحدة 5</label>
-                            <label class="checkbox-group"><input type="checkbox" class="unit-checkbox" value="6"> الوحدة 6</label>
-                        </div>
-                    </div>
-                </div>
-
-                <label class="checkbox-group">
-                    <input type="checkbox" id="multi-user-checkbox">
-                    يوزر متعدد (يسمح بدخول أكثر من جهاز في نفس الوقت)
-                </label>
-                <button type="submit" class="btn" style="background: linear-gradient(135deg, #10b981, #059669);">حفظ وإضافة الطالب</button>
-            </form>
-        </div>
+    <!-- Main Content Area -->
+    <div class="main-content">
         
-                <!-- Bulk User Box -->
-        <div class="glass-container login-box" style="max-width: 600px; margin-top: 20px;">
-            <div class="logo-container" style="margin-bottom: 20px;">
-                <div class="logo-text" style="font-size: 1.8rem; color: #fbbf24;">إنشاء حسابات مجمعة ⚡</div>
-            </div>
-            
-            <div id="bulk-status-msg"></div>
+        <!-- SECTION 1: Single User Addition -->
+        <div id="single-add" class="section active">
+            <div class="glass-card">
+                <h2 class="section-title"><i class="fa-solid fa-user-plus"></i> إضافة حساب طالب جديد</h2>
+                <div id="single-alert" class="alert"></div>
+                
+                <form id="create-user-form">
+                    <div class="input-group">
+                        <label for="new-username">اسم المستخدم للطالب</label>
+                        <input type="text" id="new-username" required placeholder="مثال: ahmed123">
+                    </div>
+                    <div class="input-group">
+                        <label for="new-password">كلمة المرور</label>
+                        <input type="text" id="new-password" required placeholder="مثال: 0000">
+                    </div>
 
-            <form id="bulk-user-form">
-                <div class="input-group">
-                    <label for="bulk-count">العدد المطلوب (كم طالب؟)</label>
-                    <input type="number" id="bulk-count" required min="1" max="500" placeholder="مثال: 50">
+                    <div class="input-group">
+                        <label for="grade-select">تخصيص الصف:</label>
+                        <select id="grade-select">
+                            <option value="all">كل الصفوف (صلاحية كاملة لجميع الألعاب)</option>
+                            <option value="primary-1">الصف الأول الابتدائي</option>
+                            <option value="primary-2">الصف الثاني الابتدائي</option>
+                            <option value="primary-3">الصف الثالث الابتدائي</option>
+                            <option value="primary-4">الصف الرابع الابتدائي</option>
+                            <option value="primary-5">الصف الخامس الابتدائي</option>
+                            <option value="primary-6">الصف السادس الابتدائي</option>
+                            <option value="prep-1">الصف الأول الإعدادي</option>
+                            <option value="prep-2">الصف الثاني الإعدادي</option>
+                            <option value="prep-3">الصف الثالث الإعدادي</option>
+                        </select>
+                    </div>
+
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="multi-user-checkbox">
+                        <span>يوزر متعدد (السماح لأكثر من جهاز بالدخول في نفس الوقت)</span>
+                    </label>
+
+                    <button type="submit" class="action-btn btn-primary">
+                        <i class="fa-solid fa-floppy-disk"></i> حفظ وإضافة الطالب
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- SECTION 2: Bulk User Generation -->
+        <div id="bulk-add" class="section">
+            <div class="glass-card">
+                <h2 class="section-title"><i class="fa-solid fa-bolt"></i> المولد السريع للحسابات المجمعة</h2>
+                <p style="color: #94a3b8; margin-bottom: 25px; line-height: 1.6;">
+                    تتيح لك هذه الميزة توليد عشرات أو مئات الحسابات بضغطة واحدة وتنزيلها في ملف TXT جاهز للطباعة أو الإرسال للمعلمين عبر الواتساب. سيتم توليد اسم مستخدم ورقم سري عشوائي (4 أرقام) لكل طالب تلقائياً لمنع التكرار.
+                </p>
+
+                <div id="bulk-alert" class="alert"></div>
+
+                <form id="bulk-user-form">
+                    <div class="input-group">
+                        <label for="bulk-count">العدد المطلوب من الحسابات</label>
+                        <input type="number" id="bulk-count" required min="1" max="500" placeholder="مثال: 50">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="bulk-grade-select">اختيار الصف للمجموعة:</label>
+                        <select id="bulk-grade-select">
+                            <option value="all">كل الصفوف (صلاحية كاملة)</option>
+                            <option value="primary-1">الصف الأول الابتدائي</option>
+                            <option value="primary-2">الصف الثاني الابتدائي</option>
+                            <option value="primary-3">الصف الثالث الابتدائي</option>
+                            <option value="primary-4">الصف الرابع الابتدائي</option>
+                            <option value="primary-5">الصف الخامس الابتدائي</option>
+                            <option value="primary-6">الصف السادس الابتدائي</option>
+                            <option value="prep-1">الصف الأول الإعدادي</option>
+                            <option value="prep-2">الصف الثاني الإعدادي</option>
+                            <option value="prep-3">الصف الثالث الإعدادي</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="action-btn btn-success">
+                        <i class="fa-solid fa-file-arrow-down"></i> توليد الحسابات وتنزيل الملف
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- SECTION 3: Users Table -->
+        <div id="manage-users" class="section">
+            <div class="table-container">
+                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid rgba(255,255,255,0.1); padding-bottom: 15px; margin-bottom: 20px;">
+                    <h2 style="font-size: 1.8rem; color: #f1f5f9;"><i class="fa-solid fa-address-book"></i> سجل الطلاب المضافين</h2>
+                    <button class="btn-small btn-primary" onclick="loadUsers()" style="padding: 10px 20px;">
+                        <i class="fa-solid fa-rotate-right"></i> تحديث الجدول
+                    </button>
                 </div>
                 
-                <div class="input-group">
-                    <label for="bulk-grade-select">اختيار الصف للمجموعة:</label>
-                    <select id="bulk-grade-select" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.5); color: white; font-size: 1rem;">
-                        <option value="all">كل الصفوف (صلاحية كاملة)</option>
-                        <option value="primary-1">الصف الأول الابتدائي</option>
-                        <option value="primary-2">الصف الثاني الابتدائي</option>
-                        <option value="primary-3">الصف الثالث الابتدائي</option>
-                        <option value="primary-4">الصف الرابع الابتدائي</option>
-                        <option value="primary-5">الصف الخامس الابتدائي</option>
-                        <option value="primary-6">الصف السادس الابتدائي</option>
-                        <option value="prep-1">الصف الأول الإعدادي</option>
-                        <option value="prep-2">الصف الثاني الإعدادي</option>
-                        <option value="prep-3">الصف الثالث الإعدادي</option>
-                    </select>
-                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>اسم المستخدم</th>
+                            <th>الباسورد</th>
+                            <th>صلاحية الدخول</th>
+                            <th>حالة الاستخدام</th>
+                            <th>نوع الحساب</th>
+                            <th>الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-tbody">
+                        <tr><td colspan="6" style="text-align: center; color: #94a3b8;"><i class="fa-solid fa-spinner fa-spin"></i> جاري جلب البيانات...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-                <button type="submit" class="btn" style="background: linear-gradient(135deg, #f59e0b, #d97706);">توليد حسابات وتنزيل ملف TXT</button>
-            </form>
-        </div>
-        
-        <div class="glass-container users-table-container">
-            <h3 style="color: white; margin: 0 0 15px 0; text-align: center;">الطلاب المسجلين</h3>
-            <table class="users-table">
-                <thead>
-                    <tr>
-                        <th>اسم المستخدم</th>
-                        <th>كلمة المرور</th>
-                        <th>الصلاحيات</th>
-                        <th>الحالة</th>
-                        <th>النوع</th>
-                        <th>إجراءات</th>
-                    </tr>
-                </thead>
-                <tbody id="users-tbody">
-                    <tr><td colspan="5" style="text-align: center;">جاري التحميل...</td></tr>
-                </tbody>
-            </table>
-        </div>
     </div>
 
     <!-- Firebase Compat SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-
+    
     <script src="js/data.js"></script>
     <script src="js/auth.js"></script>
     <script>
-        // Only allow if logged in, ideally only admin, but for this simple app we just check login
+        // Check Authentication
         checkAuth();
         if (localStorage.getItem('currentUser') !== 'admin') {
             alert('عذراً، هذه الصفحة مخصصة للأدمن فقط.');
             window.location.href = 'dashboard.html';
         }
 
-        function toggleUnitSelect() {
-            const gradeSelect = document.getElementById('grade-select');
-            const unitGroup = document.getElementById('unit-select-group');
-            if (gradeSelect.value === 'all') {
-                unitGroup.style.display = 'none';
-            } else {
-                unitGroup.style.display = 'block';
-            }
+        // Tab Switching Logic
+        function switchTab(tabId, element) {
+            document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            element.classList.add('active');
+
+            if(tabId === 'manage-users') loadUsers();
         }
 
-        function toggleSpecificUnits() {
-            const allChecked = document.getElementById('all-units-checkbox').checked;
-            const specificGroup = document.getElementById('specific-units-group');
-            if (allChecked) {
-                specificGroup.style.display = 'none';
-            } else {
-                specificGroup.style.display = 'grid';
-            }
-        }
-
+        // --- SINGLE USER ADDITION ---
         document.getElementById('create-user-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             const user = document.getElementById('new-username').value.trim();
             const pass = document.getElementById('new-password').value.trim();
             const isMultiUser = document.getElementById('multi-user-checkbox').checked;
-            
             const gradeSelect = document.getElementById('grade-select').value;
-            let allowedUnits = 'all';
             
-            if (gradeSelect !== 'all') {
-                const allUnitsChecked = document.getElementById('all-units-checkbox').checked;
-                if (!allUnitsChecked) {
-                    const checkboxes = document.querySelectorAll('.unit-checkbox:checked');
-                    allowedUnits = Array.from(checkboxes).map(cb => parseInt(cb.value));
-                    if (allowedUnits.length === 0) {
-                        alert('يجب اختيار وحدة واحدة على الأقل!');
-                        return;
-                    }
-                }
-            }
-
-            const btn = document.querySelector('.btn');
-            const statusDiv = document.getElementById('status-msg');
+            const btn = document.querySelector('#create-user-form button');
+            const alertBox = document.getElementById('single-alert');
             
-            btn.innerText = 'جاري الإضافة...';
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري الإضافة...';
             btn.disabled = true;
 
             try {
-                // Save to Firestore directly
                 await db.collection("codes").doc(user).set({
                     password: pass,
                     used: false,
                     isMultiUser: isMultiUser,
                     allowedGrade: gradeSelect,
-                    allowedUnits: allowedUnits
+                    allowedUnits: 'all'
                 });
 
-                statusDiv.className = 'success-msg';
-                statusDiv.innerText = 'تم إضافة الطالب بنجاح! يمكنه الدخول الآن.';
-                statusDiv.style.display = 'block';
+                alertBox.className = 'alert alert-success';
+                alertBox.innerHTML = '<i class="fa-solid fa-circle-check"></i> تم حفظ بيانات الطالب بنجاح!';
+                alertBox.style.display = 'block';
                 
-                // Reset form
                 document.getElementById('new-username').value = '';
                 document.getElementById('new-password').value = '';
                 document.getElementById('multi-user-checkbox').checked = false;
-                document.getElementById('grade-select').value = 'all';
-                toggleUnitSelect();
-                document.getElementById('all-units-checkbox').checked = true;
-                toggleSpecificUnits();
-
-                // Refresh Table
-                loadUsers();
+                
+                setTimeout(() => alertBox.style.display = 'none', 4000);
             } catch (error) {
-                console.error(error);
-                statusDiv.className = 'error-msg';
-                statusDiv.innerText = 'حدث خطأ أثناء الإضافة: ' + error.message;
-                statusDiv.style.display = 'block';
+                alertBox.className = 'alert alert-error';
+                alertBox.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> خطأ: ' + error.message;
+                alertBox.style.display = 'block';
             }
 
-            btn.innerText = 'حفظ وإضافة الطالب';
+            btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> حفظ وإضافة الطالب';
             btn.disabled = false;
         });
 
-                document.getElementById('bulk-user-form').addEventListener('submit', async function(e) {
+        // --- BULK USER GENERATION ---
+        document.getElementById('bulk-user-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             const count = parseInt(document.getElementById('bulk-count').value, 10);
             const gradeSelect = document.getElementById('bulk-grade-select').value;
-            const btn = document.querySelector('#bulk-user-form .btn');
-            const statusDiv = document.getElementById('bulk-status-msg');
+            const btn = document.querySelector('#bulk-user-form button');
+            const alertBox = document.getElementById('bulk-alert');
             
             if (!count || count < 1 || count > 500) {
                 alert('يرجى إدخال عدد صحيح بين 1 و 500');
                 return;
             }
 
-            btn.innerText = 'جاري التوليد...';
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري توليد الحسابات...';
             btn.disabled = true;
 
             try {
                 const batch = db.batch();
-                // Add BOM for proper Arabic rendering in notepad
-                let txtContent = "\uFEFFقائمة الحسابات المجمعة\n========================\n\n";
+                
+                // BOM ensures Notepad reads Arabic correctly
+                let txtContent = "\uFEFFبسم الله الرحمن الرحيم\nقائمة الحسابات المجمعة لطلاب مدرسة إنجلش تون\n";
+                txtContent += "=================================================\n\n";
+                
                 let prefix = gradeSelect === 'all' ? 'user_' : gradeSelect + '_';
 
                 for (let i = 0; i < count; i++) {
-                    const randomSuffix = Math.floor(1000 + Math.random() * 9000); 
-                    const username = prefix + randomSuffix + Math.random().toString(36).substring(2, 4); 
+                    const randomNum = Math.floor(1000 + Math.random() * 9000); 
+                    const randomStr = Math.random().toString(36).substring(2, 4); 
+                    const username = prefix + randomNum + randomStr; 
                     const password = Math.floor(1000 + Math.random() * 9000).toString(); 
 
                     const docRef = db.collection("codes").doc(username);
@@ -261,91 +550,91 @@
                         allowedUnits: 'all'
                     });
 
-                    txtContent += اسم المستخدم:   |  كلمة المرور: \n;
+                    txtContent += `اسم المستخدم: ${username}\n`;
+                    txtContent += `الرقم السري:  ${password}\n`;
+                    txtContent += `------------------------\n`;
                 }
 
                 await batch.commit();
 
-                statusDiv.className = 'success-msg';
-                statusDiv.innerText = تم إضافة  طالب بنجاح وجاري تنزيل الملف!;
-                statusDiv.style.display = 'block';
+                alertBox.className = 'alert alert-success';
+                alertBox.innerHTML = `<i class="fa-solid fa-circle-check"></i> تم توليد وحفظ ${count} حساب بنجاح. جاري التنزيل!`;
+                alertBox.style.display = 'block';
+                setTimeout(() => alertBox.style.display = 'none', 5000);
 
+                // Export TXT logic
                 const blob = new Blob([txtContent], { type: 'text/plain;charset=utf-8' });
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = ccounts__.txt;
+                a.download = `Student_Accounts_${count}_${new Date().getTime()}.txt`;
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
                 URL.revokeObjectURL(url);
 
-                loadUsers();
+                document.getElementById('bulk-count').value = '';
+
             } catch (error) {
-                console.error(error);
-                statusDiv.className = 'error-msg';
-                statusDiv.innerText = 'حدث خطأ أثناء التوليد: ' + error.message;
-                statusDiv.style.display = 'block';
+                alertBox.className = 'alert alert-error';
+                alertBox.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> فشل التوليد: ' + error.message;
+                alertBox.style.display = 'block';
             }
 
-            btn.innerText = 'توليد حسابات وتنزيل ملف TXT';
+            btn.innerHTML = '<i class="fa-solid fa-file-arrow-down"></i> توليد الحسابات وتنزيل الملف';
             btn.disabled = false;
         });
 
-        // Load Users
+        // --- LOAD USERS TABLE ---
         async function loadUsers() {
             const tbody = document.getElementById('users-tbody');
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #94a3b8;"><i class="fa-solid fa-spinner fa-spin"></i> جاري جلب البيانات...</td></tr>';
+            
             try {
                 const snapshot = await db.collection("codes").get();
                 tbody.innerHTML = '';
                 
                 if (snapshot.empty) {
-                    tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">لا يوجد طلاب مسجلين بعد.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">لا يوجد طلاب مسجلين بعد.</td></tr>';
                     return;
                 }
 
                 snapshot.forEach(doc => {
                     const data = doc.data();
                     const username = doc.id;
-                    const usedText = data.used ? '<span style="color:#f87171;">مستخدم 🔴</span>' : '<span style="color:#34d399;">غير مستخدم 🟢</span>';
-                    const typeText = data.isMultiUser ? '<span style="color:#60a5fa;">متعدد 👥</span>' : 'فردي 👤';
+                    const usedBadge = data.used ? '<span class="badge badge-red">تم الدخول 🔴</span>' : '<span class="badge badge-green">غير مستخدم 🟢</span>';
+                    const typeBadge = data.isMultiUser ? '<span class="badge badge-blue">دخول متعدد 👥</span>' : '<span class="badge" style="background: rgba(255,255,255,0.1);">فردي 👤</span>';
                     
-                    let gradeText = 'كل الصفوف';
+                    let gradeText = 'صلاحية كاملة';
                     if (data.allowedGrade && data.allowedGrade !== 'all') {
                         gradeText = data.allowedGrade;
-                        if (data.allowedUnits && data.allowedUnits !== 'all') {
-                            gradeText += ` (وحدات: ${data.allowedUnits.join(', ')})`;
-                        } else {
-                            gradeText += ' (كل الوحدات)';
-                        }
                     }
 
                     const tr = document.createElement('tr');
                     tr.innerHTML = `
-                        <td>${username}</td>
-                        <td>${data.password}</td>
-                        <td style="font-size: 0.85rem; color: #fbbf24;">${gradeText}</td>
-                        <td>${usedText}</td>
-                        <td>${typeText}</td>
+                        <td style="font-weight: bold; color: #f8fafc;">${username}</td>
+                        <td style="letter-spacing: 2px;">${data.password}</td>
+                        <td style="color: #fbbf24; font-size: 0.9rem;">${gradeText}</td>
+                        <td>${usedBadge}</td>
+                        <td>${typeBadge}</td>
                         <td>
-                            <button class="action-btn reset-btn" onclick="resetUser('${username}')">تصفير المحاولات</button>
-                            <button class="action-btn delete-btn" onclick="deleteUser('${username}')">حذف</button>
+                            <button class="btn-small btn-reset" onclick="resetUser('${username}')" title="تصفير الجهاز المربوط"><i class="fa-solid fa-unlock-keyhole"></i></button>
+                            <button class="btn-small btn-delete" onclick="deleteUser('${username}')" title="حذف نهائي"><i class="fa-solid fa-trash"></i></button>
                         </td>
                     `;
                     tbody.appendChild(tr);
                 });
             } catch (error) {
                 console.error("Error loading users:", error);
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: red;">حدث خطأ في جلب البيانات</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #f87171;">حدث خطأ في جلب البيانات من الخادم</td></tr>';
             }
         }
 
         // Delete User
         window.deleteUser = async function(username) {
-            if(confirm(`هل أنت متأكد أنك تريد حذف الطالب "${username}" بشكل نهائي؟`)) {
+            if(confirm(`هل أنت متأكد أنك تريد حذف الطالب "${username}" بشكل نهائي؟ لا يمكن التراجع.`)) {
                 try {
                     await db.collection("codes").doc(username).delete();
-                    alert('تم الحذف بنجاح.');
                     loadUsers();
                 } catch (error) {
                     alert('حدث خطأ أثناء الحذف: ' + error.message);
@@ -355,13 +644,12 @@
 
         // Reset User Device
         window.resetUser = async function(username) {
-            if(confirm(`هل أنت متأكد أنك تريد تصفير المحاولات للطالب "${username}"؟`)) {
+            if(confirm(`هل أنت متأكد أنك تريد تصفير المحاولات للطالب "${username}"؟ سيسمح له بالدخول من جهاز جديد.`)) {
                 try {
                     await db.collection("codes").doc(username).update({
                         used: false,
                         deviceId: firebase.firestore.FieldValue.delete()
                     });
-                    alert('تم تصفير المحاولات بنجاح.');
                     loadUsers();
                 } catch (error) {
                     alert('حدث خطأ: ' + error.message);
@@ -369,16 +657,6 @@
             }
         }
 
-        // Initial Load
-        loadUsers();
-
-        // Register Service Worker for Offline PWA
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js');
-            });
-        }
     </script>
 </body>
 </html>
-
