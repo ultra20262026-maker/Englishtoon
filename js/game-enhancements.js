@@ -1,4 +1,4 @@
-﻿// Game Enhancements Script
+// Game Enhancements Script
 // Injected into all games to provide unified Back Button, disable background music, and improve readability
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -69,23 +69,100 @@ function disableLegacyBGM() {
 function injectReadabilityCSS() {
     const style = document.createElement('style');
     style.innerHTML = `
-        /* Force all choice/option buttons to be fully readable, wrap text, and center */
+        /* --- PROFESSIONAL 3D PIXAR GAME STYLE --- */
+        
+        /* Animated 3D Gradient Background */
+        body {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #00d2ff 100%) !important;
+            background-size: 400% 400% !important;
+            animation: gradientBG 15s ease infinite !important;
+            font-family: 'Fredoka One', 'Segoe UI', Tahoma, sans-serif !important;
+            color: white !important;
+        }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* 3D Glassmorphism Canvas Frame */
+        canvas {
+            border-radius: 24px !important;
+            border: 6px solid rgba(255, 255, 255, 0.3) !important;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5), inset 0 0 20px rgba(0,0,0,0.3) !important;
+            backdrop-filter: blur(8px) !important;
+            background-color: rgba(255, 255, 255, 0.1) !important;
+            margin-top: 15px !important;
+        }
+
+        /* 3D Glossy Buttons for Choices */
         button:not(#start-btn):not(.back-btn):not([onclick*="window.location"]) {
             white-space: normal !important;
             word-wrap: break-word !important;
             height: auto !important;
             min-height: 60px !important;
-            padding: 12px 20px !important;
+            padding: 15px 25px !important;
             font-size: clamp(16px, 3vw, 24px) !important;
             line-height: 1.5 !important;
             margin: 8px !important;
-            border-radius: 12px !important;
+            
+            /* 3D Jelly Effect */
+            background: linear-gradient(180deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%) !important;
+            color: #333 !important;
+            border: none !important;
+            border-radius: 20px !important;
+            box-shadow: 0 10px 0 #d88185, 0 15px 20px rgba(0,0,0,0.4), inset 0 2px 0 rgba(255,255,255,0.6) !important;
+            text-shadow: 1px 1px 0px rgba(255,255,255,0.6) !important;
+            transition: all 0.1s ease !important;
+            
             display: inline-flex !important;
             align-items: center !important;
             justify-content: center !important;
             text-align: center !important;
             max-width: 95vw !important;
             overflow: visible !important;
+            cursor: pointer !important;
+        }
+
+        button:not(#start-btn):not(.back-btn):not([onclick*="window.location"]):active {
+            transform: translateY(10px) !important;
+            box-shadow: 0 0 0 #d88185, 0 5px 10px rgba(0,0,0,0.4), inset 0 2px 0 rgba(255,255,255,0.6) !important;
+        }
+
+        /* Start Button 3D Effect */
+        #start-btn, button[onclick*="startGame"] {
+            background: linear-gradient(180deg, #00b09b, #96c93d) !important;
+            border: none !important;
+            border-radius: 50px !important;
+            box-shadow: 0 12px 0 #008272, 0 15px 20px rgba(0,0,0,0.4), inset 0 2px 0 rgba(255,255,255,0.6) !important;
+            color: white !important;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3) !important;
+            transition: all 0.1s ease !important;
+            padding: 20px 50px !important;
+            font-size: 3rem !important;
+        }
+        #start-btn:active, button[onclick*="startGame"]:active {
+            transform: translateY(12px) !important;
+            box-shadow: 0 0 0 #008272, 0 5px 10px rgba(0,0,0,0.4), inset 0 2px 0 rgba(255,255,255,0.6) !important;
+        }
+
+        /* Premium UI Counters (Score/Lives) */
+        #ui div, #score, #lives {
+            background: rgba(0, 0, 0, 0.4) !important;
+            padding: 8px 18px !important;
+            border-radius: 20px !important;
+            border: 2px solid rgba(255, 255, 255, 0.2) !important;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3) !important;
+            color: #fff !important;
+            text-shadow: 2px 2px 4px #000 !important;
+            font-weight: bold !important;
+        }
+
+        /* Screens (Start/Game Over) Styling */
+        .screen {
+            background: rgba(0,0,0,0.85) !important;
+            backdrop-filter: blur(10px) !important;
+            border-radius: 24px !important;
         }
 
         /* Ensure options containers wrap their buttons properly on all screen sizes */
