@@ -229,7 +229,7 @@
                         <td>${usedText}</td>
                         <td>${typeText}</td>
                         <td>
-                            <button class="action-btn reset-btn" onclick="resetUser('${username}')">تصفير الجهاز</button>
+                            <button class="action-btn reset-btn" onclick="resetUser('${username}')">تصفير المحاولات</button>
                             <button class="action-btn delete-btn" onclick="deleteUser('${username}')">حذف</button>
                         </td>
                     `;
@@ -256,13 +256,13 @@
 
         // Reset User Device
         window.resetUser = async function(username) {
-            if(confirm(`هل أنت متأكد أنك تريد تصفير المحاولات للطالب "${username}" ليتمكن من الدخول من جهاز جديد؟`)) {
+            if(confirm(`هل أنت متأكد أنك تريد تصفير المحاولات للطالب "${username}"؟`)) {
                 try {
                     await db.collection("codes").doc(username).update({
                         used: false,
                         deviceId: firebase.firestore.FieldValue.delete()
                     });
-                    alert('تم تصفير المحاولات بنجاح. يمكنه الدخول الآن من جهاز جديد.');
+                    alert('تم تصفير المحاولات بنجاح.');
                     loadUsers();
                 } catch (error) {
                     alert('حدث خطأ: ' + error.message);
