@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -16,7 +16,7 @@
     </div>
 
     <div class="login-wrapper" style="min-height: calc(100vh - 80px); align-items: flex-start; padding-top: 50px;">
-        <div class="glass-container login-box" style="max-width: 600px;">
+        <div class="glass-container login-box" style="max-width: 600px; margin-bottom: 20px;">
             <div class="logo-container" style="margin-bottom: 20px;">
                 <div class="logo-text" style="font-size: 1.8rem;">إنشاء كود طالب جديد</div>
             </div>
@@ -75,7 +75,40 @@
             </form>
         </div>
         
-        <!-- Users Table -->
+                <!-- Bulk User Box -->
+        <div class="glass-container login-box" style="max-width: 600px; margin-top: 20px;">
+            <div class="logo-container" style="margin-bottom: 20px;">
+                <div class="logo-text" style="font-size: 1.8rem; color: #fbbf24;">إنشاء حسابات مجمعة ⚡</div>
+            </div>
+            
+            <div id="bulk-status-msg"></div>
+
+            <form id="bulk-user-form">
+                <div class="input-group">
+                    <label for="bulk-count">العدد المطلوب (كم طالب؟)</label>
+                    <input type="number" id="bulk-count" required min="1" max="500" placeholder="مثال: 50">
+                </div>
+                
+                <div class="input-group">
+                    <label for="bulk-grade-select">اختيار الصف للمجموعة:</label>
+                    <select id="bulk-grade-select" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.5); color: white; font-size: 1rem;">
+                        <option value="all">كل الصفوف (صلاحية كاملة)</option>
+                        <option value="primary-1">الصف الأول الابتدائي</option>
+                        <option value="primary-2">الصف الثاني الابتدائي</option>
+                        <option value="primary-3">الصف الثالث الابتدائي</option>
+                        <option value="primary-4">الصف الرابع الابتدائي</option>
+                        <option value="primary-5">الصف الخامس الابتدائي</option>
+                        <option value="primary-6">الصف السادس الابتدائي</option>
+                        <option value="prep-1">الصف الأول الإعدادي</option>
+                        <option value="prep-2">الصف الثاني الإعدادي</option>
+                        <option value="prep-3">الصف الثالث الإعدادي</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn" style="background: linear-gradient(135deg, #f59e0b, #d97706);">توليد حسابات وتنزيل ملف TXT</button>
+            </form>
+        </div>
+        
         <div class="glass-container users-table-container">
             <h3 style="color: white; margin: 0 0 15px 0; text-align: center;">الطلاب المسجلين</h3>
             <table class="users-table">
@@ -193,6 +226,72 @@
             btn.disabled = false;
         });
 
+                document.getElementById('bulk-user-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const count = parseInt(document.getElementById('bulk-count').value, 10);
+            const gradeSelect = document.getElementById('bulk-grade-select').value;
+            const btn = document.querySelector('#bulk-user-form .btn');
+            const statusDiv = document.getElementById('bulk-status-msg');
+            
+            if (!count || count < 1 || count > 500) {
+                alert('يرجى إدخال عدد صحيح بين 1 و 500');
+                return;
+            }
+
+            btn.innerText = 'جاري التوليد...';
+            btn.disabled = true;
+
+            try {
+                const batch = db.batch();
+                // Add BOM for proper Arabic rendering in notepad
+                let txtContent = "\uFEFFقائمة الحسابات المجمعة\n========================\n\n";
+                let prefix = gradeSelect === 'all' ? 'user_' : gradeSelect + '_';
+
+                for (let i = 0; i < count; i++) {
+                    const randomSuffix = Math.floor(1000 + Math.random() * 9000); 
+                    const username = prefix + randomSuffix + Math.random().toString(36).substring(2, 4); 
+                    const password = Math.floor(1000 + Math.random() * 9000).toString(); 
+
+                    const docRef = db.collection("codes").doc(username);
+                    batch.set(docRef, {
+                        password: password,
+                        used: false,
+                        isMultiUser: false,
+                        allowedGrade: gradeSelect,
+                        allowedUnits: 'all'
+                    });
+
+                    txtContent += اسم المستخدم:   |  كلمة المرور: \n;
+                }
+
+                await batch.commit();
+
+                statusDiv.className = 'success-msg';
+                statusDiv.innerText = تم إضافة  طالب بنجاح وجاري تنزيل الملف!;
+                statusDiv.style.display = 'block';
+
+                const blob = new Blob([txtContent], { type: 'text/plain;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = ccounts__.txt;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                loadUsers();
+            } catch (error) {
+                console.error(error);
+                statusDiv.className = 'error-msg';
+                statusDiv.innerText = 'حدث خطأ أثناء التوليد: ' + error.message;
+                statusDiv.style.display = 'block';
+            }
+
+            btn.innerText = 'توليد حسابات وتنزيل ملف TXT';
+            btn.disabled = false;
+        });
+
         // Load Users
         async function loadUsers() {
             const tbody = document.getElementById('users-tbody');
@@ -282,3 +381,4 @@
     </script>
 </body>
 </html>
+
