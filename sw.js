@@ -1,6 +1,7 @@
-﻿const CACHE_NAME = 'english-toon-v3-offline';
+﻿const CACHE_NAME = 'english-toon-v20260718160817';
 const urlsToCache = [
     "/",
+    "/.gitattributes",
     "/admin.html",
     "/dashboard.html",
     "/games_map.json",
@@ -8,10 +9,50 @@ const urlsToCache = [
     "/import_games.js",
     "/import_games.ps1",
     "/index.html",
+    "/inject_emojis.ps1",
+    "/inject_enhancements.ps1",
+    "/inject_sentences.ps1",
     "/protect_games.ps1",
+    "/README.md",
     "/regenerate_json.ps1",
     "/unit.html",
     "/css/style.css",
+    "/games/prep-1/unit1/Lesson 1 - Fruit Slicer.html",
+    "/games/prep-1/unit1/Lesson 2 - Whack-A-Mole.html",
+    "/games/prep-1/unit1/Lesson 3 - Safe Cracker.html",
+    "/games/prep-1/unit1/Lesson 4 - Code Breaker.html",
+    "/games/prep-1/unit1/Lesson 5 - Jigsaw Puzzle.html",
+    "/games/prep-1/unit1/Lesson 6 - Court Judge.html",
+    "/games/prep-1/unit2/Lesson 1 - Dungeon Doors.html",
+    "/games/prep-1/unit2/Lesson 2 - Magic Hat.html",
+    "/games/prep-1/unit2/Lesson 3 - Piano Maestro.html",
+    "/games/prep-1/unit2/Lesson 4 - Space Invaders.html",
+    "/games/prep-1/unit2/Lesson 5 - Asteroid Defender.html",
+    "/games/prep-1/unit2/Lesson 6 - Archery Target.html",
+    "/games/prep-1/unit3/Lesson 1 - Ghost Hunter.html",
+    "/games/prep-1/unit3/Lesson 2 - UFO Abduction.html",
+    "/games/prep-1/unit3/Lesson 3 - Cowboy Duel.html",
+    "/games/prep-1/unit3/Lesson 4 - Firefighter.html",
+    "/games/prep-1/unit3/Lesson 5 - Basketball Hoop.html",
+    "/games/prep-1/unit3/Lesson 6 - Billiard Pool.html",
+    "/games/prep-1/unit4/Lesson 1 - Burger Chef.html",
+    "/games/prep-1/unit4/Lesson 2 - Potion Brewer.html",
+    "/games/prep-1/unit4/Lesson 3 - Meteor Shower.html",
+    "/games/prep-1/unit4/Lesson 4 - Fishing Pro.html",
+    "/games/prep-1/unit4/Lesson 5 - Crane Claw.html",
+    "/games/prep-1/unit4/Lesson 6 - Jungle Swing.html",
+    "/games/prep-1/unit5/Lesson 1 - Factory Assembly.html",
+    "/games/prep-1/unit5/Lesson 2 - Snowboard.html",
+    "/games/prep-1/unit5/Lesson 3 - Hot Air Balloon.html",
+    "/games/prep-1/unit5/Lesson 4 - Car Racing.html",
+    "/games/prep-1/unit5/Lesson 5 - Minecart Tracks.html",
+    "/games/prep-1/unit5/Lesson 6 - Submarine Dive.html",
+    "/games/prep-1/unit6/Lesson 1 - Space Moon Lander.html",
+    "/games/prep-1/unit6/Lesson 2 - Frogger Crossing.html",
+    "/games/prep-1/unit6/Lesson 3 - Traffic Cop.html",
+    "/games/prep-1/unit6/Lesson 4 - Bowling Alley.html",
+    "/games/prep-1/unit6/Lesson 5 - Hurdle Race.html",
+    "/games/prep-1/unit6/Lesson 6 - Pyramid Explorer.html",
     "/games/primary-1/unit1/احمي القلعة.html",
     "/games/primary-1/unit1/التهجئة الذكية.html",
     "/games/primary-1/unit1/السباق الثلاثي.html",
@@ -512,7 +553,8 @@ const urlsToCache = [
     "/images/primary_5.png",
     "/images/primary_6.png",
     "/js/auth.js",
-    "/js/data.js"
+    "/js/data.js",
+    "/js/game-enhancements.js"
 ];
 
 // Always add core pages to cache as well
@@ -534,9 +576,6 @@ self.addEventListener('install', event => {
         caches.open(CACHE_NAME)
             .then(cache => {
                 console.log('Opened cache, starting massive download...');
-                
-                // Addall might fail if a single file fails (e.g., 404). 
-                // We'll map them individually to avoid a single point of failure.
                 return Promise.all(
                     urlsToCache.map(url => {
                         return cache.add(url).catch(err => {
@@ -549,8 +588,18 @@ self.addEventListener('install', event => {
 });
 
 self.addEventListener('activate', event => {
-    // Take over immediately
-    event.waitUntil(self.clients.claim());
+    event.waitUntil(
+        caches.keys().then(cacheNames => {
+            return Promise.all(
+                cacheNames.map(cacheName => {
+                    if (cacheName !== CACHE_NAME) {
+                        console.log('Deleting old cache:', cacheName);
+                        return caches.delete(cacheName);
+                    }
+                })
+            );
+        }).then(() => self.clients.claim())
+    );
 });
 
 self.addEventListener('fetch', event => {
