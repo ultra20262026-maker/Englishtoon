@@ -1,15 +1,16 @@
-// Game Enhancements Script
+﻿// Game Enhancements Script
 // Injected into all games to provide unified Back Button, disable background music, and improve readability
 
 document.addEventListener('DOMContentLoaded', () => {
     createBackButton();
+    injectMissingElementPolyfill();
     disableLegacyBGM();
     injectReadabilityCSS();
 });
 
 function createBackButton() {
     const btn = document.createElement('button');
-    btn.innerHTML = '🔙 العودة للوحدات';
+    btn.innerHTML = 'ðŸ”™ Ø§Ù„Ø¹ÙˆØ¯Ø© Ù„Ù„ÙˆØ­Ø¯Ø§Øª';
     
     // Inline styling specifically for the back button so it ignores the global button CSS
     btn.style.cssText = 'position:fixed !important; top:15px !important; left:15px !important; z-index:999999 !important; padding:10px 20px !important; background:linear-gradient(135deg, #ef4444, #dc2626) !important; color:white !important; border:2px solid #b91c1c !important; border-radius:12px !important; cursor:pointer !important; font-weight:bold !important; font-size:16px !important; font-family:"Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important; box-shadow:0 4px 15px rgba(0,0,0,0.4) !important; transition:all 0.3s ease !important; text-decoration:none !important; height: auto !important; min-height: 0 !important; display: block !important; margin: 0 !important; white-space: nowrap !important;';
@@ -110,4 +111,27 @@ function injectReadabilityCSS() {
         }
     `;
     document.head.appendChild(style);
+}
+
+function injectMissingElementPolyfill() {
+    const originalGetElementById = document.getElementById;
+    document.getElementById = function(id) {
+        let el = originalGetElementById.call(document, id);
+        if (!el) {
+            if (id === 'target-span') {
+                el = originalGetElementById.call(document, 'target-word');
+            }
+            if (!el && ['score', 'lives', 'target-span', 'target-word', 'game-over-screen', 'start-screen', 'snd-correct', 'snd-wrong'].includes(id)) {
+                el = document.createElement('div');
+                el.id = id;
+                el.style.display = 'none';
+                if (id.startsWith('snd-')) {
+                    el.play = function() {};
+                    el.pause = function() {};
+                }
+                document.body.appendChild(el);
+            }
+        }
+        return el;
+    };
 }

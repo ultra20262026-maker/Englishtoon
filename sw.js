@@ -1,4 +1,4 @@
-﻿const CACHE_NAME = 'english-toon-v20260718174937';
+﻿const CACHE_NAME = 'english-toon-v20260718182435';
 const urlsToCache = [
     "/",
     "/.gitattributes",
@@ -53,6 +53,7 @@ const urlsToCache = [
     "/games/prep-1/unit6/Lesson 4 - Bowling Alley.html",
     "/games/prep-1/unit6/Lesson 5 - Hurdle Race.html",
     "/games/prep-1/unit6/Lesson 6 - Pyramid Explorer.html",
+    "/games/primary-1/unit1/test.js",
     "/games/primary-1/unit1/احمي القلعة.html",
     "/games/primary-1/unit1/التهجئة الذكية.html",
     "/games/primary-1/unit1/السباق الثلاثي.html",
