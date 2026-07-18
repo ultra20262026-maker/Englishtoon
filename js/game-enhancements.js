@@ -1,16 +1,18 @@
 // Game Enhancements Script
-// Injected into all games to provide unified Back Button and Background Music
+// Injected into all games to provide unified Back Button, disable background music, and improve readability
 
 document.addEventListener('DOMContentLoaded', () => {
     createBackButton();
     disableLegacyBGM();
-    initNiceMusic();
+    injectReadabilityCSS();
 });
 
 function createBackButton() {
     const btn = document.createElement('button');
     btn.innerHTML = '🔙 العودة للوحدات';
-    btn.style.cssText = 'position:fixed; top:15px; left:15px; z-index:999999; padding:10px 20px; background:linear-gradient(135deg, #ef4444, #dc2626); color:white; border:2px solid #b91c1c; border-radius:12px; cursor:pointer; font-weight:bold; font-size:16px; font-family:"Segoe UI", Tahoma, Geneva, Verdana, sans-serif; box-shadow:0 4px 15px rgba(0,0,0,0.4); transition:all 0.3s ease; text-decoration:none;';
+    
+    // Inline styling specifically for the back button so it ignores the global button CSS
+    btn.style.cssText = 'position:fixed !important; top:15px !important; left:15px !important; z-index:999999 !important; padding:10px 20px !important; background:linear-gradient(135deg, #ef4444, #dc2626) !important; color:white !important; border:2px solid #b91c1c !important; border-radius:12px !important; cursor:pointer !important; font-weight:bold !important; font-size:16px !important; font-family:"Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important; box-shadow:0 4px 15px rgba(0,0,0,0.4) !important; transition:all 0.3s ease !important; text-decoration:none !important; height: auto !important; min-height: 0 !important; display: block !important; margin: 0 !important; white-space: nowrap !important;';
     
     btn.onmouseover = () => btn.style.transform = 'scale(1.05)';
     btn.onmouseout = () => btn.style.transform = 'scale(1)';
@@ -21,8 +23,6 @@ function createBackButton() {
         
         // Safely parse URL to go back to unit.html
         const parts = window.location.pathname.split('/');
-        // Typical structure: .../games/primary-1/unit1/game.html
-        // We find the index of "games"
         const gamesIndex = parts.findIndex(p => p === 'games');
         
         if (gamesIndex !== -1 && parts.length > gamesIndex + 2) {
@@ -30,8 +30,6 @@ function createBackButton() {
             const unitPart = parts[gamesIndex + 2];
             const unitNumber = unitPart.replace('unit', '').replace('UNIT', '').trim();
             
-            // Calculate how many levels to go up
-            // if gamesIndex is parts.length - 4, we go up 3 levels.
             const depth = parts.length - gamesIndex - 1;
             const upPath = '../'.repeat(depth);
             
@@ -56,8 +54,7 @@ function disableLegacyBGM() {
         }
     });
 
-    // 2. Override the global AudioContext briefly to stop inline Web Audio BGM if it starts on load
-    // But since we don't want to break SFX, we'll just periodically mute audio tags that might be added later
+    // 2. Periodically mute audio tags that might be added dynamically later to play BGM
     setInterval(() => {
         document.querySelectorAll('audio').forEach(audio => {
             if (audio.hasAttribute('loop')) {
@@ -68,63 +65,49 @@ function disableLegacyBGM() {
     }, 1000);
 }
 
-function initNiceMusic() {
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    if (!AudioContext) return;
-    
-    const ctx = new AudioContext();
-    const masterGain = ctx.createGain();
-    masterGain.gain.value = 0.08; // Very low volume for background ambient
-    masterGain.connect(ctx.destination);
-    
-    // A soothing ambient pentatonic sequence (C Major Pentatonic)
-    // C4, D4, E4, G4, A4, C5, D5, E5
-    const pentatonic = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 587.33, 659.25];
-    
-    let isPlaying = false;
+function injectReadabilityCSS() {
+    const style = document.createElement('style');
+    style.innerHTML = `
+        /* Force all choice/option buttons to be fully readable, wrap text, and center */
+        button:not(#start-btn):not(.back-btn):not([onclick*="window.location"]) {
+            white-space: normal !important;
+            word-wrap: break-word !important;
+            height: auto !important;
+            min-height: 60px !important;
+            padding: 12px 20px !important;
+            font-size: clamp(16px, 3vw, 24px) !important;
+            line-height: 1.5 !important;
+            margin: 8px !important;
+            border-radius: 12px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            text-align: center !important;
+            max-width: 95vw !important;
+            overflow: visible !important;
+        }
 
-    function playNote() {
-        if (ctx.state === 'suspended') return;
-        
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        
-        // Random note from scale
-        const note = pentatonic[Math.floor(Math.random() * pentatonic.length)];
-        
-        // Soft sine wave
-        osc.type = 'sine';
-        osc.frequency.value = note;
-        
-        osc.connect(gain);
-        gain.connect(masterGain);
-        
-        const now = ctx.currentTime;
-        osc.start(now);
-        
-        // Ambient envelope: Slow attack, long release
-        gain.gain.setValueAtTime(0, now);
-        gain.gain.linearRampToValueAtTime(0.4, now + 1.5); // Attack
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 6); // Release
-        
-        osc.stop(now + 6);
-    }
-    
-    function startMusic() {
-        if (isPlaying) return;
-        isPlaying = true;
-        if (ctx.state === 'suspended') ctx.resume();
-        
-        // Play a note every 1.2 seconds for a slow, relaxing ambient feel
-        setInterval(playNote, 1200);
-        // Play a few notes immediately to form a chord
-        playNote();
-        setTimeout(playNote, 400);
-        setTimeout(playNote, 800);
-    }
+        /* Ensure options containers wrap their buttons properly on all screen sizes */
+        #options-container, .options, .choices, #choices, #answers {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            justify-content: center !important;
+            align-items: stretch !important;
+            gap: 15px !important;
+            width: 100% !important;
+            padding: 15px !important;
+            box-sizing: border-box !important;
+            margin: 0 auto !important;
+        }
 
-    // Must start after user interaction
-    document.addEventListener('click', startMusic, { once: true });
-    document.addEventListener('keydown', startMusic, { once: true });
-    document.addEventListener('touchstart', startMusic, { once: true });
+        /* Keep the game container nicely positioned */
+        #game-container, .game-container, .container {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding-bottom: 50px !important; /* Space for buttons at the bottom */
+        }
+    `;
+    document.head.appendChild(style);
 }
