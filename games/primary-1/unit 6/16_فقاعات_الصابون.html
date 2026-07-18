@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <script id="guard-script">
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            alert('عذراً، لا يمكنك الدخول لهذه اللعبة مباشرة. يرجى تسجيل الدخول أولاً.');
+            window.location.href = window.location.origin + (window.location.pathname.includes('/Englishtoon/') ? '/Englishtoon/' : '/');
+        }
+    </script>
+    <script src="../../../js/game-enhancements.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>فقاعات الصابون</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Cairo:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; background: #8e44ad; font-family: 'Cairo', 'Fredoka One', sans-serif; overflow: hidden; touch-action: none; display: flex; align-items: center; justify-content: center; height: 100vh;}
+        .game-container { width: 95vw; height: 85vh; background: #9b59b6; border-radius: 20px; border: 5px solid #fff; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; flex-direction: column; align-items: center;}
+        .ui-top { position: absolute; top: 10px; left: 10px; right: 10px; display: flex; justify-content: space-between; font-size: 1.5rem; color: #fff; pointer-events: none; z-index: 30; font-weight: bold;}
+        .screen { position: absolute; inset: 0; background: rgba(0,0,0,0.8); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 100; text-align: center; color: white;}
+        button.start { font-family: 'Cairo', sans-serif; font-size: 2.5rem; padding: 15px 50px; background: #3498db; border: none; border-radius: 50px; color: white; cursor: pointer; box-shadow: 0 8px 0 #2980b9;}
+        button.start:active { transform: translateY(8px); box-shadow: 0 0 0; }
+        .hidden-screen { display: none !important; }
+        
+        .target-box { background: white; border-radius: 20px; padding: 10px 30px; font-size: 3rem; color: #8e44ad; font-family: 'Fredoka One'; box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 25; margin-top: 50px; cursor: pointer;}
+        
+        .bubble { position: absolute; border-radius: 50%; background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(255,255,255,0.2) 60%, rgba(255,255,255,0.4) 100%); box-shadow: inset 0 0 20px rgba(255,255,255,0.5), 0 0 10px rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 50px; cursor: pointer; transition: transform 0.1s;}
+        .bubble::after { content: ''; position: absolute; top: 10%; left: 15%; width: 20%; height: 20%; background: white; border-radius: 50%; filter: blur(2px); opacity: 0.8;}
+        
+        @keyframes floatUp { from { transform: translateY(100vh); } to { transform: translateY(-20vh); } }
+    </style>
+</head>
+<body>
+    <div class="game-container" id="game-container">
+        <div class="ui-top">
+            <div>النقاط: <span id="score">0</span></div>
+            <div>فقاعات الصابون 🫧</div>
+        </div>
+        
+        <div class="target-box" id="target-box" onclick="if(currentWord) speak(currentWord.word)">word</div>
+        
+    </div>
+    <div id="start-screen" class="screen">
+        <h1 style="font-size: 4rem; color: #3498db;">فقاعات الصابون 🫧</h1>
+        <p style="font-size: 1.5rem;">فرقع الفقاعة التي تحمل الصورة الصحيحة!</p>
+        <button class="start" onclick="startGame()">العب!</button>
+    </div>
+    <script>
+        
+const wordsData = [
+  { word: "lion", image: "🦁", type: "emoji" },
+  { word: "tiger", image: "🐯", type: "emoji" },
+  { word: "monkey", image: "🐒", type: "emoji" },
+  { word: "snake", image: "🐍", type: "emoji" },
+  { word: "elephant", image: "🐘", type: "emoji" },
+  { word: "giraffe", image: "🦒", type: "emoji" },
+  { word: "banana", image: "🍌", type: "emoji" },
+  { word: "boy", image: "👦", type: "emoji" },
+  { word: "ball", image: "⚽", type: "emoji" },
+  { word: "bird", image: "🐦", type: "emoji" },
+  { word: "bike", image: "🚲", type: "emoji" },
+  { word: "lunch", image: "🍱", type: "emoji" },
+  { word: "leaf", image: "🍃", type: "emoji" },
+  { word: "lamp", image: "🪔", type: "emoji" },
+  { word: "lemon", image: "🍋", type: "emoji" },
+  { word: "cat", image: "🐱", type: "emoji" },
+  { word: "turtle", image: "🐢", type: "emoji" },
+  { word: "dog", image: "🐶", type: "emoji" },
+  { word: "couch", image: "🛋️", type: "emoji" },
+  { word: "on", image: "🔛", type: "emoji" },
+  { word: "in", image: "📥", type: "emoji" },
+  { word: "under", image: "⬇️", type: "emoji" },
+  { word: "chair", image: "🪑", type: "emoji" },
+  { word: "cage", image: "🦜", type: "emoji" },
+  { word: "table", image: "🪟", type: "emoji" },
+  { word: "umbrella", image: "☂️", type: "emoji" },
+  { word: "up", image: "⬆️", type: "emoji" },
+  { word: "unlock", image: "🔓", type: "emoji" },
+  { word: "jam", image: "🍯", type: "emoji" },
+  { word: "jacket", image: "🧥", type: "emoji" },
+  { word: "jellyfish", image: "🪼", type: "emoji" },
+  { word: "jar", image: "🫙", type: "emoji" },
+  { word: "jeans", image: "👖", type: "emoji" }
+];
+
+const synth = window.speechSynthesis;
+function speak(text) {
+    const utterThis = new SpeechSynthesisUtterance(text);
+    utterThis.pitch = 1.3; utterThis.rate = 0.9;
+    synth.speak(utterThis);
+}
+
+        let score = 0;
+        let currentWord = null;
+        let bubbleInterval;
+
+        function spawnTarget() {
+            currentWord = wordsData[Math.floor(Math.random()*wordsData.length)];
+            document.getElementById('target-box').textContent = currentWord.word;
+            speak(currentWord.word);
+        }
+
+        function createBubble() {
+            const b = document.createElement('div');
+            b.className = 'bubble';
+            const size = Math.random() * 40 + 80;
+            b.style.width = size + 'px';
+            b.style.height = size + 'px';
+            b.style.left = Math.random() * (document.getElementById('game-container').clientWidth - size) + 'px';
+            
+            const duration = Math.random() * 4 + 4;
+            b.style.animation = `floatUp ${duration}s linear`;
+            
+            let w = wordsData[Math.floor(Math.random()*wordsData.length)];
+            if(Math.random() > 0.6 && currentWord) w = currentWord;
+            
+            b.innerHTML = `<span>${w.image}</span>`;
+            
+            b.onclick = () => {
+                if(w.word === currentWord.word) {
+                    speak('Pop!'); score+=10; document.getElementById('score').textContent=score;
+                    b.style.transform = 'scale(1.5)';
+                    b.style.opacity = '0';
+                    setTimeout(() => { b.remove(); spawnTarget(); }, 100);
+                } else {
+                    speak('No!');
+                    b.style.background = 'rgba(231,76,60,0.5)';
+                }
+            };
+            
+            b.addEventListener('animationend', () => b.remove());
+            document.getElementById('game-container').appendChild(b);
+        }
+
+        function startGame() { 
+            document.getElementById('start-screen').classList.add('hidden-screen'); 
+            score=0; document.getElementById('score').textContent=score;
+            document.querySelectorAll('.bubble').forEach(b=>b.remove());
+            spawnTarget(); 
+            clearInterval(bubbleInterval);
+            bubbleInterval = setInterval(createBubble, 1500);
+        }
+    </script>
+</body>
+</html>

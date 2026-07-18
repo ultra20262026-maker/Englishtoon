@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <script id="guard-script">
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            alert('عذراً، لا يمكنك الدخول لهذه اللعبة مباشرة. يرجى تسجيل الدخول أولاً.');
+            window.location.href = window.location.origin + (window.location.pathname.includes('/Englishtoon/') ? '/Englishtoon/' : '/');
+        }
+    </script>
+    <script src="../../../js/game-enhancements.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>لعبة الغميضة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Cairo:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; background: #27ae60; font-family: 'Cairo', 'Fredoka One', sans-serif; overflow: hidden; touch-action: none; display: flex; align-items: center; justify-content: center; height: 100vh;}
+        .game-container { width: 95vw; height: 85vh; background: #2ecc71; border-radius: 20px; border: 5px solid #fff; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; flex-direction: column; align-items: center;}
+        .ui-top { position: absolute; top: 10px; left: 10px; right: 10px; display: flex; justify-content: space-between; font-size: 1.5rem; color: #fff; pointer-events: none; z-index: 30; font-weight: bold;}
+        .screen { position: absolute; inset: 0; background: rgba(0,0,0,0.8); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 100; text-align: center; color: white;}
+        button.start { font-family: 'Cairo', sans-serif; font-size: 2.5rem; padding: 15px 50px; background: #f39c12; border: none; border-radius: 50px; color: white; cursor: pointer; box-shadow: 0 8px 0 #d35400;}
+        button.start:active { transform: translateY(8px); box-shadow: 0 0 0; }
+        .hidden-screen { display: none !important; }
+        
+        .word-board { background: white; color: #27ae60; padding: 10px 40px; border-radius: 50px; font-family: 'Fredoka One'; font-size: 3rem; box-shadow: 0 5px 0 #229954; cursor: pointer; z-index: 20; margin-top: 50px;}
+        
+        .play-area { position: absolute; inset: 150px 20px 20px 20px; background: rgba(0,0,0,0.1); border-radius: 20px; border: 5px dashed rgba(255,255,255,0.5); position: relative;}
+        
+        .hidden-item { position: absolute; cursor: pointer; transition: transform 0.2s; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;}
+        .hidden-item:active { transform: scale(0.9); }
+        .hidden-item img { width: 100%; height: 100%; object-fit: contain; filter: brightness(0.8); transition: filter 0.3s;}
+        .hidden-item:hover img { filter: brightness(1); }
+        .hidden-item.emoji-mode { font-size: 50px; opacity: 0.8; transition: opacity 0.3s; }
+        .hidden-item.emoji-mode:hover { opacity: 1; }
+    </style>
+</head>
+<body>
+    <div class="game-container" id="game-container">
+        <div class="ui-top">
+            <div>النقاط: <span id="score">0</span></div>
+            <div>لعبة الغميضة 🙈</div>
+        </div>
+        
+        <div class="word-board" id="word-board" onclick="if(currentWord) speak(currentWord.word)">word</div>
+        
+        <div class="play-area" id="play-area"></div>
+        
+    </div>
+    <div id="start-screen" class="screen">
+        <h1 style="font-size: 4rem; color: #f1c40f;">لعبة الغميضة 🙈</h1>
+        <p style="font-size: 1.5rem;">ابحث عن الكلمة المطلوبة في الغرفة!</p>
+        <button class="start" onclick="startGame()">العب!</button>
+    </div>
+    <script>
+        
+const wordsData = [
+  { word: "eye", image: "../images_unit4/pixar_eye_1782050332022.png", type: "img" },
+  { word: "mouth", image: "../images_unit4/pixar_mouth_1782050342052.png", type: "img" },
+  { word: "ear", image: "../images_unit4/pixar_ear_1782050353890.png", type: "img" },
+  { word: "head", image: "../images_unit4/pixar_head_1782050365861.png", type: "img" },
+  { word: "tongue", image: "../images_unit4/pixar_tongue_1782050382757.png", type: "img" },
+  { word: "arm", image: "../images_unit4/pixar_arm_1782050393224.png", type: "img" },
+  { word: "leg", image: "../images_unit4/pixar_leg_1782050404201.png", type: "img" },
+  { word: "foot", image: "../images_unit4/pixar_foot_1782050415844.png", type: "img" },
+  { word: "feet", image: "../images_unit4/pixar_feet_1782050434707.png", type: "img" },
+  { word: "toes", image: "../images_unit4/pixar_toes_1782050446071.png", type: "img" },
+  { word: "red", image: "../images_unit4/pixar_red_1782050458088.png", type: "img" },
+  { word: "rocket", image: "../images_unit4/pixar_rocket_1782050469083.png", type: "img" },
+  { word: "ring", image: "../images_unit4/pixar_ring_1782050484208.png", type: "img" },
+  { word: "rabbit", image: "../images_unit4/pixar_rabbit_1782050494082.png", type: "img" },
+  { word: "robot", image: "../images_unit4/pixar_robot_1782050505802.png", type: "img" },
+  { word: "egg", image: "../images_unit4/pixar_egg_1782050517755.png", type: "img" },
+  { word: "eggplant", image: "🍆", type: "emoji" },
+  { word: "enter", image: "🚪", type: "emoji" },
+  { word: "elephant", image: "🐘", type: "emoji" },
+  { word: "elbow", image: "💪", type: "emoji" },
+  { word: "touch", image: "👆", type: "emoji" },
+  { word: "hear", image: "👂", type: "emoji" },
+  { word: "see", image: "👀", type: "emoji" },
+  { word: "taste", image: "👅", type: "emoji" },
+  { word: "smell", image: "👃", type: "emoji" },
+  { word: "car", image: "🚗", type: "emoji" },
+  { word: "cat", image: "🐱", type: "emoji" },
+  { word: "carrot", image: "🥕", type: "emoji" },
+  { word: "cup", image: "☕", type: "emoji" },
+  { word: "cake", image: "🎂", type: "emoji" },
+  { word: "kite", image: "🪁", type: "emoji" },
+  { word: "king", image: "👑", type: "emoji" },
+  { word: "kitchen", image: "🍳", type: "emoji" },
+  { word: "key", image: "🔑", type: "emoji" },
+  { word: "hand", image: "✋", type: "emoji" },
+  { word: "nose", image: "👃", type: "emoji" }
+];
+
+const synth = window.speechSynthesis;
+function speak(text) {
+    const utterThis = new SpeechSynthesisUtterance(text);
+    utterThis.pitch = 1.3; utterThis.rate = 0.9;
+    synth.speak(utterThis);
+}
+
+        let score = 0;
+        let currentWord = null;
+        let canClick = true;
+        
+        function renderOption(w) {
+            if(w.type === 'emoji') return `<div class="hidden-item emoji-mode" data-word="${w.word}">${w.image}</div>`;
+            return `<div class="hidden-item" data-word="${w.word}"><img src="${w.image}"></div>`;
+        }
+
+        function spawnLevel() {
+            canClick = true;
+            let selected = [...wordsData].sort(()=>0.5-Math.random()).slice(0, 10);
+            currentWord = selected[Math.floor(Math.random()*selected.length)];
+            
+            document.getElementById('word-board').textContent = currentWord.word;
+            speak('Where is ' + currentWord.word + '?');
+            
+            const area = document.getElementById('play-area');
+            area.innerHTML = '';
+            
+            selected.forEach(w => {
+                let div = document.createElement('div');
+                div.innerHTML = renderOption(w);
+                let item = div.firstElementChild;
+                
+                item.style.left = Math.random() * 80 + '%';
+                item.style.top = Math.random() * 80 + '%';
+                
+                item.onclick = () => {
+                    if(!canClick) return;
+                    if(w.word === currentWord.word) {
+                        speak('You found it!'); score+=10; document.getElementById('score').textContent=score;
+                        item.style.transform = 'scale(2)';
+                        canClick = false; setTimeout(spawnLevel, 1500);
+                    } else {
+                        speak(w.word); 
+                    }
+                };
+                area.appendChild(item);
+            });
+        }
+
+        function startGame() { 
+            document.getElementById('start-screen').classList.add('hidden-screen'); 
+            score=0; document.getElementById('score').textContent=score;
+            spawnLevel(); 
+        }
+    </script>
+</body>
+</html>

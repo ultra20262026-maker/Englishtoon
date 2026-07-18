@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <script id="guard-script">
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            alert('عذراً، لا يمكنك الدخول لهذه اللعبة مباشرة. يرجى تسجيل الدخول أولاً.');
+            window.location.href = window.location.origin + (window.location.pathname.includes('/Englishtoon/') ? '/Englishtoon/' : '/');
+        }
+    </script>
+    <script src="../../../js/game-enhancements.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>وصفة الساحرة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Cairo:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; background: #2c3e50; font-family: 'Cairo', 'Fredoka One', sans-serif; overflow: hidden; touch-action: none; display: flex; align-items: center; justify-content: center; height: 100vh;}
+        .game-container { width: 95vw; height: 85vh; background: #34495e; border-radius: 20px; border: 5px solid #fff; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; flex-direction: column; align-items: center; justify-content: space-evenly;}
+        .ui-top { position: absolute; top: 10px; left: 10px; right: 10px; display: flex; justify-content: space-between; font-size: 1.5rem; color: #fff; pointer-events: none; z-index: 30; font-weight: bold;}
+        .screen { position: absolute; inset: 0; background: rgba(0,0,0,0.8); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 100; text-align: center; color: white;}
+        button.start { font-family: 'Cairo', sans-serif; font-size: 2.5rem; padding: 15px 50px; background: #9b59b6; border: none; border-radius: 50px; color: white; cursor: pointer; box-shadow: 0 8px 0 #8e44ad;}
+        button.start:active { transform: translateY(8px); box-shadow: 0 0 0; }
+        .hidden-screen { display: none !important; }
+        
+        .cauldron { font-size: 100px; position: relative; z-index: 20;}
+        .cauldron::after { content: '✨'; position: absolute; top: -30px; left: 50%; transform: translateX(-50%); font-size: 40px; animation: float 2s infinite ease-in-out;}
+        @keyframes float { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, -20px); } }
+        
+        .target-box { background: white; border-radius: 20px; padding: 10px 30px; font-size: 3rem; color: #8e44ad; font-family: 'Fredoka One'; box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 25;}
+        
+        .ingredients { display: flex; gap: 20px; z-index: 25;}
+        .ingredient { width: 80px; height: 80px; background: rgba(255,255,255,0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 50px; cursor: pointer; box-shadow: 0 5px 10px rgba(0,0,0,0.3); transition: transform 0.2s;}
+        .ingredient:active { transform: scale(0.9); }
+    </style>
+</head>
+<body>
+    <div class="game-container" id="game-container">
+        <div class="ui-top">
+            <div>النقاط: <span id="score">0</span></div>
+            <div>وصفة الساحرة 🧙‍♀️</div>
+        </div>
+        
+        <div class="target-box" id="target-box" onclick="if(currentWord) speak(currentWord.word)">word</div>
+        
+        <div class="ingredients" id="ingredients"></div>
+        
+        <div class="cauldron" id="cauldron">🍲</div>
+        
+    </div>
+    <div id="start-screen" class="screen">
+        <h1 style="font-size: 4rem; color: #9b59b6;">وصفة الساحرة 🧙‍♀️</h1>
+        <p style="font-size: 1.5rem;">أضف المكون الصحيح إلى القدر السحري!</p>
+        <button class="start" onclick="startGame()">العب!</button>
+    </div>
+    <script>
+        
+const wordsData = [
+  { word: "duck", image: "🦆", type: "emoji" },
+  { word: "cow", image: "🐄", type: "emoji" },
+  { word: "chicken", image: "🐔", type: "emoji" },
+  { word: "horse", image: "🐎", type: "emoji" },
+  { word: "mouse", image: "🐭", type: "emoji" },
+  { word: "milk", image: "🥛", type: "emoji" },
+  { word: "mango", image: "🥭", type: "emoji" },
+  { word: "moon", image: "🌙", type: "emoji" },
+  { word: "monkey", image: "🐒", type: "emoji" },
+  { word: "goat", image: "🐐", type: "emoji" },
+  { word: "gloves", image: "🧤", type: "emoji" },
+  { word: "grapes", image: "🍇", type: "emoji" },
+  { word: "girl", image: "👧", type: "emoji" },
+  { word: "guitar", image: "🎸", type: "emoji" },
+  { word: "octopus", image: "🐙", type: "emoji" },
+  { word: "olive", image: "🫒", type: "emoji" },
+  { word: "ostrich", image: "🦤", type: "emoji" },
+  { word: "fox", image: "🦊", type: "emoji" },
+  { word: "fish", image: "🐟", type: "emoji" },
+  { word: "fork", image: "🍴", type: "emoji" },
+  { word: "frog", image: "🐸", type: "emoji" },
+  { word: "fan", image: "🪭", type: "emoji" }
+];
+
+const synth = window.speechSynthesis;
+function speak(text) {
+    const utterThis = new SpeechSynthesisUtterance(text);
+    utterThis.pitch = 1.3; utterThis.rate = 0.9;
+    synth.speak(utterThis);
+}
+
+        let score = 0;
+        let currentWord = null;
+        let canClick = true;
+
+        function spawnLevel() {
+            canClick = true;
+            let selected = [...wordsData].sort(()=>0.5-Math.random()).slice(0, 4);
+            currentWord = selected[Math.floor(Math.random()*4)];
+            
+            document.getElementById('target-box').textContent = currentWord.word;
+            speak(currentWord.word);
+            
+            const container = document.getElementById('ingredients');
+            container.innerHTML = '';
+            
+            selected.forEach(w => {
+                const item = document.createElement('div');
+                item.className = 'ingredient';
+                item.innerHTML = w.image;
+                
+                item.onclick = () => {
+                    if(!canClick) return;
+                    canClick = false;
+                    
+                    // Animate falling into cauldron
+                    const rect = item.getBoundingClientRect();
+                    const cauldronRect = document.getElementById('cauldron').getBoundingClientRect();
+                    
+                    const copy = item.cloneNode(true);
+                    copy.style.position = 'absolute';
+                    copy.style.left = rect.left + 'px';
+                    copy.style.top = rect.top + 'px';
+                    copy.style.transition = 'all 0.5s ease-in';
+                    document.body.appendChild(copy);
+                    
+                    item.style.visibility = 'hidden';
+                    
+                    setTimeout(() => {
+                        copy.style.left = cauldronRect.left + cauldronRect.width/2 - rect.width/2 + 'px';
+                        copy.style.top = cauldronRect.top + 20 + 'px';
+                        copy.style.transform = 'scale(0.5)';
+                        copy.style.opacity = '0';
+                    }, 50);
+                    
+                    setTimeout(() => {
+                        copy.remove();
+                        if(w.word === currentWord.word) {
+                            speak('Magic!'); score+=10; document.getElementById('score').textContent=score;
+                            document.getElementById('cauldron').style.transform = 'scale(1.2)';
+                            setTimeout(() => {
+                                document.getElementById('cauldron').style.transform = 'scale(1)';
+                                spawnLevel();
+                            }, 500);
+                        } else {
+                            speak('Boom!'); document.getElementById('cauldron').style.filter = 'hue-rotate(90deg)';
+                            setTimeout(() => {
+                                document.getElementById('cauldron').style.filter = 'none';
+                                item.style.visibility = 'visible';
+                                canClick = true;
+                            }, 1000);
+                        }
+                    }, 550);
+                };
+                container.appendChild(item);
+            });
+        }
+
+        function startGame() { 
+            document.getElementById('start-screen').classList.add('hidden-screen'); 
+            score=0; document.getElementById('score').textContent=score;
+            spawnLevel(); 
+        }
+    </script>
+</body>
+</html>

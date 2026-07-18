@@ -1,0 +1,2529 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script id="guard-script">
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            alert('عذراً، لا يمكنك الدخول لهذه اللعبة مباشرة. يرجى تسجيل الدخول أولاً.');
+            window.location.href = window.location.origin + (window.location.pathname.includes('/Englishtoon/') ? '/Englishtoon/' : '/');
+        }
+    </script>
+    <script src="../../../js/game-enhancements.js"></script><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Word Snake – EduQuest</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════════
+   🎮 GAME SHELL — Shared CSS for ALL 24 games
+   Each game includes this file for the common chrome
+═══════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;800;900&family=Orbitron:wght@700;900&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  margin: 0; padding: 0;
+  min-height: 100vh;
+  background: #000;
+  font-family: 'Nunito', sans-serif;
+  color: #f0f0ff;
+  user-select: none;
+  -webkit-user-select: none;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+#game-wrap {
+  flex: 1;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── HUD ─────────────────────────────────────────────────── */
+#hud {
+  position: absolute; top: 0; left: 0; right: 0; z-index: 20;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 14px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.85) 0%, transparent 100%);
+  pointer-events: none;
+}
+#hud > * { pointer-events: all; }
+.hud-left, .hud-right { display: flex; align-items: center; gap: 10px; }
+.btn-back {
+  background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 10px; padding: 7px 14px; color: white; cursor: pointer;
+  font-family: 'Nunito', sans-serif; font-size: 0.8rem; font-weight: 800; transition: .2s;
+}
+.btn-back:hover { background: rgba(255,255,255,0.2); }
+.score-box {
+  font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 0.85rem;
+  color: #fbbf24; background: rgba(251,191,36,0.12); border: 1px solid rgba(251,191,36,0.3);
+  border-radius: 10px; padding: 5px 12px;
+}
+.level-box {
+  font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 0.75rem;
+  color: #a78bfa; background: rgba(167,139,250,0.12); border: 1px solid rgba(167,139,250,0.3);
+  border-radius: 10px; padding: 5px 12px;
+}
+.lives-box { display: flex; gap: 4px; align-items: center; }
+.life { font-size: 1.1rem; transition: all .3s; }
+.life.lost { opacity: 0.2; filter: grayscale(1); transform: scale(0.8); }
+#mute-btn {
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 10px; padding: 7px 10px; color: white; cursor: pointer;
+  font-size: 1rem; transition: .2s;
+}
+#mute-btn:hover { background: rgba(255,255,255,0.18); }
+
+/* ── Timer Bar ───────────────────────────────────────────── */
+#timer-bar-wrap {
+  position: absolute; top: 48px; left: 0; right: 0; height: 4px; z-index: 20;
+}
+#timer-bar {
+  height: 100%; width: 100%;
+  background: linear-gradient(90deg, #7c3aed, #06b6d4);
+  transition: width .1s linear;
+}
+#timer-bar.danger { background: linear-gradient(90deg, #ef4444, #dc2626); }
+
+/* ── Feedback Flash ──────────────────────────────────────── */
+#feedback-flash {
+  position: absolute; inset: 0; z-index: 25; pointer-events: none;
+  opacity: 0; transition: opacity .15s;
+}
+#feedback-flash.show-correct { background: rgba(34,197,94,0.18); opacity: 1; }
+#feedback-flash.show-wrong   { background: rgba(239,68,68,0.18);  opacity: 1; }
+
+/* ── Countdown ───────────────────────────────────────────── */
+#countdown {
+  position: absolute; inset: 0; z-index: 60;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.75);
+  font-family: 'Orbitron', sans-serif; font-size: 8rem; font-weight: 900;
+  color: white; 
+}
+#countdown.hidden { display: none; }
+
+/* ── SCREENS ─────────────────────────────────────────────── */
+.screen {
+  position: absolute; inset: 0; z-index: 50;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 1.5rem;
+  background: rgba(8,8,20,0.96); backdrop-filter: blur(20px);
+}
+.screen.hidden { display: none; }
+.game-logo { font-size: 5rem; margin-bottom: 0.75rem; animation: float 2.5s ease-in-out infinite; }
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-14px)} }
+.screen-title {
+  font-family: 'Fredoka One', sans-serif; font-size: clamp(1.6rem,5vw,2.8rem);
+  color: white; margin-bottom: 0.5rem;
+}
+.screen-sub {
+  font-size: 0.95rem; color: rgba(255,255,255,0.55);
+  max-width: 420px; line-height: 1.5; margin-bottom: 1.5rem;
+}
+.lesson-name-badge {
+  font-size: 0.75rem; font-weight: 800; letter-spacing: .08em;
+  background: rgba(124,58,237,0.2); border: 1px solid rgba(124,58,237,0.4);
+  border-radius: 100px; padding: 4px 14px; color: #c4b5fd; margin-bottom: 1rem;
+}
+
+/* Level buttons */
+.level-select { display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; margin-bottom: 1.5rem; }
+.level-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: .9rem 1.2rem; border-radius: 14px; border: 2px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.06); color: white; cursor: pointer; transition: all .2s; min-width: 100px;
+}
+.level-btn:hover { transform: translateY(-3px); background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.4); }
+.level-btn.active { border-color: #7c3aed; background: rgba(124,58,237,0.2); }
+.level-btn-stars { font-size: 0.95rem; }
+.level-btn-name  { font-weight: 900; font-size: 0.9rem; }
+.level-btn-desc  { font-size: 0.7rem; color: rgba(255,255,255,0.45); }
+
+/* Start button */
+.btn-start {
+  padding: 13px 38px; border-radius: 100px; border: none;
+  background: linear-gradient(135deg, #7c3aed, #4f46e5);
+  color: white; font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 1.05rem;
+  cursor: pointer;  transition: all .2s;
+}
+.btn-start:hover { transform: translateY(-3px);  }
+
+/* Result screen */
+.stars-display { display: flex; justify-content: center; gap: 10px; margin: 0.75rem 0; }
+.result-star { font-size: 3.2rem; opacity: 0.18; transition: all .4s; }
+.result-star.lit { opacity: 1; animation: starPop .6s ease; }
+@keyframes starPop { 0%{transform:scale(0.2) rotate(-30deg)} 70%{transform:scale(1.3) rotate(6deg)} 100%{transform:scale(1) rotate(0)} }
+.result-score {
+  font-family: 'Orbitron', sans-serif; font-size: 2.2rem; font-weight: 900; color: #fbbf24;
+}
+.result-msg { font-size: 1rem; color: rgba(255,255,255,0.6); margin: .4rem 0 1.5rem; max-width: 360px; }
+.result-btns { display: flex; gap: .75rem; flex-wrap: wrap; justify-content: center; }
+.btn-replay {
+  padding: 11px 24px; border-radius: 100px; border: 2px solid rgba(255,255,255,0.25);
+  background: transparent; color: white; font-family: 'Nunito', sans-serif;
+  font-weight: 800; font-size: .95rem; cursor: pointer; transition: .2s;
+}
+.btn-replay:hover { background: rgba(255,255,255,0.1); }
+.btn-home, .btn-next {
+  padding: 11px 24px; border-radius: 100px; border: none;
+  color: white; font-family: 'Nunito', sans-serif; font-weight: 800; font-size: .95rem;
+  cursor: pointer; transition: .2s;
+}
+.btn-next { background: linear-gradient(135deg, #22c55e, #16a34a);  }
+.btn-home { background: linear-gradient(135deg, #7c3aed, #4f46e5);  }
+.btn-next:hover, .btn-home:hover { transform: translateY(-2px); }
+
+/* ═══════════════════════════════════════════════════════
+   QUESTION LAYOUT — question top, choices bottom
+   Game canvas is FULLY VISIBLE in between
+═══════════════════════════════════════════════════════ */
+
+/* Wrapper — invisible, just a container */
+#question-zone {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+#question-zone > * { pointer-events: all; }
+
+/* ── Question text — TOP strip ───────────────────────── */
+#question-text {
+  font-family: 'Fredoka One', sans-serif;
+  font-size: clamp(1.15rem, 3.8vw, 1.8rem);
+  color: #ffffff;
+  text-align: center;
+  line-height: 1.35;
+  font-weight: 900;
+  /* dark pill background — only behind the text */
+  background: rgba(5, 5, 20, 0.82);
+  backdrop-filter: blur(6px);
+  padding: 10px 18px 12px;
+  border-bottom: 2px solid rgba(124,58,237,0.35);
+  
+  /* position at very top, below HUD */
+  margin-top: 52px;
+  pointer-events: none;
+}
+
+#q-counter {
+  font-size: .7rem; color: rgba(255,255,255,0.55);
+  margin-bottom: 4px; text-align: center;
+  font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+  display: block;
+}
+
+/* ── Choices — BOTTOM strip ──────────────────────────── */
+#choices {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px,1fr));
+  gap: 8px;
+  max-width: 760px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 10px 12px 14px;
+  background: linear-gradient(0deg, rgba(5,5,20,0.95) 0%, rgba(5,5,20,0.80) 80%, transparent 100%);
+}
+
+.choice-btn {
+  padding: 12px 10px;
+  border-radius: 14px;
+  border: 2px solid rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.10);
+  color: white;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: clamp(0.9rem, 2.6vw, 1.1rem);
+  cursor: pointer;
+  transition: all .18s;
+  text-align: center;
+  line-height: 1.25;
+}
+.choice-btn:hover:not(:disabled) {
+  background: rgba(255,255,255,0.20);
+  border-color: rgba(255,255,255,0.55);
+  transform: translateY(-2px);
+}
+.choice-btn.correct { background: rgba(34,197,94,0.35); border-color: #22c55e; }
+.choice-btn.wrong   { background: rgba(239,68,68,0.35);  border-color: #ef4444; }
+
+
+/* ALL QUESTIONS ARE MCQ — fill input always hidden */
+#fill-wrap { display: none !important; }
+
+#fill-input {
+  font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 800; text-align: center;
+  padding: 9px 18px; background: rgba(255,255,255,0.07);
+  border: 2px solid rgba(255,255,255,0.25); border-radius: 12px; color: white;
+  outline: none; width: 100%; max-width: 300px; caret-color: #7c3aed;
+}
+#fill-input::placeholder { color: rgba(255,255,255,0.3); }
+#fill-submit {
+  padding: 9px 28px; border-radius: 12px; border: none;
+  background: linear-gradient(135deg,#7c3aed,#4f46e5); color: white;
+  font-family: 'Nunito', sans-serif; font-size: .95rem; font-weight: 800;
+  cursor: pointer; transition: .2s;
+}
+#fill-submit:hover { transform: translateY(-2px); }
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width:500px) {
+  #choices { grid-template-columns: 1fr 1fr; }
+  .choice-btn { font-size: .82rem; padding: 8px 4px; }
+  .level-btn { min-width: 88px; padding: .75rem .9rem; }
+  .game-logo { font-size: 4rem; }
+}
+
+
+
+
+</style>
+<style>
+  body { background: #0a1a05; overflow: hidden; }
+
+  #game-wrap { overflow: hidden; }
+
+  canvas#game-canvas {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  #hud {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    z-index: 30;
+  }
+  #timer-bar-wrap {
+    position: absolute;
+    top: 52px; left: 0; right: 0;
+    z-index: 30;
+  }
+
+  #question-zone {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: none;
+    border: none;
+    padding: 0;
+  }
+  #question-zone > * { pointer-events: all; }
+
+  #question-text {
+    font-family: 'Fredoka One', 'Segoe UI', sans-serif;
+    font-size: clamp(1.15rem, 3.8vw, 1.8rem);
+    font-weight: 900;
+    color: #fff;
+    text-align: center;
+    line-height: 1.35;
+    background: rgba(5,15,2,0.88);
+    backdrop-filter: blur(8px);
+    padding: 10px 18px 14px;
+    border-bottom: 2px solid rgba(255,255,255,0.15);
+    
+    margin-top: 52px;
+    pointer-events: none;
+  }
+
+  #q-counter {
+    font-size: .7rem;
+    color: rgba(255,255,255,0.55);
+    background: rgba(5,15,2,0.88);
+    padding: 6px 18px 0;
+    text-align: center;
+    font-weight: 800;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    display: block;
+  }
+
+  
+  
+
+  /* Arrow pad overlay for touch */
+  #arrow-pad {
+    position: absolute;
+    bottom: 24px;
+    right: 20px;
+    z-index: 25;
+    display: grid;
+    grid-template-columns: repeat(3, 44px);
+    grid-template-rows: repeat(3, 44px);
+    gap: 4px;
+    pointer-events: all;
+  }
+  .arrow-btn {
+    background: rgba(80,200,80,0.22);
+    border: 2px solid rgba(80,255,80,0.4);
+    border-radius: 10px;
+    color: #fff;
+    font-size: 1.3rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .1s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .arrow-btn:active { background: rgba(80,200,80,0.5); }
+  .arrow-btn.hidden-btn { visibility: hidden; pointer-events: none; }
+
+  #feedback-flash {
+    position: absolute;
+    inset: 0;
+    z-index: 50;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  #feedback-flash.correct { background: rgba(0,255,80,0.18); opacity: 1; }
+  #feedback-flash.wrong   { background: rgba(255,50,50,0.22); opacity: 1; }
+
+  #countdown {
+    position: absolute;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fredoka One', sans-serif;
+    font-size: clamp(5rem, 20vw, 10rem);
+    color: #fff;
+    
+    background: rgba(5,15,2,0.7);
+    pointer-events: none;
+  }
+  #countdown.hidden { display: none; }
+
+  .screen {
+    position: absolute;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    background: radial-gradient(ellipse at 50% 40%, #0d2a05 0%, #050e02 100%);
+    padding: 20px;
+  }
+  .screen.hidden { display: none; }
+
+  .game-logo { font-size: clamp(3rem,10vw,6rem);  }
+  .screen-title { font-family:'Fredoka One',sans-serif; font-size:clamp(1.6rem,5vw,2.8rem); color:#fff; text-align:center;  }
+  .screen-sub { color:rgba(255,255,255,0.75); font-size:clamp(.9rem,2.5vw,1.15rem); text-align:center; max-width:400px; }
+
+  .lesson-name-badge {
+    background: linear-gradient(135deg, #33cc55, #aaff44);
+    color: #051005;
+    font-family: 'Fredoka One', sans-serif;
+    font-size: clamp(.8rem,2.2vw,1rem);
+    padding: 5px 18px;
+    border-radius: 20px;
+    text-align: center;
+    max-width: 320px;
+  }
+
+  .level-select { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+  .level-btn {
+    display:flex; flex-direction:column; align-items:center;
+    gap:3px; padding:10px 18px;
+    background:rgba(255,255,255,0.08); border:2px solid rgba(255,255,255,0.18);
+    border-radius:14px; color:#fff; cursor:pointer; font-family:'Fredoka One',sans-serif;
+    transition: all .2s;
+  }
+  .level-btn:hover, .level-btn.active {
+    background: rgba(68,255,68,0.18); border-color:#44ff44;
+    transform:scale(1.06);
+  }
+  .level-btn-stars { font-size:1.1rem; }
+  .level-btn-name { font-size:.95rem; font-weight:700; }
+  .level-btn-desc { font-size:.72rem; color:rgba(255,255,255,0.6); }
+
+  .btn-start {
+    margin-top:8px;
+    padding: 14px 40px;
+    font-family:'Fredoka One',sans-serif;
+    font-size:1.3rem;
+    background: linear-gradient(135deg,#33cc55,#aaff44);
+    border:none; border-radius:50px; color:#051005;
+    cursor:pointer; 
+    transition:transform .15s,box-shadow .15s;
+  }
+  .btn-start:hover { transform:scale(1.06);  }
+
+  .stars-display { display:flex; gap:8px; font-size:3rem; }
+  .result-star { opacity:.25; transition:opacity .3s,transform .3s; }
+  .result-star.lit { opacity:1; transform:scale(1.2); }
+  .result-score { font-family:'Fredoka One',sans-serif; font-size:2.5rem; color:#fff; }
+  .result-msg { color:rgba(255,255,255,0.75); font-size:1.05rem; text-align:center; max-width:340px; }
+  .result-btns { display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-top:10px; }
+  .btn-replay, .btn-home {
+    padding:11px 28px; font-family:'Fredoka One',sans-serif; font-size:1.05rem;
+    border:none; border-radius:40px; cursor:pointer; transition:transform .15s;
+  }
+  .btn-replay { background:linear-gradient(135deg,#33cc55,#aaff44); color:#051005; }
+  .btn-home   { background:rgba(255,255,255,0.15); color:#fff; border:2px solid rgba(255,255,255,0.3); }
+  .btn-replay:hover,.btn-home:hover { transform:scale(1.07); }
+
+  #hud {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:6px 12px; background:rgba(5,15,2,0.85);
+    backdrop-filter:blur(6px); border-bottom:1px solid rgba(255,255,255,0.1);
+    height:52px; box-sizing:border-box;
+  }
+  .hud-left,.hud-right { display:flex; align-items:center; gap:8px; }
+  .btn-back {
+    background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.25);
+    color:#fff; padding:5px 12px; border-radius:20px; cursor:pointer;
+    font-family:'Fredoka One',sans-serif; font-size:.85rem;
+  }
+  .level-box {
+    font-family:'Fredoka One',sans-serif; font-size:.82rem;
+    color:rgba(255,255,255,0.7);
+    background:rgba(255,255,255,0.08); padding:4px 10px; border-radius:12px;
+  }
+  #mute-btn { background:none; border:none; color:#fff; font-size:1.2rem; cursor:pointer; padding:2px 6px; }
+  .score-box {
+    font-family:'Fredoka One',sans-serif; font-size:.9rem; color:#ffd700;
+    background:rgba(255,215,0,0.12); padding:4px 10px; border-radius:12px;
+  }
+  .lives-box { display:flex; gap:3px; }
+  .life { font-size:1.1rem; transition:all .2s; }
+  .life.lost { opacity:0.2; filter:grayscale(1); }
+
+  #timer-bar-wrap { height:5px; background:rgba(255,255,255,0.1); }
+  #timer-bar { height:100%; width:100%; background:linear-gradient(90deg,#33cc55,#aaff44); transition:width .1s linear; }
+
+#choices { display: none !important; }
+</style>
+</head>
+<body>
+<div id="game-wrap">
+  <div class="screen" id="screen-intro">
+    <div class="game-logo">🐍</div>
+    <div class="lesson-name-badge" id="lesson-badge">Loading...</div>
+    <div class="screen-title">Word Snake!</div>
+    <div class="screen-sub">Steer the snake to eat the food with the correct answer! Use arrow keys, WASD, or the on-screen buttons!</div>
+    <div class="level-select">
+      <button class="level-btn active" data-level="1"><span class="level-btn-stars">⭐</span><span class="level-btn-name">Easy</span><span class="level-btn-desc">60s · 5 Q</span></button>
+      <button class="level-btn" data-level="2"><span class="level-btn-stars">⭐⭐</span><span class="level-btn-name">Medium</span><span class="level-btn-desc">45s · 8 Q</span></button>
+      <button class="level-btn" data-level="3"><span class="level-btn-stars">⭐⭐⭐</span><span class="level-btn-name">Hard</span><span class="level-btn-desc">30s · 10 Q</span></button>
+    </div>
+    <button class="btn-start" id="btn-launch">▶ Play!</button>
+  </div>
+
+  <div class="screen hidden" id="screen-result">
+    <div class="stars-display">
+      <span class="result-star" id="rstar-1">⭐</span>
+      <span class="result-star" id="rstar-2">⭐</span>
+      <span class="result-star" id="rstar-3">⭐</span>
+    </div>
+    <div class="result-score" id="result-score">0/5</div>
+    <div id="result-title" class="screen-title">Well Done!</div>
+    <div class="result-msg" id="result-msg"></div>
+    <div id="result-emoji" style="font-size:3rem">🎉</div>
+    <div class="result-btns">
+      <button class="btn-replay" onclick="GameBase.replayGame()">🔄 Try Again</button>
+      <button class="btn-home" onclick="location.reload()">🏠 Home</button>
+    </div>
+  </div>
+
+  <div id="hud">
+    <div class="hud-left">
+      <button class="btn-back" onclick="location.reload()">← Back</button>
+      <div class="level-box" id="hud-level">⭐ Easy</div>
+    </div>
+    <div class="hud-right">
+      <button id="mute-btn" onclick="SoundEngine.toggleMute()">🔊</button>
+      <div class="score-box">⚡ <span id="hud-score">0</span></div>
+      <div class="lives-box">
+        <span class="life" id="life-1">❤️</span>
+        <span class="life" id="life-2">❤️</span>
+        <span class="life" id="life-3">❤️</span>
+      </div>
+    </div>
+  </div>
+  <div id="timer-bar-wrap"><div id="timer-bar"></div></div>
+
+  <canvas id="game-canvas"></canvas>
+
+  <!-- Arrow pad for touch users -->
+  <div id="arrow-pad">
+    <div class="arrow-btn hidden-btn"></div>
+    <button class="arrow-btn" id="btn-up">▲</button>
+    <div class="arrow-btn hidden-btn"></div>
+    <button class="arrow-btn" id="btn-left">◀</button>
+    <div class="arrow-btn hidden-btn"></div>
+    <button class="arrow-btn" id="btn-right">▶</button>
+    <div class="arrow-btn hidden-btn"></div>
+    <button class="arrow-btn" id="btn-down">▼</button>
+    <div class="arrow-btn hidden-btn"></div>
+  </div>
+
+  <div id="question-zone">
+    <div>
+      <div id="q-counter">Q 1 / 5</div>
+      <div id="question-text">Loading question...</div>
+    </div>
+    <div id="choices"></div>
+  </div>
+
+  <div id="feedback-flash"></div>
+  <div id="countdown" class="hidden">3</div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════
+//  🔊 SOUND ENGINE — Web Audio API (no external files)
+// ═══════════════════════════════════════════════════
+const SoundEngine = (() => {
+  let ctx = null;
+  let bgNode = null, bgGain = null;
+  let muted = false;
+  const KEY = 'eduquest-muted';
+  muted = localStorage.getItem(KEY) === 'true';
+
+  function getCtx() {
+    if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+    if (ctx.state === 'suspended') ctx.resume();
+    return ctx;
+  }
+
+  function beep(freq, type, duration, vol=0.3, startTime=0) {
+    if (muted) return;
+    try {
+      const c = getCtx();
+      const o = c.createOscillator();
+      const g = c.createGain();
+      o.connect(g); g.connect(c.destination);
+      o.type = type;
+      o.frequency.setValueAtTime(freq, c.currentTime + startTime);
+      g.gain.setValueAtTime(vol, c.currentTime + startTime);
+      g.gain.exponentialRampToValueAtTime(0.001, c.currentTime + startTime + duration);
+      o.start(c.currentTime + startTime);
+      o.stop(c.currentTime + startTime + duration + 0.01);
+    } catch(e){}
+  }
+
+  const sounds = {
+    correct: () => { beep(523,  'sine', 0.12, 0.3); beep(659, 'sine', 0.12, 0.3, 0.1); beep(784, 'sine', 0.2, 0.3, 0.22); },
+    wrong:   () => { beep(220,  'sawtooth', 0.2, 0.25); beep(180, 'sawtooth', 0.25, 0.2, 0.15); },
+    click:   () => { beep(880,  'square',   0.07, 0.1); },
+    tick:    () => { beep(1100, 'square',   0.06, 0.08); },
+    stars:   () => { beep(784,  'sine',     0.12, 0.25); beep(988, 'sine', 0.12, 0.25, 0.1); beep(1175,'sine',0.18,0.25,0.22); },
+    levelup: () => {
+      [523,659,784,1047].forEach((f,i) => beep(f, 'sine', 0.15, 0.3, i*0.12));
+    },
+    gameover:() => { beep(311, 'sawtooth', 0.3, 0.3); beep(233, 'sawtooth', 0.4, 0.3, 0.25); beep(196,'sawtooth',0.5,0.3,0.55); },
+    shoot:   () => { beep(200, 'sawtooth', 0.08, 0.2); beep(100, 'sawtooth', 0.06, 0.15, 0.05); },
+    pop:     () => { beep(600, 'triangle', 0.1,  0.2); beep(400, 'triangle', 0.08, 0.15, 0.08); },
+    splash:  () => { beep(300, 'sine',     0.15, 0.2); beep(200, 'sine',     0.2,  0.2, 0.1); },
+    whoosh:  () => { beep(800, 'sine',     0.06, 0.15); beep(200, 'sine',     0.08, 0.1, 0.06); },
+    flip:    () => { beep(440, 'triangle', 0.08, 0.2); beep(550, 'triangle', 0.08, 0.2, 0.06); },
+    match:   () => { beep(523, 'sine',0.1,0.3); beep(659,'sine',0.1,0.3,0.08); beep(784,'sine',0.15,0.3,0.18); },
+    freeze:  () => { [1000,800,600,400].forEach((f,i)=>beep(f,'square',0.08,0.15,i*0.06)); },
+    launch:  () => { beep(200,'sawtooth',0.3,0.3); beep(300,'sine',0.2,0.2,0.15); beep(500,'sine',0.15,0.2,0.3); },
+    sword:   () => { beep(300,'sawtooth',0.06,0.3); beep(500,'square',0.06,0.2,0.05); },
+    thunder: () => { beep(60,'sawtooth',0.3,0.4); beep(40,'sawtooth',0.2,0.3,0.1); },
+  };
+
+  // BG ambient loop
+  function startBg(type='space') {
+    if (muted) return;
+    stopBg();
+    try {
+      const c = getCtx();
+      bgGain = c.createGain();
+      bgGain.gain.value = 0.04;
+      bgGain.connect(c.destination);
+
+      // simple drone
+      const freqs = type==='space'?[55,110,165]:[65,130,195];
+      freqs.forEach(f => {
+        const o = c.createOscillator();
+        o.type = 'sine'; o.frequency.value = f;
+        o.connect(bgGain); o.start();
+        if (!bgNode) bgNode = []; bgNode.push(o);
+      });
+    } catch(e){}
+  }
+  function stopBg() {
+    try { if (bgNode) { (Array.isArray(bgNode)?bgNode:[bgNode]).forEach(n=>n.stop()); } } catch(e){}
+    bgNode = null;
+  }
+
+  function play(name) { if (sounds[name]) sounds[name](); }
+  function toggleMute() {
+    muted = !muted;
+    localStorage.setItem(KEY, muted);
+    if (muted) stopBg();
+    return muted;
+  }
+  function isMuted() { return muted; }
+
+  return { play, startBg, stopBg, toggleMute, isMuted };
+})();
+window.SoundEngine = SoundEngine;
+
+</script>
+<script>
+// ═══════════════════════════════════════════════════
+//  💾 PROGRESS MANAGER — localStorage
+// ═══════════════════════════════════════════════════
+const Progress = (() => {
+  const KEY = 'eduquest-progress-v2';
+  function load()   { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e){ return {}; } }
+  function save(d)  { localStorage.setItem(KEY, JSON.stringify(d)); }
+  function setStars(lessonKey, stars) {
+    const d = load();
+    d[lessonKey] = Math.max(d[lessonKey] || 0, stars);
+    save(d);
+  }
+  function getStars(lessonKey) { return load()[lessonKey] || 0; }
+  function clearAll() { localStorage.removeItem(KEY); }
+  return { setStars, getStars, clearAll };
+})();
+window.Progress = Progress;
+
+</script>
+<script>
+// Auto-generated curriculum data for Primary 6 Unit 6
+const CURRICULUM = {
+  grade6: {
+    name: "Primary 6",
+    units: [
+{
+  "id": "u6",
+  "name": "Let's Go to the Moon",
+  "lessons": [
+    {
+      "id": "l1",
+      "name": "Lesson 1 - Archery Quiz",
+      "topicName": "Vocabulary",
+      "gameType": "archery-quiz",
+      "questions": [
+        {
+          "type": "mcq",
+          "q": "She _____ not watch the show yesterday.",
+          "choices": [
+            "a)  do",
+            "b)  did",
+            "c)  does"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "We _____ not win the match last week.",
+          "choices": [
+            "a)  didn't",
+            "b)  don't",
+            "c)  weren't"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "_____ He visit the museum?",
+          "choices": [
+            "a)  Is",
+            "b)  Do",
+            "c)  Does"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "Listen! Eman _____ a song.",
+          "choices": [
+            "a)  is singing",
+            "b)  sings",
+            "c)  sing"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "She is able _____ English very well.",
+          "choices": [
+            "a)  speaking",
+            "b)  speak",
+            "c)  to speak"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "They _____ listen to the teacher carefully.",
+          "choices": [
+            "a)  aren't to",
+            "b)  must",
+            "c)  mustn't"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "Ali _____ their house yesterday.",
+          "choices": [
+            "a)  paints",
+            "b)  paint",
+            "c)  painted"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "We _____ not win the match last week.",
+          "choices": [
+            "a)  don't",
+            "b)  weren't",
+            "c)  didn't"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "We buy _____ from Khan El Khalili.",
+          "choices": [
+            "a)  furniture",
+            "b)  cars",
+            "c)  souvenirs"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "In _____ weather, people should drink a lot of water.",
+          "choices": [
+            "a)  cool",
+            "b)  rainy",
+            "c)  hot"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "He is able _____ English very well.",
+          "choices": [
+            "a)  to speak",
+            "b)  speak",
+            "c)  speaking"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "We _____ protect the environment.",
+          "choices": [
+            "a)  must",
+            "b)  mustn't",
+            "c)  shouldn't"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "She _____ a new car last year.",
+          "choices": [
+            "a)  bought",
+            "b)  buy",
+            "c)  buys"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "We cleaned the room by _____.",
+          "choices": [
+            "a)  ourselves",
+            "b)  themselves",
+            "c)  yourselves"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "The nature in Ras Mohamed National Park is _____.",
+          "choices": [
+            "a)  boring",
+            "b)  amazing",
+            "c)  bad"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "What is hibiscus used _____ in the family?",
+          "choices": [
+            "a)  from",
+            "b)  for",
+            "c)  of"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "_____ Hassan do the research?",
+          "choices": [
+            "a)  Is",
+            "b)  Can",
+            "c)  Does"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "Students _____ listen to the teacher carefully.",
+          "choices": [
+            "a)  mustn't",
+            "b)  must",
+            "c)  aren't to"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "To _____ the plane you should have a ticket.",
+          "choices": [
+            "a)  board",
+            "b)  fly",
+            "c)  guide"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "I go to the supermarket to buy _____.",
+          "choices": [
+            "a)  groceries",
+            "b)  vegetables",
+            "c)  laundry"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "Asmaa always _____ the bed.",
+          "choices": [
+            "a)  make",
+            "b)  makes",
+            "c)  making"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "Ahmed _____ not studying at the moment.",
+          "choices": [
+            "a)  do",
+            "b)  is",
+            "c)  does"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "The students _____ not able to swim.",
+          "choices": [
+            "a)  do",
+            "b)  can",
+            "c)  are"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "You _____ smoke, it's bad for health.",
+          "choices": [
+            "a)  mustn't",
+            "b)  should",
+            "c)  must"
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": "l2",
+      "name": "Lesson 2 - Space Blaster",
+      "topicName": "Grammar",
+      "gameType": "space-blaster",
+      "questions": [
+        {
+          "type": "mcq",
+          "q": "We _____ their house yesterday.",
+          "choices": [
+            "a)  paints",
+            "b)  paint",
+            "c)  painted"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "When something is valuable, it is _____.",
+          "choices": [
+            "a)  cheap",
+            "b)  bad",
+            "c)  precious"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "The girls always _____ their homework.",
+          "choices": [
+            "a)  do",
+            "b)  doing",
+            "c)  does"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "Look! Mohamed _____ tennis now.",
+          "choices": [
+            "a)  play",
+            "b)  plays",
+            "c)  is playing"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "Protein is found in meat, fish and _____.",
+          "choices": [
+            "a)  rice",
+            "b)  beans",
+            "c)  apples"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "People _____ turn off the computer when finished.",
+          "choices": [
+            "a)  shouldn't",
+            "b)  mustn't",
+            "c)  should"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "They _____ not watch the show yesterday.",
+          "choices": [
+            "a)  do",
+            "b)  does",
+            "c)  did"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "Big fish like Nile _____ swim in the water.",
+          "choices": [
+            "a)  perch",
+            "b)  dogs",
+            "c)  cats"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "Look! Ahmed _____ tennis now.",
+          "choices": [
+            "a)  plays",
+            "b)  is playing",
+            "c)  play"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "They rode camels into the Sahara _____.",
+          "choices": [
+            "a)  River",
+            "b)  Lake",
+            "c)  Desert"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "To _____ is to continue to exist for a long time.",
+          "choices": [
+            "a)  survive",
+            "b)  waste",
+            "c)  harm"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "He _____ a new car last year.",
+          "choices": [
+            "a)  buys",
+            "b)  bought",
+            "c)  buy"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "The Nile _____ through Egypt from south to north.",
+          "choices": [
+            "a)  runs",
+            "b)  flies",
+            "c)  flows"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "Why _____ Ahmed running?",
+          "choices": [
+            "a)  has",
+            "b)  is",
+            "c)  does"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "Mechanics fix _____.",
+          "choices": [
+            "a)  vehicles",
+            "b)  bags",
+            "c)  computers"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "You _____ stop when the light is red.",
+          "choices": [
+            "a)  has to",
+            "b)  must",
+            "c)  mustn't"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "What did I _____ last night?",
+          "choices": [
+            "a)  did",
+            "b)  do",
+            "c)  doing"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "Farmers _____ the crops in the village.",
+          "choices": [
+            "a)  harvest",
+            "b)  weave",
+            "c)  spin"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "It is windy and the sky is full of dark _____.",
+          "choices": [
+            "a)  plants",
+            "b)  stars",
+            "c)  clouds"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "Are They _____ to tidy the flat?",
+          "choices": [
+            "a)  can",
+            "b)  able",
+            "c)  could"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "We _____ touch electrical wires.",
+          "choices": [
+            "a)  must",
+            "b)  mustn't",
+            "c)  have to"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "The bundle of _____ was hard to break.",
+          "choices": [
+            "a)  sticks",
+            "b)  metal",
+            "c)  glass"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "He _____ to school every day.",
+          "choices": [
+            "a)  walk",
+            "b)  walking",
+            "c)  walks"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "Why _____ Mohamed running?",
+          "choices": [
+            "a)  has",
+            "b)  is",
+            "c)  does"
+          ],
+          "answer": 1
+        }
+      ]
+    },
+    {
+      "id": "l3",
+      "name": "Lesson 3 - Bubble Pop",
+      "topicName": "Phonics",
+      "gameType": "bubble-pop",
+      "questions": [
+        {
+          "type": "mcq",
+          "q": "We _____ play tennis outside.",
+          "choices": [
+            "a)  able",
+            "b)  are",
+            "c)  can"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "People _____ listen to the teacher carefully.",
+          "choices": [
+            "a)  mustn't",
+            "b)  aren't to",
+            "c)  must"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "The roads are busy, so I never _____ to school.",
+          "choices": [
+            "a)  walk",
+            "b)  fly",
+            "c)  swim"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "You always _____ their homework.",
+          "choices": [
+            "a)  does",
+            "b)  doing",
+            "c)  do"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "You _____ visiting London now.",
+          "choices": [
+            "a)  do",
+            "b)  is",
+            "c)  are"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "Mona is _____ to draw beautifully.",
+          "choices": [
+            "a)  could",
+            "b)  able",
+            "c)  can"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "They _____ smoke, it's bad for health.",
+          "choices": [
+            "a)  should",
+            "b)  mustn't",
+            "c)  must"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "We _____ not at school yesterday.",
+          "choices": [
+            "a)  were",
+            "b)  did",
+            "c)  was"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "We always _____ their homework.",
+          "choices": [
+            "a)  doing",
+            "b)  do",
+            "c)  does"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "When it's hot, people rest in the _____.",
+          "choices": [
+            "a)  dust",
+            "b)  shade",
+            "c)  sun"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "The students _____ play tennis outside.",
+          "choices": [
+            "a)  can",
+            "b)  are",
+            "c)  able"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "You _____ smoke, it's bad for health.",
+          "choices": [
+            "a)  must",
+            "b)  mustn't",
+            "c)  should"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "I read a travel _____ to learn about Al Galala City.",
+          "choices": [
+            "a)  watched",
+            "b)  cooked",
+            "c)  brochure"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "What time do They _____?",
+          "choices": [
+            "a)  leaves",
+            "b)  leave",
+            "c)  left"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "My friends are _____ for the football game.",
+          "choices": [
+            "a)  practice",
+            "b)  practicing",
+            "c)  practices"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "John Montagu invented the _____ in 1750.",
+          "choices": [
+            "a)  sandwich",
+            "b)  plane",
+            "c)  car"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "You _____ stop when the light is red.",
+          "choices": [
+            "a)  mustn't",
+            "b)  has to",
+            "c)  must"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "Let's _____ the museum next Friday.",
+          "choices": [
+            "a)  visited",
+            "b)  visiting",
+            "c)  visit"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "We buy _____ from Khan El Khalili.",
+          "choices": [
+            "a)  furniture",
+            "b)  cars",
+            "c)  souvenirs"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "Look! Eman _____ tennis now.",
+          "choices": [
+            "a)  plays",
+            "b)  is playing",
+            "c)  play"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "He _____ not walk to school.",
+          "choices": [
+            "a)  is not",
+            "b)  cannot",
+            "c)  do not"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "You _____ protect the environment.",
+          "choices": [
+            "a)  must",
+            "b)  mustn't",
+            "c)  shouldn't"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "I _____ not watch the show yesterday.",
+          "choices": [
+            "a)  did",
+            "b)  does",
+            "c)  do"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "The moon _____ round the earth.",
+          "choices": [
+            "a)  went",
+            "b)  goes",
+            "c)  go"
+          ],
+          "answer": 1
+        }
+      ]
+    },
+    {
+      "id": "l4",
+      "name": "Lesson 4 - Word Snake",
+      "topicName": "Practice",
+      "gameType": "word-snake",
+      "questions": [
+        {
+          "type": "mcq",
+          "q": "Look! Aisha _____ tennis now.",
+          "choices": [
+            "a)  play",
+            "b)  plays",
+            "c)  is playing"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "A _____ cleans the roads.",
+          "choices": [
+            "a)  street cleaner",
+            "b)  mechanic",
+            "c)  teacher"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "We should make use of our natural _____.",
+          "choices": [
+            "a)  pollution",
+            "b)  cars",
+            "c)  resources"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "Omar helped a new student with the _____.",
+          "choices": [
+            "a)  pens",
+            "b)  textbooks",
+            "c)  rulers"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "They always _____ their homework.",
+          "choices": [
+            "a)  does",
+            "b)  doing",
+            "c)  do"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "Every morning, I check for _____ on the plants.",
+          "choices": [
+            "a)  insects",
+            "b)  cats",
+            "c)  birds"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "You _____ not able to swim.",
+          "choices": [
+            "a)  are",
+            "b)  can",
+            "c)  do"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "They _____ speak politely to parents.",
+          "choices": [
+            "a)  have",
+            "b)  mustn't",
+            "c)  must"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "We _____ dinner an hour ago.",
+          "choices": [
+            "a)  have",
+            "b)  had",
+            "c)  has"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "The teacher usually _____ stories at night.",
+          "choices": [
+            "a)  reads",
+            "b)  read",
+            "c)  reading"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "Every morning, I check for _____ on the plants.",
+          "choices": [
+            "a)  birds",
+            "b)  cats",
+            "c)  insects"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "Nancy Johnson invented the first ice cream _____.",
+          "choices": [
+            "a)  shop",
+            "b)  factory",
+            "c)  churn"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "You _____ listen to the teacher carefully.",
+          "choices": [
+            "a)  mustn't",
+            "b)  aren't to",
+            "c)  must"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "He _____ a new car last year.",
+          "choices": [
+            "a)  buys",
+            "b)  bought",
+            "c)  buy"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "My father always _____ the bed.",
+          "choices": [
+            "a)  makes",
+            "b)  make",
+            "c)  making"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "_____ My friends eating lunch at the moment?",
+          "choices": [
+            "a)  Do",
+            "b)  Is",
+            "c)  Are"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "Mona _____ not walk to school.",
+          "choices": [
+            "a)  cannot",
+            "b)  do not",
+            "c)  is not"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "People _____ stop when the light is red.",
+          "choices": [
+            "a)  mustn't",
+            "b)  must",
+            "c)  has to"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "Mona _____ dinner an hour ago.",
+          "choices": [
+            "a)  have",
+            "b)  has",
+            "c)  had"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "Carpenters make furniture in _____.",
+          "choices": [
+            "a)  Aswan",
+            "b)  Luxor",
+            "c)  Damietta"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "I like looking at the high _____ in the sea.",
+          "choices": [
+            "a)  waves",
+            "b)  stars",
+            "c)  mountains"
+          ],
+          "answer": 0
+        },
+        {
+          "type": "mcq",
+          "q": "He liked to eat a sandwich and play _____.",
+          "choices": [
+            "a)  football",
+            "b)  cards",
+            "c)  tennis"
+          ],
+          "answer": 1
+        },
+        {
+          "type": "mcq",
+          "q": "They _____ protect the environment.",
+          "choices": [
+            "a)  shouldn't",
+            "b)  mustn't",
+            "c)  must"
+          ],
+          "answer": 2
+        },
+        {
+          "type": "mcq",
+          "q": "Ali _____ not watch the show yesterday.",
+          "choices": [
+            "a)  does",
+            "b)  did",
+            "c)  do"
+          ],
+          "answer": 1
+        }
+      ]
+    }
+  ]
+}
+    ]
+  }
+};
+
+</script>
+<script>
+// ═══════════════════════════════════════════════════════════════
+//  🎮 GAME BASE ENGINE — Handles questions, HUD, timer, results
+// ═══════════════════════════════════════════════════════════════
+
+const GameBase = (() => {
+
+  // ── URL Params ───────────────────────────────────────────────
+  const params    = new URLSearchParams(location.search);
+  const GRADE = 'grade6';
+  const UNIT_ID = 'u6';
+  const LES_ID = 'l4';
+  const LESSON_KEY = `${GRADE}-${UNIT_ID}-${LES_ID}`;
+
+  // ── State ────────────────────────────────────────────────────
+  let _questions = [], _qIndex = 0, _score = 0, _lives = 3;
+  let _timeLeft = 60, _totalTime = 60;
+  let _timerInterval = null, _selectedLevel = 1;
+  let _gameActive = false;
+  let _callbacks = {};
+
+  // ── Level config ─────────────────────────────────────────────
+  const LEVELS = {
+    1: { time:90, count:8,  label:'⭐ Easy',   hints:2 },
+    2: { time:60, count:15, label:'⭐⭐ Medium', hints:0 },
+    3: { time:45, count:25, label:'⭐⭐⭐ Hard',  hints:0 },
+  };
+
+  // ── Shuffle ──────────────────────────────────────────────────
+  function shuffle(arr) {
+    const a = [...arr];
+    for(let i=a.length-1;i>0;i--){
+      const j=Math.floor(Math.random()*(i+1));
+      [a[i],a[j]]=[a[j],a[i]];
+    }
+    return a;
+  }
+
+  // ── Prepare questions ────────────────────────────────────────
+  function prepareQuestions(all, level) {
+    const cfg = LEVELS[level];
+    const picked = shuffle(all).slice(0, Math.min(cfg.count, all.length));
+    return picked.map(q => {
+      if (q.type === 'mcq') {
+        const indexed = q.choices.map((c,i)=>({text:c,correct:i===q.answer}));
+        const sc = shuffle(indexed);
+        return { ...q, choices: sc.map(c=>c.text), answer: sc.findIndex(c=>c.correct) };
+      }
+      return {...q};
+    });
+  }
+
+  // ── Stars ─────────────────────────────────────────────────────
+  function calcStars(correct, total, timeLeft, totalTime) {
+    const acc  = correct / total;
+    const tBonus = timeLeft / totalTime;
+    if (acc >= 0.9 && tBonus > 0.4) return 3;
+    if (acc >= 0.7) return 2;
+    if (acc >= 0.5) return 1;
+    return 0;
+  }
+
+  // ── Timer ─────────────────────────────────────────────────────
+  function startTimer() {
+    stopTimer();
+    const barEl = document.getElementById('timer-bar');
+    _timerInterval = setInterval(() => {
+      _timeLeft -= 0.1;
+      if (barEl) barEl.style.width = Math.max(0, (_timeLeft/_totalTime)*100) + '%';
+      if (_timeLeft <= 8) SoundEngine.play('tick');
+      if (_timeLeft <= 0) { stopTimer(); endGame(); }
+    }, 100);
+  }
+  function stopTimer() { clearInterval(_timerInterval); }
+
+  // ── HUD ───────────────────────────────────────────────────────
+  function updateHUD() {
+    const scoreEl = document.getElementById('hud-score');
+    const levelEl = document.getElementById('hud-level');
+    if (scoreEl) scoreEl.textContent = _score;
+    if (levelEl) levelEl.textContent = LEVELS[_selectedLevel].label;
+    refreshLives();
+  }
+  function refreshLives() {
+    for(let i=1;i<=3;i++){
+      const el=document.getElementById(`life-${i}`);
+      if(el) el.className = 'life' + (i > _lives ? ' lost' : '');
+    }
+  }
+
+  // ── MCQ Choices Renderer ─────────────────────────────────────
+  function renderChoices(q) {
+    const choicesEl = document.getElementById('choices');
+    const fillEl    = document.getElementById('fill-wrap');
+    if (!choicesEl || !fillEl) return;
+
+    if (q.type === 'fill') {
+      choicesEl.style.display = 'none';
+      fillEl.style.display    = 'flex';
+      fillEl.innerHTML = `
+        <input id="fill-input" type="text" placeholder="Type your answer..." autocomplete="off" autocorrect="off" spellcheck="false"/>
+        <button id="fill-btn" onclick="GameBase.checkFill()">✓ Submit</button>
+      `;
+      const inp = document.getElementById('fill-input');
+      if (inp) {
+        inp.focus();
+        inp.addEventListener('keydown', e => { if (e.key === 'Enter') GameBase.checkFill(); });
+      }
+    } else {
+      fillEl.style.display    = 'none';
+      choicesEl.style.display = 'grid';
+      choicesEl.innerHTML = '';
+      (q.choices || []).forEach((choice, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'choice-btn';
+        btn.textContent = choice;
+        btn.id = `choice-btn-${idx}`;
+        btn.addEventListener('click', () => {
+          if (!_gameActive) return;
+          submitAnswer(idx);
+        });
+        choicesEl.appendChild(btn);
+      });
+    }
+  }
+
+  // ── Public: current question ──────────────────────────────────
+  function currentQ() { return _questions[_qIndex]; }
+
+  // ── Public: answer attempt (MCQ) ─────────────────────────────
+  function submitAnswer(choiceIndex) {
+    if (!_gameActive) return;
+    const q = currentQ();
+    if (!q) return;
+    // Disable all buttons briefly
+    document.querySelectorAll('.choice-btn').forEach(b => b.disabled = true);
+    if (choiceIndex === q.answer) handleCorrect();
+    else handleWrong();
+  }
+
+  // ── Public: fill check ────────────────────────────────────────
+  function checkFill() {
+    if (!_gameActive) return;
+    const inp = document.getElementById('fill-input');
+    if (!inp) return;
+    const val = inp.value.trim().toLowerCase();
+    const q   = currentQ();
+    const ans = (q.answer || '').toString().trim().toLowerCase();
+    if (val === ans) handleCorrect();
+    else handleWrong();
+  }
+
+  function handleCorrect() {
+    _score++;
+    updateHUD();
+    SoundEngine.play('correct');
+    flashFeedback('correct');
+    if (_callbacks.onCorrect) _callbacks.onCorrect();
+    setTimeout(() => advance(), 800);
+  }
+  function handleWrong() {
+    SoundEngine.play('wrong');
+    flashFeedback('wrong');
+    _lives--;
+    updateHUD();
+    if (_lives <= 0) {
+      endGame();
+    } else {
+      if (typeof GameBase_onWrong === 'function') GameBase_onWrong();
+      // Advance to next question even if wrong, so they see all questions
+      setTimeout(() => {
+        advance();
+      }, 1200);
+    }
+  }
+  function advance() {
+    _qIndex++;
+    if (_qIndex >= _questions.length) { endGame(); return; }
+    const q = currentQ();
+    if (_callbacks.onNextQ) _callbacks.onNextQ(q, _qIndex, _questions.length);
+    renderChoices(q);
+    updateQCounter();
+  }
+
+  function updateQCounter() {
+    const el = document.getElementById('q-counter');
+    if (el) el.textContent = `Q ${_qIndex+1} / ${_questions.length}`;
+  }
+
+  function flashFeedback(type) {
+    const el = document.getElementById('feedback-flash');
+    if (!el) return;
+    el.className = 'show-' + type;
+    setTimeout(() => el.className = '', 400);
+  }
+
+  // ── Start ─────────────────────────────────────────────────────
+  function startGame(level, allQuestions, callbacks) {
+    _selectedLevel = level;
+    _callbacks     = callbacks || {};
+    _questions     = prepareQuestions(allQuestions, level);
+    _qIndex = 0; _score = 0; _lives = 3;
+    _totalTime = LEVELS[level].time;
+    _timeLeft  = _totalTime;
+    _gameActive = true;
+    updateHUD();
+    startTimer();
+    const q = _questions[0];
+    if (_callbacks.onStart) _callbacks.onStart(q, 0, _questions.length);
+    renderChoices(q);
+    updateQCounter();
+    SoundEngine.startBg('space');
+  }
+
+  // ── End ───────────────────────────────────────────────────────
+  function endGame() {
+    _gameActive = false;
+    stopTimer();
+    SoundEngine.stopBg();
+    const total = _questions.length;
+    const stars = calcStars(_score, total, _timeLeft, _totalTime);
+    if (typeof Progress !== 'undefined') Progress.setStars(LESSON_KEY, stars);
+    if (_callbacks.onGameEnd) _callbacks.onGameEnd(_score, total, stars);
+    setTimeout(() => showResultScreen(_score, total, stars), 400);
+  }
+
+  function showResultScreen(score, total, stars) {
+    // Hide all game screens/canvases
+    const screen = document.getElementById('screen-result');
+    if (!screen) return;
+    screen.classList.remove('hidden');
+    const titleEl = document.getElementById('result-title');
+    const msgEl   = document.getElementById('result-msg');
+    const scoreEl = document.getElementById('result-score');
+    const emojiEl = document.getElementById('result-emoji');
+    const titles = ['Mission Failed!','Keep Trying!','Well Done!','Perfect! 🏆'];
+    const msgs   = ["Don't give up! Try again! 💪",'Good attempt! You can do better!','Great job! You\'re improving! 🌟','Outstanding! You mastered this lesson! 🚀'];
+    if (titleEl) titleEl.textContent = titles[stars];
+    if (msgEl)   msgEl.textContent   = msgs[stars];
+    if (scoreEl) scoreEl.textContent = `${score} / ${total}`;
+    if (emojiEl) emojiEl.textContent  = ['😅','🙂','😄','🏆'][stars];
+    [1,2,3].forEach((n,i) => {
+      const el = document.getElementById(`rstar-${n}`);
+      if (!el) return;
+      el.classList.remove('lit');
+      if (i < stars) setTimeout(() => { el.classList.add('lit'); SoundEngine.play('stars'); }, 400+i*350);
+    });
+    if (stars >= 2) setTimeout(() => SoundEngine.play('levelup'), 1400);
+    else setTimeout(() => SoundEngine.play('gameover'), 300);
+  }
+
+  // ── Navigation ────────────────────────────────────────────────
+  function goBack()  { location.href = '../../index.html'; }
+
+  function replayGame() {
+    // Reset state visually
+    const resultScreen = document.getElementById('screen-result');
+    const introScreen  = document.getElementById('screen-intro');
+    if (resultScreen) resultScreen.classList.add('hidden');
+    if (introScreen)  introScreen.classList.remove('hidden');
+    // Reset internal state so next startGame call starts fresh
+    _gameActive = false;
+    _qIndex = 0; _score = 0; _lives = 3;
+    stopTimer();
+    SoundEngine.stopBg();
+  }
+
+  function goNext()  { location.href = '../../index.html'; }
+
+  // ── Countdown ─────────────────────────────────────────────────
+  function runCountdown(onDone) {
+    const el = document.getElementById('countdown');
+    if (!el) { onDone(); return; }
+    el.classList.remove('hidden');
+    let n = 3;
+    el.textContent = n;
+    SoundEngine.play('tick');
+    const iv = setInterval(() => {
+      n--;
+      if (n <= 0) { clearInterval(iv); el.classList.add('hidden'); onDone(); }
+      else { el.textContent = n; SoundEngine.play('tick'); }
+    }, 900);
+  }
+
+  // ── Level select helper ───────────────────────────────────────
+  function bindLevelButtons() {
+    document.querySelectorAll('[data-level]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        _selectedLevel = parseInt(btn.dataset.level);
+        document.querySelectorAll('[data-level]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+  }
+
+  // ── Getters ───────────────────────────────────────────────────
+  function getLevel()     { return _selectedLevel; }
+  function getScore()     { return _score; }
+  function isActive()     { return _gameActive; }
+  function getQuestions() { return _questions; }
+  function getIndex()     { return _qIndex; }
+  function getInfo()      { return { GRADE, UNIT_ID, LES_ID, LESSON_KEY }; }
+
+  // ── Load questions from curriculum ────────────────────────────
+  function loadQuestions() {
+    const g = CURRICULUM[GRADE];
+    const u = g?.units.find(x => x.id === UNIT_ID);
+    const l = u?.lessons.find(x => x.id === LES_ID);
+    return l?.questions || [];
+  }
+
+  // ── Expose ────────────────────────────────────────────────────
+  return {
+    startGame, endGame, submitAnswer, checkFill,
+    currentQ, advance, renderChoices,
+    goBack, replayGame, goNext,
+    runCountdown, bindLevelButtons,
+    getLevel, getScore, isActive, getIndex, getQuestions,
+    getInfo, loadQuestions, shuffle,
+    LEVELS
+  };
+
+})();
+
+window.GameBase = GameBase;
+
+</script>
+<script>window.onerror = function(msg, url, line) { alert('JS ERROR: ' + msg + ' at line ' + line); };</script>
+<script>
+var info = GameBase.getInfo();
+var g = CURRICULUM[info.GRADE];
+var u = g?.units.find(x => x.id === info.UNIT_ID);
+var l = u?.lessons.find(x => x.id === info.LES_ID);
+if (l) document.getElementById('lesson-badge').textContent = l.name;
+
+GameBase.bindLevelButtons();
+
+const canvas = document.getElementById('game-canvas');
+const ctx = canvas.getContext('2d');
+
+function resizeCanvas() {
+  canvas.width  = canvas.offsetWidth;
+  canvas.height = canvas.offsetHeight;
+  computeGrid();
+}
+
+
+// ─── Grid ─────────────────────────────────────────────────
+const COLS = 20, ROWS = 16;
+let cellW = 1, cellH = 1;
+let gridOffX = 0, gridOffY = 0;
+let gridW = 1, gridH = 1;
+
+function computeGrid() {
+  const W = canvas.width, H = canvas.height;
+  // Leave room below HUD + question text (approx 110px)
+  const topPad = 110;
+  const botPad = 20;
+  const usableH = H - topPad - botPad;
+  const usableW = W - 20;
+  cellW = Math.floor(usableW / COLS);
+  cellH = Math.floor(usableH / ROWS);
+  // square cells
+  const cell = Math.min(cellW, cellH);
+  cellW = cell; cellH = cell;
+  gridW = cellW * COLS;
+  gridH = cellH * ROWS;
+  gridOffX = Math.floor((W - gridW) / 2);
+  gridOffY = topPad + Math.floor((usableH - gridH) / 2);
+}
+let _lastWinW = window.innerWidth;
+window.addEventListener('resize', () => {
+  if (window.innerWidth !== _lastWinW) {
+    _lastWinW = window.innerWidth;
+    resizeCanvas();
+  }
+});
+resizeCanvas();
+computeGrid();
+
+// ─── Snake & Food ─────────────────────────────────────────
+const FOOD_COLORS = [
+  { bg:'#ff3344', glow:'#ff0022', text:'#fff' },
+  { bg:'#3388ff', glow:'#0055ff', text:'#fff' },
+  { bg:'#44cc55', glow:'#228833', text:'#fff' },
+  { bg:'#ffcc00', glow:'#cc8800', text:'#111' },
+];
+
+let snake = [];
+let dir = { x: 1, y: 0 };
+let nextDir = { x: 1, y: 0 };
+let foods = [];
+let particles = [];
+let gameRunning = false;
+let animId = null;
+let frame = 0;
+let moveInterval = null;
+let MOVE_SPEED = 180; // ms per step
+let pendingAnswer = null;
+let answeredThisQ = false;
+
+// Decorative leaves
+let leaves = [];
+function initLeaves() {
+  leaves = [];
+  for (let i = 0; i < 18; i++) {
+    leaves.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: 8 + Math.random() * 18,
+      angle: Math.random() * Math.PI * 2,
+      color: ['#1a4a10','#0e3008','#226618','#153d0a'][Math.floor(Math.random()*4)],
+    });
+  }
+}
+
+function resetSnake() {
+  const startC = Math.floor(COLS / 2);
+  const startR = Math.floor(ROWS / 2);
+  snake = [
+    { c: startC,     r: startR },
+    { c: startC - 1, r: startR },
+    { c: startC - 2, r: startR },
+    { c: startC - 3, r: startR },
+  ];
+  dir = { x: 1, y: 0 };
+  nextDir = { x: 1, y: 0 };
+}
+
+function getOccupied() {
+  const set = new Set();
+  snake.forEach(s => set.add(`${s.c},${s.r}`));
+  foods.forEach(f => set.add(`${f.c},${f.r}`));
+  return set;
+}
+
+function randomFreeCell(occupied) {
+  let attempts = 0;
+  while (attempts < 200) {
+    const c = Math.floor(Math.random() * COLS);
+    const r = Math.floor(Math.random() * ROWS);
+    if (!occupied.has(`${c},${r}`)) return { c, r };
+    attempts++;
+  }
+  return { c: 0, r: 0 };
+}
+
+function spawnFoods(choices, answerIdx) {
+  foods = [];
+  answeredThisQ = false;
+  const occ = getOccupied();
+  for (let i = 0; i < Math.min(choices.length, 4); i++) {
+    const cell = randomFreeCell(occ);
+    occ.add(`${cell.c},${cell.r}`);
+    foods.push({
+      c: cell.c, r: cell.r,
+      label: choices[i],
+      isCorrect: i === answerIdx,
+      choiceIdx: i,
+      color: FOOD_COLORS[i],
+      pulse: Math.random() * Math.PI * 2,
+      alive: true,
+    });
+  }
+}
+
+function cellToPixel(c, r) {
+  return {
+    x: gridOffX + c * cellW + cellW / 2,
+    y: gridOffY + r * cellH + cellH / 2,
+  };
+}
+
+// ─── Draw ────────────────────────────────────────────────
+function drawGrid() {
+  ctx.save();
+  ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+  ctx.lineWidth = 1;
+  for (let c = 0; c <= COLS; c++) {
+    ctx.beginPath();
+    ctx.moveTo(gridOffX + c * cellW, gridOffY);
+    ctx.lineTo(gridOffX + c * cellW, gridOffY + gridH);
+    ctx.stroke();
+  }
+  for (let r = 0; r <= ROWS; r++) {
+    ctx.beginPath();
+    ctx.moveTo(gridOffX, gridOffY + r * cellH);
+    ctx.lineTo(gridOffX + gridW, gridOffY + r * cellH);
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+
+function drawSnake() {
+  snake.forEach((seg, i) => {
+    const px = gridOffX + seg.c * cellW;
+    const py = gridOffY + seg.r * cellH;
+    const pad = i === 0 ? 1 : 2;
+    const r = Math.max(2, (cellW - pad * 2) / 2);
+
+    ctx.save();
+    if (i === 0) {
+      // Head glow
+      ctx.shadowColor = '#44ff44';
+      ctx.shadowBlur = 18;
+    }
+    // Gradient green
+    const t = i / snake.length;
+    var g = Math.floor(180 - t * 80);
+    ctx.fillStyle = `rgb(${Math.floor(60 - t*30)},${g},${Math.floor(30 - t*10)})`;
+    ctx.strokeStyle = '#33cc55';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.roundRect(px + pad, py + pad, cellW - pad * 2, cellH - pad * 2, r);
+    ctx.fill();
+    ctx.stroke();
+
+    if (i === 0) {
+      // Eyes
+      const eyeR = Math.max(2, cellW * 0.1);
+      const ex1 = px + cellW * 0.35, ex2 = px + cellW * 0.65;
+      const ey = py + cellH * 0.38;
+      ctx.shadowBlur = 0;
+      ctx.fillStyle = '#fff';
+      ctx.beginPath(); ctx.arc(ex1, ey, eyeR, 0, Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.arc(ex2, ey, eyeR, 0, Math.PI*2); ctx.fill();
+      ctx.fillStyle = '#000';
+      ctx.beginPath(); ctx.arc(ex1 + dir.x*eyeR*0.4, ey + dir.y*eyeR*0.4, eyeR*0.5, 0, Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.arc(ex2 + dir.x*eyeR*0.4, ey + dir.y*eyeR*0.4, eyeR*0.5, 0, Math.PI*2); ctx.fill();
+    }
+    ctx.restore();
+  });
+}
+
+function drawFoods() {
+  foods.forEach(f => {
+    if (!f.alive) return;
+    const px = gridOffX + f.c * cellW;
+    const py = gridOffY + f.r * cellH;
+    const r = Math.max(3, (cellW - 4) / 2);
+    const pulse = Math.sin(frame * 0.07 + f.pulse) * 0.12 + 1;
+
+    ctx.save();
+    ctx.translate(px + cellW / 2, py + cellH / 2);
+    ctx.scale(pulse, pulse);
+
+    // Glow
+    ctx.shadowColor = f.color.glow;
+    ctx.shadowBlur = 16;
+
+    // Circle
+    const grad = ctx.createRadialGradient(-r*0.3, -r*0.3, 1, 0, 0, r);
+    grad.addColorStop(0, lighten(f.color.bg, 40));
+    grad.addColorStop(1, f.color.bg);
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.arc(0, 0, r, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.strokeStyle = 'rgba(255,255,255,0.4)';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    // Shine
+    ctx.fillStyle = 'rgba(255,255,255,0.3)';
+    ctx.beginPath();
+    ctx.ellipse(-r*0.25, -r*0.25, r*0.22, r*0.14, -Math.PI/4, 0, Math.PI*2);
+    ctx.fill();
+
+    ctx.restore();
+
+    // Label
+    ctx.save();
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    const fontSize = Math.max(9, Math.min(r * 0.8, 16));
+    ctx.font = `900 ${fontSize}px 'Fredoka One', sans-serif`;
+    ctx.fillStyle = f.color.text;
+    ctx.shadowColor = 'rgba(0,0,0,0.8)';
+    ctx.shadowBlur = 5;
+    ctx.fillText(f.label, px + cellW / 2, py + cellH / 2);
+    ctx.restore();
+  });
+}
+
+function lighten(hex, amount) {
+  const r = parseInt(hex.slice(1,3),16);
+  var g = parseInt(hex.slice(3,5),16);
+  const b = parseInt(hex.slice(5,7),16);
+  return `rgb(${Math.min(255,r+amount)},${Math.min(255,g+amount)},${Math.min(255,b+amount)})`;
+}
+
+function spawnParticles(x, y, color) {
+  for (let i = 0; i < 28; i++) {
+    const angle = Math.random() * Math.PI * 2;
+    const speed = 1.5 + Math.random() * 4;
+    particles.push({
+      x, y,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed - 1,
+      r: 3 + Math.random() * 5,
+      color,
+      life: 1,
+      gravity: 0.1,
+    });
+  }
+}
+
+// ─── Move Logic ──────────────────────────────────────────
+function moveSnake() {
+  if (!gameRunning || answeredThisQ) return;
+
+  dir = { ...nextDir };
+  const head = snake[0];
+  const newHead = {
+    c: (head.c + dir.x + COLS) % COLS,
+    r: (head.r + dir.y + ROWS) % ROWS,
+  };
+
+  // Check self-collision
+  const hitSelf = snake.slice(1).some(s => s.c === newHead.c && s.r === newHead.r);
+  if (hitSelf) {
+    // Lose a life, reset snake position
+    GameBase.loseLife();
+    const ff = document.getElementById('feedback-flash');
+    ff.className = 'wrong';
+    setTimeout(() => ff.className = '', 400);
+    resetSnake();
+    return;
+  }
+
+  snake.unshift(newHead);
+
+  // Check food collision
+  let ate = false;
+  foods.forEach(f => {
+    if (!f.alive) return;
+    if (f.c === newHead.c && f.r === newHead.r) {
+      f.alive = false;
+      ate = true;
+      answeredThisQ = true;
+      const { x, y } = cellToPixel(f.c, f.r);
+      spawnParticles(x, y, f.color.bg);
+      GameBase.submitAnswer(f.choiceIdx);
+      // Don't pop tail this step (grow)
+    }
+  });
+
+  if (!ate) {
+    snake.pop(); // normal move
+  }
+}
+
+// ─── Game Loop ───────────────────────────────────────────
+function gameLoop() {
+  if (!gameRunning) return;
+  animId = requestAnimationFrame(gameLoop);
+  frame++;
+
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  // Background
+  const bg = ctx.createLinearGradient(0, 0, 0, H);
+  bg.addColorStop(0, '#0a1a05');
+  bg.addColorStop(1, '#061004');
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, W, H);
+
+  // Leaves
+  leaves.forEach(l => {
+    ctx.save();
+    ctx.globalAlpha = 0.5;
+    ctx.fillStyle = l.color;
+    ctx.translate(l.x, l.y);
+    ctx.rotate(l.angle);
+    ctx.beginPath();
+    ctx.ellipse(0, 0, l.r, l.r * 0.5, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  });
+
+  // Grid bg tint
+  ctx.save();
+  ctx.fillStyle = 'rgba(0,30,0,0.35)';
+  ctx.fillRect(gridOffX, gridOffY, gridW, gridH);
+  ctx.restore();
+
+  drawGrid();
+  drawFoods();
+  drawSnake();
+
+  // Particles
+  particles = particles.filter(p => p.life > 0);
+  particles.forEach(p => {
+    p.x += p.vx;
+    p.y += p.vy;
+    p.vy += p.gravity;
+    p.life -= 0.02;
+    ctx.save();
+    ctx.globalAlpha = p.life;
+    ctx.fillStyle = p.color;
+    ctx.shadowColor = p.color;
+    ctx.shadowBlur = 8;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  });
+}
+
+// ─── Input ───────────────────────────────────────────────
+function setDir(dx, dy) {
+  if (!gameRunning) return;
+  // Prevent reversing
+  if (dx === -dir.x && dy === -dir.y) return;
+  nextDir = { x: dx, y: dy };
+}
+
+document.addEventListener('keydown', e => {
+  switch(e.key) {
+    case 'ArrowUp':    case 'w': case 'W': setDir(0,-1); e.preventDefault(); break;
+    case 'ArrowDown':  case 's': case 'S': setDir(0, 1); e.preventDefault(); break;
+    case 'ArrowLeft':  case 'a': case 'A': setDir(-1,0); e.preventDefault(); break;
+    case 'ArrowRight': case 'd': case 'D': setDir( 1,0); e.preventDefault(); break;
+  }
+});
+
+document.getElementById('btn-up').addEventListener('click',    () => setDir(0,-1));
+document.getElementById('btn-down').addEventListener('click',  () => setDir(0, 1));
+document.getElementById('btn-left').addEventListener('click',  () => setDir(-1,0));
+document.getElementById('btn-right').addEventListener('click', () => setDir( 1,0));
+
+// Swipe support
+let touchStart = null;
+canvas.addEventListener('touchstart', e => {
+  touchStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+}, { passive: true });
+canvas.addEventListener('touchend', e => {
+  if (!touchStart) return;
+  const dx = e.changedTouches[0].clientX - touchStart.x;
+  const dy = e.changedTouches[0].clientY - touchStart.y;
+  if (Math.abs(dx) > Math.abs(dy)) {
+    setDir(dx > 0 ? 1 : -1, 0);
+  } else {
+    setDir(0, dy > 0 ? 1 : -1);
+  }
+  touchStart = null;
+}, { passive: true });
+
+// ─── Show question ───────────────────────────────────────
+function showQuestion(q, idx, total) {
+  GameBase.renderChoices(q);
+  document.getElementById('q-counter').textContent = `Q ${idx+1} / ${total}`;
+  document.getElementById('question-text').textContent = q.q;
+  particles = [];
+  spawnFoods(q.choices, q.answer);
+}
+
+// ─── Launch ─────────────────────────────────────────────
+document.getElementById('btn-launch').addEventListener('click', () => {
+  document.getElementById('screen-intro').classList.add('hidden');
+  GameBase.runCountdown(() => {
+    computeGrid();
+    initLeaves();
+    resetSnake();
+    const allQ = GameBase.loadQuestions();
+    gameRunning = true;
+
+    // Move interval
+    if (moveInterval) clearInterval(moveInterval);
+    moveInterval = setInterval(moveSnake, MOVE_SPEED);
+
+    gameLoop();
+    GameBase.startGame(GameBase.getLevel(), allQ, {
+      onStart: showQuestion,
+      onNextQ: (q, idx, total) => {
+        showQuestion(q, idx, total);
+      },
+      onCorrect: () => {
+        const ff = document.getElementById('feedback-flash');
+        ff.className = 'correct';
+        setTimeout(() => ff.className = '', 400);
+      },
+      onWrong: () => {
+        const ff = document.getElementById('feedback-flash');
+        ff.className = 'wrong';
+        setTimeout(() => ff.className = '', 400);
+      },
+      onEnd: (result) => {
+        gameRunning = false;
+        cancelAnimationFrame(animId);
+        clearInterval(moveInterval);
+        showResult(result);
+      }
+    });
+  });
+});
+
+function showResult(result) {
+  document.getElementById('screen-result').classList.remove('hidden');
+  const total = result.total || 5;
+  const score = result.score || 0;
+  document.getElementById('result-score').textContent = `${score} / ${total}`;
+  const pct = score / total;
+  const stars = pct >= 0.9 ? 3 : pct >= 0.6 ? 2 : pct >= 0.3 ? 1 : 0;
+  for (let i = 1; i <= 3; i++) {
+    const el = document.getElementById(`rstar-${i}`);
+    if (i <= stars) setTimeout(() => el.classList.add('lit'), i * 250);
+  }
+  document.getElementById('result-title').textContent = ['Keep Going!','Good Job!','Well Done!','Amazing!'][Math.min(stars, 3)];
+  document.getElementById('result-msg').textContent = ['Keep practicing!','Good effort!','Great job!','Perfect!'][Math.min(stars, 3)];
+  document.getElementById('result-emoji').textContent = ['\uD83D\uDCAA', '\uD83D\uDC4D', '\uD83C\uDF89', '\uD83C\uDFC6'][Math.min(stars, 3)];
+} 
+</script>
+
