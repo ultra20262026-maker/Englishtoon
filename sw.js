@@ -1,4 +1,4 @@
-﻿const CACHE_NAME = 'english-toon-v20260721015638';
+﻿const CACHE_NAME = 'english-toon-v20260721020228';
 const urlsToCache = [
     "/",
     "/.gitattributes",
@@ -9,6 +9,7 @@ const urlsToCache = [
     "/fix-arabic.js",
     "/fix-arabic.ps1",
     "/fix-arabic.py",
+    "/fix-html-encoding.py",
     "/fix-meta.py",
     "/games_map.json",
     "/generate-3d-assets-v2.ps1",
