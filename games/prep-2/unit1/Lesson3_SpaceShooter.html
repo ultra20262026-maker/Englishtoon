@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script id="guard-script">
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            alert('عذراً، لا يمكنك الدخول لهذه اللعبة مباشرة. يرجى تسجيل الدخول أولاً.');
+            window.location.href = window.location.origin + (window.location.pathname.includes('/Englishtoon/') ? '/Englishtoon/' : '/');
+        }
+    </script>
+    <script src="../../../js/game-enhancements.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Space Shooter - Unit 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Nunito', sans-serif; overflow: hidden; width: 100vw; height: 100vh; background: #000; user-select: none; }
+
+/* HUD */
+#hud { position: fixed; top: 0; left: 0; right: 0; padding: 15px 30px; display: flex; justify-content: space-between; color: white; font-size: 1.5rem; font-weight: 900; z-index: 200; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); pointer-events: none; }
+#score-val { color: #f1c40f; }
+
+/* Question Panel */
+#q-panel { position: fixed; top: 70px; left: 0; right: 0; display: flex; justify-content: center; z-index: 150; pointer-events: none; }
+#q-text { background: rgba(0,0,0,0.7); border: 2px solid rgba(255,255,255,0.2); padding: 15px 40px; border-radius: 30px; color: white; font-size: 1.8rem; font-weight: 900; max-width: 80%; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.5); line-height: 1.4; }
+
+/* Targets Container */
+#targets { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 100; pointer-events: none; }
+.target-btn { position: absolute; transform: translate(-50%, -50%); pointer-events: auto; cursor: pointer; border: none; font-family: 'Fredoka One', cursive; font-size: 1.4rem; color: white; text-shadow: 2px 2px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; display: flex; justify-content: center; align-items: center; text-align: center; line-height: 1.2; padding: 10px; transition: filter 0.2s; }
+.target-btn:hover { filter: brightness(1.2); }
+.target-btn:disabled { cursor: not-allowed; }
+
+/* Canvas */
+canvas { display: block; position: fixed; top: 0; left: 0; z-index: 10; }
+
+/* End Screen */
+#end-screen { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 300; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; }
+#end-screen.show { display: flex; }
+#end-screen h1 { font-size: 4rem; margin-bottom: 20px; font-family: 'Fredoka One', cursive; }
+#end-screen p { font-size: 2rem; color: #f1c40f; margin-bottom: 30px; font-weight: 900; }
+#end-screen button { padding: 15px 50px; background: #e74c3c; color: white; border: none; border-radius: 40px; font-size: 1.5rem; font-weight: 900; cursor: pointer; font-family: 'Nunito', sans-serif; transition: transform 0.2s; }
+#end-screen button:hover { transform: scale(1.1); background: #c0392b; }
+
+/* Game Specific CSS */
+
+body { background: #000; }
+.target-btn {
+    width: 150px; height: 100px;
+    background: #555;
+    border-radius: 50% 40% 60% 30% / 30% 60% 40% 50%;
+    box-shadow: inset -10px -10px 20px rgba(0,0,0,0.6), 0 0 15px rgba(255,255,255,0.2);
+    border: 3px solid #777;
+    transition: transform 0.1s;
+}
+
+</style>
+</head>
+<body>
+
+<div id="hud">
+    <div>Space Shooter - Unit 1</div>
+    <div id="q-num">Q 1/25</div>
+    <div>Score: <span id="score-val">0</span></div>
+</div>
+
+<div id="q-panel"><div id="q-text"></div></div>
+
+<div id="targets"></div>
+<canvas id="cv"></canvas>
+
+<div id="end-screen">
+    <h1 id="end-title">Game Over!</h1>
+    <p id="end-score">Score: 0</p>
+    <button onclick="location.reload()">ðŸ”„ Play Again</button>
+</div>
+
+<script>
+const QS = [{"type": "mcq", "q": "Are you _____ to the cinema tonight?", "choices": ["go", "goes", "going"], "answer": 2}, {"type": "mcq", "q": "I _____ not working next week. I'm on holiday.", "choices": ["are", "am", "is"], "answer": 1}, {"type": "mcq", "q": "She _____ her new dress to the party.", "choices": ["wears", "wear", "is wearing"], "answer": 2}, {"type": "mcq", "q": "We _____ to the new restaurant later.", "choices": ["are going", "goes", "go"], "answer": 0}, {"type": "mcq", "q": "He _____ an exam tomorrow morning.", "choices": ["takes", "take", "is taking"], "answer": 2}, {"type": "mcq", "q": "They _____ a new car next month.", "choices": ["buy", "buys", "are buying"], "answer": 2}, {"type": "mcq", "q": "I _____ my grandparents on Sunday.", "choices": ["visits", "am visiting", "visit"], "answer": 1}, {"type": "mcq", "q": "Your identity is _____ you are.", "choices": ["when", "where", "who"], "answer": 2}, {"type": "mcq", "q": "In school fairs, students present the projects they are passionate _____.", "choices": ["about", "of", "for"], "answer": 0}, {"type": "mcq", "q": "It isn't a good thing to laugh _____ others' actions.", "choices": ["at", "about", "to"], "answer": 0}, {"type": "mcq", "q": "She _____ a presentation next week.", "choices": ["is giving", "give", "gives"], "answer": 0}, {"type": "mcq", "q": "We _____ to Paris next month. The flights are booked.", "choices": ["are flying", "fly", "flies"], "answer": 0}, {"type": "mcq", "q": "He _____ his friend at the airport tomorrow.", "choices": ["meets", "meet", "is meeting"], "answer": 2}, {"type": "mcq", "q": "Before going out, young people should ask for their parents' _____.", "choices": ["connection", "permission", "education"], "answer": 1}, {"type": "mcq", "q": "All parents should _____ their children to study hard.", "choices": ["ignore", "discourage", "encourage"], "answer": 2}, {"type": "mcq", "q": "Amal was a curious girl. She _____ old toys, wires and little machines.", "choices": ["used", "strange", "special"], "answer": 0}, {"type": "mcq", "q": "The other children annoyed her and said, 'You are _____.'", "choices": ["creative", "strange", "special"], "answer": 1}, {"type": "mcq", "q": "Her parents always told her, 'Your identity is what makes you _____.'", "choices": ["strange", "special", "used"], "answer": 1}, {"type": "mcq", "q": "Amal decided to build a _____ robot to take part in a school fair.", "choices": ["special", "creative", "strange"], "answer": 1}, {"type": "mcq", "q": "Her friend, Farida, _____ her, 'We believe in you, Amal.'", "choices": ["discouraged", "encouraged", "ignored"], "answer": 1}, {"type": "mcq", "q": "We can use the expression 'In my opinion' to explain our ideas _____ when talking to others.", "choices": ["carelessly", "clearly", "cleanly"], "answer": 1}, {"type": "mcq", "q": "We should put our mobiles _____ during meals and before bedtime.", "choices": ["away", "out", "in"], "answer": 0}, {"type": "mcq", "q": "Spending too much time on digital devices can be _____.", "choices": ["unhappy", "unhealthy", "untidy"], "answer": 1}, {"type": "mcq", "q": "We should learn how to find a _____ between our screen time and family life.", "choices": ["solution", "jobs", "balance"], "answer": 2}, {"type": "mcq", "q": "A blog is an online journal or _____ where someone writes regularly.", "choices": ["app", "trend", "website"], "answer": 2}];
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+cv.width = window.innerWidth; cv.height = window.innerHeight;
+
+window.addEventListener('resize', () => { cv.width = window.innerWidth; cv.height = window.innerHeight; });
+
+// AUDIO
+const AC = new (window.AudioContext||window.webkitAudioContext)();
+function tone(f,d,t='sine',v=0.4){
+    if(AC.state==='suspended') AC.resume();
+    const o=AC.createOscillator(),g=AC.createGain();
+    o.connect(g);g.connect(AC.destination);
+    o.type=t;o.frequency.value=f;
+    g.gain.setValueAtTime(v,AC.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+d);
+    o.start();o.stop(AC.currentTime+d);
+}
+function sndCorrect(){ tone(523,.1); setTimeout(()=>tone(784,.3),100); }
+function sndWrong(){ tone(150,.6,'sawtooth'); setTimeout(()=>tone(100,.6,'sawtooth'),150); }
+function sndShoot(){ tone(300,.1,'square',0.1); }
+
+// CORE GAME LOGIC
+let qIdx = 0, score = 0, locked = false;
+let particles = [];
+let gameEntities = {}; // Custom state for each game
+
+function loadQ() {
+    if(qIdx >= QS.length) { showEndScreen(); return; }
+    const q = QS[qIdx];
+    locked = false;
+    document.getElementById('q-text').textContent = q.q;
+    document.getElementById('q-num').textContent = `Q ${qIdx+1}/${QS.length}`;
+    
+    const container = document.getElementById('targets');
+    container.innerHTML = '';
+    
+    let choices = [...q.choices];
+    while(choices.length < 3) choices.push('...');
+    choices = choices.slice(0, 3);
+    const correctText = q.choices[q.answer] || q.choices[0];
+    
+    const labeled = choices.map(c => ({ text: c, isCorrect: c === correctText }));
+    labeled.sort(() => Math.random() - 0.5); // Shuffle
+    
+    labeled.forEach((item, i) => {
+        if(!item.text) return;
+        const btn = document.createElement('button');
+        btn.className = 'target-btn';
+        btn.textContent = item.text;
+        btn.onclick = () => handleChoice(btn, item.isCorrect, i);
+        container.appendChild(btn);
+        
+        // Let the specific game set the button's position and appearance
+        gameInitTarget(btn, i, labeled.length);
+    });
+    
+    if(typeof gameOnLoadQ === 'function') gameOnLoadQ();
+}
+
+function handleChoice(btn, isCorrect, index) {
+    if(locked) return;
+    locked = true;
+    document.querySelectorAll('.target-btn').forEach(b => b.disabled = true);
+    
+    const rect = btn.getBoundingClientRect();
+    const tx = rect.left + rect.width / 2;
+    const ty = rect.top + rect.height / 2;
+    
+    // Call specific game animation
+    gameAnimateAction(tx, ty, isCorrect, btn, () => {
+        // Action finished hitting target
+        if(isCorrect) {
+            score += 100;
+            document.getElementById('score-val').textContent = score;
+            sndCorrect();
+            createParticles(tx, ty, '#2ecc71', 30);
+            btn.style.transform += ' scale(0)';
+        } else {
+            sndWrong();
+            createParticles(tx, ty, '#e74c3c', 30);
+            btn.style.transform += ' scale(0)';
+            // Show correct answer briefly
+            document.querySelectorAll('.target-btn').forEach(b => {
+                if(b !== btn) b.style.opacity = '0.3';
+            });
+        }
+        
+        setTimeout(() => {
+            qIdx++;
+            loadQ();
+        }, isCorrect ? 1000 : 1500);
+    });
+}
+
+function createParticles(x, y, color, count) {
+    for(let i=0; i<count; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 8 + 2;
+        particles.push({
+            x, y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            life: 1, color, size: Math.random() * 5 + 3
+        });
+    }
+}
+
+function updateAndDrawParticles() {
+    particles = particles.filter(p => p.life > 0);
+    particles.forEach(p => {
+        p.x += p.vx; p.y += p.vy; p.vy += 0.2; // Gravity
+        p.life -= 0.02;
+        ctx.globalAlpha = Math.max(0, p.life);
+        ctx.fillStyle = p.color;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
+        ctx.globalAlpha = 1;
+    });
+}
+
+function showEndScreen() {
+    document.getElementById('end-screen').classList.add('show');
+    document.getElementById('end-title').textContent = score >= (QS.length*70) ? 'ðŸ† Awesome!' : 'ðŸ’ª Good Effort!';
+    document.getElementById('end-score').textContent = `Final Score: ${score}`;
+}
+
+// Request Animation Frame loop
+function mainLoop() {
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    gameDrawBackground();
+    gameDrawForeground();
+    updateAndDrawParticles();
+    requestAnimationFrame(mainLoop);
+}
+
+// Init
+
+let stars = [];
+for(let i=0; i<150; i++) stars.push({x: Math.random()*2000, y: Math.random()*2000, s: Math.random()*2+1});
+let shipX = window.innerWidth/2, shipY = window.innerHeight - 100;
+let laser = null;
+let shipTarget = null;
+let onHitCb = null;
+let isWrongShot = false;
+
+function gameInitTarget(btn, i, total) {
+    const spacing = window.innerWidth / (total + 1);
+    btn.style.left = (spacing * (i + 1)) + 'px';
+    btn.style.top = (window.innerHeight * 0.3) + 'px';
+}
+
+function gameOnLoadQ() { 
+    laser = null; shipTarget = null; 
+    // ship returns to center slowly
+    shipX = window.innerWidth/2;
+    shipY = window.innerHeight - 100;
+}
+
+function gameAnimateAction(tx, ty, isCorrect, btn, onHitCallback) {
+    // Animate ship moving to under the target, then fire
+    shipTarget = { x: tx, y: ty + 80 }; // move ship 80px below target
+    onHitCb = onHitCallback;
+    isWrongShot = !isCorrect;
+}
+
+function gameDrawBackground() {
+    ctx.fillStyle = '#000'; ctx.fillRect(0,0,cv.width,cv.height);
+    ctx.fillStyle = '#fff';
+    stars.forEach(s => {
+        s.y += s.s * 0.5;
+        if(s.y > cv.height) s.y = 0;
+        ctx.beginPath(); ctx.arc(s.x, s.y, s.s, 0, Math.PI*2); ctx.fill();
+    });
+}
+
+function gameDrawForeground() {
+    // Move ship
+    if(shipTarget) {
+        const dx = shipTarget.x - shipX;
+        const dy = shipTarget.y - shipY;
+        shipX += dx * 0.1;
+        shipY += dy * 0.1;
+        
+        // If arrived, fire laser
+        if(Math.hypot(dx, dy) < 5 && !laser) {
+            sndShoot();
+            laser = { x: shipX, y: shipY - 30, color: isWrongShot ? '#e74c3c' : '#2ecc71' };
+            shipTarget = null; // stop moving
+        }
+    }
+    
+    // Draw Ship
+    ctx.save();
+    ctx.translate(shipX, shipY);
+    // Flame
+    ctx.fillStyle = '#f39c12';
+    ctx.beginPath(); ctx.moveTo(-10, 20); ctx.lineTo(0, 40 + Math.random()*10); ctx.lineTo(10, 20); ctx.fill();
+    // Body
+    ctx.fillStyle = '#ecf0f1';
+    ctx.beginPath(); ctx.moveTo(0, -30); ctx.lineTo(-25, 20); ctx.lineTo(25, 20); ctx.fill();
+    // Cockpit
+    ctx.fillStyle = '#3498db';
+    ctx.beginPath(); ctx.moveTo(0, -10); ctx.lineTo(-10, 10); ctx.lineTo(10, 10); ctx.fill();
+    ctx.restore();
+    
+    // Laser
+    if(laser) {
+        laser.y -= 25;
+        ctx.fillStyle = laser.color;
+        ctx.shadowBlur = 15; ctx.shadowColor = laser.color;
+        ctx.fillRect(laser.x - 4, laser.y, 8, 30);
+        ctx.shadowBlur = 0;
+        
+        if(laser.y < shipY - 120) { // arbitrary hit point since it's close
+            onHitCb();
+            laser = null;
+        }
+    }
+}
+
+loadQ();
+mainLoop();
+</script>
+</body>
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script id="guard-script">
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            alert('عذراً، لا يمكنك الدخول لهذه اللعبة مباشرة. يرجى تسجيل الدخول أولاً.');
+            window.location.href = window.location.origin + (window.location.pathname.includes('/Englishtoon/') ? '/Englishtoon/' : '/');
+        }
+    </script>
+    <script src="../../../js/game-enhancements.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Magic Reveal - Unit 5</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Nunito', sans-serif; overflow: hidden; width: 100vw; height: 100vh; background: #000; user-select: none; }
+
+/* HUD */
+#hud { position: fixed; top: 0; left: 0; right: 0; padding: 15px 30px; display: flex; justify-content: space-between; color: white; font-size: 1.5rem; font-weight: 900; z-index: 200; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); pointer-events: none; }
+#score-val { color: #f1c40f; }
+
+/* Question Panel */
+#q-panel { position: fixed; top: 70px; left: 0; right: 0; display: flex; justify-content: center; z-index: 150; pointer-events: none; }
+#q-text { background: rgba(0,0,0,0.7); border: 2px solid rgba(255,255,255,0.2); padding: 15px 40px; border-radius: 30px; color: white; font-size: 1.8rem; font-weight: 900; max-width: 80%; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.5); line-height: 1.4; }
+
+/* Targets Container */
+#targets { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 100; pointer-events: none; }
+.target-btn { position: absolute; transform: translate(-50%, -50%); pointer-events: auto; cursor: pointer; border: none; font-family: 'Fredoka One', cursive; font-size: 1.4rem; color: white; text-shadow: 2px 2px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; display: flex; justify-content: center; align-items: center; text-align: center; line-height: 1.2; padding: 10px; transition: filter 0.2s; }
+.target-btn:hover { filter: brightness(1.2); }
+.target-btn:disabled { cursor: not-allowed; }
+
+/* Canvas */
+canvas { display: block; position: fixed; top: 0; left: 0; z-index: 10; }
+
+/* End Screen */
+#end-screen { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 300; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; }
+#end-screen.show { display: flex; }
+#end-screen h1 { font-size: 4rem; margin-bottom: 20px; font-family: 'Fredoka One', cursive; }
+#end-screen p { font-size: 2rem; color: #f1c40f; margin-bottom: 30px; font-weight: 900; }
+#end-screen button { padding: 15px 50px; background: #e74c3c; color: white; border: none; border-radius: 40px; font-size: 1.5rem; font-weight: 900; cursor: pointer; font-family: 'Nunito', sans-serif; transition: transform 0.2s; }
+#end-screen button:hover { transform: scale(1.1); background: #c0392b; }
+
+
+body { background: #2c3e50; }
+.target-btn {
+    width: 120px; height: 120px;
+    background: #ecf0f1; border-radius: 50%;
+    color: #2c3e50 !important; border: 4px solid #fff;
+    transition: all 0.5s;
+}
+
+</style>
+</head>
+<body>
+
+<div id="hud">
+    <div>Magic Reveal - Unit 5</div>
+    <div id="q-num">Q 1/25</div>
+    <div>Score: <span id="score-val">0</span></div>
+</div>
+
+<div id="q-panel"><div id="q-text"></div></div>
+
+<div id="targets"></div>
+<canvas id="cv"></canvas>
+
+<div id="end-screen">
+    <h1 id="end-title">Game Over!</h1>
+    <p id="end-score">Score: 0</p>
+    <button onclick="location.reload()">Play Again</button>
+</div>
+
+<script>
+const QS = [{"type": "mcq", "q": "Computers are far more _____ than human beings.", "choices": ["efficient", "slow", "tired"], "answer": 0}, {"type": "mcq", "q": "Computers can store _____ faster and better.", "choices": ["water", "food", "information"], "answer": 2}, {"type": "mcq", "q": "Computers are useful for helping us catch _____.", "choices": ["teachers", "doctors", "criminals"], "answer": 2}, {"type": "mcq", "q": "A new kind of criminal knows how to _____ a computer.", "choices": ["clean", "fix", "corrupt"], "answer": 2}, {"type": "mcq", "q": "My mom is a teacher, and my dad is an _____.", "choices": ["engineer", "artist", "actor"], "answer": 1}, {"type": "mcq", "q": "My dad does _____ for storybooks.", "choices": ["sports", "music", "drawings"], "answer": 2}, {"type": "mcq", "q": "My mom teaches elementary school children and they do lots of _____ activities.", "choices": ["boring", "creative", "lazy"], "answer": 1}, {"type": "mcq", "q": "_____ is one of the most basic forms of arts using pencils or charcoal.", "choices": ["Sculpture", "Drawing", "Photography"], "answer": 1}, {"type": "mcq", "q": "_____ involves creating 3D works from materials like clay.", "choices": ["Drawing", "Painting", "Sculpture"], "answer": 2}, {"type": "mcq", "q": "_____ captures moments and emotions through a camera lens.", "choices": ["Photography", "Sculpture", "Painting"], "answer": 0}, {"type": "mcq", "q": "Being in nature made the vacation feel refreshing and _____.", "choices": ["calm", "noisy", "bad"], "answer": 0}, {"type": "mcq", "q": "We set up a tent near a _____ and spent the days hiking.", "choices": ["lake", "street", "highway"], "answer": 0}, {"type": "mcq", "q": "The evenings were peaceful, sitting by the _____ and listening to the forest.", "choices": ["campfire", "radio", "television"], "answer": 0}, {"type": "mcq", "q": "Being close to nature made the trip a perfect way to relax and _____.", "choices": ["stress", "work", "unwind"], "answer": 2}, {"type": "mcq", "q": "An email to a friend about a trip should be written in a _____ tone.", "choices": ["friendly", "angry", "formal"], "answer": 0}, {"type": "mcq", "q": "A paragraph about 'Famous Landmarks in Egypt' might include the _____.", "choices": ["Eiffel Tower", "Big Ben", "Sphinx"], "answer": 2}, {"type": "mcq", "q": "When writing about a country you want to visit, you describe its _____ and traditions.", "choices": ["stars", "planets", "culture"], "answer": 2}, {"type": "mcq", "q": "My trip to London is full of _____ experiences.", "choices": ["forgettable", "unforgettable", "bad"], "answer": 1}, {"type": "mcq", "q": "To start a story, you can use phrases like '_____'.", "choices": ["Tomorrow", "Next year", "Last summer"], "answer": 2}, {"type": "mcq", "q": "A biography is a text written about someone's _____.", "choices": ["life", "car", "house"], "answer": 0}, {"type": "mcq", "q": "A dream holiday usually involves _____ to amazing places.", "choices": ["working", "traveling", "sleeping"], "answer": 1}, {"type": "mcq", "q": "I had a sense of _____. It was so calm and quiet inside.", "choices": ["peaceful", "peacefulness", "peace"], "answer": 2}, {"type": "mcq", "q": "The postcards are so _____ with pictures of the temple at sunset.", "choices": ["colorful", "terrible", "dark"], "answer": 0}, {"type": "mcq", "q": "I bought a small statue of Horus as a _____.", "choices": ["souvenir", "treasure", "stone"], "answer": 0}, {"type": "mcq", "q": "The statue is huge and is beautifully _____.", "choices": ["carving", "carved", "carves"], "answer": 1}];
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+cv.width = window.innerWidth; cv.height = window.innerHeight;
+window.addEventListener('resize', () => { cv.width = window.innerWidth; cv.height = window.innerHeight; });
+
+const AC = new (window.AudioContext||window.webkitAudioContext)();
+function tone(f,d,t='sine',v=0.4){
+    if(AC.state==='suspended') AC.resume();
+    const o=AC.createOscillator(),g=AC.createGain();
+    o.connect(g);g.connect(AC.destination);
+    o.type=t;o.frequency.value=f;
+    g.gain.setValueAtTime(v,AC.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+d);
+    o.start();o.stop(AC.currentTime+d);
+}
+function sndCorrect(){ tone(523,.1); setTimeout(()=>tone(784,.3),100); }
+function sndWrong(){ tone(150,.6,'sawtooth'); setTimeout(()=>tone(100,.6,'sawtooth'),150); }
+function sndShoot(){ tone(300,.1,'square',0.1); }
+
+let qIdx = 0, score = 0, locked = false;
+let particles = [];
+
+function loadQ() {
+    if(qIdx >= QS.length) { showEndScreen(); return; }
+    const q = QS[qIdx];
+    locked = false;
+    document.getElementById('q-text').textContent = q.q;
+    document.getElementById('q-num').textContent = `Q ${qIdx+1}/${QS.length}`;
+    
+    const container = document.getElementById('targets');
+    container.innerHTML = '';
+    
+    let choices = [...q.choices];
+    while(choices.length < 3) choices.push('...');
+    choices = choices.slice(0, 3);
+    const correctText = q.choices[q.answer] || q.choices[0];
+    
+    const labeled = choices.map(c => ({ text: c, isCorrect: c === correctText }));
+    labeled.sort(() => Math.random() - 0.5); 
+    
+    labeled.forEach((item, i) => {
+        if(!item.text) return;
+        const btn = document.createElement('button');
+        btn.className = 'target-btn';
+        btn.textContent = item.text;
+        btn.onclick = () => handleChoice(btn, item.isCorrect, i);
+        container.appendChild(btn);
+        gameInitTarget(btn, i, labeled.length);
+    });
+    
+    if(typeof gameOnLoadQ === 'function') gameOnLoadQ();
+}
+
+function handleChoice(btn, isCorrect, index) {
+    if(locked) return;
+    locked = true;
+    document.querySelectorAll('.target-btn').forEach(b => b.disabled = true);
+    
+    const rect = btn.getBoundingClientRect();
+    const tx = rect.left + rect.width / 2;
+    const ty = rect.top + rect.height / 2;
+    
+    gameAnimateAction(tx, ty, isCorrect, btn, () => {
+        if(isCorrect) {
+            score += 100;
+            document.getElementById('score-val').textContent = score;
+            sndCorrect();
+            createParticles(tx, ty, '#2ecc71', 30);
+            if(typeof btnSuccessAnim === 'function') btnSuccessAnim(btn);
+            else btn.style.transform += ' scale(0)';
+        } else {
+            sndWrong();
+            createParticles(tx, ty, '#e74c3c', 30);
+            if(typeof btnFailAnim === 'function') btnFailAnim(btn);
+            else btn.style.transform += ' scale(0)';
+            document.querySelectorAll('.target-btn').forEach(b => {
+                if(b !== btn) b.style.opacity = '0.3';
+            });
+        }
+        setTimeout(() => { qIdx++; loadQ(); }, isCorrect ? 1000 : 1500);
+    });
+}
+
+function createParticles(x, y, color, count) {
+    for(let i=0; i<count; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 8 + 2;
+        particles.push({
+            x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed,
+            life: 1, color, size: Math.random() * 5 + 3
+        });
+    }
+}
+
+function updateAndDrawParticles() {
+    particles = particles.filter(p => p.life > 0);
+    particles.forEach(p => {
+        p.x += p.vx; p.y += p.vy; p.vy += 0.2; 
+        p.life -= 0.02;
+        ctx.globalAlpha = Math.max(0, p.life);
+        ctx.fillStyle = p.color;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
+        ctx.globalAlpha = 1;
+    });
+}
+
+function showEndScreen() {
+    document.getElementById('end-screen').classList.add('show');
+    document.getElementById('end-title').textContent = score >= (QS.length*70) ? 'Awesome!' : 'Good Effort!';
+    document.getElementById('end-score').textContent = `Final Score: ${score}`;
+}
+
+function mainLoop() {
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    gameDrawBackground();
+    gameDrawForeground();
+    updateAndDrawParticles();
+    requestAnimationFrame(mainLoop);
+}
+
+
+let wand = null;
+let rvTime = 0;
+function gameInitTarget(btn, i, total) {
+    const spacing = window.innerWidth / (total + 1);
+    btn.dataset.y = window.innerHeight * 0.4;
+    btn.style.left = (spacing * (i + 1)) + 'px';
+    btn.style.top = btn.dataset.y + 'px';
+}
+function gameOnLoadQ() { wand = null; }
+function gameAnimateAction(tx, ty, isCorrect, btn, cb) {
+    sndShoot();
+    wand = { x: cv.width/2, y: cv.height, tx, ty, cb, btn, state: 'fly' };
+}
+function btnSuccessAnim(btn) { 
+    btn.style.background = '#f1c40f';
+    btn.style.boxShadow = '0 0 50px #f1c40f';
+    btn.style.borderRadius = '20px';
+}
+function btnFailAnim(btn) { 
+    btn.style.background = '#e74c3c';
+    btn.style.transform = 'translate(-50%, -50%) scale(0.1)';
+}
+
+function gameDrawBackground() {
+    rvTime++;
+    if(!locked) {
+        document.querySelectorAll('.target-btn').forEach((btn, i) => {
+            btn.style.top = (parseFloat(btn.dataset.y) + Math.sin(rvTime*0.05+i)*15) + 'px';
+        });
+    }
+}
+function gameDrawForeground() {
+    if(wand) {
+        if(wand.state === 'fly') {
+            wand.x += (wand.tx - wand.x) * 0.1;
+            wand.y += (wand.ty - wand.y) * 0.1;
+            createParticles(wand.x, wand.y - 40, '#f1c40f', 1);
+            if(Math.hypot(wand.tx - wand.x, wand.ty - wand.y) < 10) {
+                createParticles(wand.tx, wand.ty, '#f1c40f', 50);
+                wand.state = 'done';
+                wand.cb();
+                wand = null;
+            }
+        }
+        if(wand) {
+            ctx.save();
+            ctx.translate(wand.x, wand.y);
+            ctx.fillStyle = '#8B4513'; ctx.fillRect(-5, 0, 10, 60);
+            ctx.fillStyle = '#f1c40f'; ctx.beginPath(); ctx.arc(0, 0, 15, 0, Math.PI*2); ctx.fill();
+            ctx.restore();
+        }
+    }
+}
+
+loadQ();
+mainLoop();
+</script>
+</body>
+</html>

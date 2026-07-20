@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script id="guard-script">
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            alert('عذراً، لا يمكنك الدخول لهذه اللعبة مباشرة. يرجى تسجيل الدخول أولاً.');
+            window.location.href = window.location.origin + (window.location.pathname.includes('/Englishtoon/') ? '/Englishtoon/' : '/');
+        }
+    </script>
+    <script src="../../../js/game-enhancements.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Volcano Fire - Unit 6</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Nunito', sans-serif; overflow: hidden; width: 100vw; height: 100vh; background: #000; user-select: none; }
+
+/* HUD */
+#hud { position: fixed; top: 0; left: 0; right: 0; padding: 15px 30px; display: flex; justify-content: space-between; color: white; font-size: 1.5rem; font-weight: 900; z-index: 200; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); pointer-events: none; }
+#score-val { color: #f1c40f; }
+
+/* Question Panel */
+#q-panel { position: fixed; top: 70px; left: 0; right: 0; display: flex; justify-content: center; z-index: 150; pointer-events: none; }
+#q-text { background: rgba(0,0,0,0.7); border: 2px solid rgba(255,255,255,0.2); padding: 15px 40px; border-radius: 30px; color: white; font-size: 1.8rem; font-weight: 900; max-width: 80%; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.5); line-height: 1.4; }
+
+/* Targets Container */
+#targets { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 100; pointer-events: none; }
+.target-btn { position: absolute; transform: translate(-50%, -50%); pointer-events: auto; cursor: pointer; border: none; font-family: 'Fredoka One', cursive; font-size: 1.4rem; color: white; text-shadow: 2px 2px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; display: flex; justify-content: center; align-items: center; text-align: center; line-height: 1.2; padding: 10px; transition: filter 0.2s; }
+.target-btn:hover { filter: brightness(1.2); }
+.target-btn:disabled { cursor: not-allowed; }
+
+/* Canvas */
+canvas { display: block; position: fixed; top: 0; left: 0; z-index: 10; }
+
+/* End Screen */
+#end-screen { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 300; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; }
+#end-screen.show { display: flex; }
+#end-screen h1 { font-size: 4rem; margin-bottom: 20px; font-family: 'Fredoka One', cursive; }
+#end-screen p { font-size: 2rem; color: #f1c40f; margin-bottom: 30px; font-weight: 900; }
+#end-screen button { padding: 15px 50px; background: #e74c3c; color: white; border: none; border-radius: 40px; font-size: 1.5rem; font-weight: 900; cursor: pointer; font-family: 'Nunito', sans-serif; transition: transform 0.2s; }
+#end-screen button:hover { transform: scale(1.1); background: #c0392b; }
+
+
+body { background: #c0392b; }
+.target-btn {
+    width: 150px; height: 100px;
+    background: #34495e; border-radius: 10px; border: 4px solid #2c3e50;
+}
+
+</style>
+</head>
+<body>
+
+<div id="hud">
+    <div>Volcano Fire - Unit 6</div>
+    <div id="q-num">Q 1/25</div>
+    <div>Score: <span id="score-val">0</span></div>
+</div>
+
+<div id="q-panel"><div id="q-text"></div></div>
+
+<div id="targets"></div>
+<canvas id="cv"></canvas>
+
+<div id="end-screen">
+    <h1 id="end-title">Game Over!</h1>
+    <p id="end-score">Score: 0</p>
+    <button onclick="location.reload()">Play Again</button>
+</div>
+
+<script>
+const QS = [{"type": "mcq", "q": "When Amal felt frustrated, Yara showed _____.", "choices": ["happiness", "empathy", "surprise"], "answer": 1}, {"type": "mcq", "q": "To succeed in her project, Amal showed determination and _____.", "choices": ["lies", "honesty", "anger"], "answer": 1}, {"type": "mcq", "q": "Malik enjoyed drawing the _____ while they sailed to the island.", "choices": ["scenery", "grass", "water"], "answer": 0}, {"type": "mcq", "q": "We should _____ each other's thoughts although we are all different.", "choices": ["ignore", "respect", "report"], "answer": 1}, {"type": "mcq", "q": "Malik used his _____ to draw maps of the island.", "choices": ["respect", "honesty", "creativity"], "answer": 2}, {"type": "mcq", "q": "Leadership is about caring for others and helping them _____.", "choices": ["shine", "cry", "fail"], "answer": 0}, {"type": "mcq", "q": "Malak invented her machine because many students walk in with _____ shoes.", "choices": ["shiny", "clean", "dirty"], "answer": 2}, {"type": "mcq", "q": "Malak made a _____ of her invention with her dad.", "choices": ["medal", "prototype", "problem"], "answer": 1}, {"type": "mcq", "q": "Malak might add a _____, so the shoes don't stay wet.", "choices": ["toaster", "dryer", "stove"], "answer": 1}, {"type": "mcq", "q": "The machine cleans shoes in only 10 _____.", "choices": ["days", "seconds", "hours"], "answer": 1}, {"type": "mcq", "q": "This invention will help schools stay _____.", "choices": ["clean", "messy", "dirty"], "answer": 0}, {"type": "mcq", "q": "Malak's machine will stop people from _____ on wet floors.", "choices": ["jumping", "running", "slipping"], "answer": 2}, {"type": "mcq", "q": "What did Hani suggest doing in 'The Adventure of the Hidden Island'?", "choices": ["Stay home", "Build a boat", "Discover the island"], "answer": 2}, {"type": "mcq", "q": "Amal's parents encourage her _____.", "choices": ["not to give up", "not to work", "not to hope"], "answer": 0}, {"type": "mcq", "q": "A _____ is a place where you can see stunning pieces of art.", "choices": ["theater", "gallery", "workshop"], "answer": 1}, {"type": "mcq", "q": "To _____ with an activity is to take part in such activity.", "choices": ["enter", "engage", "capture"], "answer": 1}, {"type": "mcq", "q": "My father is an _____ for girls' rights to a good education.", "choices": ["oppose", "advocator", "fighter"], "answer": 1}, {"type": "mcq", "q": "My holiday in Maldives is an _____ experience for me.", "choices": ["unforgettable", "unhappy", "unnecessary"], "answer": 0}, {"type": "mcq", "q": "When the group reached the island, they found mysterious _____.", "choices": ["caves", "fish", "birds"], "answer": 0}, {"type": "mcq", "q": "Mount Fuji is a very famous _____ in Japan.", "choices": ["landmark", "village", "city"], "answer": 0}, {"type": "mcq", "q": "Petra, Jordan was once a very rich _____ city.", "choices": ["trade", "trading", "trader"], "answer": 1}, {"type": "mcq", "q": "_____ is a hot spring from the earth's heat.", "choices": ["Geology", "Geothermal", "Geography"], "answer": 1}, {"type": "mcq", "q": "A _____ is a model of something new made with simple materials.", "choices": ["brainstorm", "promo", "prototype"], "answer": 2}, {"type": "mcq", "q": "The state of being free from public attention is your _____.", "choices": ["proclaim", "partner", "privacy"], "answer": 2}, {"type": "mcq", "q": "Going to the park is much _____ than going to the movie theater.", "choices": ["interesting", "more interesting", "most interesting"], "answer": 1}];
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+cv.width = window.innerWidth; cv.height = window.innerHeight;
+window.addEventListener('resize', () => { cv.width = window.innerWidth; cv.height = window.innerHeight; });
+
+const AC = new (window.AudioContext||window.webkitAudioContext)();
+function tone(f,d,t='sine',v=0.4){
+    if(AC.state==='suspended') AC.resume();
+    const o=AC.createOscillator(),g=AC.createGain();
+    o.connect(g);g.connect(AC.destination);
+    o.type=t;o.frequency.value=f;
+    g.gain.setValueAtTime(v,AC.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+d);
+    o.start();o.stop(AC.currentTime+d);
+}
+function sndCorrect(){ tone(523,.1); setTimeout(()=>tone(784,.3),100); }
+function sndWrong(){ tone(150,.6,'sawtooth'); setTimeout(()=>tone(100,.6,'sawtooth'),150); }
+function sndShoot(){ tone(300,.1,'square',0.1); }
+
+let qIdx = 0, score = 0, locked = false;
+let particles = [];
+
+function loadQ() {
+    if(qIdx >= QS.length) { showEndScreen(); return; }
+    const q = QS[qIdx];
+    locked = false;
+    document.getElementById('q-text').textContent = q.q;
+    document.getElementById('q-num').textContent = `Q ${qIdx+1}/${QS.length}`;
+    
+    const container = document.getElementById('targets');
+    container.innerHTML = '';
+    
+    let choices = [...q.choices];
+    while(choices.length < 3) choices.push('...');
+    choices = choices.slice(0, 3);
+    const correctText = q.choices[q.answer] || q.choices[0];
+    
+    const labeled = choices.map(c => ({ text: c, isCorrect: c === correctText }));
+    labeled.sort(() => Math.random() - 0.5); 
+    
+    labeled.forEach((item, i) => {
+        if(!item.text) return;
+        const btn = document.createElement('button');
+        btn.className = 'target-btn';
+        btn.textContent = item.text;
+        btn.onclick = () => handleChoice(btn, item.isCorrect, i);
+        container.appendChild(btn);
+        gameInitTarget(btn, i, labeled.length);
+    });
+    
+    if(typeof gameOnLoadQ === 'function') gameOnLoadQ();
+}
+
+function handleChoice(btn, isCorrect, index) {
+    if(locked) return;
+    locked = true;
+    document.querySelectorAll('.target-btn').forEach(b => b.disabled = true);
+    
+    const rect = btn.getBoundingClientRect();
+    const tx = rect.left + rect.width / 2;
+    const ty = rect.top + rect.height / 2;
+    
+    gameAnimateAction(tx, ty, isCorrect, btn, () => {
+        if(isCorrect) {
+            score += 100;
+            document.getElementById('score-val').textContent = score;
+            sndCorrect();
+            createParticles(tx, ty, '#2ecc71', 30);
+            if(typeof btnSuccessAnim === 'function') btnSuccessAnim(btn);
+            else btn.style.transform += ' scale(0)';
+        } else {
+            sndWrong();
+            createParticles(tx, ty, '#e74c3c', 30);
+            if(typeof btnFailAnim === 'function') btnFailAnim(btn);
+            else btn.style.transform += ' scale(0)';
+            document.querySelectorAll('.target-btn').forEach(b => {
+                if(b !== btn) b.style.opacity = '0.3';
+            });
+        }
+        setTimeout(() => { qIdx++; loadQ(); }, isCorrect ? 1000 : 1500);
+    });
+}
+
+function createParticles(x, y, color, count) {
+    for(let i=0; i<count; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 8 + 2;
+        particles.push({
+            x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed,
+            life: 1, color, size: Math.random() * 5 + 3
+        });
+    }
+}
+
+function updateAndDrawParticles() {
+    particles = particles.filter(p => p.life > 0);
+    particles.forEach(p => {
+        p.x += p.vx; p.y += p.vy; p.vy += 0.2; 
+        p.life -= 0.02;
+        ctx.globalAlpha = Math.max(0, p.life);
+        ctx.fillStyle = p.color;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
+        ctx.globalAlpha = 1;
+    });
+}
+
+function showEndScreen() {
+    document.getElementById('end-screen').classList.add('show');
+    document.getElementById('end-title').textContent = score >= (QS.length*70) ? 'Awesome!' : 'Good Effort!';
+    document.getElementById('end-score').textContent = `Final Score: ${score}`;
+}
+
+function mainLoop() {
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    gameDrawBackground();
+    gameDrawForeground();
+    updateAndDrawParticles();
+    requestAnimationFrame(mainLoop);
+}
+
+
+let fireball = null;
+function gameInitTarget(btn, i, total) {
+    const spacing = window.innerWidth / (total + 1);
+    btn.style.left = (spacing * (i + 1)) + 'px';
+    btn.style.top = (window.innerHeight * 0.7) + 'px';
+}
+function gameOnLoadQ() { fireball = null; }
+function gameAnimateAction(tx, ty, isCorrect, btn, cb) {
+    sndShoot();
+    const sx = cv.width/2, sy = 200;
+    const time = 40;
+    const vx = (tx - sx) / time;
+    const gravity = 0.5;
+    const vy = (ty - sy - 0.5 * gravity * time * time) / time;
+    fireball = { x: sx, y: sy, vx, vy, gravity, cb, targetY: ty };
+}
+function gameDrawBackground() {
+    // Upside down volcano at top
+    ctx.fillStyle = '#8e44ad';
+    ctx.beginPath(); ctx.moveTo(cv.width/2 - 100, 0); ctx.lineTo(cv.width/2 + 100, 0);
+    ctx.lineTo(cv.width/2 + 40, 200); ctx.lineTo(cv.width/2 - 40, 200); ctx.fill();
+    ctx.fillStyle = '#f39c12'; ctx.fillRect(cv.width/2 - 40, 190, 80, 10);
+}
+function gameDrawForeground() {
+    if(fireball) {
+        fireball.vy += fireball.gravity;
+        fireball.x += fireball.vx; fireball.y += fireball.vy;
+        
+        ctx.fillStyle = '#f1c40f'; ctx.beginPath(); ctx.arc(fireball.x, fireball.y, 15, 0, Math.PI*2); ctx.fill();
+        ctx.fillStyle = '#e74c3c'; ctx.beginPath(); ctx.arc(fireball.x, fireball.y, 10, 0, Math.PI*2); ctx.fill();
+        createParticles(fireball.x, fireball.y, '#e67e22', 2);
+        
+        if(fireball.vy > 0 && fireball.y > fireball.targetY) {
+            fireball.cb(); fireball = null;
+        } else if (fireball.y > cv.height) {
+            fireball.cb(); fireball = null;
+        }
+    }
+}
+
+loadQ();
+mainLoop();
+</script>
+</body>
+</html>

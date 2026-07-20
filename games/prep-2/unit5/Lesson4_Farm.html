@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script id="guard-script">
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            alert('عذراً، لا يمكنك الدخول لهذه اللعبة مباشرة. يرجى تسجيل الدخول أولاً.');
+            window.location.href = window.location.origin + (window.location.pathname.includes('/Englishtoon/') ? '/Englishtoon/' : '/');
+        }
+    </script>
+    <script src="../../../js/game-enhancements.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Farm Grow - Unit 5</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Nunito', sans-serif; overflow: hidden; width: 100vw; height: 100vh; background: #000; user-select: none; }
+
+/* HUD */
+#hud { position: fixed; top: 0; left: 0; right: 0; padding: 15px 30px; display: flex; justify-content: space-between; color: white; font-size: 1.5rem; font-weight: 900; z-index: 200; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); pointer-events: none; }
+#score-val { color: #f1c40f; }
+
+/* Question Panel */
+#q-panel { position: fixed; top: 70px; left: 0; right: 0; display: flex; justify-content: center; z-index: 150; pointer-events: none; }
+#q-text { background: rgba(0,0,0,0.7); border: 2px solid rgba(255,255,255,0.2); padding: 15px 40px; border-radius: 30px; color: white; font-size: 1.8rem; font-weight: 900; max-width: 80%; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.5); line-height: 1.4; }
+
+/* Targets Container */
+#targets { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 100; pointer-events: none; }
+.target-btn { position: absolute; transform: translate(-50%, -50%); pointer-events: auto; cursor: pointer; border: none; font-family: 'Fredoka One', cursive; font-size: 1.4rem; color: white; text-shadow: 2px 2px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; display: flex; justify-content: center; align-items: center; text-align: center; line-height: 1.2; padding: 10px; transition: filter 0.2s; }
+.target-btn:hover { filter: brightness(1.2); }
+.target-btn:disabled { cursor: not-allowed; }
+
+/* Canvas */
+canvas { display: block; position: fixed; top: 0; left: 0; z-index: 10; }
+
+/* End Screen */
+#end-screen { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 300; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; }
+#end-screen.show { display: flex; }
+#end-screen h1 { font-size: 4rem; margin-bottom: 20px; font-family: 'Fredoka One', cursive; }
+#end-screen p { font-size: 2rem; color: #f1c40f; margin-bottom: 30px; font-weight: 900; }
+#end-screen button { padding: 15px 50px; background: #e74c3c; color: white; border: none; border-radius: 40px; font-size: 1.5rem; font-weight: 900; cursor: pointer; font-family: 'Nunito', sans-serif; transition: transform 0.2s; }
+#end-screen button:hover { transform: scale(1.1); background: #c0392b; }
+
+
+body { background: #8B4513; }
+.target-btn {
+    width: 100px; height: 100px;
+    background: #6e2c00; border-radius: 50%; border: 6px dashed #935116;
+    transition: transform 0.5s, background 0.5s;
+}
+
+</style>
+</head>
+<body>
+
+<div id="hud">
+    <div>Farm Grow - Unit 5</div>
+    <div id="q-num">Q 1/25</div>
+    <div>Score: <span id="score-val">0</span></div>
+</div>
+
+<div id="q-panel"><div id="q-text"></div></div>
+
+<div id="targets"></div>
+<canvas id="cv"></canvas>
+
+<div id="end-screen">
+    <h1 id="end-title">Game Over!</h1>
+    <p id="end-score">Score: 0</p>
+    <button onclick="location.reload()">Play Again</button>
+</div>
+
+<script>
+const QS = [{"type": "mcq", "q": "I worked hard, _____ I improved my skills.", "choices": ["although", "so", "because"], "answer": 1}, {"type": "mcq", "q": "_____ they practiced very hard, they didn't win.", "choices": ["Although", "Because", "So"], "answer": 0}, {"type": "mcq", "q": "During our camping trip, we stayed in a _____ surrounded by beautiful nature.", "choices": ["tent", "station", "park"], "answer": 0}, {"type": "mcq", "q": "The opposite of the word 'peaceful' is _____.", "choices": ["calm", "quiet", "noisy"], "answer": 2}, {"type": "mcq", "q": "Traveling makes you see famous _____ and hear new languages.", "choices": ["houses", "landmarks", "trips"], "answer": 1}, {"type": "mcq", "q": "We stayed for _____ when we were in France.", "choices": ["days", "awhile", "long"], "answer": 1}, {"type": "mcq", "q": "I think this trip gave us the best _____ we will keep forever.", "choices": ["money", "memorize", "memories"], "answer": 2}, {"type": "mcq", "q": "The animals always _____ their babies from danger.", "choices": ["protect", "ignore", "attack"], "answer": 0}, {"type": "mcq", "q": "Did you buy any _____ for your mother when you were in London?", "choices": ["souvenirs", "memories", "mummies"], "answer": 0}, {"type": "mcq", "q": "The tourists go around the world to explore different _____.", "choices": ["cultures", "souvenirs", "perfumes"], "answer": 0}, {"type": "mcq", "q": "Paris is the _____ city of France.", "choices": ["castle", "citadel", "capital"], "answer": 2}, {"type": "mcq", "q": "The Citadel in Cairo was _____ in 1176.", "choices": ["build", "built", "building"], "answer": 1}, {"type": "mcq", "q": "He _____ Europe many times before.", "choices": ["has visited", "visit", "visited"], "answer": 0}, {"type": "mcq", "q": "The ancient statue was _____ from a single piece of stone.", "choices": ["carved", "carving", "carves"], "answer": 0}, {"type": "mcq", "q": "Ali always smiles _____ he is facing many problems.", "choices": ["but", "although", "so"], "answer": 1}, {"type": "mcq", "q": "Khan El Khalili is famous for its _____.", "choices": ["bazaars", "rivers", "mountains"], "answer": 0}, {"type": "mcq", "q": "People like to visit Khan El Khalili to buy souvenirs and _____ for fun.", "choices": ["bargain", "run", "swim"], "answer": 0}, {"type": "mcq", "q": "To express admiration, we can say 'Wow! That is _____ indeed!'", "choices": ["impressive", "boring", "terrible"], "answer": 0}, {"type": "mcq", "q": "In a dialogue about sports, a person asks: 'What do you like to do in your _____ time?'", "choices": ["work", "busy", "free"], "answer": 2}, {"type": "mcq", "q": "I like comedy films. What _____ you?", "choices": ["with", "for", "about"], "answer": 2}, {"type": "mcq", "q": "Do you like going _____? Yes, I love buying new clothes.", "choices": ["hiking", "swimming", "shopping"], "answer": 2}, {"type": "mcq", "q": "Who do you go shopping _____? With my friends.", "choices": ["for", "with", "about"], "answer": 1}, {"type": "mcq", "q": "We go shopping _____ a week.", "choices": ["once", "one", "two"], "answer": 0}, {"type": "mcq", "q": "The only thing I don't like about shopping is _____ the heavy bags.", "choices": ["to carry", "carrying", "carried"], "answer": 1}, {"type": "mcq", "q": "Water helps in moving _____ and keeping the body cool.", "choices": ["stones", "air", "blood"], "answer": 2}];
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+cv.width = window.innerWidth; cv.height = window.innerHeight;
+window.addEventListener('resize', () => { cv.width = window.innerWidth; cv.height = window.innerHeight; });
+
+const AC = new (window.AudioContext||window.webkitAudioContext)();
+function tone(f,d,t='sine',v=0.4){
+    if(AC.state==='suspended') AC.resume();
+    const o=AC.createOscillator(),g=AC.createGain();
+    o.connect(g);g.connect(AC.destination);
+    o.type=t;o.frequency.value=f;
+    g.gain.setValueAtTime(v,AC.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+d);
+    o.start();o.stop(AC.currentTime+d);
+}
+function sndCorrect(){ tone(523,.1); setTimeout(()=>tone(784,.3),100); }
+function sndWrong(){ tone(150,.6,'sawtooth'); setTimeout(()=>tone(100,.6,'sawtooth'),150); }
+function sndShoot(){ tone(300,.1,'square',0.1); }
+
+let qIdx = 0, score = 0, locked = false;
+let particles = [];
+
+function loadQ() {
+    if(qIdx >= QS.length) { showEndScreen(); return; }
+    const q = QS[qIdx];
+    locked = false;
+    document.getElementById('q-text').textContent = q.q;
+    document.getElementById('q-num').textContent = `Q ${qIdx+1}/${QS.length}`;
+    
+    const container = document.getElementById('targets');
+    container.innerHTML = '';
+    
+    let choices = [...q.choices];
+    while(choices.length < 3) choices.push('...');
+    choices = choices.slice(0, 3);
+    const correctText = q.choices[q.answer] || q.choices[0];
+    
+    const labeled = choices.map(c => ({ text: c, isCorrect: c === correctText }));
+    labeled.sort(() => Math.random() - 0.5); 
+    
+    labeled.forEach((item, i) => {
+        if(!item.text) return;
+        const btn = document.createElement('button');
+        btn.className = 'target-btn';
+        btn.textContent = item.text;
+        btn.onclick = () => handleChoice(btn, item.isCorrect, i);
+        container.appendChild(btn);
+        gameInitTarget(btn, i, labeled.length);
+    });
+    
+    if(typeof gameOnLoadQ === 'function') gameOnLoadQ();
+}
+
+function handleChoice(btn, isCorrect, index) {
+    if(locked) return;
+    locked = true;
+    document.querySelectorAll('.target-btn').forEach(b => b.disabled = true);
+    
+    const rect = btn.getBoundingClientRect();
+    const tx = rect.left + rect.width / 2;
+    const ty = rect.top + rect.height / 2;
+    
+    gameAnimateAction(tx, ty, isCorrect, btn, () => {
+        if(isCorrect) {
+            score += 100;
+            document.getElementById('score-val').textContent = score;
+            sndCorrect();
+            createParticles(tx, ty, '#2ecc71', 30);
+            if(typeof btnSuccessAnim === 'function') btnSuccessAnim(btn);
+            else btn.style.transform += ' scale(0)';
+        } else {
+            sndWrong();
+            createParticles(tx, ty, '#e74c3c', 30);
+            if(typeof btnFailAnim === 'function') btnFailAnim(btn);
+            else btn.style.transform += ' scale(0)';
+            document.querySelectorAll('.target-btn').forEach(b => {
+                if(b !== btn) b.style.opacity = '0.3';
+            });
+        }
+        setTimeout(() => { qIdx++; loadQ(); }, isCorrect ? 1000 : 1500);
+    });
+}
+
+function createParticles(x, y, color, count) {
+    for(let i=0; i<count; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 8 + 2;
+        particles.push({
+            x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed,
+            life: 1, color, size: Math.random() * 5 + 3
+        });
+    }
+}
+
+function updateAndDrawParticles() {
+    particles = particles.filter(p => p.life > 0);
+    particles.forEach(p => {
+        p.x += p.vx; p.y += p.vy; p.vy += 0.2; 
+        p.life -= 0.02;
+        ctx.globalAlpha = Math.max(0, p.life);
+        ctx.fillStyle = p.color;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
+        ctx.globalAlpha = 1;
+    });
+}
+
+function showEndScreen() {
+    document.getElementById('end-screen').classList.add('show');
+    document.getElementById('end-title').textContent = score >= (QS.length*70) ? 'Awesome!' : 'Good Effort!';
+    document.getElementById('end-score').textContent = `Final Score: ${score}`;
+}
+
+function mainLoop() {
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    gameDrawBackground();
+    gameDrawForeground();
+    updateAndDrawParticles();
+    requestAnimationFrame(mainLoop);
+}
+
+
+let can = null;
+function gameInitTarget(btn, i, total) {
+    const spacing = window.innerWidth / (total + 1);
+    btn.style.left = (spacing * (i + 1)) + 'px';
+    btn.style.top = (window.innerHeight * 0.6) + 'px';
+}
+function gameOnLoadQ() { can = null; }
+function gameAnimateAction(tx, ty, isCorrect, btn, cb) {
+    sndShoot();
+    can = { x: -100, y: ty - 150, tx: tx + 50, ty: ty - 100, cb, btn, state: 'fly', time: 0 };
+}
+function btnSuccessAnim(btn) { 
+    btn.style.background = '#2ecc71';
+    btn.style.transform = 'translate(-50%, -50%) scale(1.5)'; 
+}
+function btnFailAnim(btn) { 
+    btn.style.background = '#333';
+    btn.style.transform = 'translate(-50%, -50%) scale(0.5)'; 
+}
+
+function gameDrawBackground() {}
+function gameDrawForeground() {
+    if(can) {
+        if(can.state === 'fly') {
+            can.x += (can.tx - can.x) * 0.1;
+            can.y += (can.ty - can.y) * 0.1;
+            if(Math.hypot(can.tx - can.x, can.ty - can.y) < 5) can.state = 'pour';
+        } else if(can.state === 'pour') {
+            can.time++;
+            // Water particles
+            if(can.time % 2 === 0) createParticles(can.x - 40, can.y + 20, '#3498db', 2);
+            if(can.time > 60) can.state = 'leave';
+        } else if(can.state === 'leave') {
+            can.x += 15;
+            if(can.x > cv.width + 100) { can.cb(); can = null; }
+        }
+        
+        if(can) {
+            ctx.save();
+            ctx.translate(can.x, can.y);
+            if(can.state === 'pour') ctx.rotate(-Math.PI/6);
+            ctx.fillStyle = '#bdc3c7'; ctx.fillRect(-30, -30, 60, 60);
+            ctx.strokeStyle = '#95a5a6'; ctx.lineWidth = 10;
+            ctx.beginPath(); ctx.moveTo(30, 0); ctx.lineTo(60, 0); ctx.lineTo(60, -30); ctx.stroke(); // Handle
+            ctx.beginPath(); ctx.moveTo(-30, -10); ctx.lineTo(-60, -40); ctx.stroke(); // Spout
+            ctx.restore();
+        }
+    }
+}
+
+loadQ();
+mainLoop();
+</script>
+</body>
+</html>

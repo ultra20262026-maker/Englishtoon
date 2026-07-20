@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script id="guard-script">
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            alert('عذراً، لا يمكنك الدخول لهذه اللعبة مباشرة. يرجى تسجيل الدخول أولاً.');
+            window.location.href = window.location.origin + (window.location.pathname.includes('/Englishtoon/') ? '/Englishtoon/' : '/');
+        }
+    </script>
+    <script src="../../../js/game-enhancements.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ghost Vacuum - Unit 4</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Nunito', sans-serif; overflow: hidden; width: 100vw; height: 100vh; background: #000; user-select: none; }
+
+/* HUD */
+#hud { position: fixed; top: 0; left: 0; right: 0; padding: 15px 30px; display: flex; justify-content: space-between; color: white; font-size: 1.5rem; font-weight: 900; z-index: 200; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); pointer-events: none; }
+#score-val { color: #f1c40f; }
+
+/* Question Panel */
+#q-panel { position: fixed; top: 70px; left: 0; right: 0; display: flex; justify-content: center; z-index: 150; pointer-events: none; }
+#q-text { background: rgba(0,0,0,0.7); border: 2px solid rgba(255,255,255,0.2); padding: 15px 40px; border-radius: 30px; color: white; font-size: 1.8rem; font-weight: 900; max-width: 80%; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.5); line-height: 1.4; }
+
+/* Targets Container */
+#targets { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 100; pointer-events: none; }
+.target-btn { position: absolute; transform: translate(-50%, -50%); pointer-events: auto; cursor: pointer; border: none; font-family: 'Fredoka One', cursive; font-size: 1.4rem; color: white; text-shadow: 2px 2px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; display: flex; justify-content: center; align-items: center; text-align: center; line-height: 1.2; padding: 10px; transition: filter 0.2s; }
+.target-btn:hover { filter: brightness(1.2); }
+.target-btn:disabled { cursor: not-allowed; }
+
+/* Canvas */
+canvas { display: block; position: fixed; top: 0; left: 0; z-index: 10; }
+
+/* End Screen */
+#end-screen { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 300; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; }
+#end-screen.show { display: flex; }
+#end-screen h1 { font-size: 4rem; margin-bottom: 20px; font-family: 'Fredoka One', cursive; }
+#end-screen p { font-size: 2rem; color: #f1c40f; margin-bottom: 30px; font-weight: 900; }
+#end-screen button { padding: 15px 50px; background: #e74c3c; color: white; border: none; border-radius: 40px; font-size: 1.5rem; font-weight: 900; cursor: pointer; font-family: 'Nunito', sans-serif; transition: transform 0.2s; }
+#end-screen button:hover { transform: scale(1.1); background: #c0392b; }
+
+
+body { background: #2c3e50; }
+.target-btn {
+    width: 140px; height: 160px;
+    background: radial-gradient(circle at 50% 30%, #ecf0f1, #bdc3c7);
+    border-radius: 70px 70px 20px 20px;
+    border: none; color: #2c3e50 !important; text-shadow: none !important;
+    box-shadow: 0 0 20px rgba(255,255,255,0.4);
+}
+.target-btn::before {
+    content: 'O  O'; position: absolute; top: 30px; left: 0; width: 100%; text-align: center;
+    font-size: 20px; font-weight: bold;
+}
+
+</style>
+</head>
+<body>
+
+<div id="hud">
+    <div>Ghost Vacuum - Unit 4</div>
+    <div id="q-num">Q 1/25</div>
+    <div>Score: <span id="score-val">0</span></div>
+</div>
+
+<div id="q-panel"><div id="q-text"></div></div>
+
+<div id="targets"></div>
+<canvas id="cv"></canvas>
+
+<div id="end-screen">
+    <h1 id="end-title">Game Over!</h1>
+    <p id="end-score">Score: 0</p>
+    <button onclick="location.reload()">Play Again</button>
+</div>
+
+<script>
+const QS = [{"type": "mcq", "q": "The gallery was closed, _____ we went home.", "choices": ["so", "because", "although"], "answer": 0}, {"type": "mcq", "q": "_____ he is a great artist, he is very humble.", "choices": ["Because", "So", "Although"], "answer": 2}, {"type": "mcq", "q": "We bought the painting _____ it had a powerful message.", "choices": ["so", "because", "although"], "answer": 1}, {"type": "mcq", "q": "She loves art, _____ she visits the museum every week.", "choices": ["so", "but", "although"], "answer": 0}, {"type": "mcq", "q": "He ran very fast, _____ he didn't win the medal.", "choices": ["so", "because", "but"], "answer": 2}, {"type": "mcq", "q": "_____ the test was easy, many students failed.", "choices": ["Because", "Although", "So"], "answer": 1}, {"type": "mcq", "q": "I like this photo _____ it shows the beauty of nature.", "choices": ["but", "because", "so"], "answer": 1}, {"type": "mcq", "q": "The weather was bad, _____ we stayed indoors.", "choices": ["but", "so", "because"], "answer": 1}, {"type": "mcq", "q": "Mahmoud Mokhtar is a famous Egyptian _____.", "choices": ["singer", "artist", "doctor"], "answer": 1}, {"type": "mcq", "q": "He mixed different kinds of art styles in his _____.", "choices": ["artworks", "clothes", "food"], "answer": 0}, {"type": "mcq", "q": "He gained international _____ for his remarkable artworks.", "choices": ["recognition", "money", "punishment"], "answer": 0}, {"type": "mcq", "q": "They worked together, _____ they finished the task quickly.", "choices": ["but", "although", "so"], "answer": 2}, {"type": "mcq", "q": "_____ I practiced a lot, I still felt nervous before the speech.", "choices": ["Because", "Although", "So"], "answer": 1}, {"type": "mcq", "q": "One of his artworks that is recognized globally is _____ Statue.", "choices": ["Nahdet Misr", "Sphinx", "Liberty"], "answer": 0}, {"type": "mcq", "q": "He exhibited his artworks in many _____ around the world.", "choices": ["exhibitions", "hospitals", "schools"], "answer": 0}, {"type": "mcq", "q": "Al Khamaseen is one of his _____ pieces.", "choices": ["incredible", "ugly", "boring"], "answer": 0}, {"type": "mcq", "q": "Mahmoud Mokhtar is well known as a very creative _____.", "choices": ["painter", "sculptor", "teacher"], "answer": 1}, {"type": "mcq", "q": "There are many different types of _____, and each has its own beauty.", "choices": ["food", "sports", "art"], "answer": 2}, {"type": "mcq", "q": "Drawing is one of the most _____ forms of art.", "choices": ["complex", "basic", "new"], "answer": 1}, {"type": "mcq", "q": "Artists use pencils or _____ to create images in drawing.", "choices": ["water", "charcoal", "stone"], "answer": 1}, {"type": "mcq", "q": "_____ is another popular form using brushes and colors.", "choices": ["Photography", "Sculpture", "Painting"], "answer": 2}, {"type": "mcq", "q": "Photography captures moments through a camera _____.", "choices": ["brush", "pencil", "lens"], "answer": 2}, {"type": "mcq", "q": "Sculpture involves creating _____ works from materials like clay.", "choices": ["3D", "1D", "2D"], "answer": 0}, {"type": "mcq", "q": "An artwork doesn't need to be perfect to be _____.", "choices": ["bad", "valuable", "useless"], "answer": 1}, {"type": "mcq", "q": "The gallery held a _____ competition among artists every year.", "choices": ["sculpture", "recognition", "national"], "answer": 2}];
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+cv.width = window.innerWidth; cv.height = window.innerHeight;
+window.addEventListener('resize', () => { cv.width = window.innerWidth; cv.height = window.innerHeight; });
+
+const AC = new (window.AudioContext||window.webkitAudioContext)();
+function tone(f,d,t='sine',v=0.4){
+    if(AC.state==='suspended') AC.resume();
+    const o=AC.createOscillator(),g=AC.createGain();
+    o.connect(g);g.connect(AC.destination);
+    o.type=t;o.frequency.value=f;
+    g.gain.setValueAtTime(v,AC.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+d);
+    o.start();o.stop(AC.currentTime+d);
+}
+function sndCorrect(){ tone(523,.1); setTimeout(()=>tone(784,.3),100); }
+function sndWrong(){ tone(150,.6,'sawtooth'); setTimeout(()=>tone(100,.6,'sawtooth'),150); }
+function sndShoot(){ tone(300,.1,'square',0.1); }
+
+let qIdx = 0, score = 0, locked = false;
+let particles = [];
+
+function loadQ() {
+    if(qIdx >= QS.length) { showEndScreen(); return; }
+    const q = QS[qIdx];
+    locked = false;
+    document.getElementById('q-text').textContent = q.q;
+    document.getElementById('q-num').textContent = `Q ${qIdx+1}/${QS.length}`;
+    
+    const container = document.getElementById('targets');
+    container.innerHTML = '';
+    
+    let choices = [...q.choices];
+    while(choices.length < 3) choices.push('...');
+    choices = choices.slice(0, 3);
+    const correctText = q.choices[q.answer] || q.choices[0];
+    
+    const labeled = choices.map(c => ({ text: c, isCorrect: c === correctText }));
+    labeled.sort(() => Math.random() - 0.5); 
+    
+    labeled.forEach((item, i) => {
+        if(!item.text) return;
+        const btn = document.createElement('button');
+        btn.className = 'target-btn';
+        btn.textContent = item.text;
+        btn.onclick = () => handleChoice(btn, item.isCorrect, i);
+        container.appendChild(btn);
+        gameInitTarget(btn, i, labeled.length);
+    });
+    
+    if(typeof gameOnLoadQ === 'function') gameOnLoadQ();
+}
+
+function handleChoice(btn, isCorrect, index) {
+    if(locked) return;
+    locked = true;
+    document.querySelectorAll('.target-btn').forEach(b => b.disabled = true);
+    
+    const rect = btn.getBoundingClientRect();
+    const tx = rect.left + rect.width / 2;
+    const ty = rect.top + rect.height / 2;
+    
+    gameAnimateAction(tx, ty, isCorrect, btn, () => {
+        if(isCorrect) {
+            score += 100;
+            document.getElementById('score-val').textContent = score;
+            sndCorrect();
+            createParticles(tx, ty, '#2ecc71', 30);
+            btn.style.transform += ' scale(0)';
+        } else {
+            sndWrong();
+            createParticles(tx, ty, '#e74c3c', 30);
+            btn.style.transform += ' scale(0)';
+            document.querySelectorAll('.target-btn').forEach(b => {
+                if(b !== btn) b.style.opacity = '0.3';
+            });
+        }
+        setTimeout(() => { qIdx++; loadQ(); }, isCorrect ? 1000 : 1500);
+    });
+}
+
+function createParticles(x, y, color, count) {
+    for(let i=0; i<count; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 8 + 2;
+        particles.push({
+            x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed,
+            life: 1, color, size: Math.random() * 5 + 3
+        });
+    }
+}
+
+function updateAndDrawParticles() {
+    particles = particles.filter(p => p.life > 0);
+    particles.forEach(p => {
+        p.x += p.vx; p.y += p.vy; p.vy += 0.2; 
+        p.life -= 0.02;
+        ctx.globalAlpha = Math.max(0, p.life);
+        ctx.fillStyle = p.color;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
+        ctx.globalAlpha = 1;
+    });
+}
+
+function showEndScreen() {
+    document.getElementById('end-screen').classList.add('show');
+    document.getElementById('end-title').textContent = score >= (QS.length*70) ? 'Awesome!' : 'Good Effort!';
+    document.getElementById('end-score').textContent = `Final Score: ${score}`;
+}
+
+function mainLoop() {
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    gameDrawBackground();
+    gameDrawForeground();
+    updateAndDrawParticles();
+    requestAnimationFrame(mainLoop);
+}
+
+
+let vacuum = null;
+let gTime = 0;
+function gameInitTarget(btn, i, total) {
+    const spacing = window.innerWidth / (total + 1);
+    btn.dataset.baseX = spacing * (i + 1);
+    btn.dataset.baseY = window.innerHeight * 0.3;
+    btn.style.left = btn.dataset.baseX + 'px';
+    btn.style.top = btn.dataset.baseY + 'px';
+}
+function gameOnLoadQ() { vacuum = null; }
+function gameAnimateAction(tx, ty, isCorrect, btn, cb) {
+    sndShoot();
+    vacuum = { x: cv.width/2, y: cv.height - 50, tx, ty, cb, btn };
+}
+function gameDrawBackground() {
+    gTime++;
+    if(!locked) {
+        document.querySelectorAll('.target-btn').forEach((btn, i) => {
+            const bx = parseFloat(btn.dataset.baseX);
+            const by = parseFloat(btn.dataset.baseY);
+            btn.style.left = (bx + Math.sin(gTime * 0.05 + i) * 20) + 'px';
+            btn.style.top = (by + Math.cos(gTime * 0.03 + i) * 10) + 'px';
+        });
+    }
+    // Vacuum machine
+    ctx.fillStyle = '#c0392b'; ctx.fillRect(cv.width/2 - 40, cv.height - 80, 80, 80);
+    ctx.fillStyle = '#f1c40f'; ctx.fillRect(cv.width/2 - 10, cv.height - 120, 20, 40);
+}
+function gameDrawForeground() {
+    if(vacuum) {
+        // Draw beam
+        const rect = vacuum.btn.getBoundingClientRect();
+        const curTx = rect.left + rect.width/2;
+        const curTy = rect.top + rect.height/2;
+        
+        ctx.fillStyle = 'rgba(241, 196, 15, 0.4)';
+        ctx.beginPath(); ctx.moveTo(vacuum.x - 10, vacuum.y - 70); ctx.lineTo(vacuum.x + 10, vacuum.y - 70);
+        ctx.lineTo(curTx + 60, curTy); ctx.lineTo(curTx - 60, curTy); ctx.fill();
+        
+        // Pull ghost down
+        let bx = parseFloat(vacuum.btn.style.left);
+        let by = parseFloat(vacuum.btn.style.top);
+        bx += (vacuum.x - bx) * 0.1;
+        by += (vacuum.y - by) * 0.1;
+        vacuum.btn.style.left = bx + 'px';
+        vacuum.btn.style.top = by + 'px';
+        vacuum.btn.style.transform = `translate(-50%, -50%) scale(${Math.max(0, (vacuum.y - by)/vacuum.y)})`;
+        
+        if(by > vacuum.y - 100) {
+            vacuum.cb(); vacuum = null;
+        }
+    }
+}
+
+loadQ();
+mainLoop();
+</script>
+</body>
+</html>

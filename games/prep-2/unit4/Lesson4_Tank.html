@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script id="guard-script">
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            alert('عذراً، لا يمكنك الدخول لهذه اللعبة مباشرة. يرجى تسجيل الدخول أولاً.');
+            window.location.href = window.location.origin + (window.location.pathname.includes('/Englishtoon/') ? '/Englishtoon/' : '/');
+        }
+    </script>
+    <script src="../../../js/game-enhancements.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tank Battle - Unit 4</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Nunito', sans-serif; overflow: hidden; width: 100vw; height: 100vh; background: #000; user-select: none; }
+
+/* HUD */
+#hud { position: fixed; top: 0; left: 0; right: 0; padding: 15px 30px; display: flex; justify-content: space-between; color: white; font-size: 1.5rem; font-weight: 900; z-index: 200; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); pointer-events: none; }
+#score-val { color: #f1c40f; }
+
+/* Question Panel */
+#q-panel { position: fixed; top: 70px; left: 0; right: 0; display: flex; justify-content: center; z-index: 150; pointer-events: none; }
+#q-text { background: rgba(0,0,0,0.7); border: 2px solid rgba(255,255,255,0.2); padding: 15px 40px; border-radius: 30px; color: white; font-size: 1.8rem; font-weight: 900; max-width: 80%; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.5); line-height: 1.4; }
+
+/* Targets Container */
+#targets { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 100; pointer-events: none; }
+.target-btn { position: absolute; transform: translate(-50%, -50%); pointer-events: auto; cursor: pointer; border: none; font-family: 'Fredoka One', cursive; font-size: 1.4rem; color: white; text-shadow: 2px 2px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; display: flex; justify-content: center; align-items: center; text-align: center; line-height: 1.2; padding: 10px; transition: filter 0.2s; }
+.target-btn:hover { filter: brightness(1.2); }
+.target-btn:disabled { cursor: not-allowed; }
+
+/* Canvas */
+canvas { display: block; position: fixed; top: 0; left: 0; z-index: 10; }
+
+/* End Screen */
+#end-screen { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 300; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; }
+#end-screen.show { display: flex; }
+#end-screen h1 { font-size: 4rem; margin-bottom: 20px; font-family: 'Fredoka One', cursive; }
+#end-screen p { font-size: 2rem; color: #f1c40f; margin-bottom: 30px; font-weight: 900; }
+#end-screen button { padding: 15px 50px; background: #e74c3c; color: white; border: none; border-radius: 40px; font-size: 1.5rem; font-weight: 900; cursor: pointer; font-family: 'Nunito', sans-serif; transition: transform 0.2s; }
+#end-screen button:hover { transform: scale(1.1); background: #c0392b; }
+
+
+body { background: #d35400; }
+.target-btn {
+    width: 150px; height: 100px;
+    background: #7f8c8d;
+    border-radius: 10px 10px 0 0;
+    border: 5px solid #2c3e50; border-bottom: none;
+    box-shadow: inset 0 -10px 0 #95a5a6;
+}
+
+</style>
+</head>
+<body>
+
+<div id="hud">
+    <div>Tank Battle - Unit 4</div>
+    <div id="q-num">Q 1/25</div>
+    <div>Score: <span id="score-val">0</span></div>
+</div>
+
+<div id="q-panel"><div id="q-text"></div></div>
+
+<div id="targets"></div>
+<canvas id="cv"></canvas>
+
+<div id="end-screen">
+    <h1 id="end-title">Game Over!</h1>
+    <p id="end-score">Score: 0</p>
+    <button onclick="location.reload()">Play Again</button>
+</div>
+
+<script>
+const QS = [{"type": "mcq", "q": "Mahmoud Mokhtar's works deserve _____.", "choices": ["punishment", "ignore", "recognition"], "answer": 2}, {"type": "mcq", "q": "He is considered a pioneer of modern Egyptian _____.", "choices": ["sculpture", "painting", "photography"], "answer": 0}, {"type": "mcq", "q": "He travelled to _____ to study art.", "choices": ["Japan", "England", "France"], "answer": 2}, {"type": "mcq", "q": "His statues express the feelings of the Egyptian _____.", "choices": ["animals", "birds", "people"], "answer": 2}, {"type": "mcq", "q": "Artworks can be found displayed in a _____.", "choices": ["pharmacy", "bakery", "gallery"], "answer": 2}, {"type": "mcq", "q": "An artist's imagination helps them to _____ new things.", "choices": ["create", "copy", "destroy"], "answer": 0}, {"type": "mcq", "q": "The artist's thoughts and feelings are the _____ of the artwork.", "choices": ["price", "message", "weight"], "answer": 1}, {"type": "mcq", "q": "In an exhibition, artists _____ their original works.", "choices": ["break", "hide", "showcase"], "answer": 2}, {"type": "mcq", "q": "Using mixed materials shows the artist's _____.", "choices": ["laziness", "creativity", "sadness"], "answer": 1}, {"type": "mcq", "q": "The piece of art was so _____ that everyone stopped to look at it.", "choices": ["ugly", "invisible", "stunning"], "answer": 2}, {"type": "mcq", "q": "Art is a way to express our _____.", "choices": ["shoes", "food", "feelings"], "answer": 2}, {"type": "mcq", "q": "A famous sculptor received _____ for his pieces of artistic work.", "choices": ["punishment", "bad treatment", "recognition"], "answer": 2}, {"type": "mcq", "q": "Making a statue out of stone is called _____.", "choices": ["painting", "sculpting", "drawing"], "answer": 1}, {"type": "mcq", "q": "The Nahdet Misr statue is made of _____.", "choices": ["granite/stone", "wood", "plastic"], "answer": 0}, {"type": "mcq", "q": "Mokhtar's art brought _____ to Egyptian culture.", "choices": ["shame", "sadness", "pride"], "answer": 2}, {"type": "mcq", "q": "Teamwork means to _____ with each other.", "choices": ["collaborate", "mix", "pack"], "answer": 0}, {"type": "mcq", "q": "We should value how we are _____ from each other.", "choices": ["different", "hidden", "old"], "answer": 0}, {"type": "mcq", "q": "They found an old _____ of a 'Hidden Island'.", "choices": ["map", "food", "beauty"], "answer": 0}, {"type": "mcq", "q": "Sami felt _____ for sharing his ideas with his friends.", "choices": ["bored", "worried", "appreciated"], "answer": 2}, {"type": "mcq", "q": "They packed food, water, and a _____.", "choices": ["book", "flag", "compass"], "answer": 2}, {"type": "mcq", "q": "Four friends - Hany, Faris, Malik, and Sami - were living on a quiet _____ island.", "choices": ["coastal", "mountain", "desert"], "answer": 0}, {"type": "mcq", "q": "Hany encouraged them to go and discover the _____.", "choices": ["island", "moon", "city"], "answer": 0}, {"type": "mcq", "q": "They agreed on a rule of collaboration and _____.", "choices": ["hate", "respect", "fighting"], "answer": 1}, {"type": "mcq", "q": "They _____ the value of being different.", "choices": ["hated", "appreciated", "ignored"], "answer": 1}, {"type": "mcq", "q": "Malik enjoyed drawing the _____ while they sailed to the island.", "choices": ["grass", "water", "scenery"], "answer": 2}];
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+cv.width = window.innerWidth; cv.height = window.innerHeight;
+window.addEventListener('resize', () => { cv.width = window.innerWidth; cv.height = window.innerHeight; });
+
+const AC = new (window.AudioContext||window.webkitAudioContext)();
+function tone(f,d,t='sine',v=0.4){
+    if(AC.state==='suspended') AC.resume();
+    const o=AC.createOscillator(),g=AC.createGain();
+    o.connect(g);g.connect(AC.destination);
+    o.type=t;o.frequency.value=f;
+    g.gain.setValueAtTime(v,AC.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+d);
+    o.start();o.stop(AC.currentTime+d);
+}
+function sndCorrect(){ tone(523,.1); setTimeout(()=>tone(784,.3),100); }
+function sndWrong(){ tone(150,.6,'sawtooth'); setTimeout(()=>tone(100,.6,'sawtooth'),150); }
+function sndShoot(){ tone(300,.1,'square',0.1); }
+
+let qIdx = 0, score = 0, locked = false;
+let particles = [];
+
+function loadQ() {
+    if(qIdx >= QS.length) { showEndScreen(); return; }
+    const q = QS[qIdx];
+    locked = false;
+    document.getElementById('q-text').textContent = q.q;
+    document.getElementById('q-num').textContent = `Q ${qIdx+1}/${QS.length}`;
+    
+    const container = document.getElementById('targets');
+    container.innerHTML = '';
+    
+    let choices = [...q.choices];
+    while(choices.length < 3) choices.push('...');
+    choices = choices.slice(0, 3);
+    const correctText = q.choices[q.answer] || q.choices[0];
+    
+    const labeled = choices.map(c => ({ text: c, isCorrect: c === correctText }));
+    labeled.sort(() => Math.random() - 0.5); 
+    
+    labeled.forEach((item, i) => {
+        if(!item.text) return;
+        const btn = document.createElement('button');
+        btn.className = 'target-btn';
+        btn.textContent = item.text;
+        btn.onclick = () => handleChoice(btn, item.isCorrect, i);
+        container.appendChild(btn);
+        gameInitTarget(btn, i, labeled.length);
+    });
+    
+    if(typeof gameOnLoadQ === 'function') gameOnLoadQ();
+}
+
+function handleChoice(btn, isCorrect, index) {
+    if(locked) return;
+    locked = true;
+    document.querySelectorAll('.target-btn').forEach(b => b.disabled = true);
+    
+    const rect = btn.getBoundingClientRect();
+    const tx = rect.left + rect.width / 2;
+    const ty = rect.top + rect.height / 2;
+    
+    gameAnimateAction(tx, ty, isCorrect, btn, () => {
+        if(isCorrect) {
+            score += 100;
+            document.getElementById('score-val').textContent = score;
+            sndCorrect();
+            createParticles(tx, ty, '#2ecc71', 30);
+            btn.style.transform += ' scale(0)';
+        } else {
+            sndWrong();
+            createParticles(tx, ty, '#e74c3c', 30);
+            btn.style.transform += ' scale(0)';
+            document.querySelectorAll('.target-btn').forEach(b => {
+                if(b !== btn) b.style.opacity = '0.3';
+            });
+        }
+        setTimeout(() => { qIdx++; loadQ(); }, isCorrect ? 1000 : 1500);
+    });
+}
+
+function createParticles(x, y, color, count) {
+    for(let i=0; i<count; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 8 + 2;
+        particles.push({
+            x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed,
+            life: 1, color, size: Math.random() * 5 + 3
+        });
+    }
+}
+
+function updateAndDrawParticles() {
+    particles = particles.filter(p => p.life > 0);
+    particles.forEach(p => {
+        p.x += p.vx; p.y += p.vy; p.vy += 0.2; 
+        p.life -= 0.02;
+        ctx.globalAlpha = Math.max(0, p.life);
+        ctx.fillStyle = p.color;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
+        ctx.globalAlpha = 1;
+    });
+}
+
+function showEndScreen() {
+    document.getElementById('end-screen').classList.add('show');
+    document.getElementById('end-title').textContent = score >= (QS.length*70) ? 'Awesome!' : 'Good Effort!';
+    document.getElementById('end-score').textContent = `Final Score: ${score}`;
+}
+
+function mainLoop() {
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    gameDrawBackground();
+    gameDrawForeground();
+    updateAndDrawParticles();
+    requestAnimationFrame(mainLoop);
+}
+
+
+let shell = null;
+function gameInitTarget(btn, i, total) {
+    const spacing = window.innerWidth / (total + 1);
+    btn.style.left = (spacing * (i + 1)) + 'px';
+    btn.style.top = (window.innerHeight * 0.4) + 'px';
+}
+function gameOnLoadQ() { shell = null; }
+function gameAnimateAction(tx, ty, isCorrect, btn, cb) {
+    sndShoot();
+    const startX = cv.width/2, startY = cv.height - 100;
+    const time = 30;
+    const vx = (tx - startX) / time;
+    const gravity = 0.8;
+    const vy = (ty - startY - 0.5 * gravity * time * time) / time;
+    shell = { x: startX, y: startY, vx, vy, gravity, cb, targetY: ty };
+}
+function gameDrawBackground() {
+    ctx.fillStyle = '#e67e22'; ctx.fillRect(0, cv.height*0.7, cv.width, cv.height*0.3);
+    // Tank
+    ctx.save();
+    ctx.translate(cv.width/2, cv.height - 50);
+    ctx.fillStyle = '#27ae60'; ctx.beginPath(); ctx.roundRect(-60, -20, 120, 40, 10); ctx.fill(); // track
+    ctx.fillStyle = '#2ecc71'; ctx.fillRect(-40, -40, 80, 30); // body
+    ctx.fillStyle = '#1e8449'; ctx.beginPath(); ctx.arc(0, -40, 25, Math.PI, 0); ctx.fill(); // turret
+    if(shell) {
+        const dx = shell.tx - shell.x; const dy = shell.ty - shell.y;
+        ctx.rotate(Math.atan2(dy, dx));
+    } else { ctx.rotate(-Math.PI/2); }
+    ctx.fillRect(0, -5, 60, 10); // barrel
+    ctx.restore();
+}
+function gameDrawForeground() {
+    if(shell) {
+        shell.vy += shell.gravity;
+        shell.x += shell.vx; shell.y += shell.vy;
+        
+        ctx.fillStyle = '#c0392b';
+        ctx.beginPath(); ctx.arc(shell.x, shell.y, 8, 0, Math.PI*2); ctx.fill();
+        createParticles(shell.x, shell.y, '#f1c40f', 2);
+        
+        if(shell.vy > 0 && shell.y > shell.targetY) {
+            shell.cb(); shell = null;
+        } else if(shell.y > cv.height) {
+            shell.cb(); shell = null;
+        }
+    }
+}
+
+loadQ();
+mainLoop();
+</script>
+</body>
+</html>

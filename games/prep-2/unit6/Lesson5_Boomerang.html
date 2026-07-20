@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script id="guard-script">
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            alert('عذراً، لا يمكنك الدخول لهذه اللعبة مباشرة. يرجى تسجيل الدخول أولاً.');
+            window.location.href = window.location.origin + (window.location.pathname.includes('/Englishtoon/') ? '/Englishtoon/' : '/');
+        }
+    </script>
+    <script src="../../../js/game-enhancements.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boomerang - Unit 6</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Nunito', sans-serif; overflow: hidden; width: 100vw; height: 100vh; background: #000; user-select: none; }
+
+/* HUD */
+#hud { position: fixed; top: 0; left: 0; right: 0; padding: 15px 30px; display: flex; justify-content: space-between; color: white; font-size: 1.5rem; font-weight: 900; z-index: 200; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); pointer-events: none; }
+#score-val { color: #f1c40f; }
+
+/* Question Panel */
+#q-panel { position: fixed; top: 70px; left: 0; right: 0; display: flex; justify-content: center; z-index: 150; pointer-events: none; }
+#q-text { background: rgba(0,0,0,0.7); border: 2px solid rgba(255,255,255,0.2); padding: 15px 40px; border-radius: 30px; color: white; font-size: 1.8rem; font-weight: 900; max-width: 80%; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.5); line-height: 1.4; }
+
+/* Targets Container */
+#targets { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 100; pointer-events: none; }
+.target-btn { position: absolute; transform: translate(-50%, -50%); pointer-events: auto; cursor: pointer; border: none; font-family: 'Fredoka One', cursive; font-size: 1.4rem; color: white; text-shadow: 2px 2px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; display: flex; justify-content: center; align-items: center; text-align: center; line-height: 1.2; padding: 10px; transition: filter 0.2s; }
+.target-btn:hover { filter: brightness(1.2); }
+.target-btn:disabled { cursor: not-allowed; }
+
+/* Canvas */
+canvas { display: block; position: fixed; top: 0; left: 0; z-index: 10; }
+
+/* End Screen */
+#end-screen { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 300; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; }
+#end-screen.show { display: flex; }
+#end-screen h1 { font-size: 4rem; margin-bottom: 20px; font-family: 'Fredoka One', cursive; }
+#end-screen p { font-size: 2rem; color: #f1c40f; margin-bottom: 30px; font-weight: 900; }
+#end-screen button { padding: 15px 50px; background: #e74c3c; color: white; border: none; border-radius: 40px; font-size: 1.5rem; font-weight: 900; cursor: pointer; font-family: 'Nunito', sans-serif; transition: transform 0.2s; }
+#end-screen button:hover { transform: scale(1.1); background: #c0392b; }
+
+
+body { background: #e67e22; }
+.target-btn {
+    width: 120px; height: 120px;
+    background: #27ae60; border-radius: 50% 50% 0 0; border: 4px solid #1e8449;
+}
+
+</style>
+</head>
+<body>
+
+<div id="hud">
+    <div>Boomerang - Unit 6</div>
+    <div id="q-num">Q 1/25</div>
+    <div>Score: <span id="score-val">0</span></div>
+</div>
+
+<div id="q-panel"><div id="q-text"></div></div>
+
+<div id="targets"></div>
+<canvas id="cv"></canvas>
+
+<div id="end-screen">
+    <h1 id="end-title">Game Over!</h1>
+    <p id="end-score">Score: 0</p>
+    <button onclick="location.reload()">Play Again</button>
+</div>
+
+<script>
+const QS = [{"type": "mcq", "q": "I kept trying _____ I was exhausted.", "choices": ["although", "but", "because"], "answer": 0}, {"type": "mcq", "q": "My little daughter broke her arm while she _____.", "choices": ["skating", "skates", "was skating"], "answer": 2}, {"type": "mcq", "q": "We should all _____ our online profiles carefully.", "choices": ["design", "be designed", "designed"], "answer": 0}, {"type": "mcq", "q": "We have arranged to repaint our apartment. We _____ our apartment next summer.", "choices": ["have repainted", "are repainting", "repainted"], "answer": 1}, {"type": "mcq", "q": "Adel _____ Basbousa at the moment.", "choices": ["is eating", "eats", "eat"], "answer": 0}, {"type": "mcq", "q": "A lot of photos _____ online.", "choices": ["share", "shared", "are shared"], "answer": 2}, {"type": "mcq", "q": "Cairo is the _____ city in Egypt.", "choices": ["largest", "large", "larger"], "answer": 0}, {"type": "mcq", "q": "It was raining, _____ we played football.", "choices": ["so", "but", "although"], "answer": 1}, {"type": "mcq", "q": "Adel's work is _____ impressive than Ali's.", "choices": ["less", "more", "most"], "answer": 1}, {"type": "mcq", "q": "I don't have much money, _____ I can't buy a new mobile.", "choices": ["because", "If", "so"], "answer": 2}, {"type": "mcq", "q": "We should keep our country _____. (keep + object + adjective)", "choices": ["be clean", "cleaned", "clean"], "answer": 2}, {"type": "mcq", "q": "It's his habit to get up early. He _____ up early.", "choices": ["gets", "got", "getting"], "answer": 0}, {"type": "mcq", "q": "If Hany worked more carefully, he _____ make fewer mistakes.", "choices": ["will", "would", "can"], "answer": 1}, {"type": "mcq", "q": "The countryside is _____ than Cairo.", "choices": ["quietest", "more quieter", "quieter"], "answer": 2}, {"type": "mcq", "q": "I was very tired _____ I went to bed early.", "choices": ["because", "but", "so"], "answer": 2}, {"type": "mcq", "q": "Playing sports is a fantastic way to stay _____.", "choices": ["active", "unhealthy", "lazy"], "answer": 0}, {"type": "mcq", "q": "She was running when she _____ down.", "choices": ["fell", "falling", "was falling"], "answer": 0}, {"type": "mcq", "q": "Students should _____ the school rules.", "choices": ["be followed", "following", "follow"], "answer": 2}, {"type": "mcq", "q": "A famous sculptor received _____ for his pieces of artistic work.", "choices": ["punishment", "recognition", "bad treatment"], "answer": 1}, {"type": "mcq", "q": "Our trip in Jordan was one of the _____ we've ever had.", "choices": ["impressive", "more impressive", "most impressive"], "answer": 2}, {"type": "mcq", "q": "The Citadel in Cairo _____ in 1176.", "choices": ["built", "was built", "build"], "answer": 1}, {"type": "mcq", "q": "Soccer and basketball are _____ sports.", "choices": ["individual", "personal", "team"], "answer": 2}, {"type": "mcq", "q": "Individual sports are like running or _____.", "choices": ["soccer", "swimming", "basketball"], "answer": 1}, {"type": "mcq", "q": "Sports can help you _____ your physical and mental health.", "choices": ["improve", "fall", "cross"], "answer": 0}, {"type": "mcq", "q": "Our teacher _____ that there would be an English task next Monday.", "choices": ["asked", "announced", "told"], "answer": 1}];
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+cv.width = window.innerWidth; cv.height = window.innerHeight;
+window.addEventListener('resize', () => { cv.width = window.innerWidth; cv.height = window.innerHeight; });
+
+const AC = new (window.AudioContext||window.webkitAudioContext)();
+function tone(f,d,t='sine',v=0.4){
+    if(AC.state==='suspended') AC.resume();
+    const o=AC.createOscillator(),g=AC.createGain();
+    o.connect(g);g.connect(AC.destination);
+    o.type=t;o.frequency.value=f;
+    g.gain.setValueAtTime(v,AC.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+d);
+    o.start();o.stop(AC.currentTime+d);
+}
+function sndCorrect(){ tone(523,.1); setTimeout(()=>tone(784,.3),100); }
+function sndWrong(){ tone(150,.6,'sawtooth'); setTimeout(()=>tone(100,.6,'sawtooth'),150); }
+function sndShoot(){ tone(300,.1,'square',0.1); }
+
+let qIdx = 0, score = 0, locked = false;
+let particles = [];
+
+function loadQ() {
+    if(qIdx >= QS.length) { showEndScreen(); return; }
+    const q = QS[qIdx];
+    locked = false;
+    document.getElementById('q-text').textContent = q.q;
+    document.getElementById('q-num').textContent = `Q ${qIdx+1}/${QS.length}`;
+    
+    const container = document.getElementById('targets');
+    container.innerHTML = '';
+    
+    let choices = [...q.choices];
+    while(choices.length < 3) choices.push('...');
+    choices = choices.slice(0, 3);
+    const correctText = q.choices[q.answer] || q.choices[0];
+    
+    const labeled = choices.map(c => ({ text: c, isCorrect: c === correctText }));
+    labeled.sort(() => Math.random() - 0.5); 
+    
+    labeled.forEach((item, i) => {
+        if(!item.text) return;
+        const btn = document.createElement('button');
+        btn.className = 'target-btn';
+        btn.textContent = item.text;
+        btn.onclick = () => handleChoice(btn, item.isCorrect, i);
+        container.appendChild(btn);
+        gameInitTarget(btn, i, labeled.length);
+    });
+    
+    if(typeof gameOnLoadQ === 'function') gameOnLoadQ();
+}
+
+function handleChoice(btn, isCorrect, index) {
+    if(locked) return;
+    locked = true;
+    document.querySelectorAll('.target-btn').forEach(b => b.disabled = true);
+    
+    const rect = btn.getBoundingClientRect();
+    const tx = rect.left + rect.width / 2;
+    const ty = rect.top + rect.height / 2;
+    
+    gameAnimateAction(tx, ty, isCorrect, btn, () => {
+        if(isCorrect) {
+            score += 100;
+            document.getElementById('score-val').textContent = score;
+            sndCorrect();
+            createParticles(tx, ty, '#2ecc71', 30);
+            if(typeof btnSuccessAnim === 'function') btnSuccessAnim(btn);
+            else btn.style.transform += ' scale(0)';
+        } else {
+            sndWrong();
+            createParticles(tx, ty, '#e74c3c', 30);
+            if(typeof btnFailAnim === 'function') btnFailAnim(btn);
+            else btn.style.transform += ' scale(0)';
+            document.querySelectorAll('.target-btn').forEach(b => {
+                if(b !== btn) b.style.opacity = '0.3';
+            });
+        }
+        setTimeout(() => { qIdx++; loadQ(); }, isCorrect ? 1000 : 1500);
+    });
+}
+
+function createParticles(x, y, color, count) {
+    for(let i=0; i<count; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 8 + 2;
+        particles.push({
+            x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed,
+            life: 1, color, size: Math.random() * 5 + 3
+        });
+    }
+}
+
+function updateAndDrawParticles() {
+    particles = particles.filter(p => p.life > 0);
+    particles.forEach(p => {
+        p.x += p.vx; p.y += p.vy; p.vy += 0.2; 
+        p.life -= 0.02;
+        ctx.globalAlpha = Math.max(0, p.life);
+        ctx.fillStyle = p.color;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
+        ctx.globalAlpha = 1;
+    });
+}
+
+function showEndScreen() {
+    document.getElementById('end-screen').classList.add('show');
+    document.getElementById('end-title').textContent = score >= (QS.length*70) ? 'Awesome!' : 'Good Effort!';
+    document.getElementById('end-score').textContent = `Final Score: ${score}`;
+}
+
+function mainLoop() {
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    gameDrawBackground();
+    gameDrawForeground();
+    updateAndDrawParticles();
+    requestAnimationFrame(mainLoop);
+}
+
+
+let boom = null;
+function gameInitTarget(btn, i, total) {
+    const spacing = window.innerWidth / (total + 1);
+    btn.style.left = (spacing * (i + 1)) + 'px';
+    btn.style.top = (window.innerHeight * 0.3) + 'px';
+}
+function gameOnLoadQ() { boom = null; }
+function gameAnimateAction(tx, ty, isCorrect, btn, cb) {
+    sndShoot();
+    boom = { time: 0, sx: cv.width/2, sy: cv.height - 50, tx, ty, cb, hit: false, angle: 0 };
+}
+function gameDrawBackground() {}
+function gameDrawForeground() {
+    if(boom) {
+        boom.time += 0.05;
+        boom.angle += 0.5;
+        
+        // Elliptical arc
+        const cx = (boom.sx + boom.tx) / 2;
+        const cy = (boom.sy + boom.ty) / 2;
+        const rx = Math.abs(boom.sx - boom.tx) / 2;
+        const ry = Math.abs(boom.sy - boom.ty);
+        
+        let x = boom.sx; let y = boom.sy;
+        
+        if(boom.time <= Math.PI) {
+            // Forward arc
+            x = cx + rx * Math.cos(boom.time + Math.PI);
+            y = boom.sy - ry * Math.sin(boom.time);
+        } else if (boom.time <= Math.PI * 2) {
+            // Return arc
+            if(!boom.hit) { boom.hit = true; boom.cb(); }
+            x = cx + rx * Math.cos(boom.time + Math.PI);
+            y = boom.ty + ry * Math.sin(boom.time - Math.PI);
+        } else {
+            boom = null; return;
+        }
+        
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(boom.angle);
+        ctx.fillStyle = '#8e44ad';
+        ctx.beginPath(); ctx.moveTo(-20, 20); ctx.quadraticCurveTo(0, -20, 20, 20);
+        ctx.quadraticCurveTo(0, 0, -20, 20); ctx.fill();
+        ctx.restore();
+    } else {
+        ctx.fillStyle = '#34495e'; ctx.fillRect(cv.width/2 - 20, cv.height - 50, 40, 50);
+    }
+}
+
+loadQ();
+mainLoop();
+</script>
+</body>
+</html>

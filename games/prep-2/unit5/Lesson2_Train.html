@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script id="guard-script">
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            alert('عذراً، لا يمكنك الدخول لهذه اللعبة مباشرة. يرجى تسجيل الدخول أولاً.');
+            window.location.href = window.location.origin + (window.location.pathname.includes('/Englishtoon/') ? '/Englishtoon/' : '/');
+        }
+    </script>
+    <script src="../../../js/game-enhancements.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Train Delivery - Unit 5</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Nunito', sans-serif; overflow: hidden; width: 100vw; height: 100vh; background: #000; user-select: none; }
+
+/* HUD */
+#hud { position: fixed; top: 0; left: 0; right: 0; padding: 15px 30px; display: flex; justify-content: space-between; color: white; font-size: 1.5rem; font-weight: 900; z-index: 200; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); pointer-events: none; }
+#score-val { color: #f1c40f; }
+
+/* Question Panel */
+#q-panel { position: fixed; top: 70px; left: 0; right: 0; display: flex; justify-content: center; z-index: 150; pointer-events: none; }
+#q-text { background: rgba(0,0,0,0.7); border: 2px solid rgba(255,255,255,0.2); padding: 15px 40px; border-radius: 30px; color: white; font-size: 1.8rem; font-weight: 900; max-width: 80%; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.5); line-height: 1.4; }
+
+/* Targets Container */
+#targets { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 100; pointer-events: none; }
+.target-btn { position: absolute; transform: translate(-50%, -50%); pointer-events: auto; cursor: pointer; border: none; font-family: 'Fredoka One', cursive; font-size: 1.4rem; color: white; text-shadow: 2px 2px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; display: flex; justify-content: center; align-items: center; text-align: center; line-height: 1.2; padding: 10px; transition: filter 0.2s; }
+.target-btn:hover { filter: brightness(1.2); }
+.target-btn:disabled { cursor: not-allowed; }
+
+/* Canvas */
+canvas { display: block; position: fixed; top: 0; left: 0; z-index: 10; }
+
+/* End Screen */
+#end-screen { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 300; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; }
+#end-screen.show { display: flex; }
+#end-screen h1 { font-size: 4rem; margin-bottom: 20px; font-family: 'Fredoka One', cursive; }
+#end-screen p { font-size: 2rem; color: #f1c40f; margin-bottom: 30px; font-weight: 900; }
+#end-screen button { padding: 15px 50px; background: #e74c3c; color: white; border: none; border-radius: 40px; font-size: 1.5rem; font-weight: 900; cursor: pointer; font-family: 'Nunito', sans-serif; transition: transform 0.2s; }
+#end-screen button:hover { transform: scale(1.1); background: #c0392b; }
+
+
+body { background: #d35400; }
+.target-btn {
+    width: 150px; height: 100px;
+    background: #34495e;
+    border-radius: 5px 5px 0 0; border: 4px solid #2c3e50;
+}
+
+</style>
+</head>
+<body>
+
+<div id="hud">
+    <div>Train Delivery - Unit 5</div>
+    <div id="q-num">Q 1/25</div>
+    <div>Score: <span id="score-val">0</span></div>
+</div>
+
+<div id="q-panel"><div id="q-text"></div></div>
+
+<div id="targets"></div>
+<canvas id="cv"></canvas>
+
+<div id="end-screen">
+    <h1 id="end-title">Game Over!</h1>
+    <p id="end-score">Score: 0</p>
+    <button onclick="location.reload()">Play Again</button>
+</div>
+
+<script>
+const QS = [{"type": "mcq", "q": "The trip to Ras Mohamed was an _____ experience.", "choices": ["unforgettable", "forgettable", "peaceful"], "answer": 0}, {"type": "mcq", "q": "We can enjoy the beautiful _____ in Al Fayoum.", "choices": ["weather", "stadium", "bridge"], "answer": 0}, {"type": "mcq", "q": "Salah El Din's _____ was built to protect Cairo.", "choices": ["school", "Citadel", "hospital"], "answer": 1}, {"type": "mcq", "q": "Some people are afraid of shark _____ in the sea.", "choices": ["rocks", "stones", "attacks"], "answer": 2}, {"type": "mcq", "q": "Tourists explore different traditions and _____.", "choices": ["cultures", "perfumes", "objects"], "answer": 0}, {"type": "mcq", "q": "Grand Egyptian Museum is one of the _____ museums in the world.", "choices": ["largest", "large", "larger"], "answer": 0}, {"type": "mcq", "q": "The population in China is _____ than Egypt's.", "choices": ["biggest", "big", "bigger"], "answer": 2}, {"type": "mcq", "q": "Our ancient history is the _____ impressive.", "choices": ["more", "much", "most"], "answer": 2}, {"type": "mcq", "q": "Maria is _____ beautiful than her friend.", "choices": ["most", "the most", "more"], "answer": 2}, {"type": "mcq", "q": "My hometown is _____ than Alexandria.", "choices": ["quietest", "quiet", "quieter"], "answer": 2}, {"type": "mcq", "q": "Grand Egyptian Museum is the _____ impressive one.", "choices": ["most", "more", "less"], "answer": 0}, {"type": "mcq", "q": "This is the _____ expensive car I have ever seen.", "choices": ["most", "much", "more"], "answer": 0}, {"type": "mcq", "q": "Luxor is _____ than Sharm El Sheikh.", "choices": ["hot", "hotter", "hottest"], "answer": 1}, {"type": "mcq", "q": "The Nile River is the _____ river in the world.", "choices": ["longer", "long", "longest"], "answer": 2}, {"type": "mcq", "q": "The painting is _____ beautiful than the one in the living room.", "choices": ["the most", "more", "most"], "answer": 1}, {"type": "mcq", "q": "Cairo is _____ crowded than Luxor.", "choices": ["most", "the most", "more"], "answer": 2}, {"type": "mcq", "q": "Reading short stories is much _____ than watching movies.", "choices": ["useful", "more useful", "most useful"], "answer": 1}, {"type": "mcq", "q": "January is usually the _____ month in Egypt.", "choices": ["coldest", "colder", "cold"], "answer": 0}, {"type": "mcq", "q": "Our trip in Jordan was one of the _____ we've ever had.", "choices": ["most impressive", "impressive", "more impressive"], "answer": 0}, {"type": "mcq", "q": "Asia is the _____ continent in the world.", "choices": ["larger", "large", "largest"], "answer": 2}, {"type": "mcq", "q": "Cairo is _____ than Alexandria.", "choices": ["bigger", "big", "biggest"], "answer": 0}, {"type": "mcq", "q": "No month is _____ than August in Egypt.", "choices": ["hot", "hotter", "hottest"], "answer": 1}, {"type": "mcq", "q": "I have never read a _____ exciting story than 'The Little Inventor'.", "choices": ["less", "more", "most"], "answer": 1}, {"type": "mcq", "q": "Adel is _____ than Ali.", "choices": ["short", "shortest", "shorter"], "answer": 2}, {"type": "mcq", "q": "Japan is _____ modern than India.", "choices": ["more", "the most", "most"], "answer": 0}];
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+cv.width = window.innerWidth; cv.height = window.innerHeight;
+window.addEventListener('resize', () => { cv.width = window.innerWidth; cv.height = window.innerHeight; });
+
+const AC = new (window.AudioContext||window.webkitAudioContext)();
+function tone(f,d,t='sine',v=0.4){
+    if(AC.state==='suspended') AC.resume();
+    const o=AC.createOscillator(),g=AC.createGain();
+    o.connect(g);g.connect(AC.destination);
+    o.type=t;o.frequency.value=f;
+    g.gain.setValueAtTime(v,AC.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+d);
+    o.start();o.stop(AC.currentTime+d);
+}
+function sndCorrect(){ tone(523,.1); setTimeout(()=>tone(784,.3),100); }
+function sndWrong(){ tone(150,.6,'sawtooth'); setTimeout(()=>tone(100,.6,'sawtooth'),150); }
+function sndShoot(){ tone(300,.1,'square',0.1); }
+
+let qIdx = 0, score = 0, locked = false;
+let particles = [];
+
+function loadQ() {
+    if(qIdx >= QS.length) { showEndScreen(); return; }
+    const q = QS[qIdx];
+    locked = false;
+    document.getElementById('q-text').textContent = q.q;
+    document.getElementById('q-num').textContent = `Q ${qIdx+1}/${QS.length}`;
+    
+    const container = document.getElementById('targets');
+    container.innerHTML = '';
+    
+    let choices = [...q.choices];
+    while(choices.length < 3) choices.push('...');
+    choices = choices.slice(0, 3);
+    const correctText = q.choices[q.answer] || q.choices[0];
+    
+    const labeled = choices.map(c => ({ text: c, isCorrect: c === correctText }));
+    labeled.sort(() => Math.random() - 0.5); 
+    
+    labeled.forEach((item, i) => {
+        if(!item.text) return;
+        const btn = document.createElement('button');
+        btn.className = 'target-btn';
+        btn.textContent = item.text;
+        btn.onclick = () => handleChoice(btn, item.isCorrect, i);
+        container.appendChild(btn);
+        gameInitTarget(btn, i, labeled.length);
+    });
+    
+    if(typeof gameOnLoadQ === 'function') gameOnLoadQ();
+}
+
+function handleChoice(btn, isCorrect, index) {
+    if(locked) return;
+    locked = true;
+    document.querySelectorAll('.target-btn').forEach(b => b.disabled = true);
+    
+    const rect = btn.getBoundingClientRect();
+    const tx = rect.left + rect.width / 2;
+    const ty = rect.top + rect.height / 2;
+    
+    gameAnimateAction(tx, ty, isCorrect, btn, () => {
+        if(isCorrect) {
+            score += 100;
+            document.getElementById('score-val').textContent = score;
+            sndCorrect();
+            createParticles(tx, ty, '#2ecc71', 30);
+            if(typeof btnSuccessAnim === 'function') btnSuccessAnim(btn);
+            else btn.style.transform += ' scale(0)';
+        } else {
+            sndWrong();
+            createParticles(tx, ty, '#e74c3c', 30);
+            if(typeof btnFailAnim === 'function') btnFailAnim(btn);
+            else btn.style.transform += ' scale(0)';
+            document.querySelectorAll('.target-btn').forEach(b => {
+                if(b !== btn) b.style.opacity = '0.3';
+            });
+        }
+        setTimeout(() => { qIdx++; loadQ(); }, isCorrect ? 1000 : 1500);
+    });
+}
+
+function createParticles(x, y, color, count) {
+    for(let i=0; i<count; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 8 + 2;
+        particles.push({
+            x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed,
+            life: 1, color, size: Math.random() * 5 + 3
+        });
+    }
+}
+
+function updateAndDrawParticles() {
+    particles = particles.filter(p => p.life > 0);
+    particles.forEach(p => {
+        p.x += p.vx; p.y += p.vy; p.vy += 0.2; 
+        p.life -= 0.02;
+        ctx.globalAlpha = Math.max(0, p.life);
+        ctx.fillStyle = p.color;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
+        ctx.globalAlpha = 1;
+    });
+}
+
+function showEndScreen() {
+    document.getElementById('end-screen').classList.add('show');
+    document.getElementById('end-title').textContent = score >= (QS.length*70) ? 'Awesome!' : 'Good Effort!';
+    document.getElementById('end-score').textContent = `Final Score: ${score}`;
+}
+
+function mainLoop() {
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    gameDrawBackground();
+    gameDrawForeground();
+    updateAndDrawParticles();
+    requestAnimationFrame(mainLoop);
+}
+
+
+let train = null;
+function gameInitTarget(btn, i, total) {
+    const spacing = window.innerWidth / (total + 1);
+    btn.style.left = (spacing * (i + 1)) + 'px';
+    btn.style.top = (window.innerHeight * 0.3) + 'px';
+}
+function gameOnLoadQ() { train = null; }
+function gameAnimateAction(tx, ty, isCorrect, btn, cb) {
+    sndShoot();
+    train = { x: -200, y: window.innerHeight * 0.7, tx, ty, cb, vx: 20 };
+}
+function btnSuccessAnim(btn) { btn.style.transform += ' scale(0)'; }
+function btnFailAnim(btn) { btn.style.transform += ' scale(0)'; }
+
+function gameDrawBackground() {
+    // Train tracks
+    ctx.fillStyle = '#7f8c8d';
+    ctx.fillRect(0, cv.height * 0.75, cv.width, 20);
+    ctx.fillStyle = '#95a5a6';
+    for(let i=0; i<cv.width; i+=40) {
+        ctx.fillRect(i, cv.height * 0.74, 10, 40);
+    }
+}
+function gameDrawForeground() {
+    if(train) {
+        if(train.x < train.tx) {
+            train.x += train.vx;
+            // slow down near target
+            if(train.tx - train.x < 200) train.vx = Math.max(2, train.vx * 0.9);
+        }
+        
+        ctx.save();
+        ctx.translate(train.x, train.y);
+        ctx.fillStyle = '#c0392b'; ctx.fillRect(-80, -60, 160, 60); // body
+        ctx.fillStyle = '#34495e'; ctx.fillRect(20, -100, 40, 40); // chimney
+        ctx.fillStyle = '#ecf0f1'; ctx.beginPath(); ctx.arc(40, -120, 15, 0, Math.PI*2); ctx.fill(); // smoke
+        
+        // wheels
+        ctx.fillStyle = '#f1c40f';
+        ctx.beginPath(); ctx.arc(-50, 0, 20, 0, Math.PI*2); ctx.fill();
+        ctx.beginPath(); ctx.arc(0, 0, 20, 0, Math.PI*2); ctx.fill();
+        ctx.beginPath(); ctx.arc(50, 0, 20, 0, Math.PI*2); ctx.fill();
+        ctx.restore();
+        
+        if(Math.abs(train.x - train.tx) < 5) {
+            // throw package up
+            createParticles(train.x, train.y - 60, '#f1c40f', 20);
+            train.cb(); train = null;
+        }
+    }
+}
+
+loadQ();
+mainLoop();
+</script>
+</body>
+</html>

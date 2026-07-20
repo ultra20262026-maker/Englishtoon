@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script id="guard-script">
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            alert('عذراً، لا يمكنك الدخول لهذه اللعبة مباشرة. يرجى تسجيل الدخول أولاً.');
+            window.location.href = window.location.origin + (window.location.pathname.includes('/Englishtoon/') ? '/Englishtoon/' : '/');
+        }
+    </script>
+    <script src="../../../js/game-enhancements.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pit Stop - Unit 6</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Nunito', sans-serif; overflow: hidden; width: 100vw; height: 100vh; background: #000; user-select: none; }
+
+/* HUD */
+#hud { position: fixed; top: 0; left: 0; right: 0; padding: 15px 30px; display: flex; justify-content: space-between; color: white; font-size: 1.5rem; font-weight: 900; z-index: 200; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); pointer-events: none; }
+#score-val { color: #f1c40f; }
+
+/* Question Panel */
+#q-panel { position: fixed; top: 70px; left: 0; right: 0; display: flex; justify-content: center; z-index: 150; pointer-events: none; }
+#q-text { background: rgba(0,0,0,0.7); border: 2px solid rgba(255,255,255,0.2); padding: 15px 40px; border-radius: 30px; color: white; font-size: 1.8rem; font-weight: 900; max-width: 80%; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.5); line-height: 1.4; }
+
+/* Targets Container */
+#targets { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 100; pointer-events: none; }
+.target-btn { position: absolute; transform: translate(-50%, -50%); pointer-events: auto; cursor: pointer; border: none; font-family: 'Fredoka One', cursive; font-size: 1.4rem; color: white; text-shadow: 2px 2px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; display: flex; justify-content: center; align-items: center; text-align: center; line-height: 1.2; padding: 10px; transition: filter 0.2s; }
+.target-btn:hover { filter: brightness(1.2); }
+.target-btn:disabled { cursor: not-allowed; }
+
+/* Canvas */
+canvas { display: block; position: fixed; top: 0; left: 0; z-index: 10; }
+
+/* End Screen */
+#end-screen { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 300; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; }
+#end-screen.show { display: flex; }
+#end-screen h1 { font-size: 4rem; margin-bottom: 20px; font-family: 'Fredoka One', cursive; }
+#end-screen p { font-size: 2rem; color: #f1c40f; margin-bottom: 30px; font-weight: 900; }
+#end-screen button { padding: 15px 50px; background: #e74c3c; color: white; border: none; border-radius: 40px; font-size: 1.5rem; font-weight: 900; cursor: pointer; font-family: 'Nunito', sans-serif; transition: transform 0.2s; }
+#end-screen button:hover { transform: scale(1.1); background: #c0392b; }
+
+
+body { background: #7f8c8d; }
+.target-btn {
+    width: 140px; height: 140px;
+    background: repeating-linear-gradient(45deg, #e74c3c, #e74c3c 10px, #fff 10px, #fff 20px);
+    border-radius: 10px; border: 5px solid #2c3e50;
+    color: black !important; text-shadow: 1px 1px #fff !important;
+}
+
+</style>
+</head>
+<body>
+
+<div id="hud">
+    <div>Pit Stop - Unit 6</div>
+    <div id="q-num">Q 1/25</div>
+    <div>Score: <span id="score-val">0</span></div>
+</div>
+
+<div id="q-panel"><div id="q-text"></div></div>
+
+<div id="targets"></div>
+<canvas id="cv"></canvas>
+
+<div id="end-screen">
+    <h1 id="end-title">Game Over!</h1>
+    <p id="end-score">Score: 0</p>
+    <button onclick="location.reload()">Play Again</button>
+</div>
+
+<script>
+const QS = [{"type": "mcq", "q": "Do you have any _____ about how to test this tool?", "choices": ["thoughts", "engineers", "impacts"], "answer": 0}, {"type": "mcq", "q": "A _____ engineer works to make cities safe and organized.", "choices": ["fashion", "civil", "computer"], "answer": 1}, {"type": "mcq", "q": "Learning a new language is a slow _____ that takes time and practice.", "choices": ["mistake", "process", "object"], "answer": 1}, {"type": "mcq", "q": "Biomedical engineers use tools like _____ to help patients.", "choices": ["senses", "screens", "sensors"], "answer": 2}, {"type": "mcq", "q": "He wore special shoes to stop himself from _____ on the wet ground.", "choices": ["slips", "slip", "slipping"], "answer": 2}, {"type": "mcq", "q": "She would pass the exam if she _____ harder.", "choices": ["studied", "studies", "study"], "answer": 0}, {"type": "mcq", "q": "If I _____ fly, I would visit every country in the world.", "choices": ["can", "could", "will"], "answer": 1}, {"type": "mcq", "q": "If you _____ me with homework, I will finish early.", "choices": ["helped", "help", "helps"], "answer": 1}, {"type": "mcq", "q": "If we _____ in Paris, we would visit the Eiffel Tower.", "choices": ["are", "were", "was"], "answer": 1}, {"type": "mcq", "q": "If I had a plane, I _____ to many countries in the world.", "choices": ["will travel", "travel", "would travel"], "answer": 2}, {"type": "mcq", "q": "If Hany _____ more carefully, he would make fewer mistakes.", "choices": ["works", "worked", "working"], "answer": 1}, {"type": "mcq", "q": "If I _____ you, I would see a doctor.", "choices": ["were", "was", "am"], "answer": 0}, {"type": "mcq", "q": "What would you do if you _____ a lot of money?", "choices": ["wins", "won", "win"], "answer": 1}, {"type": "mcq", "q": "If he _____ the answer, he would tell us.", "choices": ["knew", "knows", "know"], "answer": 0}, {"type": "mcq", "q": "We would buy a bigger house if we _____ rich.", "choices": ["is", "are", "were"], "answer": 2}, {"type": "mcq", "q": "If she didn't feel well, she _____ stay at home.", "choices": ["will", "can", "would"], "answer": 2}, {"type": "mcq", "q": "I _____ help you if I had more time.", "choices": ["would", "can", "will"], "answer": 0}, {"type": "mcq", "q": "If it rains tomorrow, we _____ go to the club.", "choices": ["don't", "won't", "wouldn't"], "answer": 1}, {"type": "mcq", "q": "If you heat ice, it _____.", "choices": ["melt", "melted", "melts"], "answer": 2}, {"type": "mcq", "q": "They will pass the test if they _____ hard.", "choices": ["study", "studied", "studies"], "answer": 0}, {"type": "mcq", "q": "If he _____ fast, he wouldn't miss the train.", "choices": ["ran", "run", "runs"], "answer": 0}, {"type": "mcq", "q": "She _____ come to the party if you invited her.", "choices": ["would", "can", "will"], "answer": 0}, {"type": "mcq", "q": "If we _____ tickets, we would go to the concert.", "choices": ["has", "had", "have"], "answer": 1}, {"type": "mcq", "q": "What will happen if you _____ the deadline?", "choices": ["miss", "misses", "missed"], "answer": 0}, {"type": "mcq", "q": "If people used less plastic, the oceans _____ cleaner.", "choices": ["are", "will be", "would be"], "answer": 2}];
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+cv.width = window.innerWidth; cv.height = window.innerHeight;
+window.addEventListener('resize', () => { cv.width = window.innerWidth; cv.height = window.innerHeight; });
+
+const AC = new (window.AudioContext||window.webkitAudioContext)();
+function tone(f,d,t='sine',v=0.4){
+    if(AC.state==='suspended') AC.resume();
+    const o=AC.createOscillator(),g=AC.createGain();
+    o.connect(g);g.connect(AC.destination);
+    o.type=t;o.frequency.value=f;
+    g.gain.setValueAtTime(v,AC.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+d);
+    o.start();o.stop(AC.currentTime+d);
+}
+function sndCorrect(){ tone(523,.1); setTimeout(()=>tone(784,.3),100); }
+function sndWrong(){ tone(150,.6,'sawtooth'); setTimeout(()=>tone(100,.6,'sawtooth'),150); }
+function sndShoot(){ tone(300,.1,'square',0.1); }
+
+let qIdx = 0, score = 0, locked = false;
+let particles = [];
+
+function loadQ() {
+    if(qIdx >= QS.length) { showEndScreen(); return; }
+    const q = QS[qIdx];
+    locked = false;
+    document.getElementById('q-text').textContent = q.q;
+    document.getElementById('q-num').textContent = `Q ${qIdx+1}/${QS.length}`;
+    
+    const container = document.getElementById('targets');
+    container.innerHTML = '';
+    
+    let choices = [...q.choices];
+    while(choices.length < 3) choices.push('...');
+    choices = choices.slice(0, 3);
+    const correctText = q.choices[q.answer] || q.choices[0];
+    
+    const labeled = choices.map(c => ({ text: c, isCorrect: c === correctText }));
+    labeled.sort(() => Math.random() - 0.5); 
+    
+    labeled.forEach((item, i) => {
+        if(!item.text) return;
+        const btn = document.createElement('button');
+        btn.className = 'target-btn';
+        btn.textContent = item.text;
+        btn.onclick = () => handleChoice(btn, item.isCorrect, i);
+        container.appendChild(btn);
+        gameInitTarget(btn, i, labeled.length);
+    });
+    
+    if(typeof gameOnLoadQ === 'function') gameOnLoadQ();
+}
+
+function handleChoice(btn, isCorrect, index) {
+    if(locked) return;
+    locked = true;
+    document.querySelectorAll('.target-btn').forEach(b => b.disabled = true);
+    
+    const rect = btn.getBoundingClientRect();
+    const tx = rect.left + rect.width / 2;
+    const ty = rect.top + rect.height / 2;
+    
+    gameAnimateAction(tx, ty, isCorrect, btn, () => {
+        if(isCorrect) {
+            score += 100;
+            document.getElementById('score-val').textContent = score;
+            sndCorrect();
+            createParticles(tx, ty, '#2ecc71', 30);
+            if(typeof btnSuccessAnim === 'function') btnSuccessAnim(btn);
+            else btn.style.transform += ' scale(0)';
+        } else {
+            sndWrong();
+            createParticles(tx, ty, '#e74c3c', 30);
+            if(typeof btnFailAnim === 'function') btnFailAnim(btn);
+            else btn.style.transform += ' scale(0)';
+            document.querySelectorAll('.target-btn').forEach(b => {
+                if(b !== btn) b.style.opacity = '0.3';
+            });
+        }
+        setTimeout(() => { qIdx++; loadQ(); }, isCorrect ? 1000 : 1500);
+    });
+}
+
+function createParticles(x, y, color, count) {
+    for(let i=0; i<count; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 8 + 2;
+        particles.push({
+            x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed,
+            life: 1, color, size: Math.random() * 5 + 3
+        });
+    }
+}
+
+function updateAndDrawParticles() {
+    particles = particles.filter(p => p.life > 0);
+    particles.forEach(p => {
+        p.x += p.vx; p.y += p.vy; p.vy += 0.2; 
+        p.life -= 0.02;
+        ctx.globalAlpha = Math.max(0, p.life);
+        ctx.fillStyle = p.color;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
+        ctx.globalAlpha = 1;
+    });
+}
+
+function showEndScreen() {
+    document.getElementById('end-screen').classList.add('show');
+    document.getElementById('end-title').textContent = score >= (QS.length*70) ? 'Awesome!' : 'Good Effort!';
+    document.getElementById('end-score').textContent = `Final Score: ${score}`;
+}
+
+function mainLoop() {
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    gameDrawBackground();
+    gameDrawForeground();
+    updateAndDrawParticles();
+    requestAnimationFrame(mainLoop);
+}
+
+
+let car = null;
+function gameInitTarget(btn, i, total) {
+    const spacing = window.innerWidth / (total + 1);
+    btn.style.left = (spacing * (i + 1)) + 'px';
+    btn.style.top = (window.innerHeight * 0.3) + 'px';
+}
+function gameOnLoadQ() { car = null; }
+function gameAnimateAction(tx, ty, isCorrect, btn, cb) {
+    sndShoot();
+    car = { x: -100, y: cv.height - 100, tx, ty, cb, btn, state: 'drive' };
+}
+function btnSuccessAnim(btn) {}
+function btnFailAnim(btn) {}
+function gameDrawBackground() {
+    ctx.fillStyle = '#95a5a6'; ctx.fillRect(0, cv.height - 150, cv.width, 100); // road
+    ctx.fillStyle = '#fff';
+    for(let i=0; i<cv.width; i+=60) ctx.fillRect(i, cv.height - 105, 30, 10); // road lines
+}
+function gameDrawForeground() {
+    if(car) {
+        if(car.state === 'drive') {
+            car.x += 25;
+            if(car.x >= car.tx) car.state = 'turn';
+        } else if(car.state === 'turn') {
+            car.y -= 25;
+            if(car.y <= car.ty + 70) {
+                createParticles(car.x, car.y, '#e74c3c', 20);
+                car.btn.style.transform += ' scale(0)';
+                car.cb(); car = null;
+            }
+        }
+        
+        if(car) {
+            ctx.save();
+            ctx.translate(car.x, car.y);
+            if(car.state === 'turn') ctx.rotate(-Math.PI/2);
+            ctx.fillStyle = '#e74c3c'; ctx.fillRect(-40, -15, 80, 30);
+            ctx.fillStyle = '#000'; 
+            ctx.fillRect(-25, -25, 15, 10); ctx.fillRect(15, -25, 15, 10);
+            ctx.fillRect(-25, 15, 15, 10); ctx.fillRect(15, 15, 15, 10);
+            ctx.fillStyle = '#f1c40f'; ctx.fillRect(35, -10, 5, 20); // headlights
+            ctx.restore();
+        }
+    }
+}
+
+loadQ();
+mainLoop();
+</script>
+</body>
+</html>

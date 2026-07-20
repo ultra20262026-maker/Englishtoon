@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script id="guard-script">
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            alert('عذراً، لا يمكنك الدخول لهذه اللعبة مباشرة. يرجى تسجيل الدخول أولاً.');
+            window.location.href = window.location.origin + (window.location.pathname.includes('/Englishtoon/') ? '/Englishtoon/' : '/');
+        }
+    </script>
+    <script src="../../../js/game-enhancements.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cowboy Lasso - Unit 5</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Nunito', sans-serif; overflow: hidden; width: 100vw; height: 100vh; background: #000; user-select: none; }
+
+/* HUD */
+#hud { position: fixed; top: 0; left: 0; right: 0; padding: 15px 30px; display: flex; justify-content: space-between; color: white; font-size: 1.5rem; font-weight: 900; z-index: 200; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); pointer-events: none; }
+#score-val { color: #f1c40f; }
+
+/* Question Panel */
+#q-panel { position: fixed; top: 70px; left: 0; right: 0; display: flex; justify-content: center; z-index: 150; pointer-events: none; }
+#q-text { background: rgba(0,0,0,0.7); border: 2px solid rgba(255,255,255,0.2); padding: 15px 40px; border-radius: 30px; color: white; font-size: 1.8rem; font-weight: 900; max-width: 80%; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.5); line-height: 1.4; }
+
+/* Targets Container */
+#targets { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 100; pointer-events: none; }
+.target-btn { position: absolute; transform: translate(-50%, -50%); pointer-events: auto; cursor: pointer; border: none; font-family: 'Fredoka One', cursive; font-size: 1.4rem; color: white; text-shadow: 2px 2px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; display: flex; justify-content: center; align-items: center; text-align: center; line-height: 1.2; padding: 10px; transition: filter 0.2s; }
+.target-btn:hover { filter: brightness(1.2); }
+.target-btn:disabled { cursor: not-allowed; }
+
+/* Canvas */
+canvas { display: block; position: fixed; top: 0; left: 0; z-index: 10; }
+
+/* End Screen */
+#end-screen { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 300; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; }
+#end-screen.show { display: flex; }
+#end-screen h1 { font-size: 4rem; margin-bottom: 20px; font-family: 'Fredoka One', cursive; }
+#end-screen p { font-size: 2rem; color: #f1c40f; margin-bottom: 30px; font-weight: 900; }
+#end-screen button { padding: 15px 50px; background: #e74c3c; color: white; border: none; border-radius: 40px; font-size: 1.5rem; font-weight: 900; cursor: pointer; font-family: 'Nunito', sans-serif; transition: transform 0.2s; }
+#end-screen button:hover { transform: scale(1.1); background: #c0392b; }
+
+
+body { background: #e67e22; }
+.target-btn {
+    width: 120px; height: 120px;
+    background: #ecf0f1; border-radius: 20px; border: 4px dashed #7f8c8d;
+    color: #2c3e50 !important; font-weight: bold;
+}
+
+</style>
+</head>
+<body>
+
+<div id="hud">
+    <div>Cowboy Lasso - Unit 5</div>
+    <div id="q-num">Q 1/25</div>
+    <div>Score: <span id="score-val">0</span></div>
+</div>
+
+<div id="q-panel"><div id="q-text"></div></div>
+
+<div id="targets"></div>
+<canvas id="cv"></canvas>
+
+<div id="end-screen">
+    <h1 id="end-title">Game Over!</h1>
+    <p id="end-score">Score: 0</p>
+    <button onclick="location.reload()">Play Again</button>
+</div>
+
+<script>
+const QS = [{"type": "mcq", "q": "Amira is the _____ intelligent one in class.", "choices": ["most", "much", "more"], "answer": 0}, {"type": "mcq", "q": "English is _____ than Math for some students.", "choices": ["easier", "easiest", "easy"], "answer": 0}, {"type": "mcq", "q": "This book is _____ interesting than the other one.", "choices": ["most", "more", "much"], "answer": 1}, {"type": "mcq", "q": "Which is the _____ animal in the world?", "choices": ["fastest", "faster", "fast"], "answer": 0}, {"type": "mcq", "q": "My bag is _____ than yours.", "choices": ["heaviest", "heavy", "heavier"], "answer": 2}, {"type": "mcq", "q": "He is the _____ boy in the team.", "choices": ["tall", "taller", "tallest"], "answer": 2}, {"type": "mcq", "q": "A plane is _____ than a train.", "choices": ["faster", "fastest", "fast"], "answer": 0}, {"type": "mcq", "q": "When I was in Europe, I saw _____ plants I have never seen before.", "choices": ["ugly", "strange", "safe"], "answer": 1}, {"type": "mcq", "q": "You can enjoy the _____ in Al Fayoum.", "choices": ["stadium", "waterfall", "highway"], "answer": 1}, {"type": "mcq", "q": "We can _____ into pairs and explore the city.", "choices": ["dream", "cut", "split"], "answer": 2}, {"type": "mcq", "q": "Health is _____ important than money.", "choices": ["much", "more", "most"], "answer": 1}, {"type": "mcq", "q": "That was the _____ day of my life!", "choices": ["happiest", "happier", "happy"], "answer": 0}, {"type": "mcq", "q": "Ali is _____ careful than his brother.", "choices": ["most", "much", "more"], "answer": 2}, {"type": "mcq", "q": "The story about how the pharaohs built the pyramids is still _____.", "choices": ["curious", "known", "mysterious"], "answer": 2}, {"type": "mcq", "q": "They want to collect _____ stones from the beach.", "choices": ["noisy", "ugly", "shiny"], "answer": 2}, {"type": "mcq", "q": "While walking through the forest, we heard a _____ sound.", "choices": ["ordinary", "strange", "bad"], "answer": 1}, {"type": "mcq", "q": "My friend pointed at an old tree that had split into two _____.", "choices": ["leaves", "branches", "parts"], "answer": 2}, {"type": "mcq", "q": "Playing sports is a fantastic way to stay _____.", "choices": ["unhealthy", "active", "lazy"], "answer": 1}, {"type": "mcq", "q": "Soccer and basketball are _____ sports.", "choices": ["personal", "individual", "team"], "answer": 2}, {"type": "mcq", "q": "Individual sports are like running or _____.", "choices": ["soccer", "swimming", "basketball"], "answer": 1}, {"type": "mcq", "q": "Sports can help you _____ your physical and mental health.", "choices": ["improve", "fall", "cross"], "answer": 0}, {"type": "mcq", "q": "Sports can help you develop _____ and leadership skills.", "choices": ["laziness", "teamwork", "selfishness"], "answer": 1}, {"type": "mcq", "q": "Our teacher _____ that there would be an English task next Monday.", "choices": ["told", "announced", "asked"], "answer": 1}, {"type": "mcq", "q": "We should _____ a good online balance for both learning and fun.", "choices": ["find", "leave", "take"], "answer": 0}, {"type": "mcq", "q": "The _____ in Tokyo is large, and the people are polite.", "choices": ["pollution", "continent", "population"], "answer": 2}];
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+cv.width = window.innerWidth; cv.height = window.innerHeight;
+window.addEventListener('resize', () => { cv.width = window.innerWidth; cv.height = window.innerHeight; });
+
+const AC = new (window.AudioContext||window.webkitAudioContext)();
+function tone(f,d,t='sine',v=0.4){
+    if(AC.state==='suspended') AC.resume();
+    const o=AC.createOscillator(),g=AC.createGain();
+    o.connect(g);g.connect(AC.destination);
+    o.type=t;o.frequency.value=f;
+    g.gain.setValueAtTime(v,AC.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+d);
+    o.start();o.stop(AC.currentTime+d);
+}
+function sndCorrect(){ tone(523,.1); setTimeout(()=>tone(784,.3),100); }
+function sndWrong(){ tone(150,.6,'sawtooth'); setTimeout(()=>tone(100,.6,'sawtooth'),150); }
+function sndShoot(){ tone(300,.1,'square',0.1); }
+
+let qIdx = 0, score = 0, locked = false;
+let particles = [];
+
+function loadQ() {
+    if(qIdx >= QS.length) { showEndScreen(); return; }
+    const q = QS[qIdx];
+    locked = false;
+    document.getElementById('q-text').textContent = q.q;
+    document.getElementById('q-num').textContent = `Q ${qIdx+1}/${QS.length}`;
+    
+    const container = document.getElementById('targets');
+    container.innerHTML = '';
+    
+    let choices = [...q.choices];
+    while(choices.length < 3) choices.push('...');
+    choices = choices.slice(0, 3);
+    const correctText = q.choices[q.answer] || q.choices[0];
+    
+    const labeled = choices.map(c => ({ text: c, isCorrect: c === correctText }));
+    labeled.sort(() => Math.random() - 0.5); 
+    
+    labeled.forEach((item, i) => {
+        if(!item.text) return;
+        const btn = document.createElement('button');
+        btn.className = 'target-btn';
+        btn.textContent = item.text;
+        btn.onclick = () => handleChoice(btn, item.isCorrect, i);
+        container.appendChild(btn);
+        gameInitTarget(btn, i, labeled.length);
+    });
+    
+    if(typeof gameOnLoadQ === 'function') gameOnLoadQ();
+}
+
+function handleChoice(btn, isCorrect, index) {
+    if(locked) return;
+    locked = true;
+    document.querySelectorAll('.target-btn').forEach(b => b.disabled = true);
+    
+    const rect = btn.getBoundingClientRect();
+    const tx = rect.left + rect.width / 2;
+    const ty = rect.top + rect.height / 2;
+    
+    gameAnimateAction(tx, ty, isCorrect, btn, () => {
+        if(isCorrect) {
+            score += 100;
+            document.getElementById('score-val').textContent = score;
+            sndCorrect();
+            createParticles(tx, ty, '#2ecc71', 30);
+            if(typeof btnSuccessAnim === 'function') btnSuccessAnim(btn);
+            else btn.style.transform += ' scale(0)';
+        } else {
+            sndWrong();
+            createParticles(tx, ty, '#e74c3c', 30);
+            if(typeof btnFailAnim === 'function') btnFailAnim(btn);
+            else btn.style.transform += ' scale(0)';
+            document.querySelectorAll('.target-btn').forEach(b => {
+                if(b !== btn) b.style.opacity = '0.3';
+            });
+        }
+        setTimeout(() => { qIdx++; loadQ(); }, isCorrect ? 1000 : 1500);
+    });
+}
+
+function createParticles(x, y, color, count) {
+    for(let i=0; i<count; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 8 + 2;
+        particles.push({
+            x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed,
+            life: 1, color, size: Math.random() * 5 + 3
+        });
+    }
+}
+
+function updateAndDrawParticles() {
+    particles = particles.filter(p => p.life > 0);
+    particles.forEach(p => {
+        p.x += p.vx; p.y += p.vy; p.vy += 0.2; 
+        p.life -= 0.02;
+        ctx.globalAlpha = Math.max(0, p.life);
+        ctx.fillStyle = p.color;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
+        ctx.globalAlpha = 1;
+    });
+}
+
+function showEndScreen() {
+    document.getElementById('end-screen').classList.add('show');
+    document.getElementById('end-title').textContent = score >= (QS.length*70) ? 'Awesome!' : 'Good Effort!';
+    document.getElementById('end-score').textContent = `Final Score: ${score}`;
+}
+
+function mainLoop() {
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    gameDrawBackground();
+    gameDrawForeground();
+    updateAndDrawParticles();
+    requestAnimationFrame(mainLoop);
+}
+
+
+let lasso = null;
+function gameInitTarget(btn, i, total) {
+    const spacing = window.innerWidth / (total + 1);
+    btn.dataset.x = spacing * (i + 1);
+    btn.dataset.y = window.innerHeight * 0.3;
+    btn.style.left = btn.dataset.x + 'px';
+    btn.style.top = btn.dataset.y + 'px';
+}
+function gameOnLoadQ() { lasso = null; }
+function gameAnimateAction(tx, ty, isCorrect, btn, cb) {
+    sndShoot();
+    lasso = { x: cv.width/2, y: cv.height - 100, tx, ty, cb, btn, state: 'throw', size: 10 };
+}
+function btnSuccessAnim(btn) { btn.style.transform += ' scale(0)'; }
+function btnFailAnim(btn) { btn.style.transform += ' scale(0)'; }
+
+function gameDrawBackground() {
+    // Player
+    ctx.fillStyle = '#8e44ad'; ctx.fillRect(cv.width/2 - 30, cv.height - 80, 60, 80);
+    ctx.fillStyle = '#f1c40f'; ctx.beginPath(); ctx.ellipse(cv.width/2, cv.height - 80, 50, 15, 0, 0, Math.PI*2); ctx.fill(); // hat brim
+    ctx.beginPath(); ctx.arc(cv.width/2, cv.height - 90, 25, Math.PI, 0); ctx.fill(); // hat top
+}
+function gameDrawForeground() {
+    if(lasso) {
+        if(lasso.state === 'throw') {
+            lasso.x += (lasso.tx - lasso.x) * 0.15;
+            lasso.y += (lasso.ty - lasso.y) * 0.15;
+            lasso.size += 3;
+            if(Math.hypot(lasso.tx - lasso.x, lasso.ty - lasso.y) < 10) {
+                lasso.state = 'pull';
+            }
+        } else if (lasso.state === 'pull') {
+            const px = cv.width/2, py = cv.height - 100;
+            lasso.x += (px - lasso.x) * 0.1;
+            lasso.y += (py - lasso.y) * 0.1;
+            lasso.size = Math.max(10, lasso.size - 3);
+            
+            // pull button
+            lasso.btn.style.left = lasso.x + 'px';
+            lasso.btn.style.top = lasso.y + 'px';
+            
+            if(Math.hypot(px - lasso.x, py - lasso.y) < 10) {
+                lasso.cb(); lasso = null;
+            }
+        }
+        
+        ctx.strokeStyle = '#f39c12'; ctx.lineWidth = 4;
+        ctx.beginPath(); ctx.moveTo(cv.width/2, cv.height - 50); ctx.lineTo(lasso.x, lasso.y); ctx.stroke();
+        
+        ctx.beginPath(); ctx.ellipse(lasso.x, lasso.y, lasso.size, lasso.size * 0.5, 0, 0, Math.PI*2); ctx.stroke();
+    }
+}
+
+loadQ();
+mainLoop();
+</script>
+</body>
+</html>
