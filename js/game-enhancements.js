@@ -9,6 +9,11 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function createBackButton() {
+    // Smart Detection: If it's a modern game (e.g. primary-2) it already has a back button or a question zone.
+    if (document.querySelector('.btn-back') || document.querySelector('#question-zone')) {
+        return; // Abort injecting a redundant back button
+    }
+
     const btn = document.createElement('button');
     btn.innerHTML = 'العودة للوحدة';
     btn.className = 'back-btn-injected';
@@ -65,8 +70,11 @@ function disableLegacyBGM() {
 }
 
 function injectReadabilityCSS() {
+    // Smart Detection
+    const isModern = document.querySelector('.btn-back') !== null || document.querySelector('#question-zone') !== null;
+    
     const style = document.createElement('style');
-    style.innerHTML = `
+    let css = `
         /* --- PROFESSIONAL 3D PIXAR GAME STYLE --- */
         
         /* Animated 3D Gradient Background */
@@ -97,7 +105,7 @@ function injectReadabilityCSS() {
         }
 
         /* 3D Glossy Buttons for Choices */
-        button:not(#start-btn):not(.back-btn):not([onclick*="window.location"]):not(.target-btn) {
+        button:not(#start-btn):not(.back-btn):not([onclick*="window.location"]):not(.target-btn):not(.choice-btn):not(.btn-start):not(.level-btn):not(.btn-replay):not(.btn-home):not(.btn-next):not(#mute-btn) {
             white-space: normal !important;
             word-wrap: break-word !important;
             height: auto !important;
@@ -125,7 +133,7 @@ function injectReadabilityCSS() {
             cursor: pointer !important;
         }
 
-        button:not(#start-btn):not(.back-btn):not([onclick*="window.location"]):not(.target-btn):active {
+        button:not(#start-btn):not(.back-btn):not([onclick*="window.location"]):not(.target-btn):not(.choice-btn):not(.btn-start):not(.level-btn):not(.btn-replay):not(.btn-home):not(.btn-next):not(#mute-btn):active {
             transform: translateY(10px) !important;
             box-shadow: 0 0 0 #d88185, 0 5px 10px rgba(0,0,0,0.4), inset 0 2px 0 rgba(255,255,255,0.6) !important;
         }
@@ -159,6 +167,16 @@ function injectReadabilityCSS() {
             box-shadow: 0 0 0 #008272, 0 5px 10px rgba(0,0,0,0.4), inset 0 2px 0 rgba(255,255,255,0.6) !important;
         }
 
+        /* Screens (Start/Game Over) Styling */
+        .screen {
+            background: rgba(0,0,0,0.85) !important;
+            backdrop-filter: blur(10px) !important;
+            border-radius: 24px !important;
+        }
+    `;
+
+    if (!isModern) {
+        css += `
         /* Premium UI Counters (Score/Lives/Question) */
         #ui div, #score, #lives {
             background: rgba(0, 0, 0, 0.4) !important;
@@ -234,13 +252,6 @@ function injectReadabilityCSS() {
             font-size: clamp(12px, 2.5vw, 16px) !important;
         }
 
-        /* Screens (Start/Game Over) Styling */
-        .screen {
-            background: rgba(0,0,0,0.85) !important;
-            backdrop-filter: blur(10px) !important;
-            border-radius: 24px !important;
-        }
-
         /* Ensure options containers wrap their buttons properly on all screen sizes */
         #options-container, .options, .choices, #choices, #answers {
             display: flex !important;
@@ -262,7 +273,10 @@ function injectReadabilityCSS() {
             justify-content: center !important;
             padding-bottom: 50px !important; /* Space for buttons at the bottom */
         }
-    `;
+        `;
+    }
+
+    style.innerHTML = css;
     document.head.appendChild(style);
 }
 
