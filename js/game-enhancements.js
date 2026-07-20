@@ -105,7 +105,7 @@ function injectReadabilityCSS() {
         }
 
         /* 3D Glossy Buttons for Choices */
-        button:not(#start-btn):not(.back-btn):not([onclick*="window.location"]):not(.target-btn):not(.choice-btn):not(.btn-start):not(.level-btn):not(.btn-replay):not(.btn-home):not(.btn-next):not(#mute-btn) {
+        button:not(#start-btn):not(.back-btn):not(.back-btn-injected):not([onclick*="window.location"]):not(.target-btn):not(.choice-btn):not(.btn-start):not(.level-btn):not(.btn-replay):not(.btn-home):not(.btn-next):not(#mute-btn) {
             white-space: normal !important;
             word-wrap: break-word !important;
             height: auto !important;
@@ -133,7 +133,7 @@ function injectReadabilityCSS() {
             cursor: pointer !important;
         }
 
-        button:not(#start-btn):not(.back-btn):not([onclick*="window.location"]):not(.target-btn):not(.choice-btn):not(.btn-start):not(.level-btn):not(.btn-replay):not(.btn-home):not(.btn-next):not(#mute-btn):active {
+        button:not(#start-btn):not(.back-btn):not(.back-btn-injected):not([onclick*="window.location"]):not(.target-btn):not(.choice-btn):not(.btn-start):not(.level-btn):not(.btn-replay):not(.btn-home):not(.btn-next):not(#mute-btn):active {
             transform: translateY(10px) !important;
             box-shadow: 0 0 0 #d88185, 0 5px 10px rgba(0,0,0,0.4), inset 0 2px 0 rgba(255,255,255,0.6) !important;
         }
