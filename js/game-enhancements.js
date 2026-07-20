@@ -236,20 +236,24 @@ function injectReadabilityCSS() {
             z-index: 999999 !important;
             background: linear-gradient(135deg, #ef4444, #dc2626) !important;
             color: white !important;
-            border: 2px solid #b91c1c !important;
-            border-radius: 12px !important;
+            border: 1px solid #b91c1c !important;
+            border-radius: 6px !important;
             cursor: pointer !important;
             font-weight: bold !important;
             font-family: "Segoe UI", Tahoma, sans-serif !important;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4) !important;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3) !important;
             transition: all 0.3s ease !important;
             display: block !important;
             white-space: nowrap !important;
             text-decoration: none !important;
-            top: clamp(5px, 2vh, 15px) !important;
-            left: clamp(5px, 2vw, 15px) !important;
-            padding: clamp(5px, 1.5vw, 10px) clamp(10px, 3vw, 20px) !important;
-            font-size: clamp(12px, 2.5vw, 16px) !important;
+            top: 5px !important;
+            left: 5px !important;
+            padding: 4px 8px !important;
+            font-size: 11px !important;
+            opacity: 0.8 !important;
+        }
+        .back-btn-injected:hover {
+            opacity: 1 !important;
         }
 
         /* Ensure options containers wrap their buttons properly on all screen sizes */
