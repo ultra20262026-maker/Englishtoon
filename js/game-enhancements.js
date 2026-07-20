@@ -255,6 +255,23 @@ function injectReadabilityCSS() {
         .back-btn-injected:hover {
             opacity: 1 !important;
         }
+        
+        /* Force shrink ALL back buttons on mobile */
+        @media (max-width: 600px) {
+            .btn-back, .back-btn-injected {
+                padding: 2px 6px !important;
+                font-size: 10px !important;
+                border-radius: 4px !important;
+                min-height: 0 !important;
+                min-width: 0 !important;
+                width: auto !important;
+                height: auto !important;
+                opacity: 0.6 !important;
+            }
+            .btn-back:hover, .back-btn-injected:hover {
+                opacity: 1 !important;
+            }
+        }
 
         /* Ensure options containers wrap their buttons properly on all screen sizes */
         #options-container, .options, .choices, #choices, #answers {
