@@ -11,9 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function createBackButton() {
     const btn = document.createElement('button');
     btn.innerHTML = 'العودة للوحدة';
-    
-    // Inline styling specifically for the back button so it ignores the global button CSS
-    btn.style.cssText = 'position:fixed !important; top:15px !important; left:15px !important; z-index:999999 !important; padding:10px 20px !important; background:linear-gradient(135deg, #ef4444, #dc2626) !important; color:white !important; border:2px solid #b91c1c !important; border-radius:12px !important; cursor:pointer !important; font-weight:bold !important; font-size:16px !important; font-family:"Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important; box-shadow:0 4px 15px rgba(0,0,0,0.4) !important; transition:all 0.3s ease !important; text-decoration:none !important; height: auto !important; min-height: 0 !important; display: block !important; margin: 0 !important; white-space: nowrap !important;';
+    btn.className = 'back-btn-injected';
     
     btn.onmouseover = () => btn.style.transform = 'scale(1.05)';
     btn.onmouseout = () => btn.style.transform = 'scale(1)';
@@ -134,9 +132,9 @@ function injectReadabilityCSS() {
 
         /* Action Game Targets Responsive Sizing */
         .target-btn {
-            width: clamp(80px, 15vw, 150px) !important;
-            height: clamp(80px, 15vw, 150px) !important;
-            font-size: clamp(16px, 3vw, 28px) !important;
+            width: clamp(70px, 18vw, 140px) !important;
+            height: clamp(70px, 18vw, 140px) !important;
+            font-size: clamp(12px, 3vw, 24px) !important;
             border-radius: 50% !important; /* Ensure they remain circles */
             display: flex !important;
             align-items: center !important;
@@ -162,16 +160,78 @@ function injectReadabilityCSS() {
         }
 
         /* Premium UI Counters (Score/Lives/Question) */
-        #ui div, #score, #lives, #q-text {
+        #ui div, #score, #lives {
             background: rgba(0, 0, 0, 0.4) !important;
-            padding: clamp(8px, 2vw, 18px) clamp(15px, 3vw, 30px) !important;
+            padding: clamp(6px, 1.5vw, 15px) clamp(10px, 2vw, 25px) !important;
             border-radius: 20px !important;
             border: 2px solid rgba(255, 255, 255, 0.2) !important;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3) !important;
             color: #fff !important;
             text-shadow: 2px 2px 4px #000 !important;
             font-weight: bold !important;
-            font-size: clamp(16px, 3vw, 24px) !important;
+            font-size: clamp(14px, 2.5vw, 20px) !important;
+        }
+
+        /* Responsive HUD Overlay */
+        #hud {
+            padding: clamp(5px, 2vh, 15px) clamp(10px, 3vw, 30px) !important;
+            font-size: clamp(12px, 3.5vw, 1.5rem) !important;
+            display: flex !important;
+            flex-wrap: wrap !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            gap: 5px !important;
+        }
+
+        /* Hide the Game Title on very small screens to save space */
+        @media (max-width: 600px) {
+            #hud > div:first-child { display: none !important; }
+            #q-panel { top: 40px !important; }
+        }
+
+        /* Responsive Question Panel */
+        #q-panel {
+            top: clamp(40px, 10vh, 70px) !important;
+            left: 2% !important;
+            right: 2% !important;
+            width: 96% !important;
+        }
+        #q-text {
+            background: rgba(0,0,0,0.85) !important;
+            border: 2px solid rgba(255,255,255,0.3) !important;
+            padding: clamp(10px, 2vh, 15px) clamp(15px, 4vw, 40px) !important;
+            border-radius: clamp(15px, 4vw, 30px) !important;
+            color: white !important;
+            font-size: clamp(14px, 4vw, 24px) !important;
+            font-weight: 900 !important;
+            max-width: 100% !important;
+            width: 100% !important;
+            text-align: center;
+            line-height: 1.3 !important;
+            word-wrap: break-word !important;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5) !important;
+        }
+
+        /* Responsive Back Button */
+        .back-btn-injected {
+            position: fixed !important;
+            z-index: 999999 !important;
+            background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+            color: white !important;
+            border: 2px solid #b91c1c !important;
+            border-radius: 12px !important;
+            cursor: pointer !important;
+            font-weight: bold !important;
+            font-family: "Segoe UI", Tahoma, sans-serif !important;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4) !important;
+            transition: all 0.3s ease !important;
+            display: block !important;
+            white-space: nowrap !important;
+            text-decoration: none !important;
+            top: clamp(5px, 2vh, 15px) !important;
+            left: clamp(5px, 2vw, 15px) !important;
+            padding: clamp(5px, 1.5vw, 10px) clamp(10px, 3vw, 20px) !important;
+            font-size: clamp(12px, 2.5vw, 16px) !important;
         }
 
         /* Screens (Start/Game Over) Styling */
