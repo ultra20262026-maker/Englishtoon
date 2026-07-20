@@ -78,6 +78,9 @@ function injectReadabilityCSS() {
             animation: gradientBG 15s ease infinite !important;
             font-family: 'Fredoka One', 'Segoe UI', Tahoma, sans-serif !important;
             color: white !important;
+            user-select: none !important;
+            -webkit-user-select: none !important;
+            touch-action: none !important;
         }
         @keyframes gradientBG {
             0% { background-position: 0% 50%; }
@@ -96,7 +99,7 @@ function injectReadabilityCSS() {
         }
 
         /* 3D Glossy Buttons for Choices */
-        button:not(#start-btn):not(.back-btn):not([onclick*="window.location"]) {
+        button:not(#start-btn):not(.back-btn):not([onclick*="window.location"]):not(.target-btn) {
             white-space: normal !important;
             word-wrap: break-word !important;
             height: auto !important;
@@ -124,9 +127,21 @@ function injectReadabilityCSS() {
             cursor: pointer !important;
         }
 
-        button:not(#start-btn):not(.back-btn):not([onclick*="window.location"]):active {
+        button:not(#start-btn):not(.back-btn):not([onclick*="window.location"]):not(.target-btn):active {
             transform: translateY(10px) !important;
             box-shadow: 0 0 0 #d88185, 0 5px 10px rgba(0,0,0,0.4), inset 0 2px 0 rgba(255,255,255,0.6) !important;
+        }
+
+        /* Action Game Targets Responsive Sizing */
+        .target-btn {
+            width: clamp(80px, 15vw, 150px) !important;
+            height: clamp(80px, 15vw, 150px) !important;
+            font-size: clamp(16px, 3vw, 28px) !important;
+            border-radius: 50% !important; /* Ensure they remain circles */
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            touch-action: none !important;
         }
 
         /* Start Button 3D Effect */
@@ -146,16 +161,17 @@ function injectReadabilityCSS() {
             box-shadow: 0 0 0 #008272, 0 5px 10px rgba(0,0,0,0.4), inset 0 2px 0 rgba(255,255,255,0.6) !important;
         }
 
-        /* Premium UI Counters (Score/Lives) */
-        #ui div, #score, #lives {
+        /* Premium UI Counters (Score/Lives/Question) */
+        #ui div, #score, #lives, #q-text {
             background: rgba(0, 0, 0, 0.4) !important;
-            padding: 8px 18px !important;
+            padding: clamp(8px, 2vw, 18px) clamp(15px, 3vw, 30px) !important;
             border-radius: 20px !important;
             border: 2px solid rgba(255, 255, 255, 0.2) !important;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3) !important;
             color: #fff !important;
             text-shadow: 2px 2px 4px #000 !important;
             font-weight: bold !important;
+            font-size: clamp(16px, 3vw, 24px) !important;
         }
 
         /* Screens (Start/Game Over) Styling */
