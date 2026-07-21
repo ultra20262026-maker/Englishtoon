@@ -27,7 +27,19 @@
         .card-title { font-size: 1.2rem; font-weight: 900; margin: 0 0 5px 0; color: #2c3e50; }
         .card-game { color: #e74c3c; font-weight: bold; font-size: 0.9rem; margin: 0; }
     </style>
+
+<style>
+  * { touch-action: none; }
+  body, canvas { touch-action: none; }
+  @media (max-width: 600px) {
+    .target-btn { width: 90px !important; height: 90px !important; font-size: 0.9rem !important; border-radius: 10px !important; }
+    #q-text { font-size: 1.1rem !important; padding: 10px 15px !important; max-width: 95% !important; }
+    #hud { font-size: 1rem !important; padding: 8px 15px !important; }
+    #score-val { font-size: 1.2rem !important; }
+  }
+</style>
 </head>
+
 <body>
     <div class='header'>
         <h1>Prep 1 Games (Standalone)</h1>

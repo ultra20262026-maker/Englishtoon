@@ -315,7 +315,19 @@ html, body {
     .shake { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
     @keyframes shake { 10%, 90% { transform: translate3d(-2px, 0, 0); } 20%, 80% { transform: translate3d(4px, 0, 0); } 30%, 50%, 70% { transform: translate3d(-6px, 0, 0); } 40%, 60% { transform: translate3d(6px, 0, 0); } }
   </style>
+
+<style>
+  * { touch-action: none; }
+  body, canvas { touch-action: none; }
+  @media (max-width: 600px) {
+    .target-btn { width: 90px !important; height: 90px !important; font-size: 0.9rem !important; border-radius: 10px !important; }
+    #q-text { font-size: 1.1rem !important; padding: 10px 15px !important; max-width: 95% !important; }
+    #hud { font-size: 1rem !important; padding: 8px 15px !important; }
+    #score-val { font-size: 1.2rem !important; }
+  }
+</style>
 </head>
+
 <body>
   <div id="game-wrap">
     <div id="feedback-flash"></div>
@@ -435,25 +447,7 @@ const SoundEngine = (() => {
   };
 
   // BG ambient loop
-  function startBg(type='space') {
-    if (muted) return;
-    stopBg();
-    try {
-      const c = getCtx();
-      bgGain = c.createGain();
-      bgGain.gain.value = 0.04;
-      bgGain.connect(c.destination);
-
-      // simple drone
-      const freqs = type==='space'?[55,110,165]:[65,130,195];
-      freqs.forEach(f => {
-        const o = c.createOscillator();
-        o.type = 'sine'; o.frequency.value = f;
-        o.connect(bgGain); o.start();
-        if (!bgNode) bgNode = []; bgNode.push(o);
-      });
-    } catch(e){}
-  }
+  function startBg(type="space") { return; }
   function stopBg() {
     try { if (bgNode) { (Array.isArray(bgNode)?bgNode:[bgNode]).forEach(n=>n.stop()); } } catch(e){}
     bgNode = null;
