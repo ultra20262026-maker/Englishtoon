@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+    <script id="guard-script">
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            alert('عذراً، لا يمكنك الدخول لهذه اللعبة مباشرة. يرجى تسجيل الدخول أولاً.');
+            window.location.href = window.location.origin + (window.location.pathname.includes('/Englishtoon/') ? '/Englishtoon/' : '/');
+        }
+    </script>
+    <script src="../../../js/game-enhancements.js"></script>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Trapdoor Drop 🕳️ - Unit 4 Lesson 2</title>
@@ -47,17 +56,19 @@ body{background:#6c3483;color:white;font-family:'Nunito',sans-serif;overflow:hid
 .g-end button:hover{transform:scale(1.08);}
 </style>
 
+
 <style>
-  * { touch-action: none; }
-  body, canvas { touch-action: none; }
+  * { touch-action: manipulation; }
+  body, canvas { touch-action: manipulation; }
   @media (max-width: 600px) {
-    .target-btn { width: 90px !important; height: 90px !important; font-size: 0.9rem !important; border-radius: 10px !important; }
-    #q-text { font-size: 1.1rem !important; padding: 10px 15px !important; max-width: 95% !important; }
+    .target-btn { transform: translate(-50%, -50%) scale(0.8) !important; }
+    #q-text { font-size: 1.1rem !important; padding: 10px 15px !important; max-width: 90% !important; }
     #hud { font-size: 1rem !important; padding: 8px 15px !important; }
     #score-val { font-size: 1.2rem !important; }
   }
 </style>
 </head>
+
 
 <body>
 
