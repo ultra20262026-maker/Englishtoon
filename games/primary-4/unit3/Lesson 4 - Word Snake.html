@@ -644,21 +644,8 @@ const SoundEngine = (() => {
 
   // BG ambient loop
   function startBg(type='space') {
-    if (muted) return;
-    stopBg();
-    try {
-      const c = getCtx();
-      bgGain = c.createGain();
-      bgGain.gain.value = 0.04;
-      bgGain.connect(c.destination);
-
-      // simple drone
-      const freqs = type==='space'?[55,110,165]:[65,130,195];
-      freqs.forEach(f => {
-        const o = c.createOscillator();
-        o.type = 'sine'; o.frequency.value = f;
-        o.connect(bgGain); o.start();
-        if (!bgNode) bgNode = []; bgNode.push(o);
+    return;
+    if (!bgNode) bgNode = []; bgNode.push(o);
       });
     } catch(e){}
   }
