@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>U3L1 Boomerang: Classroom Actions</title>
 <style>
 @font-face {
@@ -49,7 +49,19 @@ canvas{display:block;position:fixed;top:0;left:0;z-index:10;pointer-events:none;
 #pbar{position:fixed;bottom:0;left:0;height:6px;background:#8e44ad;z-index:200;transition:width 0.4s;box-shadow:0 0 10px #8e44ad;}
 </style>
 <style>.target-btn{width:130px;height:130px;border-radius:50% 50% 0 0;background:radial-gradient(circle,#27ae60,#1e8449);box-shadow:0 0 20px rgba(39,174,96,0.5);}</style>
+
+<style>
+  * { touch-action: none; }
+  body, canvas { touch-action: none; }
+  @media (max-width: 600px) {
+    .target-btn { width: 90px !important; height: 90px !important; font-size: 0.9rem !important; border-radius: 10px !important; }
+    #q-text { font-size: 1.1rem !important; padding: 10px 15px !important; max-width: 95% !important; }
+    #hud { font-size: 1rem !important; padding: 8px 15px !important; }
+    #score-val { font-size: 1.2rem !important; }
+  }
+</style>
 </head>
+
 <body>
 <div id="hud">
   <div style="font-family:'Fredoka One';">U3L1 Boomerang: Classroom Actions</div>
