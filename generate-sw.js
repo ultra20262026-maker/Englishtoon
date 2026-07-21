@@ -20,35 +20,29 @@ function walkDir(currentPath) {
         if (stat.isDirectory()) {
             walkDir(fullPath);
         } else {
-            // Add relative path (e.g. 'index.html', 'games/file.png')
-            // Don't cache the root '/' directly if we rely on 'index.html'
-            filesToCache.push('/' + relativePath);
+            filesToCache.push('./' + relativePath);
         }
     }
 }
 
-// Add root manually to be safe
-filesToCache.push('/');
+// Add root
+filesToCache.push('./');
 
 walkDir(__dirname);
 
 console.log(`Found ${filesToCache.length} files to cache.`);
 
+const timestamp = Date.now();
 const swContent = `
-const CACHE_NAME = 'english-toon-v1-offline';
+const CACHE_NAME = 'english-toon-v${timestamp}';
 const urlsToCache = ${JSON.stringify(filesToCache, null, 2)};
 
 self.addEventListener('install', event => {
-    // Force immediate installation
     self.skipWaiting();
-    
     event.waitUntil(
         caches.open(CACHE_NAME)
             .then(cache => {
-                console.log('Opened cache, starting massive download...');
-                
-                // Addall might fail if a single file fails (e.g., 404). 
-                // We'll map them individually to avoid a single point of failure.
+                console.log('Opened new cache:', CACHE_NAME);
                 return Promise.all(
                     urlsToCache.map(url => {
                         return cache.add(url).catch(err => {
@@ -61,22 +55,50 @@ self.addEventListener('install', event => {
 });
 
 self.addEventListener('activate', event => {
-    // Take over immediately
-    event.waitUntil(self.clients.claim());
+    event.waitUntil(
+        caches.keys().then(cacheNames => {
+            return Promise.all(
+                cacheNames.map(cache => {
+                    if (cache !== CACHE_NAME) {
+                        console.log('Deleting old cache:', cache);
+                        return caches.delete(cache);
+                    }
+                })
+            );
+        }).then(() => self.clients.claim())
+    );
 });
 
 self.addEventListener('fetch', event => {
+    // Network-first strategy for HTML and JS to ensure instant updates
+    if (event.request.mode === 'navigate' || event.request.url.endsWith('.html') || event.request.url.endsWith('.js')) {
+        event.respondWith(
+            fetch(event.request)
+                .then(networkResponse => {
+                    if (networkResponse && networkResponse.status === 200) {
+                        const responseClone = networkResponse.clone();
+                        caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseClone));
+                    }
+                    return networkResponse;
+                })
+                .catch(() => caches.match(event.request))
+        );
+        return;
+    }
+
+    // Cache-first for images/audio
     event.respondWith(
         caches.match(event.request)
             .then(response => {
-                // Cache hit - return response
                 if (response) {
                     return response;
                 }
-                
-                // Fallback to network
-                return fetch(event.request).catch(err => {
-                    console.log('Offline and not cached:', event.request.url);
+                return fetch(event.request).then(networkResponse => {
+                    if (networkResponse && networkResponse.status === 200 && event.request.method === 'GET') {
+                        const responseClone = networkResponse.clone();
+                        caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseClone));
+                    }
+                    return networkResponse;
                 });
             })
     );
@@ -84,4 +106,4 @@ self.addEventListener('fetch', event => {
 `;
 
 fs.writeFileSync(path.join(__dirname, 'sw.js'), swContent);
-console.log('Successfully generated sw.js');
+console.log('Successfully generated sw.js with cache name: english-toon-v' + timestamp);
