@@ -604,12 +604,7 @@ const SoundEngine = (() => {
   };
 
   // BG ambient loop
-  function startBg(type='space') {
-    return;
-    if (!bgNode) bgNode = []; bgNode.push(o);
-      });
-    } catch(e){}
-  }
+  function startBg(type="space") { return; }
   function stopBg() {
     try { if (bgNode) { (Array.isArray(bgNode)?bgNode:[bgNode]).forEach(n=>n.stop()); } } catch(e){}
     bgNode = null;
