@@ -8,10 +8,22 @@
 </head>
 <body>
 
-    <!-- Sticky WhatsApp Expiry Warning Banner -->
-    <a href="https://wa.me/201208609509?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B4%D8%AA%D8%B1%D8%A7%D9%83%20%D9%81%D9%8A%20%D9%85%D9%88%D9%82%D8%B9%20English%20Toon" target="_blank" class="warning-license-banner">
-        <span>⚠️ أنت الآن تستخدم النسخة المجانية للموقع وسيتم حذفك قريباً! للاشتراك تواصل واتس: 01208609509</span>
-        <span class="warning-wa-btn">💬 اشترك عبر الواتساب</span>
+    <!-- Horizontal Scrolling Marquee Warning Ticker Banner -->
+    <a href="https://wa.me/201208609509?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B4%D8%AA%D8%B1%D8%A7%D9%83%20%D9%81%D9%8A%20%D9%85%D9%88%D9%82%D8%B9%20English%20Toon" target="_blank" class="marquee-warning-banner" title="اضغط للاشتراك الفوري عبر الواتساب">
+        <div class="marquee-track">
+            <div class="marquee-item">
+                <span>⚠️ أنت الآن تستخدم النسخة المجانية للموقع وسيتم حذفك قريباً! للاشتراك الفوري تواصل واتس: 01208609509</span>
+                <span class="marquee-wa-btn">💬 اشترك الآن عبر الواتساب</span>
+            </div>
+            <div class="marquee-item">
+                <span>⚠️ أنت الآن تستخدم النسخة المجانية للموقع وسيتم حذفك قريباً! للاشتراك الفوري تواصل واتس: 01208609509</span>
+                <span class="marquee-wa-btn">💬 اشترك الآن عبر الواتساب</span>
+            </div>
+            <div class="marquee-item">
+                <span>⚠️ أنت الآن تستخدم النسخة المجانية للموقع وسيتم حذفك قريباً! للاشتراك الفوري تواصل واتس: 01208609509</span>
+                <span class="marquee-wa-btn">💬 اشترك الآن عبر الواتساب</span>
+            </div>
+        </div>
     </a>
 
     <!-- Cyber Background Mesh & Ambient Glowing Orbs -->
@@ -73,6 +85,34 @@
 
         <!-- Grade Tiles Grid -->
         <div class="cards-grid" id="grades-container"></div>
+
+        <!-- 📚 PER-GRADE GAMES GUIDE (شرح ألعاب كل صف منفردة) -->
+        <section class="grade-guide-wrapper">
+            <div class="guide-glass-card">
+                <h3 class="guide-header-title">
+                    <span>🎮</span>
+                    دليل وشرح ألعاب الصفوف الدراسية
+                </h3>
+
+                <!-- Grade Filter Tabs -->
+                <div class="guide-tabs-list" id="guide-tabs-container">
+                    <button class="guide-tab-btn active" onclick="switchGuideTab('primary-1', this)">الأول الابتدائي</button>
+                    <button class="guide-tab-btn" onclick="switchGuideTab('primary-2', this)">الثاني الابتدائي</button>
+                    <button class="guide-tab-btn" onclick="switchGuideTab('primary-3', this)">الثالث الابتدائي</button>
+                    <button class="guide-tab-btn" onclick="switchGuideTab('primary-4', this)">الرابع الابتدائي</button>
+                    <button class="guide-tab-btn" onclick="switchGuideTab('primary-5', this)">الخامس الابتدائي</button>
+                    <button class="guide-tab-btn" onclick="switchGuideTab('primary-6', this)">السادس الابتدائي</button>
+                    <button class="guide-tab-btn" onclick="switchGuideTab('prep-1', this)">الأول الإعدادي</button>
+                    <button class="guide-tab-btn" onclick="switchGuideTab('prep-2', this)">الثاني الإعدادي</button>
+                    <button class="guide-tab-btn" onclick="switchGuideTab('prep-3', this)">الثالث الإعدادي</button>
+                </div>
+
+                <!-- Active Guide Content Panel -->
+                <div class="guide-details-panel" id="guide-details-container">
+                    <!-- Dynamic content rendered by JS -->
+                </div>
+            </div>
+        </section>
 
     </div>
 
@@ -158,6 +198,74 @@
         });
 
         document.getElementById('grade-count-badge').textContent = `${totalRendered} صفوف مضافة`;
+
+        // Per-Grade Games Showcase Guide Data
+        const GRADE_GUIDE_DATA = {
+            'primary-1': [
+                { icon: '🔤', title: 'لعبة صيد الحروف والأشكال', desc: 'يتعلم الطالب التمييز بين الحروف الإنجليزية الصوتية وتجميع الكلمات البسيطة.' },
+                { icon: '🎨', title: 'لعبة تلوين البطاقات التعليمية', desc: 'تربيط المفردات الأساسية مثل الحيوانات والألوان بصور متحركة ممتعة.' },
+                { icon: '🔊', title: 'تحدي الاستماع والنطق', desc: 'الاستماع لنطق الكلمات الصحيح واختيار الصورة المناسبة مع تشجيع صوتي.' }
+            ],
+            'primary-2': [
+                { icon: '🚀', title: 'سفينة الفضاء وتجميع الكلمات', desc: 'إطلاق الصواريخ نحو الفقاعات الحاوية للحروف لبناء مفردات الوحدة.' },
+                { icon: '🎯', title: 'رمي السهام وقواعد النحو', desc: 'تحديد الضمائر وأفعال الكينونة (am/is/are) بطريقة تفاعلية وسريعة.' },
+                { icon: '🧩', title: 'لعبة تطابق الظل والمفردات', desc: 'تنمية الذاكرة وتوسيع حصيلة كلمات الطعام والأسرة والألعاب.' }
+            ],
+            'primary-3': [
+                { icon: '🏹', title: 'تحدي الرماية والتفوق (Archery Quiz)', desc: 'إصابة الهدف واختيار المعاني والترجمات الإنجليزية الصحيحة.' },
+                { icon: '🐍', title: 'ثعبان الكلمات (Word Snake)', desc: 'توجيه الثعبان لجمع الحروف بالترتيب الصحيح وتكوين الكلمة.' },
+                { icon: '🫧', title: 'فرقعة الفقاعات (Bubble Pop)', desc: 'فرقعة الفقاعات الصوتية والإجابة على أسئلة المحادثات البسيطة.' }
+            ],
+            'primary-4': [
+                { icon: '🏎️', title: 'سباق السيارات والقواعد', desc: 'زيادة سرعة السيارة بالإجابة الصحيحة على زمن المضارع البسيط والماضي.' },
+                { icon: '🤖', title: 'روبوت تركيب الجمل', desc: 'ترتيب الكلمات وتكوين الجمل الإنجليزية القواعدية بشكل صحيح.' },
+                { icon: '🔍', title: 'كشاف الظلام ومتاهة الحروف', desc: 'البحث عن المفردات المخفية وتطوير مهارات القراءة السريعة.' }
+            ],
+            'primary-5': [
+                { icon: '🐸', title: 'قفزة الضفدع والضمائر', desc: 'القفز بين أوراق الشجر بالإجابة على صفات الملكية وحروف الجر.' },
+                { icon: '💎', title: 'صياد الكنوز والأزمنة', desc: 'فتح الصناديق السحرية بحل تدريبات الماضى البسيط والمستمر.' },
+                { icon: '🍰', title: 'متجر الآيس كريم والكميات', desc: 'تطبيق قواعد الأسماء التي تُعد والتي لا تُعد في مواقف واقعية.' }
+            ],
+            'primary-6': [
+                { icon: '👑', title: 'مطبخ الملك وتحدي الاستماع', desc: 'استماع المحادثات الكاملة وإعداد الوصفات بناءً على الفهم القائي.' },
+                { icon: '🎈', title: 'رحلة المنطاد وحروف الجر', desc: 'توجيه المنطاد وتفادي العوائق بإتقان حروف الجر الزمنية والمكانية.' },
+                { icon: '🎳', title: 'لعبة البولينج والتحديات', desc: 'إسقاط الأحجار بحل الإختبارات التراكمية في اللغة الإنجليزية.' }
+            ],
+            'prep-1': [
+                { icon: '🏗️', title: 'بناء الكلمة وتكوين الجمل', desc: 'تحديات بناء أبراج الكلمات والتعامل مع النصوص الإعدادية والمعقدة.' },
+                { icon: '⚡', title: 'تحدي السرعة والجرامر', desc: 'الإجابة السريعة على قواعد الصف الأول الإعدادي والضمائر الموصولة.' },
+                { icon: '🎈', title: 'تفجير البالونات اللغوية', desc: 'اختبار المفردات والمترادفات والمضاد للمناهج الجديدة.' }
+            ],
+            'prep-2': [
+                { icon: '🔬', title: 'تجارب المختبر والجرامر', desc: 'تطبيقات على الأزمنة المركبة والجمل الشرطية الأولى والثانية.' },
+                { icon: '🏆', title: 'معركة الزعيم والأسئلة', desc: 'مواجهة الزعيم وحل قطة الفهم واختيار الإجابات النموذجية.' },
+                { icon: '🌐', title: 'المتاهة المتقدمة', desc: 'حل الألغاز اللغوية وقراءة القطع الاستيعابية القصيرة.' }
+            ],
+            'prep-3': [
+                { icon: '🎓', title: 'تحدي الثانوية والشهادة الإعدادية', desc: 'شامل لكل مفردات وقواعد الشهادة الإعدادية والتجهيز للمرحلة الثانوية.' },
+                { icon: '💥', title: 'انفجار السديم والتراكيب', desc: 'إتقان الأفعال الناقصة والتعبير عن الضرورة والإلزام والتأكيد.' },
+                { icon: '🚀', title: 'المبارزة المزدوجة النهائية', desc: 'تحديات متعددة اللاعبين ومراجعات شاملة للمادة قبل الامتحانات.' }
+            ]
+        };
+
+        function switchGuideTab(gradeId, btnElement) {
+            document.querySelectorAll('.guide-tab-btn').forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+
+            const container = document.getElementById('guide-details-container');
+            const guideList = GRADE_GUIDE_DATA[gradeId] || [];
+
+            container.innerHTML = guideList.map(item => `
+                <div class="guide-feature-box">
+                    <div class="guide-icon-badge">${item.icon}</div>
+                    <h4 class="guide-box-title">${item.title}</h4>
+                    <p class="guide-box-desc">${item.desc}</p>
+                </div>
+            `).join('');
+        }
+
+        // Initialize default tab
+        switchGuideTab('primary-1', document.querySelector('.guide-tab-btn.active'));
 
         // PWA Service Worker
         if ('serviceWorker' in navigator) {
