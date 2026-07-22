@@ -1,4 +1,4 @@
-﻿const CACHE_NAME = 'english-toon-v20260722155430';
+﻿const CACHE_NAME = 'english-toon-v20260722155833';
 const urlsToCache = [
     "/",
     "/.gitattributes",
