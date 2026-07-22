@@ -1,4 +1,4 @@
-﻿const CACHE_NAME = 'english-toon-v20260722155833';
+﻿const CACHE_NAME = 'english-toon-v20260722161051';
 const urlsToCache = [
     "/",
     "/.gitattributes",
@@ -493,25 +493,23 @@ const urlsToCache = [
     "/js/game-enhancements.js"
 ];
 
-// Always add core pages to cache as well
 const corePages = [
   '/',
   '/index.html',
   '/dashboard.html',
   '/grade.html',
   '/admin.html',
-  '/unit.html'
+  '/unit.html',
+  '/exams.html',
+  '/pdf-files.html'
 ];
 urlsToCache.push(...corePages);
 
 self.addEventListener('install', event => {
-    // Force immediate installation
     self.skipWaiting();
-    
     event.waitUntil(
         caches.open(CACHE_NAME)
             .then(cache => {
-                console.log('Opened cache, starting massive download...');
                 return Promise.all(
                     urlsToCache.map(url => {
                         return cache.add(url).catch(err => {
@@ -538,19 +536,23 @@ self.addEventListener('activate', event => {
     );
 });
 
+// Network-First with Cache Fallback strategy
 self.addEventListener('fetch', event => {
+    if (event.request.method !== 'GET') return;
+
     event.respondWith(
-        caches.match(event.request)
-            .then(response => {
-                // Cache hit - return response
-                if (response) {
-                    return response;
+        fetch(event.request)
+            .then(networkResponse => {
+                if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
+                    const responseToCache = networkResponse.clone();
+                    caches.open(CACHE_NAME).then(cache => {
+                        cache.put(event.request, responseToCache).catch(() => {});
+                    });
                 }
-                
-                // Fallback to network
-                return fetch(event.request).catch(err => {
-                    console.log('Offline and not cached:', event.request.url);
-                });
+                return networkResponse;
+            })
+            .catch(() => {
+                return caches.match(event.request);
             })
     );
 });
