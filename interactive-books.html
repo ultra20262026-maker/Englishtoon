@@ -2,535 +2,862 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>English Toon — الكتاب التفاعلي المزدوج (Exact Split-Screen E-Book)</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Nunito:wght@400;700;800;900&family=Outfit:wght@600;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=20260722_v15">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Toon — الكتاب التفاعلي المزدوج</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css?v=20260723_v2">
     <style>
         :root {
-            --bg-dark: #070913;
-            --panel-bg: rgba(15, 23, 42, 0.95);
-            --primary: #6366f1;
-            --secondary: #ff007a;
-            --accent-cyan: #00f2fe;
-            --accent-emerald: #10b981;
-            --card-bg: #ffffff;
-            --text-dark: #0f172a;
+            --primary: #4f46e5;
+            --primary-light: #818cf8;
+            --emerald: #10b981;
+            --red: #ef4444;
+            --amber: #f59e0b;
+            --cyan: #06b6d4;
+            --bg: #0f172a;
+            --surface: #1e293b;
+            --border: #334155;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
         }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            background: radial-gradient(ellipse at 55% 35%, #1e3a5f, #0f172a 80%);
-            color: #fff;
-            font-family: 'Cairo', 'Nunito', sans-serif;
+            font-family: 'Cairo', sans-serif;
+            background: var(--bg);
+            color: var(--text);
             min-height: 100vh;
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
         }
 
-        /* Top Bar Navigation */
-        .split-top-bar {
-            background: rgba(10, 18, 38, 0.95);
-            backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 10px 24px;
+        /* ── TOP NAV ── */
+        .top-nav {
+            background: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 10px 20px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 200;
         }
-
-        .controls-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .select-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #fff;
-            padding: 7px 14px;
-            border-radius: 10px;
-            font-family: inherit;
-            font-weight: 700;
-            font-size: 0.9rem;
-            cursor: pointer;
-        }
-
-        .nav-btn-icon {
-            background: rgba(255, 255, 255, 0.12);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #fff;
-            padding: 7px 16px;
-            border-radius: 999px;
+        .nav-brand {
+            font-size: 1.1rem;
             font-weight: 800;
-            cursor: pointer;
-            transition: all 0.15s;
-        }
-        .nav-btn-icon:hover { background: rgba(255, 255, 255, 0.25); transform: translateY(-1px); }
-
-        /* Main Split Container Layout */
-        .split-main-container {
-            display: flex;
-            width: 100%;
-            max-width: 1440px;
-            margin: 16px auto;
-            gap: 20px;
-            padding: 0 16px 80px 16px;
-        }
-
-        @media (max-width: 920px) {
-            .split-main-container {
-                flex-direction: column;
-            }
-        }
-
-        /* Half 1: Book Page Display Panel */
-        .split-panel-book {
-            flex: 1;
-            background: #ffffff;
-            border-radius: 20px;
-            box-shadow: 0 25px 65px rgba(0, 0, 0, 0.6);
-            overflow: hidden;
-            border: 3.5px solid rgba(255, 255, 255, 0.15);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            min-height: 620px;
-        }
-
-        .page-img-display {
-            width: 100%;
-            height: auto;
-            display: block;
-            object-fit: contain;
-            user-select: none;
-        }
-
-        /* Half 2: Interactive Exercises Panel */
-        .split-panel-exercises {
-            flex: 1;
-            background: #ffffff;
-            color: var(--text-dark);
-            border-radius: 20px;
-            box-shadow: 0 25px 65px rgba(0, 0, 0, 0.6);
-            padding: 24px;
-            border: 3.5px solid rgba(255, 255, 255, 0.15);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            min-height: 620px;
-        }
-
-        .panel-header-title {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2.5px solid #e2e8f0;
-            padding-bottom: 12px;
-            margin-bottom: 20px;
-        }
-
-        .panel-header-title h2 {
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: #0f172a;
-            margin: 0;
-        }
-
-        .score-pill-badge {
-            background: linear-gradient(135deg, #10b981, #059669);
             color: #fff;
-            padding: 6px 16px;
-            border-radius: 999px;
-            font-weight: 900;
-            font-size: 0.95rem;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-        }
-
-        /* Exercise Question Card */
-        .q-card-item {
-            background: #f8fafc;
-            border: 2px solid #e2e8f0;
-            border-radius: 14px;
-            padding: 16px;
-            margin-bottom: 16px;
-            transition: border-color 0.2s;
-        }
-        .q-card-item:hover { border-color: #cbd5e1; }
-
-        .q-card-item h3 {
-            font-size: 1.05rem;
-            font-weight: 800;
-            color: #334155;
-            margin: 0 0 12px 0;
+            text-decoration: none;
             display: flex;
             align-items: center;
             gap: 8px;
         }
-
-        .q-input-text {
-            background: #fff;
-            border: 2px solid #94a3b8;
+        .nav-brand span { color: var(--cyan); }
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .nav-select {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: #fff;
+            padding: 6px 12px;
             border-radius: 8px;
-            padding: 8px 14px;
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+        .nav-btn {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.15s;
+            white-space: nowrap;
+        }
+        .nav-btn:hover { background: var(--border); }
+        .page-counter {
+            background: linear-gradient(135deg, var(--primary), var(--cyan));
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: 900;
+            font-size: 0.9rem;
+        }
+
+        /* ── SPLIT LAYOUT ── */
+        .split-wrap {
+            display: flex;
+            gap: 0;
+            width: 100%;
+            min-height: calc(100vh - 60px);
+        }
+
+        /* Book panel */
+        .panel-book {
+            flex: 1;
+            background: #fff;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            min-height: calc(100vh - 60px);
+            border-right: 3px solid var(--border);
+            position: sticky;
+            top: 60px;
+            height: calc(100vh - 60px);
+            overflow-y: auto;
+        }
+        .panel-book img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: contain;
+        }
+        .img-error-msg {
+            padding: 40px;
+            text-align: center;
+            color: #888;
+            font-size: 1.1rem;
+        }
+
+        /* Exercises panel */
+        .panel-exercises {
+            flex: 1;
+            background: #f8fafc;
+            min-height: calc(100vh - 60px);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Exercises header */
+        .ex-header {
+            background: #fff;
+            border-bottom: 2px solid #e2e8f0;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .ex-header-info h2 {
+            font-size: 1rem;
+            font-weight: 900;
+            color: #0f172a;
+        }
+        .ex-header-info p {
+            font-size: 0.8rem;
+            color: #64748b;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+        .score-badge {
+            background: linear-gradient(135deg, var(--emerald), #059669);
+            color: #fff;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-weight: 900;
+            font-size: 0.95rem;
+            white-space: nowrap;
+        }
+
+        /* Exercises body */
+        .ex-body {
+            flex: 1;
+            padding: 16px 20px;
+        }
+
+        /* ── SECTION BLOCK ── */
+        .section-block {
+            margin-bottom: 24px;
+        }
+        .section-title {
+            background: linear-gradient(90deg, #4f46e5, #818cf8);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-weight: 900;
+            font-size: 0.95rem;
+            margin-bottom: 14px;
+        }
+
+        /* ── ACTIVITY BLOCK ── */
+        .activity-block {
+            margin-bottom: 18px;
+        }
+        .activity-label {
+            background: #fef3c7;
+            border: 2px solid #f59e0b;
+            color: #78350f;
+            padding: 7px 14px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+            display: inline-block;
+        }
+
+        /* ── WORD BOX (from box) ── */
+        .word-box {
+            background: #dbeafe;
+            border: 2px solid #3b82f6;
+            border-radius: 10px;
+            padding: 8px 16px;
+            margin-bottom: 12px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .word-box span {
             font-family: 'Outfit', sans-serif;
-            font-size: 1.15rem;
+            font-weight: 900;
+            font-size: 1rem;
+            color: #1e40af;
+        }
+
+        /* ── UNSCRAMBLE / LOOK&WRITE GRID ── */
+        .items-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .item-card {
+            background: #fff;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            min-width: 110px;
+            transition: border-color 0.2s;
+        }
+        .item-card:hover { border-color: #a5b4fc; }
+        .item-emoji {
+            font-size: 2rem;
+            line-height: 1;
+        }
+        .item-scrambled {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 900;
+            font-size: 0.95rem;
+            color: #7c3aed;
+            background: #f3f0ff;
+            border-radius: 6px;
+            padding: 2px 8px;
+            letter-spacing: 1px;
+        }
+        .item-word-label {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+        .item-input {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
             font-weight: 800;
             color: #0f172a;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 5px 10px;
             width: 100%;
-            max-width: 320px;
+            text-align: center;
             direction: ltr;
             transition: all 0.15s;
         }
-        .q-input-text:focus {
-            outline: none;
-            border-color: #6366f1;
-            box-shadow: 0 0 12px rgba(99, 102, 241, 0.3);
+        .item-input:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,0.15); }
+        .item-input.correct { border-color: #10b981 !important; background: #ecfdf5 !important; color: #065f46 !important; }
+        .item-input.wrong   { border-color: #ef4444 !important; background: #fef2f2 !important; color: #991b1b !important; }
+        .sound-btn {
+            background: #6366f1;
+            color: #fff;
+            border: none;
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            cursor: pointer;
         }
+        .sound-btn:hover { background: #4f46e5; }
 
-        .q-input-text.is-correct { border-color: #10b981 !important; background: #ecfdf5 !important; color: #047857 !important; }
-        .q-input-text.is-wrong { border-color: #ef4444 !important; background: #fef2f2 !important; color: #b91c1c !important; }
+        /* ── REORDER ITEMS ── */
+        .reorder-item {
+            background: #fff;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 10px 14px;
+            margin-bottom: 10px;
+        }
+        .reorder-words {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            color: #6d28d9;
+            font-size: 0.9rem;
+            margin-bottom: 6px;
+        }
+        .reorder-input {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 800;
+            color: #0f172a;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 6px 12px;
+            width: 100%;
+            direction: ltr;
+            transition: all 0.15s;
+        }
+        .reorder-input:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,0.15); }
+        .reorder-input.correct { border-color: #10b981 !important; background: #ecfdf5 !important; color: #065f46 !important; }
+        .reorder-input.wrong   { border-color: #ef4444 !important; background: #fef2f2 !important; color: #991b1b !important; }
 
-        /* MCQ Options Buttons */
-        .mcq-options-grid {
+        /* ── MCQ / Choose ── */
+        .mcq-item {
+            background: #fff;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 10px 14px;
+            margin-bottom: 10px;
+        }
+        .mcq-label {
+            font-weight: 800;
+            color: #334155;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        .mcq-opts {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             flex-wrap: wrap;
         }
-
         .opt-btn {
-            background: #fff;
+            background: #f1f5f9;
             border: 2px solid #cbd5e1;
             color: #0f172a;
-            padding: 8px 18px;
-            border-radius: 10px;
+            padding: 7px 18px;
+            border-radius: 8px;
             font-family: 'Outfit', sans-serif;
             font-weight: 800;
-            font-size: 1rem;
+            font-size: 0.95rem;
             cursor: pointer;
             transition: all 0.15s;
         }
-        .opt-btn:hover { border-color: #6366f1; background: #eef2ff; }
-        .opt-btn.selected-correct { background: #10b981 !important; border-color: #059669 !important; color: #fff !important; }
-        .opt-btn.selected-wrong { background: #ef4444 !important; border-color: #dc2626 !important; color: #fff !important; }
+        .opt-btn:hover { border-color: #818cf8; background: #eef2ff; }
+        .opt-btn.correct { background: #10b981 !important; border-color: #059669 !important; color: #fff !important; }
+        .opt-btn.wrong   { background: #ef4444 !important; border-color: #dc2626 !important; color: #fff !important; }
 
-        /* Action Buttons Area */
-        .actions-bar-bottom {
+        /* ── CHOOSE FROM BOX ── */
+        .cfb-item {
+            background: #fff;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 10px 14px;
+            margin-bottom: 10px;
             display: flex;
-            gap: 12px;
-            margin-top: 20px;
-            padding-top: 16px;
-            border-top: 2.5px solid #e2e8f0;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
         }
+        .cfb-prompt {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1rem;
+            color: #334155;
+        }
+        .cfb-input {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 800;
+            color: #0f172a;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 5px 12px;
+            min-width: 100px;
+            direction: ltr;
+            transition: all 0.15s;
+        }
+        .cfb-input:focus { outline: none; border-color: #6366f1; }
+        .cfb-input.correct { border-color: #10b981 !important; background: #ecfdf5 !important; color: #065f46 !important; }
+        .cfb-input.wrong   { border-color: #ef4444 !important; background: #fef2f2 !important; color: #991b1b !important; }
 
-        .btn-action-primary {
+        /* ── BOTTOM ACTIONS ── */
+        .ex-actions {
+            background: #fff;
+            border-top: 2px solid #e2e8f0;
+            padding: 14px 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            position: sticky;
+            bottom: 0;
+        }
+        .btn-check {
             flex: 1;
             background: linear-gradient(135deg, #10b981, #059669);
             color: #fff;
             border: none;
             padding: 12px 20px;
-            border-radius: 12px;
-            font-weight: 800;
+            border-radius: 10px;
+            font-family: inherit;
+            font-weight: 900;
             font-size: 1rem;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+            box-shadow: 0 4px 15px rgba(16,185,129,0.3);
             transition: all 0.15s;
         }
-        .btn-action-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4); }
-
-        .btn-action-secondary {
+        .btn-check:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(16,185,129,0.4); }
+        .btn-reveal {
             background: #f1f5f9;
             border: 2px solid #cbd5e1;
             color: #334155;
-            padding: 12px 18px;
-            border-radius: 12px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-family: inherit;
             font-weight: 800;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             cursor: pointer;
             transition: all 0.15s;
         }
-        .btn-action-secondary:hover { background: #e2e8f0; }
+        .btn-reveal:hover { background: #e2e8f0; }
+        .btn-speak {
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
+            color: #fff;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-family: inherit;
+            font-weight: 800;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .btn-speak:hover { transform: translateY(-2px); }
+
+        /* ── NO EXERCISES ── */
+        .no-ex {
+            padding: 40px 20px;
+            text-align: center;
+            color: #94a3b8;
+        }
+        .no-ex h3 { font-size: 1.2rem; margin-bottom: 8px; }
+        .no-ex p { font-size: 0.9rem; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 900px) {
+            .split-wrap { flex-direction: column; }
+            .panel-book { position: static; height: auto; min-height: auto; border-right: none; border-bottom: 3px solid var(--border); }
+            .panel-exercises { min-height: auto; }
+        }
     </style>
 </head>
 <body>
 
-    <!-- Top Navigation Controls -->
-    <div class="split-top-bar">
-        <a href="dashboard.html" style="color:#fff; text-decoration:none; font-weight:800; font-size:1.1rem; display:flex; align-items:center; gap:8px;">
-            <span>🏠 الرئيسية</span> | <span style="color:var(--accent-cyan);">English Toon Split E-Book</span>
-        </a>
+<!-- ── TOP NAV ── -->
+<nav class="top-nav">
+    <a href="dashboard.html" class="nav-brand">🏠 الرئيسية | <span>English Toon</span></a>
+    <div class="nav-controls">
+        <select class="nav-select" id="book-sel" onchange="changeBook()">
+            <option value="1">🎒 الصف الأول الابتدائي</option>
+            <option value="2">📖 الصف الثاني الابتدائي</option>
+            <option value="3">✏️ الصف الثالث الابتدائي</option>
+        </select>
+        <label style="font-size:.85rem;font-weight:800;color:#fff;">الصفحة:</label>
+        <select class="nav-select" id="page-sel" onchange="jumpTo(this.value)"></select>
+        <button class="nav-btn" onclick="prevPage()">◀ السابقة</button>
+        <span class="page-counter" id="page-counter">3 / 72</span>
+        <button class="nav-btn" onclick="nextPage()">التالية ▶</button>
+    </div>
+</nav>
 
-        <div class="controls-group">
-            <label style="font-weight:800;">الكتاب:</label>
-            <select class="select-btn" id="book-select" onchange="changeBook()">
-                <option value="1">🎒 الصف الأول الابتدائي</option>
-                <option value="2">📖 الصف الثاني الابتدائي</option>
-                <option value="3">✏️ الصف الثالث الابتدائي</option>
-            </select>
+<!-- ── SPLIT LAYOUT ── -->
+<div class="split-wrap">
 
-            <label style="font-weight:800; margin-right:10px;">الصفحة:</label>
-            <select class="select-btn" id="page-select" onchange="jumpToPage(this.value)">
-                <!-- Pages 1 to 72 generated -->
-            </select>
-
-            <button class="nav-btn-icon" onclick="prevPage()">◀️ السابقة</button>
-            <span style="font-weight:800; color:var(--accent-cyan);" id="page-label">3 / 72</span>
-            <button class="nav-btn-icon" onclick="nextPage()">التالية ▶️</button>
+    <!-- Left: Original Book Page -->
+    <div class="panel-book">
+        <img id="book-img" src="" alt="صفحة الكتاب"
+             onerror="this.style.display='none'; document.getElementById('img-err').style.display='block'">
+        <div id="img-err" class="img-error-msg" style="display:none">
+            📷 صورة الصفحة غير متوفرة بعد<br><small>ستظهر بعد رفع الصور</small>
         </div>
     </div>
 
-    <!-- Split Screen Main Container -->
-    <div class="split-main-container">
-
-        <!-- Left Half: Book Page HD Display -->
-        <div class="split-panel-book">
-            <img src="images/books/p1/page_3.png" alt="Book Page" class="page-img-display" id="book-page-img">
+    <!-- Right: Interactive Exercises -->
+    <div class="panel-exercises">
+        <div class="ex-header">
+            <div class="ex-header-info">
+                <h2 id="ex-unit">📝 تمارين الصفحة التفاعلية</h2>
+                <p id="ex-lesson">الدرس التفاعلي المطابق للصفحة</p>
+            </div>
+            <div class="score-badge" id="score-badge">النتيجة: — / —</div>
         </div>
 
-        <!-- Right Half: Programmed HTML Interactive Exercises -->
-        <div class="split-panel-exercises">
-            <div>
-                <div class="panel-header-title">
-                    <div>
-                        <h2 id="exercise-title">📝 تمارين واختبارات الصفحة التفاعلية</h2>
-                        <div style="font-size:0.85rem; color:#64748b; font-weight:700; margin-top:2px;" id="exercise-subtitle">الدرس التفاعلي المطابق لصفحة الكتاب</div>
-                    </div>
-                    <div class="score-pill-badge" id="score-badge">النتيجة: 0 / 0</div>
-                </div>
+        <div class="ex-body" id="ex-body"></div>
 
-                <!-- Exercise Items Container -->
-                <div id="exercise-items-list">
-                    <!-- Loaded dynamically per page -->
-                </div>
-            </div>
-
-            <!-- Bottom Actions -->
-            <div class="actions-bar-bottom">
-                <button class="btn-action-primary" onclick="checkCurrentPageAnswers()">✅ تصحيح الإجابات وحساب الدرجة</button>
-                <button class="btn-action-secondary" onclick="revealAnswers()">👁️ إظهار الإجابات النموذجية</button>
-                <button class="btn-action-secondary" onclick="speakPageText()">🔊 نطق الصفحة</button>
-            </div>
+        <div class="ex-actions">
+            <button class="btn-check"  onclick="checkAll()">✅ تصحيح وحساب الدرجة</button>
+            <button class="btn-reveal" onclick="revealAll()">👁️ الإجابات النموذجية</button>
+            <button class="btn-speak"  onclick="speakPage()">🔊 نطق الدرس</button>
         </div>
-
     </div>
 
-    <!-- Database Script -->
-    <script src="js/p1_book_data.js"></script>
+</div>
 
-    <script>
-        let currentBookId = 1;
-        let currentPageNum = 3;
+<script src="js/p1_book_data.js"></script>
+<script>
+    let bookId = 1;
+    let pageNum = 3;
+    const TOTAL = 72;
 
-        function speakText(text) {
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-                const utt = new SpeechSynthesisUtterance(text);
-                utt.lang = 'en-US';
-                utt.rate = 0.88;
-                window.speechSynthesis.speak(utt);
-            }
+    // ── SPEECH ──
+    function speak(text) {
+        if (!window.speechSynthesis) return;
+        window.speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = 'en-US'; u.rate = 0.85;
+        window.speechSynthesis.speak(u);
+    }
+
+    // ── PAGE SELECT INIT ──
+    function initPageSel() {
+        const s = document.getElementById('page-sel');
+        s.innerHTML = '';
+        for (let i = 1; i <= TOTAL; i++) {
+            const o = document.createElement('option');
+            o.value = i; o.text = `صفحة ${i}`;
+            if (i === pageNum) o.selected = true;
+            s.appendChild(o);
         }
+    }
 
-        function initPageSelect() {
-            const sel = document.getElementById('page-select');
-            sel.innerHTML = '';
-            for (let i = 1; i <= 72; i++) {
-                const opt = document.createElement('option');
-                opt.value = i;
-                opt.innerText = `صفحة ${i}`;
-                if (i === currentPageNum) opt.selected = true;
-                sel.appendChild(opt);
-            }
-        }
+    function changeBook() { bookId = +document.getElementById('book-sel').value; pageNum = 3; render(); }
+    function jumpTo(p) { pageNum = +p; render(); }
+    function prevPage() { if (pageNum > 1) { pageNum--; render(); } }
+    function nextPage() { if (pageNum < TOTAL) { pageNum++; render(); } }
 
-        function changeBook() {
-            currentBookId = parseInt(document.getElementById('book-select').value);
-            currentPageNum = currentBookId === 2 ? 5 : 3;
-            renderSplitPage();
-        }
+    // ── MAIN RENDER ──
+    function render() {
+        initPageSel();
+        document.getElementById('page-counter').textContent = `${pageNum} / ${TOTAL}`;
 
-        function jumpToPage(pNum) {
-            currentPageNum = parseInt(pNum);
-            renderSplitPage();
-        }
-
-        function prevPage() {
-            if (currentPageNum > 1) {
-                currentPageNum--;
-                renderSplitPage();
-            }
-        }
-
-        function nextPage() {
-            if (currentPageNum < 72) {
-                currentPageNum++;
-                renderSplitPage();
-            }
-        }
-
-        function renderSplitPage() {
-            const folder = currentBookId === 1 ? 'p1' : (currentBookId === 2 ? 'p2' : 'p3');
-            const imgEl = document.getElementById('book-page-img');
-            imgEl.src = `images/books/${folder}/${currentPageNum}.jpg`;
-            imgEl.onerror = function() {
-                this.onerror = null;
-                this.src = `images/books/${folder}/page_${currentPageNum}.png`;
+        // Book image
+        const imgEl = document.getElementById('book-img');
+        const errEl = document.getElementById('img-err');
+        const folder = bookId === 1 ? 'p1' : bookId === 2 ? 'p2' : 'p3';
+        imgEl.style.display = 'block';
+        errEl.style.display = 'none';
+        imgEl.src = `images/books/${folder}/${pageNum}.jpg`;
+        imgEl.onerror = function() {
+            this.onerror = null;
+            this.src = `images/books/${folder}/page_${pageNum}.png`;
+            this.onerror = function() {
+                this.style.display = 'none';
+                errEl.style.display = 'block';
             };
-            document.getElementById('page-label').innerText = `${currentPageNum} / 72`;
-            initPageSelect();
+        };
 
-            const container = document.getElementById('exercise-items-list');
-            container.innerHTML = '';
+        // Exercises
+        const body = document.getElementById('ex-body');
+        body.innerHTML = '';
 
-            // Retrieve from P1_EXERCISES_DATABASE if available
-            let pData = null;
-            if (currentBookId === 1 && typeof P1_EXERCISES_DATABASE !== 'undefined' && P1_EXERCISES_DATABASE[currentPageNum]) {
-                pData = P1_EXERCISES_DATABASE[currentPageNum];
-            } else {
-                pData = {
-                    unit: `Primary ${currentBookId}`,
-                    lesson: `تمارين واختبارات الصفحة ${currentPageNum}`,
-                    items: [
-                        { id: `q_${currentPageNum}_1`, type: "input", label: "1. Complete the word (أكتب الكلمة الصحيحة):", answer: "hello", speech: "hello" },
-                        { id: `q_${currentPageNum}_2`, type: "mcq", label: "2. Choose the correct answer (اختر الإجابة):", audio: "hello", options: ["Hello", "Goodbye", "Play"], answer: "Hello" }
-                    ]
-                };
-            }
+        let db = null;
+        if (bookId === 1 && typeof P1_EXERCISES_DATABASE !== 'undefined' && P1_EXERCISES_DATABASE[pageNum]) {
+            db = P1_EXERCISES_DATABASE[pageNum];
+        }
 
-            document.getElementById('exercise-title').innerText = pData.unit || `تمارين الصفحة ${currentPageNum}`;
-            document.getElementById('exercise-subtitle').innerText = pData.lesson || `أسئلة وتقييمات الصفحة ${currentPageNum}`;
-            document.getElementById('score-badge').innerText = `النتيجة: 0 / ${pData.items.length}`;
+        if (!db) {
+            document.getElementById('ex-unit').textContent = `📝 تمارين الصفحة ${pageNum}`;
+            document.getElementById('ex-lesson').textContent = `الأسئلة التفاعلية لهذه الصفحة قيد الإضافة`;
+            document.getElementById('score-badge').textContent = 'النتيجة: — / —';
+            body.innerHTML = `<div class="no-ex"><h3>🚧 قيد الإضافة</h3><p>أسئلة هذه الصفحة ستُضاف قريباً</p></div>`;
+            return;
+        }
 
-            pData.items.forEach((item, idx) => {
-                const card = document.createElement('div');
-                card.className = 'q-card-item';
+        document.getElementById('ex-unit').textContent   = `📖 ${db.unit}`;
+        document.getElementById('ex-lesson').textContent = db.lesson;
+        document.getElementById('score-badge').textContent = 'النتيجة: 0 / 0';
 
-                if (item.type === 'input') {
-                    card.innerHTML = `
-                        <h3>
-                            <span>${item.label}</span>
-                            ${item.speech ? `<button onclick="speakText('${item.speech}')" style="border:none; background:none; cursor:pointer; font-size:1.2rem;" title="نطق الكلمة 🔊">🔊</button>` : ''}
-                        </h3>
-                        <input type="text" class="q-input-text" id="input-${item.id}" data-answer="${item.answer}" placeholder="أكتب الإجابة هنا...">
-                    `;
-                } else if (item.type === 'mcq') {
-                    let optsHTML = '';
-                    item.options.forEach(opt => {
-                        optsHTML += `<button class="opt-btn" onclick="selectMCQOption(this, '${opt}', '${item.answer}')">${opt}</button>`;
+        db.sections.forEach(sec => {
+            const secDiv = document.createElement('div');
+            secDiv.className = 'section-block';
+
+            const secTitle = document.createElement('div');
+            secTitle.className = 'section-title';
+            secTitle.textContent = sec.title;
+            secDiv.appendChild(secTitle);
+
+            sec.activities.forEach(act => {
+                const actDiv = document.createElement('div');
+                actDiv.className = 'activity-block';
+
+                const lbl = document.createElement('div');
+                lbl.className = 'activity-label';
+                lbl.textContent = act.label;
+                actDiv.appendChild(lbl);
+
+                // ── WORD BOX ──
+                if (act.type === 'choose_from_box' && act.box) {
+                    const wb = document.createElement('div');
+                    wb.className = 'word-box';
+                    act.box.forEach(w => { const sp = document.createElement('span'); sp.textContent = w; wb.appendChild(sp); });
+                    actDiv.appendChild(wb);
+                }
+
+                // ── ITEMS ──
+                if (act.type === 'unscramble' || act.type === 'look_write' || act.type === 'missing_sound') {
+                    const grid = document.createElement('div');
+                    grid.className = 'items-grid';
+
+                    act.items.forEach((item, i) => {
+                        const card = document.createElement('div');
+                        card.className = 'item-card';
+
+                        // Emoji
+                        if (item.emoji) {
+                            const em = document.createElement('div');
+                            em.className = 'item-emoji';
+                            em.textContent = item.emoji;
+                            card.appendChild(em);
+                        }
+
+                        // Scrambled / partial word label
+                        if (item.scrambled) {
+                            const sc = document.createElement('div');
+                            sc.className = 'item-scrambled';
+                            sc.textContent = item.scrambled;
+                            card.appendChild(sc);
+                        }
+                        if (item.word) {
+                            const wl = document.createElement('div');
+                            wl.className = 'item-word-label';
+                            wl.textContent = item.word;
+                            card.appendChild(wl);
+                        }
+
+                        // Sound button
+                        if (item.speech) {
+                            const sb = document.createElement('button');
+                            sb.className = 'sound-btn';
+                            sb.textContent = '🔊 ' + item.speech;
+                            sb.onclick = () => speak(item.speech);
+                            card.appendChild(sb);
+                        }
+
+                        // Input
+                        const inp = document.createElement('input');
+                        inp.type = 'text';
+                        inp.className = 'item-input';
+                        inp.placeholder = '...';
+                        inp.dataset.answer = item.answer.toLowerCase();
+                        inp.dataset.idx = i;
+                        card.appendChild(inp);
+
+                        grid.appendChild(card);
                     });
-
-                    card.innerHTML = `
-                        <h3>
-                            <span>${item.label}</span>
-                            ${item.audio ? `<button onclick="speakText('${item.audio}')" style="background:#4f46e5; color:#fff; border:none; padding:4px 10px; border-radius:6px; font-weight:800; cursor:pointer;" title="استمع للصوت 🔊">🔊 استمع</button>` : ''}
-                        </h3>
-                        <div class="mcq-options-grid" id="mcq-grid-${item.id}">
-                            ${optsHTML}
-                        </div>
-                    `;
+                    actDiv.appendChild(grid);
                 }
 
-                container.appendChild(card);
-            });
-        }
+                // ── REORDER ──
+                if (act.type === 'reorder') {
+                    act.items.forEach((item, i) => {
+                        const ri = document.createElement('div');
+                        ri.className = 'reorder-item';
 
-        function selectMCQOption(btn, selected, correct) {
-            const grid = btn.parentElement;
-            grid.querySelectorAll('.opt-btn').forEach(b => {
-                b.className = 'opt-btn';
-            });
+                        const wds = document.createElement('div');
+                        wds.className = 'reorder-words';
+                        wds.textContent = `🔀 ${item.words}`;
+                        ri.appendChild(wds);
 
-            btn.setAttribute('data-selected', selected);
-            btn.setAttribute('data-correct', correct);
+                        const inp = document.createElement('input');
+                        inp.type = 'text';
+                        inp.className = 'reorder-input';
+                        inp.placeholder = 'رتّب الكلمات واكتب الجملة الصحيحة...';
+                        inp.dataset.answer = item.answer.toLowerCase();
+                        inp.dataset.idx = i;
+                        ri.appendChild(inp);
 
-            if (selected.toLowerCase() === correct.toLowerCase()) {
-                btn.className = 'opt-btn selected-correct';
-                speakText("Good job!");
-            } else {
-                btn.className = 'opt-btn selected-wrong';
-                speakText("Try again!");
-            }
-        }
-
-        function checkCurrentPageAnswers() {
-            let correctCount = 0;
-            const container = document.getElementById('exercise-items-list');
-
-            // Check Inputs
-            const inputs = container.querySelectorAll('.q-input-text');
-            inputs.forEach(el => {
-                const val = el.value.trim().toLowerCase().replace(/\s+/g, ' ');
-                const ans = el.getAttribute('data-answer').toLowerCase().replace(/\s+/g, ' ');
-                if (val && val === ans) {
-                    el.className = 'q-input-text is-correct';
-                    correctCount++;
-                } else {
-                    el.className = 'q-input-text is-wrong';
+                        actDiv.appendChild(ri);
+                    });
                 }
-            });
 
-            // Check MCQ Options
-            const mcqGrids = container.querySelectorAll('.mcq-options-grid');
-            mcqGrids.forEach(grid => {
-                const selectedBtn = grid.querySelector('.opt-btn.selected-correct');
-                if (selectedBtn) {
-                    correctCount++;
+                // ── MCQ ──
+                if (act.type === 'mcq') {
+                    act.items.forEach((item, i) => {
+                        const mi = document.createElement('div');
+                        mi.className = 'mcq-item';
+
+                        const lbDiv = document.createElement('div');
+                        lbDiv.className = 'mcq-label';
+                        lbDiv.innerHTML = item.label + (item.speech ? ` <button class="sound-btn" onclick="speak('${item.speech}')">🔊</button>` : '');
+                        mi.appendChild(lbDiv);
+
+                        const opts = document.createElement('div');
+                        opts.className = 'mcq-opts';
+                        opts.dataset.answer = item.answer.toLowerCase();
+
+                        item.options.forEach(opt => {
+                            const btn = document.createElement('button');
+                            btn.className = 'opt-btn';
+                            btn.textContent = opt;
+                            btn.dataset.val = opt.toLowerCase();
+                            btn.onclick = function() {
+                                opts.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('correct','wrong'));
+                                if (opt.toLowerCase() === item.answer.toLowerCase()) {
+                                    btn.classList.add('correct');
+                                    speak("Excellent! " + opt);
+                                } else {
+                                    btn.classList.add('wrong');
+                                    speak("Try again!");
+                                }
+                            };
+                            opts.appendChild(btn);
+                        });
+                        mi.appendChild(opts);
+                        actDiv.appendChild(mi);
+                    });
                 }
+
+                // ── CHOOSE FROM BOX ──
+                if (act.type === 'choose_from_box') {
+                    act.items.forEach((item, i) => {
+                        const cfb = document.createElement('div');
+                        cfb.className = 'cfb-item';
+
+                        const pr = document.createElement('div');
+                        pr.className = 'cfb-prompt';
+                        pr.textContent = item.prompt;
+                        cfb.appendChild(pr);
+
+                        const inp = document.createElement('input');
+                        inp.type = 'text';
+                        inp.className = 'cfb-input';
+                        inp.placeholder = '...';
+                        inp.dataset.answer = item.answer.toLowerCase();
+                        if (item.speech) {
+                            const sb = document.createElement('button');
+                            sb.className = 'sound-btn';
+                            sb.textContent = '🔊';
+                            sb.onclick = () => speak(item.speech);
+                            cfb.appendChild(inp);
+                            cfb.appendChild(sb);
+                        } else {
+                            cfb.appendChild(inp);
+                        }
+                        actDiv.appendChild(cfb);
+                    });
+                }
+
+                // ── FREEWRITE ──
+                if (act.type === 'freewrite') {
+                    act.items.forEach(item => {
+                        const fw = document.createElement('div');
+                        fw.className = 'cfb-item';
+                        const pr = document.createElement('div');
+                        pr.className = 'cfb-prompt';
+                        pr.textContent = item.prompt;
+                        fw.appendChild(pr);
+                        const inp = document.createElement('input');
+                        inp.type = 'text';
+                        inp.className = 'cfb-input';
+                        inp.placeholder = 'اكتب اسمك...';
+                        inp.dataset.answer = '__free__';
+                        fw.appendChild(inp);
+                        actDiv.appendChild(fw);
+                    });
+                }
+
+                secDiv.appendChild(actDiv);
             });
 
-            const total = inputs.length + mcqGrids.length;
-            document.getElementById('score-badge').innerText = `النتيجة: ${correctCount} / ${total}`;
+            body.appendChild(secDiv);
+        });
 
-            if (correctCount === total && total > 0) {
-                speakText(`Excellent! Perfect score ${correctCount} out of ${total}!`);
-                alert(`🎉 أحسنت صنعاً! إجابات أسئلة الصفحة كاملة صحيحة (${correctCount}/${total}) ⭐⭐⭐`);
-            } else {
-                speakText(`Your score is ${correctCount} out of ${total}`);
-            }
+        updateScoreLabel();
+    }
+
+    // ── CHECK ALL ──
+    function checkAll() {
+        const body = document.getElementById('ex-body');
+        let correct = 0, total = 0;
+
+        // Text inputs
+        body.querySelectorAll('.item-input, .reorder-input, .cfb-input').forEach(el => {
+            const ans = el.dataset.answer;
+            if (ans === '__free__') return;
+            total++;
+            const val = el.value.trim().toLowerCase();
+            if (val === ans) { el.classList.remove('wrong'); el.classList.add('correct'); correct++; }
+            else { el.classList.remove('correct'); el.classList.add('wrong'); }
+        });
+
+        // MCQ
+        body.querySelectorAll('.mcq-opts').forEach(opts => {
+            total++;
+            const chosen = opts.querySelector('.opt-btn.correct');
+            if (chosen) correct++;
+        });
+
+        document.getElementById('score-badge').textContent = `النتيجة: ${correct} / ${total}`;
+        if (correct === total && total > 0) {
+            speak(`Excellent! Perfect score! ${correct} out of ${total}`);
+            setTimeout(() => alert(`🎉 ممتاز! النتيجة (${correct}/${total}) ⭐⭐⭐`), 100);
+        } else {
+            speak(`Your score is ${correct} out of ${total}`);
         }
+    }
 
-        function revealAnswers() {
-            const container = document.getElementById('exercise-items-list');
-            
-            // Fill Inputs
-            const inputs = container.querySelectorAll('.q-input-text');
-            inputs.forEach(el => {
-                const ans = el.getAttribute('data-answer');
-                el.value = ans;
-                el.className = 'q-input-text is-correct';
+    // ── REVEAL ALL ──
+    function revealAll() {
+        const body = document.getElementById('ex-body');
+        body.querySelectorAll('.item-input, .reorder-input, .cfb-input').forEach(el => {
+            const ans = el.dataset.answer;
+            if (ans === '__free__') return;
+            el.value = ans;
+            el.classList.remove('wrong'); el.classList.add('correct');
+        });
+        body.querySelectorAll('.mcq-opts').forEach(opts => {
+            const ans = opts.dataset.answer;
+            opts.querySelectorAll('.opt-btn').forEach(b => {
+                b.classList.remove('correct','wrong');
+                if (b.dataset.val === ans) b.classList.add('correct');
             });
+        });
+        speak("Model answers are now shown!");
+        updateScoreLabel();
+    }
 
-            // Select MCQ Correct Options
-            const mcqGrids = container.querySelectorAll('.mcq-options-grid');
-            mcqGrids.forEach(grid => {
-                grid.querySelectorAll('.opt-btn').forEach(btn => {
-                    const cor = btn.getAttribute('data-correct') || '';
-                    if (btn.innerText.trim().toLowerCase() === cor.toLowerCase()) {
-                        btn.className = 'opt-btn selected-correct';
-                    }
-                });
-            });
+    function updateScoreLabel() {
+        // Update total count on fresh render
+        const body = document.getElementById('ex-body');
+        let total = 0;
+        body.querySelectorAll('.item-input, .reorder-input').forEach(el => { if (el.dataset.answer !== '__free__') total++; });
+        body.querySelectorAll('.cfb-input').forEach(el => { if (el.dataset.answer !== '__free__') total++; });
+        body.querySelectorAll('.mcq-opts').forEach(() => total++);
+        document.getElementById('score-badge').textContent = `النتيجة: 0 / ${total}`;
+    }
 
-            speakText("Model answers revealed!");
+    // ── SPEAK PAGE ──
+    function speakPage() {
+        if (bookId === 1 && typeof P1_EXERCISES_DATABASE !== 'undefined' && P1_EXERCISES_DATABASE[pageNum]) {
+            const db = P1_EXERCISES_DATABASE[pageNum];
+            speak(`${db.unit}. ${db.lesson}`);
+        } else {
+            speak(`Page ${pageNum}`);
         }
+    }
 
-        function speakPageText() {
-            if (currentBookId === 1 && P1_EXERCISES_DATABASE[currentPageNum]) {
-                const pObj = P1_EXERCISES_DATABASE[currentPageNum];
-                speakText(`${pObj.unit}. ${pObj.lesson}`);
-            } else {
-                speakText(`Page ${currentPageNum}`);
-            }
-        }
-
-        // Initial Load
-        renderSplitPage();
-    </script>
+    // ── INIT ──
+    render();
+</script>
 </body>
 </html>
