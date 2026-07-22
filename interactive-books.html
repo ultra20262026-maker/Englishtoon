@@ -278,7 +278,7 @@
 
 </div>
 
-<script src="js/p1_book_data.js?v=20260723_v72_fixed"></script>
+<script src="js/p1_book_data.js?v=20260723_v72_final_fix"></script>
 <script>
     let bookId = 1;
     let pageNum = 1;
@@ -332,12 +332,13 @@
         };
 
         let db = null;
-        if (bookId === 1 && typeof P1_OVERLAY_DATABASE !== 'undefined' && P1_OVERLAY_DATABASE[pageNum]) {
-            db = P1_OVERLAY_DATABASE[pageNum];
+        const P1_DB = (typeof window !== 'undefined' && window.P1_OVERLAY_DATABASE) || (typeof P1_OVERLAY_DATABASE !== 'undefined' ? P1_OVERLAY_DATABASE : null);
+        if (bookId === 1 && P1_DB && P1_DB[pageNum]) {
+            db = P1_DB[pageNum];
         }
 
         // Automatic overlay layout generator for any page without custom mapping yet
-        if (!db || !db.inputs || db.inputs.length === 0) {
+        if (!db) {
             db = {
                 title: `Page ${pageNum}`,
                 inputs: [

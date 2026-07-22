@@ -3,7 +3,7 @@
  * قاعدة بيانات دقيقة ومصممة بصرياً بعناية لكل الصفحات من 1 حتى 30
  */
 
-const P1_OVERLAY_DATABASE = {
+var P1_OVERLAY_DATABASE = {
     1: {
         pageImg: "images/books/p1/1.jpg",
         title: "Primary (1) First Term — Cover Page",
@@ -4741,8 +4741,12 @@ const P1_OVERLAY_DATABASE = {
       ]
   },
   72: {
-      "pageImg": "images/books/p1/72.jpg",
-      "title": "Back Cover",
-      "inputs": []
-  },
+    "pageImg": "images/books/p1/72.jpg",
+    "title": "Back Cover",
+    "inputs": []
+  }
 };
+
+if (typeof window !== 'undefined') {
+    window.P1_OVERLAY_DATABASE = P1_OVERLAY_DATABASE;
+}
