@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>English Toon — لوحة الصفوف الدراسية</title>
-    <link rel="stylesheet" href="css/style.css?v=20260722_v3">
+    <link rel="stylesheet" href="css/style.css?v=20260722_v4">
 </head>
 <body>
 
@@ -87,9 +87,9 @@
         <section class="hero-wrapper">
             <div class="hero-banner">
                 <div class="hero-content">
-                    <div class="hero-tag">✨ عالم من المغامرات والتعلم</div>
-                    <h1 class="hero-title">مرحباً بك يا <span id="welcome-user-name">بطل</span> 🚀</h1>
-                    <p class="hero-description">اختر صفك الدراسي لتبدأ اللعب والتحدي، كسب النقاط، والتفوق في مادة اللغة الإنجليزية!</p>
+                    <div class="hero-tag">✨ محطة المغامرات والتفوق التعليمي</div>
+                    <h1 class="hero-title">أهلاً بك في عالم <span id="welcome-user-name">البطل</span> 🚀</h1>
+                    <p class="hero-description">اختر مرحلتك الدراسية للبدء في الألعاب التفاعلية، كسب النقاط، وإتقان اللغة الإنجليزية بكل سهولة!</p>
                 </div>
                 <img src="images/logo_icon.png" alt="Hero Mascot" class="hero-decor-img">
             </div>
@@ -175,14 +175,16 @@
             const tile = document.createElement('a');
             tile.href = `grade.html?id=${grade.id}`;
             tile.className = 'grade-tile';
-            tile.style.backgroundImage = `url('${imgSrc}')`;
 
             tile.innerHTML = `
-                <div class="grade-tile-content">
-                    <span class="grade-level-tag">${levelLabel}</span>
+                <div class="grade-card-photo-header" style="background-image: url('${imgSrc}')">
+                    <span class="grade-level-pill-badge">${levelLabel}</span>
+                </div>
+                <div class="grade-tile-body">
                     <h3 class="grade-tile-title">${grade.name}</h3>
-                    <div class="grade-tile-footer">
-                        <span class="btn-play-cta">دخول المرحلة ⚡</span>
+                    <div class="grade-tile-meta-row">
+                        <span style="font-size: 0.82rem; color: #94A3B8; font-weight: 700;">🎮 6 وحدات دراسية</span>
+                        <span class="btn-play-cta">دخول المغامرة ⚡</span>
                     </div>
                 </div>
             `;
