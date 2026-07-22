@@ -3,78 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بوابة الألعاب التعليمية - تسجيل الدخول</title>
+    <title>بوابة الألعاب التعليمية - English Toon</title>
+    <meta name="description" content="بوابة الألعاب التعليمية لتعلم اللغة الإنجليزية — English Toon">
     <link rel="stylesheet" href="css/style.css">
-    <script src="js/banner.js"></script>
 </head>
 <body class="login-bg">
 
-    <div class="login-wrapper">
-        <div class="glass-container login-box">
+    <!-- Animated background orbs -->
+    <div class="bg-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+        <div class="orb orb-4"></div>
+    </div>
+
+    <div class="login-wrapper page-content">
+        <div class="login-box">
+
             <div class="logo-container">
-                <img src="images/logo_icon.png" alt="Logo" class="logo-icon">
+                <img src="images/logo_icon.png" alt="English Toon Logo" class="logo-icon">
                 <div class="logo-text">English Toon</div>
+                <div class="logo-tagline">🎮 بوابة الألعاب التعليمية</div>
             </div>
+
             <div id="error-msg" class="error-msg"></div>
+
             <form id="login-form">
                 <div class="input-group">
-                    <label for="username">اسم المستخدم</label>
-                    <input type="text" id="username" required placeholder="أدخل اسم المستخدم">
+                    <label for="username">👤 اسم المستخدم</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="username" required placeholder="أدخل اسم المستخدم" autocomplete="username">
+                    </div>
                 </div>
                 <div class="input-group">
-                    <label for="password">كلمة المرور</label>
-                    <input type="password" id="password" required placeholder="أدخل كلمة المرور">
+                    <label for="password">🔒 كلمة المرور</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="password" required placeholder="أدخل كلمة المرور" autocomplete="current-password">
+                        <button type="button" class="password-toggle" id="toggle-pass" title="إظهار / إخفاء كلمة المرور">👁️</button>
+                    </div>
                 </div>
-                <button type="submit" class="btn">تسجيل الدخول</button>
+                <button type="submit" class="btn btn-glow" id="login-btn">🚀 تسجيل الدخول</button>
             </form>
+
         </div>
     </div>
-    
+
     <!-- Firebase Compat SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-
     <script src="js/data.js"></script>
     <script src="js/auth.js"></script>
-    
+
     <script>
-        // Redirect if already logged in this session
+        // Redirect if already logged in
         if (localStorage.getItem('isLoggedIn') === 'true') {
             window.location.href = 'dashboard.html';
         }
 
+        // Password toggle
+        document.getElementById('toggle-pass').addEventListener('click', function() {
+            const pwd = document.getElementById('password');
+            const isHidden = pwd.type === 'password';
+            pwd.type = isHidden ? 'text' : 'password';
+            this.textContent = isHidden ? '🙈' : '👁️';
+        });
+
+        // Login form
         document.getElementById('login-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             const user = document.getElementById('username').value.trim();
             const pass = document.getElementById('password').value.trim();
-            
-            const btn = document.querySelector('.btn');
-            btn.innerText = 'جاري التحقق...';
+
+            const btn = document.getElementById('login-btn');
+            btn.innerHTML = '⏳ جاري التحقق...';
             btn.disabled = true;
+            btn.style.opacity = '0.8';
 
             const result = await login(user, pass);
-            
+
             if (result.success) {
-                window.location.href = 'dashboard.html';
+                btn.innerHTML = '✅ تم الدخول! جاري التحويل...';
+                btn.style.background = 'linear-gradient(135deg, #00b09b, #00e676)';
+                setTimeout(() => window.location.href = 'dashboard.html', 600);
             } else {
                 const errorDiv = document.getElementById('error-msg');
-                errorDiv.innerText = result.message;
+                errorDiv.innerHTML = '❌ ' + result.message;
                 errorDiv.style.display = 'block';
-                btn.innerText = 'تسجيل الدخول';
+                btn.innerHTML = '🚀 تسجيل الدخول';
                 btn.disabled = false;
+                btn.style.opacity = '1';
+                // shake the form
+                const box = document.querySelector('.login-box');
+                box.style.animation = 'none';
+                box.offsetHeight; // reflow
+                box.style.animation = 'shake 0.4s ease';
             }
         });
 
-        // Register Service Worker for Offline PWA
+        // Shake animation
+        const shakeStyle = document.createElement('style');
+        shakeStyle.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                20%       { transform: translateX(-8px); }
+                40%       { transform: translateX(8px); }
+                60%       { transform: translateX(-5px); }
+                80%       { transform: translateX(5px); }
+            }
+        `;
+        document.head.appendChild(shakeStyle);
+
+        // Service Worker
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
-                    .then(registration => {
-                        console.log('ServiceWorker registered:', registration);
-                    })
-                    .catch(error => {
-                        console.log('ServiceWorker registration failed:', error);
-                    });
+                navigator.serviceWorker.register('sw.js').catch(() => {});
             });
         }
     </script>

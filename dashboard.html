@@ -3,73 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بوابة الألعاب التعليمية - لوحة التحكم</title>
+    <title>بوابة الألعاب - الصفوف الدراسية | English Toon</title>
     <link rel="stylesheet" href="css/style.css">
-    <script src="js/banner.js"></script>
 </head>
 <body class="dashboard-bg">
 
-    <div class="dashboard-wrapper">
-        <div class="header glass-container" style="padding: 1rem 2rem; margin-bottom: 2rem;">
-            <div class="logo-container">
-                <img src="images/logo_icon.png" alt="Logo" class="logo-icon">
-                <div class="dashboard-header">
-        <h2 style="color: white; margin: 0; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">بوابة الألعاب 🎮</h2>
-        <div>
-            <span id="user-display" style="margin-left: 15px; font-weight: bold; font-size: 1.1rem; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5);"></span>
-            <button id="admin-btn-link" onclick="window.location.href='admin.html'" class="admin-btn" style="display: none;">إضافة طلاب ⚙️</button>
-            <button onclick="logout()" class="logout-btn">تسجيل الخروج</button>
-        </div>
-    </div>
-        </div>
-
-        <div class="grid-container" id="grades-container" style="padding: 2rem;">
-            <!-- Grades will be loaded here dynamically -->
-        </div>
+    <div class="bg-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+        <div class="orb orb-4"></div>
     </div>
 
-    <!-- Firebase Compat SDK -->
+    <div class="dashboard-wrapper page-content">
+
+        <!-- Sticky Header -->
+        <header class="site-header">
+            <a href="dashboard.html" class="header-brand">
+                <img src="images/logo_icon.png" alt="Logo" class="header-logo">
+                <span class="header-brand-name">English Toon</span>
+            </a>
+            <div class="header-center">
+                <h1 class="header-title">🎮 بوابة الألعاب التعليمية</h1>
+            </div>
+            <div class="header-actions">
+                <div class="user-chip" id="user-display"></div>
+                <button id="admin-btn-link" onclick="window.location.href='admin.html'" class="admin-btn" style="display:none;">⚙️ الإدارة</button>
+                <button onclick="logout()" class="logout-btn">خروج 🚪</button>
+            </div>
+        </header>
+
+        <!-- Welcome Banner -->
+        <div class="welcome-banner">
+            <div class="welcome-emoji">👋</div>
+            <div class="welcome-text">
+                <h2 id="welcome-name">أهلاً بك!</h2>
+                <p>اختر صفك الدراسي لتبدأ رحلة التعلم الممتعة 🚀</p>
+            </div>
+        </div>
+
+        <!-- Section Title -->
+        <div class="section-heading">
+            <div class="section-heading-icon">🏫</div>
+            <h2>الصفوف الدراسية</h2>
+            <span id="grade-count-label"></span>
+        </div>
+
+        <!-- Grades Grid -->
+        <div class="grid-container" id="grades-container"></div>
+
+    </div>
+
+    <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-
     <script src="js/data.js"></script>
     <script src="js/auth.js"></script>
+
     <script>
-        // Protect route
         checkAuth();
 
         const currentUser = localStorage.getItem('currentUser');
-        document.getElementById('user-display').innerText = 'أهلاً، ' + currentUser;
-        
+        document.getElementById('user-display').textContent = currentUser;
+        document.getElementById('welcome-name').textContent = 'أهلاً، ' + currentUser + '! 🌟';
+
         if (currentUser === 'admin') {
-            document.getElementById('admin-btn-link').style.display = 'inline-block';
+            document.getElementById('admin-btn-link').style.display = 'inline-flex';
         }
+
+        // Grade card images mapping
+        const gradeImages = {
+            'primary-1': 'images/primary_1.png',
+            'primary-2': 'images/primary_2.png',
+            'primary-3': 'images/primary_3.png',
+            'primary-4': 'images/primary_4.png',
+            'primary-5': 'images/primary_5.png',
+            'primary-6': 'images/primary_6.png',
+            'prep-1':    'images/prep_1.png',
+            'prep-2':    'images/prep_2.png',
+            'prep-3':    'images/prep_3.png',
+        };
 
         // Render Grades
         const container = document.getElementById('grades-container');
         const allowedGrade = localStorage.getItem('allowedGrade') || 'all';
+        let rendered = 0;
 
         GRADES_DATA.forEach(grade => {
-            // Filter logic
-            if (allowedGrade !== 'all' && allowedGrade !== grade.id && localStorage.getItem('currentUser') !== 'admin') {
-                return; // skip rendering this grade
-            }
+            if (allowedGrade !== 'all' && allowedGrade !== grade.id && currentUser !== 'admin') return;
 
+            rendered++;
             const card = document.createElement('a');
             card.href = `grade.html?id=${grade.id}`;
-            card.className = 'glass-container grade-card';
-            card.style.backgroundImage = `url('${grade.image}')`;
-            card.style.backgroundSize = 'cover';
-            card.style.backgroundPosition = 'center';
-            card.innerHTML = `<span class="card-text">${grade.name}</span>`;
+            card.className = 'grade-card';
+
+            const imgSrc = gradeImages[grade.id] || 'images/dashboard_bg.png';
+            card.style.backgroundImage = `url('${imgSrc}')`;
+
+            const isPrep = grade.id.startsWith('prep-');
+            const badgeLabel = isPrep ? '🎓 إعدادي' : '📚 ابتدائي';
+
+            card.innerHTML = `
+                <div class="grade-card-overlay"></div>
+                <div class="grade-card-content">
+                    <div class="grade-card-badge">${badgeLabel}</div>
+                    <div class="grade-card-name">${grade.name}</div>
+                    <div class="grade-card-cta">ابدأ الآن</div>
+                </div>
+            `;
             container.appendChild(card);
         });
 
-        // Register Service Worker for Offline PWA
+        document.getElementById('grade-count-label').textContent = rendered + ' صف متاح';
+
+        // Service Worker
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js');
-            });
+            window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
         }
     </script>
 </body>
