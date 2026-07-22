@@ -478,7 +478,7 @@ const P1_OVERLAY_DATABASE = {
             { id: "p30_b2_1", top: "83.2%", left: "41.5%", width: "9.0%", height: "2.3%", answer: "2", placeholder: "..." },
             { id: "p30_b2_2", top: "89.5%", left: "41.5%", width: "9.0%", height: "2.3%", answer: "4", placeholder: "..." }
         ]
-    }
+    },
 
   31: {
       "pageImg": "images/books/p1/31.jpg",
