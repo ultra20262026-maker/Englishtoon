@@ -8,9 +8,13 @@
 </head>
 <body>
 
-    <!-- Horizontal Scrolling Marquee Warning Ticker Banner -->
+    <!-- 100% Infinite Seamless Scrolling Marquee Warning Ticker Banner -->
     <a href="https://wa.me/201208609509?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B4%D8%AA%D8%B1%D8%A7%D9%83%20%D9%81%D9%8A%20%D9%85%D9%88%D9%82%D8%B9%20English%20Toon" target="_blank" class="marquee-warning-banner" title="اضغط للاشتراك الفوري عبر الواتساب">
         <div class="marquee-track">
+            <div class="marquee-item">
+                <span>⚠️ أنت الآن تستخدم النسخة المجانية للموقع وسيتم حذفك قريباً! للاشتراك الفوري تواصل واتس: 01208609509</span>
+                <span class="marquee-wa-btn">💬 اشترك الآن عبر الواتساب</span>
+            </div>
             <div class="marquee-item">
                 <span>⚠️ أنت الآن تستخدم النسخة المجانية للموقع وسيتم حذفك قريباً! للاشتراك الفوري تواصل واتس: 01208609509</span>
                 <span class="marquee-wa-btn">💬 اشترك الآن عبر الواتساب</span>
@@ -137,6 +141,54 @@
 
         const grade = GRADES_DATA.find(g => g.id === gradeId);
 
+        // Smart Game Visual & Emoji Mapper based on Game Name
+        function getGameVisual(gameName) {
+            const name = (gameName || '').toLowerCase();
+            
+            if (name.includes('archery') || name.includes('سهام') || name.includes('رمي') || name.includes('رماية')) {
+                return { emoji: '🎯', bg: 'linear-gradient(135deg, #FF416C, #FF4B2B)' };
+            }
+            if (name.includes('space') || name.includes('فضاء') || name.includes('سفينة') || name.includes('صواريخ')) {
+                return { emoji: '🚀', bg: 'linear-gradient(135deg, #654ea3, #eaafc8)' };
+            }
+            if (name.includes('bubble') || name.includes('فقاعات') || name.includes('سكر')) {
+                return { emoji: '🫧', bg: 'linear-gradient(135deg, #00c6ff, #0072ff)' };
+            }
+            if (name.includes('snake') || name.includes('ثعبان') || name.includes('ثرثار')) {
+                return { emoji: '🐍', bg: 'linear-gradient(135deg, #11998e, #38ef7d)' };
+            }
+            if (name.includes('صيد') || name.includes('سمك') || name.includes('أسماك')) {
+                return { emoji: '🎣', bg: 'linear-gradient(135deg, #2193b0, #6dd5ed)' };
+            }
+            if (name.includes('بناء') || name.includes('برج') || name.includes('جمل')) {
+                return { emoji: '🏗️', bg: 'linear-gradient(135deg, #FF8008, #FFC837)' };
+            }
+            if (name.includes('بالون') || name.includes('بالونات')) {
+                return { emoji: '🎈', bg: 'linear-gradient(135deg, #FF4E50, #F9D423)' };
+            }
+            if (name.includes('سيارات') || name.includes('سباق') || name.includes('سائق')) {
+                return { emoji: '🏎️', bg: 'linear-gradient(135deg, #F00000, #DC281E)' };
+            }
+            if (name.includes('عجلة') || name.includes('حظ')) {
+                return { emoji: '🎡', bg: 'linear-gradient(135deg, #8E2DE2, #4A00E0)' };
+            }
+            if (name.includes('ذاكرة') || name.includes('بطاقات')) {
+                return { emoji: '🧠', bg: 'linear-gradient(135deg, #f857a6, #ff5858)' };
+            }
+            if (name.includes('حيوان') || name.includes('حيوانات') || name.includes('دلفين')) {
+                return { emoji: '🦁', bg: 'linear-gradient(135deg, #56ab2f, #a8e063)' };
+            }
+            if (name.includes('قطار')) {
+                return { emoji: '🚂', bg: 'linear-gradient(135deg, #36D1DC, #5B86E5)' };
+            }
+            if (name.includes('متاهة') || name.includes('هروب')) {
+                return { emoji: '🌀', bg: 'linear-gradient(135deg, #3A1C71, #D76D77)' };
+            }
+            
+            // Default fallback
+            return { emoji: '🎮', bg: 'linear-gradient(135deg, #6366F1, #8B5CF6)' };
+        }
+
         if (!grade || !unitId) {
             window.location.href = 'dashboard.html';
         } else {
@@ -163,15 +215,8 @@
             } else {
                 document.getElementById('games-count-badge').textContent = `${unitGames.length} ألعاب متاحة`;
 
-                const gameThumbPool = [
-                    'images/game_icon_1.png',
-                    'images/game_icon_2.png',
-                    'images/game_icon_3.png',
-                    'images/game_icon_4.png'
-                ];
-
                 unitGames.forEach((game, idx) => {
-                    const imgSrc = gameThumbPool[idx % gameThumbPool.length];
+                    const visual = getGameVisual(game.name);
                     const gamePath = `games/${gradeId}/unit${unitId}/${game.file}`;
 
                     const tile = document.createElement('a');
@@ -179,8 +224,8 @@
                     tile.className = 'game-tile';
 
                     tile.innerHTML = `
-                        <div class="game-thumb-container">
-                            <img src="${imgSrc}" alt="${game.name}" class="game-thumb-img" loading="lazy">
+                        <div class="game-thumb-container" style="background: ${visual.bg};">
+                            <span class="game-emoji-badge">${visual.emoji}</span>
                             <div class="game-play-hover-overlay">
                                 <div class="play-action-circle">▶</div>
                             </div>
