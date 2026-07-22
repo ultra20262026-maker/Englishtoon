@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>English Toon — القارئ التفاعلي المزدوج (Split-Screen Interactive Book)</title>
+    <title>English Toon — الكتاب التفاعلي المزدوج (Exact Split-Screen E-Book)</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Nunito:wght@400;700;800;900&family=Outfit:wght@600;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=20260722_v14">
+    <link rel="stylesheet" href="css/style.css?v=20260722_v15">
     <style>
         :root {
             --bg-dark: #070913;
@@ -76,13 +76,13 @@
         .split-main-container {
             display: flex;
             width: 100%;
-            max-width: 1400px;
-            margin: 20px auto;
+            max-width: 1440px;
+            margin: 16px auto;
             gap: 20px;
             padding: 0 16px 80px 16px;
         }
 
-        @media (max-width: 900px) {
+        @media (max-width: 920px) {
             .split-main-container {
                 flex-direction: column;
             }
@@ -95,13 +95,13 @@
             border-radius: 20px;
             box-shadow: 0 25px 65px rgba(0, 0, 0, 0.6);
             overflow: hidden;
-            border: 3px solid rgba(255, 255, 255, 0.15);
+            border: 3.5px solid rgba(255, 255, 255, 0.15);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             position: relative;
-            min-height: 600px;
+            min-height: 620px;
         }
 
         .page-img-display {
@@ -120,11 +120,11 @@
             border-radius: 20px;
             box-shadow: 0 25px 65px rgba(0, 0, 0, 0.6);
             padding: 24px;
-            border: 3px solid rgba(255, 255, 255, 0.15);
+            border: 3.5px solid rgba(255, 255, 255, 0.15);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            min-height: 600px;
+            min-height: 620px;
         }
 
         .panel-header-title {
@@ -160,7 +160,9 @@
             border-radius: 14px;
             padding: 16px;
             margin-bottom: 16px;
+            transition: border-color 0.2s;
         }
+        .q-card-item:hover { border-color: #cbd5e1; }
 
         .q-card-item h3 {
             font-size: 1.05rem;
@@ -176,24 +178,24 @@
             background: #fff;
             border: 2px solid #94a3b8;
             border-radius: 8px;
-            padding: 6px 12px;
+            padding: 8px 14px;
             font-family: 'Outfit', sans-serif;
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             font-weight: 800;
             color: #0f172a;
-            width: 140px;
-            text-align: center;
+            width: 100%;
+            max-width: 320px;
             direction: ltr;
             transition: all 0.15s;
         }
         .q-input-text:focus {
             outline: none;
             border-color: #6366f1;
-            box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
+            box-shadow: 0 0 12px rgba(99, 102, 241, 0.3);
         }
 
-        .q-input-text.is-correct { border-color: #10b981; background: #ecfdf5; color: #047857; }
-        .q-input-text.is-wrong { border-color: #ef4444; background: #fef2f2; color: #b91c1c; }
+        .q-input-text.is-correct { border-color: #10b981 !important; background: #ecfdf5 !important; color: #047857 !important; }
+        .q-input-text.is-wrong { border-color: #ef4444 !important; background: #fef2f2 !important; color: #b91c1c !important; }
 
         /* MCQ Options Buttons */
         .mcq-options-grid {
@@ -206,7 +208,7 @@
             background: #fff;
             border: 2px solid #cbd5e1;
             color: #0f172a;
-            padding: 8px 16px;
+            padding: 8px 18px;
             border-radius: 10px;
             font-family: 'Outfit', sans-serif;
             font-weight: 800;
@@ -224,7 +226,7 @@
             gap: 12px;
             margin-top: 20px;
             padding-top: 16px;
-            border-top: 2px solid #e2e8f0;
+            border-top: 2.5px solid #e2e8f0;
         }
 
         .btn-action-primary {
@@ -261,7 +263,7 @@
     <!-- Top Navigation Controls -->
     <div class="split-top-bar">
         <a href="dashboard.html" style="color:#fff; text-decoration:none; font-weight:800; font-size:1.1rem; display:flex; align-items:center; gap:8px;">
-            <span>🏠 الرئيسية</span> | <span style="color:var(--accent-cyan);">English Toon Split-Book</span>
+            <span>🏠 الرئيسية</span> | <span style="color:var(--accent-cyan);">English Toon Split E-Book</span>
         </a>
 
         <div class="controls-group">
@@ -295,8 +297,11 @@
         <div class="split-panel-exercises">
             <div>
                 <div class="panel-header-title">
-                    <h2 id="exercise-title">📝 تمارين واختبارات الصفحة التفاعلية</h2>
-                    <div class="score-pill-badge" id="score-badge">النتيجة: -- / --</div>
+                    <div>
+                        <h2 id="exercise-title">📝 تمارين واختبارات الصفحة التفاعلية</h2>
+                        <div style="font-size:0.85rem; color:#64748b; font-weight:700; margin-top:2px;" id="exercise-subtitle">الدرس التفاعلي المطابق لصفحة الكتاب</div>
+                    </div>
+                    <div class="score-pill-badge" id="score-badge">النتيجة: 0 / 0</div>
                 </div>
 
                 <!-- Exercise Items Container -->
@@ -315,40 +320,12 @@
 
     </div>
 
-    <!-- Page Mapping Data -->
+    <!-- Database Script -->
     <script src="js/p1_book_data.js"></script>
 
     <script>
         let currentBookId = 1;
         let currentPageNum = 3;
-
-        // Custom Exercises Database mapped to each page
-        const pagesExercisesDB = {
-            1: {
-                title: "Primary 1 — Unit 1: Greetings (الصفحة 3)",
-                items: [
-                    { type: "input", label: "1. 👋 ..... , I'm Hany.", answer: "Hello", speech: "Hello, I'm Hany." },
-                    { type: "input", label: "2. What's your ..... ?", answer: "name", speech: "What's your name?" },
-                    { type: "input", label: "3. I'm ..... .", answer: "Hana", speech: "I'm Hana." },
-                    { type: "mcq", label: "4. 🎧 استمع واختر الكلمة الصحيحة للوداع:", audio: "Goodbye", options: ["Hello", "Goodbye", "Play"], answer: "Goodbye" }
-                ]
-            },
-            4: {
-                title: "Primary 1 — Unit 1: Vocabulary & Phonics (الصفحة 4)",
-                items: [
-                    { type: "input", label: "1. I see a ..... (مروحة).", answer: "fan", speech: "I see a fan." },
-                    { type: "input", label: "2. I see a ..... (قطة).", answer: "cat", speech: "I see a cat." },
-                    { type: "mcq", label: "3. اختر الكلمة المبدوءة بحرف B:", audio: "bus", options: ["cat", "bus", "fan"], answer: "bus" }
-                ]
-            },
-            5: {
-                title: "Primary 1 — Unit 1: Performance Assessment (الصفحة 5)",
-                items: [
-                    { type: "input", label: "1. Shake ..... (مصافحة).", answer: "hands", speech: "Shake hands." },
-                    { type: "input", label: "2. Let's ..... (لعب).", answer: "play", speech: "Let's play." }
-                ]
-            }
-        };
 
         function speakText(text) {
             if ('speechSynthesis' in window) {
@@ -406,15 +383,23 @@
             const container = document.getElementById('exercise-items-list');
             container.innerHTML = '';
 
-            const pData = pagesExercisesDB[currentPageNum] || {
-                title: `تمارين الصفحة ${currentPageNum}`,
-                items: [
-                    { type: "input", label: "1. Write the correct word (أكتب الكلمة الصحيحة):", answer: "hello", speech: "hello" },
-                    { type: "mcq", label: "2. Choose the correct answer (اختر الإجابة الصحيحة):", audio: "hello", options: ["Hello", "Goodbye", "Cat"], answer: "Hello" }
-                ]
-            };
+            // Retrieve from P1_EXERCISES_DATABASE if available
+            let pData = null;
+            if (currentBookId === 1 && typeof P1_EXERCISES_DATABASE !== 'undefined' && P1_EXERCISES_DATABASE[currentPageNum]) {
+                pData = P1_EXERCISES_DATABASE[currentPageNum];
+            } else {
+                pData = {
+                    unit: `Primary ${currentBookId}`,
+                    lesson: `تمارين واختبارات الصفحة ${currentPageNum}`,
+                    items: [
+                        { id: `q_${currentPageNum}_1`, type: "input", label: "1. Complete the word (أكتب الكلمة الصحيحة):", answer: "hello", speech: "hello" },
+                        { id: `q_${currentPageNum}_2`, type: "mcq", label: "2. Choose the correct answer (اختر الإجابة):", audio: "hello", options: ["Hello", "Goodbye", "Play"], answer: "Hello" }
+                    ]
+                };
+            }
 
-            document.getElementById('exercise-title').innerText = pData.title;
+            document.getElementById('exercise-title').innerText = pData.unit || `تمارين الصفحة ${currentPageNum}`;
+            document.getElementById('exercise-subtitle').innerText = pData.lesson || `أسئلة وتقييمات الصفحة ${currentPageNum}`;
             document.getElementById('score-badge').innerText = `النتيجة: 0 / ${pData.items.length}`;
 
             pData.items.forEach((item, idx) => {
@@ -425,9 +410,9 @@
                     card.innerHTML = `
                         <h3>
                             <span>${item.label}</span>
-                            ${item.speech ? `<button onclick="speakText('${item.speech}')" style="border:none; background:none; cursor:pointer; font-size:1.2rem;">🔊</button>` : ''}
+                            ${item.speech ? `<button onclick="speakText('${item.speech}')" style="border:none; background:none; cursor:pointer; font-size:1.2rem;" title="نطق الكلمة 🔊">🔊</button>` : ''}
                         </h3>
-                        <input type="text" class="q-input-text" id="q-input-${idx}" data-answer="${item.answer}" placeholder="أكتب هنا...">
+                        <input type="text" class="q-input-text" id="input-${item.id}" data-answer="${item.answer}" placeholder="أكتب الإجابة هنا...">
                     `;
                 } else if (item.type === 'mcq') {
                     let optsHTML = '';
@@ -438,9 +423,9 @@
                     card.innerHTML = `
                         <h3>
                             <span>${item.label}</span>
-                            ${item.audio ? `<button onclick="speakText('${item.audio}')" style="background:#4f46e5; color:#fff; border:none; padding:4px 10px; border-radius:6px; font-weight:800; cursor:pointer;">🔊 استمع</button>` : ''}
+                            ${item.audio ? `<button onclick="speakText('${item.audio}')" style="background:#4f46e5; color:#fff; border:none; padding:4px 10px; border-radius:6px; font-weight:800; cursor:pointer;" title="استمع للصوت 🔊">🔊 استمع</button>` : ''}
                         </h3>
-                        <div class="mcq-options-grid" id="mcq-grid-${idx}">
+                        <div class="mcq-options-grid" id="mcq-grid-${item.id}">
                             ${optsHTML}
                         </div>
                     `;
@@ -461,7 +446,7 @@
 
             if (selected.toLowerCase() === correct.toLowerCase()) {
                 btn.className = 'opt-btn selected-correct';
-                speakText("Good!");
+                speakText("Good job!");
             } else {
                 btn.className = 'opt-btn selected-wrong';
                 speakText("Try again!");
@@ -475,8 +460,8 @@
             // Check Inputs
             const inputs = container.querySelectorAll('.q-input-text');
             inputs.forEach(el => {
-                const val = el.value.trim().toLowerCase();
-                const ans = el.getAttribute('data-answer').toLowerCase();
+                const val = el.value.trim().toLowerCase().replace(/\s+/g, ' ');
+                const ans = el.getAttribute('data-answer').toLowerCase().replace(/\s+/g, ' ');
                 if (val && val === ans) {
                     el.className = 'q-input-text is-correct';
                     correctCount++;
@@ -499,7 +484,7 @@
 
             if (correctCount === total && total > 0) {
                 speakText(`Excellent! Perfect score ${correctCount} out of ${total}!`);
-                alert(`🎉 أحسنت صنعاً! إجابات الصفحة كاملة صحيحة (${correctCount}/${total}) ⭐⭐⭐`);
+                alert(`🎉 أحسنت صنعاً! إجابات أسئلة الصفحة كاملة صحيحة (${correctCount}/${total}) ⭐⭐⭐`);
             } else {
                 speakText(`Your score is ${correctCount} out of ${total}`);
             }
@@ -520,9 +505,8 @@
             const mcqGrids = container.querySelectorAll('.mcq-options-grid');
             mcqGrids.forEach(grid => {
                 grid.querySelectorAll('.opt-btn').forEach(btn => {
-                    const sel = btn.getAttribute('data-selected');
-                    const cor = btn.getAttribute('data-correct');
-                    if (btn.innerText.trim().toLowerCase() === (cor || '').toLowerCase()) {
+                    const cor = btn.getAttribute('data-correct') || '';
+                    if (btn.innerText.trim().toLowerCase() === cor.toLowerCase()) {
                         btn.className = 'opt-btn selected-correct';
                     }
                 });
@@ -532,7 +516,12 @@
         }
 
         function speakPageText() {
-            speakText("Page 3. Unit 1: Greetings. Hello, I'm Hany. What's your name? I'm Hana.");
+            if (currentBookId === 1 && P1_EXERCISES_DATABASE[currentPageNum]) {
+                const pObj = P1_EXERCISES_DATABASE[currentPageNum];
+                speakText(`${pObj.unit}. ${pObj.lesson}`);
+            } else {
+                speakText(`Page ${currentPageNum}`);
+            }
         }
 
         // Initial Load
