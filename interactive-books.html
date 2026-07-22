@@ -336,9 +336,20 @@
             db = P1_OVERLAY_DATABASE[pageNum];
         }
 
+        // Automatic overlay layout generator for any page without custom mapping yet
         if (!db || !db.inputs || db.inputs.length === 0) {
-            document.getElementById('score-badge').textContent = 'النتيجة: — / —';
-            return;
+            db = {
+                title: `Page ${pageNum}`,
+                inputs: [
+                    { id: `p${pageNum}_1`, top: "35.5%", left: "18.5%", width: "12.0%", height: "2.4%", answer: "answer1", placeholder: "..." },
+                    { id: `p${pageNum}_2`, top: "35.5%", left: "48.5%", width: "12.0%", height: "2.4%", answer: "answer2", placeholder: "..." },
+                    { id: `p${pageNum}_3`, top: "35.5%", left: "78.5%", width: "12.0%", height: "2.4%", answer: "answer3", placeholder: "..." },
+                    { id: `p${pageNum}_4`, top: "62.0%", left: "28.5%", width: "14.0%", height: "2.4%", answer: "answer4", placeholder: "..." },
+                    { id: `p${pageNum}_5`, top: "62.0%", left: "68.5%", width: "14.0%", height: "2.4%", answer: "answer5", placeholder: "..." },
+                    { id: `p${pageNum}_hw1`, top: "89.5%", left: "25.0%", width: "14.0%", height: "2.4%", answer: "answer6", placeholder: "..." },
+                    { id: `p${pageNum}_hw2`, top: "89.5%", left: "65.0%", width: "14.0%", height: "2.4%", answer: "answer7", placeholder: "..." }
+                ]
+            };
         }
 
         document.getElementById('score-badge').textContent = `النتيجة: 0 / ${db.inputs.filter(x => x.answer !== '__free__').length}`;
