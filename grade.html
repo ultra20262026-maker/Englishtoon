@@ -3,59 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الوحدات الدراسية | English Toon</title>
+    <title>English Toon — الوحدات الدراسية</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="dashboard-bg">
+<body>
 
-    <div class="bg-orbs">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="orb orb-3"></div>
-        <div class="orb orb-4"></div>
+    <!-- Cyber Background Mesh & Ambient Glowing Orbs -->
+    <div class="cyber-bg">
+        <div class="glow-orb glow-orb-1"></div>
+        <div class="glow-orb glow-orb-2"></div>
+        <div class="glow-orb glow-orb-3"></div>
     </div>
 
-    <div class="dashboard-wrapper page-content">
+    <!-- Main Container -->
+    <div class="page-animate">
 
-        <!-- Sticky Header -->
-        <header class="site-header">
+        <!-- App Floating Header -->
+        <header class="app-header">
             <a href="dashboard.html" class="header-brand">
-                <img src="images/logo_icon.png" alt="Logo" class="header-logo">
-                <span class="header-brand-name">English Toon</span>
+                <div class="header-logo-wrap">
+                    <img src="images/logo_icon.png" alt="English Toon" class="header-logo-img">
+                </div>
+                <div class="brand-text">
+                    <span class="brand-title">English Toon</span>
+                    <span class="brand-subtitle" id="grade-subtitle">الوحدات الدراسية</span>
+                </div>
             </a>
-            <div class="header-center">
-                <h1 class="header-title" id="grade-title">الوحدات الدراسية</h1>
+
+            <div class="header-center-title">
+                <span id="grade-header-name">الوحدات الدراسية</span>
             </div>
+
             <div class="header-actions">
-                <button onclick="logout()" class="logout-btn">خروج 🚪</button>
+                <button onclick="logout()" class="btn-nav-action btn-logout">خروج 🚪</button>
             </div>
         </header>
 
-        <!-- Breadcrumb -->
-        <nav class="breadcrumb" id="breadcrumb-nav">
-            <a href="dashboard.html">🏠 الرئيسية</a>
-            <span class="breadcrumb-sep">›</span>
-            <span class="breadcrumb-current" id="breadcrumb-grade">...</span>
-        </nav>
+        <!-- Breadcrumb & Back Nav -->
+        <div class="breadcrumb-container">
+            <ul class="breadcrumb-list">
+                <li><a href="dashboard.html" class="breadcrumb-link">🏠 الرئيسية</a></li>
+                <li class="breadcrumb-separator">›</li>
+                <li class="breadcrumb-current" id="breadcrumb-grade-title">الوحدات</li>
+            </ul>
 
-        <!-- Back Button -->
-        <a href="dashboard.html" class="back-btn">← العودة للصفوف</a>
-
-        <!-- Section Title -->
-        <div class="section-heading">
-            <div class="section-heading-icon">📖</div>
-            <h2>اختر الوحدة</h2>
-            <span>٦ وحدات</span>
+            <a href="dashboard.html" class="btn-back">← العودة للصفوف</a>
         </div>
 
-        <!-- Units Grid -->
-        <div class="grid-container" id="units-container"></div>
+        <!-- Section Title & Grid -->
+        <div class="section-title-wrap">
+            <h2 class="section-h2">
+                <span class="section-icon-badge">📖</span>
+                الوحدات الدراسية المتاحة
+            </h2>
+            <span class="section-count-pill">٦ وحدات كاملة</span>
+        </div>
+
+        <!-- Units Cards Grid -->
+        <div class="cards-grid" id="units-container"></div>
 
     </div>
 
-    <!-- Firebase -->
+    <!-- Mobile Bottom Navigation Dock -->
+    <nav class="mobile-bottom-dock">
+        <a href="dashboard.html" class="dock-item">
+            <span class="dock-icon">🏠</span>
+            <span>الرئيسية</span>
+        </a>
+        <a href="dashboard.html" class="dock-item active">
+            <span class="dock-icon">📚</span>
+            <span>الصفوف</span>
+        </a>
+        <a href="#" onclick="logout()" class="dock-item">
+            <span class="dock-icon">🚪</span>
+            <span>خروج</span>
+        </a>
+    </nav>
+
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
     <script src="js/data.js"></script>
     <script src="js/auth.js"></script>
 
@@ -69,37 +97,40 @@
         if (!grade) {
             window.location.href = 'dashboard.html';
         } else {
-            document.getElementById('grade-title').textContent = grade.name;
-            document.getElementById('breadcrumb-grade').textContent = grade.name;
+            document.getElementById('grade-header-name').textContent = grade.name;
+            document.getElementById('grade-subtitle').textContent = grade.name;
+            document.getElementById('breadcrumb-grade-title').textContent = grade.name;
 
             const container = document.getElementById('units-container');
             const allowedUnitsStr = localStorage.getItem('allowedUnits');
             let allowedUnits = 'all';
             try { allowedUnits = JSON.parse(allowedUnitsStr || '"all"'); } catch(e) {}
 
-            const unitEmojis = ['🌟', '🚀', '🌊', '🔥', '💡', '🏆'];
-            const unitNames  = ['الأولى', 'الثانية', 'الثالثة', 'الرابعة', 'الخامسة', 'السادسة'];
+            const unitIcons = ['🌟', '🚀', '🌊', '⚡', '💡', '🏆'];
+            const unitTitles = ['الوحدة الأولى', 'الوحدة الثانية', 'الوحدة الثالثة', 'الوحدة الرابعة', 'الوحدة الخامسة', 'الوحدة السادسة'];
 
             for (let i = 1; i <= UNITS_PER_GRADE; i++) {
                 if (allowedUnits !== 'all' && !allowedUnits.includes(i) && localStorage.getItem('currentUser') !== 'admin') continue;
 
-                const card = document.createElement('div');
-                card.className = 'unit-card';
-                card.innerHTML = `
-                    <div class="unit-number-big">${i}</div>
-                    <div class="unit-icon-wrap">${unitEmojis[i-1] || '📚'}</div>
-                    <div class="unit-card-text">
-                        <div class="unit-card-label">الوحدة</div>
-                        <div class="unit-card-name">${unitNames[i-1] || i}</div>
-                        <div class="unit-card-sub">Unit ${i}</div>
+                const tile = document.createElement('a');
+                tile.className = 'unit-tile';
+                tile.innerHTML = `
+                    <span class="unit-big-num">0${i}</span>
+                    <div class="unit-icon-box">${unitIcons[i-1] || '📖'}</div>
+                    <div class="unit-info-body">
+                        <span class="unit-label-small">الوحدة</span>
+                        <h3 class="unit-main-title">${unitTitles[i-1] || `الوحدة ${i}`}</h3>
+                        <span class="unit-sub-en">Unit ${i}</span>
                     </div>
-                    <div class="unit-hover-cta">🎮 ابدأ الألعاب ←</div>
+                    <div class="unit-tile-hover-bar">⚡ دخول الألعاب والتحديات ←</div>
                 `;
-                card.onclick = () => window.location.href = `unit.html?grade=${gradeId}&unit=${i}`;
-                container.appendChild(card);
+
+                tile.onclick = () => window.location.href = `unit.html?grade=${gradeId}&unit=${i}`;
+                container.appendChild(tile);
             }
         }
 
+        // PWA Service Worker
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
         }

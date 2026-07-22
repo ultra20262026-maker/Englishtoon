@@ -3,63 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ألعاب الوحدة | English Toon</title>
+    <title>English Toon — ألعاب الوحدة</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="dashboard-bg">
+<body>
 
-    <div class="bg-orbs">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="orb orb-3"></div>
-        <div class="orb orb-4"></div>
+    <!-- Cyber Background Mesh & Ambient Glowing Orbs -->
+    <div class="cyber-bg">
+        <div class="glow-orb glow-orb-1"></div>
+        <div class="glow-orb glow-orb-2"></div>
+        <div class="glow-orb glow-orb-3"></div>
     </div>
 
-    <div class="dashboard-wrapper page-content">
+    <!-- Main Container -->
+    <div class="page-animate">
 
-        <!-- Sticky Header -->
-        <header class="site-header">
+        <!-- App Floating Header -->
+        <header class="app-header">
             <a href="dashboard.html" class="header-brand">
-                <img src="images/logo_icon.png" alt="Logo" class="header-logo">
-                <span class="header-brand-name">English Toon</span>
+                <div class="header-logo-wrap">
+                    <img src="images/logo_icon.png" alt="English Toon" class="header-logo-img">
+                </div>
+                <div class="brand-text">
+                    <span class="brand-title">English Toon</span>
+                    <span class="brand-subtitle" id="unit-header-sub">ألعاب الوحدة</span>
+                </div>
             </a>
-            <div class="header-center">
-                <h1 class="header-title" id="unit-title">جاري التحميل...</h1>
+
+            <div class="header-center-title">
+                <span id="unit-header-title">ألعاب الوحدة</span>
             </div>
+
             <div class="header-actions">
-                <button onclick="logout()" class="logout-btn">خروج 🚪</button>
+                <button onclick="logout()" class="btn-nav-action btn-logout">خروج 🚪</button>
             </div>
         </header>
 
-        <!-- Breadcrumb -->
-        <nav class="breadcrumb">
-            <a href="dashboard.html">🏠 الرئيسية</a>
-            <span class="breadcrumb-sep">›</span>
-            <a href="#" id="breadcrumb-grade-link">الصف</a>
-            <span class="breadcrumb-sep">›</span>
-            <span class="breadcrumb-current" id="breadcrumb-unit">الوحدة</span>
-        </nav>
+        <!-- Breadcrumb & Back Nav -->
+        <div class="breadcrumb-container">
+            <ul class="breadcrumb-list">
+                <li><a href="dashboard.html" class="breadcrumb-link">🏠 الرئيسية</a></li>
+                <li class="breadcrumb-separator">›</li>
+                <li><a href="#" id="breadcrumb-grade-link" class="breadcrumb-link">الصف</a></li>
+                <li class="breadcrumb-separator">›</li>
+                <li class="breadcrumb-current" id="breadcrumb-unit-title">الوحدة</li>
+            </ul>
 
-        <!-- Back Button -->
-        <a id="back-link" href="#" class="back-btn">← العودة للوحدات</a>
-
-        <!-- Games Count Bar -->
-        <div class="games-count-bar" id="games-count-bar" style="display:none;">
-            <span>🎮</span>
-            <span id="games-count-text">جاري تحميل الألعاب...</span>
+            <a href="#" id="back-to-grade-btn" class="btn-back">← العودة للوحدات</a>
         </div>
 
-        <!-- Games Grid -->
-        <div class="games-grid" id="games-container"></div>
+        <!-- Section Title & Grid -->
+        <div class="section-title-wrap">
+            <h2 class="section-h2">
+                <span class="section-icon-badge">🎮</span>
+                الألعاب والتحديات التفاعلية
+            </h2>
+            <span class="section-count-pill" id="games-count-badge">جاري التحميل...</span>
+        </div>
+
+        <!-- Games Cards Grid -->
+        <div class="cards-grid" id="games-container"></div>
 
     </div>
 
-    <!-- Firebase -->
+    <!-- Mobile Bottom Navigation Dock -->
+    <nav class="mobile-bottom-dock">
+        <a href="dashboard.html" class="dock-item">
+            <span class="dock-icon">🏠</span>
+            <span>الرئيسية</span>
+        </a>
+        <a href="dashboard.html" class="dock-item active">
+            <span class="dock-icon">🎮</span>
+            <span>الألعاب</span>
+        </a>
+        <a href="#" onclick="logout()" class="dock-item">
+            <span class="dock-icon">🚪</span>
+            <span>خروج</span>
+        </a>
+    </nav>
+
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
     <script src="js/data.js"></script>
     <script src="js/auth.js"></script>
-    <script src="js/game-enhancements.js"></script>
 
     <script>
         checkAuth();
@@ -68,7 +96,7 @@
         const gradeId  = urlParams.get('grade');
         const unitId   = urlParams.get('unit');
 
-        // Security check
+        // Security Authorization Check
         const allowedGrade = localStorage.getItem('allowedGrade') || 'all';
         const isAdmin = localStorage.getItem('currentUser') === 'admin';
         let allowedUnits = 'all';
@@ -85,17 +113,19 @@
             }
         }
 
-        // Back link & breadcrumb
-        document.getElementById('back-link').href = `grade.html?id=${gradeId}`;
+        // Navigation Links
+        document.getElementById('back-to-grade-btn').href = `grade.html?id=${gradeId}`;
         document.getElementById('breadcrumb-grade-link').href = `grade.html?id=${gradeId}`;
 
         const grade = GRADES_DATA.find(g => g.id === gradeId);
+
         if (!grade || !unitId) {
             window.location.href = 'dashboard.html';
         } else {
-            document.getElementById('unit-title').textContent = `${grade.name} — الوحدة ${unitId}`;
+            document.getElementById('unit-header-title').textContent = `${grade.name} — الوحدة ${unitId}`;
+            document.getElementById('unit-header-sub').textContent = `الوحدة ${unitId}`;
             document.getElementById('breadcrumb-grade-link').textContent = grade.name;
-            document.getElementById('breadcrumb-unit').textContent = `الوحدة ${unitId}`;
+            document.getElementById('breadcrumb-unit-title').textContent = `الوحدة ${unitId}`;
 
             const container = document.getElementById('games-container');
             let unitGames = [];
@@ -104,60 +134,53 @@
                 unitGames = GAMES_MAP[gradeId][unitId];
             }
 
-            const countBar = document.getElementById('games-count-bar');
-            countBar.style.display = 'flex';
-
             if (unitGames.length === 0) {
-                document.getElementById('games-count-text').textContent = 'لا توجد ألعاب مضافة بعد';
+                document.getElementById('games-count-badge').textContent = '0 لعبة';
                 container.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">🚀</div>
-                        <h3>قريباً!</h3>
-                        <p>لم تُضف ألعاب لهذه الوحدة بعد. ترقبوا التحديثات!</p>
+                    <div class="empty-box" style="grid-column: 1 / -1;">
+                        <div class="empty-icon">🚀</div>
+                        <h3>قريباً جداً!</h3>
+                        <p>جاري تصميم وإضافة ألعاب تفاعلية جديدة لهذه الوحدة.</p>
                     </div>`;
             } else {
-                document.getElementById('games-count-text').textContent = unitGames.length + ' ألعاب متاحة في هذه الوحدة';
+                document.getElementById('games-count-badge').textContent = `${unitGames.length} ألعاب متاحة`;
 
-                // Game image pool (cycles through available icons)
-                const gameImages = [
+                const gameThumbPool = [
                     'images/game_icon_1.png',
                     'images/game_icon_2.png',
                     'images/game_icon_3.png',
                     'images/game_icon_4.png'
                 ];
 
-                unitGames.forEach((game, index) => {
-                    const imgSrc = gameImages[index % gameImages.length];
-                    // Build path: try gradeId/unitX/ first (primary grades), fallback handled by logic
-                    let gamePath = `games/${gradeId}/unit${unitId}/${game.file}`;
+                unitGames.forEach((game, idx) => {
+                    const imgSrc = gameThumbPool[idx % gameThumbPool.length];
+                    const gamePath = `games/${gradeId}/unit${unitId}/${game.file}`;
 
-                    const card = document.createElement('a');
-                    card.href = gamePath;
-                    card.className = 'game-card';
+                    const tile = document.createElement('a');
+                    tile.href = gamePath;
+                    tile.className = 'game-tile';
 
-                    const isNew = index === 0;
-
-                    card.innerHTML = `
-                        <div class="game-card-top-bar"></div>
-                        <div class="game-card-img-wrap">
-                            <img class="game-icon-img" src="${imgSrc}" alt="${game.name}" loading="lazy">
-                            <div class="game-play-overlay">
-                                <div class="play-btn-circle">▶</div>
+                    tile.innerHTML = `
+                        <div class="game-thumb-container">
+                            <img src="${imgSrc}" alt="${game.name}" class="game-thumb-img" loading="lazy">
+                            <div class="game-play-hover-overlay">
+                                <div class="play-action-circle">▶</div>
                             </div>
                         </div>
-                        <div class="game-card-body">
-                            <div class="game-title">${game.name}</div>
-                            <div class="game-card-footer">
-                                <span class="game-play-text">▶ العب الآن</span>
-                                ${isNew ? '<span class="game-new-badge">⭐ جديد</span>' : ''}
+                        <div class="game-info-box">
+                            <h3 class="game-info-title">${game.name}</h3>
+                            <div class="game-info-meta">
+                                <span class="game-cta-text">⚡ العب الآن</span>
+                                ${idx === 0 ? '<span class="badge-new-game">⭐ مميز</span>' : ''}
                             </div>
                         </div>
                     `;
-                    container.appendChild(card);
+                    container.appendChild(tile);
                 });
             }
         }
 
+        // PWA Service Worker
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
         }

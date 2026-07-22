@@ -3,75 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بوابة الألعاب - الصفوف الدراسية | English Toon</title>
+    <title>English Toon — لوحة الصفوف الدراسية</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="dashboard-bg">
+<body>
 
-    <div class="bg-orbs">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="orb orb-3"></div>
-        <div class="orb orb-4"></div>
+    <!-- Cyber Background Mesh & Ambient Glowing Orbs -->
+    <div class="cyber-bg">
+        <div class="glow-orb glow-orb-1"></div>
+        <div class="glow-orb glow-orb-2"></div>
+        <div class="glow-orb glow-orb-3"></div>
     </div>
 
-    <div class="dashboard-wrapper page-content">
+    <!-- Main Container -->
+    <div class="page-animate">
 
-        <!-- Sticky Header -->
-        <header class="site-header">
+        <!-- App Floating Header -->
+        <header class="app-header">
             <a href="dashboard.html" class="header-brand">
-                <img src="images/logo_icon.png" alt="Logo" class="header-logo">
-                <span class="header-brand-name">English Toon</span>
+                <div class="header-logo-wrap">
+                    <img src="images/logo_icon.png" alt="English Toon" class="header-logo-img">
+                </div>
+                <div class="brand-text">
+                    <span class="brand-title">English Toon</span>
+                    <span class="brand-subtitle">بوابة الألعاب الذكية</span>
+                </div>
             </a>
-            <div class="header-center">
-                <h1 class="header-title">🎮 بوابة الألعاب التعليمية</h1>
+
+            <div class="header-center-title">
+                <span>🎮 الصفوف الدراسية</span>
             </div>
+
             <div class="header-actions">
-                <div class="user-chip" id="user-display"></div>
-                <button id="admin-btn-link" onclick="window.location.href='admin.html'" class="admin-btn" style="display:none;">⚙️ الإدارة</button>
-                <button onclick="logout()" class="logout-btn">خروج 🚪</button>
+                <div class="user-profile-badge">
+                    <span class="user-avatar-dot"></span>
+                    <span id="user-display">طالب</span>
+                </div>
+                <button id="admin-btn-link" onclick="window.location.href='admin.html'" class="btn-nav-action btn-admin" style="display:none;">⚙️ الإدارة</button>
+                <button onclick="logout()" class="btn-nav-action btn-logout">خروج 🚪</button>
             </div>
         </header>
 
-        <!-- Welcome Banner -->
-        <div class="welcome-banner">
-            <div class="welcome-emoji">👋</div>
-            <div class="welcome-text">
-                <h2 id="welcome-name">أهلاً بك!</h2>
-                <p>اختر صفك الدراسي لتبدأ رحلة التعلم الممتعة 🚀</p>
+        <!-- Hero Welcome Banner -->
+        <section class="hero-wrapper">
+            <div class="hero-banner">
+                <div class="hero-content">
+                    <div class="hero-tag">✨ عالم من المغامرات والتعلم</div>
+                    <h1 class="hero-title">مرحباً بك يا <span id="welcome-user-name">بطل</span> 🚀</h1>
+                    <p class="hero-description">اختر صفك الدراسي لتبدأ اللعب، كسب النقاط، وتحدي أصدقائك في مادة اللغة الإنجليزية!</p>
+                </div>
+                <img src="images/logo_icon.png" alt="Hero Mascot" class="hero-decor-img">
             </div>
+        </section>
+
+        <!-- Section Title & Grid -->
+        <div class="section-title-wrap">
+            <h2 class="section-h2">
+                <span class="section-icon-badge">🏫</span>
+                الصفوف الدراسية
+            </h2>
+            <span class="section-count-pill" id="grade-count-badge">جاري التحميل...</span>
         </div>
 
-        <!-- Section Title -->
-        <div class="section-heading">
-            <div class="section-heading-icon">🏫</div>
-            <h2>الصفوف الدراسية</h2>
-            <span id="grade-count-label"></span>
-        </div>
-
-        <!-- Grades Grid -->
-        <div class="grid-container" id="grades-container"></div>
+        <!-- Grade Tiles Grid -->
+        <div class="cards-grid" id="grades-container"></div>
 
     </div>
 
-    <!-- Firebase -->
+    <!-- Mobile Bottom Navigation Dock -->
+    <nav class="mobile-bottom-dock">
+        <a href="dashboard.html" class="dock-item active">
+            <span class="dock-icon">🏠</span>
+            <span>الرئيسية</span>
+        </a>
+        <a href="dashboard.html" class="dock-item">
+            <span class="dock-icon">📚</span>
+            <span>الصفوف</span>
+        </a>
+        <a id="mobile-admin-dock" href="admin.html" class="dock-item" style="display:none;">
+            <span class="dock-icon">⚙️</span>
+            <span>الإدارة</span>
+        </a>
+        <a href="#" onclick="logout()" class="dock-item">
+            <span class="dock-icon">🚪</span>
+            <span>خروج</span>
+        </a>
+    </nav>
+
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
     <script src="js/data.js"></script>
     <script src="js/auth.js"></script>
 
     <script>
         checkAuth();
 
-        const currentUser = localStorage.getItem('currentUser');
+        const currentUser = localStorage.getItem('currentUser') || 'طالب';
         document.getElementById('user-display').textContent = currentUser;
-        document.getElementById('welcome-name').textContent = 'أهلاً، ' + currentUser + '! 🌟';
+        document.getElementById('welcome-user-name').textContent = currentUser;
 
         if (currentUser === 'admin') {
             document.getElementById('admin-btn-link').style.display = 'inline-flex';
+            document.getElementById('mobile-admin-dock').style.display = 'flex';
         }
 
-        // Grade card images mapping
+        // Grade Card Images Mapping
         const gradeImages = {
             'primary-1': 'images/primary_1.png',
             'primary-2': 'images/primary_2.png',
@@ -81,42 +119,41 @@
             'primary-6': 'images/primary_6.png',
             'prep-1':    'images/prep_1.png',
             'prep-2':    'images/prep_2.png',
-            'prep-3':    'images/prep_3.png',
+            'prep-3':    'images/prep_3.png'
         };
 
-        // Render Grades
         const container = document.getElementById('grades-container');
         const allowedGrade = localStorage.getItem('allowedGrade') || 'all';
-        let rendered = 0;
+        let totalRendered = 0;
 
         GRADES_DATA.forEach(grade => {
             if (allowedGrade !== 'all' && allowedGrade !== grade.id && currentUser !== 'admin') return;
 
-            rendered++;
-            const card = document.createElement('a');
-            card.href = `grade.html?id=${grade.id}`;
-            card.className = 'grade-card';
-
-            const imgSrc = gradeImages[grade.id] || 'images/dashboard_bg.png';
-            card.style.backgroundImage = `url('${imgSrc}')`;
-
+            totalRendered++;
             const isPrep = grade.id.startsWith('prep-');
-            const badgeLabel = isPrep ? '🎓 إعدادي' : '📚 ابتدائي';
+            const levelLabel = isPrep ? '🎓 المرحلة الإعدادية' : '📚 المرحلة الابتدائية';
+            const imgSrc = gradeImages[grade.id] || 'images/dashboard_bg.png';
 
-            card.innerHTML = `
-                <div class="grade-card-overlay"></div>
-                <div class="grade-card-content">
-                    <div class="grade-card-badge">${badgeLabel}</div>
-                    <div class="grade-card-name">${grade.name}</div>
-                    <div class="grade-card-cta">ابدأ الآن</div>
+            const tile = document.createElement('a');
+            tile.href = `grade.html?id=${grade.id}`;
+            tile.className = 'grade-tile';
+            tile.style.backgroundImage = `url('${imgSrc}')`;
+
+            tile.innerHTML = `
+                <div class="grade-tile-content">
+                    <span class="grade-level-tag">${levelLabel}</span>
+                    <h3 class="grade-tile-title">${grade.name}</h3>
+                    <div class="grade-tile-footer">
+                        <span class="btn-play-cta">دخول المرحلة ⚡</span>
+                    </div>
                 </div>
             `;
-            container.appendChild(card);
+            container.appendChild(tile);
         });
 
-        document.getElementById('grade-count-label').textContent = rendered + ' صف متاح';
+        document.getElementById('grade-count-badge').textContent = `${totalRendered} صفوف مضافة`;
 
-        // Service Worker
+        // PWA Service Worker
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
         }
