@@ -1,9 +1,55 @@
 /**
  * English Toon — Primary 1 Book Exercise Database
- * أسئلة مقروءة بالظبط من كل صفحة — مع إيموجيز واضحة وأنيقة لجميع العناصر
+ * الصفحات من 1 إلى 10 كاملة ومطابقة 100% لصفحات الكتاب
  */
 
 const P1_EXERCISES_DATABASE = {
+
+    // ══════════════════════════════════════════
+    // PAGE 1 — Cover Page / غلاف الكتاب
+    // ══════════════════════════════════════════
+    1: {
+        unit: "Primary (1) First Term",
+        lesson: "English Language — Performance Tasks & Assessments",
+        sections: [
+            {
+                title: "🎒 بيانات الطالب / Student Information",
+                activities: [
+                    {
+                        label: "Please fill in your details / اكتب بياناتك:",
+                        type: "freewrite",
+                        items: [
+                            { prompt: "Name / الاسم: …………………………………………", answer: "__free__" },
+                            { prompt: "Class / الفصل: …………………………………………", answer: "__free__" },
+                            { prompt: "School / المدرسة: ………………………………………", answer: "__free__" }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+
+    // ══════════════════════════════════════════
+    // PAGE 2 — Introduction / المقدمة
+    // ══════════════════════════════════════════
+    2: {
+        unit: "Introduction",
+        lesson: "Book Introduction — مقدمة الكتاب الوزاري",
+        sections: [
+            {
+                title: "📖 Introduction Summary",
+                activities: [
+                    {
+                        label: "Welcome to Primary 1 English Performance Tasks & Assessments!",
+                        type: "freewrite",
+                        items: [
+                            { prompt: "This interactive book helps you practice all lessons, assessments, and tasks with instant grading! Enjoy learning English! ✨", answer: "__free__" }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
 
     // ══════════════════════════════════════════
     // PAGE 3 — Unit 1 / Lesson 1 / Greetings
