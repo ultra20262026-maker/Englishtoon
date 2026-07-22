@@ -3,31 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>English Toon — لوحة الصفوف والدليل التفاعلي</title>
+    <title>English Toon — لوحة الصفوف الدراسية</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-    <!-- Slow Left-to-Right Infinite Marquee Warning Banner (Mobile & PC) -->
-    <a href="https://wa.me/201208609509?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B4%D8%AA%D8%B1%D8%A7%D9%83%20%D9%81%D9%8A%20%D9%85%D9%88%D9%82%D8%B9%20English%20Toon" target="_blank" class="marquee-slow-banner" title="اضغط للاشتراك الفوري عبر الواتساب">
-        <div class="marquee-track-ltr">
-            <!-- First Set -->
-            <div class="marquee-item">
-                <span>⚠️ أنت الآن تستخدم النسخة المجانية للموقع وسيتم حذفك قريباً! للاشتراك الفوري تواصل واتس: 01208609509</span>
-                <span class="marquee-wa-btn">💬 اشترك عبر الواتساب</span>
-            </div>
-            <div class="marquee-item">
-                <span>⚠️ أنت الآن تستخدم النسخة المجانية للموقع وسيتم حذفك قريباً! للاشتراك الفوري تواصل واتس: 01208609509</span>
-                <span class="marquee-wa-btn">💬 اشترك عبر الواتساب</span>
-            </div>
-            <!-- Second Set for Seamless Infinite LTR Loop -->
-            <div class="marquee-item">
-                <span>⚠️ أنت الآن تستخدم النسخة المجانية للموقع وسيتم حذفك قريباً! للاشتراك الفوري تواصل واتس: 01208609509</span>
-                <span class="marquee-wa-btn">💬 اشترك عبر الواتساب</span>
-            </div>
-            <div class="marquee-item">
-                <span>⚠️ أنت الآن تستخدم النسخة المجانية للموقع وسيتم حذفك قريباً! للاشتراك الفوري تواصل واتس: 01208609509</span>
-                <span class="marquee-wa-btn">💬 اشترك عبر الواتساب</span>
+    <!-- 📺 TV Breaking News Ticker Banner (شريط الأخبار الأحمر مع خط برتقالي سفلي وتكرار مستمر) -->
+    <a href="https://wa.me/201208609509?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B4%D8%AA%D8%B1%D8%A7%D9%83%20%D9%81%D9%8A%20%D9%85%D9%88%D9%82%D8%B9%20English%20Toon" target="_blank" class="tv-news-ticker-banner" title="اضغط للاشتراك الفوري عبر الواتساب">
+        <div class="ticker-badge-label">
+            <span>🚨 تنبيه عاجل</span>
+        </div>
+        <div class="ticker-scroll-window">
+            <div class="ticker-track-seamless">
+                <!-- Duplicate Set 1 -->
+                <div class="ticker-news-item">
+                    <span>⚠️ أنت الآن تستخدم النسخة المجانية للموقع وسيتم حذفك قريباً! للاشتراك تواصل واتس: 01208609509</span>
+                    <span class="ticker-wa-link-pill">💬 اشترك عبر الواتساب</span>
+                </div>
+                <div class="ticker-news-item">
+                    <span>⚠️ أنت الآن تستخدم النسخة المجانية للموقع وسيتم حذفك قريباً! للاشتراك تواصل واتس: 01208609509</span>
+                    <span class="ticker-wa-link-pill">💬 اشترك عبر الواتساب</span>
+                </div>
+                <!-- Duplicate Set 2 for 100% Seamless Continuous Infinite Scroll -->
+                <div class="ticker-news-item">
+                    <span>⚠️ أنت الآن تستخدم النسخة المجانية للموقع وسيتم حذفك قريباً! للاشتراك تواصل واتس: 01208609509</span>
+                    <span class="ticker-wa-link-pill">💬 اشترك عبر الواتساب</span>
+                </div>
+                <div class="ticker-news-item">
+                    <span>⚠️ أنت الآن تستخدم النسخة المجانية للموقع وسيتم حذفك قريباً! للاشتراك الفوري تواصل واتس: 01208609509</span>
+                    <span class="ticker-wa-link-pill">💬 اشترك عبر الواتساب</span>
+                </div>
             </div>
         </div>
     </a>
@@ -54,10 +59,10 @@
                 </div>
             </a>
 
-            <!-- Navigation Tabs: الرئيسية - الصفوف - الامتحانات الإلكترونية - ملفات PDF -->
+            <!-- Navigation Tabs -->
             <nav class="header-nav-links">
                 <a href="dashboard.html" class="nav-tab-item active">🏠 الرئيسية</a>
-                <a href="#grades-section-wrap" class="nav-tab-item">📚 الصفوف</a>
+                <a href="#grades-container" class="nav-tab-item">📚 الصفوف</a>
                 <a href="exams.html" class="nav-tab-item">📝 الامتحانات الإلكترونية</a>
                 <a href="pdf-files.html" class="nav-tab-item">📄 ملفات PDF</a>
             </nav>
@@ -78,153 +83,23 @@
                 <div class="hero-content">
                     <div class="hero-tag">✨ عالم من المغامرات والتعلم</div>
                     <h1 class="hero-title">مرحباً بك يا <span id="welcome-user-name">بطل</span> 🚀</h1>
-                    <p class="hero-description">اختر صفك الدراسي لتبدأ اللعب والتحدي، أو تصفح دليل الصفوف الشامل والامتحانات والملفات التعليمية!</p>
+                    <p class="hero-description">اختر صفك الدراسي لتبدأ اللعب والتحدي، كسب النقاط، والتفوق في مادة اللغة الإنجليزية!</p>
                 </div>
                 <img src="images/logo_icon.png" alt="Hero Mascot" class="hero-decor-img">
             </div>
         </section>
 
-        <!-- 📖 ALL-IN-ONE CONCISE GRADE SUMMARY SHOWCASE (معلومات مختصرة عن كل الصفوف مرة واحدة) -->
-        <section class="all-summary-wrapper">
-            <div class="all-summary-glass-box">
-                <div class="summary-section-header">
-                    <h2><span>📖</span> دليل وشرح جميع الصفوف الدراسية (دفعة واحدة)</h2>
-                </div>
-
-                <div class="summary-cards-grid">
-                    <!-- Primary 1 -->
-                    <div class="summary-item-card">
-                        <div class="summary-card-top">
-                            <span class="summary-grade-name">الأول الابتدائي</span>
-                            <span class="summary-grade-badge">Primary 1</span>
-                        </div>
-                        <ul class="summary-bullets-list">
-                            <li>صيد الحروف الأبجدية وتجميعها</li>
-                            <li>نطق المفردات بالصوت والصورة</li>
-                            <li>تحديات الألوان والحيوانات التفاعلية</li>
-                        </ul>
-                    </div>
-
-                    <!-- Primary 2 -->
-                    <div class="summary-item-card">
-                        <div class="summary-card-top">
-                            <span class="summary-grade-name">الثاني الابتدائي</span>
-                            <span class="summary-grade-badge">Primary 2</span>
-                        </div>
-                        <ul class="summary-bullets-list">
-                            <li>سفينة الفضاء وتصويب الصواريخ</li>
-                            <li>رمي السهام وقواعد (am/is/are)</li>
-                            <li>تطابق الظل وتجميع مفردات الأسرة</li>
-                        </ul>
-                    </div>
-
-                    <!-- Primary 3 -->
-                    <div class="summary-item-card">
-                        <div class="summary-card-top">
-                            <span class="summary-grade-name">الثالث الابتدائي</span>
-                            <span class="summary-grade-badge">Primary 3</span>
-                        </div>
-                        <ul class="summary-bullets-list">
-                            <li>تحدي الرماية والتفوق (Archery Quiz)</li>
-                            <li>لعبة ثعبان الكلمات (Word Snake)</li>
-                            <li>فرقعة الفقاعات (Bubble Pop) والمحادثة</li>
-                        </ul>
-                    </div>
-
-                    <!-- Primary 4 -->
-                    <div class="summary-item-card">
-                        <div class="summary-card-top">
-                            <span class="summary-grade-name">الرابع الابتدائي</span>
-                            <span class="summary-grade-badge">Primary 4</span>
-                        </div>
-                        <ul class="summary-bullets-list">
-                            <li>سباق السيارات وقواعد المضارع البسيط</li>
-                            <li>روبوت تركيب وتكوين الجمل الصحيحة</li>
-                            <li>كشاف الظلام ومتاهة المفردات</li>
-                        </ul>
-                    </div>
-
-                    <!-- Primary 5 -->
-                    <div class="summary-item-card">
-                        <div class="summary-card-top">
-                            <span class="summary-grade-name">الخامس الابتدائي</span>
-                            <span class="summary-grade-badge">Primary 5</span>
-                        </div>
-                        <ul class="summary-bullets-list">
-                            <li>قفزة الضفدع وصفات الملكية وحروف الجر</li>
-                            <li>صياد الكنوز والأزمنة الماضية</li>
-                            <li>متجر الآيس كريم والكميات والمعدود</li>
-                        </ul>
-                    </div>
-
-                    <!-- Primary 6 -->
-                    <div class="summary-item-card">
-                        <div class="summary-card-top">
-                            <span class="summary-grade-name">السادس الابتدائي</span>
-                            <span class="summary-grade-badge">Primary 6</span>
-                        </div>
-                        <ul class="summary-bullets-list">
-                            <li>مطبخ الملك وتحدي فهم المحادثات الكاملة</li>
-                            <li>رحلة المنطاد وحروف الجر المكانية</li>
-                            <li>لعبة البولينج والتعديات التراكمية</li>
-                        </ul>
-                    </div>
-
-                    <!-- Prep 1 -->
-                    <div class="summary-item-card">
-                        <div class="summary-card-top">
-                            <span class="summary-grade-name">الأول الإعدادي</span>
-                            <span class="summary-grade-badge">Prep 1</span>
-                        </div>
-                        <ul class="summary-bullets-list">
-                            <li>بناء الكلمة وتكوين الجمل المعقدة</li>
-                            <li>سرعة الجرامر والضمائر الموصولة</li>
-                            <li>تفجير البالونات والمترادفات الجديدة</li>
-                        </ul>
-                    </div>
-
-                    <!-- Prep 2 -->
-                    <div class="summary-item-card">
-                        <div class="summary-card-top">
-                            <span class="summary-grade-name">الثاني الإعدادي</span>
-                            <span class="summary-grade-badge">Prep 2</span>
-                        </div>
-                        <ul class="summary-bullets-list">
-                            <li>مختبر الأزمنة والجمل الشرطية</li>
-                            <li>معركة الزعيم وقطع الاستيعاب</li>
-                            <li>المتاهة المتقدمة والألغاز اللغوية</li>
-                        </ul>
-                    </div>
-
-                    <!-- Prep 3 -->
-                    <div class="summary-item-card">
-                        <div class="summary-card-top">
-                            <span class="summary-grade-name">الثالث الإعدادي</span>
-                            <span class="summary-grade-badge">Prep 3</span>
-                        </div>
-                        <ul class="summary-bullets-list">
-                            <li>تحديات مراجعة الشهادة الإعدادية</li>
-                            <li>تراكيب الأفعال الناقصة والضرورة</li>
-                            <li>المبارزة المزدوجة والمراجعة النهائية</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 🏫 GRADED TILES GRID -->
-        <div id="grades-section-wrap">
-            <div class="section-title-wrap">
-                <h2 class="section-h2">
-                    <span class="section-icon-badge">🏫</span>
-                    الصفوف الدراسية المتاحة للعب
-                </h2>
-                <span class="section-count-pill" id="grade-count-badge">جاري التحميل...</span>
-            </div>
-
-            <!-- Grade Tiles Grid -->
-            <div class="cards-grid" id="grades-container"></div>
+        <!-- 🏫 GRADED TILES GRID (Directly on Homepage) -->
+        <div class="section-title-wrap">
+            <h2 class="section-h2">
+                <span class="section-icon-badge">🏫</span>
+                الصفوف الدراسية المتاحة
+            </h2>
+            <span class="section-count-pill" id="grade-count-badge">جاري التحميل...</span>
         </div>
+
+        <!-- Grade Tiles Grid -->
+        <div class="cards-grid" id="grades-container"></div>
 
     </div>
 
@@ -234,7 +109,7 @@
             <span class="dock-icon">🏠</span>
             <span>الرئيسية</span>
         </a>
-        <a href="#grades-section-wrap" class="dock-item">
+        <a href="#grades-container" class="dock-item">
             <span class="dock-icon">📚</span>
             <span>الصفوف</span>
         </a>
