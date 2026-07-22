@@ -3,47 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>English Toon — الكتاب الإلكتروني التفاعلي الاحترافي (E-Book)</title>
+    <title>English Toon — القارئ والكتاب الإلكتروني التفاعلي</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Nunito:wght@400;700;800;900&family=Outfit:wght@600;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=20260722_v12">
+    <link rel="stylesheet" href="css/style.css?v=20260722_v13">
     <style>
-        /* Professional Native Digital E-Book Design System */
         :root {
-            --ebook-bg: #070913;
-            --page-bg: #ffffff;
-            --unit-primary: #4f46e5;
-            --unit-secondary: #ff007a;
-            --unit-accent: #00f2fe;
-            --unit-emerald: #10b981;
-            --text-dark: #0f172a;
+            --bg-dark: #070913;
+            --panel-bg: rgba(15, 23, 42, 0.95);
+            --primary: #6366f1;
+            --secondary: #ff007a;
+            --accent-cyan: #00f2fe;
+            --accent-emerald: #10b981;
         }
 
         body {
-            background: var(--ebook-bg);
+            background: radial-gradient(ellipse at 55% 35%, #1e3a5f, #0f172a 80%);
             color: #fff;
             font-family: 'Cairo', 'Nunito', sans-serif;
             min-height: 100vh;
             margin: 0;
             padding: 0;
-            overflow-x: hidden;
         }
 
-        .ebook-viewport {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            min-height: 100vh;
-            padding-bottom: 90px;
-        }
-
-        /* Top E-Book Reader Bar */
-        .ebook-top-bar {
-            width: 100%;
+        /* Top Navigation Header */
+        .app-header-nav {
             background: rgba(10, 18, 38, 0.95);
             backdrop-filter: blur(16px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 12px 24px;
+            padding: 10px 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -52,270 +39,183 @@
             z-index: 100;
         }
 
-        .ebook-title-group {
+        .mode-toggle-group {
             display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .ebook-badge {
-            background: linear-gradient(135deg, var(--unit-primary), var(--unit-secondary));
-            padding: 4px 14px;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 4px;
             border-radius: 999px;
-            font-size: 0.85rem;
-            font-weight: 800;
+            border: 1px solid rgba(255, 255, 255, 0.15);
         }
 
-        /* Native E-Book Page Container */
-        .ebook-page-container {
+        .mode-btn {
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            padding: 6px 18px;
+            border-radius: 999px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .mode-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #fff;
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.5);
+        }
+
+        /* Container Views */
+        .view-section {
+            display: none;
+            width: 100%;
+            padding: 20px 10px;
+        }
+
+        .view-section.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Mode 1: Flipbook View Layout */
+        .flipbook-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+            justify-content: center;
+            background: var(--panel-bg);
+            padding: 12px 24px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
             width: 100%;
             max-width: 900px;
-            background: var(--page-bg);
-            color: var(--text-dark);
-            border-radius: 24px;
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
-            margin: 24px 16px;
-            padding: 36px;
-            position: relative;
-            overflow: hidden;
-            border: 4px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* Unit Header Banner */
-        .unit-header-banner {
-            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+        .select-custom {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             color: #fff;
-            border-radius: 18px;
-            padding: 24px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.3);
-        }
-
-        .unit-info h1 {
-            font-family: 'Outfit', sans-serif;
-            font-size: 2.2rem;
-            font-weight: 900;
-            margin: 0;
-            letter-spacing: -0.02em;
-        }
-
-        .unit-info p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-            margin-top: 4px;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-family: inherit;
             font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
         }
 
-        .unit-audio-btn {
+        .book-stage-card {
+            position: relative;
+            width: 100%;
+            max-width: 720px;
             background: #fff;
-            color: #4f46e5;
-            border: none;
-            width: 54px;
-            height: 54px;
+            border-radius: 20px;
+            box-shadow: 0 25px 70px rgba(0,0,0,0.8);
+            overflow: hidden;
+            border: 4px solid rgba(255, 255, 255, 0.15);
+            margin-bottom: 80px;
+        }
+
+        .book-page-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            user-select: none;
+        }
+
+        /* Direct Inputs Layer */
+        .direct-input-box {
+            position: absolute;
+            background: rgba(15, 23, 42, 0.92);
+            border: 2.5px solid var(--primary);
+            border-radius: 8px;
+            color: #fff;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 800;
+            text-align: center;
+            direction: ltr;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            transition: all 0.15s;
+            z-index: 20;
+            backdrop-filter: blur(4px);
+        }
+
+        .direct-input-box:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 18px rgba(0, 242, 254, 0.6);
+        }
+
+        .direct-input-box.correct { border-color: var(--accent-emerald) !important; background: rgba(16, 185, 129, 0.95) !important; }
+        .direct-input-box.wrong { border-color: #ef4444 !important; background: rgba(239, 68, 68, 0.95) !important; }
+
+        .speak-hotspot {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            width: 34px;
+            height: 34px;
             border-radius: 50%;
-            font-size: 1.5rem;
+            background: linear-gradient(135deg, #0ea5e9, #6366f1);
+            border: 2px solid #fff;
+            color: #fff;
+            font-size: 15px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 6px 18px rgba(0,0,0,0.15);
-            transition: transform 0.2s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            z-index: 25;
+            transition: transform 0.15s;
         }
-        .unit-audio-btn:hover { transform: scale(1.1); }
+        .speak-hotspot:hover { transform: translate(-50%, -50%) scale(1.25); }
 
-        /* Section Title Block */
-        .section-block-title {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin: 28px 0 18px 0;
-            padding-bottom: 8px;
-            border-bottom: 3px solid #e2e8f0;
+        /* Mode 2: Native Programmed E-Book Layout */
+        .native-ebook-card {
+            width: 100%;
+            max-width: 900px;
+            background: #ffffff;
+            color: #0f172a;
+            border-radius: 24px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+            padding: 32px;
+            margin-bottom: 80px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
         }
 
-        .section-number-pill {
-            background: #4f46e5;
+        .unit-banner {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
             color: #fff;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
+            border-radius: 18px;
+            padding: 22px 28px;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            font-weight: 900;
-            font-size: 1.1rem;
+            margin-bottom: 28px;
         }
 
-        .section-block-title h2 {
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: #1e293b;
-            margin: 0;
-        }
-
-        /* Vocabulary Interactive Cards Grid */
-        .vocab-cards-grid {
+        .vocab-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 16px;
-            margin-bottom: 30px;
+            margin-bottom: 28px;
         }
 
-        .vocab-card {
+        .vocab-item {
             background: #f8fafc;
             border: 2px solid #e2e8f0;
             border-radius: 16px;
             padding: 16px;
             text-align: center;
-            transition: all 0.2s ease;
             cursor: pointer;
-            position: relative;
+            transition: all 0.2s;
         }
+        .vocab-item:hover { border-color: #6366f1; transform: translateY(-4px); }
 
-        .vocab-card:hover {
-            border-color: #6366f1;
-            transform: translateY(-4px);
-            box-shadow: 0 12px 24px rgba(99, 102, 241, 0.15);
-        }
-
-        .vocab-img {
-            width: 100%;
-            height: 120px;
-            object-fit: contain;
-            margin-bottom: 12px;
-            border-radius: 12px;
-        }
-
-        .vocab-word {
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.3rem;
-            font-weight: 900;
-            color: #1e293b;
-            margin-bottom: 6px;
-        }
-
-        .vocab-audio-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            background: #eef2ff;
-            color: #4f46e5;
-            padding: 4px 10px;
-            border-radius: 999px;
-            font-size: 0.8rem;
-            font-weight: 800;
-        }
-
-        /* Storyboard Conversation Scene */
-        .conversation-scene {
-            background: linear-gradient(180deg, #f0fdf4, #e0f2fe);
-            border-radius: 20px;
-            padding: 24px;
-            margin-bottom: 32px;
-            border: 2px solid #bae6fd;
-        }
-
-        .dialogue-bubble-row {
-            display: flex;
-            align-items: flex-start;
-            gap: 16px;
-            margin-bottom: 18px;
-        }
-
-        .dialogue-bubble-row.reverse {
-            flex-direction: row-reverse;
-        }
-
-        .avatar-circle {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: #fff;
-            border: 3px solid #6366f1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            flex-shrink: 0;
-        }
-
-        .speech-bubble {
-            background: #fff;
-            border-radius: 18px;
-            padding: 14px 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-            position: relative;
-            max-width: 75%;
-            border: 2px solid #e2e8f0;
-            cursor: pointer;
-            transition: all 0.15s;
-        }
-        .speech-bubble:hover { border-color: #6366f1; transform: scale(1.02); }
-
-        .speaker-name {
-            font-weight: 800;
-            font-size: 0.85rem;
-            color: #6366f1;
-            margin-bottom: 2px;
-        }
-
-        .speech-text {
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: #0f172a;
-            direction: ltr;
-            text-align: left;
-        }
-
-        /* Interactive Exercise Box */
-        .interactive-exercise-box {
-            background: #f8fafc;
-            border: 2px solid #cbd5e1;
-            border-radius: 18px;
-            padding: 20px;
-            margin-bottom: 24px;
-        }
-
-        .exercise-question-title {
-            font-size: 1.1rem;
-            font-weight: 800;
-            color: #334155;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .exercise-input-inline {
-            background: #fff;
-            border: 2px solid #94a3b8;
-            border-radius: 8px;
-            padding: 6px 12px;
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: #0f172a;
-            width: 140px;
-            text-align: center;
-            direction: ltr;
-            transition: all 0.15s;
-        }
-        .exercise-input-inline:focus {
-            outline: none;
-            border-color: #6366f1;
-            box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
-        }
-
-        .exercise-input-inline.correct { border-color: #10b981; background: #ecfdf5; color: #047857; }
-        .exercise-input-inline.wrong { border-color: #ef4444; background: #fef2f2; color: #b91c1c; }
-
-        /* Floating Bottom Reader Toolbar */
-        .ebook-bottom-dock {
+        /* Bottom Control Bar */
+        .bottom-floating-dock {
             position: fixed;
             bottom: 0;
             left: 0;
@@ -323,16 +223,16 @@
             background: rgba(10, 18, 38, 0.95);
             backdrop-filter: blur(16px);
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 12px 24px;
+            padding: 10px 24px;
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 16px;
+            gap: 14px;
             z-index: 100;
         }
 
-        .dock-btn {
-            background: rgba(255, 255, 255, 0.1);
+        .dock-action-btn {
+            background: rgba(255, 255, 255, 0.12);
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: #fff;
             padding: 8px 18px;
@@ -345,9 +245,9 @@
             gap: 6px;
             transition: all 0.15s;
         }
-        .dock-btn:hover { background: rgba(255, 255, 255, 0.25); transform: translateY(-2px); }
+        .dock-action-btn:hover { background: rgba(255, 255, 255, 0.25); transform: translateY(-2px); }
 
-        .dock-btn.primary {
+        .dock-action-btn.green {
             background: linear-gradient(135deg, #10b981, #059669);
             border: none;
             box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
@@ -356,187 +256,111 @@
 </head>
 <body>
 
-    <div class="ebook-viewport">
+    <!-- Header Navigation -->
+    <div class="app-header-nav">
+        <a href="dashboard.html" style="color:#fff; text-decoration:none; font-weight:800; font-size:1.1rem; display:flex; align-items:center; gap:8px;">
+            <span>🏠 الرئيسية</span> | <span style="color:var(--accent-cyan);">English Toon</span>
+        </a>
 
-        <!-- Top Reader Navbar -->
-        <div class="ebook-top-bar">
-            <div class="ebook-title-group">
-                <a href="dashboard.html" style="color:#fff; text-decoration:none; font-weight:800; font-size:1.1rem;">🏠 English Toon</a>
-                <span class="ebook-badge">الصف الأول الابتدائي — Unit 1</span>
-            </div>
-            <div style="font-weight: 800; color: #00f2fe; font-size: 0.95rem;">
-                النسخة المبرمجة بالكامل (Native Digital E-Book)
-            </div>
+        <!-- View Mode Switcher -->
+        <div class="mode-toggle-group">
+            <button class="mode-btn active" id="btn-mode-pdf" onclick="switchViewMode('pdf')">📖 كتب الوزارة التفاعلية</button>
+            <button class="mode-btn" id="btn-mode-native" onclick="switchViewMode('native')">🎨 الكتاب الإلكتروني المبرمج</button>
+        </div>
+    </div>
+
+    <!-- VIEW 1: Ministry Book Flipbook View (Page by Page 1 to 72) -->
+    <div class="view-section active" id="view-pdf">
+        
+        <div class="flipbook-toolbar">
+            <label style="font-weight:800;">اختر الكتاب الدراسي:</label>
+            <select class="select-custom" id="book-select" onchange="changeBook()">
+                <option value="1">🎒 الصف الأول الابتدائي (72 صفحة)</option>
+                <option value="2">📖 الصف الثاني الابتدائي (72 صفحة)</option>
+                <option value="3">✏️ الصف الثالث الابتدائي (72 صفحة)</option>
+            </select>
+
+            <label style="font-weight:800; margin-right:15px;">الانتقال للصفحة:</label>
+            <select class="select-custom" id="page-jump-select" onchange="jumpToPage(this.value)">
+                <!-- Generated dynamically -->
+            </select>
+
+            <button class="dock-action-btn" onclick="prevFlipPage()">◀️ السابقة</button>
+            <span style="font-weight:800; color:var(--accent-cyan);" id="page-number-label">3 / 72</span>
+            <button class="dock-action-btn" onclick="nextFlipPage()">التالية ▶️</button>
         </div>
 
-        <!-- E-Book Native Page Content -->
-        <div class="ebook-page-container">
-
-            <!-- Unit Title Banner -->
-            <div class="unit-header-banner">
-                <div class="unit-info">
-                    <h1>UNIT 1: Hello!</h1>
-                    <p>الدرس الأول: الترحيب والتعارف (Greetings & Introduction)</p>
-                </div>
-                <button class="unit-audio-btn" onclick="speakText('Unit 1: Hello! Greetings and Introduction')" title="نطق عنوان الوحدة 🔊">🔊</button>
-            </div>
-
-            <!-- Section 1: Vocabulary Cards -->
-            <div class="section-block-title">
-                <div class="section-number-pill">1</div>
-                <h2>Listen and Repeat (المفردات اللغوية والتحدث)</h2>
-            </div>
-
-            <div class="vocab-cards-grid">
-                <div class="vocab-card" onclick="speakText('Hello')">
-                    <div style="font-size: 4rem; margin-bottom: 8px;">👋</div>
-                    <div class="vocab-word">Hello</div>
-                    <div class="vocab-audio-tag">🔊 استمع وتحدث</div>
-                </div>
-
-                <div class="vocab-card" onclick="speakText('Goodbye')">
-                    <div style="font-size: 4rem; margin-bottom: 8px;">🙋‍♂️</div>
-                    <div class="vocab-word">Goodbye</div>
-                    <div class="vocab-audio-tag">🔊 استمع وتحدث</div>
-                </div>
-
-                <div class="vocab-card" onclick="speakText('Shake hands')">
-                    <div style="font-size: 4rem; margin-bottom: 8px;">🤝</div>
-                    <div class="vocab-word">Shake hands</div>
-                    <div class="vocab-audio-tag">🔊 استمع وتحدث</div>
-                </div>
-
-                <div class="vocab-card" onclick="speakText('Play')">
-                    <div style="font-size: 4rem; margin-bottom: 8px;">⚽</div>
-                    <div class="vocab-word">Play</div>
-                    <div class="vocab-audio-tag">🔊 استمع وتحدث</div>
-                </div>
-            </div>
-
-            <!-- Section 2: Storyboard Conversation Dialogue -->
-            <div class="section-block-title">
-                <div class="section-number-pill">2</div>
-                <h2>Look, Listen and Point (المحادثة والتواصل)</h2>
-            </div>
-
-            <div class="conversation-scene">
-                <!-- Bubble 1 -->
-                <div class="dialogue-bubble-row">
-                    <div class="avatar-circle" title="Miss Mona">👩‍🏫</div>
-                    <div class="speech-bubble" onclick="speakText('Hello, I\'m Miss Mona.')">
-                        <div class="speaker-name">Miss Mona</div>
-                        <div class="speech-text">"Hello, I'm Miss Mona." 🔊</div>
-                    </div>
-                </div>
-
-                <!-- Bubble 2 -->
-                <div class="dialogue-bubble-row reverse">
-                    <div class="avatar-circle" style="border-color:#ec4899;" title="Hany">👦</div>
-                    <div class="speech-bubble" onclick="speakText('Hello, I\'m Hany.')">
-                        <div class="speaker-name" style="color:#ec4899;">Hany</div>
-                        <div class="speech-text">"Hello, I'm Hany." 🔊</div>
-                    </div>
-                </div>
-
-                <!-- Bubble 3 -->
-                <div class="dialogue-bubble-row">
-                    <div class="avatar-circle" style="border-color:#10b981;" title="Youssef">👦</div>
-                    <div class="speech-bubble" onclick="speakText('I\'m Youssef.')">
-                        <div class="speaker-name" style="color:#10b981;">Youssef</div>
-                        <div class="speech-text">"I'm Youssef." 🔊</div>
-                    </div>
-                </div>
-
-                <!-- Bubble 4 -->
-                <div class="dialogue-bubble-row reverse">
-                    <div class="avatar-circle" style="border-color:#f97316;" title="Hana">👧</div>
-                    <div class="speech-bubble" onclick="speakText('Hello, I\'m Hana. What\'s your name?')">
-                        <div class="speaker-name" style="color:#f97316;">Hana</div>
-                        <div class="speech-text">"Hello, I'm Hana. What's your name?" 🔊</div>
-                    </div>
-                </div>
-
-                <!-- Bubble 5 -->
-                <div class="dialogue-bubble-row">
-                    <div class="avatar-circle" style="border-color:#3b82f6;" title="Amira">👧</div>
-                    <div class="speech-bubble" onclick="speakText('I\'m Amira.')">
-                        <div class="speaker-name" style="color:#3b82f6;">Amira</div>
-                        <div class="speech-text">"I'm Amira." 🔊</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Section 3: Interactive Native Exercises -->
-            <div class="section-block-title">
-                <div class="section-number-pill">3</div>
-                <h2>Interactive Practice (التمارين والأنشطة التفاعلية)</h2>
-            </div>
-
-            <!-- Exercise 1 -->
-            <div class="interactive-exercise-box">
-                <div class="exercise-question-title">
-                    <span>✏️ Exercise A: Complete the missing words (أكمل الكلمات المفقودة):</span>
-                </div>
-
-                <div style="display:flex; flex-direction:column; gap:14px; font-size:1.15rem; font-weight:800;">
-                    <div style="display:flex; align-items:center; gap:10px;">
-                        <span>1. 👋</span>
-                        <input type="text" class="exercise-input-inline" id="q1" data-answer="Hello" placeholder=".....">
-                        <span>, I'm Hany.</span>
-                        <button onclick="speakText('Hello, I\'m Hany')" style="border:none; background:none; cursor:pointer; font-size:1.2rem;">🔊</button>
-                    </div>
-
-                    <div style="display:flex; align-items:center; gap:10px;">
-                        <span>2. What's your </span>
-                        <input type="text" class="exercise-input-inline" id="q2" data-answer="name" placeholder=".....">
-                        <span>?</span>
-                        <button onclick="speakText('What\'s your name?')" style="border:none; background:none; cursor:pointer; font-size:1.2rem;">🔊</button>
-                    </div>
-
-                    <div style="display:flex; align-items:center; gap:10px;">
-                        <span>3. I'm </span>
-                        <input type="text" class="exercise-input-inline" id="q3" data-answer="Hana" placeholder=".....">
-                        <span>.</span>
-                        <button onclick="speakText('I\'m Hana')" style="border:none; background:none; cursor:pointer; font-size:1.2rem;">🔊</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Exercise 2: Listen & Choose -->
-            <div class="interactive-exercise-box">
-                <div class="exercise-question-title">
-                    <span>🎧 Exercise B: Listen and Choose (استمع واختر الإجابة الصحيحة):</span>
-                </div>
-
-                <div style="display:flex; align-items:center; justify-content:space-between; background:#fff; padding:12px 18px; border-radius:12px; border:2px solid #e2e8f0;">
-                    <div style="display:flex; align-items:center; gap:12px;">
-                        <button onclick="speakText('Goodbye')" style="background:#4f46e5; color:#fff; border:none; padding:8px 16px; border-radius:8px; font-weight:800; cursor:pointer;">🔊 استمع للصوت</button>
-                    </div>
-
-                    <div style="display:flex; gap:12px;" id="mcq-group-1">
-                        <button onclick="checkMCQ(this, false)" style="background:#f1f5f9; border:2px solid #cbd5e1; padding:8px 16px; border-radius:8px; font-weight:800; cursor:pointer;">Hello</button>
-                        <button onclick="checkMCQ(this, true)" style="background:#f1f5f9; border:2px solid #cbd5e1; padding:8px 16px; border-radius:8px; font-weight:800; cursor:pointer;">Goodbye</button>
-                        <button onclick="checkMCQ(this, false)" style="background:#f1f5f9; border:2px solid #cbd5e1; padding:8px 16px; border-radius:8px; font-weight:800; cursor:pointer;">Play</button>
-                    </div>
-                </div>
-            </div>
-
+        <div class="book-stage-card">
+            <img src="images/books/p1/page_3.png" alt="Book Page" class="book-page-image" id="flip-page-img">
+            <div id="hotspots-container"></div>
+            <div id="inputs-container"></div>
         </div>
 
     </div>
 
-    <!-- E-Book Bottom Reader Dock -->
-    <div class="ebook-bottom-dock">
-        <button class="dock-btn" onclick="speakText('Unit 1: Hello. Lesson 1. Hello, Goodbye, Shake hands, Play.')">
-            <span>🔊 قراءة الصفحة بصوت واضح</span>
-        </button>
+    <!-- VIEW 2: Native Programmed E-Book (Custom Code) -->
+    <div class="view-section" id="view-native">
+        
+        <div class="native-ebook-card">
+            <div class="unit-banner">
+                <div>
+                    <h1 style="font-family:'Outfit',sans-serif; margin:0; font-size:2.2rem;">UNIT 1: Hello!</h1>
+                    <p style="margin:4px 0 0 0; font-weight:700; opacity:0.9;">الدرس الأول: الترحيب والتعارف (Greetings & Introduction)</p>
+                </div>
+                <button onclick="speakText('Unit 1: Hello! Greetings and Introduction')" style="background:#fff; color:#4f46e5; border:none; width:50px; height:50px; border-radius:50%; font-size:1.5rem; cursor:pointer;">🔊</button>
+            </div>
 
-        <button class="dock-btn primary" onclick="checkAllEbookAnswers()">
-            <span>✅ تصحيح كافة الإجابات وحساب الدرجة</span>
-        </button>
+            <h3 style="font-weight:800; border-bottom:2px solid #e2e8f0; padding-bottom:8px;">1. Listen and Repeat (المفردات التفاعلية)</h3>
+            <div class="vocab-grid">
+                <div class="vocab-item" onclick="speakText('Hello')">
+                    <div style="font-size:3.5rem;">👋</div>
+                    <div style="font-family:'Outfit',sans-serif; font-size:1.3rem; font-weight:900;">Hello</div>
+                    <div style="font-size:0.8rem; color:#6366f1; font-weight:800;">🔊 استمع</div>
+                </div>
+                <div class="vocab-item" onclick="speakText('Goodbye')">
+                    <div style="font-size:3.5rem;">🙋‍♂️</div>
+                    <div style="font-family:'Outfit',sans-serif; font-size:1.3rem; font-weight:900;">Goodbye</div>
+                    <div style="font-size:0.8rem; color:#6366f1; font-weight:800;">🔊 استمع</div>
+                </div>
+                <div class="vocab-item" onclick="speakText('Shake hands')">
+                    <div style="font-size:3.5rem;">🤝</div>
+                    <div style="font-family:'Outfit',sans-serif; font-size:1.3rem; font-weight:900;">Shake hands</div>
+                    <div style="font-size:0.8rem; color:#6366f1; font-weight:800;">🔊 استمع</div>
+                </div>
+                <div class="vocab-item" onclick="speakText('Play')">
+                    <div style="font-size:3.5rem;">⚽</div>
+                    <div style="font-family:'Outfit',sans-serif; font-size:1.3rem; font-weight:900;">Play</div>
+                    <div style="font-size:0.8rem; color:#6366f1; font-weight:800;">🔊 استمع</div>
+                </div>
+            </div>
+
+            <h3 style="font-weight:800; border-bottom:2px solid #e2e8f0; padding-bottom:8px;">2. Interactive Practice (تمارين ومحادثات)</h3>
+            <div style="background:#f8fafc; border:2px solid #cbd5e1; border-radius:16px; padding:20px;">
+                <div style="font-weight:800; font-size:1.1rem; margin-bottom:12px;">أكمل الجمل التالية بالكلمة المناسبة:</div>
+                <div style="display:flex; flex-direction:column; gap:12px; font-size:1.1rem; font-weight:800;">
+                    <div>1. 👋 <input type="text" id="nq1" data-ans="Hello" style="width:120px; text-align:center; padding:6px; border-radius:8px; border:2px solid #94a3b8;"> , I'm Hany.</div>
+                    <div>2. What's your <input type="text" id="nq2" data-ans="name" style="width:120px; text-align:center; padding:6px; border-radius:8px; border:2px solid #94a3b8;"> ?</div>
+                    <div>3. I'm <input type="text" id="nq3" data-ans="Hana" style="width:120px; text-align:center; padding:6px; border-radius:8px; border:2px solid #94a3b8;"> .</div>
+                </div>
+            </div>
+        </div>
+
     </div>
+
+    <!-- Bottom Dock Bar -->
+    <div class="bottom-floating-dock">
+        <button class="dock-action-btn" onclick="speakCurrentPage()">🔊 قراءة الصفحة بصوت واضح</button>
+        <button class="dock-action-btn green" onclick="checkPageAnswers()">✅ تصحيح الإجابات وحساب الدرجة</button>
+    </div>
+
+    <!-- Book Data -->
+    <script src="js/p1_book_data.js"></script>
 
     <script>
+        let currentBookId = 1;
+        let currentPageNum = 3;
+        let currentMode = 'pdf';
+
         function speakText(text) {
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
@@ -547,53 +371,136 @@
             }
         }
 
-        function checkMCQ(btn, isCorrect) {
-            const parent = btn.parentElement;
-            parent.querySelectorAll('button').forEach(b => {
-                b.style.background = '#f1f5f9';
-                b.style.borderColor = '#cbd5e1';
-                b.style.color = '#0f172a';
-            });
+        function switchViewMode(mode) {
+            currentMode = mode;
+            document.getElementById('btn-mode-pdf').classList.toggle('active', mode === 'pdf');
+            document.getElementById('btn-mode-native').classList.toggle('active', mode === 'native');
 
-            if (isCorrect) {
-                btn.style.background = '#10b981';
-                btn.style.borderColor = '#059669';
-                btn.style.color = '#fff';
-                speakText("Excellent! Correct answer!");
-            } else {
-                btn.style.background = '#ef4444';
-                btn.style.borderColor = '#dc2626';
-                btn.style.color = '#fff';
-                speakText("Try again!");
+            document.getElementById('view-pdf').classList.toggle('active', mode === 'pdf');
+            document.getElementById('view-native').classList.toggle('active', mode === 'native');
+        }
+
+        function initJumpSelect() {
+            const sel = document.getElementById('page-jump-select');
+            sel.innerHTML = '';
+            for (let i = 1; i <= 72; i++) {
+                const opt = document.createElement('option');
+                opt.value = i;
+                opt.innerText = `صفحة ${i}`;
+                if (i === currentPageNum) opt.selected = true;
+                sel.appendChild(opt);
             }
         }
 
-        function checkAllEbookAnswers() {
-            let correctCount = 0;
-            let totalCount = 3;
+        function changeBook() {
+            currentBookId = parseInt(document.getElementById('book-select').value);
+            currentPageNum = currentBookId === 2 ? 5 : 3;
+            renderPDFPage();
+        }
 
-            for (let i = 1; i <= 3; i++) {
-                const el = document.getElementById(`q${i}`);
-                if (el) {
-                    const val = el.value.trim().toLowerCase();
-                    const expected = el.getAttribute('data-answer').toLowerCase();
-                    if (val === expected) {
-                        el.className = 'exercise-input-inline correct';
-                        correctCount++;
-                    } else {
-                        el.className = 'exercise-input-inline wrong';
-                    }
+        function jumpToPage(pNum) {
+            currentPageNum = parseInt(pNum);
+            renderPDFPage();
+        }
+
+        function prevFlipPage() {
+            if (currentPageNum > 1) {
+                currentPageNum--;
+                renderPDFPage();
+            }
+        }
+
+        function nextFlipPage() {
+            if (currentPageNum < 72) {
+                currentPageNum++;
+                renderPDFPage();
+            }
+        }
+
+        function renderPDFPage() {
+            const folder = currentBookId === 1 ? 'p1' : (currentBookId === 2 ? 'p2' : 'p3');
+            document.getElementById('flip-page-img').src = `images/books/${folder}/page_${currentPageNum}.png`;
+            document.getElementById('page-number-label').innerText = `${currentPageNum} / 72`;
+            initJumpSelect();
+
+            const hsContainer = document.getElementById('hotspots-container');
+            const inContainer = document.getElementById('inputs-container');
+            hsContainer.innerHTML = '';
+            inContainer.innerHTML = '';
+
+            // Render P1 Data Items
+            if (currentBookId === 1 && typeof P1_BOOK_DATA !== 'undefined' && P1_BOOK_DATA.pages[currentPageNum]) {
+                const pObj = P1_BOOK_DATA.pages[currentPageNum];
+                if (pObj.items) {
+                    pObj.items.forEach(item => {
+                        if (item.type === 'input') {
+                            const input = document.createElement('input');
+                            input.type = 'text';
+                            input.className = 'direct-input-box';
+                            input.id = `direct-${item.id}`;
+                            input.placeholder = item.placeholder || 'أكتب هنا...';
+                            input.style.top = item.top;
+                            input.style.left = item.left;
+                            input.style.width = item.width;
+                            input.style.height = item.height;
+                            input.setAttribute('data-ans', item.answer || '');
+                            inContainer.appendChild(input);
+                        } else if (item.type === 'speak') {
+                            const btn = document.createElement('button');
+                            btn.className = 'speak-hotspot';
+                            btn.style.top = item.top;
+                            btn.style.left = item.left;
+                            btn.innerText = '🔊';
+                            btn.onclick = () => speakText(item.text);
+                            hsContainer.appendChild(btn);
+                        }
+                    });
                 }
             }
+        }
 
-            if (correctCount === totalCount) {
-                speakText(`Great job! Perfect score, ${correctCount} out of ${totalCount}!`);
-                alert(`🎉 ممتاز جداً! إجاباتك كلها صحيحة (${correctCount}/${totalCount})`);
+        function speakCurrentPage() {
+            if (currentMode === 'pdf') {
+                speakText(`Page ${currentPageNum}`);
             } else {
-                speakText(`You scored ${correctCount} out of ${totalCount}. Keep practicing!`);
-                alert(`👍 أحسنت! درجتك هي (${correctCount}/${totalCount}) - حاول مرة أخرى للوصول للدرجة النهائيه.`);
+                speakText("Unit 1: Hello. Lesson 1. Hello, Goodbye, Shake hands, Play.");
             }
         }
+
+        function checkPageAnswers() {
+            if (currentMode === 'pdf') {
+                const inputs = document.querySelectorAll('.direct-input-box');
+                inputs.forEach(el => {
+                    const val = el.value.trim().toLowerCase();
+                    const ans = el.getAttribute('data-ans').toLowerCase();
+                    if (val && val === ans) {
+                        el.className = 'direct-input-box correct';
+                    } else if (val) {
+                        el.className = 'direct-input-box wrong';
+                    }
+                });
+                speakText("Answers checked!");
+            } else {
+                for (let i = 1; i <= 3; i++) {
+                    const el = document.getElementById(`nq${i}`);
+                    if (el) {
+                        const val = el.value.trim().toLowerCase();
+                        const ans = el.getAttribute('data-ans').toLowerCase();
+                        if (val === ans) {
+                            el.style.borderColor = '#10b981';
+                            el.style.background = '#ecfdf5';
+                        } else {
+                            el.style.borderColor = '#ef4444';
+                            el.style.background = '#fef2f2';
+                        }
+                    }
+                }
+                speakText("Answers checked!");
+            }
+        }
+
+        // Init
+        renderPDFPage();
     </script>
 </body>
 </html>
