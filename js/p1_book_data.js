@@ -1,97 +1,50 @@
 /**
- * English Toon — Primary 1 Book Exercise Database
- * الصفحات من 1 إلى 10 كاملة ومطابقة 100% لصفحات الكتاب
+ * English Toon — Primary 1 Book Overlay Coordinates Database
+ * قاعدة بيانات الإحداثيات المباشرة لمربعات الإجابة على صورة الصفحة الأصلية 100%
  */
 
-const P1_EXERCISES_DATABASE = {
+const P1_OVERLAY_DATABASE = {
 
     // ══════════════════════════════════════════
-    // PAGE 1 — Cover Page / غلاف الكتاب
+    // PAGE 1 — Cover / بيانات الطالب
     // ══════════════════════════════════════════
     1: {
-        unit: "Primary (1) First Term",
-        lesson: "English Language — Performance Tasks & Assessments",
-        sections: [
-            {
-                title: "🎒 بيانات الطالب / Student Information",
-                activities: [
-                    {
-                        label: "Please fill in your details / اكتب بياناتك:",
-                        type: "freewrite",
-                        items: [
-                            { prompt: "Name / الاسم: …………………………………………", answer: "__free__" },
-                            { prompt: "Class / الفصل: …………………………………………", answer: "__free__" },
-                            { prompt: "School / المدرسة: ………………………………………", answer: "__free__" }
-                        ]
-                    }
-                ]
-            }
+        pageImg: "images/books/p1/1.jpg",
+        title: "Primary (1) First Term — Cover",
+        inputs: [
+            { id: "p1_name",   top: "84.2%", left: "26.0%", width: "52.0%", height: "2.6%", answer: "__free__", placeholder: "اكتب اسمك هنا..." },
+            { id: "p1_class",  top: "87.8%", left: "26.0%", width: "52.0%", height: "2.6%", answer: "__free__", placeholder: "اكتب فصلك..." },
+            { id: "p1_school", top: "91.4%", left: "26.0%", width: "52.0%", height: "2.6%", answer: "__free__", placeholder: "اكتب مدرستك..." }
         ]
     },
 
     // ══════════════════════════════════════════
-    // PAGE 2 — Introduction / المقدمة
+    // PAGE 2 — Introduction
     // ══════════════════════════════════════════
     2: {
-        unit: "Introduction",
-        lesson: "Book Introduction — مقدمة الكتاب الوزاري",
-        sections: [
-            {
-                title: "📖 Introduction Summary",
-                activities: [
-                    {
-                        label: "Welcome to Primary 1 English Performance Tasks & Assessments!",
-                        type: "freewrite",
-                        items: [
-                            { prompt: "This interactive book helps you practice all lessons, assessments, and tasks with instant grading! Enjoy learning English! ✨", answer: "__free__" }
-                        ]
-                    }
-                ]
-            }
-        ]
+        pageImg: "images/books/p1/2.jpg",
+        title: "Book Introduction — المقدمة",
+        inputs: []
     },
 
     // ══════════════════════════════════════════
     // PAGE 3 — Unit 1 / Lesson 1 / Greetings
     // ══════════════════════════════════════════
     3: {
-        unit: "Unit 1: Welcome to My School",
-        lesson: "Lesson 1 — Greetings",
-        sections: [
-            {
-                title: "🏫 Classroom Performance",
-                activities: [
-                    {
-                        label: "Activity 1 — Unscramble and write:",
-                        type: "unscramble",
-                        items: [
-                            { scrambled: "ypla",    answer: "play",    emoji: "⚽", speech: "play" },
-                            { scrambled: "fenrsid", answer: "friends", emoji: "👫", speech: "friends" },
-                            { scrambled: "elhol",   answer: "hello",   emoji: "👋", speech: "hello" }
-                        ]
-                    },
-                    {
-                        label: "Activity 2 — Reorder the words to make sentences:",
-                        type: "reorder",
-                        items: [
-                            { words: "your  –  What's  –  name?",   answer: "What's your name?",  hint: "What's" },
-                            { words: "name  –  Hana.  –  My-  is",  answer: "My name is Hana.",   hint: "My"     }
-                        ]
-                    }
-                ]
-            },
-            {
-                title: "📝 Homework Activity",
-                activities: [
-                    {
-                        label: "Read and complete about yourself:",
-                        type: "freewrite",
-                        items: [
-                            { prompt: "My name is ……………………………………" }
-                        ]
-                    }
-                ]
-            }
+        pageImg: "images/books/p1/3.jpg",
+        title: "Unit 1: Welcome to My School — Lesson 1 (Greetings)",
+        inputs: [
+            // Activity 1: Unscramble (play, friends, hello)
+            { id: "p3_1", top: "37.5%", left: "20.2%", width: "11.2%", height: "2.5%", answer: "play",    placeholder: "..." },
+            { id: "p3_2", top: "37.5%", left: "49.5%", width: "11.2%", height: "2.5%", answer: "friends", placeholder: "..." },
+            { id: "p3_3", top: "37.5%", left: "78.5%", width: "11.2%", height: "2.5%", answer: "hello",   placeholder: "..." },
+
+            // Activity 2: Reorder Sentences
+            { id: "p3_4", top: "60.6%", left: "30.5%", width: "48.0%", height: "2.6%", answer: "What's your name?", placeholder: "What's..." },
+            { id: "p3_5", top: "64.2%", left: "30.5%", width: "48.0%", height: "2.6%", answer: "My name is Hana.",  placeholder: "My..." },
+
+            // Homework: Freewrite Name
+            { id: "p3_hw", top: "81.4%", left: "39.5%", width: "35.0%", height: "2.8%", answer: "__free__", placeholder: "اكتب اسمك..." }
         ]
     },
 
@@ -99,52 +52,29 @@ const P1_EXERCISES_DATABASE = {
     // PAGE 4 — Unit 1 / Lesson 2 / Phonics (T)
     // ══════════════════════════════════════════
     4: {
-        unit: "Unit 1: Welcome to My School",
-        lesson: "Lesson 2 — Phonics",
-        sections: [
-            {
-                title: "🏫 Classroom Performance",
-                activities: [
-                    {
-                        label: "Activity 1 — Write the missing sound:",
-                        type: "missing_sound",
-                        items: [
-                            { word: "1. ...omato",  answer: "T", speech: "Tomato",  emoji: "🍅" },
-                            { word: "2. ....eacher",answer: "T", speech: "Teacher", emoji: "👩‍🏫" },
-                            { word: "3. ......iger", answer: "T", speech: "Tiger",   emoji: "🐯" },
-                            { word: "4. ..........ree", answer: "T", speech: "Tree", emoji: "🌳" },
-                            { word: "5. ......able",  answer: "T", speech: "Table",  emoji: "🪑" }
-                        ]
-                    },
-                    {
-                        label: "Activity 2 — Unscramble and write:",
-                        type: "unscramble",
-                        items: [
-                            { scrambled: "tcheear", answer: "teacher", emoji: "👩‍🏫", speech: "teacher" },
-                            { scrambled: "aetlb",   answer: "table",   emoji: "🪑", speech: "table"   },
-                            { scrambled: "erte",    answer: "tree",    emoji: "🌳", speech: "tree"    },
-                            { scrambled: "ietrg",   answer: "tiger",   emoji: "🐯", speech: "tiger"   },
-                            { scrambled: "totoma",  answer: "tomato",  emoji: "🍅", speech: "tomato"  }
-                        ]
-                    }
-                ]
-            },
-            {
-                title: "📝 Homework Activity",
-                activities: [
-                    {
-                        label: "Look and Write:",
-                        type: "look_write",
-                        items: [
-                            { answer: "tiger",   emoji: "🐯", speech: "Tiger"   },
-                            { answer: "tree",    emoji: "🌳", speech: "Tree"    },
-                            { answer: "table",   emoji: "🪑", speech: "Table"   },
-                            { answer: "tomato",  emoji: "🍅", speech: "Tomato"  },
-                            { answer: "teacher", emoji: "👩‍🏫", speech: "Teacher" }
-                        ]
-                    }
-                ]
-            }
+        pageImg: "images/books/p1/4.jpg",
+        title: "Unit 1: Welcome to My School — Lesson 2 (Phonics)",
+        inputs: [
+            // Activity 1: Write missing sound (T)
+            { id: "p4_a1_1", top: "36.2%", left: "9.2%",  width: "12.8%", height: "2.3%", answer: "t", placeholder: "T..." },
+            { id: "p4_a1_2", top: "36.2%", left: "26.0%", width: "12.8%", height: "2.3%", answer: "t", placeholder: "T..." },
+            { id: "p4_a1_3", top: "36.2%", left: "44.2%", width: "12.8%", height: "2.3%", answer: "t", placeholder: "T..." },
+            { id: "p4_a1_4", top: "36.2%", left: "61.2%", width: "12.8%", height: "2.3%", answer: "t", placeholder: "T..." },
+            { id: "p4_a1_5", top: "36.2%", left: "79.2%", width: "12.8%", height: "2.3%", answer: "t", placeholder: "T..." },
+
+            // Activity 2: Unscramble and write
+            { id: "p4_a2_1", top: "52.0%", left: "23.5%", width: "11.2%", height: "2.3%", answer: "teacher", placeholder: "..." },
+            { id: "p4_a2_2", top: "52.0%", left: "52.0%", width: "11.2%", height: "2.3%", answer: "table",   placeholder: "..." },
+            { id: "p4_a2_3", top: "52.0%", left: "80.5%", width: "11.2%", height: "2.3%", answer: "tree",    placeholder: "..." },
+            { id: "p4_a2_4", top: "63.0%", left: "36.5%", width: "11.2%", height: "2.3%", answer: "tiger",   placeholder: "..." },
+            { id: "p4_a2_5", top: "63.0%", left: "65.5%", width: "11.2%", height: "2.3%", answer: "tomato",  placeholder: "..." },
+
+            // Homework Activity: Look and Write
+            { id: "p4_hw_1", top: "91.6%", left: "11.2%", width: "10.5%", height: "2.3%", answer: "tiger",   placeholder: "..." },
+            { id: "p4_hw_2", top: "91.6%", left: "29.5%", width: "10.5%", height: "2.3%", answer: "tree",    placeholder: "..." },
+            { id: "p4_hw_3", top: "91.6%", left: "47.8%", width: "10.5%", height: "2.3%", answer: "table",   placeholder: "..." },
+            { id: "p4_hw_4", top: "91.6%", left: "66.0%", width: "10.5%", height: "2.3%", answer: "tomato",  placeholder: "..." },
+            { id: "p4_hw_5", top: "91.6%", left: "84.2%", width: "10.5%", height: "2.3%", answer: "teacher", placeholder: "..." }
         ]
     },
 
@@ -152,44 +82,21 @@ const P1_EXERCISES_DATABASE = {
     // PAGE 5 — Weekly Assessment (A) & (B)
     // ══════════════════════════════════════════
     5: {
-        unit: "Unit 1: Welcome to My School",
-        lesson: "Weekly Assessment (A) & (B)",
-        sections: [
-            {
-                title: "📋 Weekly Assessment (A)",
-                activities: [
-                    {
-                        label: "A. Write the first letter:",
-                        type: "missing_sound",
-                        items: [
-                            { word: "1. ......able",  answer: "T", speech: "Table",  emoji: "🪑" },
-                            { word: "2. ..omato",     answer: "T", speech: "Tomato", emoji: "🍅" }
-                        ]
-                    },
-                    {
-                        label: "B. Unscramble and write:",
-                        type: "unscramble",
-                        items: [
-                            { scrambled: "gtrei", answer: "tiger", emoji: "🐯", speech: "tiger" },
-                            { scrambled: "apyl",  answer: "play",  emoji: "⚽", speech: "play"  },
-                            { scrambled: "etre",  answer: "tree",  emoji: "🌳", speech: "tree"  }
-                        ]
-                    }
-                ]
-            },
-            {
-                title: "📋 Weekly Assessment (B)",
-                activities: [
-                    {
-                        label: "A. Write the first letter:",
-                        type: "missing_sound",
-                        items: [
-                            { word: "1. ......ree",  answer: "T", speech: "Tree",  emoji: "🌳" },
-                            { word: "2. ......iger", answer: "T", speech: "Tiger", emoji: "🐯" }
-                        ]
-                    }
-                ]
-            }
+        pageImg: "images/books/p1/5.jpg",
+        title: "Weekly Assessment (A) & (B)",
+        inputs: [
+            // Assessment A - First letter
+            { id: "p5_a1_1", top: "33.5%", left: "25.0%", width: "13.0%", height: "2.5%", answer: "t", placeholder: "T..." },
+            { id: "p5_a1_2", top: "33.5%", left: "61.0%", width: "13.0%", height: "2.5%", answer: "t", placeholder: "T..." },
+
+            // Assessment A - Unscramble
+            { id: "p5_a2_1", top: "48.8%", left: "19.5%", width: "11.0%", height: "2.4%", answer: "tiger", placeholder: "..." },
+            { id: "p5_a2_2", top: "48.8%", left: "49.0%", width: "11.0%", height: "2.4%", answer: "play",  placeholder: "..." },
+            { id: "p5_a2_3", top: "48.8%", left: "78.2%", width: "11.0%", height: "2.4%", answer: "tree",  placeholder: "..." },
+
+            // Assessment B - First letter
+            { id: "p5_b1_1", top: "91.2%", left: "25.0%", width: "13.0%", height: "2.5%", answer: "t", placeholder: "T..." },
+            { id: "p5_b1_2", top: "91.2%", left: "61.0%", width: "13.0%", height: "2.5%", answer: "t", placeholder: "T..." }
         ]
     },
 
@@ -197,45 +104,22 @@ const P1_EXERCISES_DATABASE = {
     // PAGE 6 — Weekly Assessment (B cont.) & (C)
     // ══════════════════════════════════════════
     6: {
-        unit: "Unit 1: Welcome to My School",
-        lesson: "Weekly Assessment (B continued) & (C)",
-        sections: [
-            {
-                title: "📋 Weekly Assessment (B) — continued",
-                activities: [
-                    {
-                        label: "B. Unscramble and write:",
-                        type: "unscramble",
-                        items: [
-                            { scrambled: "cerhate", answer: "teacher", emoji: "👩‍🏫", speech: "teacher" },
-                            { scrambled: "lyap",    answer: "play",    emoji: "⚽", speech: "play"    },
-                            { scrambled: "tomaot",  answer: "tomato",  emoji: "🍅", speech: "tomato"  }
-                        ]
-                    }
-                ]
-            },
-            {
-                title: "📋 Weekly Assessment (C)",
-                activities: [
-                    {
-                        label: "A. Write the first letter:",
-                        type: "missing_sound",
-                        items: [
-                            { word: "1. ...eacher", answer: "T", speech: "Teacher", emoji: "👩‍🏫" },
-                            { word: "2. ......ello", answer: "H", speech: "Hello",   emoji: "👋"   }
-                        ]
-                    },
-                    {
-                        label: "B. Unscramble and write:",
-                        type: "unscramble",
-                        items: [
-                            { scrambled: "rdfsnei", answer: "friends", emoji: "👫", speech: "friends" },
-                            { scrambled: "elhol",   answer: "hello",   emoji: "👋", speech: "hello"   },
-                            { scrambled: "abetl",   answer: "table",   emoji: "🪑", speech: "table"   }
-                        ]
-                    }
-                ]
-            }
+        pageImg: "images/books/p1/6.jpg",
+        title: "Weekly Assessment (B cont.) & (C)",
+        inputs: [
+            // Assessment B cont. - Unscramble
+            { id: "p6_b2_1", top: "15.8%", left: "19.5%", width: "11.0%", height: "2.4%", answer: "teacher", placeholder: "..." },
+            { id: "p6_b2_2", top: "15.8%", left: "49.0%", width: "11.0%", height: "2.4%", answer: "play",    placeholder: "..." },
+            { id: "p6_b2_3", top: "15.8%", left: "78.2%", width: "11.0%", height: "2.4%", answer: "tomato",  placeholder: "..." },
+
+            // Assessment C - First letter
+            { id: "p6_c1_1", top: "62.2%", left: "23.0%", width: "13.0%", height: "2.5%", answer: "t", placeholder: "T..." },
+            { id: "p6_c1_2", top: "62.2%", left: "63.0%", width: "13.0%", height: "2.5%", answer: "h", placeholder: "H..." },
+
+            // Assessment C - Unscramble
+            { id: "p6_c2_1", top: "77.5%", left: "19.5%", width: "11.0%", height: "2.4%", answer: "friends", placeholder: "..." },
+            { id: "p6_c2_2", top: "77.5%", left: "49.0%", width: "11.0%", height: "2.4%", answer: "hello",   placeholder: "..." },
+            { id: "p6_c2_3", top: "77.5%", left: "78.2%", width: "11.0%", height: "2.4%", answer: "table",   placeholder: "..." }
         ]
     },
 
@@ -243,51 +127,27 @@ const P1_EXERCISES_DATABASE = {
     // PAGE 7 — Lesson 3 / Around my Classroom
     // ══════════════════════════════════════════
     7: {
-        unit: "Unit 1: Welcome to My School",
-        lesson: "Lesson 3 — Around my Classroom",
-        sections: [
-            {
-                title: "🏫 Classroom Performance",
-                activities: [
-                    {
-                        label: "Activity 1 — Look, read, and circle the correct word:",
-                        type: "mcq",
-                        items: [
-                            { label: "1. book  –  pencil",  emoji: "📚", options: ["book","pencil"],  answer: "book",   speech: "book"   },
-                            { label: "2. chair  –  bag",    emoji: "🎒", options: ["chair","bag"],    answer: "bag",    speech: "bag"    },
-                            { label: "3. desk  –  pencil",  emoji: "✏️", options: ["desk","pencil"],  answer: "pencil", speech: "pencil" },
-                            { label: "4. board  –  bag",    emoji: "🪑", options: ["board","bag"],    answer: "board",  speech: "board"  }
-                        ]
-                    },
-                    {
-                        label: "Activity 2 — Look, read, and complete: ( books  /  up  /  down )",
-                        type: "choose_from_box",
-                        box: ["books","up","down"],
-                        items: [
-                            { prompt: "1- Sit …………", answer: "down", speech: "Sit down." },
-                            { prompt: "2- Stand ………", answer: "up",   speech: "Stand up."  },
-                            { prompt: "3- Open your …………", answer: "books", speech: "Open your books." }
-                        ]
-                    }
-                ]
-            },
-            {
-                title: "📝 Homework Activity",
-                activities: [
-                    {
-                        label: "Look and write:",
-                        type: "look_write",
-                        items: [
-                            { answer: "book",   emoji: "📚", speech: "Book"   },
-                            { answer: "bag",    emoji: "🎒", speech: "Bag"    },
-                            { answer: "pencil", emoji: "✏️", speech: "Pencil" },
-                            { answer: "board",  emoji: "🪑", speech: "Board"  },
-                            { answer: "chair",  emoji: "🪑", speech: "Chair"  },
-                            { answer: "desk",   emoji: "🗂️", speech: "Desk"   }
-                        ]
-                    }
-                ]
-            }
+        pageImg: "images/books/p1/7.jpg",
+        title: "Lesson 3 — Around my Classroom",
+        inputs: [
+            // Activity 1: Circle correct word (MCQ option click fields or text write)
+            { id: "p7_a1_1", top: "37.2%", left: "8.5%",  width: "18.0%", height: "2.5%", answer: "book",   placeholder: "book/pencil" },
+            { id: "p7_a1_2", top: "37.2%", left: "29.2%", width: "18.0%", height: "2.5%", answer: "bag",    placeholder: "chair/bag" },
+            { id: "p7_a1_3", top: "37.2%", left: "50.5%", width: "18.0%", height: "2.5%", answer: "pencil", placeholder: "desk/pencil" },
+            { id: "p7_a1_4", top: "37.2%", left: "71.2%", width: "18.0%", height: "2.5%", answer: "board",  placeholder: "board/bag" },
+
+            // Activity 2: Complete sentences
+            { id: "p7_a2_1", top: "51.0%", left: "14.0%", width: "11.0%", height: "2.4%", answer: "down",  placeholder: "..." },
+            { id: "p7_a2_2", top: "59.8%", left: "18.0%", width: "11.0%", height: "2.4%", answer: "up",    placeholder: "..." },
+            { id: "p7_a2_3", top: "67.5%", left: "24.0%", width: "14.0%", height: "2.4%", answer: "books", placeholder: "..." },
+
+            // Homework: Look and write 6 words
+            { id: "p7_hw_1", top: "91.5%", left: "7.0%",  width: "11.0%", height: "2.4%", answer: "book",   placeholder: "..." },
+            { id: "p7_hw_2", top: "91.5%", left: "21.5%", width: "11.0%", height: "2.4%", answer: "bag",    placeholder: "..." },
+            { id: "p7_hw_3", top: "91.5%", left: "36.0%", width: "11.0%", height: "2.4%", answer: "pencil", placeholder: "..." },
+            { id: "p7_hw_4", top: "91.5%", left: "50.5%", width: "11.0%", height: "2.4%", answer: "board",  placeholder: "..." },
+            { id: "p7_hw_5", top: "91.5%", left: "65.0%", width: "11.0%", height: "2.4%", answer: "chair",  placeholder: "..." },
+            { id: "p7_hw_6", top: "91.5%", left: "79.5%", width: "11.0%", height: "2.4%", answer: "desk",   placeholder: "..." }
         ]
     },
 
@@ -295,49 +155,26 @@ const P1_EXERCISES_DATABASE = {
     // PAGE 8 — Lesson 4 / Phonics (I)
     // ══════════════════════════════════════════
     8: {
-        unit: "Unit 1: Welcome to My School",
-        lesson: "Lesson 4 — Phonics",
-        sections: [
-            {
-                title: "🏫 Classroom Performance",
-                activities: [
-                    {
-                        label: "Activity 1 — Write the first letter:",
-                        type: "missing_sound",
-                        items: [
-                            { word: "1. ..........nk",   answer: "I", speech: "Ink",    emoji: "🖊️" },
-                            { word: "2. ..........ll",    answer: "I", speech: "Ill",    emoji: "🤒" },
-                            { word: "3. ......nsect",    answer: "I", speech: "Insect", emoji: "🐞" },
-                            { word: "4. ......n",         answer: "I", speech: "In",     emoji: "📦" }
-                        ]
-                    },
-                    {
-                        label: "Activity 2 — Unscramble and write:",
-                        type: "unscramble",
-                        items: [
-                            { scrambled: "nki",    answer: "ink",    emoji: "🖊️", speech: "ink"    },
-                            { scrambled: "lil",    answer: "ill",    emoji: "🤒", speech: "ill"    },
-                            { scrambled: "nestic", answer: "insect", emoji: "🐞", speech: "insect" },
-                            { scrambled: "ni",     answer: "in",     emoji: "📦", speech: "in"     }
-                        ]
-                    }
-                ]
-            },
-            {
-                title: "📝 Homework Activity",
-                activities: [
-                    {
-                        label: "Look and write:",
-                        type: "look_write",
-                        items: [
-                            { answer: "ink",    emoji: "🖊️", speech: "Ink"    },
-                            { answer: "ill",    emoji: "🤒", speech: "Ill"    },
-                            { answer: "insect", emoji: "🐞", speech: "Insect" },
-                            { answer: "in",     emoji: "📦", speech: "In"     }
-                        ]
-                    }
-                ]
-            }
+        pageImg: "images/books/p1/8.jpg",
+        title: "Lesson 4 — Phonics",
+        inputs: [
+            // Activity 1: Write first letter (I)
+            { id: "p8_a1_1", top: "39.8%", left: "8.8%",  width: "15.0%", height: "2.5%", answer: "i", placeholder: "I..." },
+            { id: "p8_a1_2", top: "39.8%", left: "30.0%", width: "15.0%", height: "2.5%", answer: "i", placeholder: "I..." },
+            { id: "p8_a1_3", top: "39.8%", left: "51.8%", width: "15.0%", height: "2.5%", answer: "i", placeholder: "I..." },
+            { id: "p8_a1_4", top: "39.8%", left: "72.8%", width: "15.0%", height: "2.5%", answer: "i", placeholder: "I..." },
+
+            // Activity 2: Unscramble and write
+            { id: "p8_a2_1", top: "62.2%", left: "12.0%", width: "13.0%", height: "2.4%", answer: "ink",    placeholder: "..." },
+            { id: "p8_a2_2", top: "62.2%", left: "33.5%", width: "13.0%", height: "2.4%", answer: "ill",    placeholder: "..." },
+            { id: "p8_a2_3", top: "62.2%", left: "55.2%", width: "13.0%", height: "2.4%", answer: "insect", placeholder: "..." },
+            { id: "p8_a2_4", top: "62.2%", left: "76.5%", width: "13.0%", height: "2.4%", answer: "in",     placeholder: "..." },
+
+            // Homework: Look and write
+            { id: "p8_hw_1", top: "89.2%", left: "12.0%", width: "13.0%", height: "2.4%", answer: "ink",    placeholder: "..." },
+            { id: "p8_hw_2", top: "89.2%", left: "33.5%", width: "13.0%", height: "2.4%", answer: "ill",    placeholder: "..." },
+            { id: "p8_hw_3", top: "89.2%", left: "55.2%", width: "13.0%", height: "2.4%", answer: "insect", placeholder: "..." },
+            { id: "p8_hw_4", top: "89.2%", left: "76.5%", width: "13.0%", height: "2.4%", answer: "in",     placeholder: "..." }
         ]
     },
 
@@ -345,53 +182,26 @@ const P1_EXERCISES_DATABASE = {
     // PAGE 9 — Weekly Assessment (A) & (B)
     // ══════════════════════════════════════════
     9: {
-        unit: "Unit 1: Welcome to My School",
-        lesson: "Weekly Assessment (A) & (B)",
-        sections: [
-            {
-                title: "📋 Weekly Assessment (A)",
-                activities: [
-                    {
-                        label: "A. Unscramble and write:",
-                        type: "unscramble",
-                        items: [
-                            { scrambled: "kesd", answer: "desk", emoji: "🗂️", speech: "desk" },
-                            { scrambled: "kobo", answer: "book", emoji: "📚", speech: "book" },
-                            { scrambled: "agb",  answer: "bag",  emoji: "🎒", speech: "bag"  }
-                        ]
-                    },
-                    {
-                        label: "B. Look and write:",
-                        type: "look_write",
-                        items: [
-                            { answer: "ink",    emoji: "🖊️", speech: "Ink"    },
-                            { answer: "insect", emoji: "🐞", speech: "Insect" }
-                        ]
-                    }
-                ]
-            },
-            {
-                title: "📋 Weekly Assessment (B)",
-                activities: [
-                    {
-                        label: "A. Unscramble and write:",
-                        type: "unscramble",
-                        items: [
-                            { scrambled: "ircah",    answer: "chair",    emoji: "🪑", speech: "chair" },
-                            { scrambled: "eclpni",   answer: "pencil",   emoji: "✏️", speech: "pencil" },
-                            { scrambled: "tsi wnod", answer: "sit down", emoji: "🧑‍🎓", speech: "sit down" }
-                        ]
-                    },
-                    {
-                        label: "B. Look and write:",
-                        type: "look_write",
-                        items: [
-                            { answer: "ill", emoji: "🤒", speech: "Ill" },
-                            { answer: "in",  emoji: "📦", speech: "In"  }
-                        ]
-                    }
-                ]
-            }
+        pageImg: "images/books/p1/9.jpg",
+        title: "Weekly Assessment (A) & (B)",
+        inputs: [
+            // Assessment A - Unscramble
+            { id: "p9_a1_1", top: "26.6%", left: "20.5%", width: "10.0%", height: "2.4%", answer: "desk", placeholder: "..." },
+            { id: "p9_a1_2", top: "26.6%", left: "50.0%", width: "10.0%", height: "2.4%", answer: "book", placeholder: "..." },
+            { id: "p9_a1_3", top: "26.6%", left: "79.5%", width: "10.0%", height: "2.4%", answer: "bag",  placeholder: "..." },
+
+            // Assessment A - Look and write
+            { id: "p9_a2_1", top: "44.6%", left: "23.5%", width: "11.0%", height: "2.4%", answer: "ink",    placeholder: "..." },
+            { id: "p9_a2_2", top: "44.6%", left: "61.5%", width: "11.0%", height: "2.4%", answer: "insect", placeholder: "..." },
+
+            // Assessment B - Unscramble
+            { id: "p9_b1_1", top: "72.0%", left: "19.5%", width: "10.0%", height: "2.4%", answer: "chair",    placeholder: "..." },
+            { id: "p9_b1_2", top: "72.0%", left: "47.5%", width: "10.0%", height: "2.4%", answer: "pencil",   placeholder: "..." },
+            { id: "p9_b1_3", top: "72.0%", left: "79.5%", width: "11.0%", height: "2.4%", answer: "sit down", placeholder: "..." },
+
+            // Assessment B - Look and write
+            { id: "p9_b2_1", top: "91.0%", left: "23.5%", width: "11.0%", height: "2.4%", answer: "ill", placeholder: "..." },
+            { id: "p9_b2_2", top: "91.0%", left: "61.5%", width: "11.0%", height: "2.4%", answer: "in",  placeholder: "..." }
         ]
     },
 
@@ -399,31 +209,17 @@ const P1_EXERCISES_DATABASE = {
     // PAGE 10 — Weekly Assessment (C)
     // ══════════════════════════════════════════
     10: {
-        unit: "Unit 1: Welcome to My School",
-        lesson: "Weekly Assessment (C)",
-        sections: [
-            {
-                title: "📋 Weekly Assessment (C)",
-                activities: [
-                    {
-                        label: "A. Unscramble and write:",
-                        type: "unscramble",
-                        items: [
-                            { scrambled: "odrab",    answer: "board",    emoji: "🪑", speech: "board" },
-                            { scrambled: "tadsn pu", answer: "stand up", emoji: "🧍", speech: "stand up" },
-                            { scrambled: "nestic",   answer: "insect",   emoji: "🐞", speech: "insect" }
-                        ]
-                    },
-                    {
-                        label: "B. Look and write:",
-                        type: "look_write",
-                        items: [
-                            { answer: "ill",    emoji: "🤒", speech: "Ill" },
-                            { answer: "insect", emoji: "🐞", speech: "Insect" }
-                        ]
-                    }
-                ]
-            }
+        pageImg: "images/books/p1/10.jpg",
+        title: "Weekly Assessment (C)",
+        inputs: [
+            // Assessment C - Unscramble
+            { id: "p10_c1_1", top: "28.8%", left: "20.0%", width: "10.0%", height: "2.4%", answer: "board",    placeholder: "..." },
+            { id: "p10_c1_2", top: "28.8%", left: "47.5%", width: "11.0%", height: "2.4%", answer: "stand up", placeholder: "..." },
+            { id: "p10_c1_3", top: "28.8%", left: "81.5%", width: "10.0%", height: "2.4%", answer: "insect",   placeholder: "..." },
+
+            // Assessment C - Look and write
+            { id: "p10_c2_1", top: "52.4%", left: "25.0%", width: "11.0%", height: "2.4%", answer: "ill",    placeholder: "..." },
+            { id: "p10_c2_2", top: "52.4%", left: "63.0%", width: "11.0%", height: "2.4%", answer: "insect", placeholder: "..." }
         ]
     }
 };

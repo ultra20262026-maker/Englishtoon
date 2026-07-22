@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>English Toon — الكتاب التفاعلي المزدوج (في إطار A4 ثابت)</title>
+    <title>English Toon — الكتاب التفاعلي المباشر (Overlay)</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -19,11 +19,11 @@
             --text: #f8fafc;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        
+
         html, body {
             width: 100%;
             height: 100vh;
-            overflow: hidden; /* Lock viewport completely — no page jumping or scrolling */
+            overflow: hidden; /* Lock viewport completely — no body scrolling */
             font-family: 'Cairo', sans-serif;
             background: var(--bg);
             color: var(--text);
@@ -31,7 +31,7 @@
             flex-direction: column;
         }
 
-        /* ── TOP STICKY NAV ── */
+        /* ── TOP NAV BAR ── */
         .top-nav {
             height: 55px;
             background: #090d16;
@@ -91,329 +91,107 @@
             color: #fff;
         }
 
-        /* ── MOBILE TABS ── */
-        .mobile-tabs {
-            display: none;
-            height: 42px;
-            background: #0f172a;
-            padding: 4px 8px;
-            gap: 6px;
-            border-bottom: 1px solid var(--border);
-            flex-shrink: 0;
-        }
-        .tab-btn {
-            flex: 1;
-            padding: 6px;
-            border: 1px solid var(--border);
-            background: #1e293b;
-            color: #94a3b8;
-            border-radius: 6px;
-            font-weight: 800;
-            font-size: 0.82rem;
-            cursor: pointer;
-            text-align: center;
-        }
-        .tab-btn.active {
-            background: var(--primary);
-            color: #fff;
-            border-color: var(--primary-light);
-        }
-
-        /* ── MAIN LOCKED FRAME CONTAINER ── */
-        .main-frame-container {
+        /* ── MAIN OVERLAY STAGE ── */
+        .overlay-stage {
             flex: 1;
             height: calc(100vh - 55px);
             display: flex;
-            gap: 16px;
-            padding: 14px 16px;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
-
-        /* ── A4 FIXED PAPER FRAME ── */
-        .a4-paper-frame {
-            flex: 1;
-            height: 100%;
-            max-width: 650px;
-            background: #ffffff;
-            color: #0f172a;
-            border-radius: 14px;
-            border: 3px solid #94a3b8;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-            display: flex;
             flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
             overflow: hidden;
             position: relative;
         }
 
-        .a4-header {
-            height: 45px;
-            background: #f1f5f9;
-            border-bottom: 2px solid #cbd5e1;
-            padding: 0 14px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-shrink: 0;
-        }
-        .a4-header-title {
-            font-size: 0.9rem;
-            font-weight: 900;
-            color: #0f172a;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        /* Left Book Frame Content */
-        .a4-book-content {
-            flex: 1;
-            height: calc(100% - 85px);
-            background: #fff;
-            padding: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* ── A4 PAGE CONTAINER WRAPPER ── */
+        .a4-overlay-wrapper {
+            position: relative;
+            height: 100%;
+            max-height: calc(100vh - 120px);
+            aspect-ratio: 1 / 1.414; /* A4 aspect ratio */
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5), 0 0 0 3px #cbd5e1;
             overflow: hidden;
-        }
-        .a4-book-content img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-            border-radius: 6px;
-        }
-
-        /* Right Exercises Frame Content */
-        .a4-ex-content {
-            flex: 1;
-            height: calc(100% - 90px);
-            padding: 14px;
-            overflow-y: auto; /* Inner scroll strictly inside exercise sheet */
-            background: #ffffff;
-        }
-
-        .a4-footer {
-            height: 45px;
-            background: #f8fafc;
-            border-top: 2px solid #cbd5e1;
-            padding: 0 14px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 8px;
-            flex-shrink: 0;
-        }
-
-        /* ── EXERCISES STYLING ── */
-        .section-block {
-            margin-bottom: 16px;
-        }
-        .section-title {
-            background: linear-gradient(90deg, #4f46e5, #818cf8);
-            color: #fff;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-weight: 900;
-            font-size: 0.85rem;
-            margin-bottom: 10px;
-        }
-        .activity-block {
-            margin-bottom: 14px;
-        }
-        .activity-label {
-            background: #fef3c7;
-            border: 2px solid #f59e0b;
-            color: #78350f;
-            padding: 5px 10px;
-            border-radius: 6px;
-            font-weight: 800;
-            font-size: 0.82rem;
-            margin-bottom: 8px;
-            display: inline-block;
-        }
-
-        .word-box {
-            background: #dbeafe;
-            border: 2px solid #3b82f6;
-            border-radius: 8px;
-            padding: 6px 12px;
-            margin-bottom: 8px;
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        .word-box span {
-            font-family: 'Outfit', sans-serif;
-            font-weight: 900;
-            font-size: 0.9rem;
-            color: #1e40af;
-        }
-
-        .items-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-            gap: 10px;
-        }
-        .item-card {
-            background: #f8fafc;
-            border: 2px solid #cbd5e1;
-            border-radius: 10px;
-            padding: 8px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-
-        .item-emoji-box {
-            width: 100%;
-            height: 65px;
-            border-radius: 8px;
-            border: 1px solid #cbd5e1;
-            background: #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5rem;
-            line-height: 1;
         }
 
-        .item-scrambled {
-            font-family: 'Outfit', sans-serif;
-            font-weight: 900;
-            font-size: 0.85rem;
-            color: #6d28d9;
-            background: #f3f0ff;
-            border-radius: 6px;
-            padding: 2px 6px;
-        }
-        .item-word-label {
-            font-family: 'Outfit', sans-serif;
-            font-weight: 800;
-            font-size: 0.85rem;
-            color: #334155;
-            direction: ltr;
-        }
-        .item-input {
-            font-family: 'Outfit', sans-serif;
-            font-size: 0.9rem;
-            font-weight: 800;
-            color: #0f172a;
-            border: 2px solid #cbd5e1;
-            border-radius: 6px;
-            padding: 5px;
+        /* Original Book Page Image */
+        .a4-overlay-img {
             width: 100%;
+            height: 100%;
+            object-fit: fill;
+            display: block;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        /* ── INTERACTIVE OVERLAY INPUT FIELDS ── */
+        .page-overlay-input {
+            position: absolute;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 900;
+            color: #1e1b4b;
+            background: rgba(255, 255, 255, 0.92);
+            border: 2px solid #6366f1;
+            border-radius: 6px;
+            padding: 0 6px;
             text-align: center;
             direction: ltr;
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.25);
+            transition: all 0.2s ease;
+            z-index: 50;
         }
-        .item-input:focus { outline: none; border-color: #6366f1; }
-        .item-input.correct { border-color: #10b981 !important; background: #ecfdf5 !important; color: #065f46 !important; }
-        .item-input.wrong   { border-color: #ef4444 !important; background: #fef2f2 !important; color: #991b1b !important; }
-
-        .sound-btn {
-            background: #6366f1;
-            color: #fff;
-            border: none;
-            padding: 3px 8px;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-weight: 800;
-            cursor: pointer;
+        .page-overlay-input:focus {
+            outline: none;
+            background: #ffffff;
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.35);
+            transform: scale(1.02);
         }
-
-        .reorder-item {
-            background: #f8fafc;
-            border: 2px solid #cbd5e1;
-            border-radius: 8px;
-            padding: 8px;
-            margin-bottom: 8px;
+        .page-overlay-input.correct {
+            background: #ecfdf5 !important;
+            border-color: #10b981 !important;
+            color: #065f46 !important;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3) !important;
         }
-        .reorder-words {
-            font-family: 'Outfit', sans-serif;
-            font-weight: 700;
-            color: #6d28d9;
-            font-size: 0.88rem;
-            margin-bottom: 4px;
-            direction: ltr;
-        }
-        .reorder-input {
-            font-family: 'Outfit', sans-serif;
-            font-size: 0.9rem;
-            font-weight: 800;
-            color: #0f172a;
-            border: 2px solid #cbd5e1;
-            border-radius: 6px;
-            padding: 6px;
-            width: 100%;
-            direction: ltr;
+        .page-overlay-input.wrong {
+            background: #fef2f2 !important;
+            border-color: #ef4444 !important;
+            color: #991b1b !important;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.3) !important;
         }
 
-        .mcq-item {
-            background: #f8fafc;
-            border: 2px solid #cbd5e1;
-            border-radius: 8px;
-            padding: 8px;
-            margin-bottom: 8px;
-        }
-        .mcq-opts {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-        }
-        .opt-btn {
-            background: #fff;
-            border: 2px solid #cbd5e1;
-            color: #0f172a;
-            padding: 5px 12px;
-            border-radius: 6px;
-            font-family: 'Outfit', sans-serif;
-            font-weight: 800;
-            font-size: 0.85rem;
-            cursor: pointer;
-        }
-        .opt-btn.correct { background: #10b981 !important; border-color: #059669 !important; color: #fff !important; }
-        .opt-btn.wrong   { background: #ef4444 !important; border-color: #dc2626 !important; color: #fff !important; }
-
-        .cfb-item {
-            background: #f8fafc;
-            border: 2px solid #cbd5e1;
-            border-radius: 8px;
-            padding: 6px 10px;
-            margin-bottom: 6px;
+        /* ── BOTTOM TOOLBAR & ACTION BAR ── */
+        .bottom-action-bar {
+            height: 50px;
+            background: #0f172a;
+            border-top: 2px solid var(--border);
+            padding: 0 16px;
             display: flex;
             align-items: center;
-            gap: 6px;
-        }
-        .cfb-prompt {
-            font-family: 'Outfit', sans-serif;
-            font-weight: 800;
-            font-size: 0.88rem;
-            color: #334155;
-        }
-        .cfb-input {
-            font-family: 'Outfit', sans-serif;
-            font-size: 0.9rem;
-            font-weight: 800;
-            color: #0f172a;
-            border: 2px solid #cbd5e1;
-            border-radius: 6px;
-            padding: 4px 8px;
-            min-width: 90px;
-            direction: ltr;
+            justify-content: space-between;
+            gap: 12px;
+            width: 100%;
+            max-width: 800px;
+            border-radius: 12px 12px 0 0;
+            flex-shrink: 0;
         }
 
         .score-badge {
             background: linear-gradient(135deg, var(--emerald), #059669);
             color: #fff;
-            padding: 4px 12px;
+            padding: 5px 14px;
             border-radius: 20px;
             font-weight: 900;
-            font-size: 0.82rem;
+            font-size: 0.85rem;
         }
 
-        .btn-check {
+        .btn-check-main {
             flex: 2;
             background: linear-gradient(135deg, #10b981, #059669);
             color: #fff;
@@ -427,31 +205,27 @@
             box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
             transition: all 0.15s ease;
         }
-        .btn-check:hover {
+        .btn-check-main:hover {
             transform: translateY(-1px);
             box-shadow: 0 6px 16px rgba(16, 185, 129, 0.45);
         }
-        .btn-check:active {
-            transform: translateY(0);
-        }
-        .btn-reveal, .btn-speak {
+        .btn-reveal-main, .btn-speak-main {
             flex: 1;
-            background: #fff;
-            border: 2px solid #cbd5e1;
-            color: #334155;
-            padding: 8px 10px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: #fff;
+            padding: 8px 12px;
             border-radius: 8px;
             font-family: inherit;
             font-weight: 800;
-            font-size: 0.8rem;
+            font-size: 0.82rem;
             cursor: pointer;
         }
+        .btn-reveal-main:hover, .btn-speak-main:hover { background: #475569; }
 
-        /* ── RESPONSIVE MOBILE STYLES ── */
-        @media (max-width: 850px) {
-            .mobile-tabs { display: flex; }
-            .main-frame-container { height: calc(100vh - 97px); padding: 8px; }
-            .a4-paper-frame.hide-mobile { display: none; }
+        @media (max-width: 650px) {
+            .a4-overlay-wrapper { aspect-ratio: auto; width: 100%; height: calc(100vh - 120px); }
+            .page-overlay-input { font-size: 0.85rem; }
         }
     </style>
 </head>
@@ -459,7 +233,7 @@
 
 <!-- ── TOP NAV BAR ── -->
 <nav class="top-nav">
-    <a href="dashboard.html" class="nav-brand">🏠 <span>English Toon A4 Book</span></a>
+    <a href="dashboard.html" class="nav-brand">🏠 <span>English Toon Overlay Book</span></a>
     <div class="nav-controls">
         <select class="nav-select" id="book-sel" onchange="changeBook()">
             <option value="1">🎒 الصف الأول الابتدائي</option>
@@ -473,48 +247,27 @@
     </div>
 </nav>
 
-<!-- ── MOBILE TABS ── -->
-<div class="mobile-tabs">
-    <button class="tab-btn active" id="tab-both" onclick="setMobileView('both')">📱 العرض المزدوج (A4)</button>
-    <button class="tab-btn" id="tab-book" onclick="setMobileView('book')">📖 الكتاب الأصلي</button>
-    <button class="tab-btn" id="tab-ex" onclick="setMobileView('ex')">📝 الصفحة التفاعلية</button>
-</div>
+<!-- ── MAIN OVERLAY STAGE ── -->
+<div class="overlay-stage">
 
-<!-- ── LOCKED VIEWPORT CONTAINER (NO WINDOW SCROLLING) ── -->
-<div class="main-frame-container">
+    <!-- A4 Original Book Page Frame Wrapper -->
+    <div class="a4-overlay-wrapper" id="a4-wrapper">
+        <img id="book-page-img" class="a4-overlay-img" src="" alt="صفحة الكتاب الأصلية"
+             onerror="this.style.display='none'; document.getElementById('img-err').style.display='block'">
+        <div id="img-err" style="display:none;text-align:center;color:#94a3b8;padding:40px">
+            📷 صورة الصفحة غير متوفرة بعد
+        </div>
 
-    <!-- LEFT A4 SHEET FRAME: Original Book Page -->
-    <div class="a4-paper-frame" id="frame-book">
-        <div class="a4-header">
-            <div class="a4-header-title">📖 صفحة الكتاب الأصلية</div>
-            <div style="font-size:0.8rem;font-weight:800;color:#64748b" id="lbl-page-left">Page 3</div>
-        </div>
-        <div class="a4-book-content">
-            <img id="book-img" src="" alt="صفحة الكتاب"
-                 onerror="this.style.display='none'; document.getElementById('img-err').style.display='block'">
-            <div id="img-err" style="display:none;text-align:center;color:#94a3b8;padding:40px">
-                📷 صورة الصفحة غير متوفرة بعد
-            </div>
-        </div>
-        <div class="a4-footer" style="justify-content:center;font-weight:800;font-size:0.78rem;color:#64748b">
-            English Language — Primary Stage (A4 Frame)
-        </div>
+        <!-- Overlay Input Fields will be dynamically injected here -->
+        <div id="overlay-inputs-container"></div>
     </div>
 
-    <!-- RIGHT A4 SHEET FRAME: Interactive Replica Page -->
-    <div class="a4-paper-frame" id="frame-ex">
-        <div class="a4-header">
-            <div class="a4-header-title">📝 حل التقييمات إلكترونياً وتصحيحها فوراً</div>
-            <div class="score-badge" id="score-badge">النتيجة: — / —</div>
-        </div>
-
-        <div class="a4-ex-content" id="ex-body"></div>
-
-        <div class="a4-footer">
-            <button class="btn-check"  onclick="checkAll()">✅ تصحيح الإجابات وحساب الدرجة</button>
-            <button class="btn-reveal" onclick="revealAll()">👁️ الإجابات النموذجية</button>
-            <button class="btn-speak"  onclick="speakPage()">🔊 نطق الصفحة</button>
-        </div>
+    <!-- Bottom Action Bar -->
+    <div class="bottom-action-bar">
+        <div class="score-badge" id="score-badge">النتيجة: — / —</div>
+        <button class="btn-check-main" onclick="checkAll()">✅ تصحيح الإجابات وحساب الدرجة</button>
+        <button class="btn-reveal-main" onclick="revealAll()">👁️ الإجابات النموذجية</button>
+        <button class="btn-speak-main" onclick="speakPage()">🔊 نطق الصفحة</button>
     </div>
 
 </div>
@@ -522,7 +275,7 @@
 <script src="js/p1_book_data.js"></script>
 <script>
     let bookId = 1;
-    let pageNum = 1;
+    let pageNum = 3;
     const TOTAL = 72;
 
     function speak(text) {
@@ -531,23 +284,6 @@
         const u = new SpeechSynthesisUtterance(text);
         u.lang = 'en-US'; u.rate = 0.85;
         window.speechSynthesis.speak(u);
-    }
-
-    function setMobileView(mode) {
-        const fb = document.getElementById('frame-book');
-        const fe = document.getElementById('frame-ex');
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-
-        if (mode === 'book') {
-            fb.classList.remove('hide-mobile'); fe.classList.add('hide-mobile');
-            document.getElementById('tab-book').classList.add('active');
-        } else if (mode === 'ex') {
-            fb.classList.add('hide-mobile'); fe.classList.remove('hide-mobile');
-            document.getElementById('tab-ex').classList.add('active');
-        } else {
-            fb.classList.remove('hide-mobile'); fe.classList.remove('hide-mobile');
-            document.getElementById('tab-both').classList.add('active');
-        }
     }
 
     function initPageSel() {
@@ -569,13 +305,17 @@
     function render() {
         initPageSel();
         document.getElementById('page-counter').textContent = `${pageNum} / ${TOTAL}`;
-        document.getElementById('lbl-page-left').textContent = `Page ${pageNum}`;
 
-        const imgEl = document.getElementById('book-img');
+        const imgEl = document.getElementById('book-page-img');
         const errEl = document.getElementById('img-err');
+        const container = document.getElementById('overlay-inputs-container');
+        container.innerHTML = '';
+
         const folder = bookId === 1 ? 'p1' : bookId === 2 ? 'p2' : 'p3';
         imgEl.style.display = 'block';
         errEl.style.display = 'none';
+
+        // Load original page image
         imgEl.src = `images/books/${folder}/${pageNum}.jpg`;
         imgEl.onerror = function() {
             this.onerror = null;
@@ -586,278 +326,82 @@
             };
         };
 
-        const body = document.getElementById('ex-body');
-        body.innerHTML = '';
-
         let db = null;
-        if (bookId === 1 && typeof P1_EXERCISES_DATABASE !== 'undefined' && P1_EXERCISES_DATABASE[pageNum]) {
-            db = P1_EXERCISES_DATABASE[pageNum];
+        if (bookId === 1 && typeof P1_OVERLAY_DATABASE !== 'undefined' && P1_OVERLAY_DATABASE[pageNum]) {
+            db = P1_OVERLAY_DATABASE[pageNum];
         }
 
-        if (!db) {
+        if (!db || !db.inputs || db.inputs.length === 0) {
             document.getElementById('score-badge').textContent = 'النتيجة: — / —';
-            body.innerHTML = `<div style="text-align:center;padding:50px 10px;color:#94a3b8"><h3>🚧 صفحة قيد الإضافة</h3><p>أسئلة صفحة ${pageNum} قيد الإعداد</p></div>`;
             return;
         }
 
-        document.getElementById('score-badge').textContent = 'النتيجة: 0 / 0';
+        document.getElementById('score-badge').textContent = `النتيجة: 0 / ${db.inputs.filter(x => x.answer !== '__free__').length}`;
 
-        db.sections.forEach(sec => {
-            const secDiv = document.createElement('div');
-            secDiv.className = 'section-block';
+        // Inject direct overlay inputs over the original book page image
+        db.inputs.forEach((inpData) => {
+            const inp = document.createElement('input');
+            inp.type = 'text';
+            inp.className = 'page-overlay-input';
+            inp.style.top = inpData.top;
+            inp.style.left = inpData.left;
+            inp.style.width = inpData.width;
+            inp.style.height = inpData.height;
+            inp.placeholder = inpData.placeholder || '...';
+            inp.dataset.answer = inpData.answer.toLowerCase();
+            inp.id = inpData.id;
 
-            const secTitle = document.createElement('div');
-            secTitle.className = 'section-title';
-            secTitle.textContent = sec.title;
-            secDiv.appendChild(secTitle);
-
-            sec.activities.forEach(act => {
-                const actDiv = document.createElement('div');
-                actDiv.className = 'activity-block';
-
-                const lbl = document.createElement('div');
-                lbl.className = 'activity-label';
-                lbl.textContent = act.label;
-                actDiv.appendChild(lbl);
-
-                if (act.type === 'choose_from_box' && act.box) {
-                    const wb = document.createElement('div');
-                    wb.className = 'word-box';
-                    act.box.forEach(w => { const sp = document.createElement('span'); sp.textContent = w; wb.appendChild(sp); });
-                    actDiv.appendChild(wb);
-                }
-
-                if (act.type === 'unscramble' || act.type === 'look_write' || act.type === 'missing_sound') {
-                    const grid = document.createElement('div');
-                    grid.className = 'items-grid';
-
-                    act.items.forEach((item, i) => {
-                        const card = document.createElement('div');
-                        card.className = 'item-card';
-
-                        // ── Clean Emoji Box in Frame ──
-                        const emojiBox = document.createElement('div');
-                        emojiBox.className = 'item-emoji-box';
-                        emojiBox.textContent = item.emoji || '📝';
-                        card.appendChild(emojiBox);
-
-                        if (item.scrambled) {
-                            const sc = document.createElement('div');
-                            sc.className = 'item-scrambled';
-                            sc.textContent = item.scrambled;
-                            card.appendChild(sc);
-                        }
-
-                        if (item.word && act.type === 'missing_sound') {
-                            const wl = document.createElement('div');
-                            wl.className = 'item-word-label';
-                            wl.textContent = item.word;
-                            card.appendChild(wl);
-                        }
-
-                        if (item.speech) {
-                            const sb = document.createElement('button');
-                            sb.className = 'sound-btn';
-                            sb.innerHTML = '🔊';
-                            sb.title = 'استمع للنطق';
-                            sb.onclick = () => speak(item.speech);
-                            card.appendChild(sb);
-                        }
-
-                        const inp = document.createElement('input');
-                        inp.type = 'text';
-                        inp.className = 'item-input';
-                        inp.placeholder = act.type === 'look_write' ? 'اكتب...' : act.type === 'missing_sound' ? 'حرف...' : '...';
-                        inp.dataset.answer = item.answer.toLowerCase();
-                        inp.dataset.idx = i;
-                        card.appendChild(inp);
-
-                        grid.appendChild(card);
-                    });
-                    actDiv.appendChild(grid);
-                }
-
-                if (act.type === 'reorder') {
-                    act.items.forEach((item, i) => {
-                        const ri = document.createElement('div');
-                        ri.className = 'reorder-item';
-                        const wds = document.createElement('div');
-                        wds.className = 'reorder-words';
-                        wds.textContent = `🔀 ${item.words}`;
-                        ri.appendChild(wds);
-
-                        const inp = document.createElement('input');
-                        inp.type = 'text';
-                        inp.className = 'reorder-input';
-                        inp.placeholder = 'رتّب الكلمات...';
-                        inp.dataset.answer = item.answer.toLowerCase();
-                        inp.dataset.idx = i;
-                        ri.appendChild(inp);
-                        actDiv.appendChild(ri);
-                    });
-                }
-
-                if (act.type === 'mcq') {
-                    act.items.forEach((item, i) => {
-                        const mi = document.createElement('div');
-                        mi.className = 'mcq-item';
-
-                        if (item.emoji) {
-                            const emBox = document.createElement('div');
-                            emBox.className = 'item-emoji-box';
-                            emBox.style.cssText = 'width:70px;height:55px;font-size:2rem;margin-bottom:6px;';
-                            emBox.textContent = item.emoji;
-                            mi.appendChild(emBox);
-                        }
-
-                        const lbDiv = document.createElement('div');
-                        lbDiv.style.cssText = 'font-weight:800;font-size:0.88rem;margin-bottom:6px;';
-                        lbDiv.innerHTML = item.label + (item.speech ? ` <button class="sound-btn" onclick="speak('${item.speech}')">🔊</button>` : '');
-                        mi.appendChild(lbDiv);
-
-                        const opts = document.createElement('div');
-                        opts.className = 'mcq-opts';
-                        opts.dataset.answer = item.answer.toLowerCase();
-
-                        item.options.forEach(opt => {
-                            const btn = document.createElement('button');
-                            btn.className = 'opt-btn';
-                            btn.textContent = opt;
-                            btn.dataset.val = opt.toLowerCase();
-                            btn.onclick = function() {
-                                opts.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('correct','wrong'));
-                                if (opt.toLowerCase() === item.answer.toLowerCase()) {
-                                    btn.classList.add('correct');
-                                    speak("Excellent! " + opt);
-                                } else {
-                                    btn.classList.add('wrong');
-                                    speak("Try again!");
-                                }
-                            };
-                            opts.appendChild(btn);
-                        });
-                        mi.appendChild(opts);
-                        actDiv.appendChild(mi);
-                    });
-                }
-
-                if (act.type === 'choose_from_box') {
-                    act.items.forEach((item, i) => {
-                        const cfb = document.createElement('div');
-                        cfb.className = 'cfb-item';
-                        const pr = document.createElement('div');
-                        pr.className = 'cfb-prompt';
-                        pr.textContent = item.prompt;
-                        cfb.appendChild(pr);
-                        const inp = document.createElement('input');
-                        inp.type = 'text';
-                        inp.className = 'cfb-input';
-                        inp.placeholder = '...';
-                        inp.dataset.answer = item.answer.toLowerCase();
-
-                        if (item.speech) {
-                            const sb = document.createElement('button');
-                            sb.className = 'sound-btn';
-                            sb.innerHTML = '🔊';
-                            sb.onclick = () => speak(item.speech);
-                            cfb.appendChild(inp);
-                            cfb.appendChild(sb);
-                        } else {
-                            cfb.appendChild(inp);
-                        }
-                        actDiv.appendChild(cfb);
-                    });
-                }
-
-                if (act.type === 'freewrite') {
-                    act.items.forEach(item => {
-                        const fw = document.createElement('div');
-                        fw.className = 'cfb-item';
-                        const pr = document.createElement('div');
-                        pr.className = 'cfb-prompt';
-                        pr.textContent = item.prompt;
-                        fw.appendChild(pr);
-                        const inp = document.createElement('input');
-                        inp.type = 'text';
-                        inp.className = 'cfb-input';
-                        inp.placeholder = 'اكتب اسمك...';
-                        inp.dataset.answer = '__free__';
-                        fw.appendChild(inp);
-                        actDiv.appendChild(fw);
-                    });
-                }
-
-                secDiv.appendChild(actDiv);
-            });
-
-            body.appendChild(secDiv);
+            container.appendChild(inp);
         });
-
-        updateScoreLabel();
     }
 
     function checkAll() {
-        const body = document.getElementById('ex-body');
+        const container = document.getElementById('overlay-inputs-container');
+        const inputs = container.querySelectorAll('.page-overlay-input');
         let correct = 0, total = 0;
 
-        body.querySelectorAll('.item-input, .reorder-input, .cfb-input').forEach(el => {
+        inputs.forEach(el => {
             const ans = el.dataset.answer;
             if (ans === '__free__') return;
             total++;
             const val = el.value.trim().toLowerCase();
-            if (val === ans) { el.classList.remove('wrong'); el.classList.add('correct'); correct++; }
-            else { el.classList.remove('correct'); el.classList.add('wrong'); }
-        });
-
-        body.querySelectorAll('.mcq-opts').forEach(opts => {
-            total++;
-            const chosen = opts.querySelector('.opt-btn.correct');
-            if (chosen) correct++;
+            if (val === ans) {
+                el.classList.remove('wrong');
+                el.classList.add('correct');
+                correct++;
+            } else {
+                el.classList.remove('correct');
+                el.classList.add('wrong');
+            }
         });
 
         document.getElementById('score-badge').textContent = `النتيجة: ${correct} / ${total}`;
+
         if (correct === total && total > 0) {
             speak(`Excellent! Perfect score! ${correct} out of ${total}`);
-            setTimeout(() => alert(`🎉 ممتاز جداً! حصلت على العلامة الكاملة (${correct}/${total}) ⭐⭐⭐`), 100);
+            setTimeout(() => alert(`🎉 ممتاز جداً! اجتزت صفحة ${pageNum} بنجاح وحصلت على العلامة الكاملة (${correct}/${total}) ⭐⭐⭐`), 100);
         } else {
             speak(`Your score is ${correct} out of ${total}`);
         }
     }
 
     function revealAll() {
-        const body = document.getElementById('ex-body');
-        body.querySelectorAll('.item-input, .reorder-input, .cfb-input').forEach(el => {
+        const container = document.getElementById('overlay-inputs-container');
+        const inputs = container.querySelectorAll('.page-overlay-input');
+
+        inputs.forEach(el => {
             const ans = el.dataset.answer;
             if (ans === '__free__') return;
             el.value = ans;
-            el.classList.remove('wrong'); el.classList.add('correct');
+            el.classList.remove('wrong');
+            el.classList.add('correct');
         });
-        body.querySelectorAll('.mcq-opts').forEach(opts => {
-            const ans = opts.dataset.answer;
-            opts.querySelectorAll('.opt-btn').forEach(b => {
-                b.classList.remove('correct','wrong');
-                if (b.dataset.val === ans) b.classList.add('correct');
-            });
-        });
-        speak("Model answers are now shown!");
-        updateScoreLabel();
-    }
 
-    function updateScoreLabel() {
-        const body = document.getElementById('ex-body');
-        let total = 0;
-        body.querySelectorAll('.item-input, .reorder-input, .cfb-input').forEach(el => { if (el.dataset.answer !== '__free__') total++; });
-        body.querySelectorAll('.mcq-opts').forEach(() => total++);
-        document.getElementById('score-badge').textContent = `النتيجة: 0 / ${total}`;
+        speak("Model answers are now shown!");
     }
 
     function speakPage() {
-        if (bookId === 1 && typeof P1_EXERCISES_DATABASE !== 'undefined' && P1_EXERCISES_DATABASE[pageNum]) {
-            const db = P1_EXERCISES_DATABASE[pageNum];
-            speak(`${db.unit}. ${db.lesson}`);
-        } else {
-            speak(`Page ${pageNum}`);
-        }
+        speak(`Page ${pageNum}`);
     }
 
     render();
