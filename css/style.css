@@ -83,7 +83,7 @@ body {
 ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
 
 /* ==========================================================================
-   🚨 TV BREAKING NEWS TICKER BANNER (شريط الأخبار البرتقالي التنازلي المستمر)
+   🚨 TV BREAKING NEWS TICKER BANNER (Left-to-Right Continuous Seamless Loop)
    ========================================================================== */
 .tv-news-ticker-banner {
     position: sticky;
@@ -91,7 +91,7 @@ body {
     z-index: 10000;
     width: 100%;
     background: #DC2626; /* Crimson Red */
-    border-bottom: 3px solid #F59E0B; /* Vibrant Amber Orange Bar Underneath */
+    border-bottom: 3.5px solid #F59E0B; /* Vibrant Amber Orange Bottom Bar */
     box-shadow: 0 4px 20px rgba(220, 38, 38, 0.6);
     display: flex;
     align-items: center;
@@ -112,7 +112,7 @@ body {
     align-items: center;
     justify-content: center;
     gap: 6px;
-    z-index: 10;
+    z-index: 20;
     white-space: nowrap;
     box-shadow: 4px 0 15px rgba(0, 0, 0, 0.4);
     letter-spacing: 0.5px;
@@ -125,13 +125,14 @@ body {
     display: flex;
     align-items: center;
     height: 100%;
+    direction: ltr; /* CRITICAL: Force LTR scroll window so text stays 100% visible on screen! */
 }
 
 .ticker-track-seamless {
     display: inline-flex;
     align-items: center;
-    gap: 60px;
-    animation: newsTickerScroll 28s linear infinite;
+    gap: 50px;
+    animation: newsTickerLeftToRight 26s linear infinite;
     will-change: transform;
 }
 
@@ -139,9 +140,10 @@ body {
     animation-play-state: paused;
 }
 
-@keyframes newsTickerScroll {
-    0%   { transform: translateX(0%); }
-    100% { transform: translateX(-50%); }
+/* Left-to-Right Scrolling Animation (From -50% to 0%) */
+@keyframes newsTickerLeftToRight {
+    0%   { transform: translateX(-50%); }
+    100% { transform: translateX(0%); }
 }
 
 .ticker-news-item {
@@ -151,6 +153,7 @@ body {
     color: #FFFFFF;
     font-size: 0.95rem;
     font-weight: 800;
+    direction: rtl; /* Display text in Arabic RTL correctly */
 }
 
 .ticker-wa-link-pill {
