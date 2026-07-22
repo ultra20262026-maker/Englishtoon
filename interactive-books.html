@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>English Toon — الكتاب التفاعلي المزدوج (صفحات A4)</title>
+    <title>English Toon — الكتاب التفاعلي المزدوج (في إطار A4 ثابت)</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -13,104 +13,103 @@
             --red: #ef4444;
             --amber: #f59e0b;
             --cyan: #06b6d4;
-            --bg: #1e293b;
-            --surface: #334155;
-            --border: #475569;
+            --bg: #0f172a;
+            --surface: #1e293b;
+            --border: #334155;
             --text: #f8fafc;
-            --paper-bg: #ffffff;
-            --paper-border: #cbd5e1;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
+        
+        html, body {
+            width: 100%;
+            height: 100vh;
+            overflow: hidden; /* Lock viewport completely — no page jumping or scrolling */
             font-family: 'Cairo', sans-serif;
             background: var(--bg);
             color: var(--text);
-            min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
 
-        /* ── TOP NAV BAR ── */
+        /* ── TOP STICKY NAV ── */
         .top-nav {
-            background: #0f172a;
+            height: 55px;
+            background: #090d16;
             border-bottom: 2px solid var(--border);
-            padding: 8px 16px;
+            padding: 0 16px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            flex-wrap: wrap;
             gap: 10px;
-            position: sticky;
-            top: 0;
             z-index: 300;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            flex-shrink: 0;
         }
         .nav-brand {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: 900;
             color: #fff;
             text-decoration: none;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
         .nav-brand span { color: var(--cyan); }
         .nav-controls {
             display: flex;
             align-items: center;
             gap: 8px;
-            flex-wrap: wrap;
         }
         .nav-select {
             background: var(--surface);
             border: 1px solid var(--border);
             color: #fff;
-            padding: 6px 12px;
+            padding: 5px 10px;
             border-radius: 8px;
             font-family: inherit;
             font-weight: 700;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             cursor: pointer;
         }
         .nav-btn {
             background: var(--surface);
             border: 1px solid var(--border);
             color: #fff;
-            padding: 6px 14px;
+            padding: 5px 12px;
             border-radius: 20px;
             font-weight: 800;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             cursor: pointer;
-            transition: all 0.15s;
             white-space: nowrap;
         }
         .nav-btn:hover { background: #475569; }
         .page-counter {
             background: linear-gradient(135deg, var(--primary), var(--cyan));
-            padding: 6px 16px;
+            padding: 5px 14px;
             border-radius: 20px;
             font-weight: 900;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: #fff;
         }
 
-        /* ── MOBILE TAB SWITCHER ── */
+        /* ── MOBILE TABS ── */
         .mobile-tabs {
             display: none;
+            height: 42px;
             background: #0f172a;
-            padding: 6px 12px;
-            gap: 8px;
+            padding: 4px 8px;
+            gap: 6px;
             border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
         }
         .tab-btn {
             flex: 1;
-            padding: 8px;
+            padding: 6px;
             border: 1px solid var(--border);
             background: #1e293b;
             color: #94a3b8;
-            border-radius: 8px;
+            border-radius: 6px;
             font-weight: 800;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             cursor: pointer;
             text-align: center;
         }
@@ -120,106 +119,103 @@
             border-color: var(--primary-light);
         }
 
-        /* ── MAIN WORKSPACE (SLOT FOR TWO A4 PAGES) ── */
-        .workspace {
+        /* ── MAIN LOCKED FRAME CONTAINER ── */
+        .main-frame-container {
+            flex: 1;
+            height: calc(100vh - 55px);
             display: flex;
-            gap: 20px;
-            padding: 20px;
+            gap: 16px;
+            padding: 14px 16px;
             justify-content: center;
-            align-items: flex-start;
-            flex: 1;
-            max-width: 1500px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
-        /* ── A4 PAPER FRAME SHEET CONTAINER ── */
-        .a4-container {
-            flex: 1;
-            min-width: 0;
-            display: flex;
-            flex-direction: column;
             align-items: center;
+            overflow: hidden;
         }
 
-        .a4-sheet {
-            background: var(--paper-bg);
-            color: #0f172a;
-            width: 100%;
+        /* ── A4 FIXED PAPER FRAME ── */
+        .a4-paper-frame {
+            flex: 1;
+            height: 100%;
             max-width: 650px;
-            aspect-ratio: 1 / 1.414; /* Standard A4 Paper Aspect Ratio */
-            min-height: 800px;
-            border-radius: 12px;
-            border: 3px solid #cbd5e1;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.35), 0 5px 15px rgba(0,0,0,0.1);
-            overflow: hidden;
+            background: #ffffff;
+            color: #0f172a;
+            border-radius: 14px;
+            border: 3px solid #94a3b8;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
             display: flex;
             flex-direction: column;
+            overflow: hidden;
             position: relative;
         }
 
         .a4-header {
+            height: 45px;
             background: #f1f5f9;
-            border-bottom: 2px solid #e2e8f0;
-            padding: 10px 16px;
+            border-bottom: 2px solid #cbd5e1;
+            padding: 0 14px;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            flex-shrink: 0;
         }
         .a4-header-title {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-weight: 900;
-            color: #1e293b;
+            color: #0f172a;
             display: flex;
             align-items: center;
             gap: 6px;
         }
 
-        /* Book Image Frame inside A4 */
-        .a4-book-body {
+        /* Left Book Frame Content */
+        .a4-book-content {
             flex: 1;
+            height: calc(100% - 85px);
             background: #fff;
             padding: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow-y: auto;
+            overflow: hidden;
         }
-        .a4-book-body img {
-            width: 100%;
-            height: 100%;
+        .a4-book-content img {
+            max-width: 100%;
+            max-height: 100%;
             object-fit: contain;
+            border-radius: 6px;
         }
 
-        /* Interactive Exercises Frame inside A4 */
-        .a4-ex-body {
+        /* Right Exercises Frame Content */
+        .a4-ex-content {
             flex: 1;
-            padding: 16px;
-            overflow-y: auto;
+            height: calc(100% - 90px);
+            padding: 14px;
+            overflow-y: auto; /* Inner scroll strictly inside exercise sheet */
             background: #ffffff;
         }
 
         .a4-footer {
+            height: 45px;
             background: #f8fafc;
-            border-top: 2px solid #e2e8f0;
-            padding: 10px 16px;
+            border-top: 2px solid #cbd5e1;
+            padding: 0 14px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 10px;
+            gap: 8px;
+            flex-shrink: 0;
         }
 
         /* ── EXERCISES STYLING ── */
         .section-block {
-            margin-bottom: 18px;
+            margin-bottom: 16px;
         }
         .section-title {
-            background: linear-gradient(90deg, #3b82f6, #6366f1);
+            background: linear-gradient(90deg, #4f46e5, #818cf8);
             color: #fff;
-            padding: 7px 12px;
+            padding: 6px 12px;
             border-radius: 8px;
             font-weight: 900;
-            font-size: 0.88rem;
+            font-size: 0.85rem;
             margin-bottom: 10px;
         }
         .activity-block {
@@ -261,30 +257,27 @@
         }
         .item-card {
             background: #f8fafc;
-            border: 2px solid #e2e8f0;
+            border: 2px solid #cbd5e1;
             border-radius: 10px;
             padding: 8px;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 6px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
 
-        .item-img-box {
+        .item-emoji-box {
             width: 100%;
-            height: 85px;
-            border-radius: 6px;
+            height: 65px;
+            border-radius: 8px;
             border: 1px solid #cbd5e1;
-            background: #fff;
-            overflow: hidden;
+            background: #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-        .item-img-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            font-size: 2.5rem;
+            line-height: 1;
         }
 
         .item-scrambled {
@@ -332,7 +325,7 @@
 
         .reorder-item {
             background: #f8fafc;
-            border: 2px solid #e2e8f0;
+            border: 2px solid #cbd5e1;
             border-radius: 8px;
             padding: 8px;
             margin-bottom: 8px;
@@ -359,7 +352,7 @@
 
         .mcq-item {
             background: #f8fafc;
-            border: 2px solid #e2e8f0;
+            border: 2px solid #cbd5e1;
             border-radius: 8px;
             padding: 8px;
             margin-bottom: 8px;
@@ -385,7 +378,7 @@
 
         .cfb-item {
             background: #f8fafc;
-            border: 2px solid #e2e8f0;
+            border: 2px solid #cbd5e1;
             border-radius: 8px;
             padding: 6px 10px;
             margin-bottom: 6px;
@@ -411,35 +404,43 @@
             direction: ltr;
         }
 
+        .score-badge {
+            background: linear-gradient(135deg, var(--emerald), #059669);
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 900;
+            font-size: 0.82rem;
+        }
+
         .btn-check {
             background: linear-gradient(135deg, #10b981, #059669);
             color: #fff;
             border: none;
-            padding: 8px 14px;
+            padding: 6px 14px;
             border-radius: 8px;
             font-family: inherit;
             font-weight: 900;
-            font-size: 0.88rem;
+            font-size: 0.85rem;
             cursor: pointer;
         }
         .btn-reveal, .btn-speak {
             background: #fff;
             border: 2px solid #cbd5e1;
             color: #334155;
-            padding: 8px 12px;
+            padding: 6px 10px;
             border-radius: 8px;
             font-family: inherit;
             font-weight: 800;
-            font-size: 0.82rem;
+            font-size: 0.8rem;
             cursor: pointer;
         }
 
         /* ── RESPONSIVE MOBILE STYLES ── */
         @media (max-width: 850px) {
             .mobile-tabs { display: flex; }
-            .workspace { padding: 10px; flex-direction: column; }
-            .a4-sheet { aspect-ratio: auto; min-height: auto; height: auto; max-width: 100%; }
-            .a4-container.hide-mobile { display: none; }
+            .main-frame-container { height: calc(100vh - 97px); padding: 8px; }
+            .a4-paper-frame.hide-mobile { display: none; }
         }
     </style>
 </head>
@@ -468,44 +469,40 @@
     <button class="tab-btn" id="tab-ex" onclick="setMobileView('ex')">📝 الصفحة التفاعلية</button>
 </div>
 
-<!-- ── WORKSPACE: TWO SIDE-BY-SIDE A4 SHEETS ── -->
-<div class="workspace">
+<!-- ── LOCKED VIEWPORT CONTAINER (NO WINDOW SCROLLING) ── -->
+<div class="main-frame-container">
 
-    <!-- LEFT A4 SHEET: Original Printed Book Page -->
-    <div class="a4-container" id="container-book">
-        <div class="a4-sheet">
-            <div class="a4-header">
-                <div class="a4-header-title">📖 صفحة الكتاب الأصلية (A4)</div>
-                <div style="font-size:0.8rem;font-weight:800;color:#64748b" id="lbl-page-left">Page 3</div>
+    <!-- LEFT A4 SHEET FRAME: Original Book Page -->
+    <div class="a4-paper-frame" id="frame-book">
+        <div class="a4-header">
+            <div class="a4-header-title">📖 صفحة الكتاب الأصلية</div>
+            <div style="font-size:0.8rem;font-weight:800;color:#64748b" id="lbl-page-left">Page 3</div>
+        </div>
+        <div class="a4-book-content">
+            <img id="book-img" src="" alt="صفحة الكتاب"
+                 onerror="this.style.display='none'; document.getElementById('img-err').style.display='block'">
+            <div id="img-err" style="display:none;text-align:center;color:#94a3b8;padding:40px">
+                📷 صورة الصفحة غير متوفرة بعد
             </div>
-            <div class="a4-book-body">
-                <img id="book-img" src="" alt="صفحة الكتاب"
-                     onerror="this.style.display='none'; document.getElementById('img-err').style.display='block'">
-                <div id="img-err" style="display:none;text-align:center;color:#94a3b8;padding:40px">
-                    📷 صورة الصفحة غير متوفرة بعد
-                </div>
-            </div>
-            <div class="a4-footer" style="justify-content:center;font-weight:800;font-size:0.8rem;color:#64748b">
-                English Language — Primary Stage
-            </div>
+        </div>
+        <div class="a4-footer" style="justify-content:center;font-weight:800;font-size:0.78rem;color:#64748b">
+            English Language — Primary Stage (A4 Frame)
         </div>
     </div>
 
-    <!-- RIGHT A4 SHEET: Interactive Digital Replica Sheet -->
-    <div class="a4-container" id="container-ex">
-        <div class="a4-sheet">
-            <div class="a4-header">
-                <div class="a4-header-title">📝 التطبيق التفاعلي المطابق (A4)</div>
-                <div class="score-badge" id="score-badge">النتيجة: — / —</div>
-            </div>
+    <!-- RIGHT A4 SHEET FRAME: Interactive Replica Page -->
+    <div class="a4-paper-frame" id="frame-ex">
+        <div class="a4-header">
+            <div class="a4-header-title">📝 التطبيق التفاعلي المطابق</div>
+            <div class="score-badge" id="score-badge">النتيجة: — / —</div>
+        </div>
 
-            <div class="a4-ex-body" id="ex-body"></div>
+        <div class="a4-ex-content" id="ex-body"></div>
 
-            <div class="a4-footer">
-                <button class="btn-check"  onclick="checkAll()">✅ تصحيح</button>
-                <button class="btn-reveal" onclick="revealAll()">👁️ الإجابات</button>
-                <button class="btn-speak"  onclick="speakPage()">🔊 نطق</button>
-            </div>
+        <div class="a4-footer">
+            <button class="btn-check"  onclick="checkAll()">✅ تصحيح</button>
+            <button class="btn-reveal" onclick="revealAll()">👁️ الإجابات</button>
+            <button class="btn-speak"  onclick="speakPage()">🔊 نطق</button>
         </div>
     </div>
 
@@ -517,7 +514,6 @@
     let pageNum = 3;
     const TOTAL = 72;
 
-    // ── SPEECH ──
     function speak(text) {
         if (!window.speechSynthesis) return;
         window.speechSynthesis.cancel();
@@ -526,25 +522,23 @@
         window.speechSynthesis.speak(u);
     }
 
-    // ── MOBILE VIEW TOGGLE ──
     function setMobileView(mode) {
-        const cb = document.getElementById('container-book');
-        const ce = document.getElementById('container-ex');
+        const fb = document.getElementById('frame-book');
+        const fe = document.getElementById('frame-ex');
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
 
         if (mode === 'book') {
-            cb.classList.remove('hide-mobile'); ce.classList.add('hide-mobile');
+            fb.classList.remove('hide-mobile'); fe.classList.add('hide-mobile');
             document.getElementById('tab-book').classList.add('active');
         } else if (mode === 'ex') {
-            cb.classList.add('hide-mobile'); ce.classList.remove('hide-mobile');
+            fb.classList.add('hide-mobile'); fe.classList.remove('hide-mobile');
             document.getElementById('tab-ex').classList.add('active');
         } else {
-            cb.classList.remove('hide-mobile'); ce.classList.remove('hide-mobile');
+            fb.classList.remove('hide-mobile'); fe.classList.remove('hide-mobile');
             document.getElementById('tab-both').classList.add('active');
         }
     }
 
-    // ── PAGE SELECT INIT ──
     function initPageSel() {
         const s = document.getElementById('page-sel');
         s.innerHTML = '';
@@ -561,21 +555,11 @@
     function prevPage() { if (pageNum > 1) { pageNum--; render(); } }
     function nextPage() { if (pageNum < TOTAL) { pageNum++; render(); } }
 
-    // ── SVG ARTWORK FALLBACK CREATOR ──
-    function getSvgFallback(label) {
-        const bgColors = ['#fef3c7', '#dbeafe', '#e0e7ff', '#d1fae5', '#fce7f3'];
-        const c = bgColors[Math.floor(Math.random() * bgColors.length)];
-        const text = encodeURIComponent(label || 'Pic');
-        return `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="85" viewBox="0 0 100 85"><rect width="100" height="85" fill="${encodeURIComponent(c)}"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="%23475569">${text}</text></svg>`;
-    }
-
-    // ── MAIN RENDER ──
     function render() {
         initPageSel();
         document.getElementById('page-counter').textContent = `${pageNum} / ${TOTAL}`;
         document.getElementById('lbl-page-left').textContent = `Page ${pageNum}`;
 
-        // Book image on Left A4 Sheet
         const imgEl = document.getElementById('book-img');
         const errEl = document.getElementById('img-err');
         const folder = bookId === 1 ? 'p1' : bookId === 2 ? 'p2' : 'p3';
@@ -591,7 +575,6 @@
             };
         };
 
-        // Exercises on Right A4 Sheet
         const body = document.getElementById('ex-body');
         body.innerHTML = '';
 
@@ -641,18 +624,11 @@
                         const card = document.createElement('div');
                         card.className = 'item-card';
 
-                        // ── Image Box with Guaranteed SVG Fallback ──
-                        const imgBox = document.createElement('div');
-                        imgBox.className = 'item-img-box';
-                        const itemImg = document.createElement('img');
-                        itemImg.src = item.img || getSvgFallback(item.answer);
-                        itemImg.alt = item.answer || 'picture';
-                        itemImg.onerror = function() {
-                            this.onerror = null;
-                            this.src = getSvgFallback(item.answer || 'Item');
-                        };
-                        imgBox.appendChild(itemImg);
-                        card.appendChild(imgBox);
+                        // ── Clean Emoji Box in Frame ──
+                        const emojiBox = document.createElement('div');
+                        emojiBox.className = 'item-emoji-box';
+                        emojiBox.textContent = item.emoji || '📝';
+                        card.appendChild(emojiBox);
 
                         if (item.scrambled) {
                             const sc = document.createElement('div');
@@ -715,15 +691,12 @@
                         const mi = document.createElement('div');
                         mi.className = 'mcq-item';
 
-                        if (item.img) {
-                            const imgBox = document.createElement('div');
-                            imgBox.className = 'item-img-box';
-                            imgBox.style.cssText = 'width:90px;height:70px;margin-bottom:6px;';
-                            const mImg = document.createElement('img');
-                            mImg.src = item.img;
-                            mImg.onerror = function() { this.src = getSvgFallback(item.answer); };
-                            imgBox.appendChild(mImg);
-                            mi.appendChild(imgBox);
+                        if (item.emoji) {
+                            const emBox = document.createElement('div');
+                            emBox.className = 'item-emoji-box';
+                            emBox.style.cssText = 'width:70px;height:55px;font-size:2rem;margin-bottom:6px;';
+                            emBox.textContent = item.emoji;
+                            mi.appendChild(emBox);
                         }
 
                         const lbDiv = document.createElement('div');
