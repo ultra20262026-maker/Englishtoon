@@ -3,436 +3,279 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>English Toon — الكتب والتقييمات التفاعلية</title>
-    <link rel="stylesheet" href="css/style.css?v=20260722_v4">
+    <title>English Toon — كتاب التقييمات التفاعلي والتقليب المباشر</title>
+    <link rel="stylesheet" href="css/style.css?v=20260722_v5">
     <style>
-        /* Interactive Books Custom Cyber Bento Styling */
-        .books-hero-wrapper {
-            margin-bottom: 2rem;
-        }
-
-        .books-bento-grid {
+        /* Modern Interactive Flipbook Cyber Design */
+        .flipbook-container-wrapper {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: 1fr 380px;
             gap: 1.5rem;
-            margin-bottom: 2.5rem;
+            margin-bottom: 3rem;
+            align-items: start;
         }
 
-        .book-grade-card {
+        @media (max-width: 1024px) {
+            .flipbook-container-wrapper {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* PDF Page Display Stage */
+        .book-stage-card {
             background: var(--bg-card);
-            border: 1px solid var(--bento-border);
-            border-radius: var(--radius-lg);
-            padding: 1.75rem;
-            backdrop-filter: blur(12px);
-            transition: all var(--trans-normal);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
+            border: 1px solid var(--bento-border-light);
+            border-radius: var(--radius-xl);
+            padding: 1.5rem;
+            backdrop-filter: blur(16px);
+            box-shadow: var(--bento-shadow);
             display: flex;
             flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .flipbook-toolbar {
+            width: 100%;
+            display: flex;
             justify-content: space-between;
+            align-items: center;
+            background: rgba(7, 9, 19, 0.8);
+            border: 1px solid var(--bento-border);
+            padding: 0.75rem 1.25rem;
+            border-radius: var(--radius-md);
+            margin-bottom: 1.25rem;
+            flex-wrap: wrap;
+            gap: 0.75rem;
         }
 
-        .book-grade-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-4px);
-            box-shadow: 0 15px 35px var(--primary-glow);
-        }
-
-        .book-grade-card.active {
-            border-color: var(--accent-cyan);
-            background: rgba(14, 19, 34, 0.9);
-            box-shadow: 0 0 25px rgba(0, 242, 254, 0.3);
-        }
-
-        .card-tag {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: var(--radius-full);
-            font-size: 0.8rem;
+        .page-nav-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #fff;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: var(--radius-sm);
             font-weight: 700;
-            background: rgba(99, 102, 241, 0.2);
-            color: var(--primary);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            margin-bottom: 0.75rem;
-            width: fit-content;
+            font-size: 0.95rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all var(--trans-fast);
         }
 
-        .book-grade-card.active .card-tag {
-            background: rgba(0, 242, 254, 0.2);
-            color: var(--accent-cyan);
-            border-color: var(--accent-cyan);
+        .page-nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            background: rgba(255, 255, 255, 0.1);
         }
 
-        .card-grade-title {
-            font-size: 1.4rem;
+        .page-indicator {
+            font-family: var(--font-en);
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: var(--accent-amber);
+            background: rgba(255, 184, 0, 0.1);
+            padding: 0.3rem 0.9rem;
+            border-radius: var(--radius-full);
+            border: 1px solid rgba(255, 184, 0, 0.3);
+        }
+
+        .page-canvas-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 680px;
+            background: #fff;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            transition: transform var(--trans-bounce);
+        }
+
+        .book-page-img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Interactive overlay container layered directly on the page */
+        .page-overlay-layer {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: auto;
+        }
+
+        /* Sidebar Exercise Panel */
+        .sidebar-exercises-card {
+            background: var(--bg-card);
+            border: 1px solid var(--bento-border-light);
+            border-radius: var(--radius-xl);
+            padding: 1.75rem;
+            backdrop-filter: blur(16px);
+            box-shadow: var(--bento-shadow);
+            position: sticky;
+            top: 90px;
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--bento-border);
+            margin-bottom: 1.25rem;
+        }
+
+        .panel-header h3 {
+            font-size: 1.2rem;
             font-weight: 800;
             color: var(--text-main);
-            margin-bottom: 0.5rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
 
-        .card-grade-desc {
-            font-size: 0.9rem;
-            color: var(--text-sub);
-            margin-bottom: 1.25rem;
+        .q-overlay-item {
+            background: rgba(14, 19, 34, 0.8);
+            border: 1px solid var(--bento-border);
+            border-radius: var(--radius-md);
+            padding: 1.2rem;
+            margin-bottom: 1rem;
         }
 
-        .card-action-btn {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            border: none;
-            padding: 0.75rem 1.25rem;
-            border-radius: var(--radius-md);
-            font-weight: 700;
+        .q-overlay-title {
+            font-family: var(--font-en);
             font-size: 0.95rem;
-            cursor: pointer;
-            width: 100%;
-            text-align: center;
-            transition: all var(--trans-fast);
-        }
-
-        .card-action-btn:hover {
-            opacity: 0.95;
-            box-shadow: 0 6px 18px var(--secondary-glow);
-        }
-
-        /* Interactive Assessment Viewer Section */
-        .interactive-viewer-card {
-            background: var(--bg-card);
-            border: 1px solid var(--bento-border-light);
-            border-radius: var(--radius-xl);
-            padding: 2.25rem;
-            backdrop-filter: blur(16px);
-            box-shadow: var(--bento-shadow);
-            margin-bottom: 3rem;
-        }
-
-        .viewer-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 1.25rem;
-            border-bottom: 1px solid var(--bento-border);
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .viewer-title h2 {
-            font-size: 1.6rem;
-            font-weight: 800;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-        }
-
-        .viewer-title p {
-            color: var(--text-sub);
-            font-size: 0.9rem;
-            margin-top: 0.2rem;
-        }
-
-        .score-pill {
-            background: rgba(7, 9, 19, 0.8);
-            border: 1px solid var(--accent-amber);
-            border-radius: var(--radius-md);
-            padding: 0.5rem 1.25rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            box-shadow: 0 0 15px rgba(255, 184, 0, 0.2);
-        }
-
-        .score-number {
-            font-size: 1.5rem;
-            font-weight: 900;
-            color: var(--accent-amber);
-            font-family: var(--font-en);
-        }
-
-        .activity-block {
-            margin-bottom: 2.5rem;
-        }
-
-        .activity-header {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1.25rem;
-        }
-
-        .activity-badge {
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            background: var(--accent-cyan);
-            color: var(--bg-dark);
-            font-weight: 900;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: var(--font-en);
-        }
-
-        .activity-title {
-            font-size: 1.15rem;
             font-weight: 700;
-            color: var(--text-main);
-            font-family: var(--font-en);
+            color: var(--accent-amber);
+            margin-bottom: 0.75rem;
             direction: ltr;
             text-align: left;
         }
 
-        /* Question Cards Layout */
-        .q-cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 1.25rem;
-        }
-
-        .q-box {
-            background: rgba(14, 19, 34, 0.7);
-            border: 1px solid var(--bento-border);
-            border-radius: var(--radius-md);
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            transition: all var(--trans-fast);
-            position: relative;
-        }
-
-        .q-box:hover {
-            border-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .q-sample-img {
-            width: 120px;
-            height: 100px;
-            object-fit: contain;
-            background: #fff;
-            padding: 6px;
-            border-radius: var(--radius-sm);
-            margin-bottom: 1rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        }
-
-        .scrambled-badge {
-            font-family: var(--font-en);
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: var(--accent-amber);
-            letter-spacing: 2px;
-            background: rgba(255, 184, 0, 0.1);
-            padding: 0.25rem 0.75rem;
-            border-radius: var(--radius-sm);
-            margin-bottom: 1rem;
-            border: 1px solid rgba(255, 184, 0, 0.2);
-        }
-
-        .cyber-input {
-            width: 90%;
-            padding: 0.6rem 1rem;
+        .cyber-input-field {
+            width: 100%;
+            padding: 0.6rem 0.9rem;
             border: 2px solid var(--bento-border);
             background: rgba(7, 9, 19, 0.9);
             border-radius: var(--radius-sm);
             color: var(--text-main);
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-family: var(--font-en);
-            text-align: center;
-            transition: all var(--trans-fast);
             direction: ltr;
+            transition: all var(--trans-fast);
         }
 
-        .cyber-input:focus {
+        .cyber-input-field:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 15px var(--primary-glow);
+            box-shadow: 0 0 12px var(--primary-glow);
         }
 
-        .cyber-input.is-correct {
+        .cyber-input-field.is-correct {
             border-color: var(--accent-emerald);
             background: rgba(16, 185, 129, 0.15);
-            box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
         }
 
-        .cyber-input.is-wrong {
+        .cyber-input-field.is-wrong {
             border-color: var(--secondary);
             background: rgba(255, 0, 122, 0.15);
-            box-shadow: 0 0 15px var(--secondary-glow);
             animation: shake 0.4s ease-in-out;
         }
 
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-6px); }
-            40%, 80% { transform: translateX(6px); }
-        }
-
-        .opt-buttons {
+        .opt-grid {
             display: flex;
             gap: 0.5rem;
-            width: 100%;
             margin-top: 0.5rem;
         }
 
-        .cyber-opt-btn {
+        .opt-btn {
             flex: 1;
-            padding: 0.6rem 0.4rem;
+            padding: 0.55rem 0.4rem;
             border: 1.5px solid var(--bento-border);
-            background: rgba(30, 41, 59, 0.7);
+            background: rgba(30, 41, 59, 0.8);
             color: var(--text-main);
             border-radius: var(--radius-sm);
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-family: var(--font-en);
             font-weight: 700;
             cursor: pointer;
-            transition: all var(--trans-fast);
             direction: ltr;
         }
 
-        .cyber-opt-btn:hover {
-            border-color: var(--accent-cyan);
-            background: rgba(0, 242, 254, 0.15);
-        }
-
-        .cyber-opt-btn.btn-correct {
-            border-color: var(--accent-emerald);
+        .opt-btn.correct {
             background: var(--accent-emerald);
+            border-color: var(--accent-emerald);
             color: #fff;
-            box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
         }
 
-        .cyber-opt-btn.btn-wrong {
-            border-color: var(--secondary);
+        .opt-btn.wrong {
             background: var(--secondary);
+            border-color: var(--secondary);
             color: #fff;
-            box-shadow: 0 0 15px var(--secondary-glow);
         }
 
-        .res-msg {
-            margin-top: 0.6rem;
-            font-size: 0.85rem;
-            font-weight: 700;
-            height: 24px;
+        .btn-check-page {
+            width: 100%;
+            background: linear-gradient(135deg, var(--accent-emerald), #059669);
+            color: white;
+            border: none;
+            padding: 0.85rem;
+            border-radius: var(--radius-md);
+            font-weight: 800;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
-        .res-msg.correct { color: var(--accent-emerald); }
-        .res-msg.wrong { color: var(--secondary); }
 
-        .btn-speak {
+        .btn-speak-sm {
             background: transparent;
             border: none;
             color: var(--accent-cyan);
             cursor: pointer;
             font-size: 1.1rem;
-            vertical-align: middle;
-            transition: scale var(--trans-fast);
+            margin-left: 6px;
         }
-        .btn-speak:hover { scale: 1.25; }
 
-        .controls-footer {
+        /* Grade Selection Buttons */
+        .grade-tabs-bar {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 2rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid var(--bento-border);
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
         }
 
-        .btn-verify-all {
-            background: linear-gradient(135deg, var(--accent-emerald), #059669);
-            color: white;
-            border: none;
-            padding: 0.85rem 2rem;
-            border-radius: var(--radius-md);
-            font-size: 1.05rem;
-            font-weight: 800;
-            cursor: pointer;
-            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
-            transition: all var(--trans-fast);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .btn-verify-all:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
-        }
-
-        .btn-reset {
-            background: rgba(255, 255, 255, 0.06);
-            color: var(--text-sub);
+        .grade-tab {
+            background: var(--bg-card);
             border: 1px solid var(--bento-border);
-            padding: 0.85rem 1.5rem;
+            color: var(--text-sub);
+            padding: 0.75rem 1.5rem;
             border-radius: var(--radius-md);
             font-weight: 700;
             cursor: pointer;
             transition: all var(--trans-fast);
         }
 
-        .btn-reset:hover {
-            background: rgba(255, 255, 255, 0.12);
+        .grade-tab.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: #fff;
-        }
-
-        /* Result Modal Overlay */
-        .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(7, 9, 19, 0.85);
-            backdrop-filter: blur(10px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10000;
-            opacity: 0;
-            pointer-events: none;
-            transition: all var(--trans-normal);
-        }
-
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .bento-modal-content {
-            background: var(--bg-card);
-            border: 2px solid var(--primary);
-            border-radius: var(--radius-xl);
-            padding: 2.5rem;
-            text-align: center;
-            max-width: 440px;
-            width: 90%;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.8);
-            transform: scale(0.85);
-            transition: transform var(--trans-bounce);
-        }
-
-        .modal-overlay.active .bento-modal-content {
-            transform: scale(1);
+            border-color: transparent;
+            box-shadow: 0 6px 20px var(--primary-glow);
         }
     </style>
 </head>
 <body>
 
     <!-- 📺 TV Breaking News Ticker Banner -->
-    <a href="https://wa.me/201208609509?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B4%D8%AA%D8%B1%D8%A7%D9%83%20%D9%81%D9%8A%20%D9%85%D9%88%D9%82%D8%B9%20English%20Toon" target="_blank" class="tv-news-ticker-banner" title="اضغط للاشتراك الفوري عبر الواتساب">
-        <div class="ticker-badge-label">
-            <span>🚨 تنبيه عاجل</span>
-        </div>
+    <a href="https://wa.me/201208609509?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B4%D8%AA%D8%B1%D8%A7%D9%83%20%D9%81%D9%8A%20%D9%85%D9%88%D9%82%D8%B9%20English%20Toon" target="_blank" class="tv-news-ticker-banner">
+        <div class="ticker-badge-label"><span>🚨 تنبيه عاجل</span></div>
         <div class="ticker-scroll-window">
             <div class="ticker-track-seamless">
-                <div class="ticker-news-item">
-                    <span>⚠️ أنت الآن تستخدم النسخة المجانية للموقع وسيتم حذفك قريباً! للاشتراك تواصل واتس: 01208609509</span>
-                    <span class="ticker-wa-link-pill">💬 اشترك عبر الواتساب</span>
-                </div>
                 <div class="ticker-news-item">
                     <span>⚠️ أنت الآن تستخدم النسخة المجانية للموقع وسيتم حذفك قريباً! للاشتراك تواصل واتس: 01208609509</span>
                     <span class="ticker-wa-link-pill">💬 اشترك عبر الواتساب</span>
@@ -452,7 +295,7 @@
         <div class="glow-orb glow-orb-3"></div>
     </div>
 
-    <!-- Main Content Layout -->
+    <!-- Main Workspace -->
     <div class="page-animate">
 
         <!-- App Floating Header -->
@@ -463,7 +306,7 @@
                 </div>
                 <div class="brand-text">
                     <span class="brand-title">English Toon</span>
-                    <span class="brand-subtitle">الكتب والتقييمات التفاعلية</span>
+                    <span class="brand-subtitle">قارئ الكتب والتقييمات التفاعلي</span>
                 </div>
             </a>
 
@@ -481,105 +324,54 @@
             </div>
         </header>
 
-        <!-- Breadcrumb Container -->
+        <!-- Breadcrumb Bar -->
         <div class="breadcrumb-container">
             <ul class="breadcrumb-list">
                 <li><a href="dashboard.html" class="breadcrumb-link">🏠 الرئيسية</a></li>
                 <li class="breadcrumb-separator">›</li>
-                <li class="breadcrumb-current">📖 الكتب التفاعلية وتصحيح الأنشطة</li>
+                <li class="breadcrumb-current">📖 تقليب وتحليل صفحة الكتاب تفاعلياً</li>
             </ul>
-
             <a href="dashboard.html" class="btn-back">← العودة للرئيسية</a>
         </div>
 
-        <!-- Hero Section -->
-        <section class="hero-wrapper books-hero-wrapper">
-            <div class="hero-banner">
-                <div class="hero-content">
-                    <div class="hero-tag">✨ منصة التقييمات التفاعلية المصححة تلقائياً</div>
-                    <h1 class="hero-title">حل تقييمات الكتب الوزارية <span style="color:var(--accent-cyan);">أونلاين</span> 📝</h1>
-                    <p class="hero-description">اختر كتاب المرحلة الدراسية، أجب على التمارين، واحصل على التصحيح الفوري مع نطق الكلمات والنتيجة المباشرة!</p>
-                </div>
-                <img src="images/logo_icon.png" alt="Mascot" class="hero-decor-img">
-            </div>
-        </section>
-
-        <!-- Books Selection Bento Grid -->
-        <div class="books-bento-grid">
-            <div class="book-grade-card active" id="card-grade-1" onclick="selectGrade(1)">
-                <div>
-                    <span class="card-tag">الترم الأول 2027</span>
-                    <h3 class="card-grade-title">🎒 الصف الأول الابتدائي</h3>
-                    <p class="card-grade-desc">كتاب التقييمات والأنشطة الأسبوعية - English Language Primary 1</p>
-                </div>
-                <button class="card-action-btn">فتح الكتاب والتمرين 🚀</button>
-            </div>
-
-            <div class="book-grade-card" id="card-grade-2" onclick="selectGrade(2)">
-                <div>
-                    <span class="card-tag">الترم الأول 2027</span>
-                    <h3 class="card-grade-title">📖 الصف الثاني الابتدائي</h3>
-                    <p class="card-grade-desc">كتاب التقييمات والأداء الصفي - Around the Classroom</p>
-                </div>
-                <button class="card-action-btn">فتح الكتاب والتمرين 🚀</button>
-            </div>
-
-            <div class="book-grade-card" id="card-grade-3" onclick="selectGrade(3)">
-                <div>
-                    <span class="card-tag">الترم الأول 2027</span>
-                    <h3 class="card-grade-title">✏️ الصف الثالث الابتدائي</h3>
-                    <p class="card-grade-desc">كتاب التقييمات التفاعلية - Unit 1: How Do You Feel?</p>
-                </div>
-                <button class="card-action-btn">فتح الكتاب والتمرين 🚀</button>
-            </div>
+        <!-- Grade Selector Tabs -->
+        <div class="grade-tabs-bar">
+            <button class="grade-tab active" onclick="switchBookGrade(1)" id="gtab-1">🎒 الصف الأول الابتدائي (كتاب التقييمات)</button>
+            <button class="grade-tab" onclick="switchBookGrade(2)" id="gtab-2">📖 الصف الثاني الابتدائي (كتاب التقييمات)</button>
+            <button class="grade-tab" onclick="switchBookGrade(3)" id="gtab-3">✏️ الصف الثالث الابتدائي (كتاب التقييمات)</button>
         </div>
 
-        <!-- Interactive Viewer Area -->
-        <div class="interactive-viewer-card">
+        <!-- Flipbook Main Stage -->
+        <div class="flipbook-container-wrapper">
             
-            <div class="viewer-header">
-                <div class="viewer-title">
-                    <h2 id="view-title">English Language - Performance Tasks</h2>
-                    <p id="view-subtitle">الوحدة الأولى - الدرس الأول: Greetings</p>
+            <!-- Book Page Stage -->
+            <div class="book-stage-card">
+                
+                <div class="flipbook-toolbar">
+                    <button class="page-nav-btn" onclick="prevPage()" id="btn-prev">▶️ الصفحة السابقة</button>
+                    <div class="page-indicator" id="page-counter">صفحة 3 من 10</div>
+                    <button class="page-nav-btn" onclick="nextPage()" id="btn-next">الصفحة التالية ◀️</button>
                 </div>
-                <div class="score-pill">
-                    <span style="color:var(--text-sub); font-size:0.9rem;">الدرجة:</span>
-                    <span class="score-number" id="score-counter">0 / 0</span>
+
+                <div class="page-canvas-wrapper" id="canvas-stage">
+                    <img src="images/books/p1/page_3.png" alt="Book Page" class="book-page-img" id="book-img">
                 </div>
+
             </div>
 
-            <!-- Activity 1 -->
-            <div class="activity-block">
-                <div class="activity-header">
-                    <div class="activity-badge">1</div>
-                    <div class="activity-title">Activity 1: Unscramble and write the word correctly</div>
+            <!-- Sidebar Exercises for Current Page -->
+            <div class="sidebar-exercises-card">
+                <div class="panel-header">
+                    <h3>✍️ تمارينات هذه الصفحة</h3>
+                    <div style="font-family:var(--font-en); font-weight:800; color:var(--accent-amber);" id="page-score">0 / 0</div>
                 </div>
-                <div class="q-cards-grid" id="container-act1"></div>
-            </div>
 
-            <!-- Activity 2 -->
-            <div class="activity-block">
-                <div class="activity-header">
-                    <div class="activity-badge">2</div>
-                    <div class="activity-title">Activity 2: Listen & Circle the correct word for the picture</div>
+                <div id="exercises-list">
+                    <!-- Dynamic exercises injected here -->
                 </div>
-                <div class="q-cards-grid" id="container-act2"></div>
-            </div>
 
-            <!-- Activity 3 -->
-            <div class="activity-block">
-                <div class="activity-header">
-                    <div class="activity-badge">3</div>
-                    <div class="activity-title">Activity 3: Reorder words to make correct sentences</div>
-                </div>
-                <div class="q-cards-grid" id="container-act3"></div>
-            </div>
-
-            <!-- Footer Action Controls -->
-            <div class="controls-footer">
-                <button class="btn-reset" onclick="resetAnswers()">🔄 إعادة محاولة الحل</button>
-                <button class="btn-verify-all" onclick="checkAllAnswers()">
-                    <span>✅</span> تصحيح الكتاب وإظهار النتيجة
+                <button class="btn-check-page" onclick="checkCurrentPage()">
+                    <span>✅</span> تصحيح إجابات الصفحة
                 </button>
             </div>
 
@@ -589,267 +381,214 @@
 
     <!-- Mobile Bottom Dock -->
     <nav class="mobile-bottom-dock">
-        <a href="dashboard.html" class="dock-item">
-            <span class="dock-icon">🏠</span>
-            <span>الرئيسية</span>
-        </a>
-        <a href="interactive-books.html" class="dock-item active">
-            <span class="dock-icon">📖</span>
-            <span>الكتب</span>
-        </a>
-        <a href="exams.html" class="dock-item">
-            <span class="dock-icon">📝</span>
-            <span>الامتحانات</span>
-        </a>
-        <a href="pdf-files.html" class="dock-item">
-            <span class="dock-icon">📄</span>
-            <span>PDF</span>
-        </a>
+        <a href="dashboard.html" class="dock-item"><span class="dock-icon">🏠</span><span>الرئيسية</span></a>
+        <a href="interactive-books.html" class="dock-item active"><span class="dock-icon">📖</span><span>الكتب</span></a>
+        <a href="exams.html" class="dock-item"><span class="dock-icon">📝</span><span>الامتحانات</span></a>
+        <a href="pdf-files.html" class="dock-item"><span class="dock-icon">📄</span><span>PDF</span></a>
     </nav>
 
-    <!-- Result Modal -->
-    <div class="modal-overlay" id="result-modal">
-        <div class="bento-modal-content">
-            <div style="font-size: 3.5rem; margin-bottom: 0.5rem;" id="res-emoji">🏆</div>
-            <h3 style="font-size:1.6rem; color:#fff; margin-bottom:0.5rem;" id="res-heading">ممتاز جداً!</h3>
-            <p style="color:var(--text-sub); margin-bottom:1.5rem;" id="res-detail">حصلت على الدرجة النهائية كاملة.</p>
-            <button onclick="closeModal()" style="background:linear-gradient(135deg, var(--primary), var(--secondary)); color:white; border:none; padding:0.75rem 2rem; border-radius:var(--radius-md); font-weight:800; cursor:pointer;">متابعة الأنشطة 🚀</button>
-        </div>
-    </div>
-
     <script>
-        const gradeContent = {
+        const bookData = {
             1: {
-                title: "Primary (1) - English Performance Tasks & Assessments",
-                subtitle: "Unit 1: Welcome to My School | Lesson 1: Greetings",
-                act1: [
-                    { id: "p1_1", scrambled: "ypla", answer: "play", img: "https://images.unsplash.com/photo-1596464716127-f2a82984de30?w=150&auto=format&fit=crop&q=80" },
-                    { id: "p1_2", scrambled: "fenrsid", answer: "friends", img: "https://images.unsplash.com/photo-1577896851231-70ef18881754?w=150&auto=format&fit=crop&q=80" },
-                    { id: "p1_3", scrambled: "elhol", answer: "hello", img: "https://images.unsplash.com/photo-1544717305-2782549b5136?w=150&auto=format&fit=crop&q=80" }
-                ],
-                act2: [
-                    { id: "p1_c1", opts: ["cat", "fan"], answer: "fan", img: "https://images.unsplash.com/photo-1618941709602-92849f611320?w=150&auto=format&fit=crop&q=80" },
-                    { id: "p1_c2", opts: ["map", "cat"], answer: "cat", img: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=150&auto=format&fit=crop&q=80" },
-                    { id: "p1_c3", opts: ["hat", "cat"], answer: "hat", img: "https://images.unsplash.com/photo-1521369984100-343516086f4a?w=150&auto=format&fit=crop&q=80" }
-                ],
-                act3: [
-                    { id: "p1_s1", prompt: "your - What's - name?", answer: "What's your name?" },
-                    { id: "p1_s2", prompt: "name - Hana. - My - is", answer: "My name is Hana." }
-                ]
+                totalPages: 10,
+                path: "images/books/p1",
+                pages: {
+                    3: {
+                        title: "Primary 1 - Unit 1 (Page 3)",
+                        items: [
+                            { type: "text", id: "p1_3_1", label: "Unscramble: ypla", answer: "play" },
+                            { type: "text", id: "p1_3_2", label: "Unscramble: fenrsid", answer: "friends" },
+                            { type: "text", id: "p1_3_3", label: "Unscramble: elhol", answer: "hello" },
+                            { type: "text", id: "p1_3_4", label: "Reorder: your - What's - name?", answer: "What's your name?" },
+                            { type: "text", id: "p1_3_5", label: "Reorder: name - Hana. - My - is", answer: "My name is Hana." }
+                        ]
+                    },
+                    4: {
+                        title: "Primary 1 - Unit 1 (Page 4)",
+                        items: [
+                            { type: "choice", id: "p1_4_1", label: "Choose correct word (fan / cat)", opts: ["fan", "cat"], answer: "fan" },
+                            { type: "choice", id: "p1_4_2", label: "Choose correct word (map / cat)", opts: ["map", "cat"], answer: "cat" }
+                        ]
+                    }
+                }
             },
             2: {
-                title: "Primary (2) - English Performance Tasks & Assessments",
-                subtitle: "Lesson 2: Around the Classroom",
-                act1: [
-                    { id: "p2_1", scrambled: "dsek", answer: "desk", img: "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=150&auto=format&fit=crop&q=80" },
-                    { id: "p2_2", scrambled: "cahir", answer: "chair", img: "https://images.unsplash.com/photo-1503602642458-232111445657?w=150&auto=format&fit=crop&q=80" },
-                    { id: "p2_3", scrambled: "pne", answer: "pen", img: "https://images.unsplash.com/photo-1585336261026-675778a2d6cc?w=150&auto=format&fit=crop&q=80" }
-                ],
-                act2: [
-                    { id: "p2_c1", opts: ["man", "cap"], answer: "man", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80" },
-                    { id: "p2_c2", opts: ["desk", "chair"], answer: "chair", img: "https://images.unsplash.com/photo-1580481072645-022f9a6d83d0?w=150&auto=format&fit=crop&q=80" }
-                ],
-                act3: [
-                    { id: "p2_s1", prompt: "see - I - map. - a", answer: "I see a map." },
-                    { id: "p2_s2", prompt: "hat. - a - see - I", answer: "I see a hat." }
-                ]
+                totalPages: 10,
+                path: "images/books/p2",
+                pages: {
+                    5: {
+                        title: "Primary 2 - Lesson 2 (Page 5)",
+                        items: [
+                            { type: "choice", id: "p2_5_1", label: "Activity 1: (cat / fan)", opts: ["cat", "fan"], answer: "fan" },
+                            { type: "choice", id: "p2_5_2", label: "Activity 1: (map / cat)", opts: ["map", "cat"], answer: "cat" },
+                            { type: "choice", id: "p2_5_3", label: "Activity 1: (hat / cat)", opts: ["hat", "cat"], answer: "hat" },
+                            { type: "choice", id: "p2_5_4", label: "Activity 1: (man / cap)", opts: ["man", "cap"], answer: "man" },
+                            { type: "text", id: "p2_5_5", label: "Activity 2: Sentence 1", answer: "I see a man." }
+                        ]
+                    }
+                }
             },
             3: {
-                title: "Primary (3) - English Performance Tasks & Assessments",
-                subtitle: "Unit 1: How Do You Feel?",
-                act1: [
-                    { id: "p3_1", scrambled: "hpayp", answer: "happy", img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" },
-                    { id: "p3_2", scrambled: "srytiht", answer: "thirsty", img: "https://images.unsplash.com/photo-1548839140-29a749e1bc4e?w=150&auto=format&fit=crop&q=80" }
-                ],
-                act2: [
-                    { id: "p3_c1", opts: ["happy", "sad"], answer: "happy", img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" },
-                    { id: "p3_c2", opts: ["hungry", "thirsty"], answer: "hungry", img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=150&auto=format&fit=crop&q=80" }
-                ],
-                act3: [
-                    { id: "p3_s1", prompt: "feel - I - happy.", answer: "I feel happy." }
-                ]
+                totalPages: 10,
+                path: "images/books/p3",
+                pages: {
+                    3: {
+                        title: "Primary 3 - Unit 1 (Page 3)",
+                        items: [
+                            { type: "text", id: "p3_3_1", label: "Unscramble: hpayp", answer: "happy" },
+                            { type: "text", id: "p3_3_2", label: "Unscramble: srytiht", answer: "thirsty" },
+                            { type: "text", id: "p3_3_3", label: "Reorder: feel - I - happy.", answer: "I feel happy." }
+                        ]
+                    }
+                }
             }
         };
 
         let currentGrade = 1;
-        let selectedOpts = {};
+        let currentPage = 3;
+        let selectedAnswers = {};
 
-        function speakWord(word) {
+        function speak(text) {
             if ('speechSynthesis' in window) {
-                const utt = new SpeechSynthesisUtterance(word);
+                const utt = new SpeechSynthesisUtterance(text);
                 utt.lang = 'en-US';
-                utt.rate = 0.9;
                 window.speechSynthesis.speak(utt);
             }
         }
 
-        function selectGrade(g) {
+        function switchBookGrade(g) {
             currentGrade = g;
-            selectedOpts = {};
+            currentPage = g === 2 ? 5 : 3;
             
-            document.querySelectorAll('.book-grade-card').forEach((card, i) => {
-                card.classList.toggle('active', i + 1 === g);
+            document.querySelectorAll('.grade-tab').forEach((tab, i) => {
+                tab.classList.toggle('active', i + 1 === g);
             });
 
-            renderViewer();
+            renderBookState();
         }
 
-        function renderViewer() {
-            const data = gradeContent[currentGrade];
-            document.getElementById('view-title').innerText = data.title;
-            document.getElementById('view-subtitle').innerText = data.subtitle;
-
-            // Activity 1
-            const c1 = document.getElementById('container-act1');
-            c1.innerHTML = data.act1.map(item => `
-                <div class="q-box">
-                    <img src="${item.img}" class="q-sample-img">
-                    <div class="scrambled-badge">${item.scrambled}</div>
-                    <input type="text" class="cyber-input" id="in-${item.id}" placeholder="اكتب الكلمة..." autocomplete="off">
-                    <div class="res-msg" id="msg-${item.id}"></div>
-                </div>
-            `).join('');
-
-            // Activity 2
-            const c2 = document.getElementById('container-act2');
-            c2.innerHTML = data.act2.map(item => `
-                <div class="q-box">
-                    <img src="${item.img}" class="q-sample-img">
-                    <div style="font-size:0.9rem; font-weight:700; margin-bottom:0.5rem; color:var(--text-sub); font-family:var(--font-en);">
-                        Choose <button class="btn-speak" onclick="speakWord('${item.answer}')" title="🔊 نطق الكلمة">🔊</button>
-                    </div>
-                    <div class="opt-buttons">
-                        ${item.opts.map(opt => `
-                            <button class="cyber-opt-btn" id="opt-${item.id}-${opt}" onclick="pickOpt('${item.id}', '${opt}', '${item.answer}')">${opt}</button>
-                        `).join('')}
-                    </div>
-                    <div class="res-msg" id="msg-${item.id}"></div>
-                </div>
-            `).join('');
-
-            // Activity 3
-            const c3 = document.getElementById('container-act3');
-            c3.innerHTML = data.act3.map(item => `
-                <div class="q-box" style="grid-column: 1 / -1;">
-                    <div style="font-size:1.15rem; font-weight:700; color:var(--accent-amber); margin-bottom:0.75rem; font-family:var(--font-en);">
-                        ${item.prompt} <button class="btn-speak" onclick="speakWord('${item.answer}')" title="🔊 استمع">🔊</button>
-                    </div>
-                    <input type="text" class="cyber-input" id="in-${item.id}" style="width:75%;" placeholder="اكتب الجملة بالترتيب..." autocomplete="off">
-                    <div class="res-msg" id="msg-${item.id}"></div>
-                </div>
-            `).join('');
-
-            document.getElementById('score-counter').innerText = `0 / ${getTotalQ()}`;
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                renderBookState();
+            }
         }
 
-        function pickOpt(qId, val, answer) {
-            selectedOpts[qId] = val;
-            const data = gradeContent[currentGrade];
-            const item = data.act2.find(x => x.id === qId);
+        function nextPage() {
+            const data = bookData[currentGrade];
+            if (currentPage < data.totalPages) {
+                currentPage++;
+                renderBookState();
+            }
+        }
 
-            item.opts.forEach(opt => {
-                const btn = document.getElementById(`opt-${qId}-${opt}`);
-                btn.className = 'cyber-opt-btn';
-                if (opt === val) {
-                    if (val === answer) {
-                        btn.classList.add('btn-correct');
-                        speakWord(answer);
+        function renderBookState() {
+            const data = bookData[currentGrade];
+            document.getElementById('page-counter').innerText = `صفحة ${currentPage} من ${data.totalPages}`;
+            document.getElementById('book-img').src = `${data.path}/page_${currentPage}.png`;
+
+            document.getElementById('btn-prev').disabled = (currentPage <= 1);
+            document.getElementById('btn-next').disabled = (currentPage >= data.totalPages);
+
+            // Render exercises for current page
+            const listEl = document.getElementById('exercises-list');
+            const pageInfo = data.pages[currentPage];
+
+            if (!pageInfo || !pageInfo.items || pageInfo.items.length === 0) {
+                listEl.innerHTML = `
+                    <div style="text-align:center; padding: 2rem 1rem; color:var(--text-sub);">
+                        📖 هذه الصفحة للاستراض والقراءة. تنقل للصفحات التالية لبدء التمارين!
+                    </div>
+                `;
+                document.getElementById('page-score').innerText = '-';
+                return;
+            }
+
+            listEl.innerHTML = pageInfo.items.map(item => {
+                if (item.type === 'text') {
+                    return `
+                        <div class="q-overlay-item">
+                            <div class="q-overlay-title">
+                                ${item.label} <button class="btn-speak-sm" onclick="speak('${item.answer}')">🔊</button>
+                            </div>
+                            <input type="text" class="cyber-input-field" id="input-${item.id}" placeholder="اكتب الإجابة..." autocomplete="off">
+                            <div id="res-${item.id}" style="font-size:0.8rem; font-weight:700; margin-top:0.4rem;"></div>
+                        </div>
+                    `;
+                } else if (item.type === 'choice') {
+                    return `
+                        <div class="q-overlay-item">
+                            <div class="q-overlay-title">${item.label}</div>
+                            <div class="opt-grid">
+                                ${item.opts.map(opt => `
+                                    <button class="opt-btn" id="opt-${item.id}-${opt}" onclick="pickOption('${item.id}', '${opt}', '${item.answer}')">${opt}</button>
+                                `).join('')}
+                            </div>
+                            <div id="res-${item.id}" style="font-size:0.8rem; font-weight:700; margin-top:0.4rem;"></div>
+                        </div>
+                    `;
+                }
+            }).join('');
+
+            document.getElementById('page-score').innerText = `0 / ${pageInfo.items.length}`;
+        }
+
+        function pickOption(id, opt, answer) {
+            selectedAnswers[id] = opt;
+            const data = bookData[currentGrade];
+            const pageInfo = data.pages[currentPage];
+            const item = pageInfo.items.find(x => x.id === id);
+
+            item.opts.forEach(o => {
+                const btn = document.getElementById(`opt-${id}-${o}`);
+                btn.className = 'opt-btn';
+                if (o === opt) {
+                    if (opt === answer) {
+                        btn.classList.add('correct');
+                        speak(answer);
                     } else {
-                        btn.classList.add('btn-wrong');
+                        btn.classList.add('wrong');
+                    }
+                }
+            });
+        }
+
+        function checkCurrentPage() {
+            const data = bookData[currentGrade];
+            const pageInfo = data.pages[currentPage];
+            if (!pageInfo) return;
+
+            let score = 0;
+            let total = pageInfo.items.length;
+
+            pageInfo.items.forEach(item => {
+                const resEl = document.getElementById(`res-${item.id}`);
+                if (item.type === 'text') {
+                    const input = document.getElementById(`input-${item.id}`);
+                    const val = input.value.trim().toLowerCase();
+                    if (val === item.answer.toLowerCase()) {
+                        score++;
+                        input.className = 'cyber-input-field is-correct';
+                        resEl.style.color = 'var(--accent-emerald)';
+                        resEl.innerText = '🟢 صحيحة!';
+                    } else {
+                        input.className = 'cyber-input-field is-wrong';
+                        resEl.style.color = 'var(--secondary)';
+                        resEl.innerText = `🔴 الصحيح: ${item.answer}`;
+                    }
+                } else if (item.type === 'choice') {
+                    if (selectedAnswers[item.id] === item.answer) {
+                        score++;
+                        resEl.style.color = 'var(--accent-emerald)';
+                        resEl.innerText = '🟢 إجابة صحيحة!';
+                    } else {
+                        resEl.style.color = 'var(--secondary)';
+                        resEl.innerText = `🔴 الصحيح: ${item.answer}`;
                     }
                 }
             });
 
-            const msg = document.getElementById(`msg-${qId}`);
-            if (val === answer) {
-                msg.className = 'res-msg correct';
-                msg.innerText = '🟢 إجابة صحيحة!';
-            } else {
-                msg.className = 'res-msg wrong';
-                msg.innerText = '🔴 حاول مرة أخرى!';
-            }
-        }
-
-        function getTotalQ() {
-            const data = gradeContent[currentGrade];
-            return data.act1.length + data.act2.length + data.act3.length;
-        }
-
-        function checkAllAnswers() {
-            const data = gradeContent[currentGrade];
-            let score = 0;
-            let total = getTotalQ();
-
-            // Act 1
-            data.act1.forEach(item => {
-                const el = document.getElementById(`in-${item.id}`);
-                const msg = document.getElementById(`msg-${item.id}`);
-                const val = el.value.trim().toLowerCase();
-
-                if (val === item.answer.toLowerCase()) {
-                    score++;
-                    el.className = 'cyber-input is-correct';
-                    msg.className = 'res-msg correct';
-                    msg.innerText = '🟢 صحيحة!';
-                } else {
-                    el.className = 'cyber-input is-wrong';
-                    msg.className = 'res-msg wrong';
-                    msg.innerText = `🔴 الصحيح: ${item.answer}`;
-                }
-            });
-
-            // Act 2
-            data.act2.forEach(item => {
-                if (selectedOpts[item.id] === item.answer) score++;
-            });
-
-            // Act 3
-            data.act3.forEach(item => {
-                const el = document.getElementById(`in-${item.id}`);
-                const msg = document.getElementById(`msg-${item.id}`);
-                const val = el.value.trim().toLowerCase().replace(/\s+/g, ' ');
-                const exp = item.answer.toLowerCase().replace(/\s+/g, ' ');
-
-                if (val === exp) {
-                    score++;
-                    el.className = 'cyber-input is-correct';
-                    msg.className = 'res-msg correct';
-                    msg.innerText = '🟢 جملة صحيحة!';
-                } else {
-                    el.className = 'cyber-input is-wrong';
-                    msg.className = 'res-msg wrong';
-                    msg.innerText = `🔴 الصحيح: ${item.answer}`;
-                }
-            });
-
-            document.getElementById('score-counter').innerText = `${score} / ${total}`;
-            
-            // Show Modal
-            const modal = document.getElementById('result-modal');
-            const heading = document.getElementById('res-heading');
-            const detail = document.getElementById('res-detail');
-            const emoji = document.getElementById('res-emoji');
-
-            if (score === total) {
-                emoji.innerText = '🏆🎉';
-                heading.innerText = 'درجة كاملة 100%! أحسنت يا بطل';
-                detail.innerText = `أجبت على جميع أسئلة كتاب التقييمات بنجاح (${score} من ${total}).`;
-                speakWord("Excellent! Full marks!");
-            } else {
-                emoji.innerText = '⭐📚';
-                heading.innerText = 'عمل جيد!';
-                detail.innerText = `حصلت على ${score} من ${total}. راجع الأخطاء وحاول مجدداً للوصول للدرجة النهائية!`;
-            }
-            modal.classList.add('active');
-        }
-
-        function closeModal() {
-            document.getElementById('result-modal').classList.remove('active');
-        }
-
-        function resetAnswers() {
-            selectedOpts = {};
-            renderViewer();
+            document.getElementById('page-score').innerText = `${score} / ${total}`;
         }
 
         function logout() {
@@ -858,7 +597,7 @@
         }
 
         // Init
-        renderViewer();
+        renderBookState();
     </script>
 </body>
 </html>
