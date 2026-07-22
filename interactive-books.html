@@ -13,7 +13,7 @@
             --red: #ef4444;
             --amber: #f59e0b;
             --cyan: #06b6d4;
-            --bg: #0f172a;
+            --bg: #0b1329;
             --surface: #1e293b;
             --border: #334155;
             --text: #f8fafc;
@@ -23,7 +23,7 @@
         html, body {
             width: 100%;
             height: 100vh;
-            overflow: hidden; /* Lock viewport completely — no body scrolling */
+            overflow: hidden; /* Prevent body scrolling — viewport locked */
             font-family: 'Cairo', sans-serif;
             background: var(--bg);
             color: var(--text);
@@ -33,8 +33,8 @@
 
         /* ── TOP NAV BAR ── */
         .top-nav {
-            height: 55px;
-            background: #090d16;
+            height: 52px;
+            background: #070c18;
             border-bottom: 2px solid var(--border);
             padding: 0 16px;
             display: flex;
@@ -94,29 +94,30 @@
         /* ── MAIN OVERLAY STAGE ── */
         .overlay-stage {
             flex: 1;
-            height: calc(100vh - 55px);
+            height: calc(100vh - 52px);
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 10px;
+            justify-content: space-between;
+            padding: 8px 10px 10px 10px;
             overflow: hidden;
             position: relative;
         }
 
-        /* ── A4 PAGE CONTAINER WRAPPER ── */
+        /* ── LARGE FLUID A4 PAGE CONTAINER WRAPPER ── */
         .a4-overlay-wrapper {
             position: relative;
-            height: 100%;
-            max-height: calc(100vh - 120px);
-            aspect-ratio: 1 / 1.414; /* A4 aspect ratio */
+            height: calc(100vh - 115px);
+            aspect-ratio: 1 / 1.414; /* Fluid A4 Aspect Ratio */
+            max-width: 95vw;
             background: #ffffff;
             border-radius: 12px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.5), 0 0 0 3px #cbd5e1;
+            box-shadow: 0 15px 45px rgba(0,0,0,0.6), 0 0 0 3px #cbd5e1;
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
+            margin: 0 auto;
         }
 
         /* Original Book Page Image */
@@ -133,52 +134,52 @@
         .page-overlay-input {
             position: absolute;
             font-family: 'Outfit', sans-serif;
-            font-size: 1.05rem;
+            font-size: clamp(0.75rem, 1.2vw, 1.15rem);
             font-weight: 900;
             color: #1e1b4b;
-            background: rgba(255, 255, 255, 0.92);
+            background: rgba(255, 255, 255, 0.94);
             border: 2px solid #6366f1;
             border-radius: 6px;
-            padding: 0 6px;
+            padding: 0 4px;
             text-align: center;
             direction: ltr;
             box-shadow: 0 2px 8px rgba(99, 102, 241, 0.25);
-            transition: all 0.2s ease;
+            transition: all 0.15s ease;
             z-index: 50;
         }
         .page-overlay-input:focus {
             outline: none;
             background: #ffffff;
             border-color: #4f46e5;
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.35);
-            transform: scale(1.02);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.4);
+            transform: scale(1.03);
         }
         .page-overlay-input.correct {
             background: #ecfdf5 !important;
             border-color: #10b981 !important;
             color: #065f46 !important;
-            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3) !important;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.35) !important;
         }
         .page-overlay-input.wrong {
             background: #fef2f2 !important;
             border-color: #ef4444 !important;
             color: #991b1b !important;
-            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.3) !important;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.35) !important;
         }
 
-        /* ── BOTTOM TOOLBAR & ACTION BAR ── */
+        /* ── BOTTOM ACTION TOOLBAR ── */
         .bottom-action-bar {
-            height: 50px;
-            background: #0f172a;
-            border-top: 2px solid var(--border);
-            padding: 0 16px;
+            height: 48px;
+            background: #070c18;
+            border: 2px solid var(--border);
+            padding: 0 14px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 12px;
+            gap: 10px;
             width: 100%;
-            max-width: 800px;
-            border-radius: 12px 12px 0 0;
+            max-width: 850px;
+            border-radius: 12px;
             flex-shrink: 0;
         }
 
@@ -189,6 +190,7 @@
             border-radius: 20px;
             font-weight: 900;
             font-size: 0.85rem;
+            white-space: nowrap;
         }
 
         .btn-check-main {
@@ -204,6 +206,7 @@
             cursor: pointer;
             box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
             transition: all 0.15s ease;
+            white-space: nowrap;
         }
         .btn-check-main:hover {
             transform: translateY(-1px);
@@ -214,18 +217,21 @@
             background: var(--surface);
             border: 1px solid var(--border);
             color: #fff;
-            padding: 8px 12px;
+            padding: 8px 10px;
             border-radius: 8px;
             font-family: inherit;
             font-weight: 800;
             font-size: 0.82rem;
             cursor: pointer;
+            white-space: nowrap;
         }
         .btn-reveal-main:hover, .btn-speak-main:hover { background: #475569; }
 
-        @media (max-width: 650px) {
-            .a4-overlay-wrapper { aspect-ratio: auto; width: 100%; height: calc(100vh - 120px); }
-            .page-overlay-input { font-size: 0.85rem; }
+        @media (max-width: 700px) {
+            .a4-overlay-wrapper { height: calc(100vh - 120px); width: 100%; aspect-ratio: auto; }
+            .page-overlay-input { font-size: 0.8rem; padding: 0 2px; }
+            .bottom-action-bar { padding: 0 8px; gap: 6px; }
+            .btn-check-main { font-size: 0.82rem; padding: 6px 10px; }
         }
     </style>
 </head>
@@ -242,7 +248,7 @@
         </select>
         <select class="nav-select" id="page-sel" onchange="jumpTo(this.value)"></select>
         <button class="nav-btn" onclick="prevPage()">◀ السابقة</button>
-        <span class="page-counter" id="page-counter">3 / 72</span>
+        <span class="page-counter" id="page-counter">1 / 72</span>
         <button class="nav-btn" onclick="nextPage()">التالية ▶</button>
     </div>
 </nav>
@@ -250,7 +256,7 @@
 <!-- ── MAIN OVERLAY STAGE ── -->
 <div class="overlay-stage">
 
-    <!-- A4 Original Book Page Frame Wrapper -->
+    <!-- Fluid A4 Original Book Page Frame Wrapper -->
     <div class="a4-overlay-wrapper" id="a4-wrapper">
         <img id="book-page-img" class="a4-overlay-img" src="" alt="صفحة الكتاب الأصلية"
              onerror="this.style.display='none'; document.getElementById('img-err').style.display='block'">
@@ -275,7 +281,7 @@
 <script src="js/p1_book_data.js"></script>
 <script>
     let bookId = 1;
-    let pageNum = 3;
+    let pageNum = 1;
     const TOTAL = 72;
 
     function speak(text) {
@@ -297,7 +303,7 @@
         }
     }
 
-    function changeBook() { bookId = +document.getElementById('book-sel').value; pageNum = 3; render(); }
+    function changeBook() { bookId = +document.getElementById('book-sel').value; pageNum = 1; render(); }
     function jumpTo(p) { pageNum = +p; render(); }
     function prevPage() { if (pageNum > 1) { pageNum--; render(); } }
     function nextPage() { if (pageNum < TOTAL) { pageNum++; render(); } }
@@ -315,7 +321,6 @@
         imgEl.style.display = 'block';
         errEl.style.display = 'none';
 
-        // Load original page image
         imgEl.src = `images/books/${folder}/${pageNum}.jpg`;
         imgEl.onerror = function() {
             this.onerror = null;
@@ -338,7 +343,7 @@
 
         document.getElementById('score-badge').textContent = `النتيجة: 0 / ${db.inputs.filter(x => x.answer !== '__free__').length}`;
 
-        // Inject direct overlay inputs over the original book page image
+        // Inject overlay inputs right over the dotted lines on the page image
         db.inputs.forEach((inpData) => {
             const inp = document.createElement('input');
             inp.type = 'text';
@@ -350,6 +355,11 @@
             inp.placeholder = inpData.placeholder || '...';
             inp.dataset.answer = inpData.answer.toLowerCase();
             inp.id = inpData.id;
+
+            // Single letter box limit if answer length is 1
+            if (inpData.answer.length === 1 && inpData.answer !== '__free__') {
+                inp.maxLength = 1;
+            }
 
             container.appendChild(inp);
         });
@@ -379,7 +389,7 @@
 
         if (correct === total && total > 0) {
             speak(`Excellent! Perfect score! ${correct} out of ${total}`);
-            setTimeout(() => alert(`🎉 ممتاز جداً! اجتزت صفحة ${pageNum} بنجاح وحصلت على العلامة الكاملة (${correct}/${total}) ⭐⭐⭐`), 100);
+            setTimeout(() => alert(`🎉 ممتاز جداً! أجبت كل أسئلة صفحة ${pageNum} صح وحصلت على الدرجة الكاملة (${correct}/${total}) ⭐⭐⭐`), 100);
         } else {
             speak(`Your score is ${correct} out of ${total}`);
         }

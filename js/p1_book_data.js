@@ -1,6 +1,6 @@
 /**
- * English Toon — Primary 1 Book Overlay Coordinates Database
- * قاعدة بيانات الإحداثيات المباشرة لمربعات الإجابة على صورة الصفحة الأصلية 100%
+ * English Toon — Primary 1 Book Overlay Coordinates Database (Pages 1 to 10)
+ * مربعات مدخلات دقيقة جداً فوق النقط فقط (مربع الحرف الأول يغطي النقط فقط ويبقي الكلمة واضحة)
  */
 
 const P1_OVERLAY_DATABASE = {
@@ -10,16 +10,16 @@ const P1_OVERLAY_DATABASE = {
     // ══════════════════════════════════════════
     1: {
         pageImg: "images/books/p1/1.jpg",
-        title: "Primary (1) First Term — Cover",
+        title: "Primary (1) First Term — Cover Page",
         inputs: [
-            { id: "p1_name",   top: "84.2%", left: "26.0%", width: "52.0%", height: "2.6%", answer: "__free__", placeholder: "اكتب اسمك هنا..." },
-            { id: "p1_class",  top: "87.8%", left: "26.0%", width: "52.0%", height: "2.6%", answer: "__free__", placeholder: "اكتب فصلك..." },
-            { id: "p1_school", top: "91.4%", left: "26.0%", width: "52.0%", height: "2.6%", answer: "__free__", placeholder: "اكتب مدرستك..." }
+            { id: "p1_name",   top: "84.2%", left: "26.0%", width: "52.0%", height: "2.8%", answer: "__free__", placeholder: "اكتب اسمك هنا..." },
+            { id: "p1_class",  top: "87.8%", left: "26.0%", width: "52.0%", height: "2.8%", answer: "__free__", placeholder: "اكتب فصلك..." },
+            { id: "p1_school", top: "91.4%", left: "26.0%", width: "52.0%", height: "2.8%", answer: "__free__", placeholder: "اكتب مدرستك..." }
         ]
     },
 
     // ══════════════════════════════════════════
-    // PAGE 2 — Introduction
+    // PAGE 2 — Introduction / المقدمة
     // ══════════════════════════════════════════
     2: {
         pageImg: "images/books/p1/2.jpg",
@@ -55,12 +55,12 @@ const P1_OVERLAY_DATABASE = {
         pageImg: "images/books/p1/4.jpg",
         title: "Unit 1: Welcome to My School — Lesson 2 (Phonics)",
         inputs: [
-            // Activity 1: Write missing sound (T)
-            { id: "p4_a1_1", top: "36.2%", left: "9.2%",  width: "12.8%", height: "2.3%", answer: "t", placeholder: "T..." },
-            { id: "p4_a1_2", top: "36.2%", left: "26.0%", width: "12.8%", height: "2.3%", answer: "t", placeholder: "T..." },
-            { id: "p4_a1_3", top: "36.2%", left: "44.2%", width: "12.8%", height: "2.3%", answer: "t", placeholder: "T..." },
-            { id: "p4_a1_4", top: "36.2%", left: "61.2%", width: "12.8%", height: "2.3%", answer: "t", placeholder: "T..." },
-            { id: "p4_a1_5", top: "36.2%", left: "79.2%", width: "12.8%", height: "2.3%", answer: "t", placeholder: "T..." },
+            // Activity 1: Write missing first letter ONLY over dots! (keeps rest of word visible on page)
+            { id: "p4_a1_1", top: "36.2%", left: "12.2%", width: "4.2%", height: "2.4%", answer: "t", placeholder: "?" },
+            { id: "p4_a1_2", top: "36.2%", left: "29.2%", width: "4.2%", height: "2.4%", answer: "t", placeholder: "?" },
+            { id: "p4_a1_3", top: "36.2%", left: "47.2%", width: "4.2%", height: "2.4%", answer: "t", placeholder: "?" },
+            { id: "p4_a1_4", top: "36.2%", left: "64.2%", width: "4.2%", height: "2.4%", answer: "t", placeholder: "?" },
+            { id: "p4_a1_5", top: "36.2%", left: "82.2%", width: "4.2%", height: "2.4%", answer: "t", placeholder: "?" },
 
             // Activity 2: Unscramble and write
             { id: "p4_a2_1", top: "52.0%", left: "23.5%", width: "11.2%", height: "2.3%", answer: "teacher", placeholder: "..." },
@@ -85,18 +85,18 @@ const P1_OVERLAY_DATABASE = {
         pageImg: "images/books/p1/5.jpg",
         title: "Weekly Assessment (A) & (B)",
         inputs: [
-            // Assessment A - First letter
-            { id: "p5_a1_1", top: "33.5%", left: "25.0%", width: "13.0%", height: "2.5%", answer: "t", placeholder: "T..." },
-            { id: "p5_a1_2", top: "33.5%", left: "61.0%", width: "13.0%", height: "2.5%", answer: "t", placeholder: "T..." },
+            // Assessment A - First letter ONLY over dots
+            { id: "p5_a1_1", top: "33.5%", left: "27.5%", width: "4.2%", height: "2.4%", answer: "t", placeholder: "?" },
+            { id: "p5_a1_2", top: "33.5%", left: "63.2%", width: "4.2%", height: "2.4%", answer: "t", placeholder: "?" },
 
             // Assessment A - Unscramble
             { id: "p5_a2_1", top: "48.8%", left: "19.5%", width: "11.0%", height: "2.4%", answer: "tiger", placeholder: "..." },
             { id: "p5_a2_2", top: "48.8%", left: "49.0%", width: "11.0%", height: "2.4%", answer: "play",  placeholder: "..." },
             { id: "p5_a2_3", top: "48.8%", left: "78.2%", width: "11.0%", height: "2.4%", answer: "tree",  placeholder: "..." },
 
-            // Assessment B - First letter
-            { id: "p5_b1_1", top: "91.2%", left: "25.0%", width: "13.0%", height: "2.5%", answer: "t", placeholder: "T..." },
-            { id: "p5_b1_2", top: "91.2%", left: "61.0%", width: "13.0%", height: "2.5%", answer: "t", placeholder: "T..." }
+            // Assessment B - First letter ONLY over dots
+            { id: "p5_b1_1", top: "91.2%", left: "27.5%", width: "4.2%", height: "2.4%", answer: "t", placeholder: "?" },
+            { id: "p5_b1_2", top: "91.2%", left: "63.2%", width: "4.2%", height: "2.4%", answer: "t", placeholder: "?" }
         ]
     },
 
@@ -112,9 +112,9 @@ const P1_OVERLAY_DATABASE = {
             { id: "p6_b2_2", top: "15.8%", left: "49.0%", width: "11.0%", height: "2.4%", answer: "play",    placeholder: "..." },
             { id: "p6_b2_3", top: "15.8%", left: "78.2%", width: "11.0%", height: "2.4%", answer: "tomato",  placeholder: "..." },
 
-            // Assessment C - First letter
-            { id: "p6_c1_1", top: "62.2%", left: "23.0%", width: "13.0%", height: "2.5%", answer: "t", placeholder: "T..." },
-            { id: "p6_c1_2", top: "62.2%", left: "63.0%", width: "13.0%", height: "2.5%", answer: "h", placeholder: "H..." },
+            // Assessment C - First letter ONLY over dots
+            { id: "p6_c1_1", top: "62.2%", left: "25.2%", width: "4.2%", height: "2.4%", answer: "t", placeholder: "?" },
+            { id: "p6_c1_2", top: "62.2%", left: "65.5%", width: "4.2%", height: "2.4%", answer: "h", placeholder: "?" },
 
             // Assessment C - Unscramble
             { id: "p6_c2_1", top: "77.5%", left: "19.5%", width: "11.0%", height: "2.4%", answer: "friends", placeholder: "..." },
@@ -130,7 +130,7 @@ const P1_OVERLAY_DATABASE = {
         pageImg: "images/books/p1/7.jpg",
         title: "Lesson 3 — Around my Classroom",
         inputs: [
-            // Activity 1: Circle correct word (MCQ option click fields or text write)
+            // Activity 1: Circle correct word
             { id: "p7_a1_1", top: "37.2%", left: "8.5%",  width: "18.0%", height: "2.5%", answer: "book",   placeholder: "book/pencil" },
             { id: "p7_a1_2", top: "37.2%", left: "29.2%", width: "18.0%", height: "2.5%", answer: "bag",    placeholder: "chair/bag" },
             { id: "p7_a1_3", top: "37.2%", left: "50.5%", width: "18.0%", height: "2.5%", answer: "pencil", placeholder: "desk/pencil" },
@@ -158,11 +158,11 @@ const P1_OVERLAY_DATABASE = {
         pageImg: "images/books/p1/8.jpg",
         title: "Lesson 4 — Phonics",
         inputs: [
-            // Activity 1: Write first letter (I)
-            { id: "p8_a1_1", top: "39.8%", left: "8.8%",  width: "15.0%", height: "2.5%", answer: "i", placeholder: "I..." },
-            { id: "p8_a1_2", top: "39.8%", left: "30.0%", width: "15.0%", height: "2.5%", answer: "i", placeholder: "I..." },
-            { id: "p8_a1_3", top: "39.8%", left: "51.8%", width: "15.0%", height: "2.5%", answer: "i", placeholder: "I..." },
-            { id: "p8_a1_4", top: "39.8%", left: "72.8%", width: "15.0%", height: "2.5%", answer: "i", placeholder: "I..." },
+            // Activity 1: Write first letter ONLY over dots (I)
+            { id: "p8_a1_1", top: "39.8%", left: "11.2%", width: "4.2%", height: "2.4%", answer: "i", placeholder: "?" },
+            { id: "p8_a1_2", top: "39.8%", left: "32.5%", width: "4.2%", height: "2.4%", answer: "i", placeholder: "?" },
+            { id: "p8_a1_3", top: "39.8%", left: "54.2%", width: "4.2%", height: "2.4%", answer: "i", placeholder: "?" },
+            { id: "p8_a1_4", top: "39.8%", left: "75.2%", width: "4.2%", height: "2.4%", answer: "i", placeholder: "?" },
 
             // Activity 2: Unscramble and write
             { id: "p8_a2_1", top: "62.2%", left: "12.0%", width: "13.0%", height: "2.4%", answer: "ink",    placeholder: "..." },
