@@ -2,10 +2,9 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>English Toon — الكتاب التفاعلي المزدوج</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-    <!-- style.css intentionally excluded — this page is fully self-contained -->
     <style>
         :root {
             --primary: #4f46e5;
@@ -26,6 +25,8 @@
             background: var(--bg);
             color: var(--text);
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         /* ── TOP NAV ── */
@@ -33,51 +34,51 @@
             background: rgba(15, 23, 42, 0.98);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
-            padding: 10px 20px;
+            padding: 8px 12px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
             position: sticky;
             top: 0;
             z-index: 200;
         }
         .nav-brand {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 800;
             color: #fff;
             text-decoration: none;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
         .nav-brand span { color: var(--cyan); }
         .nav-controls {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             flex-wrap: wrap;
         }
         .nav-select {
             background: var(--surface);
             border: 1px solid var(--border);
             color: #fff;
-            padding: 6px 12px;
+            padding: 6px 10px;
             border-radius: 8px;
             font-family: inherit;
             font-weight: 700;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             cursor: pointer;
         }
         .nav-btn {
             background: var(--surface);
             border: 1px solid var(--border);
             color: #fff;
-            padding: 6px 14px;
+            padding: 6px 12px;
             border-radius: 20px;
             font-weight: 800;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             cursor: pointer;
             transition: all 0.15s;
             white-space: nowrap;
@@ -85,44 +86,73 @@
         .nav-btn:hover { background: var(--border); }
         .page-counter {
             background: linear-gradient(135deg, var(--primary), var(--cyan));
-            padding: 6px 16px;
+            padding: 5px 14px;
             border-radius: 20px;
             font-weight: 900;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            color: #fff;
+        }
+
+        /* ── MOBILE TABS (FOR PHONE VIEW) ── */
+        .mobile-tabs {
+            display: none;
+            background: #1e293b;
+            padding: 6px 10px;
+            gap: 6px;
+            border-bottom: 1px solid var(--border);
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 8px 10px;
+            border: 1px solid var(--border);
+            background: #0f172a;
+            color: var(--text-muted);
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 0.85rem;
+            cursor: pointer;
+            text-align: center;
+        }
+        .tab-btn.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary-light);
         }
 
         /* ── SPLIT LAYOUT ── */
         .split-wrap {
             display: flex;
-            gap: 0;
             width: 100%;
+            flex: 1;
             min-height: calc(100vh - 60px);
         }
 
         /* Book panel */
         .panel-book {
             flex: 1;
-            background: #fff;
+            background: #0f172a;
             display: flex;
             align-items: flex-start;
             justify-content: center;
-            min-height: calc(100vh - 60px);
-            border-right: 3px solid var(--border);
+            border-left: 2px solid var(--border);
             position: sticky;
-            top: 60px;
-            height: calc(100vh - 60px);
+            top: 50px;
+            height: calc(100vh - 50px);
             overflow-y: auto;
+            padding: 10px;
         }
         .panel-book img {
-            width: 100%;
+            max-width: 100%;
             height: auto;
             display: block;
             object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
         }
         .img-error-msg {
             padding: 40px;
             text-align: center;
-            color: #888;
+            color: #94a3b8;
             font-size: 1.1rem;
         }
 
@@ -130,17 +160,18 @@
         .panel-exercises {
             flex: 1;
             background: #f8fafc;
-            min-height: calc(100vh - 60px);
+            min-height: calc(100vh - 50px);
             overflow-y: auto;
             display: flex;
             flex-direction: column;
+            color: #0f172a;
         }
 
         /* Exercises header */
         .ex-header {
             background: #fff;
             border-bottom: 2px solid #e2e8f0;
-            padding: 16px 20px;
+            padding: 12px 16px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -150,12 +181,12 @@
             z-index: 10;
         }
         .ex-header-info h2 {
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 900;
             color: #0f172a;
         }
         .ex-header-info p {
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             color: #64748b;
             font-weight: 600;
             margin-top: 2px;
@@ -163,94 +194,89 @@
         .score-badge {
             background: linear-gradient(135deg, var(--emerald), #059669);
             color: #fff;
-            padding: 8px 18px;
+            padding: 6px 14px;
             border-radius: 20px;
             font-weight: 900;
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             white-space: nowrap;
         }
 
         /* Exercises body */
         .ex-body {
             flex: 1;
-            padding: 16px 20px;
+            padding: 14px 16px;
         }
 
         /* ── SECTION BLOCK ── */
         .section-block {
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
         .section-title {
             background: linear-gradient(90deg, #4f46e5, #818cf8);
             color: #fff;
-            padding: 8px 16px;
+            padding: 8px 14px;
             border-radius: 10px;
             font-weight: 900;
-            font-size: 0.95rem;
-            margin-bottom: 14px;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
         }
 
         /* ── ACTIVITY BLOCK ── */
         .activity-block {
-            margin-bottom: 18px;
+            margin-bottom: 16px;
         }
         .activity-label {
             background: #fef3c7;
             border: 2px solid #f59e0b;
             color: #78350f;
-            padding: 7px 14px;
+            padding: 6px 12px;
             border-radius: 8px;
             font-weight: 800;
-            font-size: 0.9rem;
-            margin-bottom: 12px;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
             display: inline-block;
         }
 
-        /* ── WORD BOX (from box) ── */
+        /* ── WORD BOX ── */
         .word-box {
             background: #dbeafe;
             border: 2px solid #3b82f6;
             border-radius: 10px;
-            padding: 8px 16px;
-            margin-bottom: 12px;
+            padding: 8px 14px;
+            margin-bottom: 10px;
             display: flex;
-            gap: 12px;
+            gap: 10px;
             flex-wrap: wrap;
         }
         .word-box span {
             font-family: 'Outfit', sans-serif;
             font-weight: 900;
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: #1e40af;
         }
 
-        /* ── UNSCRAMBLE / LOOK&WRITE GRID ── */
+        /* ── ITEMS GRID ── */
         .items-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 10px;
         }
         .item-card {
             background: #fff;
             border: 2px solid #e2e8f0;
             border-radius: 12px;
-            padding: 12px 14px;
+            padding: 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 6px;
-            min-width: 110px;
             transition: border-color 0.2s;
         }
-        .item-card:hover { border-color: #a5b4fc; }
-        .item-emoji {
-            font-size: 2rem;
-            line-height: 1;
-        }
+        .item-card:hover { border-color: #818cf8; }
         .item-scrambled {
             font-family: 'Outfit', sans-serif;
             font-weight: 900;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: #7c3aed;
             background: #f3f0ff;
             border-radius: 6px;
@@ -260,17 +286,18 @@
         .item-word-label {
             font-family: 'Outfit', sans-serif;
             font-weight: 800;
-            font-size: 0.85rem;
-            color: #64748b;
+            font-size: 0.9rem;
+            color: #475569;
+            direction: ltr;
         }
         .item-input {
             font-family: 'Outfit', sans-serif;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 800;
             color: #0f172a;
             border: 2px solid #cbd5e1;
             border-radius: 8px;
-            padding: 5px 10px;
+            padding: 6px 8px;
             width: 100%;
             text-align: center;
             direction: ltr;
@@ -283,20 +310,23 @@
             background: #6366f1;
             color: #fff;
             border: none;
-            padding: 3px 10px;
+            padding: 4px 10px;
             border-radius: 6px;
             font-size: 0.8rem;
             font-weight: 800;
             cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
         }
         .sound-btn:hover { background: #4f46e5; }
 
-        /* ── REORDER ITEMS ── */
+        /* ── REORDER ── */
         .reorder-item {
             background: #fff;
             border: 2px solid #e2e8f0;
             border-radius: 10px;
-            padding: 10px 14px;
+            padding: 10px;
             margin-bottom: 10px;
         }
         .reorder-words {
@@ -305,36 +335,37 @@
             color: #6d28d9;
             font-size: 0.9rem;
             margin-bottom: 6px;
+            direction: ltr;
+            text-align: left;
         }
         .reorder-input {
             font-family: 'Outfit', sans-serif;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 800;
             color: #0f172a;
             border: 2px solid #cbd5e1;
             border-radius: 8px;
-            padding: 6px 12px;
+            padding: 8px 10px;
             width: 100%;
             direction: ltr;
-            transition: all 0.15s;
         }
-        .reorder-input:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,0.15); }
-        .reorder-input.correct { border-color: #10b981 !important; background: #ecfdf5 !important; color: #065f46 !important; }
-        .reorder-input.wrong   { border-color: #ef4444 !important; background: #fef2f2 !important; color: #991b1b !important; }
+        .reorder-input:focus { outline: none; border-color: #6366f1; }
+        .reorder-input.correct { border-color: #10b981 !important; background: #ecfdf5 !important; }
+        .reorder-input.wrong   { border-color: #ef4444 !important; background: #fef2f2 !important; }
 
-        /* ── MCQ / Choose ── */
+        /* ── MCQ ── */
         .mcq-item {
             background: #fff;
             border: 2px solid #e2e8f0;
             border-radius: 10px;
-            padding: 10px 14px;
+            padding: 10px;
             margin-bottom: 10px;
         }
         .mcq-label {
             font-weight: 800;
             color: #334155;
             margin-bottom: 8px;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
         }
         .mcq-opts {
             display: flex;
@@ -345,119 +376,104 @@
             background: #f1f5f9;
             border: 2px solid #cbd5e1;
             color: #0f172a;
-            padding: 7px 18px;
+            padding: 6px 14px;
             border-radius: 8px;
             font-family: 'Outfit', sans-serif;
             font-weight: 800;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             cursor: pointer;
-            transition: all 0.15s;
         }
-        .opt-btn:hover { border-color: #818cf8; background: #eef2ff; }
         .opt-btn.correct { background: #10b981 !important; border-color: #059669 !important; color: #fff !important; }
         .opt-btn.wrong   { background: #ef4444 !important; border-color: #dc2626 !important; color: #fff !important; }
 
-        /* ── CHOOSE FROM BOX ── */
+        /* ── CHOOSE FROM BOX & FREEWRITE ── */
         .cfb-item {
             background: #fff;
             border: 2px solid #e2e8f0;
             border-radius: 10px;
-            padding: 10px 14px;
-            margin-bottom: 10px;
+            padding: 8px 12px;
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             flex-wrap: wrap;
         }
         .cfb-prompt {
             font-family: 'Outfit', sans-serif;
             font-weight: 800;
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: #334155;
         }
         .cfb-input {
             font-family: 'Outfit', sans-serif;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 800;
             color: #0f172a;
             border: 2px solid #cbd5e1;
             border-radius: 8px;
-            padding: 5px 12px;
+            padding: 5px 10px;
             min-width: 100px;
             direction: ltr;
-            transition: all 0.15s;
         }
-        .cfb-input:focus { outline: none; border-color: #6366f1; }
-        .cfb-input.correct { border-color: #10b981 !important; background: #ecfdf5 !important; color: #065f46 !important; }
-        .cfb-input.wrong   { border-color: #ef4444 !important; background: #fef2f2 !important; color: #991b1b !important; }
+        .cfb-input.correct { border-color: #10b981 !important; background: #ecfdf5 !important; }
+        .cfb-input.wrong   { border-color: #ef4444 !important; background: #fef2f2 !important; }
 
         /* ── BOTTOM ACTIONS ── */
         .ex-actions {
             background: #fff;
             border-top: 2px solid #e2e8f0;
-            padding: 14px 20px;
+            padding: 10px 14px;
             display: flex;
-            gap: 10px;
+            gap: 8px;
             flex-wrap: wrap;
             position: sticky;
             bottom: 0;
         }
         .btn-check {
-            flex: 1;
+            flex: 2;
+            min-width: 140px;
             background: linear-gradient(135deg, #10b981, #059669);
             color: #fff;
             border: none;
-            padding: 12px 20px;
+            padding: 10px 16px;
             border-radius: 10px;
             font-family: inherit;
             font-weight: 900;
-            font-size: 1rem;
+            font-size: 0.95rem;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(16,185,129,0.3);
-            transition: all 0.15s;
         }
-        .btn-check:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(16,185,129,0.4); }
-        .btn-reveal {
+        .btn-reveal, .btn-speak {
+            flex: 1;
+            min-width: 100px;
             background: #f1f5f9;
             border: 2px solid #cbd5e1;
             color: #334155;
-            padding: 12px 16px;
+            padding: 10px 12px;
             border-radius: 10px;
             font-family: inherit;
             font-weight: 800;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             cursor: pointer;
-            transition: all 0.15s;
         }
-        .btn-reveal:hover { background: #e2e8f0; }
-        .btn-speak {
-            background: linear-gradient(135deg, #6366f1, #4f46e5);
-            color: #fff;
-            border: none;
-            padding: 12px 16px;
-            border-radius: 10px;
-            font-family: inherit;
-            font-weight: 800;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.15s;
-        }
-        .btn-speak:hover { transform: translateY(-2px); }
+        .btn-speak { background: #e0e7ff; border-color: #818cf8; color: #3730a3; }
 
-        /* ── NO EXERCISES ── */
-        .no-ex {
-            padding: 40px 20px;
-            text-align: center;
-            color: #94a3b8;
-        }
-        .no-ex h3 { font-size: 1.2rem; margin-bottom: 8px; }
-        .no-ex p { font-size: 0.9rem; }
-
-        /* ── RESPONSIVE ── */
-        @media (max-width: 900px) {
+        /* ── RESPONSIVE MOBILE ADJUSTMENTS ── */
+        @media (max-width: 850px) {
+            .mobile-tabs { display: flex; }
             .split-wrap { flex-direction: column; }
-            .panel-book { position: static; height: auto; min-height: auto; border-right: none; border-bottom: 3px solid var(--border); }
-            .panel-exercises { min-height: auto; }
+            .panel-book {
+                position: relative;
+                top: 0;
+                height: auto;
+                max-height: 50vh;
+                border-left: none;
+                border-bottom: 2px solid var(--border);
+            }
+            .panel-book.hide-mobile { display: none; }
+            .panel-exercises.hide-mobile { display: none; }
+            .items-grid {
+                grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            }
         }
     </style>
 </head>
@@ -465,14 +481,13 @@
 
 <!-- ── TOP NAV ── -->
 <nav class="top-nav">
-    <a href="dashboard.html" class="nav-brand">🏠 الرئيسية | <span>English Toon</span></a>
+    <a href="dashboard.html" class="nav-brand">🏠 <span>English Toon</span></a>
     <div class="nav-controls">
         <select class="nav-select" id="book-sel" onchange="changeBook()">
             <option value="1">🎒 الصف الأول الابتدائي</option>
             <option value="2">📖 الصف الثاني الابتدائي</option>
             <option value="3">✏️ الصف الثالث الابتدائي</option>
         </select>
-        <label style="font-size:.85rem;font-weight:800;color:#fff;">الصفحة:</label>
         <select class="nav-select" id="page-sel" onchange="jumpTo(this.value)"></select>
         <button class="nav-btn" onclick="prevPage()">◀ السابقة</button>
         <span class="page-counter" id="page-counter">3 / 72</span>
@@ -480,11 +495,18 @@
     </div>
 </nav>
 
+<!-- ── MOBILE TABS SWITCHER ── -->
+<div class="mobile-tabs">
+    <button class="tab-btn active" id="tab-both" onclick="setMobileView('both')">📱 عرض مزدوج</button>
+    <button class="tab-btn" id="tab-book" onclick="setMobileView('book')">📖 الكتاب فقط</button>
+    <button class="tab-btn" id="tab-ex" onclick="setMobileView('ex')">📝 الأسئلة فقط</button>
+</div>
+
 <!-- ── SPLIT LAYOUT ── -->
 <div class="split-wrap">
 
     <!-- Left: Original Book Page -->
-    <div class="panel-book">
+    <div class="panel-book" id="panel-book">
         <img id="book-img" src="" alt="صفحة الكتاب"
              onerror="this.style.display='none'; document.getElementById('img-err').style.display='block'">
         <div id="img-err" class="img-error-msg" style="display:none">
@@ -493,7 +515,7 @@
     </div>
 
     <!-- Right: Interactive Exercises -->
-    <div class="panel-exercises">
+    <div class="panel-exercises" id="panel-exercises">
         <div class="ex-header">
             <div class="ex-header-info">
                 <h2 id="ex-unit">📝 تمارين الصفحة التفاعلية</h2>
@@ -505,9 +527,9 @@
         <div class="ex-body" id="ex-body"></div>
 
         <div class="ex-actions">
-            <button class="btn-check"  onclick="checkAll()">✅ تصحيح وحساب الدرجة</button>
-            <button class="btn-reveal" onclick="revealAll()">👁️ الإجابات النموذجية</button>
-            <button class="btn-speak"  onclick="speakPage()">🔊 نطق الدرس</button>
+            <button class="btn-check"  onclick="checkAll()">✅ تصحيح النتيجة</button>
+            <button class="btn-reveal" onclick="revealAll()">👁️ الإجابات</button>
+            <button class="btn-speak"  onclick="speakPage()">🔊 نطق</button>
         </div>
     </div>
 
@@ -526,6 +548,27 @@
         const u = new SpeechSynthesisUtterance(text);
         u.lang = 'en-US'; u.rate = 0.85;
         window.speechSynthesis.speak(u);
+    }
+
+    // ── MOBILE VIEW TOGGLE ──
+    function setMobileView(mode) {
+        const pb = document.getElementById('panel-book');
+        const pe = document.getElementById('panel-exercises');
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+
+        if (mode === 'book') {
+            pb.classList.remove('hide-mobile'); pb.style.maxHeight = 'none';
+            pe.classList.add('hide-mobile');
+            document.getElementById('tab-book').classList.add('active');
+        } else if (mode === 'ex') {
+            pb.classList.add('hide-mobile');
+            pe.classList.remove('hide-mobile');
+            document.getElementById('tab-ex').classList.add('active');
+        } else {
+            pb.classList.remove('hide-mobile'); pb.style.maxHeight = '50vh';
+            pe.classList.remove('hide-mobile');
+            document.getElementById('tab-both').classList.add('active');
+        }
     }
 
     // ── PAGE SELECT INIT ──
@@ -579,7 +622,7 @@
             document.getElementById('ex-unit').textContent = `📝 تمارين الصفحة ${pageNum}`;
             document.getElementById('ex-lesson').textContent = `الأسئلة التفاعلية لهذه الصفحة قيد الإضافة`;
             document.getElementById('score-badge').textContent = 'النتيجة: — / —';
-            body.innerHTML = `<div class="no-ex"><h3>🚧 قيد الإضافة</h3><p>أسئلة هذه الصفحة ستُضاف قريباً</p></div>`;
+            body.innerHTML = `<div class="no-ex" style="text-align:center;padding:40px 10px;color:#94a3b8"><h3>🚧 قيد الإضافة</h3><p>أسئلة هذه الصفحة ستُضاف قريباً</p></div>`;
             return;
         }
 
@@ -622,14 +665,14 @@
                         const card = document.createElement('div');
                         card.className = 'item-card';
 
-                        // ── Real image from book (preferred over emoji) ──
+                        // ── High-Quality Image ──
                         if (item.img) {
                             const imgWrap = document.createElement('div');
-                            imgWrap.style.cssText = 'width:110px;height:100px;overflow:hidden;border-radius:10px;border:2px solid #e2e8f0;background:#f1f5f9;display:flex;align-items:center;justify-content:center;';
+                            imgWrap.style.cssText = 'width:100%;height:100px;overflow:hidden;border-radius:8px;border:1px solid #cbd5e1;background:#f1f5f9;display:flex;align-items:center;justify-content:center;margin-bottom:4px;';
                             const bookImg = document.createElement('img');
                             bookImg.src = item.img;
                             bookImg.alt = item.answer;
-                            bookImg.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:8px;';
+                            bookImg.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:6px;';
                             bookImg.onerror = function() {
                                 this.parentElement.innerHTML = '<span style="font-size:2rem">🖼️</span>';
                             };
@@ -637,33 +680,28 @@
                             card.appendChild(imgWrap);
                         }
 
-                        // Scrambled word label (unscramble & missing_sound only)
+                        // Scrambled label (for unscramble only)
                         if (item.scrambled) {
                             const sc = document.createElement('div');
                             sc.className = 'item-scrambled';
                             sc.textContent = item.scrambled;
                             card.appendChild(sc);
                         }
-                        if (item.word) {
+
+                        // Partial word (for missing_sound ONLY, e.g. "1. ...omato" — NEVER whole word)
+                        if (item.word && act.type === 'missing_sound') {
                             const wl = document.createElement('div');
                             wl.className = 'item-word-label';
                             wl.textContent = item.word;
                             card.appendChild(wl);
                         }
 
-                        // Sound button (look_write: audio icon only — NO word shown)
-                        if (item.speech && act.type !== 'look_write') {
+                        // Sound button (ONLY speaker icon 🔊 — NEVER prints target word text!)
+                        if (item.speech) {
                             const sb = document.createElement('button');
                             sb.className = 'sound-btn';
-                            sb.textContent = '🔊 ' + item.speech;
-                            sb.onclick = () => speak(item.speech);
-                            card.appendChild(sb);
-                        } else if (item.speech && act.type === 'look_write') {
-                            // look_write: just a speaker icon, no text hint
-                            const sb = document.createElement('button');
-                            sb.className = 'sound-btn';
-                            sb.textContent = '🔊';
-                            sb.title = 'استمع للكلمة';
+                            sb.innerHTML = '🔊';
+                            sb.title = 'استمع للنطق';
                             sb.onclick = () => speak(item.speech);
                             card.appendChild(sb);
                         }
@@ -672,7 +710,7 @@
                         const inp = document.createElement('input');
                         inp.type = 'text';
                         inp.className = 'item-input';
-                        inp.placeholder = act.type === 'look_write' ? 'اكتب الكلمة...' : 'اكتب...';
+                        inp.placeholder = act.type === 'look_write' ? 'اكتب الكلمة...' : act.type === 'missing_sound' ? 'الحرف...' : '...';
                         inp.dataset.answer = item.answer.toLowerCase();
                         inp.dataset.idx = i;
                         card.appendChild(inp);
@@ -696,7 +734,7 @@
                         const inp = document.createElement('input');
                         inp.type = 'text';
                         inp.className = 'reorder-input';
-                        inp.placeholder = 'رتّب الكلمات واكتب الجملة الصحيحة...';
+                        inp.placeholder = 'رتّب الكلمات واكتب الجملة...';
                         inp.dataset.answer = item.answer.toLowerCase();
                         inp.dataset.idx = i;
                         ri.appendChild(inp);
@@ -711,14 +749,13 @@
                         const mi = document.createElement('div');
                         mi.className = 'mcq-item';
 
-                        // Real image if available
                         if (item.img) {
                             const imgWrap = document.createElement('div');
-                            imgWrap.style.cssText = 'width:100px;height:90px;overflow:hidden;border-radius:10px;border:2px solid #e2e8f0;background:#f1f5f9;display:inline-flex;align-items:center;justify-content:center;margin-bottom:8px;';
+                            imgWrap.style.cssText = 'width:120px;height:100px;overflow:hidden;border-radius:8px;border:1px solid #cbd5e1;background:#f1f5f9;display:inline-flex;align-items:center;justify-content:center;margin-bottom:6px;';
                             const bookImg = document.createElement('img');
                             bookImg.src = item.img;
                             bookImg.alt = item.answer;
-                            bookImg.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:8px;';
+                            bookImg.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:6px;';
                             bookImg.onerror = function() { this.parentElement.innerHTML = '<span style="font-size:2rem">🖼️</span>'; };
                             imgWrap.appendChild(bookImg);
                             mi.appendChild(imgWrap);
@@ -771,10 +808,12 @@
                         inp.className = 'cfb-input';
                         inp.placeholder = '...';
                         inp.dataset.answer = item.answer.toLowerCase();
+
                         if (item.speech) {
                             const sb = document.createElement('button');
                             sb.className = 'sound-btn';
-                            sb.textContent = '🔊';
+                            sb.innerHTML = '🔊';
+                            sb.title = 'استمع للنطق';
                             sb.onclick = () => speak(item.speech);
                             cfb.appendChild(inp);
                             cfb.appendChild(sb);
@@ -818,7 +857,6 @@
         const body = document.getElementById('ex-body');
         let correct = 0, total = 0;
 
-        // Text inputs
         body.querySelectorAll('.item-input, .reorder-input, .cfb-input').forEach(el => {
             const ans = el.dataset.answer;
             if (ans === '__free__') return;
@@ -828,7 +866,6 @@
             else { el.classList.remove('correct'); el.classList.add('wrong'); }
         });
 
-        // MCQ
         body.querySelectorAll('.mcq-opts').forEach(opts => {
             total++;
             const chosen = opts.querySelector('.opt-btn.correct');
@@ -838,7 +875,7 @@
         document.getElementById('score-badge').textContent = `النتيجة: ${correct} / ${total}`;
         if (correct === total && total > 0) {
             speak(`Excellent! Perfect score! ${correct} out of ${total}`);
-            setTimeout(() => alert(`🎉 ممتاز! النتيجة (${correct}/${total}) ⭐⭐⭐`), 100);
+            setTimeout(() => alert(`🎉 ممتاز جداً! حصلت على العلامة الكاملة (${correct}/${total}) ⭐⭐⭐`), 100);
         } else {
             speak(`Your score is ${correct} out of ${total}`);
         }
@@ -865,11 +902,9 @@
     }
 
     function updateScoreLabel() {
-        // Update total count on fresh render
         const body = document.getElementById('ex-body');
         let total = 0;
-        body.querySelectorAll('.item-input, .reorder-input').forEach(el => { if (el.dataset.answer !== '__free__') total++; });
-        body.querySelectorAll('.cfb-input').forEach(el => { if (el.dataset.answer !== '__free__') total++; });
+        body.querySelectorAll('.item-input, .reorder-input, .cfb-input').forEach(el => { if (el.dataset.answer !== '__free__') total++; });
         body.querySelectorAll('.mcq-opts').forEach(() => total++);
         document.getElementById('score-badge').textContent = `النتيجة: 0 / ${total}`;
     }
