@@ -3,675 +3,597 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>English Toon — القارئ والكتاب التفاعلي</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Nunito:wght@400;700;800&family=Outfit:wght@600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=20260722_v11">
+    <title>English Toon — الكتاب الإلكتروني التفاعلي الاحترافي (E-Book)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Nunito:wght@400;700;800;900&family=Outfit:wght@600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css?v=20260722_v12">
     <style>
-        /* Bulletproof Modern Learn Replica Layout with Guaranteed Explicit Dimensions */
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        /* Professional Native Digital E-Book Design System */
+        :root {
+            --ebook-bg: #070913;
+            --page-bg: #ffffff;
+            --unit-primary: #4f46e5;
+            --unit-secondary: #ff007a;
+            --unit-accent: #00f2fe;
+            --unit-emerald: #10b981;
+            --text-dark: #0f172a;
+        }
 
-        html, body {
-            width: 100%;
-            height: 100%;
+        body {
+            background: var(--ebook-bg);
+            color: #fff;
+            font-family: 'Cairo', 'Nunito', sans-serif;
+            min-height: 100vh;
             margin: 0;
             padding: 0;
-            overflow: hidden;
-            font-family: 'Cairo', 'Nunito', sans-serif;
-            background: radial-gradient(ellipse at 55% 35%, #1e3a5f, #0f172a 80%);
-            color: #fff;
+            overflow-x: hidden;
         }
 
-        #app {
+        .ebook-viewport {
             display: flex;
             flex-direction: column;
-            width: 100vw;
-            height: 100vh;
-            position: relative;
+            align-items: center;
+            width: 100%;
+            min-height: 100vh;
+            padding-bottom: 90px;
         }
 
-        /* Top Bar */
-        .header-bar-top {
+        /* Top E-Book Reader Bar */
+        .ebook-top-bar {
+            width: 100%;
+            background: rgba(10, 18, 38, 0.95);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 20px;
-            background: rgba(10, 18, 38, 0.95);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: sticky;
+            top: 0;
             z-index: 100;
-            height: 60px;
-            flex-shrink: 0;
         }
 
-        .book-tabs {
+        .ebook-title-group {
             display: flex;
-            gap: 8px;
+            align-items: center;
+            gap: 12px;
         }
 
-        .book-tab-btn {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            color: #94a3b8;
-            padding: 6px 14px;
+        .ebook-badge {
+            background: linear-gradient(135deg, var(--unit-primary), var(--unit-secondary));
+            padding: 4px 14px;
             border-radius: 999px;
-            font-weight: 800;
             font-size: 0.85rem;
-            cursor: pointer;
-            transition: all 0.15s ease;
-        }
-
-        .book-tab-btn.active {
-            background: linear-gradient(135deg, #6366f1, #ec4899);
-            color: #fff;
-            border-color: transparent;
-            box-shadow: 0 0 15px rgba(99, 102, 241, 0.5);
-        }
-
-        /* Stage Canvas Area - Fixed Non-Zero Explicit Dimensions */
-        .book-stage {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-            padding: 10px;
-            width: 100%;
-            height: calc(100vh - 125px);
-            min-height: 450px;
-        }
-
-        .zoom-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            height: 100%;
-            transition: transform 0.2s ease;
-            transform-origin: center center;
-        }
-
-        .page-card-display {
-            position: relative;
-            width: 100%;
-            max-width: 580px;
-            height: calc(100vh - 145px);
-            min-height: 480px;
-            max-height: 800px;
-            background: #ffffff;
-            border-radius: 16px;
-            box-shadow: 0 25px 65px rgba(0, 0, 0, 0.85);
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 3px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .page-bg-img {
-            max-width: 100%;
-            max-height: 100%;
-            width: auto;
-            height: auto;
-            object-fit: contain;
-            display: block;
-            margin: auto;
-            user-select: none;
-            -webkit-user-drag: none;
-        }
-
-        /* Direct Inputs Layer on Pages */
-        .page-input-direct {
-            position: absolute;
-            background: rgba(15, 23, 42, 0.92);
-            border: 2.5px solid #6366f1;
-            border-radius: 8px;
-            color: #fff;
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.1rem;
             font-weight: 800;
-            text-align: center;
-            direction: ltr;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            transition: all 0.15s;
-            z-index: 20;
-            backdrop-filter: blur(4px);
         }
 
-        .page-input-direct:focus {
-            outline: none;
-            border-color: #00f2fe;
-            box-shadow: 0 0 18px rgba(0, 242, 254, 0.6);
-            transform: scale(1.03);
+        /* Native E-Book Page Container */
+        .ebook-page-container {
+            width: 100%;
+            max-width: 900px;
+            background: var(--page-bg);
+            color: var(--text-dark);
+            border-radius: 24px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+            margin: 24px 16px;
+            padding: 36px;
+            position: relative;
+            overflow: hidden;
+            border: 4px solid rgba(255, 255, 255, 0.1);
         }
 
-        .page-input-direct.is-correct {
-            border-color: #10b981 !important;
-            background: rgba(16, 185, 129, 0.95) !important;
+        /* Unit Header Banner */
+        .unit-header-banner {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: #fff;
+            border-radius: 18px;
+            padding: 24px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.3);
         }
 
-        .page-input-direct.is-wrong {
-            border-color: #ef4444 !important;
-            background: rgba(239, 68, 68, 0.95) !important;
+        .unit-info h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 900;
+            margin: 0;
+            letter-spacing: -0.02em;
         }
 
-        /* Hotspots Layer */
-        .hotspot {
-            position: absolute;
-            transform: translate(-50%, -50%);
+        .unit-info p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-top: 4px;
+            font-weight: 700;
+        }
+
+        .unit-audio-btn {
+            background: #fff;
+            color: #4f46e5;
+            border: none;
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+            transition: transform 0.2s;
+        }
+        .unit-audio-btn:hover { transform: scale(1.1); }
+
+        /* Section Title Block */
+        .section-block-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 28px 0 18px 0;
+            padding-bottom: 8px;
+            border-bottom: 3px solid #e2e8f0;
+        }
+
+        .section-number-pill {
+            background: #4f46e5;
+            color: #fff;
             width: 32px;
             height: 32px;
             border-radius: 50%;
-            border: 2px solid #fff;
-            color: #fff;
-            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-            transition: transform 0.15s, box-shadow 0.15s;
-            z-index: 25;
+            font-weight: 900;
+            font-size: 1.1rem;
         }
 
-        .hotspot:hover {
-            transform: translate(-50%, -50%) scale(1.25);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
-        }
-
-        .hotspot.audio { background: linear-gradient(135deg, #0ea5e9, #6366f1); }
-        .hotspot.video { background: linear-gradient(135deg, #8b5cf6, #ec4899); }
-        .hotspot.drawing { background: linear-gradient(135deg, #f97316, #ef4444); }
-
-        /* Bottom Nav Toolbar */
-        .bottom-nav {
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 16px;
-            padding: 10px 20px;
-            background: rgba(10, 18, 38, 0.95);
-            backdrop-filter: blur(12px);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            z-index: 100;
-            height: 65px;
-        }
-
-        .nav-btn {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            border: none;
-            background: rgba(255, 255, 255, 0.12);
-            color: #fff;
-            font-size: 1.2rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background .15s, transform .12s;
-        }
-
-        .nav-btn:hover:not(:disabled) {
-            background: rgba(255, 255, 255, 0.25);
-            transform: scale(1.1);
-        }
-
-        .nav-btn:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-        }
-
-        #pageIndicator {
+        .section-block-title h2 {
+            font-size: 1.3rem;
             font-weight: 800;
-            font-size: 1rem;
-            min-width: 100px;
-            text-align: center;
-            color: #fff;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 6px 16px;
-            border-radius: 999px;
-            letter-spacing: 0.04em;
+            color: #1e293b;
+            margin: 0;
         }
 
-        .zoom-group {
+        /* Vocabulary Interactive Cards Grid */
+        .vocab-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .vocab-card {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 16px;
+            text-align: center;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .vocab-card:hover {
+            border-color: #6366f1;
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(99, 102, 241, 0.15);
+        }
+
+        .vocab-img {
+            width: 100%;
+            height: 120px;
+            object-fit: contain;
+            margin-bottom: 12px;
+            border-radius: 12px;
+        }
+
+        .vocab-word {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: #1e293b;
+            margin-bottom: 6px;
+        }
+
+        .vocab-audio-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: #eef2ff;
+            color: #4f46e5;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 800;
+        }
+
+        /* Storyboard Conversation Scene */
+        .conversation-scene {
+            background: linear-gradient(180deg, #f0fdf4, #e0f2fe);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 32px;
+            border: 2px solid #bae6fd;
+        }
+
+        .dialogue-bubble-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 18px;
+        }
+
+        .dialogue-bubble-row.reverse {
+            flex-direction: row-reverse;
+        }
+
+        .avatar-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #fff;
+            border: 3px solid #6366f1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            flex-shrink: 0;
+        }
+
+        .speech-bubble {
+            background: #fff;
+            border-radius: 18px;
+            padding: 14px 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            position: relative;
+            max-width: 75%;
+            border: 2px solid #e2e8f0;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .speech-bubble:hover { border-color: #6366f1; transform: scale(1.02); }
+
+        .speaker-name {
+            font-weight: 800;
+            font-size: 0.85rem;
+            color: #6366f1;
+            margin-bottom: 2px;
+        }
+
+        .speech-text {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #0f172a;
+            direction: ltr;
+            text-align: left;
+        }
+
+        /* Interactive Exercise Box */
+        .interactive-exercise-box {
+            background: #f8fafc;
+            border: 2px solid #cbd5e1;
+            border-radius: 18px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .exercise-question-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #334155;
+            margin-bottom: 16px;
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-left: 8px;
         }
 
-        .zoom-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            border: none;
-            background: rgba(255, 255, 255, 0.12);
-            color: #fff;
-            font-size: 1.1rem;
-            font-weight: 800;
-            cursor: pointer;
-            transition: background .15s;
-        }
-
-        .zoom-btn:hover { background: rgba(255, 255, 255, 0.25); }
-        #zoomIndicator { font-size: 0.85rem; font-weight: 800; color: rgba(255,255,255,0.7); min-width: 45px; text-align: center; }
-
-        /* Canvas Drawing Overlay Modal */
-        .overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(5, 10, 25, 0.85);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 300;
-            padding: 16px;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.25s ease;
-            backdrop-filter: blur(8px);
-        }
-
-        .overlay.open { opacity: 1; pointer-events: auto; }
-
-        .modal {
+        .exercise-input-inline {
             background: #fff;
-            border-radius: 22px;
-            max-width: 94vw;
-            max-height: 92vh;
-            overflow: hidden;
-            box-shadow: 0 32px 64px rgba(0, 0, 0, 0.6);
-            display: flex;
-            flex-direction: column;
-            width: 860px;
-            color: #1e293b;
-        }
-
-        .mhdr {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 20px;
-            border-bottom: 1px solid #e2e8f0;
-            background: #f8fafc;
-        }
-
-        .mhdr h2 { font-size: 1.05rem; font-weight: 800; color: #0f172a; }
-        
-        .xbtn {
-            background: #f1f5f9;
-            border: none;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
+            border: 2px solid #94a3b8;
+            border-radius: 8px;
+            padding: 6px 12px;
+            font-family: 'Outfit', sans-serif;
             font-size: 1.2rem;
-            cursor: pointer;
-            transition: background 0.12s;
+            font-weight: 800;
+            color: #0f172a;
+            width: 140px;
+            text-align: center;
+            direction: ltr;
+            transition: all 0.15s;
         }
-        .xbtn:hover { background: #e2e8f0; }
-
-        .draw-body { display: flex; flex-direction: column; flex: 1; min-height: 0; }
-        
-        .draw-toolbar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            padding: 10px 16px;
-            background: #f8fafc;
-            border-bottom: 1px solid #e2e8f0;
-            align-items: center;
+        .exercise-input-inline:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
         }
 
-        .tgrp { display: flex; align-items: center; gap: 6px; padding: 0 8px; border-right: 1px solid #e2e8f0; }
-        .tgrp:last-child { border-right: none; }
-        .tlbl { font-size: 0.75rem; font-weight: 800; color: #64748b; }
+        .exercise-input-inline.correct { border-color: #10b981; background: #ecfdf5; color: #047857; }
+        .exercise-input-inline.wrong { border-color: #ef4444; background: #fef2f2; color: #b91c1c; }
 
-        .tbtn {
-            width: 34px;
-            height: 34px;
-            border-radius: 9px;
-            border: 2px solid transparent;
-            background: #fff;
-            cursor: pointer;
-            font-size: 14px;
+        /* Floating Bottom Reader Toolbar */
+        .ebook-bottom-dock {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 18, 38, 0.95);
+            backdrop-filter: blur(16px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px 24px;
             display: flex;
-            align-items: center;
             justify-content: center;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            transition: all 0.12s;
+            align-items: center;
+            gap: 16px;
+            z-index: 100;
         }
 
-        .tbtn:hover { background: #f1f5f9; }
-        .tbtn.on { border-color: #6366f1; background: #eef2ff; }
+        .dock-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 8px 18px;
+            border-radius: 999px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.15s;
+        }
+        .dock-btn:hover { background: rgba(255, 255, 255, 0.25); transform: translateY(-2px); }
 
-        .draw-canvas-area { position: relative; width: 100%; height: 480px; background: #f0f4f8; overflow: hidden; }
-        #bgCanvas, #drawCanvas { position: absolute; inset: 0; width: 100%; height: 100%; }
-        #drawCanvas { touch-action: none; cursor: crosshair; }
+        .dock-btn.primary {
+            background: linear-gradient(135deg, #10b981, #059669);
+            border: none;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        }
     </style>
 </head>
 <body>
 
-    <div id="app">
-        
-        <!-- Top Header Navigation Bar -->
-        <div class="header-bar-top">
-            <a href="dashboard.html" style="color: #fff; text-decoration: none; font-weight: 800; display: flex; align-items: center; gap: 8px;">
-                <span>🏠 الرئيسية</span> | <span style="color:var(--accent-cyan);">English Toon Interactive Reader</span>
-            </a>
+    <div class="ebook-viewport">
 
-            <div class="book-tabs">
-                <button class="book-tab-btn active" id="tab-b1" onclick="switchBook(1)">🎒 الصف الأول الابتدائي</button>
-                <button class="book-tab-btn" id="tab-b2" onclick="switchBook(2)">📖 الصف الثاني الابتدائي</button>
-                <button class="book-tab-btn" id="tab-b3" onclick="switchBook(3)">✏️ الصف الثالث الابتدائي</button>
+        <!-- Top Reader Navbar -->
+        <div class="ebook-top-bar">
+            <div class="ebook-title-group">
+                <a href="dashboard.html" style="color:#fff; text-decoration:none; font-weight:800; font-size:1.1rem;">🏠 English Toon</a>
+                <span class="ebook-badge">الصف الأول الابتدائي — Unit 1</span>
+            </div>
+            <div style="font-weight: 800; color: #00f2fe; font-size: 0.95rem;">
+                النسخة المبرمجة بالكامل (Native Digital E-Book)
             </div>
         </div>
 
-        <!-- Book Stage (Guaranteed Rendering Image Card) -->
-        <div class="book-stage">
-            <div class="zoom-wrapper" id="zoomWrapper">
-                
-                <div class="page-card-display" id="pageCard">
-                    <!-- Book Page Image -->
-                    <img src="images/books/p1/page_3.png" alt="Book Page" class="page-bg-img" id="mainPageImg" onerror="console.log('Image error loading', this.src)">
-                    
-                    <!-- Direct Interactive Layers -->
-                    <div id="hotspotsLayer"></div>
-                    <div id="inputsLayer"></div>
+        <!-- E-Book Native Page Content -->
+        <div class="ebook-page-container">
+
+            <!-- Unit Title Banner -->
+            <div class="unit-header-banner">
+                <div class="unit-info">
+                    <h1>UNIT 1: Hello!</h1>
+                    <p>الدرس الأول: الترحيب والتعارف (Greetings & Introduction)</p>
+                </div>
+                <button class="unit-audio-btn" onclick="speakText('Unit 1: Hello! Greetings and Introduction')" title="نطق عنوان الوحدة 🔊">🔊</button>
+            </div>
+
+            <!-- Section 1: Vocabulary Cards -->
+            <div class="section-block-title">
+                <div class="section-number-pill">1</div>
+                <h2>Listen and Repeat (المفردات اللغوية والتحدث)</h2>
+            </div>
+
+            <div class="vocab-cards-grid">
+                <div class="vocab-card" onclick="speakText('Hello')">
+                    <div style="font-size: 4rem; margin-bottom: 8px;">👋</div>
+                    <div class="vocab-word">Hello</div>
+                    <div class="vocab-audio-tag">🔊 استمع وتحدث</div>
                 </div>
 
+                <div class="vocab-card" onclick="speakText('Goodbye')">
+                    <div style="font-size: 4rem; margin-bottom: 8px;">🙋‍♂️</div>
+                    <div class="vocab-word">Goodbye</div>
+                    <div class="vocab-audio-tag">🔊 استمع وتحدث</div>
+                </div>
+
+                <div class="vocab-card" onclick="speakText('Shake hands')">
+                    <div style="font-size: 4rem; margin-bottom: 8px;">🤝</div>
+                    <div class="vocab-word">Shake hands</div>
+                    <div class="vocab-audio-tag">🔊 استمع وتحدث</div>
+                </div>
+
+                <div class="vocab-card" onclick="speakText('Play')">
+                    <div style="font-size: 4rem; margin-bottom: 8px;">⚽</div>
+                    <div class="vocab-word">Play</div>
+                    <div class="vocab-audio-tag">🔊 استمع وتحدث</div>
+                </div>
             </div>
-        </div>
 
-        <!-- Bottom Controls Dock (Exact Replica of Modern Learn Toolbar) -->
-        <div class="bottom-nav">
-            <button class="nav-btn" id="btnPrev" onclick="prevPage()" title="الصفحة السابقة ◀️">◀️</button>
-            <div id="pageIndicator">3 / 72</div>
-            <button class="nav-btn" id="btnNext" onclick="nextPage()" title="الصفحة التالية ▶️">▶️</button>
-
-            <!-- Zoom Controls -->
-            <div class="zoom-group">
-                <button class="zoom-btn" onclick="zoomOut()" title="تصغير 🔍-">−</button>
-                <span id="zoomIndicator">100%</span>
-                <button class="zoom-btn" onclick="zoomIn()" title="تكبير 🔍+">+</button>
-                <button class="zoom-btn" onclick="resetZoom()" title="إعادة الضبط 🎯">🎯</button>
+            <!-- Section 2: Storyboard Conversation Dialogue -->
+            <div class="section-block-title">
+                <div class="section-number-pill">2</div>
+                <h2>Look, Listen and Point (المحادثة والتواصل)</h2>
             </div>
 
-            <!-- Drawing Canvas Action Button -->
-            <button class="nav-btn" onclick="openDrawModal()" style="background: linear-gradient(135deg, #f97316, #ef4444);" title="أداة الرسم والحل بالريشة ✏️">✏️</button>
-            <button class="nav-btn" onclick="checkCurrentPageDirectly()" style="background: linear-gradient(135deg, #10b981, #059669);" title="تصحيح الإجابات ✅">✅</button>
+            <div class="conversation-scene">
+                <!-- Bubble 1 -->
+                <div class="dialogue-bubble-row">
+                    <div class="avatar-circle" title="Miss Mona">👩‍🏫</div>
+                    <div class="speech-bubble" onclick="speakText('Hello, I\'m Miss Mona.')">
+                        <div class="speaker-name">Miss Mona</div>
+                        <div class="speech-text">"Hello, I'm Miss Mona." 🔊</div>
+                    </div>
+                </div>
+
+                <!-- Bubble 2 -->
+                <div class="dialogue-bubble-row reverse">
+                    <div class="avatar-circle" style="border-color:#ec4899;" title="Hany">👦</div>
+                    <div class="speech-bubble" onclick="speakText('Hello, I\'m Hany.')">
+                        <div class="speaker-name" style="color:#ec4899;">Hany</div>
+                        <div class="speech-text">"Hello, I'm Hany." 🔊</div>
+                    </div>
+                </div>
+
+                <!-- Bubble 3 -->
+                <div class="dialogue-bubble-row">
+                    <div class="avatar-circle" style="border-color:#10b981;" title="Youssef">👦</div>
+                    <div class="speech-bubble" onclick="speakText('I\'m Youssef.')">
+                        <div class="speaker-name" style="color:#10b981;">Youssef</div>
+                        <div class="speech-text">"I'm Youssef." 🔊</div>
+                    </div>
+                </div>
+
+                <!-- Bubble 4 -->
+                <div class="dialogue-bubble-row reverse">
+                    <div class="avatar-circle" style="border-color:#f97316;" title="Hana">👧</div>
+                    <div class="speech-bubble" onclick="speakText('Hello, I\'m Hana. What\'s your name?')">
+                        <div class="speaker-name" style="color:#f97316;">Hana</div>
+                        <div class="speech-text">"Hello, I'm Hana. What's your name?" 🔊</div>
+                    </div>
+                </div>
+
+                <!-- Bubble 5 -->
+                <div class="dialogue-bubble-row">
+                    <div class="avatar-circle" style="border-color:#3b82f6;" title="Amira">👧</div>
+                    <div class="speech-bubble" onclick="speakText('I\'m Amira.')">
+                        <div class="speaker-name" style="color:#3b82f6;">Amira</div>
+                        <div class="speech-text">"I'm Amira." 🔊</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: Interactive Native Exercises -->
+            <div class="section-block-title">
+                <div class="section-number-pill">3</div>
+                <h2>Interactive Practice (التمارين والأنشطة التفاعلية)</h2>
+            </div>
+
+            <!-- Exercise 1 -->
+            <div class="interactive-exercise-box">
+                <div class="exercise-question-title">
+                    <span>✏️ Exercise A: Complete the missing words (أكمل الكلمات المفقودة):</span>
+                </div>
+
+                <div style="display:flex; flex-direction:column; gap:14px; font-size:1.15rem; font-weight:800;">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <span>1. 👋</span>
+                        <input type="text" class="exercise-input-inline" id="q1" data-answer="Hello" placeholder=".....">
+                        <span>, I'm Hany.</span>
+                        <button onclick="speakText('Hello, I\'m Hany')" style="border:none; background:none; cursor:pointer; font-size:1.2rem;">🔊</button>
+                    </div>
+
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <span>2. What's your </span>
+                        <input type="text" class="exercise-input-inline" id="q2" data-answer="name" placeholder=".....">
+                        <span>?</span>
+                        <button onclick="speakText('What\'s your name?')" style="border:none; background:none; cursor:pointer; font-size:1.2rem;">🔊</button>
+                    </div>
+
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <span>3. I'm </span>
+                        <input type="text" class="exercise-input-inline" id="q3" data-answer="Hana" placeholder=".....">
+                        <span>.</span>
+                        <button onclick="speakText('I\'m Hana')" style="border:none; background:none; cursor:pointer; font-size:1.2rem;">🔊</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 2: Listen & Choose -->
+            <div class="interactive-exercise-box">
+                <div class="exercise-question-title">
+                    <span>🎧 Exercise B: Listen and Choose (استمع واختر الإجابة الصحيحة):</span>
+                </div>
+
+                <div style="display:flex; align-items:center; justify-content:space-between; background:#fff; padding:12px 18px; border-radius:12px; border:2px solid #e2e8f0;">
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <button onclick="speakText('Goodbye')" style="background:#4f46e5; color:#fff; border:none; padding:8px 16px; border-radius:8px; font-weight:800; cursor:pointer;">🔊 استمع للصوت</button>
+                    </div>
+
+                    <div style="display:flex; gap:12px;" id="mcq-group-1">
+                        <button onclick="checkMCQ(this, false)" style="background:#f1f5f9; border:2px solid #cbd5e1; padding:8px 16px; border-radius:8px; font-weight:800; cursor:pointer;">Hello</button>
+                        <button onclick="checkMCQ(this, true)" style="background:#f1f5f9; border:2px solid #cbd5e1; padding:8px 16px; border-radius:8px; font-weight:800; cursor:pointer;">Goodbye</button>
+                        <button onclick="checkMCQ(this, false)" style="background:#f1f5f9; border:2px solid #cbd5e1; padding:8px 16px; border-radius:8px; font-weight:800; cursor:pointer;">Play</button>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
     </div>
 
-    <!-- Drawing & Canvas Overlay Modal -->
-    <div class="overlay" id="canvasOverlay">
-        <div class="modal">
-            <div class="mhdr">
-                <h2>✏️ أداة الرسم والتلوين والحل التفاعلي بالريشة فوق الكتاب</h2>
-                <button class="xbtn" onclick="closeDrawModal()">×</button>
-            </div>
-            
-            <div class="draw-body">
-                <div class="draw-toolbar">
-                    <div class="tgrp">
-                        <span class="tlbl">الأداة:</span>
-                        <button class="tbtn on" id="toolBrush" onclick="setTool('brush')" title="فرشاة الرسم">✏️</button>
-                        <button class="tbtn" id="toolEraser" onclick="setTool('eraser')" title="ممحاة">🧹</button>
-                    </div>
+    <!-- E-Book Bottom Reader Dock -->
+    <div class="ebook-bottom-dock">
+        <button class="dock-btn" onclick="speakText('Unit 1: Hello. Lesson 1. Hello, Goodbye, Shake hands, Play.')">
+            <span>🔊 قراءة الصفحة بصوت واضح</span>
+        </button>
 
-                    <div class="tgrp">
-                        <span class="tlbl">اللون:</span>
-                        <input type="color" id="brushColor" value="#4f46e5" style="width:32px; height:32px; border:none; cursor:pointer;">
-                    </div>
-
-                    <div class="tgrp">
-                        <span class="tlbl">السمك:</span>
-                        <input type="range" id="brushSize" min="2" max="25" value="4" style="width:84px;">
-                    </div>
-
-                    <div class="tgrp">
-                        <button class="tbtn" onclick="clearDrawCanvas()" title="مسح 🗑️">🗑️</button>
-                    </div>
-                </div>
-
-                <div class="draw-canvas-area">
-                    <canvas id="bgCanvas"></canvas>
-                    <canvas id="drawCanvas"></canvas>
-                </div>
-            </div>
-        </div>
+        <button class="dock-btn primary" onclick="checkAllEbookAnswers()">
+            <span>✅ تصحيح كافة الإجابات وحساب الدرجة</span>
+        </button>
     </div>
-
-    <!-- Video Player Modal -->
-    <div class="overlay" id="videoOverlay">
-        <div class="modal" style="width: 700px;">
-            <div class="mhdr">
-                <h2 id="videoTitle">🎥 فيديو شرح الدرس</h2>
-                <button class="xbtn" onclick="closeVideoModal()">×</button>
-            </div>
-            <iframe id="videoPlayer" height="380" src="" frameborder="0" allowfullscreen></iframe>
-        </div>
-    </div>
-
-    <!-- Page Mapping Data -->
-    <script src="js/p1_book_data.js"></script>
 
     <script>
-        let currentBookId = 1;
-        let currentPageNum = 3;
-        let zoomLevel = 1;
-
-        const bookMeta = {
-            1: { folder: "p1", maxPages: 72 },
-            2: { folder: "p2", maxPages: 72 },
-            3: { folder: "p3", maxPages: 72 }
-        };
-
         function speakText(text) {
             if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
                 const utt = new SpeechSynthesisUtterance(text);
                 utt.lang = 'en-US';
-                utt.rate = 0.9;
+                utt.rate = 0.88;
                 window.speechSynthesis.speak(utt);
             }
         }
 
-        function switchBook(bId) {
-            currentBookId = bId;
-            currentPageNum = bId === 2 ? 5 : 3;
-
-            document.querySelectorAll('.book-tab-btn').forEach((btn, idx) => {
-                btn.classList.toggle('active', idx + 1 === bId);
+        function checkMCQ(btn, isCorrect) {
+            const parent = btn.parentElement;
+            parent.querySelectorAll('button').forEach(b => {
+                b.style.background = '#f1f5f9';
+                b.style.borderColor = '#cbd5e1';
+                b.style.color = '#0f172a';
             });
 
-            renderBookPage();
-        }
-
-        function prevPage() {
-            if (currentPageNum > 1) {
-                currentPageNum--;
-                renderBookPage();
-            }
-        }
-
-        function nextPage() {
-            const meta = bookMeta[currentBookId];
-            if (currentPageNum < meta.maxPages) {
-                currentPageNum++;
-                renderBookPage();
-            }
-        }
-
-        function renderBookPage() {
-            const meta = bookMeta[currentBookId];
-            document.getElementById('pageIndicator').innerText = `${currentPageNum} / ${meta.maxPages}`;
-            
-            // Set Page Image
-            const imgEl = document.getElementById('mainPageImg');
-            imgEl.src = `images/books/${meta.folder}/page_${currentPageNum}.png`;
-
-            document.getElementById('btnPrev').disabled = (currentPageNum <= 1);
-            document.getElementById('btnNext').disabled = (currentPageNum >= meta.maxPages);
-
-            const hsLayer = document.getElementById('hotspotsLayer');
-            const inLayer = document.getElementById('inputsLayer');
-            hsLayer.innerHTML = '';
-            inLayer.innerHTML = '';
-
-            // Load Page-Specific Hotspots & Inputs for Primary 1
-            if (currentBookId === 1 && typeof P1_BOOK_DATA !== 'undefined' && P1_BOOK_DATA.pages && P1_BOOK_DATA.pages[currentPageNum]) {
-                const pageObj = P1_BOOK_DATA.pages[currentPageNum];
-                if (pageObj.items) {
-                    pageObj.items.forEach(item => {
-                        if (item.type === 'input') {
-                            const input = document.createElement('input');
-                            input.type = 'text';
-                            input.className = 'page-input-direct';
-                            input.id = `input-${item.id}`;
-                            input.placeholder = item.placeholder || 'أكتب هنا...';
-                            input.style.top = item.top;
-                            input.style.left = item.left;
-                            input.style.width = item.width;
-                            input.style.height = item.height;
-                            input.setAttribute('data-answer', item.answer || '');
-                            inLayer.appendChild(input);
-                        } else if (item.type === 'speak') {
-                            const btn = document.createElement('button');
-                            btn.className = 'hotspot audio';
-                            btn.style.top = item.top;
-                            btn.style.left = item.left;
-                            btn.innerText = '🔊';
-                            btn.title = `نطق ${item.text}`;
-                            btn.onclick = () => speakText(item.text);
-                            hsLayer.appendChild(btn);
-                        }
-                    });
-                }
-            }
-        }
-
-        // Zoom Engine
-        function zoomIn() {
-            if (zoomLevel < 2) {
-                zoomLevel += 0.2;
-                applyZoom();
-            }
-        }
-
-        function zoomOut() {
-            if (zoomLevel > 0.8) {
-                zoomLevel -= 0.2;
-                applyZoom();
-            }
-        }
-
-        function resetZoom() {
-            zoomLevel = 1;
-            applyZoom();
-        }
-
-        function applyZoom() {
-            document.getElementById('zoomWrapper').style.transform = `scale(${zoomLevel})`;
-            document.getElementById('zoomIndicator').innerText = `${Math.round(zoomLevel * 100)}%`;
-        }
-
-        // Direct Grading
-        function checkCurrentPageDirectly() {
-            const inputs = document.querySelectorAll('.page-input-direct');
-            inputs.forEach(el => {
-                const val = el.value.trim().toLowerCase().replace(/\s+/g, ' ');
-                const ans = el.getAttribute('data-answer').toLowerCase().replace(/\s+/g, ' ');
-                if (val && val === ans) {
-                    el.className = 'page-input-direct is-correct';
-                } else if (val) {
-                    el.className = 'page-input-direct is-wrong';
-                }
-            });
-            speakText("Answers checked!");
-        }
-
-        // Drawing Modal Engine
-        let isDrawing = false;
-        let drawTool = 'brush';
-        let bgCvs, bgCtx, drCvs, drCtx;
-
-        function openDrawModal() {
-            const modal = document.getElementById('canvasOverlay');
-            modal.classList.add('open');
-
-            setTimeout(() => {
-                bgCvs = document.getElementById('bgCanvas');
-                drCvs = document.getElementById('drawCanvas');
-                bgCtx = bgCvs.getContext('2d');
-                drCtx = drCvs.getContext('2d');
-
-                const container = bgCvs.parentElement;
-                const w = container.clientWidth;
-                const h = container.clientHeight;
-
-                bgCvs.width = drCvs.width = w;
-                bgCvs.height = drCvs.height = h;
-
-                const img = document.getElementById('mainPageImg');
-                bgCtx.drawImage(img, 0, 0, w, h);
-
-                drCvs.onmousedown = startDraw;
-                drCvs.onmousemove = drawLine;
-                drCvs.onmouseup = stopDraw;
-
-                drCvs.ontouchstart = (e) => { e.preventDefault(); startDraw(e.touches[0]); };
-                drCvs.ontouchmove = (e) => { e.preventDefault(); drawLine(e.touches[0]); };
-                drCvs.ontouchend = stopDraw;
-            }, 100);
-        }
-
-        function closeDrawModal() {
-            document.getElementById('canvasOverlay').classList.remove('open');
-        }
-
-        function setTool(t) {
-            drawTool = t;
-            document.getElementById('toolBrush').classList.toggle('on', t === 'brush');
-            document.getElementById('toolEraser').classList.toggle('on', t === 'eraser');
-        }
-
-        function getPos(e) {
-            const rect = drCvs.getBoundingClientRect();
-            return { x: e.clientX - rect.left, y: e.clientY - rect.top };
-        }
-
-        function startDraw(e) {
-            isDrawing = true;
-            const p = getPos(e);
-            drCtx.beginPath();
-            drCtx.moveTo(p.x, p.y);
-        }
-
-        function drawLine(e) {
-            if (!isDrawing) return;
-            const p = getPos(e);
-            const size = document.getElementById('brushSize').value;
-            const color = document.getElementById('brushColor').value;
-
-            if (drawTool === 'eraser') {
-                drCtx.clearRect(p.x - size/2, p.y - size/2, size, size);
+            if (isCorrect) {
+                btn.style.background = '#10b981';
+                btn.style.borderColor = '#059669';
+                btn.style.color = '#fff';
+                speakText("Excellent! Correct answer!");
             } else {
-                drCtx.strokeStyle = color;
-                drCtx.lineWidth = size;
-                drCtx.lineCap = 'round';
-                drCtx.lineTo(p.x, p.y);
-                drCtx.stroke();
+                btn.style.background = '#ef4444';
+                btn.style.borderColor = '#dc2626';
+                btn.style.color = '#fff';
+                speakText("Try again!");
             }
         }
 
-        function stopDraw() { isDrawing = false; }
-        function clearDrawCanvas() { if (drCtx) drCtx.clearRect(0, 0, drCvs.width, drCvs.height); }
-        function closeVideoModal() { document.getElementById('videoOverlay').classList.remove('open'); }
+        function checkAllEbookAnswers() {
+            let correctCount = 0;
+            let totalCount = 3;
 
-        // Initial Load
-        renderBookPage();
+            for (let i = 1; i <= 3; i++) {
+                const el = document.getElementById(`q${i}`);
+                if (el) {
+                    const val = el.value.trim().toLowerCase();
+                    const expected = el.getAttribute('data-answer').toLowerCase();
+                    if (val === expected) {
+                        el.className = 'exercise-input-inline correct';
+                        correctCount++;
+                    } else {
+                        el.className = 'exercise-input-inline wrong';
+                    }
+                }
+            }
+
+            if (correctCount === totalCount) {
+                speakText(`Great job! Perfect score, ${correctCount} out of ${totalCount}!`);
+                alert(`🎉 ممتاز جداً! إجاباتك كلها صحيحة (${correctCount}/${totalCount})`);
+            } else {
+                speakText(`You scored ${correctCount} out of ${totalCount}. Keep practicing!`);
+                alert(`👍 أحسنت! درجتك هي (${correctCount}/${totalCount}) - حاول مرة أخرى للوصول للدرجة النهائيه.`);
+            }
+        }
     </script>
 </body>
 </html>
