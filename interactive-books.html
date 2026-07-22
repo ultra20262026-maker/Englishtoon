@@ -376,7 +376,12 @@
 
         function renderSplitPage() {
             const folder = currentBookId === 1 ? 'p1' : (currentBookId === 2 ? 'p2' : 'p3');
-            document.getElementById('book-page-img').src = `images/books/${folder}/page_${currentPageNum}.png`;
+            const imgEl = document.getElementById('book-page-img');
+            imgEl.src = `images/books/${folder}/${currentPageNum}.jpg`;
+            imgEl.onerror = function() {
+                this.onerror = null;
+                this.src = `images/books/${folder}/page_${currentPageNum}.png`;
+            };
             document.getElementById('page-label').innerText = `${currentPageNum} / 72`;
             initPageSelect();
 
