@@ -1,4 +1,4 @@
-﻿const CACHE_NAME = 'english-toon-v20260722161337';
+﻿const CACHE_NAME = 'english-toon-v20260722185426';
 const urlsToCache = [
     "/",
     "/.gitattributes",
@@ -31,6 +31,9 @@ const urlsToCache = [
     "/protect_games.ps1",
     "/README.md",
     "/regenerate_json.ps1",
+    "/scratch_compare.py",
+    "/scratch_find_prep3_overrides.py",
+    "/scratch_fix_prep3_sizes.py",
     "/test-bytes.py",
     "/test-decode.py",
     "/test_apple.jpg",
