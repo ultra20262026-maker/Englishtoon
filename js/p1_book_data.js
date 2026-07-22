@@ -1264,18 +1264,101 @@ var P1_OVERLAY_DATABASE = {
       ]
   },
   40: {
-      "pageImg": "images/books/p1/40.jpg",
-      "title": "Weekly Assessment (A & B)",
-      "inputs": [
-          {
-              "id": "p40_i1",
-              "top": "31.8%",
-              "left": "16.0%",
-              "width": "11.0%",
-              "height": "2.3%",
-              "answer": "car",
-              "placeholder": "..."
-          },
+    "pageImg": "images/books/p1/40.jpg",
+    "title": "Weekly Assessment (A) & (B)",
+    "inputs": [
+        {
+            "id": "p40_a1_1",
+            "top": "33.8%",
+            "left": "16.0%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "car",
+            "placeholder": "..."
+        },
+        {
+            "id": "p40_a1_2",
+            "top": "33.8%",
+            "left": "46.5%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "hear",
+            "placeholder": "..."
+        },
+        {
+            "id": "p40_a1_3",
+            "top": "33.8%",
+            "left": "76.5%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "king",
+            "placeholder": "..."
+        },
+        {
+            "id": "p40_a2_1",
+            "top": "42.5%",
+            "left": "52.5%",
+            "width": "36.0%",
+            "height": "2.5%",
+            "answer": "I can touch with my hands.",
+            "placeholder": "I can..."
+        },
+        {
+            "id": "p40_a2_2",
+            "top": "45.8%",
+            "left": "48.5%",
+            "width": "40.0%",
+            "height": "2.5%",
+            "answer": "I can smell with my nose.",
+            "placeholder": "I can..."
+        },
+        {
+            "id": "p40_b1_1",
+            "top": "78.5%",
+            "left": "16.0%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "carrot",
+            "placeholder": "..."
+        },
+        {
+            "id": "p40_b1_2",
+            "top": "78.5%",
+            "left": "46.5%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "smell",
+            "placeholder": "..."
+        },
+        {
+            "id": "p40_b1_3",
+            "top": "78.5%",
+            "left": "76.5%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "cake",
+            "placeholder": "..."
+        },
+        {
+            "id": "p40_b2_1",
+            "top": "88.0%",
+            "left": "44.5%",
+            "width": "44.0%",
+            "height": "2.5%",
+            "answer": "I can see with my eyes.",
+            "placeholder": "I can..."
+        },
+        {
+            "id": "p40_b2_2",
+            "top": "91.8%",
+            "left": "49.5%",
+            "width": "39.0%",
+            "height": "2.5%",
+            "answer": "I can taste with my tongue.",
+            "placeholder": "I can..."
+        }
+    ]
+},
           {
               "id": "p40_i2",
               "top": "31.8%",
@@ -1360,18 +1443,56 @@ var P1_OVERLAY_DATABASE = {
       ]
   },
   41: {
-      "pageImg": "images/books/p1/41.jpg",
-      "title": "Weekly Assessment (C)",
-      "inputs": [
-          {
-              "id": "p41_i1",
-              "top": "31.8%",
-              "left": "14.5%",
-              "width": "11.0%",
-              "height": "2.3%",
-              "answer": "key",
-              "placeholder": "..."
-          },
+    "pageImg": "images/books/p1/41.jpg",
+    "title": "Weekly Assessment (C)",
+    "inputs": [
+        {
+            "id": "p41_c1_1",
+            "top": "33.8%",
+            "left": "14.5%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "key",
+            "placeholder": "..."
+        },
+        {
+            "id": "p41_c1_2",
+            "top": "33.8%",
+            "left": "44.5%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "cat",
+            "placeholder": "..."
+        },
+        {
+            "id": "p41_c1_3",
+            "top": "33.8%",
+            "left": "74.5%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "taste",
+            "placeholder": "..."
+        },
+        {
+            "id": "p41_c2_1",
+            "top": "42.5%",
+            "left": "43.5%",
+            "width": "44.0%",
+            "height": "2.5%",
+            "answer": "I can hear with my ears.",
+            "placeholder": "I can..."
+        },
+        {
+            "id": "p41_c2_2",
+            "top": "46.2%",
+            "left": "46.5%",
+            "width": "41.0%",
+            "height": "2.5%",
+            "answer": "I can smell with my nose.",
+            "placeholder": "I can..."
+        }
+    ]
+},
           {
               "id": "p41_i2",
               "top": "31.8%",
@@ -1411,18 +1532,119 @@ var P1_OVERLAY_DATABASE = {
       ]
   },
   42: {
-      "pageImg": "images/books/p1/42.jpg",
-      "title": "Unit 5: On the Farm",
-      "inputs": [
-          {
-              "id": "p42_i1",
-              "top": "27.5%",
-              "left": "22.5%",
-              "width": "10.0%",
-              "height": "2.3%",
-              "answer": "chicken",
-              "placeholder": "..."
-          },
+    "pageImg": "images/books/p1/42.jpg",
+    "title": "Unit 5: Lesson 1 \u2014 On the Farm",
+    "inputs": [
+        {
+            "id": "p42_a1_1",
+            "top": "45.0%",
+            "left": "14.5%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "chicken",
+            "placeholder": "..."
+        },
+        {
+            "id": "p42_a1_2",
+            "top": "45.0%",
+            "left": "35.5%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "horse",
+            "placeholder": "..."
+        },
+        {
+            "id": "p42_a1_3",
+            "top": "45.0%",
+            "left": "56.5%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "duck",
+            "placeholder": "..."
+        },
+        {
+            "id": "p42_a1_4",
+            "top": "45.0%",
+            "left": "77.5%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "cow",
+            "placeholder": "..."
+        },
+        {
+            "id": "p42_a2_1",
+            "top": "54.8%",
+            "left": "39.5%",
+            "width": "39.0%",
+            "height": "2.5%",
+            "answer": "The duck is small.",
+            "placeholder": "The..."
+        },
+        {
+            "id": "p42_a2_2",
+            "top": "58.8%",
+            "left": "31.5%",
+            "width": "47.0%",
+            "height": "2.5%",
+            "answer": "The cow is big.",
+            "placeholder": "The..."
+        },
+        {
+            "id": "p42_a2_3",
+            "top": "62.8%",
+            "left": "37.5%",
+            "width": "41.0%",
+            "height": "2.5%",
+            "answer": "I love farm animals!",
+            "placeholder": "I..."
+        },
+        {
+            "id": "p42_a2_4",
+            "top": "66.8%",
+            "left": "35.5%",
+            "width": "43.0%",
+            "height": "2.5%",
+            "answer": "Do you see a horse?",
+            "placeholder": "Do..."
+        },
+        {
+            "id": "p42_hw_1",
+            "top": "90.5%",
+            "left": "14.5%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "cow",
+            "placeholder": "..."
+        },
+        {
+            "id": "p42_hw_2",
+            "top": "90.5%",
+            "left": "35.5%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "duck",
+            "placeholder": "..."
+        },
+        {
+            "id": "p42_hw_3",
+            "top": "90.5%",
+            "left": "56.5%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "horse",
+            "placeholder": "..."
+        },
+        {
+            "id": "p42_hw_4",
+            "top": "90.5%",
+            "left": "77.5%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "chicken",
+            "placeholder": "..."
+        }
+    ]
+},
           {
               "id": "p42_i2",
               "top": "27.5%",
@@ -1525,18 +1747,110 @@ var P1_OVERLAY_DATABASE = {
       ]
   },
   43: {
-      "pageImg": "images/books/p1/43.jpg",
-      "title": "Lesson 2 Phonics (M & G)",
-      "inputs": [
-          {
-              "id": "p43_i1",
-              "top": "29.2%",
-              "left": "23.5%",
-              "width": "10.5%",
-              "height": "2.3%",
-              "answer": "milk",
-              "placeholder": "..."
-          },
+    "pageImg": "images/books/p1/43.jpg",
+    "title": "Lesson 2 \u2014 Phonics (M & G)",
+    "inputs": [
+        {
+            "id": "p43_a1_1",
+            "top": "37.0%",
+            "left": "11.5%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "milk",
+            "placeholder": "..."
+        },
+        {
+            "id": "p43_a1_2",
+            "top": "37.0%",
+            "left": "33.2%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "guitar",
+            "placeholder": "..."
+        },
+        {
+            "id": "p43_a1_3",
+            "top": "37.0%",
+            "left": "54.8%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "grapes",
+            "placeholder": "..."
+        },
+        {
+            "id": "p43_a1_4",
+            "top": "37.0%",
+            "left": "76.2%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "mouse",
+            "placeholder": "..."
+        },
+        {
+            "id": "p43_a2_1",
+            "top": "45.8%",
+            "left": "45.0%",
+            "width": "13.0%",
+            "height": "2.3%",
+            "answer": "grapes",
+            "placeholder": "..."
+        },
+        {
+            "id": "p43_a2_2",
+            "top": "49.8%",
+            "left": "45.0%",
+            "width": "13.0%",
+            "height": "2.3%",
+            "answer": "mouse",
+            "placeholder": "..."
+        },
+        {
+            "id": "p43_a2_3",
+            "top": "53.8%",
+            "left": "45.0%",
+            "width": "13.0%",
+            "height": "2.3%",
+            "answer": "mango",
+            "placeholder": "..."
+        },
+        {
+            "id": "p43_hw_1",
+            "top": "77.2%",
+            "left": "24.8%",
+            "width": "12.0%",
+            "height": "2.3%",
+            "answer": "goat",
+            "placeholder": "..."
+        },
+        {
+            "id": "p43_hw_2",
+            "top": "77.2%",
+            "left": "63.2%",
+            "width": "12.0%",
+            "height": "2.3%",
+            "answer": "monkey",
+            "placeholder": "..."
+        },
+        {
+            "id": "p43_hw_3",
+            "top": "92.2%",
+            "left": "24.8%",
+            "width": "12.0%",
+            "height": "2.3%",
+            "answer": "gloves",
+            "placeholder": "..."
+        },
+        {
+            "id": "p43_hw_4",
+            "top": "92.2%",
+            "left": "63.2%",
+            "width": "12.0%",
+            "height": "2.3%",
+            "answer": "mango",
+            "placeholder": "..."
+        }
+    ]
+},
           {
               "id": "p43_i2",
               "top": "29.2%",
@@ -1630,18 +1944,101 @@ var P1_OVERLAY_DATABASE = {
       ]
   },
   44: {
-      "pageImg": "images/books/p1/44.jpg",
-      "title": "Weekly Assessment (A & B)",
-      "inputs": [
-          {
-              "id": "p44_i1",
-              "top": "32.5%",
-              "left": "19.5%",
-              "width": "4.2%",
-              "height": "2.3%",
-              "answer": "g",
-              "placeholder": "?"
-          },
+    "pageImg": "images/books/p1/44.jpg",
+    "title": "Weekly Assessment (A) & (B)",
+    "inputs": [
+        {
+            "id": "p44_a1_1",
+            "top": "30.5%",
+            "left": "20.2%",
+            "width": "4.2%",
+            "height": "2.3%",
+            "answer": "g",
+            "placeholder": "?"
+        },
+        {
+            "id": "p44_a1_2",
+            "top": "30.5%",
+            "left": "47.8%",
+            "width": "4.2%",
+            "height": "2.3%",
+            "answer": "m",
+            "placeholder": "?"
+        },
+        {
+            "id": "p44_a1_3",
+            "top": "30.5%",
+            "left": "77.2%",
+            "width": "4.2%",
+            "height": "2.3%",
+            "answer": "m",
+            "placeholder": "?"
+        },
+        {
+            "id": "p44_a2_1",
+            "top": "39.5%",
+            "left": "25.5%",
+            "width": "22.0%",
+            "height": "2.5%",
+            "answer": "small",
+            "placeholder": "..."
+        },
+        {
+            "id": "p44_a2_2",
+            "top": "45.8%",
+            "left": "26.5%",
+            "width": "22.0%",
+            "height": "2.5%",
+            "answer": "fast",
+            "placeholder": "..."
+        },
+        {
+            "id": "p44_b1_1",
+            "top": "76.5%",
+            "left": "20.2%",
+            "width": "4.2%",
+            "height": "2.3%",
+            "answer": "g",
+            "placeholder": "?"
+        },
+        {
+            "id": "p44_b1_2",
+            "top": "76.5%",
+            "left": "47.8%",
+            "width": "4.2%",
+            "height": "2.3%",
+            "answer": "m",
+            "placeholder": "?"
+        },
+        {
+            "id": "p44_b1_3",
+            "top": "76.5%",
+            "left": "77.2%",
+            "width": "4.2%",
+            "height": "2.3%",
+            "answer": "g",
+            "placeholder": "?"
+        },
+        {
+            "id": "p44_b2_1",
+            "top": "85.5%",
+            "left": "28.5%",
+            "width": "22.0%",
+            "height": "2.5%",
+            "answer": "small",
+            "placeholder": "..."
+        },
+        {
+            "id": "p44_b2_2",
+            "top": "91.8%",
+            "left": "25.5%",
+            "width": "22.0%",
+            "height": "2.5%",
+            "answer": "big",
+            "placeholder": "..."
+        }
+    ]
+},
           {
               "id": "p44_i2",
               "top": "32.5%",
@@ -1726,18 +2123,56 @@ var P1_OVERLAY_DATABASE = {
       ]
   },
   45: {
-      "pageImg": "images/books/p1/45.jpg",
-      "title": "Weekly Assessment (C)",
-      "inputs": [
-          {
-              "id": "p45_i1",
-              "top": "32.5%",
-              "left": "16.5%",
-              "width": "4.2%",
-              "height": "2.3%",
-              "answer": "m",
-              "placeholder": "?"
-          },
+    "pageImg": "images/books/p1/45.jpg",
+    "title": "Weekly Assessment (C)",
+    "inputs": [
+        {
+            "id": "p45_c1_1",
+            "top": "30.5%",
+            "left": "20.2%",
+            "width": "4.2%",
+            "height": "2.3%",
+            "answer": "m",
+            "placeholder": "?"
+        },
+        {
+            "id": "p45_c1_2",
+            "top": "30.5%",
+            "left": "45.2%",
+            "width": "4.2%",
+            "height": "2.3%",
+            "answer": "g",
+            "placeholder": "?"
+        },
+        {
+            "id": "p45_c1_3",
+            "top": "30.5%",
+            "left": "72.8%",
+            "width": "4.2%",
+            "height": "2.3%",
+            "answer": "g",
+            "placeholder": "?"
+        },
+        {
+            "id": "p45_c2_1",
+            "top": "39.5%",
+            "left": "26.5%",
+            "width": "22.0%",
+            "height": "2.5%",
+            "answer": "big",
+            "placeholder": "..."
+        },
+        {
+            "id": "p45_c2_2",
+            "top": "45.8%",
+            "left": "24.5%",
+            "width": "22.0%",
+            "height": "2.5%",
+            "answer": "small",
+            "placeholder": "..."
+        }
+    ]
+},
           {
               "id": "p45_i2",
               "top": "32.5%",
@@ -1777,18 +2212,119 @@ var P1_OVERLAY_DATABASE = {
       ]
   },
   46: {
-      "pageImg": "images/books/p1/46.jpg",
-      "title": "Lesson 3 Numbers 6 to 10",
-      "inputs": [
-          {
-              "id": "p46_i1",
-              "top": "27.5%",
-              "left": "32.5%",
-              "width": "8.0%",
-              "height": "2.3%",
-              "answer": "6",
-              "placeholder": "..."
-          },
+    "pageImg": "images/books/p1/46.jpg",
+    "title": "Lesson 3 \u2014 Numbers From 6 to 10",
+    "inputs": [
+        {
+            "id": "p46_a1_1",
+            "top": "25.8%",
+            "left": "22.0%",
+            "width": "8.0%",
+            "height": "2.3%",
+            "answer": "6",
+            "placeholder": "."
+        },
+        {
+            "id": "p46_a1_2",
+            "top": "31.8%",
+            "left": "22.0%",
+            "width": "8.0%",
+            "height": "2.3%",
+            "answer": "7",
+            "placeholder": "."
+        },
+        {
+            "id": "p46_a1_3",
+            "top": "38.5%",
+            "left": "22.0%",
+            "width": "8.0%",
+            "height": "2.3%",
+            "answer": "9",
+            "placeholder": "."
+        },
+        {
+            "id": "p46_a1_4",
+            "top": "44.5%",
+            "left": "22.0%",
+            "width": "8.0%",
+            "height": "2.3%",
+            "answer": "8",
+            "placeholder": "."
+        },
+        {
+            "id": "p46_a2_1",
+            "top": "55.5%",
+            "left": "8.5%",
+            "width": "38.0%",
+            "height": "2.5%",
+            "answer": "I can see 9 pencils.",
+            "placeholder": "I can..."
+        },
+        {
+            "id": "p46_a2_2",
+            "top": "62.0%",
+            "left": "8.5%",
+            "width": "38.0%",
+            "height": "2.5%",
+            "answer": "I can see 6 apples.",
+            "placeholder": "I can..."
+        },
+        {
+            "id": "p46_a2_3",
+            "top": "68.5%",
+            "left": "8.5%",
+            "width": "38.0%",
+            "height": "2.5%",
+            "answer": "I can see 7 cars.",
+            "placeholder": "I can..."
+        },
+        {
+            "id": "p46_a2_4",
+            "top": "75.0%",
+            "left": "8.5%",
+            "width": "38.0%",
+            "height": "2.5%",
+            "answer": "I can see 8 bees.",
+            "placeholder": "I can..."
+        },
+        {
+            "id": "p46_hw_1",
+            "top": "92.5%",
+            "left": "14.5%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "6",
+            "placeholder": "."
+        },
+        {
+            "id": "p46_hw_2",
+            "top": "92.5%",
+            "left": "35.5%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "9",
+            "placeholder": "."
+        },
+        {
+            "id": "p46_hw_3",
+            "top": "92.5%",
+            "left": "56.5%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "8",
+            "placeholder": "."
+        },
+        {
+            "id": "p46_hw_4",
+            "top": "92.5%",
+            "left": "77.5%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "10",
+            "placeholder": "."
+        }
+    ]
+},
           {
               "id": "p46_i2",
               "top": "33.5%",
@@ -1891,18 +2427,110 @@ var P1_OVERLAY_DATABASE = {
       ]
   },
   47: {
-      "pageImg": "images/books/p1/47.jpg",
-      "title": "Lesson 4 Phonics (O & F)",
-      "inputs": [
-          {
-              "id": "p47_i1",
-              "top": "29.2%",
-              "left": "23.5%",
-              "width": "10.5%",
-              "height": "2.3%",
-              "answer": "olive",
-              "placeholder": "..."
-          },
+    "pageImg": "images/books/p1/47.jpg",
+    "title": "Lesson 4 \u2014 Phonics (O & F)",
+    "inputs": [
+        {
+            "id": "p47_a1_1",
+            "top": "37.0%",
+            "left": "13.0%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "olive",
+            "placeholder": "..."
+        },
+        {
+            "id": "p47_a1_2",
+            "top": "37.0%",
+            "left": "33.8%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "fish",
+            "placeholder": "..."
+        },
+        {
+            "id": "p47_a1_3",
+            "top": "37.0%",
+            "left": "54.5%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "ostrich",
+            "placeholder": "..."
+        },
+        {
+            "id": "p47_a1_4",
+            "top": "37.0%",
+            "left": "75.8%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "frog",
+            "placeholder": "..."
+        },
+        {
+            "id": "p47_a2_1",
+            "top": "46.5%",
+            "left": "42.0%",
+            "width": "12.0%",
+            "height": "2.3%",
+            "answer": "fork",
+            "placeholder": "..."
+        },
+        {
+            "id": "p47_a2_2",
+            "top": "51.5%",
+            "left": "42.0%",
+            "width": "12.0%",
+            "height": "2.3%",
+            "answer": "ostrich",
+            "placeholder": "..."
+        },
+        {
+            "id": "p47_a2_3",
+            "top": "56.5%",
+            "left": "42.0%",
+            "width": "12.0%",
+            "height": "2.3%",
+            "answer": "on",
+            "placeholder": "..."
+        },
+        {
+            "id": "p47_hw_1",
+            "top": "81.2%",
+            "left": "13.0%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "fan",
+            "placeholder": "..."
+        },
+        {
+            "id": "p47_hw_2",
+            "top": "81.2%",
+            "left": "33.8%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "octopus",
+            "placeholder": "..."
+        },
+        {
+            "id": "p47_hw_3",
+            "top": "81.2%",
+            "left": "54.5%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "fox",
+            "placeholder": "..."
+        },
+        {
+            "id": "p47_hw_4",
+            "top": "81.2%",
+            "left": "75.8%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "cat",
+            "placeholder": "..."
+        }
+    ]
+},
           {
               "id": "p47_i2",
               "top": "29.2%",
@@ -1996,18 +2624,101 @@ var P1_OVERLAY_DATABASE = {
       ]
   },
   48: {
-      "pageImg": "images/books/p1/48.jpg",
-      "title": "Weekly Assessment (A & B)",
-      "inputs": [
-          {
-              "id": "p48_i1",
-              "top": "31.8%",
-              "left": "16.0%",
-              "width": "11.0%",
-              "height": "2.3%",
-              "answer": "frog",
-              "placeholder": "..."
-          },
+    "pageImg": "images/books/p1/48.jpg",
+    "title": "Weekly Assessment (A) & (B)",
+    "inputs": [
+        {
+            "id": "p48_a1_1",
+            "top": "33.8%",
+            "left": "17.0%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "frog",
+            "placeholder": "..."
+        },
+        {
+            "id": "p48_a1_2",
+            "top": "33.8%",
+            "left": "47.0%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "olive",
+            "placeholder": "..."
+        },
+        {
+            "id": "p48_a1_3",
+            "top": "33.8%",
+            "left": "77.0%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "fox",
+            "placeholder": "..."
+        },
+        {
+            "id": "p48_a2_1",
+            "top": "44.5%",
+            "left": "22.5%",
+            "width": "13.0%",
+            "height": "2.3%",
+            "answer": "fan",
+            "placeholder": "..."
+        },
+        {
+            "id": "p48_a2_2",
+            "top": "44.5%",
+            "left": "66.5%",
+            "width": "14.0%",
+            "height": "2.3%",
+            "answer": "ostrich",
+            "placeholder": "..."
+        },
+        {
+            "id": "p48_b1_1",
+            "top": "79.0%",
+            "left": "17.0%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "on",
+            "placeholder": "..."
+        },
+        {
+            "id": "p48_b1_2",
+            "top": "79.0%",
+            "left": "47.0%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "fish",
+            "placeholder": "..."
+        },
+        {
+            "id": "p48_b1_3",
+            "top": "79.0%",
+            "left": "77.0%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "octopus",
+            "placeholder": "..."
+        },
+        {
+            "id": "p48_b2_1",
+            "top": "91.5%",
+            "left": "22.5%",
+            "width": "13.0%",
+            "height": "2.3%",
+            "answer": "fox",
+            "placeholder": "..."
+        },
+        {
+            "id": "p48_b2_2",
+            "top": "91.5%",
+            "left": "66.5%",
+            "width": "14.0%",
+            "height": "2.3%",
+            "answer": "fork",
+            "placeholder": "..."
+        }
+    ]
+},
           {
               "id": "p48_i2",
               "top": "31.8%",
@@ -2092,18 +2803,56 @@ var P1_OVERLAY_DATABASE = {
       ]
   },
   49: {
-      "pageImg": "images/books/p1/49.jpg",
-      "title": "Weekly Assessment (C)",
-      "inputs": [
-          {
-              "id": "p49_i1",
-              "top": "31.8%",
-              "left": "14.5%",
-              "width": "11.0%",
-              "height": "2.3%",
-              "answer": "ostrich",
-              "placeholder": "..."
-          },
+    "pageImg": "images/books/p1/49.jpg",
+    "title": "Weekly Assessment (C)",
+    "inputs": [
+        {
+            "id": "p49_c1_1",
+            "top": "34.5%",
+            "left": "14.5%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "ostrich",
+            "placeholder": "..."
+        },
+        {
+            "id": "p49_c1_2",
+            "top": "34.5%",
+            "left": "44.5%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "fork",
+            "placeholder": "..."
+        },
+        {
+            "id": "p49_c1_3",
+            "top": "34.5%",
+            "left": "74.5%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "fan",
+            "placeholder": "..."
+        },
+        {
+            "id": "p49_c2_1",
+            "top": "47.0%",
+            "left": "22.5%",
+            "width": "15.0%",
+            "height": "2.3%",
+            "answer": "octopus",
+            "placeholder": "..."
+        },
+        {
+            "id": "p49_c2_2",
+            "top": "47.0%",
+            "left": "66.5%",
+            "width": "14.0%",
+            "height": "2.3%",
+            "answer": "fish",
+            "placeholder": "..."
+        }
+    ]
+},
           {
               "id": "p49_i2",
               "top": "31.8%",
@@ -2143,18 +2892,209 @@ var P1_OVERLAY_DATABASE = {
       ]
   },
   50: {
-      "pageImg": "images/books/p1/50.jpg",
-      "title": "Monthly Revision",
-      "inputs": [
-          {
-              "id": "p50_i1",
-              "top": "54.0%",
-              "left": "13.8%",
-              "width": "4.2%",
-              "height": "2.3%",
-              "answer": "h",
-              "placeholder": "?"
-          },
+    "pageImg": "images/books/p1/50.jpg",
+    "title": "Monthly Revision \u2014 A & B",
+    "inputs": [
+        {
+            "id": "p50_a1_1",
+            "top": "19.5%",
+            "left": "24.5%",
+            "width": "8.0%",
+            "height": "2.3%",
+            "answer": "d",
+            "placeholder": "."
+        },
+        {
+            "id": "p50_a1_2",
+            "top": "23.8%",
+            "left": "24.5%",
+            "width": "8.0%",
+            "height": "2.3%",
+            "answer": "e",
+            "placeholder": "."
+        },
+        {
+            "id": "p50_a1_3",
+            "top": "28.2%",
+            "left": "24.5%",
+            "width": "8.0%",
+            "height": "2.3%",
+            "answer": "a",
+            "placeholder": "."
+        },
+        {
+            "id": "p50_a1_4",
+            "top": "32.5%",
+            "left": "24.5%",
+            "width": "8.0%",
+            "height": "2.3%",
+            "answer": "b",
+            "placeholder": "."
+        },
+        {
+            "id": "p50_a1_5",
+            "top": "36.8%",
+            "left": "24.5%",
+            "width": "8.0%",
+            "height": "2.3%",
+            "answer": "c",
+            "placeholder": "."
+        },
+        {
+            "id": "p50_b1_1",
+            "top": "55.5%",
+            "left": "18.0%",
+            "width": "3.5%",
+            "height": "2.1%",
+            "answer": "h",
+            "placeholder": "?"
+        },
+        {
+            "id": "p50_b1_2",
+            "top": "55.5%",
+            "left": "38.5%",
+            "width": "3.5%",
+            "height": "2.1%",
+            "answer": "d",
+            "placeholder": "?"
+        },
+        {
+            "id": "p50_b1_3",
+            "top": "55.5%",
+            "left": "57.5%",
+            "width": "3.5%",
+            "height": "2.1%",
+            "answer": "h",
+            "placeholder": "?"
+        },
+        {
+            "id": "p50_b1_4",
+            "top": "55.5%",
+            "left": "75.0%",
+            "width": "3.5%",
+            "height": "2.1%",
+            "answer": "o",
+            "placeholder": "?"
+        },
+        {
+            "id": "p50_b1_5",
+            "top": "64.2%",
+            "left": "18.0%",
+            "width": "3.5%",
+            "height": "2.1%",
+            "answer": "r",
+            "placeholder": "?"
+        },
+        {
+            "id": "p50_b1_6",
+            "top": "64.2%",
+            "left": "38.5%",
+            "width": "3.5%",
+            "height": "2.1%",
+            "answer": "e",
+            "placeholder": "?"
+        },
+        {
+            "id": "p50_b1_7",
+            "top": "64.2%",
+            "left": "57.5%",
+            "width": "3.5%",
+            "height": "2.1%",
+            "answer": "f",
+            "placeholder": "?"
+        },
+        {
+            "id": "p50_b1_8",
+            "top": "64.2%",
+            "left": "77.0%",
+            "width": "3.5%",
+            "height": "2.1%",
+            "answer": "f",
+            "placeholder": "?"
+        },
+        {
+            "id": "p50_b1_9",
+            "top": "73.0%",
+            "left": "18.0%",
+            "width": "3.5%",
+            "height": "2.1%",
+            "answer": "h",
+            "placeholder": "?"
+        },
+        {
+            "id": "p50_b1_10",
+            "top": "73.0%",
+            "left": "37.5%",
+            "width": "3.5%",
+            "height": "2.1%",
+            "answer": "o",
+            "placeholder": "?"
+        },
+        {
+            "id": "p50_b1_11",
+            "top": "73.0%",
+            "left": "57.5%",
+            "width": "3.5%",
+            "height": "2.1%",
+            "answer": "f",
+            "placeholder": "?"
+        },
+        {
+            "id": "p50_b1_12",
+            "top": "73.0%",
+            "left": "77.0%",
+            "width": "3.5%",
+            "height": "2.1%",
+            "answer": "o",
+            "placeholder": "?"
+        },
+        {
+            "id": "p50_b1_13",
+            "top": "81.8%",
+            "left": "18.0%",
+            "width": "3.5%",
+            "height": "2.1%",
+            "answer": "f",
+            "placeholder": "?"
+        },
+        {
+            "id": "p50_b1_14",
+            "top": "81.8%",
+            "left": "37.5%",
+            "width": "3.5%",
+            "height": "2.1%",
+            "answer": "g",
+            "placeholder": "?"
+        },
+        {
+            "id": "p50_b1_15",
+            "top": "81.8%",
+            "left": "57.5%",
+            "width": "3.5%",
+            "height": "2.1%",
+            "answer": "m",
+            "placeholder": "?"
+        },
+        {
+            "id": "p50_b1_16",
+            "top": "81.8%",
+            "left": "77.0%",
+            "width": "3.5%",
+            "height": "2.1%",
+            "answer": "k",
+            "placeholder": "?"
+        },
+        {
+            "id": "p50_b1_17",
+            "top": "90.8%",
+            "left": "17.0%",
+            "width": "3.5%",
+            "height": "2.1%",
+            "answer": "k",
+            "placeholder": "?"
+        }
+    ]
+},
           {
               "id": "p50_i2",
               "top": "54.0%",
@@ -2302,18 +3242,209 @@ var P1_OVERLAY_DATABASE = {
       ]
   },
   51: {
-      "pageImg": "images/books/p1/51.jpg",
-      "title": "Monthly Revision (cont.)",
-      "inputs": [
-          {
-              "id": "p51_i1",
-              "top": "14.5%",
-              "left": "14.5%",
-              "width": "11.0%",
-              "height": "2.3%",
-              "answer": "hand",
-              "placeholder": "..."
-          },
+    "pageImg": "images/books/p1/51.jpg",
+    "title": "Monthly Revision \u2014 C & D",
+    "inputs": [
+        {
+            "id": "p51_c1_1",
+            "top": "21.0%",
+            "left": "14.5%",
+            "width": "10.0%",
+            "height": "2.2%",
+            "answer": "cat",
+            "placeholder": "..."
+        },
+        {
+            "id": "p51_c1_2",
+            "top": "21.0%",
+            "left": "34.2%",
+            "width": "10.0%",
+            "height": "2.2%",
+            "answer": "legs",
+            "placeholder": "..."
+        },
+        {
+            "id": "p51_c1_3",
+            "top": "21.0%",
+            "left": "54.0%",
+            "width": "10.0%",
+            "height": "2.2%",
+            "answer": "fox",
+            "placeholder": "..."
+        },
+        {
+            "id": "p51_c1_4",
+            "top": "21.0%",
+            "left": "73.5%",
+            "width": "10.0%",
+            "height": "2.2%",
+            "answer": "kite",
+            "placeholder": "..."
+        },
+        {
+            "id": "p51_c1_5",
+            "top": "33.8%",
+            "left": "14.5%",
+            "width": "10.0%",
+            "height": "2.2%",
+            "answer": "chicken",
+            "placeholder": "..."
+        },
+        {
+            "id": "p51_c1_6",
+            "top": "33.8%",
+            "left": "34.2%",
+            "width": "10.0%",
+            "height": "2.2%",
+            "answer": "cake",
+            "placeholder": "..."
+        },
+        {
+            "id": "p51_c1_7",
+            "top": "33.8%",
+            "left": "54.0%",
+            "width": "10.0%",
+            "height": "2.2%",
+            "answer": "guitar",
+            "placeholder": "..."
+        },
+        {
+            "id": "p51_c1_8",
+            "top": "33.8%",
+            "left": "73.5%",
+            "width": "10.0%",
+            "height": "2.2%",
+            "answer": "elbow",
+            "placeholder": "..."
+        },
+        {
+            "id": "p51_c1_9",
+            "top": "46.2%",
+            "left": "14.5%",
+            "width": "10.0%",
+            "height": "2.2%",
+            "answer": "feet",
+            "placeholder": "..."
+        },
+        {
+            "id": "p51_c1_10",
+            "top": "46.2%",
+            "left": "34.2%",
+            "width": "10.0%",
+            "height": "2.2%",
+            "answer": "toes",
+            "placeholder": "..."
+        },
+        {
+            "id": "p51_c1_11",
+            "top": "46.2%",
+            "left": "54.0%",
+            "width": "10.0%",
+            "height": "2.2%",
+            "answer": "tongue",
+            "placeholder": "..."
+        },
+        {
+            "id": "p51_c1_12",
+            "top": "46.2%",
+            "left": "73.5%",
+            "width": "10.0%",
+            "height": "2.2%",
+            "answer": "enter",
+            "placeholder": "..."
+        },
+        {
+            "id": "p51_d1_1",
+            "top": "54.5%",
+            "left": "38.0%",
+            "width": "48.0%",
+            "height": "2.4%",
+            "answer": "I can see 10 stars.",
+            "placeholder": "I can..."
+        },
+        {
+            "id": "p51_d1_2",
+            "top": "58.5%",
+            "left": "40.0%",
+            "width": "46.0%",
+            "height": "2.4%",
+            "answer": "The chicken is small.",
+            "placeholder": "The..."
+        },
+        {
+            "id": "p51_d1_3",
+            "top": "62.5%",
+            "left": "34.0%",
+            "width": "52.0%",
+            "height": "2.4%",
+            "answer": "I have an apple.",
+            "placeholder": "I..."
+        },
+        {
+            "id": "p51_d1_4",
+            "top": "66.5%",
+            "left": "49.0%",
+            "width": "37.0%",
+            "height": "2.4%",
+            "answer": "I can taste with my tongue.",
+            "placeholder": "I..."
+        },
+        {
+            "id": "p51_d1_5",
+            "top": "70.5%",
+            "left": "42.0%",
+            "width": "44.0%",
+            "height": "2.4%",
+            "answer": "Do you see the horse?",
+            "placeholder": "Do..."
+        },
+        {
+            "id": "p51_d1_6",
+            "top": "74.5%",
+            "left": "29.0%",
+            "width": "57.0%",
+            "height": "2.4%",
+            "answer": "This is a car.",
+            "placeholder": "This..."
+        },
+        {
+            "id": "p51_d1_7",
+            "top": "78.5%",
+            "left": "38.0%",
+            "width": "48.0%",
+            "height": "2.4%",
+            "answer": "I love farm animals.",
+            "placeholder": "I..."
+        },
+        {
+            "id": "p51_d1_8",
+            "top": "82.5%",
+            "left": "31.0%",
+            "width": "55.0%",
+            "height": "2.4%",
+            "answer": "I have 5 toes.",
+            "placeholder": "I..."
+        },
+        {
+            "id": "p51_d1_9",
+            "top": "86.5%",
+            "left": "35.0%",
+            "width": "51.0%",
+            "height": "2.4%",
+            "answer": "The horse is big.",
+            "placeholder": "The..."
+        },
+        {
+            "id": "p51_d1_10",
+            "top": "90.5%",
+            "left": "60.5%",
+            "width": "26.0%",
+            "height": "2.4%",
+            "answer": "I can touch the desk with my hands.",
+            "placeholder": "I..."
+        }
+    ]
+},
           {
               "id": "p51_i2",
               "top": "14.5%",
@@ -2506,18 +3637,137 @@ var P1_OVERLAY_DATABASE = {
       ]
   },
   52: {
-      "pageImg": "images/books/p1/52.jpg",
-      "title": "Monthly Revision (cont.)",
-      "inputs": [
-          {
-              "id": "p52_i1",
-              "top": "14.5%",
-              "left": "30.5%",
-              "width": "10.0%",
-              "height": "2.3%",
-              "answer": "4",
-              "placeholder": "..."
-          },
+    "pageImg": "images/books/p1/52.jpg",
+    "title": "Monthly Revision \u2014 E & F",
+    "inputs": [
+        {
+            "id": "p52_e1_1",
+            "top": "11.2%",
+            "left": "24.5%",
+            "width": "10.0%",
+            "height": "2.2%",
+            "answer": "4",
+            "placeholder": "."
+        },
+        {
+            "id": "p52_e1_2",
+            "top": "16.5%",
+            "left": "23.5%",
+            "width": "11.0%",
+            "height": "2.2%",
+            "answer": "eyes",
+            "placeholder": "..."
+        },
+        {
+            "id": "p52_e1_3",
+            "top": "22.0%",
+            "left": "22.5%",
+            "width": "11.0%",
+            "height": "2.2%",
+            "answer": "arms",
+            "placeholder": "..."
+        },
+        {
+            "id": "p52_e1_4",
+            "top": "27.2%",
+            "left": "19.5%",
+            "width": "11.0%",
+            "height": "2.2%",
+            "answer": "smell",
+            "placeholder": "..."
+        },
+        {
+            "id": "p52_e1_5",
+            "top": "32.5%",
+            "left": "18.5%",
+            "width": "11.0%",
+            "height": "2.2%",
+            "answer": "cow",
+            "placeholder": "..."
+        },
+        {
+            "id": "p52_e1_6",
+            "top": "37.8%",
+            "left": "18.5%",
+            "width": "11.0%",
+            "height": "2.2%",
+            "answer": "duck",
+            "placeholder": "..."
+        },
+        {
+            "id": "p52_e1_7",
+            "top": "43.2%",
+            "left": "24.5%",
+            "width": "10.0%",
+            "height": "2.2%",
+            "answer": "6",
+            "placeholder": "."
+        },
+        {
+            "id": "p52_e1_8",
+            "top": "48.5%",
+            "left": "24.5%",
+            "width": "11.0%",
+            "height": "2.2%",
+            "answer": "drum",
+            "placeholder": "..."
+        },
+        {
+            "id": "p52_e1_9",
+            "top": "53.8%",
+            "left": "23.5%",
+            "width": "11.0%",
+            "height": "2.2%",
+            "answer": "rabbit",
+            "placeholder": "..."
+        },
+        {
+            "id": "p52_e1_10",
+            "top": "59.2%",
+            "left": "24.5%",
+            "width": "11.0%",
+            "height": "2.2%",
+            "answer": "house",
+            "placeholder": "..."
+        },
+        {
+            "id": "p52_f1_1",
+            "top": "75.8%",
+            "left": "42.5%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "big",
+            "placeholder": "..."
+        },
+        {
+            "id": "p52_f1_2",
+            "top": "82.5%",
+            "left": "34.5%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "small",
+            "placeholder": "..."
+        },
+        {
+            "id": "p52_f1_3",
+            "top": "85.8%",
+            "left": "39.5%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "horse",
+            "placeholder": "..."
+        },
+        {
+            "id": "p52_f1_4",
+            "top": "91.8%",
+            "left": "28.5%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "farm",
+            "placeholder": "..."
+        }
+    ]
+},
           {
               "id": "p52_i2",
               "top": "19.5%",
@@ -2638,18 +3888,92 @@ var P1_OVERLAY_DATABASE = {
       ]
   },
   53: {
-      "pageImg": "images/books/p1/53.jpg",
-      "title": "Monthly Revision (Dialog & Counting)",
-      "inputs": [
-          {
-              "id": "p53_i1",
-              "top": "14.5%",
-              "left": "44.5%",
-              "width": "9.0%",
-              "height": "2.3%",
-              "answer": "desk",
-              "placeholder": "..."
-          },
+    "pageImg": "images/books/p1/53.jpg",
+    "title": "Monthly Revision \u2014 B & G",
+    "inputs": [
+        {
+            "id": "p53_b1_1",
+            "top": "17.5%",
+            "left": "21.5%",
+            "width": "31.0%",
+            "height": "2.3%",
+            "answer": "desk",
+            "placeholder": "..."
+        },
+        {
+            "id": "p53_b1_2",
+            "top": "26.2%",
+            "left": "21.5%",
+            "width": "31.0%",
+            "height": "2.3%",
+            "answer": "eyes",
+            "placeholder": "..."
+        },
+        {
+            "id": "p53_b1_3",
+            "top": "29.5%",
+            "left": "29.5%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "smell",
+            "placeholder": "..."
+        },
+        {
+            "id": "p53_b1_4",
+            "top": "35.0%",
+            "left": "21.5%",
+            "width": "31.0%",
+            "height": "2.3%",
+            "answer": "ears",
+            "placeholder": "..."
+        },
+        {
+            "id": "p53_g1_1",
+            "top": "49.5%",
+            "left": "6.8%",
+            "width": "48.0%",
+            "height": "2.5%",
+            "answer": "There are 5 birds.",
+            "placeholder": "There are..."
+        },
+        {
+            "id": "p53_g1_2",
+            "top": "58.5%",
+            "left": "6.8%",
+            "width": "48.0%",
+            "height": "2.5%",
+            "answer": "There are 3 pencils.",
+            "placeholder": "There are..."
+        },
+        {
+            "id": "p53_g1_3",
+            "top": "66.8%",
+            "left": "6.8%",
+            "width": "48.0%",
+            "height": "2.5%",
+            "answer": "I can see 7 horses.",
+            "placeholder": "I can..."
+        },
+        {
+            "id": "p53_g1_4",
+            "top": "75.2%",
+            "left": "6.8%",
+            "width": "48.0%",
+            "height": "2.5%",
+            "answer": "There are 4 stars.",
+            "placeholder": "There are..."
+        },
+        {
+            "id": "p53_g1_5",
+            "top": "83.5%",
+            "left": "6.8%",
+            "width": "48.0%",
+            "height": "2.5%",
+            "answer": "I can see 6 flowers.",
+            "placeholder": "I can..."
+        }
+    ]
+},
           {
               "id": "p53_i2",
               "top": "21.5%",
@@ -2725,18 +4049,119 @@ var P1_OVERLAY_DATABASE = {
       ]
   },
   54: {
-      "pageImg": "images/books/p1/54.jpg",
-      "title": "Unit 6: Welcome to the Jungle",
-      "inputs": [
-          {
-              "id": "p54_i1",
-              "top": "27.5%",
-              "left": "22.5%",
-              "width": "10.0%",
-              "height": "2.3%",
-              "answer": "tiger",
-              "placeholder": "..."
-          },
+    "pageImg": "images/books/p1/54.jpg",
+    "title": "Unit 6: Lesson 1 \u2014 Welcome to the Jungle",
+    "inputs": [
+        {
+            "id": "p54_a1_1",
+            "top": "35.8%",
+            "left": "28.5%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "tiger",
+            "placeholder": "..."
+        },
+        {
+            "id": "p54_a1_2",
+            "top": "35.8%",
+            "left": "74.8%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "lion",
+            "placeholder": "..."
+        },
+        {
+            "id": "p54_a1_3",
+            "top": "45.0%",
+            "left": "28.5%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "giraffe",
+            "placeholder": "..."
+        },
+        {
+            "id": "p54_a1_4",
+            "top": "45.0%",
+            "left": "74.8%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "snake",
+            "placeholder": "..."
+        },
+        {
+            "id": "p54_a2_1",
+            "top": "53.5%",
+            "left": "53.5%",
+            "width": "30.0%",
+            "height": "2.5%",
+            "answer": "How many lions can you see?",
+            "placeholder": "How..."
+        },
+        {
+            "id": "p54_a2_2",
+            "top": "57.5%",
+            "left": "47.5%",
+            "width": "36.0%",
+            "height": "2.5%",
+            "answer": "The monkey is in the tree.",
+            "placeholder": "The..."
+        },
+        {
+            "id": "p54_a2_3",
+            "top": "61.5%",
+            "left": "42.5%",
+            "width": "41.0%",
+            "height": "2.5%",
+            "answer": "Where is the monkey?",
+            "placeholder": "Where..."
+        },
+        {
+            "id": "p54_a2_4",
+            "top": "65.5%",
+            "left": "58.5%",
+            "width": "25.0%",
+            "height": "2.5%",
+            "answer": "There is a snake on the ground!",
+            "placeholder": "There..."
+        },
+        {
+            "id": "p54_hw_1",
+            "top": "79.5%",
+            "left": "21.5%",
+            "width": "14.0%",
+            "height": "2.3%",
+            "answer": "snake",
+            "placeholder": "..."
+        },
+        {
+            "id": "p54_hw_2",
+            "top": "83.5%",
+            "left": "24.5%",
+            "width": "14.0%",
+            "height": "2.3%",
+            "answer": "elephant",
+            "placeholder": "..."
+        },
+        {
+            "id": "p54_hw_3",
+            "top": "87.5%",
+            "left": "17.5%",
+            "width": "14.0%",
+            "height": "2.3%",
+            "answer": "monkey",
+            "placeholder": "..."
+        },
+        {
+            "id": "p54_hw_4",
+            "top": "91.5%",
+            "left": "21.5%",
+            "width": "14.0%",
+            "height": "2.3%",
+            "answer": "lion",
+            "placeholder": "..."
+        }
+    ]
+},
           {
               "id": "p54_i2",
               "top": "27.5%",
@@ -2839,18 +4264,128 @@ var P1_OVERLAY_DATABASE = {
       ]
   },
   55: {
-      "pageImg": "images/books/p1/55.jpg",
-      "title": "Lesson 2 Phonics (B & L)",
-      "inputs": [
-          {
-              "id": "p55_i1",
-              "top": "29.2%",
-              "left": "23.5%",
-              "width": "4.2%",
-              "height": "2.3%",
-              "answer": "b",
-              "placeholder": "?"
-          },
+    "pageImg": "images/books/p1/55.jpg",
+    "title": "Lesson 2 \u2014 Phonics (B & L)",
+    "inputs": [
+        {
+            "id": "p55_a1_1",
+            "top": "36.8%",
+            "left": "11.5%",
+            "width": "4.2%",
+            "height": "2.3%",
+            "answer": "b",
+            "placeholder": "?"
+        },
+        {
+            "id": "p55_a1_2",
+            "top": "36.8%",
+            "left": "33.8%",
+            "width": "4.2%",
+            "height": "2.3%",
+            "answer": "l",
+            "placeholder": "?"
+        },
+        {
+            "id": "p55_a1_3",
+            "top": "36.8%",
+            "left": "56.5%",
+            "width": "4.2%",
+            "height": "2.3%",
+            "answer": "b",
+            "placeholder": "?"
+        },
+        {
+            "id": "p55_a1_4",
+            "top": "36.8%",
+            "left": "78.5%",
+            "width": "4.2%",
+            "height": "2.3%",
+            "answer": "l",
+            "placeholder": "?"
+        },
+        {
+            "id": "p55_a2_1",
+            "top": "46.8%",
+            "left": "21.5%",
+            "width": "14.0%",
+            "height": "2.3%",
+            "answer": "boy",
+            "placeholder": "..."
+        },
+        {
+            "id": "p55_a2_2",
+            "top": "51.5%",
+            "left": "21.5%",
+            "width": "14.0%",
+            "height": "2.3%",
+            "answer": "lamp",
+            "placeholder": "..."
+        },
+        {
+            "id": "p55_a2_3",
+            "top": "56.5%",
+            "left": "21.5%",
+            "width": "14.0%",
+            "height": "2.3%",
+            "answer": "lunch",
+            "placeholder": "..."
+        },
+        {
+            "id": "p55_a2_4",
+            "top": "61.5%",
+            "left": "14.5%",
+            "width": "14.0%",
+            "height": "2.3%",
+            "answer": "leaf",
+            "placeholder": "..."
+        },
+        {
+            "id": "p55_a2_5",
+            "top": "66.5%",
+            "left": "14.5%",
+            "width": "14.0%",
+            "height": "2.3%",
+            "answer": "banana",
+            "placeholder": "..."
+        },
+        {
+            "id": "p55_hw_1",
+            "top": "89.5%",
+            "left": "11.5%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "boy",
+            "placeholder": "..."
+        },
+        {
+            "id": "p55_hw_2",
+            "top": "89.5%",
+            "left": "33.8%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "lemon",
+            "placeholder": "..."
+        },
+        {
+            "id": "p55_hw_3",
+            "top": "89.5%",
+            "left": "56.5%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "ball",
+            "placeholder": "..."
+        },
+        {
+            "id": "p55_hw_4",
+            "top": "89.5%",
+            "left": "78.5%",
+            "width": "11.0%",
+            "height": "2.3%",
+            "answer": "banana",
+            "placeholder": "..."
+        }
+    ]
+},
           {
               "id": "p55_i2",
               "top": "29.2%",
