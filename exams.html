@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>English Toon — الوحدات الدراسية</title>
+    <title>English Toon — الامتحانات الإلكترونية</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -37,10 +37,10 @@
         <div class="glow-orb glow-orb-3"></div>
     </div>
 
-    <!-- Main Container -->
+    <!-- Main Content -->
     <div class="page-animate">
 
-        <!-- App Floating Header with 4 Tabs -->
+        <!-- App Floating Header -->
         <header class="app-header">
             <a href="dashboard.html" class="header-brand">
                 <div class="header-logo-wrap">
@@ -48,15 +48,15 @@
                 </div>
                 <div class="brand-text">
                     <span class="brand-title">English Toon</span>
-                    <span class="brand-subtitle" id="grade-subtitle">الوحدات الدراسية</span>
+                    <span class="brand-subtitle">الامتحانات الإلكترونية</span>
                 </div>
             </a>
 
             <!-- Navigation Tabs -->
             <nav class="header-nav-links">
                 <a href="dashboard.html" class="nav-tab-item">🏠 الرئيسية</a>
-                <a href="dashboard.html#grades-section-wrap" class="nav-tab-item active">📚 الصفوف</a>
-                <a href="exams.html" class="nav-tab-item">📝 الامتحانات الإلكترونية</a>
+                <a href="dashboard.html#grades-section-wrap" class="nav-tab-item">📚 الصفوف</a>
+                <a href="exams.html" class="nav-tab-item active">📝 الامتحانات الإلكترونية</a>
                 <a href="pdf-files.html" class="nav-tab-item">📄 ملفات PDF</a>
             </nav>
 
@@ -65,42 +65,71 @@
             </div>
         </header>
 
-        <!-- Breadcrumb & Back Nav -->
+        <!-- Breadcrumb & Title -->
         <div class="breadcrumb-container">
             <ul class="breadcrumb-list">
                 <li><a href="dashboard.html" class="breadcrumb-link">🏠 الرئيسية</a></li>
                 <li class="breadcrumb-separator">›</li>
-                <li class="breadcrumb-current" id="breadcrumb-grade-title">الوحدات</li>
+                <li class="breadcrumb-current">📝 الامتحانات الإلكترونية</li>
             </ul>
 
-            <a href="dashboard.html" class="btn-back">← العودة للصفوف</a>
+            <a href="dashboard.html" class="btn-back">← العودة للرئيسية</a>
         </div>
 
-        <!-- Section Title & Grid -->
         <div class="section-title-wrap">
             <h2 class="section-h2">
-                <span class="section-icon-badge">📖</span>
-                الوحدات الدراسية المتاحة
+                <span class="section-icon-badge">📝</span>
+                الامتحانات الإلكترونية التفاعلية
             </h2>
-            <span class="section-count-pill">٦ وحدات كاملة</span>
+            <span class="section-count-pill">اختبارات فورية بالدرجات</span>
         </div>
 
-        <!-- Units Cards Grid -->
-        <div class="cards-grid" id="units-container"></div>
+        <!-- Exams List Grid -->
+        <div class="cards-grid" style="grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));">
+
+            <div class="resource-card">
+                <span class="resource-badge badge-exam">Primary 1</span>
+                <h3 class="resource-title">اختبار الشهور — الأول الابتدائي</h3>
+                <p class="resource-desc">اختبار تفاعلي لقياس حصيلة المفردات والحروف ونطق الكلمات.</p>
+                <a href="https://wa.me/201208609509?text=%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%AD%D8%B5%D9%88%D9%84%20%D8%B9%D9%84%D9%89%20%D8%A7%D8%AE%D8%AA%D8%A8%D8%A7%D8%B1%20%D8%A7%D9%84%D8%B5%D9%81%20%D8%A7%D9%84%D8%A3%D9%88%D9%84%20%D8%A7%D9%84%D8%A7%D8%A8%D8%AA%D8%AF%D8%A7%D8%A6%D9%8A" target="_blank" class="btn-download-resource">⚡ بدء الاختبار الآن</a>
+            </div>
+
+            <div class="resource-card">
+                <span class="resource-badge badge-exam">Primary 2 & 3</span>
+                <h3 class="resource-title">اختبار الجرامر — الثاني والثالث الابتدائي</h3>
+                <p class="resource-desc">قياس فهم ضمائر الفاعل، أفعال الكينونة ومفردات الوحدة الأولى والثانية.</p>
+                <a href="https://wa.me/201208609509?text=%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%AD%D8%B5%D9%88%D9%84%20%D8%B9%D9%84%D9%89%20%D8%A7%D8%AE%D8%AA%D8%A8%D8%A7%D8%B1%20%D8%A7%D9%84%D8%B5%D9%81%20%D8%A7%D9%84%D8%AB%D8%A7%D9%86%D9%8A%20%D9%88%D8%A7%D9%84%D8%AB%D8%A7%D9%84%D8%AB" target="_blank" class="btn-download-resource">⚡ بدء الاختبار الآن</a>
+            </div>
+
+            <div class="resource-card">
+                <span class="resource-badge badge-exam">Primary 4 & 5 & 6</span>
+                <h3 class="resource-title">امتحان نصف العام — الرابع والخامس والسادس</h3>
+                <p class="resource-desc">امتحان شامل على الأزمنة، تركيب الجمل، والمحادثات المقررة.</p>
+                <a href="https://wa.me/201208609509?text=%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%AD%D8%B5%D9%88%D9%84%20%D8%B9%D9%84%D9%89%20%D8%A7%D9%85%D8%AA%D8%AD%D8%A7%D9%86%20%D8%A7%D9%84%D9%85%D8%B1%D8%AD%D9%84%D8%A9%20%D8%A7%D9%84%D8%A7%D8%A8%D8%AA%D8%AF%D8%A7%D8%A6%D9%8A%D8%A9" target="_blank" class="btn-download-resource">⚡ بدء الاختبار الآن</a>
+            </div>
+
+            <div class="resource-card">
+                <span class="resource-badge badge-exam">Prep 1 & 2 & 3</span>
+                <h3 class="resource-title">امتحان التقييم الشامل — المرحلة الإعدادية</h3>
+                <p class="resource-desc">اختبارات إلكترونية تحاكي نظام أسئلة الشهادة الإعدادية والتجهيز للامتحانات النهائية.</p>
+                <a href="https://wa.me/201208609509?text=%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%AD%D8%B5%D9%88%D9%84%20%D8%B9%D9%84%D9%89%20%D8%A7%D9%85%D8%AA%D8%AD%D8%A7%D9%86%D8%A7%D8%AA%20%D8%A7%D9%84%D9%85%D8%B1%D8%AD%D9%84%D8%A9%20%D8%A7%D9%84%D8%A5%D8%B9%D8%AF%D8%A7%D8%AF%D9%8A%D8%A9" target="_blank" class="btn-download-resource">⚡ بدء الاختبار الآن</a>
+            </div>
+
+        </div>
 
     </div>
 
-    <!-- Mobile Bottom Navigation Dock -->
+    <!-- Mobile Bottom Dock -->
     <nav class="mobile-bottom-dock">
         <a href="dashboard.html" class="dock-item">
             <span class="dock-icon">🏠</span>
             <span>الرئيسية</span>
         </a>
-        <a href="dashboard.html#grades-section-wrap" class="dock-item active">
+        <a href="dashboard.html#grades-section-wrap" class="dock-item">
             <span class="dock-icon">📚</span>
             <span>الصفوف</span>
         </a>
-        <a href="exams.html" class="dock-item">
+        <a href="exams.html" class="dock-item active">
             <span class="dock-icon">📝</span>
             <span>امتحانات</span>
         </a>
@@ -110,57 +139,10 @@
         </a>
     </nav>
 
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-
     <script src="js/data.js"></script>
     <script src="js/auth.js"></script>
-
     <script>
         checkAuth();
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const gradeId = urlParams.get('id');
-        const grade = GRADES_DATA.find(g => g.id === gradeId);
-
-        if (!grade) {
-            window.location.href = 'dashboard.html';
-        } else {
-            document.getElementById('grade-subtitle').textContent = grade.name;
-            document.getElementById('breadcrumb-grade-title').textContent = grade.name;
-
-            const container = document.getElementById('units-container');
-            const allowedUnitsStr = localStorage.getItem('allowedUnits');
-            let allowedUnits = 'all';
-            try { allowedUnits = JSON.parse(allowedUnitsStr || '"all"'); } catch(e) {}
-
-            const unitIcons = ['🌟', '🚀', '🌊', '⚡', '💡', '🏆'];
-            const unitTitles = ['الوحدة الأولى', 'الوحدة الثانية', 'الوحدة الثالثة', 'الوحدة الرابعة', 'الوحدة الخامسة', 'الوحدة السادسة'];
-
-            for (let i = 1; i <= UNITS_PER_GRADE; i++) {
-                if (allowedUnits !== 'all' && !allowedUnits.includes(i) && localStorage.getItem('currentUser') !== 'admin') continue;
-
-                const tile = document.createElement('a');
-                tile.className = 'unit-tile';
-                tile.style.backgroundImage = `linear-gradient(180deg, rgba(7,10,18,0.35), rgba(7,10,18,0.92)), url('images/unit_${i}.png')`;
-
-                tile.innerHTML = `
-                    <span class="unit-big-num">0${i}</span>
-                    <div class="unit-icon-box">${unitIcons[i-1] || '📖'}</div>
-                    <div class="unit-info-body">
-                        <span class="unit-label-small">الوحدة</span>
-                        <h3 class="unit-main-title">${unitTitles[i-1] || `الوحدة ${i}`}</h3>
-                        <span class="unit-sub-en">Unit ${i}</span>
-                    </div>
-                    <div class="unit-tile-hover-bar">⚡ دخول الألعاب والتحديات ←</div>
-                `;
-
-                tile.onclick = () => window.location.href = `unit.html?grade=${gradeId}&unit=${i}`;
-                container.appendChild(tile);
-            }
-        }
-
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
         }

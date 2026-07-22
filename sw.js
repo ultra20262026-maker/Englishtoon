@@ -1,10 +1,11 @@
-﻿const CACHE_NAME = 'english-toon-v20260722050317';
+﻿const CACHE_NAME = 'english-toon-v20260722050922';
 const urlsToCache = [
     "/",
     "/.gitattributes",
     "/admin.html",
     "/check_images.py",
     "/dashboard.html",
+    "/exams.html",
     "/fix-alert.py",
     "/fix-arabic.js",
     "/fix-arabic.ps1",
@@ -26,6 +27,7 @@ const urlsToCache = [
     "/inject_sentences.ps1",
     "/migrate-games.ps1",
     "/migrate-games.py",
+    "/pdf-files.html",
     "/protect_games.ps1",
     "/README.md",
     "/regenerate_json.ps1",

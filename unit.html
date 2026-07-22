@@ -8,13 +8,29 @@
 </head>
 <body>
 
-    <!-- Sticky Fixed Warning License Banner (All Pages) -->
-    <a href="https://wa.me/201208609509?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B4%D8%AA%D8%B1%D8%A7%D9%83%20%D9%81%D9%8A%20%D9%85%D9%88%D9%82%D8%B9%20English%20Toon" target="_blank" class="sticky-warning-banner" title="اضغط للاشتراك الفوري عبر الواتساب">
-        <span>⚠️ أنت الآن تستخدم النسخة المجانية للموقع وسيتم حذفك قريباً! للاشتراك تواصل واتس: 01208609509</span>
-        <span class="warning-wa-pill">💬 اشترك عبر الواتساب</span>
+    <!-- Slow Left-to-Right Infinite Marquee Warning Banner -->
+    <a href="https://wa.me/201208609509?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B4%D8%AA%D8%B1%D8%A7%D9%83%20%D9%81%D9%8A%20%D9%85%D9%88%D9%82%D8%B9%20English%20Toon" target="_blank" class="marquee-slow-banner" title="اضغط للاشتراك الفوري عبر الواتساب">
+        <div class="marquee-track-ltr">
+            <div class="marquee-item">
+                <span>⚠️ أنت الآن تستخدم النسخة المجانية للموقع وسيتم حذفك قريباً! للاشتراك الفوري تواصل واتس: 01208609509</span>
+                <span class="marquee-wa-btn">💬 اشترك عبر الواتساب</span>
+            </div>
+            <div class="marquee-item">
+                <span>⚠️ أنت الآن تستخدم النسخة المجانية للموقع وسيتم حذفك قريباً! للاشتراك الفوري تواصل واتس: 01208609509</span>
+                <span class="marquee-wa-btn">💬 اشترك عبر الواتساب</span>
+            </div>
+            <div class="marquee-item">
+                <span>⚠️ أنت الآن تستخدم النسخة المجانية للموقع وسيتم حذفك قريباً! للاشتراك الفوري تواصل واتس: 01208609509</span>
+                <span class="marquee-wa-btn">💬 اشترك عبر الواتساب</span>
+            </div>
+            <div class="marquee-item">
+                <span>⚠️ أنت الآن تستخدم النسخة المجانية للموقع وسيتم حذفك قريباً! للاشتراك الفوري تواصل واتس: 01208609509</span>
+                <span class="marquee-wa-btn">💬 اشترك عبر الواتساب</span>
+            </div>
+        </div>
     </a>
 
-    <!-- Cyber Background Mesh & Ambient Glowing Orbs -->
+    <!-- Cyber Background Mesh -->
     <div class="cyber-bg">
         <div class="glow-orb glow-orb-1"></div>
         <div class="glow-orb glow-orb-2"></div>
@@ -24,7 +40,7 @@
     <!-- Main Container -->
     <div class="page-animate">
 
-        <!-- App Floating Header -->
+        <!-- App Floating Header with 4 Tabs -->
         <header class="app-header">
             <a href="dashboard.html" class="header-brand">
                 <div class="header-logo-wrap">
@@ -36,9 +52,13 @@
                 </div>
             </a>
 
-            <div class="header-center-title">
-                <span id="unit-header-title">ألعاب الوحدة</span>
-            </div>
+            <!-- Navigation Tabs -->
+            <nav class="header-nav-links">
+                <a href="dashboard.html" class="nav-tab-item">🏠 الرئيسية</a>
+                <a href="dashboard.html#grades-section-wrap" class="nav-tab-item active">📚 الصفوف</a>
+                <a href="exams.html" class="nav-tab-item">📝 الامتحانات الإلكترونية</a>
+                <a href="pdf-files.html" class="nav-tab-item">📄 ملفات PDF</a>
+            </nav>
 
             <div class="header-actions">
                 <button onclick="logout()" class="btn-nav-action btn-logout">خروج 🚪</button>
@@ -78,13 +98,17 @@
             <span class="dock-icon">🏠</span>
             <span>الرئيسية</span>
         </a>
-        <a href="dashboard.html" class="dock-item active">
+        <a href="dashboard.html#grades-section-wrap" class="dock-item active">
             <span class="dock-icon">🎮</span>
             <span>الألعاب</span>
         </a>
-        <a href="#" onclick="logout()" class="dock-item">
-            <span class="dock-icon">🚪</span>
-            <span>خروج</span>
+        <a href="exams.html" class="dock-item">
+            <span class="dock-icon">📝</span>
+            <span>امتحانات</span>
+        </a>
+        <a href="pdf-files.html" class="dock-item">
+            <span class="dock-icon">📄</span>
+            <span>ملفات PDF</span>
         </a>
     </nav>
 
@@ -169,14 +193,12 @@
                 return { emoji: '🌀', bg: 'linear-gradient(135deg, #3A1C71, #D76D77)' };
             }
             
-            // Default fallback
             return { emoji: '🎮', bg: 'linear-gradient(135deg, #6366F1, #8B5CF6)' };
         }
 
         if (!grade || !unitId) {
             window.location.href = 'dashboard.html';
         } else {
-            document.getElementById('unit-header-title').textContent = `${grade.name} — الوحدة ${unitId}`;
             document.getElementById('unit-header-sub').textContent = `الوحدة ${unitId}`;
             document.getElementById('breadcrumb-grade-link').textContent = grade.name;
             document.getElementById('breadcrumb-unit-title').textContent = `الوحدة ${unitId}`;
@@ -227,7 +249,6 @@
             }
         }
 
-        // PWA Service Worker
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
         }
