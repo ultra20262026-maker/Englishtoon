@@ -218,10 +218,15 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderCoverPage(data) {
         pageCard.innerHTML = `
             <div class="clean-cover-box">
-                <span class="cover-badge-text">جمهورية مصر العربية - وزارة التربية والتعليم</span>
+                <div class="cover-header-brand" style="display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:12px;">
+                    <img src="images/logo_icon.png" alt="English Toon Logo" style="height: 48px; width: auto; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));">
+                    <span class="cover-badge-text">جمهورية مصر العربية - English Toon</span>
+                </div>
                 <h1 class="cover-heading">${data.title}</h1>
                 <h2 class="cover-subheading">${data.subtitle}</h2>
-                <div class="cover-emojis-row">📚🎒✏️</div>
+                <div class="cover-art-wrapper" style="margin: 16px 0; text-align: center;">
+                    <img src="${data.coverImg || 'assets/images/cover_2027.jpg'}" alt="Cover Art 2027" style="max-height: 280px; width: 100%; object-fit: contain; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 2px solid rgba(255,255,255,0.15);">
+                </div>
                 <div class="cover-fields-card">
                     ${data.fields.map(f => `
                         <div class="field-item">

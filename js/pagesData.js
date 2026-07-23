@@ -5,9 +5,10 @@ const pagesData = [
     pageNumber: 1,
     type: "cover",
     unit: "Cover",
-    title: "English Language Performance Tasks and Assessments",
-    subtitle: "Primary (1) First Term",
+    title: "كتاب تقييمات الأول الابتدائي 2027",
+    subtitle: "English Language Performance Tasks and Assessments — Primary 1",
     emoji: "📚",
+    coverImg: "assets/images/cover_2027.jpg",
     fields: [
       { label: "Name (الاسم)", placeholder: "اكتب اسم الطالب..." },
       { label: "Class (الصف)", placeholder: "Primary 1 / ..." },
