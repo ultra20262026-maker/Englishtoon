@@ -3,430 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>English Toon — الكتاب التفاعلي المباشر (Overlay)</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #4f46e5;
-            --primary-light: #818cf8;
-            --emerald: #10b981;
-            --red: #ef4444;
-            --amber: #f59e0b;
-            --cyan: #06b6d4;
-            --bg: #0b1329;
-            --surface: #1e293b;
-            --border: #334155;
-            --text: #f8fafc;
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        html, body {
-            width: 100%;
-            height: 100vh;
-            overflow: hidden; /* Prevent body scrolling — viewport locked */
-            font-family: 'Cairo', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* ── TOP NAV BAR ── */
-        .top-nav {
-            height: 52px;
-            background: #070c18;
-            border-bottom: 2px solid var(--border);
-            padding: 0 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            z-index: 300;
-            flex-shrink: 0;
-        }
-        .nav-brand {
-            font-size: 1.05rem;
-            font-weight: 900;
-            color: #fff;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .nav-brand span { color: var(--cyan); }
-        .nav-controls {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .nav-select {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            color: #fff;
-            padding: 5px 10px;
-            border-radius: 8px;
-            font-family: inherit;
-            font-weight: 700;
-            font-size: 0.82rem;
-            cursor: pointer;
-        }
-        .nav-btn {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            color: #fff;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-weight: 800;
-            font-size: 0.82rem;
-            cursor: pointer;
-            white-space: nowrap;
-        }
-        .nav-btn:hover { background: #475569; }
-        .page-counter {
-            background: linear-gradient(135deg, var(--primary), var(--cyan));
-            padding: 5px 14px;
-            border-radius: 20px;
-            font-weight: 900;
-            font-size: 0.85rem;
-            color: #fff;
-        }
-
-        /* ── MAIN OVERLAY STAGE ── */
-        .overlay-stage {
-            flex: 1;
-            height: calc(100vh - 52px);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-            padding: 8px 10px 10px 10px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        /* ── LARGE FLUID A4 PAGE CONTAINER WRAPPER ── */
-        .a4-overlay-wrapper {
-            position: relative;
-            height: calc(100vh - 115px);
-            aspect-ratio: 1 / 1.414; /* Fluid A4 Aspect Ratio */
-            max-width: 95vw;
-            background: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 15px 45px rgba(0,0,0,0.6), 0 0 0 3px #cbd5e1;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto;
-        }
-
-        /* Original Book Page Image */
-        .a4-overlay-img {
-            width: 100%;
-            height: 100%;
-            object-fit: fill;
-            display: block;
-            user-select: none;
-            -webkit-user-drag: none;
-        }
-
-        /* ── INTERACTIVE OVERLAY INPUT FIELDS ── */
-        .page-overlay-input {
-            position: absolute;
-            font-family: 'Outfit', sans-serif;
-            font-size: clamp(0.75rem, 1.2vw, 1.15rem);
-            font-weight: 900;
-            color: #1e1b4b;
-            background: rgba(255, 255, 255, 0.94);
-            border: 2px solid #6366f1;
-            border-radius: 6px;
-            padding: 0 4px;
-            text-align: center;
-            direction: ltr;
-            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.25);
-            transition: all 0.15s ease;
-            z-index: 50;
-        }
-        .page-overlay-input:focus {
-            outline: none;
-            background: #ffffff;
-            border-color: #4f46e5;
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.4);
-            transform: scale(1.03);
-        }
-        .page-overlay-input.correct {
-            background: #ecfdf5 !important;
-            border-color: #10b981 !important;
-            color: #065f46 !important;
-            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.35) !important;
-        }
-        .page-overlay-input.wrong {
-            background: #fef2f2 !important;
-            border-color: #ef4444 !important;
-            color: #991b1b !important;
-            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.35) !important;
-        }
-
-        /* ── BOTTOM ACTION TOOLBAR ── */
-        .bottom-action-bar {
-            height: 48px;
-            background: #070c18;
-            border: 2px solid var(--border);
-            padding: 0 14px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            width: 100%;
-            max-width: 850px;
-            border-radius: 12px;
-            flex-shrink: 0;
-        }
-
-        .score-badge {
-            background: linear-gradient(135deg, var(--emerald), #059669);
-            color: #fff;
-            padding: 5px 14px;
-            border-radius: 20px;
-            font-weight: 900;
-            font-size: 0.85rem;
-            white-space: nowrap;
-        }
-
-        .btn-check-main {
-            flex: 2;
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: #fff;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-family: inherit;
-            font-weight: 900;
-            font-size: 0.9rem;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
-            transition: all 0.15s ease;
-            white-space: nowrap;
-        }
-        .btn-check-main:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 16px rgba(16, 185, 129, 0.45);
-        }
-        .btn-reveal-main, .btn-speak-main {
-            flex: 1;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            color: #fff;
-            padding: 8px 10px;
-            border-radius: 8px;
-            font-family: inherit;
-            font-weight: 800;
-            font-size: 0.82rem;
-            cursor: pointer;
-            white-space: nowrap;
-        }
-        .btn-reveal-main:hover, .btn-speak-main:hover { background: #475569; }
-
-        @media (max-width: 700px) {
-            .a4-overlay-wrapper { height: calc(100vh - 120px); width: 100%; aspect-ratio: auto; }
-            .page-overlay-input { font-size: 0.8rem; padding: 0 2px; }
-            .bottom-action-bar { padding: 0 8px; gap: 6px; }
-            .btn-check-main { font-size: 0.82rem; padding: 6px 10px; }
-        }
-    </style>
+    <title>الكتاب التفاعلي الممتاز - Primary 1 English Workbook</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link rel="stylesheet" href="css/p1_interactive_styles.css?v=20260723_new_book">
 </head>
 <body>
+    <div id="app" class="clean-app">
+        <!-- Top Navbar Header -->
+        <header class="top-navbar">
+            <div class="nav-left">
+                <a href="dashboard.html" class="btn-sidebar-trigger" style="text-decoration:none; background:#ecfdf5; color:#047857; border-color:#a7f3d0;" title="العودة للرئيسية">
+                    <i class="fa-solid fa-house"></i>
+                    <span>الرئيسية</span>
+                </a>
 
-<!-- ── TOP NAV BAR ── -->
-<nav class="top-nav">
-    <a href="dashboard.html" class="nav-brand">🏠 <span>English Toon Overlay Book</span></a>
-    <div class="nav-controls">
-        <select class="nav-select" id="book-sel" onchange="changeBook()">
-            <option value="1">🎒 الصف الأول الابتدائي</option>
-            <option value="2">📖 الصف الثاني الابتدائي</option>
-            <option value="3">✏️ الصف الثالث الابتدائي</option>
-        </select>
-        <select class="nav-select" id="page-sel" onchange="jumpTo(this.value)"></select>
-        <button class="nav-btn" onclick="prevPage()">◀ السابقة</button>
-        <span class="page-counter" id="page-counter">1 / 72</span>
-        <button class="nav-btn" onclick="nextPage()">التالية ▶</button>
-    </div>
-</nav>
+                <button id="btn-toggle-sidebar" class="btn-sidebar-trigger" title="فهرس الـ 72 صفحة">
+                    <i class="fa-solid fa-list-check"></i>
+                    <span>الفهرس (72 صفحة)</span>
+                </button>
+                <span class="grade-badge">Primary 1</span>
+                <h1 class="app-title">English Language Workbook</h1>
+            </div>
 
-<!-- ── MAIN OVERLAY STAGE ── -->
-<div class="overlay-stage">
+            <div class="nav-center">
+                <div class="page-nav-group">
+                    <button id="btn-prev-page" class="nav-circle-btn" title="الصفحة السابقة">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                    <div style="display:flex; align-items:center; gap:4px; font-weight:800; font-size:14px;">
+                        <span>صفحة</span>
+                        <select id="page-select" class="page-dropdown-select"></select>
+                        <span style="color:var(--text-muted);">/ 72</span>
+                    </div>
+                    <button id="btn-next-page" class="nav-circle-btn" title="الصفحة التالية">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                </div>
+            </div>
 
-    <!-- Fluid A4 Original Book Page Frame Wrapper -->
-    <div class="a4-overlay-wrapper" id="a4-wrapper">
-        <img id="book-page-img" class="a4-overlay-img" src="" alt="صفحة الكتاب الأصلية"
-             onerror="this.style.display='none'; document.getElementById('img-err').style.display='block'">
-        <div id="img-err" style="display:none;text-align:center;color:#94a3b8;padding:40px">
-            📷 صورة الصفحة غير متوفرة بعد
+            <div class="nav-right">
+                <div class="star-score-badge" title="النجوم المكتسبة">
+                    <span>⭐</span>
+                    <span id="total-stars-count">0</span>
+                </div>
+                <button id="btn-sound-toggle" class="sound-btn" title="تشغيل/إيقاف الأصوات">
+                    <i class="fa-solid fa-volume-high"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Page Stage Area (Exact Fit) -->
+        <main class="page-stage-container" id="stage-container">
+            <!-- Exact-Fit Page Card -->
+            <div id="page-card" class="exact-page-card">
+                <!-- Content Rendered Dynamically -->
+            </div>
+        </main>
+
+        <!-- Integrated Bottom Action Bar -->
+        <footer class="bottom-action-bar">
+            <button id="btn-check-answers" class="btn-action btn-grade">
+                <i class="fa-solid fa-circle-check"></i>
+                <span>تصحح تلقائياً (تحقق)</span>
+            </button>
+            <button id="btn-show-answers" class="btn-action btn-show">
+                <i class="fa-solid fa-eye"></i>
+                <span>إظهار الحلول الصحيحة</span>
+            </button>
+            <button id="btn-reset-page" class="btn-action btn-reset">
+                <i class="fa-solid fa-rotate-right"></i>
+                <span>إعادة الصفحة</span>
+            </button>
+        </footer>
+
+        <!-- Sidebar Drawer Index -->
+        <aside id="sidebar" class="sidebar-panel">
+            <div class="sidebar-header-row">
+                <h2><i class="fa-solid fa-book-open"></i> فهرس الـ 72 صفحة</h2>
+                <button id="btn-close-sidebar" class="close-panel-btn">&times;</button>
+            </div>
+            <div class="search-field">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="sidebar-search" placeholder="ابحث برقم الصفحة أو الدرس...">
+            </div>
+            <div class="overall-progress-card">
+                <div class="progress-header">
+                    <span>التقدم الإجمالي:</span>
+                    <strong id="overall-progress-text">0%</strong>
+                </div>
+                <div class="progress-track-bar">
+                    <div id="overall-progress-bar" class="progress-track-fill" style="width: 0%"></div>
+                </div>
+            </div>
+            <div id="pages-grid" class="pages-grid-box">
+                <!-- Dynamic Page Grid -->
+            </div>
+        </aside>
+        <div id="sidebar-overlay" class="sidebar-overlay-bg"></div>
+
+        <!-- Celebration Modal -->
+        <div id="result-modal" class="modal-mask hidden">
+            <div class="modal-window animate-pop">
+                <div class="trophy-badge">🏆</div>
+                <h2 id="modal-title" style="font-size:22px; color:var(--primary); margin-bottom:6px;">ممتاز جـداً! إجابة كاملة!</h2>
+                <p id="modal-message" style="font-size:15px; color:var(--text-muted);">لقد أجبت على جميع تمارين الصفحة بنجاح!</p>
+                <div class="stars-row">
+                    <span>⭐</span>
+                    <span>⭐</span>
+                    <span>⭐</span>
+                </div>
+                <div style="font-size:18px; font-weight:800; margin-bottom:16px;">
+                    النتيجة: <strong id="modal-score-text">10 / 10</strong>
+                </div>
+                <div style="display:flex; gap:10px; justify-content:center;">
+                    <button id="btn-modal-next" class="btn-action btn-grade">
+                        <span>الصفحة التالية</span>
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </button>
+                    <button id="btn-modal-close" class="btn-action btn-show">إغلاق</button>
+                </div>
+            </div>
         </div>
-
-        <!-- Overlay Input Fields will be dynamically injected here -->
-        <div id="overlay-inputs-container"></div>
     </div>
 
-    <!-- Bottom Action Bar -->
-    <div class="bottom-action-bar">
-        <div class="score-badge" id="score-badge">النتيجة: — / —</div>
-        <button class="btn-check-main" onclick="checkAll()">✅ تصحيح الإجابات وحساب الدرجة</button>
-        <button class="btn-reveal-main" onclick="revealAll()">👁️ الإجابات النموذجية</button>
-        <button class="btn-speak-main" onclick="speakPage()">🔊 نطق الصفحة</button>
-    </div>
-
-</div>
-
-<script src="js/p1_book_data.js?v=20260723_v40_55_verified"></script>
-<script>
-    let bookId = 1;
-    let pageNum = 1;
-    const TOTAL = 72;
-
-    function speak(text) {
-        if (!window.speechSynthesis) return;
-        window.speechSynthesis.cancel();
-        const u = new SpeechSynthesisUtterance(text);
-        u.lang = 'en-US'; u.rate = 0.85;
-        window.speechSynthesis.speak(u);
-    }
-
-    function initPageSel() {
-        const s = document.getElementById('page-sel');
-        s.innerHTML = '';
-        for (let i = 1; i <= TOTAL; i++) {
-            const o = document.createElement('option');
-            o.value = i; o.text = `صفحة ${i}`;
-            if (i === pageNum) o.selected = true;
-            s.appendChild(o);
-        }
-    }
-
-    function changeBook() { bookId = +document.getElementById('book-sel').value; pageNum = 1; render(); }
-    function jumpTo(p) { pageNum = +p; render(); }
-    function prevPage() { if (pageNum > 1) { pageNum--; render(); } }
-    function nextPage() { if (pageNum < TOTAL) { pageNum++; render(); } }
-
-    function render() {
-        initPageSel();
-        document.getElementById('page-counter').textContent = `${pageNum} / ${TOTAL}`;
-
-        const imgEl = document.getElementById('book-page-img');
-        const errEl = document.getElementById('img-err');
-        const container = document.getElementById('overlay-inputs-container');
-        container.innerHTML = '';
-
-        const folder = bookId === 1 ? 'p1' : bookId === 2 ? 'p2' : 'p3';
-        imgEl.style.display = 'block';
-        errEl.style.display = 'none';
-
-        imgEl.src = `images/books/${folder}/${pageNum}.jpg`;
-        imgEl.onerror = function() {
-            this.onerror = null;
-            this.src = `images/books/${folder}/page_${pageNum}.png`;
-            this.onerror = function() {
-                this.style.display = 'none';
-                errEl.style.display = 'block';
-            };
-        };
-
-        let db = null;
-        const P1_DB = (typeof window !== 'undefined' && window.P1_OVERLAY_DATABASE) || (typeof P1_OVERLAY_DATABASE !== 'undefined' ? P1_OVERLAY_DATABASE : null);
-        if (bookId === 1 && P1_DB && P1_DB[pageNum]) {
-            db = P1_DB[pageNum];
-        }
-
-        // Automatic overlay layout generator for any page without custom mapping yet
-        if (!db) {
-            db = {
-                title: `Page ${pageNum}`,
-                inputs: [
-                    { id: `p${pageNum}_1`, top: "35.5%", left: "18.5%", width: "12.0%", height: "2.4%", answer: "answer1", placeholder: "..." },
-                    { id: `p${pageNum}_2`, top: "35.5%", left: "48.5%", width: "12.0%", height: "2.4%", answer: "answer2", placeholder: "..." },
-                    { id: `p${pageNum}_3`, top: "35.5%", left: "78.5%", width: "12.0%", height: "2.4%", answer: "answer3", placeholder: "..." },
-                    { id: `p${pageNum}_4`, top: "62.0%", left: "28.5%", width: "14.0%", height: "2.4%", answer: "answer4", placeholder: "..." },
-                    { id: `p${pageNum}_5`, top: "62.0%", left: "68.5%", width: "14.0%", height: "2.4%", answer: "answer5", placeholder: "..." },
-                    { id: `p${pageNum}_hw1`, top: "89.5%", left: "25.0%", width: "14.0%", height: "2.4%", answer: "answer6", placeholder: "..." },
-                    { id: `p${pageNum}_hw2`, top: "89.5%", left: "65.0%", width: "14.0%", height: "2.4%", answer: "answer7", placeholder: "..." }
-                ]
-            };
-        }
-
-        document.getElementById('score-badge').textContent = `النتيجة: 0 / ${db.inputs.filter(x => x.answer !== '__free__').length}`;
-
-        // Inject overlay inputs right over the dotted lines on the page image
-        db.inputs.forEach((inpData) => {
-            const inp = document.createElement('input');
-            inp.type = 'text';
-            inp.className = 'page-overlay-input';
-            inp.style.top = inpData.top;
-            inp.style.left = inpData.left;
-            inp.style.width = inpData.width;
-            inp.style.height = inpData.height;
-            inp.placeholder = inpData.placeholder || '...';
-            inp.dataset.answer = inpData.answer.toLowerCase();
-            inp.id = inpData.id;
-
-            // Single letter box limit if answer length is 1
-            if (inpData.answer.length === 1 && inpData.answer !== '__free__') {
-                inp.maxLength = 1;
-            }
-
-            container.appendChild(inp);
-        });
-    }
-
-    function checkAll() {
-        const container = document.getElementById('overlay-inputs-container');
-        const inputs = container.querySelectorAll('.page-overlay-input');
-        let correct = 0, total = 0;
-
-        inputs.forEach(el => {
-            const ans = el.dataset.answer;
-            if (ans === '__free__') return;
-            total++;
-            const val = el.value.trim().toLowerCase();
-            if (val === ans) {
-                el.classList.remove('wrong');
-                el.classList.add('correct');
-                correct++;
-            } else {
-                el.classList.remove('correct');
-                el.classList.add('wrong');
-            }
-        });
-
-        document.getElementById('score-badge').textContent = `النتيجة: ${correct} / ${total}`;
-
-        if (correct === total && total > 0) {
-            speak(`Excellent! Perfect score! ${correct} out of ${total}`);
-            setTimeout(() => alert(`🎉 ممتاز جداً! أجبت كل أسئلة صفحة ${pageNum} صح وحصلت على الدرجة الكاملة (${correct}/${total}) ⭐⭐⭐`), 100);
-        } else {
-            speak(`Your score is ${correct} out of ${total}`);
-        }
-    }
-
-    function revealAll() {
-        const container = document.getElementById('overlay-inputs-container');
-        const inputs = container.querySelectorAll('.page-overlay-input');
-
-        inputs.forEach(el => {
-            const ans = el.dataset.answer;
-            if (ans === '__free__') return;
-            el.value = ans;
-            el.classList.remove('wrong');
-            el.classList.add('correct');
-        });
-
-        speak("Model answers are now shown!");
-    }
-
-    function speakPage() {
-        speak(`Page ${pageNum}`);
-    }
-
-    render();
-</script>
+    <!-- JavaScript Files -->
+    <script src="js/pagesData.js?v=20260723_new_book"></script>
+    <script src="js/p1_interactive_app.js?v=20260723_new_book"></script>
 </body>
 </html>
