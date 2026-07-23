@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <title>English Toon — الألعاب التعليمية</title>
+    <link rel="stylesheet" href="css/style.css?v=20260723_v1002">
+    <style>
+        .games-hero {
+            padding: 110px 24px 40px;
+            text-align: center;
+        }
+        .games-hero-title {
+            font-size: clamp(1.8rem, 5vw, 3.2rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, #fff 30%, #a5b4fc 70%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 14px;
+        }
+        .games-hero-sub {
+            color: #64748b;
+            font-size: 1rem;
+            margin-bottom: 36px;
+        }
+
+        /* Grade Selector Pill */
+        .grade-selector-wrap {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 0 auto 50px;
+            max-width: 900px;
+            padding: 0 24px;
+        }
+        .grade-pill {
+            background: rgba(255,255,255,0.06);
+            border: 1.5px solid rgba(255,255,255,0.12);
+            color: #94a3b8;
+            padding: 10px 22px;
+            border-radius: 999px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            user-select: none;
+        }
+        .grade-pill:hover {
+            background: rgba(99,102,241,0.15);
+            border-color: rgba(99,102,241,0.5);
+            color: #a5b4fc;
+        }
+        .grade-pill.active {
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            border-color: transparent;
+            color: #fff;
+            box-shadow: 0 0 20px rgba(99,102,241,0.5);
+        }
+
+        /* Section labels */
+        .level-section-label {
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #6366f1;
+            margin-bottom: 16px;
+            padding: 0 24px;
+        }
+
+        .grades-wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px 120px;
+        }
+        .grades-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        .grade-card {
+            background: rgba(18,25,43,0.85);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+            display: block;
+        }
+        .grade-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(99,102,241,0.5);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        .grade-card-img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            display: block;
+        }
+        .grade-card-body {
+            padding: 16px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .grade-card-name {
+            font-size: 1rem;
+            font-weight: 800;
+            color: #fff;
+        }
+        .grade-card-badge {
+            font-size: 0.72rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            color: #fff;
+            padding: 5px 12px;
+            border-radius: 999px;
+        }
+        .section-divider {
+            height: 1px;
+            background: rgba(255,255,255,0.07);
+            margin: 32px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="cyber-bg">
+        <div class="glow-orb glow-orb-1"></div>
+        <div class="glow-orb glow-orb-2"></div>
+        <div class="glow-orb glow-orb-3"></div>
+    </div>
+
+    <div class="page-animate">
+        <!-- Header -->
+        <header class="app-header">
+            <a href="dashboard.html" class="header-brand">
+                <div class="header-logo-wrap">
+                    <img src="images/logo_icon.png" alt="English Toon" class="header-logo-img">
+                </div>
+                <div class="brand-text">
+                    <span class="brand-title">English Toon</span>
+                    <span class="brand-subtitle">بوابة الألعاب الذكية</span>
+                </div>
+            </a>
+            <nav class="header-nav-links">
+                <a href="dashboard.html" class="nav-tab-item">🏠 الرئيسية</a>
+                <a href="games.html" class="nav-tab-item active">🎮 الألعاب</a>
+                <a href="interactive-books.html" class="nav-tab-item">📖 الكتب التفاعلية</a>
+            </nav>
+            <div class="header-actions">
+                <div class="user-profile-badge">
+                    <span class="user-avatar-dot"></span>
+                    <span id="user-display">طالب</span>
+                </div>
+                <button id="admin-btn-link" onclick="window.location.href='admin.html'" class="btn-nav-action btn-admin" style="display:none;">⚙️ الإدارة</button>
+                <button onclick="logout()" class="btn-nav-action btn-logout">خروج 🚪</button>
+            </div>
+        </header>
+
+        <!-- Hero -->
+        <div class="games-hero">
+            <h1 class="games-hero-title">🎮 اختر صفك وابدأ اللعب</h1>
+            <p class="games-hero-sub">اختر صفك الدراسي من الأزرار أدناه لتظهر الألعاب المناسبة لك</p>
+        </div>
+
+        <!-- Grade Filter Pills -->
+        <div class="grade-selector-wrap" id="gradePills">
+            <div class="grade-pill active" data-grade="all">🌟 كل الصفوف</div>
+            <div class="grade-pill" data-grade="primary-1">الأول ابتدائي</div>
+            <div class="grade-pill" data-grade="primary-2">الثاني ابتدائي</div>
+            <div class="grade-pill" data-grade="primary-3">الثالث ابتدائي</div>
+            <div class="grade-pill" data-grade="primary-4">الرابع ابتدائي</div>
+            <div class="grade-pill" data-grade="primary-5">الخامس ابتدائي</div>
+            <div class="grade-pill" data-grade="primary-6">السادس ابتدائي</div>
+            <div class="grade-pill" data-grade="prep-1">الأول إعدادي</div>
+            <div class="grade-pill" data-grade="prep-2">الثاني إعدادي</div>
+            <div class="grade-pill" data-grade="prep-3">الثالث إعدادي</div>
+        </div>
+
+        <!-- Grades Display -->
+        <div class="grades-wrapper">
+            <!-- Primary Section -->
+            <div id="primary-section">
+                <div class="level-section-label">📚 المرحلة الابتدائية</div>
+                <div class="grades-grid" id="primary-grid"></div>
+            </div>
+
+            <div class="section-divider" id="divider"></div>
+
+            <!-- Prep Section -->
+            <div id="prep-section">
+                <div class="level-section-label">🎓 المرحلة الإعدادية</div>
+                <div class="grades-grid" id="prep-grid"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Bottom Nav -->
+    <nav class="mobile-bottom-dock">
+        <a href="dashboard.html" class="dock-item">
+            <span class="dock-icon">🏠</span>
+            <span>الرئيسية</span>
+        </a>
+        <a href="games.html" class="dock-item active">
+            <span class="dock-icon">🎮</span>
+            <span>الألعاب</span>
+        </a>
+        <a href="interactive-books.html" class="dock-item">
+            <span class="dock-icon">📖</span>
+            <span>كتب تفاعلية</span>
+        </a>
+    </nav>
+
+    <script src="js/data.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        checkAuth();
+        const currentUser = localStorage.getItem('currentUser') || 'طالب';
+        document.getElementById('user-display').textContent = currentUser;
+        if (currentUser === 'admin') {
+            document.getElementById('admin-btn-link').style.display = 'inline-flex';
+        }
+
+        const gradeImages = {
+            'primary-1': 'images/primary_card.jpg',
+            'primary-2': 'images/primary_card.jpg',
+            'primary-3': 'images/primary_card.jpg',
+            'primary-4': 'images/primary_card.jpg',
+            'primary-5': 'images/primary_card.jpg',
+            'primary-6': 'images/primary_card.jpg',
+            'prep-1':    'images/prep_card.jpg',
+            'prep-2':    'images/prep_card.jpg',
+            'prep-3':    'images/prep_card.jpg'
+        };
+
+        const primaryGrid = document.getElementById('primary-grid');
+        const prepGrid    = document.getElementById('prep-grid');
+        const allowedGrade = localStorage.getItem('allowedGrade') || 'all';
+
+        // Build grade cards
+        GRADES_DATA.forEach(grade => {
+            if (allowedGrade !== 'all' && allowedGrade !== grade.id && currentUser !== 'admin') return;
+            const isPrep = grade.id.startsWith('prep-');
+            const card = document.createElement('a');
+            card.href = `grade.html?id=${grade.id}`;
+            card.className = 'grade-card';
+            card.dataset.grade = grade.id;
+            card.innerHTML = `
+                <img class="grade-card-img" src="${gradeImages[grade.id]}" alt="${grade.name}">
+                <div class="grade-card-body">
+                    <span class="grade-card-name">${grade.name}</span>
+                    <span class="grade-card-badge">لعب 🎮</span>
+                </div>
+            `;
+            (isPrep ? prepGrid : primaryGrid).appendChild(card);
+        });
+
+        // Filter by pill
+        let activeGrade = 'all';
+
+        document.getElementById('gradePills').addEventListener('click', e => {
+            const pill = e.target.closest('.grade-pill');
+            if (!pill) return;
+
+            document.querySelectorAll('.grade-pill').forEach(p => p.classList.remove('active'));
+            pill.classList.add('active');
+            activeGrade = pill.dataset.grade;
+            applyFilter();
+        });
+
+        function applyFilter() {
+            const allCards = document.querySelectorAll('.grade-card');
+            allCards.forEach(card => {
+                const show = activeGrade === 'all' || card.dataset.grade === activeGrade;
+                card.style.display = show ? 'block' : 'none';
+            });
+
+            // Show/hide sections
+            const primaryVisible = activeGrade === 'all' || activeGrade.startsWith('primary-');
+            const prepVisible    = activeGrade === 'all' || activeGrade.startsWith('prep-');
+            document.getElementById('primary-section').style.display = primaryVisible ? 'block' : 'none';
+            document.getElementById('prep-section').style.display    = prepVisible    ? 'block' : 'none';
+            document.getElementById('divider').style.display          = (primaryVisible && prepVisible) ? 'block' : 'none';
+        }
+
+        // Auto-select from URL param
+        const urlParams = new URLSearchParams(window.location.search);
+        const paramGrade = urlParams.get('grade');
+        if (paramGrade) {
+            const pill = document.querySelector(`.grade-pill[data-grade="${paramGrade}"]`);
+            if (pill) {
+                document.querySelectorAll('.grade-pill').forEach(p => p.classList.remove('active'));
+                pill.classList.add('active');
+                activeGrade = paramGrade;
+                applyFilter();
+            }
+        }
+
+        // PWA Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+        }
+    </script>
+</body>
+</html>
