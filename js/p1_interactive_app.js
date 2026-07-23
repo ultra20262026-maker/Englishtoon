@@ -1,7 +1,19 @@
 // Controller with Full Word Audio Speech Pronunciation & Precise LTR Missing Dots Position
 document.addEventListener('DOMContentLoaded', () => {
     // State
+    let currentGrade = 'p1';
     let currentPageIndex = 0;
+
+    function getActivePagesData() {
+        if (currentGrade === 'p2' && typeof pagesData_p2 !== 'undefined') {
+            return pagesData_p2;
+        }
+        return typeof pagesData !== 'undefined' ? pagesData : [];
+    }
+
+    function getProgressKey() {
+        return currentGrade === 'p2' ? 'prim2_english_progress' : 'prim1_english_progress';
+    }
     let soundEnabled = true;
     let studentProgress = loadProgress();
 
@@ -137,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
         pageSelect.innerHTML = '';
         pagesGrid.innerHTML = '';
 
-        pagesData.forEach((p, idx) => {
+        getActivePagesData().forEach((p, idx) => {
             const opt = document.createElement('option');
             opt.value = idx;
             opt.textContent = `${p.pageNumber}: ${p.unit.split(':')[0]}`;
@@ -167,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function loadProgress() {
         try {
-            const data = localStorage.getItem('prim1_english_progress');
+            const data = localStorage.getItem(getProgressKey());
             return data ? JSON.parse(data) : {};
         } catch (e) {
             return {};
@@ -176,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function saveProgress() {
         try {
-            localStorage.setItem('prim1_english_progress', JSON.stringify(studentProgress));
+            localStorage.setItem(getProgressKey(), JSON.stringify(studentProgress));
             updateProgressStats();
         } catch (e) {}
     }
@@ -185,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let totalStars = 0;
         let completedCount = 0;
 
-        pagesData.forEach(p => {
+        getActivePagesData().forEach(p => {
             const prog = studentProgress[p.pageNumber];
             if (prog && prog.completed) {
                 completedCount++;
@@ -203,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
     btnNextPage.addEventListener('click', () => flipToPage(currentPageIndex + 1, 'next'));
 
     function renderPage(index) {
-        const data = pagesData[index];
+        const data = getActivePagesData()[index];
         pageCard.innerHTML = '';
 
         if (data.type === 'cover') {
@@ -608,14 +620,32 @@ document.addEventListener('DOMContentLoaded', () => {
     goToPage(0);
 });
 
-    // Grade Switcher Handler for Interactive Books
+    // Multi-Grade Switcher & Deep Link Handler for Interactive Books
     const bookGradeSelector = document.getElementById('book-grade-selector');
+    
+    function switchGrade(gradeKey) {
+        if (gradeKey === 'p3') {
+            alert('⏳ جاري إعداد وتجهيز كتاب الصف الثالث وسيتم إضافته قريباً!');
+            if (bookGradeSelector) bookGradeSelector.value = currentGrade;
+            return;
+        }
+        currentGrade = (gradeKey === 'p2' || gradeKey === 'primary-2') ? 'p2' : 'p1';
+        if (bookGradeSelector) bookGradeSelector.value = currentGrade;
+        
+        studentProgress = loadProgress();
+        initNavigation();
+        flipToPage(0, 'next');
+    }
+
     if (bookGradeSelector) {
         bookGradeSelector.addEventListener('change', (e) => {
-            const selectedGrade = e.target.value;
-            if (selectedGrade !== 'p1') {
-                alert('⏳ جاري إعداد وتجهيز الكتاب التفاعلي لهذا الصف وسيتم إضافته قريباً!');
-                bookGradeSelector.value = 'p1';
-            }
+            switchGrade(e.target.value);
         });
+    }
+
+    // Check URL query parameters for grade (e.g., ?grade=p2)
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialGrade = urlParams.get('grade');
+    if (initialGrade === 'p2' || initialGrade === 'primary-2') {
+        switchGrade('p2');
     }
