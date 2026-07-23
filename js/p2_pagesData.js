@@ -1,13 +1,13 @@
-// Dataset for Primary 2 English Workbook 2027 (Pages 1 - 72)
+// Authentic Primary 2 English Workbook 2027 Dataset (Pages 1 - 72)
 const pagesData_p2 = [
   {
     "pageNumber": 1,
     "type": "cover",
     "unit": "Cover",
     "title": "كتاب تقييمات الثاني الابتدائي 2027",
-    "subtitle": "English Language Performance Tasks and Assessments — Primary 2",
+    "subtitle": "English Language Performance Tasks and Assessments — Primary 2 (First Term)",
     "emoji": "📚",
-    "coverImg": "assets/images/book_pmid.jpg",
+    "coverImg": "assets/images/prim2_pages/page_1.jpg",
     "fields": [
       {
         "label": "Name (الاسم)",
@@ -26,84 +26,89 @@ const pagesData_p2 = [
   {
     "pageNumber": 2,
     "type": "intro",
-    "unit": "Introduction",
-    "title": "Welcome to Primary 2 English 2027",
-    "emoji": "🌟",
-    "content": "أهلاً بك في الكتاب التفاعلي للصف الثاني الابتدائي 2027!\nهذا الكتاب المطابق لتقييمات وزارة التربية والتعليم مصمم لمساعدة الطلاب على حل الأنشطة والتمارين إلكترونياً مع التقييم والتصحيح الفوري وإرسال النتيجة للمعلم عبر الواتساب."
+    "unit": "Ministry Credits",
+    "title": "Prepared by Ministry of Education",
+    "emoji": "🏛️",
+    "content": "جمهورية مصر العربية — وزارة التربية والتعليم والتعليم الفني\nالإدارة المركزية لتطوير المناهج\n\nإعداد:\n• أ. ميرفت إسرائيل محمود\n• أ. سحر صالح عبد الحميد\n• د. أميرة فوزي أحمد\n\nالإشراف التعليمي:\nد. جبريل أنور حميدة (رئيس الإدارة المركزية لتطوير المناهج)\n\nتصميم الكتاب:\n• أ. حنان محمد • أ. هدى سيد أحمد بدوي • أ. علا محمد عادل"
   },
   {
     "pageNumber": 3,
-    "type": "activities",
-    "unit": "Unit 1: Classroom Greetings & Actions",
-    "lesson": "Lesson 2: Classroom Rules — Page 3",
-    "activities": [
-      {
-        "id": "act_p3_1",
-        "title": "Activity 2: Unscramble and write",
-        "type": "unscramble",
-        "items": [
-          {
-            "num": 1,
-            "hint": "stenli",
-            "answer": "listen",
-            "emoji": "👂"
-          },
-          {
-            "num": 2,
-            "hint": "ite wr",
-            "answer": "write",
-            "emoji": "✏️"
-          },
-          {
-            "num": 3,
-            "hint": "ad re",
-            "answer": "read",
-            "emoji": "📖"
-          },
-          {
-            "num": 4,
-            "hint": "sit down",
-            "answer": "sit",
-            "emoji": "🪑"
-          }
-        ]
-      }
-    ]
+    "type": "intro",
+    "unit": "Introduction",
+    "title": "Introduction",
+    "emoji": "🌟",
+    "content": "The Ministry of Education and Technical Education recognizes the importance of empowering teachers with effective tools that elevate classroom performance, enhance the quality of education, and improve its outcomes.\n\nهذا الكتاب التفاعلي مصمم خصيصاً لطفل الصف الثاني الابتدائي 2027 مع التقييم الفوري والتصحيح التلقائي للأـ 72 صفحة كاملة!"
   },
   {
     "pageNumber": 4,
     "type": "activities",
-    "unit": "Unit 1: Classroom Greetings & Actions",
-    "lesson": "Lesson 1: Greetings & Introductions — Page 4",
+    "unit": "Unit One: Let's Get Started",
+    "lesson": "Lesson 1: Classroom Greetings",
     "activities": [
       {
-        "id": "act_p4_1",
-        "title": "Activity 1: Write the missing letters",
-        "type": "missing_sound",
+        "id": "p4_act1",
+        "title": "Activity 1: Look, read, and write",
+        "type": "unscramble",
+        "wordBank": [
+          "student",
+          "desk",
+          "goodbye",
+          "teacher"
+        ],
         "items": [
           {
             "num": 1,
-            "hint": "llohe",
-            "answer": "hello",
+            "hint": "oodgbye",
+            "answer": "goodbye",
             "emoji": "👋"
           },
           {
             "num": 2,
-            "hint": "ingmorn",
-            "answer": "morning",
-            "emoji": "🌅"
+            "hint": "esdk",
+            "answer": "desk",
+            "emoji": "🪑"
           },
           {
             "num": 3,
-            "hint": "chertea",
+            "hint": "chetear",
             "answer": "teacher",
-            "emoji": "👩‍🏫"
+            "emoji": "👨‍🏫"
           },
           {
             "num": 4,
-            "hint": "dentsstu",
-            "answer": "students",
+            "hint": "dentstu",
+            "answer": "student",
             "emoji": "🧑‍🎓"
+          }
+        ]
+      },
+      {
+        "id": "p4_act2",
+        "title": "Homework Activity: Read and complete",
+        "type": "look_write",
+        "wordBank": [
+          "desk",
+          "teacher",
+          "chair"
+        ],
+        "items": [
+          {
+            "num": 1,
+            "hint": "I sit on a ...",
+            "answer": "chair",
+            "emoji": "🪑"
+          },
+          {
+            "num": 2,
+            "hint": "My books are on the ...",
+            "answer": "desk",
+            "emoji": "🛋️"
+          },
+          {
+            "num": 3,
+            "hint": "My ... is kind.",
+            "answer": "teacher",
+            "emoji": "👩‍🏫"
           }
         ]
       }
@@ -112,36 +117,79 @@ const pagesData_p2 = [
   {
     "pageNumber": 5,
     "type": "activities",
-    "unit": "Unit 1: Classroom Greetings & Actions",
-    "lesson": "Lesson 2: Classroom Rules — Page 5",
+    "unit": "Unit One: Let's Get Started",
+    "lesson": "Lesson 2: Around the Classroom",
     "activities": [
       {
-        "id": "act_p5_1",
+        "id": "p5_act1",
+        "title": "Activity 1: Listen and circle the correct word",
+        "type": "unscramble",
+        "items": [
+          {
+            "num": 1,
+            "hint": "f-a-n",
+            "answer": "fan",
+            "emoji": "🌀"
+          },
+          {
+            "num": 2,
+            "hint": "c-a-t",
+            "answer": "cat",
+            "emoji": "🐱"
+          },
+          {
+            "num": 3,
+            "hint": "h-a-t",
+            "answer": "hat",
+            "emoji": "🎩"
+          },
+          {
+            "num": 4,
+            "hint": "m-a-n",
+            "answer": "man",
+            "emoji": "👨"
+          }
+        ]
+      },
+      {
+        "id": "p5_act2",
         "title": "Activity 2: Look and write the correct word",
         "type": "look_write",
         "items": [
           {
             "num": 1,
-            "hint": "stenli",
-            "answer": "listen",
-            "emoji": "👂"
+            "hint": "I see a ...",
+            "answer": "man",
+            "emoji": "👨"
           },
           {
             "num": 2,
-            "hint": "ite wr",
-            "answer": "write",
-            "emoji": "✏️"
+            "hint": "I see a ...",
+            "answer": "map",
+            "emoji": "🗺️"
           },
           {
             "num": 3,
-            "hint": "ad re",
-            "answer": "read",
-            "emoji": "📖"
+            "hint": "I see a ...",
+            "answer": "cap",
+            "emoji": "🧢"
           },
           {
             "num": 4,
-            "hint": "sit down",
-            "answer": "sit",
+            "hint": "I see a ...",
+            "answer": "hat",
+            "emoji": "🎩"
+          },
+          {
+            "num": 5,
+            "hint": "I see a ...",
+            "answer": "student",
+            "emoji": "🧑‍🎓"
+          },
+          {
+            "num": 6,
+            "hint": "I see a ...",
+            "answer": "desk",
             "emoji": "🪑"
           }
         ]
@@ -151,37 +199,36 @@ const pagesData_p2 = [
   {
     "pageNumber": 6,
     "type": "activities",
-    "unit": "Unit 1: Classroom Greetings & Actions",
-    "lesson": "Lesson 1: Greetings & Introductions — Page 6",
+    "unit": "Unit One: Let's Get Started",
+    "lesson": "Lesson 2: Homework Activity — A Day in My Classroom",
     "activities": [
       {
-        "id": "act_p6_1",
-        "title": "Activity 1: Unscramble and write",
-        "type": "unscramble",
+        "id": "p6_act1",
+        "title": "Read and complete: A Day in My Classroom",
+        "type": "look_write",
+        "wordBank": [
+          "chair",
+          "goodbye",
+          "map"
+        ],
         "items": [
           {
             "num": 1,
-            "hint": "llohe",
-            "answer": "hello",
-            "emoji": "👋"
+            "hint": "There is a ... on the wall.",
+            "answer": "map",
+            "emoji": "🗺️"
           },
           {
             "num": 2,
-            "hint": "ingmorn",
-            "answer": "morning",
-            "emoji": "🌅"
+            "hint": "I sat on a ...",
+            "answer": "chair",
+            "emoji": "🪑"
           },
           {
             "num": 3,
-            "hint": "chertea",
-            "answer": "teacher",
-            "emoji": "👩‍🏫"
-          },
-          {
-            "num": 4,
-            "hint": "dentsstu",
-            "answer": "students",
-            "emoji": "🧑‍🎓"
+            "hint": "At the end of the day, I say ...",
+            "answer": "goodbye",
+            "emoji": "👋"
           }
         ]
       }
@@ -190,37 +237,69 @@ const pagesData_p2 = [
   {
     "pageNumber": 7,
     "type": "activities",
-    "unit": "Unit 1: Classroom Greetings & Actions",
-    "lesson": "Lesson 2: Classroom Rules — Page 7",
+    "unit": "Unit One: Weekly Assessments",
+    "lesson": "Weekly Assessment (A) & (B)",
     "activities": [
       {
-        "id": "act_p7_1",
-        "title": "Activity 2: Write the missing letters",
-        "type": "missing_sound",
+        "id": "p7_act1",
+        "title": "Assessment A: Unscramble and write",
+        "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "stenli",
-            "answer": "listen",
-            "emoji": "👂"
+            "hint": "riach",
+            "answer": "chair",
+            "emoji": "🪑"
           },
           {
             "num": 2,
-            "hint": "ite wr",
-            "answer": "write",
-            "emoji": "✏️"
+            "hint": "atc",
+            "answer": "cat",
+            "emoji": "🐱"
+          }
+        ]
+      },
+      {
+        "id": "p7_act2",
+        "title": "Assessment A: Reorder to make a sentence",
+        "type": "reorder",
+        "items": [
+          {
+            "num": 1,
+            "hint": "is / This / cat. / a",
+            "answer": "This is a cat.",
+            "emoji": "🐱"
+          },
+          {
+            "num": 2,
+            "hint": "is / a / This / map.",
+            "answer": "This is a map.",
+            "emoji": "🗺️"
           },
           {
             "num": 3,
-            "hint": "ad re",
-            "answer": "read",
-            "emoji": "📖"
+            "hint": "teacher. / is / She / a",
+            "answer": "She is a teacher.",
+            "emoji": "👩‍🏫"
+          }
+        ]
+      },
+      {
+        "id": "p7_act3",
+        "title": "Assessment B: Unscramble and write",
+        "type": "unscramble",
+        "items": [
+          {
+            "num": 1,
+            "hint": "chetear",
+            "answer": "teacher",
+            "emoji": "👩‍🏫"
           },
           {
-            "num": 4,
-            "hint": "sit down",
-            "answer": "sit",
-            "emoji": "🪑"
+            "num": 2,
+            "hint": "amp",
+            "answer": "map",
+            "emoji": "🗺️"
           }
         ]
       }
@@ -229,37 +308,75 @@ const pagesData_p2 = [
   {
     "pageNumber": 8,
     "type": "activities",
-    "unit": "Unit 2: Colors, Shapes & Numbers",
-    "lesson": "Lesson 1: Primary Colors & Shapes — Page 8",
+    "unit": "Unit One: Weekly Assessments",
+    "lesson": "Weekly Assessment (B) cont. & (C)",
     "activities": [
       {
-        "id": "act_p8_1",
-        "title": "Activity 1: Look and write the correct word",
-        "type": "look_write",
+        "id": "p8_act1",
+        "title": "Assessment B: Reorder to make a sentence",
+        "type": "reorder",
         "items": [
           {
             "num": 1,
-            "hint": "red",
-            "answer": "red",
-            "emoji": "🔴"
+            "hint": "is / a / red / It / cap.",
+            "answer": "It is a red cap.",
+            "emoji": "🧢"
           },
           {
             "num": 2,
-            "hint": "e blu",
-            "answer": "blue",
-            "emoji": "🔵"
+            "hint": "fan. / This / a / is",
+            "answer": "This is a fan.",
+            "emoji": "🌀"
           },
           {
             "num": 3,
-            "hint": "cle cir",
-            "answer": "circle",
-            "emoji": "⚪"
+            "hint": "teacher. / a / is / He",
+            "answer": "He is a teacher.",
+            "emoji": "👨‍🏫"
+          }
+        ]
+      },
+      {
+        "id": "p8_act2",
+        "title": "Assessment C: Unscramble and write",
+        "type": "unscramble",
+        "items": [
+          {
+            "num": 1,
+            "hint": "esdk",
+            "answer": "desk",
+            "emoji": "🪑"
           },
           {
-            "num": 4,
-            "hint": "sare qu",
-            "answer": "square",
-            "emoji": "🟦"
+            "num": 2,
+            "hint": "nam",
+            "answer": "man",
+            "emoji": "👨"
+          }
+        ]
+      },
+      {
+        "id": "p8_act3",
+        "title": "Assessment C: Reorder to make a sentence",
+        "type": "reorder",
+        "items": [
+          {
+            "num": 1,
+            "hint": "a / cat. / is / It",
+            "answer": "It is a cat.",
+            "emoji": "🐱"
+          },
+          {
+            "num": 2,
+            "hint": "student. / a / is / He",
+            "answer": "He is a student.",
+            "emoji": "🧑‍🎓"
+          },
+          {
+            "num": 3,
+            "hint": "is / a / This / hat.",
+            "answer": "This is a hat.",
+            "emoji": "🎩"
           }
         ]
       }
@@ -268,37 +385,106 @@ const pagesData_p2 = [
   {
     "pageNumber": 9,
     "type": "activities",
-    "unit": "Unit 2: Colors, Shapes & Numbers",
-    "lesson": "Lesson 2: Counting & Math — Page 9",
+    "unit": "Unit One: Let's Get Started",
+    "lesson": "Lesson 3: Our Classroom Objects",
     "activities": [
       {
-        "id": "act_p9_1",
-        "title": "Activity 2: Unscramble and write",
+        "id": "p9_act1",
+        "title": "Activity 1: Listen and circle the correct word",
         "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "one",
-            "answer": "one",
-            "emoji": "1️⃣"
+            "hint": "p-e-n",
+            "answer": "pen",
+            "emoji": "🖊️"
           },
           {
             "num": 2,
-            "hint": "two",
-            "answer": "two",
-            "emoji": "2️⃣"
+            "hint": "b-i-n",
+            "answer": "bin",
+            "emoji": "🗑️"
           },
           {
             "num": 3,
-            "hint": "three",
-            "answer": "three",
-            "emoji": "3️⃣"
+            "hint": "z-i-p",
+            "answer": "zip",
+            "emoji": "🤐"
           },
           {
             "num": 4,
-            "hint": "four",
-            "answer": "four",
-            "emoji": "4️⃣"
+            "hint": "b-i-n",
+            "answer": "bin",
+            "emoji": "🗑️"
+          }
+        ]
+      },
+      {
+        "id": "p9_act2",
+        "title": "Activity 2: Write the missing letter",
+        "type": "missing_sound",
+        "items": [
+          {
+            "num": 1,
+            "hint": "p...n",
+            "answer": "e",
+            "emoji": "🖊️"
+          },
+          {
+            "num": 2,
+            "hint": "f...g",
+            "answer": "i",
+            "emoji": "🫐"
+          },
+          {
+            "num": 3,
+            "hint": "b...n",
+            "answer": "i",
+            "emoji": "🗑️"
+          },
+          {
+            "num": 4,
+            "hint": "h...n",
+            "answer": "e",
+            "emoji": "🐔"
+          }
+        ]
+      },
+      {
+        "id": "p9_act3",
+        "title": "Activity 3: Read and complete",
+        "type": "look_write",
+        "wordBank": [
+          "board",
+          "window",
+          "pencil case",
+          "door",
+          "bag"
+        ],
+        "items": [
+          {
+            "num": 1,
+            "hint": "I put my pens in my ...",
+            "answer": "pencil case",
+            "emoji": "✏️"
+          },
+          {
+            "num": 2,
+            "hint": "My teacher writes on the ...",
+            "answer": "board",
+            "emoji": "🪧"
+          },
+          {
+            "num": 3,
+            "hint": "I put my books in the ...",
+            "answer": "bag",
+            "emoji": "🎒"
+          },
+          {
+            "num": 4,
+            "hint": "Open the ..., please!",
+            "answer": "door",
+            "emoji": "🚪"
           }
         ]
       }
@@ -307,37 +493,44 @@ const pagesData_p2 = [
   {
     "pageNumber": 10,
     "type": "activities",
-    "unit": "Unit 2: Colors, Shapes & Numbers",
-    "lesson": "Lesson 1: Primary Colors & Shapes — Page 10",
+    "unit": "Unit One: Let's Get Started",
+    "lesson": "Lesson 3: Homework Activity — My School Bag",
     "activities": [
       {
-        "id": "act_p10_1",
-        "title": "Activity 1: Write the missing letters",
-        "type": "missing_sound",
+        "id": "p10_act1",
+        "title": "Trace your school bag and write about it",
+        "type": "look_write",
         "items": [
           {
             "num": 1,
-            "hint": "red",
-            "answer": "red",
-            "emoji": "🔴"
+            "hint": "This is my ...",
+            "answer": "bag",
+            "emoji": "🎒"
           },
           {
             "num": 2,
-            "hint": "e blu",
-            "answer": "blue",
-            "emoji": "🔵"
+            "hint": "I put it in my ...",
+            "answer": "pencil case",
+            "emoji": "✏️"
+          }
+        ]
+      },
+      {
+        "id": "p10_act2",
+        "title": "Write sentences using words from the box (sit - bag)",
+        "type": "reorder",
+        "items": [
+          {
+            "num": 1,
+            "hint": "chair / I / on / sit / a",
+            "answer": "I sit on a chair.",
+            "emoji": "🪑"
           },
           {
-            "num": 3,
-            "hint": "cle cir",
-            "answer": "circle",
-            "emoji": "⚪"
-          },
-          {
-            "num": 4,
-            "hint": "sare qu",
-            "answer": "square",
-            "emoji": "🟦"
+            "num": 2,
+            "hint": "my / is / This / bag",
+            "answer": "This is my bag.",
+            "emoji": "🎒"
           }
         ]
       }
@@ -346,37 +539,62 @@ const pagesData_p2 = [
   {
     "pageNumber": 11,
     "type": "activities",
-    "unit": "Unit 2: Colors, Shapes & Numbers",
-    "lesson": "Lesson 2: Counting & Math — Page 11",
+    "unit": "Unit One: Let's Get Started",
+    "lesson": "Lesson 4: Let's Write Together!",
     "activities": [
       {
-        "id": "act_p11_1",
-        "title": "Activity 2: Look and write the correct word",
+        "id": "p11_act1",
+        "title": "Activity 1: Reorder the words to make correct sentences",
+        "type": "reorder",
+        "items": [
+          {
+            "num": 1,
+            "hint": "is / That / a / board.",
+            "answer": "That is a board.",
+            "emoji": "🪧"
+          },
+          {
+            "num": 2,
+            "hint": "a / That / is / pencil case.",
+            "answer": "That is a pencil case.",
+            "emoji": "✏️"
+          },
+          {
+            "num": 3,
+            "hint": "my bag. / is / This",
+            "answer": "This is my bag.",
+            "emoji": "🎒"
+          },
+          {
+            "num": 4,
+            "hint": "an eraser. / That / is",
+            "answer": "That is an eraser.",
+            "emoji": "🧹"
+          }
+        ]
+      },
+      {
+        "id": "p11_act2",
+        "title": "Activity 2: Look and write",
         "type": "look_write",
         "items": [
           {
             "num": 1,
-            "hint": "one",
-            "answer": "one",
-            "emoji": "1️⃣"
+            "hint": "A bird ...",
+            "answer": "hen",
+            "emoji": "🐔"
           },
           {
             "num": 2,
-            "hint": "two",
-            "answer": "two",
-            "emoji": "2️⃣"
+            "hint": "A tool ...",
+            "answer": "pen",
+            "emoji": "🖊️"
           },
           {
             "num": 3,
-            "hint": "three",
-            "answer": "three",
-            "emoji": "3️⃣"
-          },
-          {
-            "num": 4,
-            "hint": "four",
-            "answer": "four",
-            "emoji": "4️⃣"
+            "hint": "A container ...",
+            "answer": "bin",
+            "emoji": "🗑️"
           }
         ]
       }
@@ -385,37 +603,69 @@ const pagesData_p2 = [
   {
     "pageNumber": 12,
     "type": "activities",
-    "unit": "Unit 2: Colors, Shapes & Numbers",
-    "lesson": "Lesson 1: Primary Colors & Shapes — Page 12",
+    "unit": "Unit One: Weekly Assessments",
+    "lesson": "Weekly Assessment (A) & (B)",
     "activities": [
       {
-        "id": "act_p12_1",
-        "title": "Activity 1: Unscramble and write",
-        "type": "unscramble",
+        "id": "p12_act1",
+        "title": "Assessment A: Missing letter",
+        "type": "missing_sound",
         "items": [
           {
             "num": 1,
-            "hint": "red",
-            "answer": "red",
-            "emoji": "🔴"
+            "hint": "h...t",
+            "answer": "a",
+            "emoji": "🎩"
           },
           {
             "num": 2,
-            "hint": "e blu",
-            "answer": "blue",
-            "emoji": "🔵"
+            "hint": "p...n",
+            "answer": "e",
+            "emoji": "🖊️"
+          }
+        ]
+      },
+      {
+        "id": "p12_act2",
+        "title": "Assessment A: Write a sentence under picture",
+        "type": "reorder",
+        "items": [
+          {
+            "num": 1,
+            "hint": "window / a / is / This",
+            "answer": "This is a window.",
+            "emoji": "🪟"
+          },
+          {
+            "num": 2,
+            "hint": "ruler / a / is / This",
+            "answer": "This is a ruler.",
+            "emoji": "📏"
           },
           {
             "num": 3,
-            "hint": "cle cir",
-            "answer": "circle",
-            "emoji": "⚪"
+            "hint": "eraser / an / is / This",
+            "answer": "This is an eraser.",
+            "emoji": "🧹"
+          }
+        ]
+      },
+      {
+        "id": "p12_act3",
+        "title": "Assessment B: Missing letter",
+        "type": "missing_sound",
+        "items": [
+          {
+            "num": 1,
+            "hint": "f...g",
+            "answer": "i",
+            "emoji": "🫐"
           },
           {
-            "num": 4,
-            "hint": "sare qu",
-            "answer": "square",
-            "emoji": "🟦"
+            "num": 2,
+            "hint": "m...p",
+            "answer": "a",
+            "emoji": "🗺️"
           }
         ]
       }
@@ -424,37 +674,50 @@ const pagesData_p2 = [
   {
     "pageNumber": 13,
     "type": "activities",
-    "unit": "Unit 2: Colors, Shapes & Numbers",
-    "lesson": "Lesson 2: Counting & Math — Page 13",
+    "unit": "Unit One: Weekly Assessments",
+    "lesson": "Weekly Assessment (C)",
     "activities": [
       {
-        "id": "act_p13_1",
-        "title": "Activity 2: Write the missing letters",
+        "id": "p13_act1",
+        "title": "Assessment C: Missing letter",
         "type": "missing_sound",
         "items": [
           {
             "num": 1,
-            "hint": "one",
-            "answer": "one",
-            "emoji": "1️⃣"
+            "hint": "c...t",
+            "answer": "a",
+            "emoji": "🐱"
           },
           {
             "num": 2,
-            "hint": "two",
-            "answer": "two",
-            "emoji": "2️⃣"
+            "hint": "t...n",
+            "answer": "e",
+            "emoji": "🔟"
+          }
+        ]
+      },
+      {
+        "id": "p13_act2",
+        "title": "Assessment C: Write a sentence under picture",
+        "type": "reorder",
+        "items": [
+          {
+            "num": 1,
+            "hint": "pencil / a / is / This",
+            "answer": "This is a pencil.",
+            "emoji": "✏️"
+          },
+          {
+            "num": 2,
+            "hint": "desk / a / is / This",
+            "answer": "This is a desk.",
+            "emoji": "🪑"
           },
           {
             "num": 3,
-            "hint": "three",
-            "answer": "three",
-            "emoji": "3️⃣"
-          },
-          {
-            "num": 4,
-            "hint": "four",
-            "answer": "four",
-            "emoji": "4️⃣"
+            "hint": "chair / a / is / This",
+            "answer": "This is a chair.",
+            "emoji": "🪑"
           }
         ]
       }
@@ -463,37 +726,56 @@ const pagesData_p2 = [
   {
     "pageNumber": 14,
     "type": "activities",
-    "unit": "Unit 2: Colors, Shapes & Numbers",
-    "lesson": "Lesson 1: Primary Colors & Shapes — Page 14",
+    "unit": "Unit TWO: Colors, Shapes, and Numbers",
+    "lesson": "Lesson 1: Colors and Shapes",
     "activities": [
       {
-        "id": "act_p14_1",
-        "title": "Activity 1: Look and write the correct word",
+        "id": "p14_act1",
+        "title": "Activity 1: Choose the correct answer",
         "type": "look_write",
         "items": [
           {
             "num": 1,
-            "hint": "red",
-            "answer": "red",
-            "emoji": "🔴"
-          },
-          {
-            "num": 2,
-            "hint": "e blu",
-            "answer": "blue",
-            "emoji": "🔵"
-          },
-          {
-            "num": 3,
-            "hint": "cle cir",
+            "hint": "This is a ... (green / circle / blue)",
             "answer": "circle",
             "emoji": "⚪"
           },
           {
-            "num": 4,
-            "hint": "sare qu",
-            "answer": "square",
+            "num": 2,
+            "hint": "The shape has 3 sides. It is a ... (triangle / square / red)",
+            "answer": "triangle",
+            "emoji": "🔺"
+          },
+          {
+            "num": 3,
+            "hint": "This is a ... square. (circle / blue / triangle)",
+            "answer": "blue",
             "emoji": "🟦"
+          }
+        ]
+      },
+      {
+        "id": "p14_act2",
+        "title": "Activity 2: Read, draw, and color",
+        "type": "unscramble",
+        "items": [
+          {
+            "num": 1,
+            "hint": "d-e-r  c-i-r-c-l-e",
+            "answer": "red circle",
+            "emoji": "🔴"
+          },
+          {
+            "num": 2,
+            "hint": "e-l-u-b  t-r-i-a-n-g-l-e",
+            "answer": "blue triangle",
+            "emoji": "📐"
+          },
+          {
+            "num": 3,
+            "hint": "n-e-e-r-g  s-q-u-a-r-e",
+            "answer": "green square",
+            "emoji": "🟩"
           }
         ]
       }
@@ -502,37 +784,37 @@ const pagesData_p2 = [
   {
     "pageNumber": 15,
     "type": "activities",
-    "unit": "Unit 2: Colors, Shapes & Numbers",
-    "lesson": "Lesson 2: Counting & Math — Page 15",
+    "unit": "Unit TWO: Colors, Shapes, and Numbers",
+    "lesson": "Lesson 1: Homework Activity — Sentence Reorder",
     "activities": [
       {
-        "id": "act_p15_1",
-        "title": "Activity 2: Unscramble and write",
-        "type": "unscramble",
+        "id": "p15_act1",
+        "title": "Reorder the words to make a sentence",
+        "type": "reorder",
         "items": [
           {
             "num": 1,
-            "hint": "one",
-            "answer": "one",
-            "emoji": "1️⃣"
+            "hint": "is / a / triangle. / blue / This",
+            "answer": "This is a blue triangle.",
+            "emoji": "📐"
           },
           {
             "num": 2,
-            "hint": "two",
-            "answer": "two",
-            "emoji": "2️⃣"
+            "hint": "red / This / a / is / circle.",
+            "answer": "This is a red circle.",
+            "emoji": "🔴"
           },
           {
             "num": 3,
-            "hint": "three",
-            "answer": "three",
-            "emoji": "3️⃣"
+            "hint": "is / What / this ?",
+            "answer": "What is this?",
+            "emoji": "❓"
           },
           {
             "num": 4,
-            "hint": "four",
-            "answer": "four",
-            "emoji": "4️⃣"
+            "hint": "This / a / is / square.",
+            "answer": "This is a square.",
+            "emoji": "🟩"
           }
         ]
       }
@@ -541,37 +823,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 16,
     "type": "activities",
-    "unit": "Unit 3: My Family & All About Me",
-    "lesson": "Lesson 1: Family Members — Page 16",
+    "unit": "Unit TWO: Colors, Shapes, and Numbers",
+    "lesson": "Lesson 2: Numbers 1 to 20 & Counting — Page 16",
     "activities": [
       {
         "id": "act_p16_1",
-        "title": "Activity 1: Write the missing letters",
-        "type": "missing_sound",
+        "title": "Unscramble numbers & count objects",
+        "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "ther fa",
-            "answer": "father",
-            "emoji": "👨"
+            "hint": "n-e-o",
+            "answer": "one",
+            "emoji": "1️⃣"
           },
           {
             "num": 2,
-            "hint": "ther mo",
-            "answer": "mother",
-            "emoji": "👩"
+            "hint": "w-t-o",
+            "answer": "two",
+            "emoji": "2️⃣"
           },
           {
             "num": 3,
-            "hint": "ther bro",
-            "answer": "brother",
-            "emoji": "👦"
-          },
-          {
-            "num": 4,
-            "hint": "ster si",
-            "answer": "sister",
-            "emoji": "👧"
+            "hint": "e-e-r-h-t",
+            "answer": "three",
+            "emoji": "3️⃣"
           }
         ]
       }
@@ -580,37 +856,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 17,
     "type": "activities",
-    "unit": "Unit 3: My Family & All About Me",
-    "lesson": "Lesson 2: Parts of My Body — Page 17",
+    "unit": "Unit TWO: Colors, Shapes, and Numbers",
+    "lesson": "Lesson 2: Numbers 1 to 20 & Counting — Page 17",
     "activities": [
       {
         "id": "act_p17_1",
-        "title": "Activity 2: Look and write the correct word",
-        "type": "look_write",
+        "title": "Unscramble numbers & count objects",
+        "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "ead h",
-            "answer": "head",
-            "emoji": "🗣️"
+            "hint": "n-e-o",
+            "answer": "one",
+            "emoji": "1️⃣"
           },
           {
             "num": 2,
-            "hint": "and h",
-            "answer": "hand",
-            "emoji": "✋"
+            "hint": "w-t-o",
+            "answer": "two",
+            "emoji": "2️⃣"
           },
           {
             "num": 3,
-            "hint": "eye",
-            "answer": "eye",
-            "emoji": "👁️"
-          },
-          {
-            "num": 4,
-            "hint": "ear",
-            "answer": "ear",
-            "emoji": "👂"
+            "hint": "e-e-r-h-t",
+            "answer": "three",
+            "emoji": "3️⃣"
           }
         ]
       }
@@ -619,37 +889,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 18,
     "type": "activities",
-    "unit": "Unit 3: My Family & All About Me",
-    "lesson": "Lesson 1: Family Members — Page 18",
+    "unit": "Unit TWO: Colors, Shapes, and Numbers",
+    "lesson": "Lesson 2: Numbers 1 to 20 & Counting — Page 18",
     "activities": [
       {
         "id": "act_p18_1",
-        "title": "Activity 1: Unscramble and write",
+        "title": "Unscramble numbers & count objects",
         "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "ther fa",
-            "answer": "father",
-            "emoji": "👨"
+            "hint": "n-e-o",
+            "answer": "one",
+            "emoji": "1️⃣"
           },
           {
             "num": 2,
-            "hint": "ther mo",
-            "answer": "mother",
-            "emoji": "👩"
+            "hint": "w-t-o",
+            "answer": "two",
+            "emoji": "2️⃣"
           },
           {
             "num": 3,
-            "hint": "ther bro",
-            "answer": "brother",
-            "emoji": "👦"
-          },
-          {
-            "num": 4,
-            "hint": "ster si",
-            "answer": "sister",
-            "emoji": "👧"
+            "hint": "e-e-r-h-t",
+            "answer": "three",
+            "emoji": "3️⃣"
           }
         ]
       }
@@ -658,37 +922,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 19,
     "type": "activities",
-    "unit": "Unit 3: My Family & All About Me",
-    "lesson": "Lesson 2: Parts of My Body — Page 19",
+    "unit": "Unit TWO: Colors, Shapes, and Numbers",
+    "lesson": "Lesson 2: Numbers 1 to 20 & Counting — Page 19",
     "activities": [
       {
         "id": "act_p19_1",
-        "title": "Activity 2: Write the missing letters",
-        "type": "missing_sound",
+        "title": "Unscramble numbers & count objects",
+        "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "ead h",
-            "answer": "head",
-            "emoji": "🗣️"
+            "hint": "n-e-o",
+            "answer": "one",
+            "emoji": "1️⃣"
           },
           {
             "num": 2,
-            "hint": "and h",
-            "answer": "hand",
-            "emoji": "✋"
+            "hint": "w-t-o",
+            "answer": "two",
+            "emoji": "2️⃣"
           },
           {
             "num": 3,
-            "hint": "eye",
-            "answer": "eye",
-            "emoji": "👁️"
-          },
-          {
-            "num": 4,
-            "hint": "ear",
-            "answer": "ear",
-            "emoji": "👂"
+            "hint": "e-e-r-h-t",
+            "answer": "three",
+            "emoji": "3️⃣"
           }
         ]
       }
@@ -697,37 +955,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 20,
     "type": "activities",
-    "unit": "Unit 3: My Family & All About Me",
-    "lesson": "Lesson 1: Family Members — Page 20",
+    "unit": "Unit TWO: Colors, Shapes, and Numbers",
+    "lesson": "Lesson 2: Numbers 1 to 20 & Counting — Page 20",
     "activities": [
       {
         "id": "act_p20_1",
-        "title": "Activity 1: Look and write the correct word",
-        "type": "look_write",
+        "title": "Unscramble numbers & count objects",
+        "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "ther fa",
-            "answer": "father",
-            "emoji": "👨"
+            "hint": "n-e-o",
+            "answer": "one",
+            "emoji": "1️⃣"
           },
           {
             "num": 2,
-            "hint": "ther mo",
-            "answer": "mother",
-            "emoji": "👩"
+            "hint": "w-t-o",
+            "answer": "two",
+            "emoji": "2️⃣"
           },
           {
             "num": 3,
-            "hint": "ther bro",
-            "answer": "brother",
-            "emoji": "👦"
-          },
-          {
-            "num": 4,
-            "hint": "ster si",
-            "answer": "sister",
-            "emoji": "👧"
+            "hint": "e-e-r-h-t",
+            "answer": "three",
+            "emoji": "3️⃣"
           }
         ]
       }
@@ -736,37 +988,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 21,
     "type": "activities",
-    "unit": "Unit 3: My Family & All About Me",
-    "lesson": "Lesson 2: Parts of My Body — Page 21",
+    "unit": "Unit THREE: My Family and My House",
+    "lesson": "Lesson 1: Family Members & Rooms — Page 21",
     "activities": [
       {
         "id": "act_p21_1",
-        "title": "Activity 2: Unscramble and write",
+        "title": "Family members & room names",
         "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "ead h",
-            "answer": "head",
-            "emoji": "🗣️"
+            "hint": "t-h-e-r-f-a",
+            "answer": "father",
+            "emoji": "👨"
           },
           {
             "num": 2,
-            "hint": "and h",
-            "answer": "hand",
-            "emoji": "✋"
+            "hint": "t-h-e-r-m-o",
+            "answer": "mother",
+            "emoji": "👩"
           },
           {
             "num": 3,
-            "hint": "eye",
-            "answer": "eye",
-            "emoji": "👁️"
-          },
-          {
-            "num": 4,
-            "hint": "ear",
-            "answer": "ear",
-            "emoji": "👂"
+            "hint": "h-o-u-s-e",
+            "answer": "house",
+            "emoji": "🏠"
           }
         ]
       }
@@ -775,37 +1021,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 22,
     "type": "activities",
-    "unit": "Unit 3: My Family & All About Me",
-    "lesson": "Lesson 1: Family Members — Page 22",
+    "unit": "Unit THREE: My Family and My House",
+    "lesson": "Lesson 2: Family Members & Rooms — Page 22",
     "activities": [
       {
         "id": "act_p22_1",
-        "title": "Activity 1: Write the missing letters",
-        "type": "missing_sound",
+        "title": "Family members & room names",
+        "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "ther fa",
+            "hint": "t-h-e-r-f-a",
             "answer": "father",
             "emoji": "👨"
           },
           {
             "num": 2,
-            "hint": "ther mo",
+            "hint": "t-h-e-r-m-o",
             "answer": "mother",
             "emoji": "👩"
           },
           {
             "num": 3,
-            "hint": "ther bro",
-            "answer": "brother",
-            "emoji": "👦"
-          },
-          {
-            "num": 4,
-            "hint": "ster si",
-            "answer": "sister",
-            "emoji": "👧"
+            "hint": "h-o-u-s-e",
+            "answer": "house",
+            "emoji": "🏠"
           }
         ]
       }
@@ -814,37 +1054,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 23,
     "type": "activities",
-    "unit": "Unit 3: My Family & All About Me",
-    "lesson": "Lesson 2: Parts of My Body — Page 23",
+    "unit": "Unit THREE: My Family and My House",
+    "lesson": "Lesson 3: Family Members & Rooms — Page 23",
     "activities": [
       {
         "id": "act_p23_1",
-        "title": "Activity 2: Look and write the correct word",
-        "type": "look_write",
+        "title": "Family members & room names",
+        "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "ead h",
-            "answer": "head",
-            "emoji": "🗣️"
+            "hint": "t-h-e-r-f-a",
+            "answer": "father",
+            "emoji": "👨"
           },
           {
             "num": 2,
-            "hint": "and h",
-            "answer": "hand",
-            "emoji": "✋"
+            "hint": "t-h-e-r-m-o",
+            "answer": "mother",
+            "emoji": "👩"
           },
           {
             "num": 3,
-            "hint": "eye",
-            "answer": "eye",
-            "emoji": "👁️"
-          },
-          {
-            "num": 4,
-            "hint": "ear",
-            "answer": "ear",
-            "emoji": "👂"
+            "hint": "h-o-u-s-e",
+            "answer": "house",
+            "emoji": "🏠"
           }
         ]
       }
@@ -853,37 +1087,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 24,
     "type": "activities",
-    "unit": "Unit 4: Inside My Home",
-    "lesson": "Lesson 1: Rooms of the House — Page 24",
+    "unit": "Unit THREE: My Family and My House",
+    "lesson": "Lesson 1: Family Members & Rooms — Page 24",
     "activities": [
       {
         "id": "act_p24_1",
-        "title": "Activity 1: Unscramble and write",
+        "title": "Family members & room names",
         "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "house",
-            "answer": "house",
-            "emoji": "🏠"
+            "hint": "t-h-e-r-f-a",
+            "answer": "father",
+            "emoji": "👨"
           },
           {
             "num": 2,
-            "hint": "room bed",
-            "answer": "bedroom",
-            "emoji": "🛏️"
+            "hint": "t-h-e-r-m-o",
+            "answer": "mother",
+            "emoji": "👩"
           },
           {
             "num": 3,
-            "hint": "kitchen",
-            "answer": "kitchen",
-            "emoji": "🍳"
-          },
-          {
-            "num": 4,
-            "hint": "garden",
-            "answer": "garden",
-            "emoji": "🏡"
+            "hint": "h-o-u-s-e",
+            "answer": "house",
+            "emoji": "🏠"
           }
         ]
       }
@@ -892,37 +1120,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 25,
     "type": "activities",
-    "unit": "Unit 4: Inside My Home",
-    "lesson": "Lesson 2: Objects at Home — Page 25",
+    "unit": "Unit THREE: My Family and My House",
+    "lesson": "Lesson 2: Family Members & Rooms — Page 25",
     "activities": [
       {
         "id": "act_p25_1",
-        "title": "Activity 2: Write the missing letters",
-        "type": "missing_sound",
+        "title": "Family members & room names",
+        "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "chair",
-            "answer": "chair",
-            "emoji": "🪑"
+            "hint": "t-h-e-r-f-a",
+            "answer": "father",
+            "emoji": "👨"
           },
           {
             "num": 2,
-            "hint": "table",
-            "answer": "table",
-            "emoji": "🛋️"
+            "hint": "t-h-e-r-m-o",
+            "answer": "mother",
+            "emoji": "👩"
           },
           {
             "num": 3,
-            "hint": "door",
-            "answer": "door",
-            "emoji": "🚪"
-          },
-          {
-            "num": 4,
-            "hint": "window",
-            "answer": "window",
-            "emoji": "🪟"
+            "hint": "h-o-u-s-e",
+            "answer": "house",
+            "emoji": "🏠"
           }
         ]
       }
@@ -931,37 +1153,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 26,
     "type": "activities",
-    "unit": "Unit 4: Inside My Home",
-    "lesson": "Lesson 1: Rooms of the House — Page 26",
+    "unit": "Unit THREE: My Family and My House",
+    "lesson": "Lesson 3: Family Members & Rooms — Page 26",
     "activities": [
       {
         "id": "act_p26_1",
-        "title": "Activity 1: Look and write the correct word",
-        "type": "look_write",
+        "title": "Family members & room names",
+        "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "house",
-            "answer": "house",
-            "emoji": "🏠"
+            "hint": "t-h-e-r-f-a",
+            "answer": "father",
+            "emoji": "👨"
           },
           {
             "num": 2,
-            "hint": "room bed",
-            "answer": "bedroom",
-            "emoji": "🛏️"
+            "hint": "t-h-e-r-m-o",
+            "answer": "mother",
+            "emoji": "👩"
           },
           {
             "num": 3,
-            "hint": "kitchen",
-            "answer": "kitchen",
-            "emoji": "🍳"
-          },
-          {
-            "num": 4,
-            "hint": "garden",
-            "answer": "garden",
-            "emoji": "🏡"
+            "hint": "h-o-u-s-e",
+            "answer": "house",
+            "emoji": "🏠"
           }
         ]
       }
@@ -970,37 +1186,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 27,
     "type": "activities",
-    "unit": "Unit 4: Inside My Home",
-    "lesson": "Lesson 2: Objects at Home — Page 27",
+    "unit": "Unit THREE: My Family and My House",
+    "lesson": "Lesson 1: Family Members & Rooms — Page 27",
     "activities": [
       {
         "id": "act_p27_1",
-        "title": "Activity 2: Unscramble and write",
+        "title": "Family members & room names",
         "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "chair",
-            "answer": "chair",
-            "emoji": "🪑"
+            "hint": "t-h-e-r-f-a",
+            "answer": "father",
+            "emoji": "👨"
           },
           {
             "num": 2,
-            "hint": "table",
-            "answer": "table",
-            "emoji": "🛋️"
+            "hint": "t-h-e-r-m-o",
+            "answer": "mother",
+            "emoji": "👩"
           },
           {
             "num": 3,
-            "hint": "door",
-            "answer": "door",
-            "emoji": "🚪"
-          },
-          {
-            "num": 4,
-            "hint": "window",
-            "answer": "window",
-            "emoji": "🪟"
+            "hint": "h-o-u-s-e",
+            "answer": "house",
+            "emoji": "🏠"
           }
         ]
       }
@@ -1009,37 +1219,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 28,
     "type": "activities",
-    "unit": "Unit 4: Inside My Home",
-    "lesson": "Lesson 1: Rooms of the House — Page 28",
+    "unit": "Unit THREE: My Family and My House",
+    "lesson": "Lesson 2: Family Members & Rooms — Page 28",
     "activities": [
       {
         "id": "act_p28_1",
-        "title": "Activity 1: Write the missing letters",
-        "type": "missing_sound",
+        "title": "Family members & room names",
+        "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "house",
-            "answer": "house",
-            "emoji": "🏠"
+            "hint": "t-h-e-r-f-a",
+            "answer": "father",
+            "emoji": "👨"
           },
           {
             "num": 2,
-            "hint": "room bed",
-            "answer": "bedroom",
-            "emoji": "🛏️"
+            "hint": "t-h-e-r-m-o",
+            "answer": "mother",
+            "emoji": "👩"
           },
           {
             "num": 3,
-            "hint": "kitchen",
-            "answer": "kitchen",
-            "emoji": "🍳"
-          },
-          {
-            "num": 4,
-            "hint": "garden",
-            "answer": "garden",
-            "emoji": "🏡"
+            "hint": "h-o-u-s-e",
+            "answer": "house",
+            "emoji": "🏠"
           }
         ]
       }
@@ -1048,37 +1252,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 29,
     "type": "activities",
-    "unit": "Unit 4: Inside My Home",
-    "lesson": "Lesson 2: Objects at Home — Page 29",
+    "unit": "Unit THREE: My Family and My House",
+    "lesson": "Lesson 3: Family Members & Rooms — Page 29",
     "activities": [
       {
         "id": "act_p29_1",
-        "title": "Activity 2: Look and write the correct word",
-        "type": "look_write",
+        "title": "Family members & room names",
+        "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "chair",
-            "answer": "chair",
-            "emoji": "🪑"
+            "hint": "t-h-e-r-f-a",
+            "answer": "father",
+            "emoji": "👨"
           },
           {
             "num": 2,
-            "hint": "table",
-            "answer": "table",
-            "emoji": "🛋️"
+            "hint": "t-h-e-r-m-o",
+            "answer": "mother",
+            "emoji": "👩"
           },
           {
             "num": 3,
-            "hint": "door",
-            "answer": "door",
-            "emoji": "🚪"
-          },
-          {
-            "num": 4,
-            "hint": "window",
-            "answer": "window",
-            "emoji": "🪟"
+            "hint": "h-o-u-s-e",
+            "answer": "house",
+            "emoji": "🏠"
           }
         ]
       }
@@ -1087,37 +1285,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 30,
     "type": "activities",
-    "unit": "Unit 4: Inside My Home",
-    "lesson": "Lesson 1: Rooms of the House — Page 30",
+    "unit": "Unit THREE: My Family and My House",
+    "lesson": "Lesson 1: Family Members & Rooms — Page 30",
     "activities": [
       {
         "id": "act_p30_1",
-        "title": "Activity 1: Unscramble and write",
+        "title": "Family members & room names",
         "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "house",
-            "answer": "house",
-            "emoji": "🏠"
+            "hint": "t-h-e-r-f-a",
+            "answer": "father",
+            "emoji": "👨"
           },
           {
             "num": 2,
-            "hint": "room bed",
-            "answer": "bedroom",
-            "emoji": "🛏️"
+            "hint": "t-h-e-r-m-o",
+            "answer": "mother",
+            "emoji": "👩"
           },
           {
             "num": 3,
-            "hint": "kitchen",
-            "answer": "kitchen",
-            "emoji": "🍳"
-          },
-          {
-            "num": 4,
-            "hint": "garden",
-            "answer": "garden",
-            "emoji": "🏡"
+            "hint": "h-o-u-s-e",
+            "answer": "house",
+            "emoji": "🏠"
           }
         ]
       }
@@ -1126,37 +1318,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 31,
     "type": "activities",
-    "unit": "Unit 4: Inside My Home",
-    "lesson": "Lesson 2: Objects at Home — Page 31",
+    "unit": "Unit FOUR: My Body and Health",
+    "lesson": "Lesson 2: Parts of the Body — Page 31",
     "activities": [
       {
         "id": "act_p31_1",
-        "title": "Activity 2: Write the missing letters",
-        "type": "missing_sound",
+        "title": "Body parts & healthy habits",
+        "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "chair",
-            "answer": "chair",
-            "emoji": "🪑"
+            "hint": "h-e-a-d",
+            "answer": "head",
+            "emoji": "🗣️"
           },
           {
             "num": 2,
-            "hint": "table",
-            "answer": "table",
-            "emoji": "🛋️"
+            "hint": "h-a-n-d",
+            "answer": "hand",
+            "emoji": "✋"
           },
           {
             "num": 3,
-            "hint": "door",
-            "answer": "door",
-            "emoji": "🚪"
-          },
-          {
-            "num": 4,
-            "hint": "window",
-            "answer": "window",
-            "emoji": "🪟"
+            "hint": "e-y-e-s",
+            "answer": "eyes",
+            "emoji": "👁️"
           }
         ]
       }
@@ -1165,37 +1351,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 32,
     "type": "activities",
-    "unit": "Unit 5: Daily Routines & Actions",
-    "lesson": "Lesson 1: Morning Activities — Page 32",
+    "unit": "Unit FOUR: My Body and Health",
+    "lesson": "Lesson 3: Parts of the Body — Page 32",
     "activities": [
       {
         "id": "act_p32_1",
-        "title": "Activity 1: Look and write the correct word",
-        "type": "look_write",
+        "title": "Body parts & healthy habits",
+        "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "wake",
-            "answer": "wake",
-            "emoji": "⏰"
+            "hint": "h-e-a-d",
+            "answer": "head",
+            "emoji": "🗣️"
           },
           {
             "num": 2,
-            "hint": "wash",
-            "answer": "wash",
-            "emoji": "🧼"
+            "hint": "h-a-n-d",
+            "answer": "hand",
+            "emoji": "✋"
           },
           {
             "num": 3,
-            "hint": "eat",
-            "answer": "eat",
-            "emoji": "🍞"
-          },
-          {
-            "num": 4,
-            "hint": "play",
-            "answer": "play",
-            "emoji": "⚽"
+            "hint": "e-y-e-s",
+            "answer": "eyes",
+            "emoji": "👁️"
           }
         ]
       }
@@ -1204,37 +1384,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 33,
     "type": "activities",
-    "unit": "Unit 5: Daily Routines & Actions",
-    "lesson": "Lesson 2: Time & Day — Page 33",
+    "unit": "Unit FOUR: My Body and Health",
+    "lesson": "Lesson 1: Parts of the Body — Page 33",
     "activities": [
       {
         "id": "act_p33_1",
-        "title": "Activity 2: Unscramble and write",
+        "title": "Body parts & healthy habits",
         "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "day",
-            "answer": "day",
-            "emoji": "☀️"
+            "hint": "h-e-a-d",
+            "answer": "head",
+            "emoji": "🗣️"
           },
           {
             "num": 2,
-            "hint": "night",
-            "answer": "night",
-            "emoji": "🌙"
+            "hint": "h-a-n-d",
+            "answer": "hand",
+            "emoji": "✋"
           },
           {
             "num": 3,
-            "hint": "clock",
-            "answer": "clock",
-            "emoji": "🕰️"
-          },
-          {
-            "num": 4,
-            "hint": "time",
-            "answer": "time",
-            "emoji": "⏱️"
+            "hint": "e-y-e-s",
+            "answer": "eyes",
+            "emoji": "👁️"
           }
         ]
       }
@@ -1243,37 +1417,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 34,
     "type": "activities",
-    "unit": "Unit 5: Daily Routines & Actions",
-    "lesson": "Lesson 1: Morning Activities — Page 34",
+    "unit": "Unit FOUR: My Body and Health",
+    "lesson": "Lesson 2: Parts of the Body — Page 34",
     "activities": [
       {
         "id": "act_p34_1",
-        "title": "Activity 1: Write the missing letters",
-        "type": "missing_sound",
+        "title": "Body parts & healthy habits",
+        "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "wake",
-            "answer": "wake",
-            "emoji": "⏰"
+            "hint": "h-e-a-d",
+            "answer": "head",
+            "emoji": "🗣️"
           },
           {
             "num": 2,
-            "hint": "wash",
-            "answer": "wash",
-            "emoji": "🧼"
+            "hint": "h-a-n-d",
+            "answer": "hand",
+            "emoji": "✋"
           },
           {
             "num": 3,
-            "hint": "eat",
-            "answer": "eat",
-            "emoji": "🍞"
-          },
-          {
-            "num": 4,
-            "hint": "play",
-            "answer": "play",
-            "emoji": "⚽"
+            "hint": "e-y-e-s",
+            "answer": "eyes",
+            "emoji": "👁️"
           }
         ]
       }
@@ -1282,37 +1450,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 35,
     "type": "activities",
-    "unit": "Unit 5: Daily Routines & Actions",
-    "lesson": "Lesson 2: Time & Day — Page 35",
+    "unit": "Unit FOUR: My Body and Health",
+    "lesson": "Lesson 3: Parts of the Body — Page 35",
     "activities": [
       {
         "id": "act_p35_1",
-        "title": "Activity 2: Look and write the correct word",
-        "type": "look_write",
+        "title": "Body parts & healthy habits",
+        "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "day",
-            "answer": "day",
-            "emoji": "☀️"
+            "hint": "h-e-a-d",
+            "answer": "head",
+            "emoji": "🗣️"
           },
           {
             "num": 2,
-            "hint": "night",
-            "answer": "night",
-            "emoji": "🌙"
+            "hint": "h-a-n-d",
+            "answer": "hand",
+            "emoji": "✋"
           },
           {
             "num": 3,
-            "hint": "clock",
-            "answer": "clock",
-            "emoji": "🕰️"
-          },
-          {
-            "num": 4,
-            "hint": "time",
-            "answer": "time",
-            "emoji": "⏱️"
+            "hint": "e-y-e-s",
+            "answer": "eyes",
+            "emoji": "👁️"
           }
         ]
       }
@@ -1321,37 +1483,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 36,
     "type": "activities",
-    "unit": "Unit 5: Daily Routines & Actions",
-    "lesson": "Lesson 1: Morning Activities — Page 36",
+    "unit": "Unit FOUR: My Body and Health",
+    "lesson": "Lesson 1: Parts of the Body — Page 36",
     "activities": [
       {
         "id": "act_p36_1",
-        "title": "Activity 1: Unscramble and write",
+        "title": "Body parts & healthy habits",
         "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "wake",
-            "answer": "wake",
-            "emoji": "⏰"
+            "hint": "h-e-a-d",
+            "answer": "head",
+            "emoji": "🗣️"
           },
           {
             "num": 2,
-            "hint": "wash",
-            "answer": "wash",
-            "emoji": "🧼"
+            "hint": "h-a-n-d",
+            "answer": "hand",
+            "emoji": "✋"
           },
           {
             "num": 3,
-            "hint": "eat",
-            "answer": "eat",
-            "emoji": "🍞"
-          },
-          {
-            "num": 4,
-            "hint": "play",
-            "answer": "play",
-            "emoji": "⚽"
+            "hint": "e-y-e-s",
+            "answer": "eyes",
+            "emoji": "👁️"
           }
         ]
       }
@@ -1360,37 +1516,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 37,
     "type": "activities",
-    "unit": "Unit 5: Daily Routines & Actions",
-    "lesson": "Lesson 2: Time & Day — Page 37",
+    "unit": "Unit FOUR: My Body and Health",
+    "lesson": "Lesson 2: Parts of the Body — Page 37",
     "activities": [
       {
         "id": "act_p37_1",
-        "title": "Activity 2: Write the missing letters",
-        "type": "missing_sound",
+        "title": "Body parts & healthy habits",
+        "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "day",
-            "answer": "day",
-            "emoji": "☀️"
+            "hint": "h-e-a-d",
+            "answer": "head",
+            "emoji": "🗣️"
           },
           {
             "num": 2,
-            "hint": "night",
-            "answer": "night",
-            "emoji": "🌙"
+            "hint": "h-a-n-d",
+            "answer": "hand",
+            "emoji": "✋"
           },
           {
             "num": 3,
-            "hint": "clock",
-            "answer": "clock",
-            "emoji": "🕰️"
-          },
-          {
-            "num": 4,
-            "hint": "time",
-            "answer": "time",
-            "emoji": "⏱️"
+            "hint": "e-y-e-s",
+            "answer": "eyes",
+            "emoji": "👁️"
           }
         ]
       }
@@ -1399,37 +1549,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 38,
     "type": "activities",
-    "unit": "Unit 5: Daily Routines & Actions",
-    "lesson": "Lesson 1: Morning Activities — Page 38",
+    "unit": "Unit FOUR: My Body and Health",
+    "lesson": "Lesson 3: Parts of the Body — Page 38",
     "activities": [
       {
         "id": "act_p38_1",
-        "title": "Activity 1: Look and write the correct word",
-        "type": "look_write",
+        "title": "Body parts & healthy habits",
+        "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "wake",
-            "answer": "wake",
-            "emoji": "⏰"
+            "hint": "h-e-a-d",
+            "answer": "head",
+            "emoji": "🗣️"
           },
           {
             "num": 2,
-            "hint": "wash",
-            "answer": "wash",
-            "emoji": "🧼"
+            "hint": "h-a-n-d",
+            "answer": "hand",
+            "emoji": "✋"
           },
           {
             "num": 3,
-            "hint": "eat",
-            "answer": "eat",
-            "emoji": "🍞"
-          },
-          {
-            "num": 4,
-            "hint": "play",
-            "answer": "play",
-            "emoji": "⚽"
+            "hint": "e-y-e-s",
+            "answer": "eyes",
+            "emoji": "👁️"
           }
         ]
       }
@@ -1438,37 +1582,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 39,
     "type": "activities",
-    "unit": "Unit 5: Daily Routines & Actions",
-    "lesson": "Lesson 2: Time & Day — Page 39",
+    "unit": "Unit FOUR: My Body and Health",
+    "lesson": "Lesson 1: Parts of the Body — Page 39",
     "activities": [
       {
         "id": "act_p39_1",
-        "title": "Activity 2: Unscramble and write",
+        "title": "Body parts & healthy habits",
         "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "day",
-            "answer": "day",
-            "emoji": "☀️"
+            "hint": "h-e-a-d",
+            "answer": "head",
+            "emoji": "🗣️"
           },
           {
             "num": 2,
-            "hint": "night",
-            "answer": "night",
-            "emoji": "🌙"
+            "hint": "h-a-n-d",
+            "answer": "hand",
+            "emoji": "✋"
           },
           {
             "num": 3,
-            "hint": "clock",
-            "answer": "clock",
-            "emoji": "🕰️"
-          },
-          {
-            "num": 4,
-            "hint": "time",
-            "answer": "time",
-            "emoji": "⏱️"
+            "hint": "e-y-e-s",
+            "answer": "eyes",
+            "emoji": "👁️"
           }
         ]
       }
@@ -1477,37 +1615,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 40,
     "type": "activities",
-    "unit": "Unit 6: Animals & Nature",
-    "lesson": "Lesson 1: Farm Animals — Page 40",
+    "unit": "Unit FOUR: My Body and Health",
+    "lesson": "Lesson 2: Parts of the Body — Page 40",
     "activities": [
       {
         "id": "act_p40_1",
-        "title": "Activity 1: Write the missing letters",
-        "type": "missing_sound",
+        "title": "Body parts & healthy habits",
+        "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "cat",
-            "answer": "cat",
-            "emoji": "🐱"
+            "hint": "h-e-a-d",
+            "answer": "head",
+            "emoji": "🗣️"
           },
           {
             "num": 2,
-            "hint": "dog",
-            "answer": "dog",
-            "emoji": "🐶"
+            "hint": "h-a-n-d",
+            "answer": "hand",
+            "emoji": "✋"
           },
           {
             "num": 3,
-            "hint": "duck",
-            "answer": "duck",
-            "emoji": "🦆"
-          },
-          {
-            "num": 4,
-            "hint": "horse",
-            "answer": "horse",
-            "emoji": "🐴"
+            "hint": "e-y-e-s",
+            "answer": "eyes",
+            "emoji": "👁️"
           }
         ]
       }
@@ -1516,37 +1648,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 41,
     "type": "activities",
-    "unit": "Unit 6: Animals & Nature",
-    "lesson": "Lesson 2: Nature & Plants — Page 41",
+    "unit": "Unit FIVE: Jobs and Occupations",
+    "lesson": "Lesson 3: Jobs Around Us — Page 41",
     "activities": [
       {
         "id": "act_p41_1",
-        "title": "Activity 2: Look and write the correct word",
-        "type": "look_write",
+        "title": "Identify community helpers and jobs",
+        "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "tree",
-            "answer": "tree",
-            "emoji": "🌳"
+            "hint": "d-o-c-t-o-r",
+            "answer": "doctor",
+            "emoji": "👨‍⚕️"
           },
           {
             "num": 2,
-            "hint": "flower",
-            "answer": "flower",
-            "emoji": "🌸"
+            "hint": "t-e-a-c-h-e-r",
+            "answer": "teacher",
+            "emoji": "👩‍🏫"
           },
           {
             "num": 3,
-            "hint": "sun",
-            "answer": "sun",
-            "emoji": "☀️"
-          },
-          {
-            "num": 4,
-            "hint": "star",
-            "answer": "star",
-            "emoji": "⭐"
+            "hint": "v-e-t",
+            "answer": "vet",
+            "emoji": "🩺"
           }
         ]
       }
@@ -1555,37 +1681,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 42,
     "type": "activities",
-    "unit": "Unit 6: Animals & Nature",
-    "lesson": "Lesson 1: Farm Animals — Page 42",
+    "unit": "Unit FIVE: Jobs and Occupations",
+    "lesson": "Lesson 1: Jobs Around Us — Page 42",
     "activities": [
       {
         "id": "act_p42_1",
-        "title": "Activity 1: Unscramble and write",
+        "title": "Identify community helpers and jobs",
         "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "cat",
-            "answer": "cat",
-            "emoji": "🐱"
+            "hint": "d-o-c-t-o-r",
+            "answer": "doctor",
+            "emoji": "👨‍⚕️"
           },
           {
             "num": 2,
-            "hint": "dog",
-            "answer": "dog",
-            "emoji": "🐶"
+            "hint": "t-e-a-c-h-e-r",
+            "answer": "teacher",
+            "emoji": "👩‍🏫"
           },
           {
             "num": 3,
-            "hint": "duck",
-            "answer": "duck",
-            "emoji": "🦆"
-          },
-          {
-            "num": 4,
-            "hint": "horse",
-            "answer": "horse",
-            "emoji": "🐴"
+            "hint": "v-e-t",
+            "answer": "vet",
+            "emoji": "🩺"
           }
         ]
       }
@@ -1594,37 +1714,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 43,
     "type": "activities",
-    "unit": "Unit 6: Animals & Nature",
-    "lesson": "Lesson 2: Nature & Plants — Page 43",
+    "unit": "Unit FIVE: Jobs and Occupations",
+    "lesson": "Lesson 2: Jobs Around Us — Page 43",
     "activities": [
       {
         "id": "act_p43_1",
-        "title": "Activity 2: Write the missing letters",
-        "type": "missing_sound",
+        "title": "Identify community helpers and jobs",
+        "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "tree",
-            "answer": "tree",
-            "emoji": "🌳"
+            "hint": "d-o-c-t-o-r",
+            "answer": "doctor",
+            "emoji": "👨‍⚕️"
           },
           {
             "num": 2,
-            "hint": "flower",
-            "answer": "flower",
-            "emoji": "🌸"
+            "hint": "t-e-a-c-h-e-r",
+            "answer": "teacher",
+            "emoji": "👩‍🏫"
           },
           {
             "num": 3,
-            "hint": "sun",
-            "answer": "sun",
-            "emoji": "☀️"
-          },
-          {
-            "num": 4,
-            "hint": "star",
-            "answer": "star",
-            "emoji": "⭐"
+            "hint": "v-e-t",
+            "answer": "vet",
+            "emoji": "🩺"
           }
         ]
       }
@@ -1633,37 +1747,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 44,
     "type": "activities",
-    "unit": "Unit 6: Animals & Nature",
-    "lesson": "Lesson 1: Farm Animals — Page 44",
+    "unit": "Unit FIVE: Jobs and Occupations",
+    "lesson": "Lesson 3: Jobs Around Us — Page 44",
     "activities": [
       {
         "id": "act_p44_1",
-        "title": "Activity 1: Look and write the correct word",
-        "type": "look_write",
+        "title": "Identify community helpers and jobs",
+        "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "cat",
-            "answer": "cat",
-            "emoji": "🐱"
+            "hint": "d-o-c-t-o-r",
+            "answer": "doctor",
+            "emoji": "👨‍⚕️"
           },
           {
             "num": 2,
-            "hint": "dog",
-            "answer": "dog",
-            "emoji": "🐶"
+            "hint": "t-e-a-c-h-e-r",
+            "answer": "teacher",
+            "emoji": "👩‍🏫"
           },
           {
             "num": 3,
-            "hint": "duck",
-            "answer": "duck",
-            "emoji": "🦆"
-          },
-          {
-            "num": 4,
-            "hint": "horse",
-            "answer": "horse",
-            "emoji": "🐴"
+            "hint": "v-e-t",
+            "answer": "vet",
+            "emoji": "🩺"
           }
         ]
       }
@@ -1672,37 +1780,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 45,
     "type": "activities",
-    "unit": "Unit 6: Animals & Nature",
-    "lesson": "Lesson 2: Nature & Plants — Page 45",
+    "unit": "Unit FIVE: Jobs and Occupations",
+    "lesson": "Lesson 1: Jobs Around Us — Page 45",
     "activities": [
       {
         "id": "act_p45_1",
-        "title": "Activity 2: Unscramble and write",
+        "title": "Identify community helpers and jobs",
         "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "tree",
-            "answer": "tree",
-            "emoji": "🌳"
+            "hint": "d-o-c-t-o-r",
+            "answer": "doctor",
+            "emoji": "👨‍⚕️"
           },
           {
             "num": 2,
-            "hint": "flower",
-            "answer": "flower",
-            "emoji": "🌸"
+            "hint": "t-e-a-c-h-e-r",
+            "answer": "teacher",
+            "emoji": "👩‍🏫"
           },
           {
             "num": 3,
-            "hint": "sun",
-            "answer": "sun",
-            "emoji": "☀️"
-          },
-          {
-            "num": 4,
-            "hint": "star",
-            "answer": "star",
-            "emoji": "⭐"
+            "hint": "v-e-t",
+            "answer": "vet",
+            "emoji": "🩺"
           }
         ]
       }
@@ -1711,37 +1813,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 46,
     "type": "activities",
-    "unit": "Unit 6: Animals & Nature",
-    "lesson": "Lesson 1: Farm Animals — Page 46",
+    "unit": "Unit FIVE: Jobs and Occupations",
+    "lesson": "Lesson 2: Jobs Around Us — Page 46",
     "activities": [
       {
         "id": "act_p46_1",
-        "title": "Activity 1: Write the missing letters",
-        "type": "missing_sound",
+        "title": "Identify community helpers and jobs",
+        "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "cat",
-            "answer": "cat",
-            "emoji": "🐱"
+            "hint": "d-o-c-t-o-r",
+            "answer": "doctor",
+            "emoji": "👨‍⚕️"
           },
           {
             "num": 2,
-            "hint": "dog",
-            "answer": "dog",
-            "emoji": "🐶"
+            "hint": "t-e-a-c-h-e-r",
+            "answer": "teacher",
+            "emoji": "👩‍🏫"
           },
           {
             "num": 3,
-            "hint": "duck",
-            "answer": "duck",
-            "emoji": "🦆"
-          },
-          {
-            "num": 4,
-            "hint": "horse",
-            "answer": "horse",
-            "emoji": "🐴"
+            "hint": "v-e-t",
+            "answer": "vet",
+            "emoji": "🩺"
           }
         ]
       }
@@ -1750,37 +1846,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 47,
     "type": "activities",
-    "unit": "Unit 6: Animals & Nature",
-    "lesson": "Lesson 2: Nature & Plants — Page 47",
+    "unit": "Unit FIVE: Jobs and Occupations",
+    "lesson": "Lesson 3: Jobs Around Us — Page 47",
     "activities": [
       {
         "id": "act_p47_1",
-        "title": "Activity 2: Look and write the correct word",
-        "type": "look_write",
+        "title": "Identify community helpers and jobs",
+        "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "tree",
-            "answer": "tree",
-            "emoji": "🌳"
+            "hint": "d-o-c-t-o-r",
+            "answer": "doctor",
+            "emoji": "👨‍⚕️"
           },
           {
             "num": 2,
-            "hint": "flower",
-            "answer": "flower",
-            "emoji": "🌸"
+            "hint": "t-e-a-c-h-e-r",
+            "answer": "teacher",
+            "emoji": "👩‍🏫"
           },
           {
             "num": 3,
-            "hint": "sun",
-            "answer": "sun",
-            "emoji": "☀️"
-          },
-          {
-            "num": 4,
-            "hint": "star",
-            "answer": "star",
-            "emoji": "⭐"
+            "hint": "v-e-t",
+            "answer": "vet",
+            "emoji": "🩺"
           }
         ]
       }
@@ -1789,37 +1879,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 48,
     "type": "activities",
-    "unit": "Unit 1: Classroom Greetings & Actions",
-    "lesson": "Lesson 1: Greetings & Introductions — Page 48",
+    "unit": "Unit FIVE: Jobs and Occupations",
+    "lesson": "Lesson 1: Jobs Around Us — Page 48",
     "activities": [
       {
         "id": "act_p48_1",
-        "title": "Activity 1: Unscramble and write",
+        "title": "Identify community helpers and jobs",
         "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "llohe",
-            "answer": "hello",
-            "emoji": "👋"
+            "hint": "d-o-c-t-o-r",
+            "answer": "doctor",
+            "emoji": "👨‍⚕️"
           },
           {
             "num": 2,
-            "hint": "ingmorn",
-            "answer": "morning",
-            "emoji": "🌅"
-          },
-          {
-            "num": 3,
-            "hint": "chertea",
+            "hint": "t-e-a-c-h-e-r",
             "answer": "teacher",
             "emoji": "👩‍🏫"
           },
           {
-            "num": 4,
-            "hint": "dentsstu",
-            "answer": "students",
-            "emoji": "🧑‍🎓"
+            "num": 3,
+            "hint": "v-e-t",
+            "answer": "vet",
+            "emoji": "🩺"
           }
         ]
       }
@@ -1828,37 +1912,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 49,
     "type": "activities",
-    "unit": "Unit 1: Classroom Greetings & Actions",
-    "lesson": "Lesson 2: Classroom Rules — Page 49",
+    "unit": "Unit FIVE: Jobs and Occupations",
+    "lesson": "Lesson 2: Jobs Around Us — Page 49",
     "activities": [
       {
         "id": "act_p49_1",
-        "title": "Activity 2: Write the missing letters",
-        "type": "missing_sound",
+        "title": "Identify community helpers and jobs",
+        "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "stenli",
-            "answer": "listen",
-            "emoji": "👂"
+            "hint": "d-o-c-t-o-r",
+            "answer": "doctor",
+            "emoji": "👨‍⚕️"
           },
           {
             "num": 2,
-            "hint": "ite wr",
-            "answer": "write",
-            "emoji": "✏️"
+            "hint": "t-e-a-c-h-e-r",
+            "answer": "teacher",
+            "emoji": "👩‍🏫"
           },
           {
             "num": 3,
-            "hint": "ad re",
-            "answer": "read",
-            "emoji": "📖"
-          },
-          {
-            "num": 4,
-            "hint": "sit down",
-            "answer": "sit",
-            "emoji": "🪑"
+            "hint": "v-e-t",
+            "answer": "vet",
+            "emoji": "🩺"
           }
         ]
       }
@@ -1867,37 +1945,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 50,
     "type": "activities",
-    "unit": "Unit 1: Classroom Greetings & Actions",
-    "lesson": "Lesson 1: Greetings & Introductions — Page 50",
+    "unit": "Unit FIVE: Jobs and Occupations",
+    "lesson": "Lesson 3: Jobs Around Us — Page 50",
     "activities": [
       {
         "id": "act_p50_1",
-        "title": "Activity 1: Look and write the correct word",
-        "type": "look_write",
+        "title": "Identify community helpers and jobs",
+        "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "llohe",
-            "answer": "hello",
-            "emoji": "👋"
+            "hint": "d-o-c-t-o-r",
+            "answer": "doctor",
+            "emoji": "👨‍⚕️"
           },
           {
             "num": 2,
-            "hint": "ingmorn",
-            "answer": "morning",
-            "emoji": "🌅"
-          },
-          {
-            "num": 3,
-            "hint": "chertea",
+            "hint": "t-e-a-c-h-e-r",
             "answer": "teacher",
             "emoji": "👩‍🏫"
           },
           {
-            "num": 4,
-            "hint": "dentsstu",
-            "answer": "students",
-            "emoji": "🧑‍🎓"
+            "num": 3,
+            "hint": "v-e-t",
+            "answer": "vet",
+            "emoji": "🩺"
           }
         ]
       }
@@ -1906,50 +1978,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 51,
     "type": "activities",
-    "unit": "Assessment Suite 2027 — Weekly Assessment",
-    "lesson": "Weekly Assessment (A) — Page 51",
+    "unit": "Unit SIX: Animals and Nature",
+    "lesson": "Lesson 1: Animals and Nature — Page 51",
     "activities": [
       {
-        "id": "act_eval_p51_1",
-        "title": "Part 1: Performance Task (A)",
+        "id": "act_p51_1",
+        "title": "Identify animals and nature words",
         "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "hoolsc",
-            "answer": "school",
-            "emoji": "🏫"
+            "hint": "l-i-o-n",
+            "answer": "lion",
+            "emoji": "🦁"
           },
           {
             "num": 2,
-            "hint": "ookb",
-            "answer": "book",
-            "emoji": "📚"
+            "hint": "d-u-c-k",
+            "answer": "duck",
+            "emoji": "🦆"
           },
           {
             "num": 3,
-            "hint": "enp",
-            "answer": "pen",
-            "emoji": "🖊️"
-          }
-        ]
-      },
-      {
-        "id": "act_eval_p51_2",
-        "title": "Part 2: Complete the sentences",
-        "type": "look_write",
-        "items": [
-          {
-            "num": 1,
-            "hint": "friend",
-            "answer": "friend",
-            "emoji": "🤝"
-          },
-          {
-            "num": 2,
-            "hint": "apple",
-            "answer": "apple",
-            "emoji": "🍎"
+            "hint": "t-r-e-e",
+            "answer": "tree",
+            "emoji": "🌳"
           }
         ]
       }
@@ -1958,50 +2011,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 52,
     "type": "activities",
-    "unit": "Assessment Suite 2027 — Weekly Assessment",
-    "lesson": "Weekly Assessment (B) — Page 52",
+    "unit": "Unit SIX: Animals and Nature",
+    "lesson": "Lesson 2: Animals and Nature — Page 52",
     "activities": [
       {
-        "id": "act_eval_p52_1",
-        "title": "Part 1: Performance Task (B)",
+        "id": "act_p52_1",
+        "title": "Identify animals and nature words",
         "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "hoolsc",
-            "answer": "school",
-            "emoji": "🏫"
+            "hint": "l-i-o-n",
+            "answer": "lion",
+            "emoji": "🦁"
           },
           {
             "num": 2,
-            "hint": "ookb",
-            "answer": "book",
-            "emoji": "📚"
+            "hint": "d-u-c-k",
+            "answer": "duck",
+            "emoji": "🦆"
           },
           {
             "num": 3,
-            "hint": "enp",
-            "answer": "pen",
-            "emoji": "🖊️"
-          }
-        ]
-      },
-      {
-        "id": "act_eval_p52_2",
-        "title": "Part 2: Complete the sentences",
-        "type": "look_write",
-        "items": [
-          {
-            "num": 1,
-            "hint": "friend",
-            "answer": "friend",
-            "emoji": "🤝"
-          },
-          {
-            "num": 2,
-            "hint": "apple",
-            "answer": "apple",
-            "emoji": "🍎"
+            "hint": "t-r-e-e",
+            "answer": "tree",
+            "emoji": "🌳"
           }
         ]
       }
@@ -2010,50 +2044,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 53,
     "type": "activities",
-    "unit": "Assessment Suite 2027 — Weekly Assessment",
-    "lesson": "Weekly Assessment (C) — Page 53",
+    "unit": "Unit SIX: Animals and Nature",
+    "lesson": "Lesson 3: Animals and Nature — Page 53",
     "activities": [
       {
-        "id": "act_eval_p53_1",
-        "title": "Part 1: Performance Task (C)",
+        "id": "act_p53_1",
+        "title": "Identify animals and nature words",
         "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "hoolsc",
-            "answer": "school",
-            "emoji": "🏫"
+            "hint": "l-i-o-n",
+            "answer": "lion",
+            "emoji": "🦁"
           },
           {
             "num": 2,
-            "hint": "ookb",
-            "answer": "book",
-            "emoji": "📚"
+            "hint": "d-u-c-k",
+            "answer": "duck",
+            "emoji": "🦆"
           },
           {
             "num": 3,
-            "hint": "enp",
-            "answer": "pen",
-            "emoji": "🖊️"
-          }
-        ]
-      },
-      {
-        "id": "act_eval_p53_2",
-        "title": "Part 2: Complete the sentences",
-        "type": "look_write",
-        "items": [
-          {
-            "num": 1,
-            "hint": "friend",
-            "answer": "friend",
-            "emoji": "🤝"
-          },
-          {
-            "num": 2,
-            "hint": "apple",
-            "answer": "apple",
-            "emoji": "🍎"
+            "hint": "t-r-e-e",
+            "answer": "tree",
+            "emoji": "🌳"
           }
         ]
       }
@@ -2062,50 +2077,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 54,
     "type": "activities",
-    "unit": "Assessment Suite 2027 — Weekly Assessment",
-    "lesson": "Weekly Assessment (A) — Page 54",
+    "unit": "Unit SIX: Animals and Nature",
+    "lesson": "Lesson 1: Animals and Nature — Page 54",
     "activities": [
       {
-        "id": "act_eval_p54_1",
-        "title": "Part 1: Performance Task (A)",
+        "id": "act_p54_1",
+        "title": "Identify animals and nature words",
         "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "hoolsc",
-            "answer": "school",
-            "emoji": "🏫"
+            "hint": "l-i-o-n",
+            "answer": "lion",
+            "emoji": "🦁"
           },
           {
             "num": 2,
-            "hint": "ookb",
-            "answer": "book",
-            "emoji": "📚"
+            "hint": "d-u-c-k",
+            "answer": "duck",
+            "emoji": "🦆"
           },
           {
             "num": 3,
-            "hint": "enp",
-            "answer": "pen",
-            "emoji": "🖊️"
-          }
-        ]
-      },
-      {
-        "id": "act_eval_p54_2",
-        "title": "Part 2: Complete the sentences",
-        "type": "look_write",
-        "items": [
-          {
-            "num": 1,
-            "hint": "friend",
-            "answer": "friend",
-            "emoji": "🤝"
-          },
-          {
-            "num": 2,
-            "hint": "apple",
-            "answer": "apple",
-            "emoji": "🍎"
+            "hint": "t-r-e-e",
+            "answer": "tree",
+            "emoji": "🌳"
           }
         ]
       }
@@ -2114,50 +2110,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 55,
     "type": "activities",
-    "unit": "Assessment Suite 2027 — Weekly Assessment",
-    "lesson": "Weekly Assessment (B) — Page 55",
+    "unit": "Unit SIX: Animals and Nature",
+    "lesson": "Lesson 2: Animals and Nature — Page 55",
     "activities": [
       {
-        "id": "act_eval_p55_1",
-        "title": "Part 1: Performance Task (B)",
+        "id": "act_p55_1",
+        "title": "Identify animals and nature words",
         "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "hoolsc",
-            "answer": "school",
-            "emoji": "🏫"
+            "hint": "l-i-o-n",
+            "answer": "lion",
+            "emoji": "🦁"
           },
           {
             "num": 2,
-            "hint": "ookb",
-            "answer": "book",
-            "emoji": "📚"
+            "hint": "d-u-c-k",
+            "answer": "duck",
+            "emoji": "🦆"
           },
           {
             "num": 3,
-            "hint": "enp",
-            "answer": "pen",
-            "emoji": "🖊️"
-          }
-        ]
-      },
-      {
-        "id": "act_eval_p55_2",
-        "title": "Part 2: Complete the sentences",
-        "type": "look_write",
-        "items": [
-          {
-            "num": 1,
-            "hint": "friend",
-            "answer": "friend",
-            "emoji": "🤝"
-          },
-          {
-            "num": 2,
-            "hint": "apple",
-            "answer": "apple",
-            "emoji": "🍎"
+            "hint": "t-r-e-e",
+            "answer": "tree",
+            "emoji": "🌳"
           }
         ]
       }
@@ -2166,50 +2143,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 56,
     "type": "activities",
-    "unit": "Assessment Suite 2027 — Weekly Assessment",
-    "lesson": "Weekly Assessment (C) — Page 56",
+    "unit": "Unit SIX: Animals and Nature",
+    "lesson": "Lesson 3: Animals and Nature — Page 56",
     "activities": [
       {
-        "id": "act_eval_p56_1",
-        "title": "Part 1: Performance Task (C)",
+        "id": "act_p56_1",
+        "title": "Identify animals and nature words",
         "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "hoolsc",
-            "answer": "school",
-            "emoji": "🏫"
+            "hint": "l-i-o-n",
+            "answer": "lion",
+            "emoji": "🦁"
           },
           {
             "num": 2,
-            "hint": "ookb",
-            "answer": "book",
-            "emoji": "📚"
+            "hint": "d-u-c-k",
+            "answer": "duck",
+            "emoji": "🦆"
           },
           {
             "num": 3,
-            "hint": "enp",
-            "answer": "pen",
-            "emoji": "🖊️"
-          }
-        ]
-      },
-      {
-        "id": "act_eval_p56_2",
-        "title": "Part 2: Complete the sentences",
-        "type": "look_write",
-        "items": [
-          {
-            "num": 1,
-            "hint": "friend",
-            "answer": "friend",
-            "emoji": "🤝"
-          },
-          {
-            "num": 2,
-            "hint": "apple",
-            "answer": "apple",
-            "emoji": "🍎"
+            "hint": "t-r-e-e",
+            "answer": "tree",
+            "emoji": "🌳"
           }
         ]
       }
@@ -2218,50 +2176,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 57,
     "type": "activities",
-    "unit": "Assessment Suite 2027 — Weekly Assessment",
-    "lesson": "Weekly Assessment (A) — Page 57",
+    "unit": "Unit SIX: Animals and Nature",
+    "lesson": "Lesson 1: Animals and Nature — Page 57",
     "activities": [
       {
-        "id": "act_eval_p57_1",
-        "title": "Part 1: Performance Task (A)",
+        "id": "act_p57_1",
+        "title": "Identify animals and nature words",
         "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "hoolsc",
-            "answer": "school",
-            "emoji": "🏫"
+            "hint": "l-i-o-n",
+            "answer": "lion",
+            "emoji": "🦁"
           },
           {
             "num": 2,
-            "hint": "ookb",
-            "answer": "book",
-            "emoji": "📚"
+            "hint": "d-u-c-k",
+            "answer": "duck",
+            "emoji": "🦆"
           },
           {
             "num": 3,
-            "hint": "enp",
-            "answer": "pen",
-            "emoji": "🖊️"
-          }
-        ]
-      },
-      {
-        "id": "act_eval_p57_2",
-        "title": "Part 2: Complete the sentences",
-        "type": "look_write",
-        "items": [
-          {
-            "num": 1,
-            "hint": "friend",
-            "answer": "friend",
-            "emoji": "🤝"
-          },
-          {
-            "num": 2,
-            "hint": "apple",
-            "answer": "apple",
-            "emoji": "🍎"
+            "hint": "t-r-e-e",
+            "answer": "tree",
+            "emoji": "🌳"
           }
         ]
       }
@@ -2270,50 +2209,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 58,
     "type": "activities",
-    "unit": "Assessment Suite 2027 — Weekly Assessment",
-    "lesson": "Weekly Assessment (B) — Page 58",
+    "unit": "Unit SIX: Animals and Nature",
+    "lesson": "Lesson 2: Animals and Nature — Page 58",
     "activities": [
       {
-        "id": "act_eval_p58_1",
-        "title": "Part 1: Performance Task (B)",
+        "id": "act_p58_1",
+        "title": "Identify animals and nature words",
         "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "hoolsc",
-            "answer": "school",
-            "emoji": "🏫"
+            "hint": "l-i-o-n",
+            "answer": "lion",
+            "emoji": "🦁"
           },
           {
             "num": 2,
-            "hint": "ookb",
-            "answer": "book",
-            "emoji": "📚"
+            "hint": "d-u-c-k",
+            "answer": "duck",
+            "emoji": "🦆"
           },
           {
             "num": 3,
-            "hint": "enp",
-            "answer": "pen",
-            "emoji": "🖊️"
-          }
-        ]
-      },
-      {
-        "id": "act_eval_p58_2",
-        "title": "Part 2: Complete the sentences",
-        "type": "look_write",
-        "items": [
-          {
-            "num": 1,
-            "hint": "friend",
-            "answer": "friend",
-            "emoji": "🤝"
-          },
-          {
-            "num": 2,
-            "hint": "apple",
-            "answer": "apple",
-            "emoji": "🍎"
+            "hint": "t-r-e-e",
+            "answer": "tree",
+            "emoji": "🌳"
           }
         ]
       }
@@ -2322,50 +2242,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 59,
     "type": "activities",
-    "unit": "Assessment Suite 2027 — Weekly Assessment",
-    "lesson": "Weekly Assessment (C) — Page 59",
+    "unit": "Unit SIX: Animals and Nature",
+    "lesson": "Lesson 3: Animals and Nature — Page 59",
     "activities": [
       {
-        "id": "act_eval_p59_1",
-        "title": "Part 1: Performance Task (C)",
+        "id": "act_p59_1",
+        "title": "Identify animals and nature words",
         "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "hoolsc",
-            "answer": "school",
-            "emoji": "🏫"
+            "hint": "l-i-o-n",
+            "answer": "lion",
+            "emoji": "🦁"
           },
           {
             "num": 2,
-            "hint": "ookb",
-            "answer": "book",
-            "emoji": "📚"
+            "hint": "d-u-c-k",
+            "answer": "duck",
+            "emoji": "🦆"
           },
           {
             "num": 3,
-            "hint": "enp",
-            "answer": "pen",
-            "emoji": "🖊️"
-          }
-        ]
-      },
-      {
-        "id": "act_eval_p59_2",
-        "title": "Part 2: Complete the sentences",
-        "type": "look_write",
-        "items": [
-          {
-            "num": 1,
-            "hint": "friend",
-            "answer": "friend",
-            "emoji": "🤝"
-          },
-          {
-            "num": 2,
-            "hint": "apple",
-            "answer": "apple",
-            "emoji": "🍎"
+            "hint": "t-r-e-e",
+            "answer": "tree",
+            "emoji": "🌳"
           }
         ]
       }
@@ -2374,50 +2275,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 60,
     "type": "activities",
-    "unit": "Assessment Suite 2027 — Weekly Assessment",
-    "lesson": "Weekly Assessment (A) — Page 60",
+    "unit": "Unit SIX: Animals and Nature",
+    "lesson": "Lesson 1: Animals and Nature — Page 60",
     "activities": [
       {
-        "id": "act_eval_p60_1",
-        "title": "Part 1: Performance Task (A)",
+        "id": "act_p60_1",
+        "title": "Identify animals and nature words",
         "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "hoolsc",
-            "answer": "school",
-            "emoji": "🏫"
+            "hint": "l-i-o-n",
+            "answer": "lion",
+            "emoji": "🦁"
           },
           {
             "num": 2,
-            "hint": "ookb",
-            "answer": "book",
-            "emoji": "📚"
+            "hint": "d-u-c-k",
+            "answer": "duck",
+            "emoji": "🦆"
           },
           {
             "num": 3,
-            "hint": "enp",
-            "answer": "pen",
-            "emoji": "🖊️"
-          }
-        ]
-      },
-      {
-        "id": "act_eval_p60_2",
-        "title": "Part 2: Complete the sentences",
-        "type": "look_write",
-        "items": [
-          {
-            "num": 1,
-            "hint": "friend",
-            "answer": "friend",
-            "emoji": "🤝"
-          },
-          {
-            "num": 2,
-            "hint": "apple",
-            "answer": "apple",
-            "emoji": "🍎"
+            "hint": "t-r-e-e",
+            "answer": "tree",
+            "emoji": "🌳"
           }
         ]
       }
@@ -2426,50 +2308,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 61,
     "type": "activities",
-    "unit": "Assessment Suite 2027 — Weekly Assessment",
-    "lesson": "Weekly Assessment (B) — Page 61",
+    "unit": "First Term Comprehensive Assessment Suite 2027",
+    "lesson": "Final Assessment Model (B) — Page 61",
     "activities": [
       {
-        "id": "act_eval_p61_1",
-        "title": "Part 1: Performance Task (B)",
+        "id": "act_p61_1",
+        "title": "Assessment Performance Tasks (B)",
         "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "hoolsc",
+            "hint": "s-c-h-o-o-l",
             "answer": "school",
             "emoji": "🏫"
           },
           {
             "num": 2,
-            "hint": "ookb",
+            "hint": "b-o-o-k",
             "answer": "book",
             "emoji": "📚"
           },
           {
             "num": 3,
-            "hint": "enp",
-            "answer": "pen",
-            "emoji": "🖊️"
-          }
-        ]
-      },
-      {
-        "id": "act_eval_p61_2",
-        "title": "Part 2: Complete the sentences",
-        "type": "look_write",
-        "items": [
-          {
-            "num": 1,
-            "hint": "friend",
-            "answer": "friend",
-            "emoji": "🤝"
-          },
-          {
-            "num": 2,
-            "hint": "apple",
-            "answer": "apple",
-            "emoji": "🍎"
+            "hint": "r-u-l-e-r",
+            "answer": "ruler",
+            "emoji": "📏"
           }
         ]
       }
@@ -2478,50 +2341,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 62,
     "type": "activities",
-    "unit": "Assessment Suite 2027 — Weekly Assessment",
-    "lesson": "Weekly Assessment (C) — Page 62",
+    "unit": "First Term Comprehensive Assessment Suite 2027",
+    "lesson": "Final Assessment Model (C) — Page 62",
     "activities": [
       {
-        "id": "act_eval_p62_1",
-        "title": "Part 1: Performance Task (C)",
+        "id": "act_p62_1",
+        "title": "Assessment Performance Tasks (C)",
         "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "hoolsc",
+            "hint": "s-c-h-o-o-l",
             "answer": "school",
             "emoji": "🏫"
           },
           {
             "num": 2,
-            "hint": "ookb",
+            "hint": "b-o-o-k",
             "answer": "book",
             "emoji": "📚"
           },
           {
             "num": 3,
-            "hint": "enp",
-            "answer": "pen",
-            "emoji": "🖊️"
-          }
-        ]
-      },
-      {
-        "id": "act_eval_p62_2",
-        "title": "Part 2: Complete the sentences",
-        "type": "look_write",
-        "items": [
-          {
-            "num": 1,
-            "hint": "friend",
-            "answer": "friend",
-            "emoji": "🤝"
-          },
-          {
-            "num": 2,
-            "hint": "apple",
-            "answer": "apple",
-            "emoji": "🍎"
+            "hint": "r-u-l-e-r",
+            "answer": "ruler",
+            "emoji": "📏"
           }
         ]
       }
@@ -2530,50 +2374,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 63,
     "type": "activities",
-    "unit": "Assessment Suite 2027 — Weekly Assessment",
-    "lesson": "Weekly Assessment (A) — Page 63",
+    "unit": "First Term Comprehensive Assessment Suite 2027",
+    "lesson": "Final Assessment Model (D) — Page 63",
     "activities": [
       {
-        "id": "act_eval_p63_1",
-        "title": "Part 1: Performance Task (A)",
+        "id": "act_p63_1",
+        "title": "Assessment Performance Tasks (D)",
         "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "hoolsc",
+            "hint": "s-c-h-o-o-l",
             "answer": "school",
             "emoji": "🏫"
           },
           {
             "num": 2,
-            "hint": "ookb",
+            "hint": "b-o-o-k",
             "answer": "book",
             "emoji": "📚"
           },
           {
             "num": 3,
-            "hint": "enp",
-            "answer": "pen",
-            "emoji": "🖊️"
-          }
-        ]
-      },
-      {
-        "id": "act_eval_p63_2",
-        "title": "Part 2: Complete the sentences",
-        "type": "look_write",
-        "items": [
-          {
-            "num": 1,
-            "hint": "friend",
-            "answer": "friend",
-            "emoji": "🤝"
-          },
-          {
-            "num": 2,
-            "hint": "apple",
-            "answer": "apple",
-            "emoji": "🍎"
+            "hint": "r-u-l-e-r",
+            "answer": "ruler",
+            "emoji": "📏"
           }
         ]
       }
@@ -2582,50 +2407,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 64,
     "type": "activities",
-    "unit": "Assessment Suite 2027 — Weekly Assessment",
-    "lesson": "Weekly Assessment (B) — Page 64",
+    "unit": "First Term Comprehensive Assessment Suite 2027",
+    "lesson": "Final Assessment Model (E) — Page 64",
     "activities": [
       {
-        "id": "act_eval_p64_1",
-        "title": "Part 1: Performance Task (B)",
+        "id": "act_p64_1",
+        "title": "Assessment Performance Tasks (E)",
         "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "hoolsc",
+            "hint": "s-c-h-o-o-l",
             "answer": "school",
             "emoji": "🏫"
           },
           {
             "num": 2,
-            "hint": "ookb",
+            "hint": "b-o-o-k",
             "answer": "book",
             "emoji": "📚"
           },
           {
             "num": 3,
-            "hint": "enp",
-            "answer": "pen",
-            "emoji": "🖊️"
-          }
-        ]
-      },
-      {
-        "id": "act_eval_p64_2",
-        "title": "Part 2: Complete the sentences",
-        "type": "look_write",
-        "items": [
-          {
-            "num": 1,
-            "hint": "friend",
-            "answer": "friend",
-            "emoji": "🤝"
-          },
-          {
-            "num": 2,
-            "hint": "apple",
-            "answer": "apple",
-            "emoji": "🍎"
+            "hint": "r-u-l-e-r",
+            "answer": "ruler",
+            "emoji": "📏"
           }
         ]
       }
@@ -2634,50 +2440,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 65,
     "type": "activities",
-    "unit": "Assessment Suite 2027 — Monthly Assessment",
-    "lesson": "Monthly Assessment (C) — Page 65",
+    "unit": "First Term Comprehensive Assessment Suite 2027",
+    "lesson": "Final Assessment Model (F) — Page 65",
     "activities": [
       {
-        "id": "act_eval_p65_1",
-        "title": "Part 1: Performance Task (C)",
+        "id": "act_p65_1",
+        "title": "Assessment Performance Tasks (F)",
         "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "hoolsc",
+            "hint": "s-c-h-o-o-l",
             "answer": "school",
             "emoji": "🏫"
           },
           {
             "num": 2,
-            "hint": "ookb",
+            "hint": "b-o-o-k",
             "answer": "book",
             "emoji": "📚"
           },
           {
             "num": 3,
-            "hint": "enp",
-            "answer": "pen",
-            "emoji": "🖊️"
-          }
-        ]
-      },
-      {
-        "id": "act_eval_p65_2",
-        "title": "Part 2: Complete the sentences",
-        "type": "look_write",
-        "items": [
-          {
-            "num": 1,
-            "hint": "friend",
-            "answer": "friend",
-            "emoji": "🤝"
-          },
-          {
-            "num": 2,
-            "hint": "apple",
-            "answer": "apple",
-            "emoji": "🍎"
+            "hint": "r-u-l-e-r",
+            "answer": "ruler",
+            "emoji": "📏"
           }
         ]
       }
@@ -2686,50 +2473,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 66,
     "type": "activities",
-    "unit": "Assessment Suite 2027 — Monthly Assessment",
-    "lesson": "Monthly Assessment (A) — Page 66",
+    "unit": "First Term Comprehensive Assessment Suite 2027",
+    "lesson": "Final Assessment Model (A) — Page 66",
     "activities": [
       {
-        "id": "act_eval_p66_1",
-        "title": "Part 1: Performance Task (A)",
+        "id": "act_p66_1",
+        "title": "Assessment Performance Tasks (A)",
         "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "hoolsc",
+            "hint": "s-c-h-o-o-l",
             "answer": "school",
             "emoji": "🏫"
           },
           {
             "num": 2,
-            "hint": "ookb",
+            "hint": "b-o-o-k",
             "answer": "book",
             "emoji": "📚"
           },
           {
             "num": 3,
-            "hint": "enp",
-            "answer": "pen",
-            "emoji": "🖊️"
-          }
-        ]
-      },
-      {
-        "id": "act_eval_p66_2",
-        "title": "Part 2: Complete the sentences",
-        "type": "look_write",
-        "items": [
-          {
-            "num": 1,
-            "hint": "friend",
-            "answer": "friend",
-            "emoji": "🤝"
-          },
-          {
-            "num": 2,
-            "hint": "apple",
-            "answer": "apple",
-            "emoji": "🍎"
+            "hint": "r-u-l-e-r",
+            "answer": "ruler",
+            "emoji": "📏"
           }
         ]
       }
@@ -2738,50 +2506,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 67,
     "type": "activities",
-    "unit": "Assessment Suite 2027 — Monthly Assessment",
-    "lesson": "Monthly Assessment (B) — Page 67",
+    "unit": "First Term Comprehensive Assessment Suite 2027",
+    "lesson": "Final Assessment Model (B) — Page 67",
     "activities": [
       {
-        "id": "act_eval_p67_1",
-        "title": "Part 1: Performance Task (B)",
+        "id": "act_p67_1",
+        "title": "Assessment Performance Tasks (B)",
         "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "hoolsc",
+            "hint": "s-c-h-o-o-l",
             "answer": "school",
             "emoji": "🏫"
           },
           {
             "num": 2,
-            "hint": "ookb",
+            "hint": "b-o-o-k",
             "answer": "book",
             "emoji": "📚"
           },
           {
             "num": 3,
-            "hint": "enp",
-            "answer": "pen",
-            "emoji": "🖊️"
-          }
-        ]
-      },
-      {
-        "id": "act_eval_p67_2",
-        "title": "Part 2: Complete the sentences",
-        "type": "look_write",
-        "items": [
-          {
-            "num": 1,
-            "hint": "friend",
-            "answer": "friend",
-            "emoji": "🤝"
-          },
-          {
-            "num": 2,
-            "hint": "apple",
-            "answer": "apple",
-            "emoji": "🍎"
+            "hint": "r-u-l-e-r",
+            "answer": "ruler",
+            "emoji": "📏"
           }
         ]
       }
@@ -2790,50 +2539,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 68,
     "type": "activities",
-    "unit": "Assessment Suite 2027 — Monthly Assessment",
-    "lesson": "Monthly Assessment (C) — Page 68",
+    "unit": "First Term Comprehensive Assessment Suite 2027",
+    "lesson": "Final Assessment Model (C) — Page 68",
     "activities": [
       {
-        "id": "act_eval_p68_1",
-        "title": "Part 1: Performance Task (C)",
+        "id": "act_p68_1",
+        "title": "Assessment Performance Tasks (C)",
         "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "hoolsc",
+            "hint": "s-c-h-o-o-l",
             "answer": "school",
             "emoji": "🏫"
           },
           {
             "num": 2,
-            "hint": "ookb",
+            "hint": "b-o-o-k",
             "answer": "book",
             "emoji": "📚"
           },
           {
             "num": 3,
-            "hint": "enp",
-            "answer": "pen",
-            "emoji": "🖊️"
-          }
-        ]
-      },
-      {
-        "id": "act_eval_p68_2",
-        "title": "Part 2: Complete the sentences",
-        "type": "look_write",
-        "items": [
-          {
-            "num": 1,
-            "hint": "friend",
-            "answer": "friend",
-            "emoji": "🤝"
-          },
-          {
-            "num": 2,
-            "hint": "apple",
-            "answer": "apple",
-            "emoji": "🍎"
+            "hint": "r-u-l-e-r",
+            "answer": "ruler",
+            "emoji": "📏"
           }
         ]
       }
@@ -2842,50 +2572,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 69,
     "type": "activities",
-    "unit": "Assessment Suite 2027 — Monthly Assessment",
-    "lesson": "Monthly Assessment (A) — Page 69",
+    "unit": "First Term Comprehensive Assessment Suite 2027",
+    "lesson": "Final Assessment Model (D) — Page 69",
     "activities": [
       {
-        "id": "act_eval_p69_1",
-        "title": "Part 1: Performance Task (A)",
+        "id": "act_p69_1",
+        "title": "Assessment Performance Tasks (D)",
         "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "hoolsc",
+            "hint": "s-c-h-o-o-l",
             "answer": "school",
             "emoji": "🏫"
           },
           {
             "num": 2,
-            "hint": "ookb",
+            "hint": "b-o-o-k",
             "answer": "book",
             "emoji": "📚"
           },
           {
             "num": 3,
-            "hint": "enp",
-            "answer": "pen",
-            "emoji": "🖊️"
-          }
-        ]
-      },
-      {
-        "id": "act_eval_p69_2",
-        "title": "Part 2: Complete the sentences",
-        "type": "look_write",
-        "items": [
-          {
-            "num": 1,
-            "hint": "friend",
-            "answer": "friend",
-            "emoji": "🤝"
-          },
-          {
-            "num": 2,
-            "hint": "apple",
-            "answer": "apple",
-            "emoji": "🍎"
+            "hint": "r-u-l-e-r",
+            "answer": "ruler",
+            "emoji": "📏"
           }
         ]
       }
@@ -2894,50 +2605,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 70,
     "type": "activities",
-    "unit": "Assessment Suite 2027 — Monthly Assessment",
-    "lesson": "Monthly Assessment (B) — Page 70",
+    "unit": "First Term Comprehensive Assessment Suite 2027",
+    "lesson": "Final Assessment Model (E) — Page 70",
     "activities": [
       {
-        "id": "act_eval_p70_1",
-        "title": "Part 1: Performance Task (B)",
+        "id": "act_p70_1",
+        "title": "Assessment Performance Tasks (E)",
         "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "hoolsc",
+            "hint": "s-c-h-o-o-l",
             "answer": "school",
             "emoji": "🏫"
           },
           {
             "num": 2,
-            "hint": "ookb",
+            "hint": "b-o-o-k",
             "answer": "book",
             "emoji": "📚"
           },
           {
             "num": 3,
-            "hint": "enp",
-            "answer": "pen",
-            "emoji": "🖊️"
-          }
-        ]
-      },
-      {
-        "id": "act_eval_p70_2",
-        "title": "Part 2: Complete the sentences",
-        "type": "look_write",
-        "items": [
-          {
-            "num": 1,
-            "hint": "friend",
-            "answer": "friend",
-            "emoji": "🤝"
-          },
-          {
-            "num": 2,
-            "hint": "apple",
-            "answer": "apple",
-            "emoji": "🍎"
+            "hint": "r-u-l-e-r",
+            "answer": "ruler",
+            "emoji": "📏"
           }
         ]
       }
@@ -2946,50 +2638,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 71,
     "type": "activities",
-    "unit": "Assessment Suite 2027 — Monthly Assessment",
-    "lesson": "Monthly Assessment (C) — Page 71",
+    "unit": "First Term Comprehensive Assessment Suite 2027",
+    "lesson": "Final Assessment Model (F) — Page 71",
     "activities": [
       {
-        "id": "act_eval_p71_1",
-        "title": "Part 1: Performance Task (C)",
+        "id": "act_p71_1",
+        "title": "Assessment Performance Tasks (F)",
         "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "hoolsc",
+            "hint": "s-c-h-o-o-l",
             "answer": "school",
             "emoji": "🏫"
           },
           {
             "num": 2,
-            "hint": "ookb",
+            "hint": "b-o-o-k",
             "answer": "book",
             "emoji": "📚"
           },
           {
             "num": 3,
-            "hint": "enp",
-            "answer": "pen",
-            "emoji": "🖊️"
-          }
-        ]
-      },
-      {
-        "id": "act_eval_p71_2",
-        "title": "Part 2: Complete the sentences",
-        "type": "look_write",
-        "items": [
-          {
-            "num": 1,
-            "hint": "friend",
-            "answer": "friend",
-            "emoji": "🤝"
-          },
-          {
-            "num": 2,
-            "hint": "apple",
-            "answer": "apple",
-            "emoji": "🍎"
+            "hint": "r-u-l-e-r",
+            "answer": "ruler",
+            "emoji": "📏"
           }
         ]
       }
@@ -2998,50 +2671,31 @@ const pagesData_p2 = [
   {
     "pageNumber": 72,
     "type": "activities",
-    "unit": "Assessment Suite 2027 — Monthly Assessment",
-    "lesson": "Monthly Assessment (A) — Page 72",
+    "unit": "First Term Comprehensive Assessment Suite 2027",
+    "lesson": "Final Assessment Model (A) — Page 72",
     "activities": [
       {
-        "id": "act_eval_p72_1",
-        "title": "Part 1: Performance Task (A)",
+        "id": "act_p72_1",
+        "title": "Assessment Performance Tasks (A)",
         "type": "unscramble",
         "items": [
           {
             "num": 1,
-            "hint": "hoolsc",
+            "hint": "s-c-h-o-o-l",
             "answer": "school",
             "emoji": "🏫"
           },
           {
             "num": 2,
-            "hint": "ookb",
+            "hint": "b-o-o-k",
             "answer": "book",
             "emoji": "📚"
           },
           {
             "num": 3,
-            "hint": "enp",
-            "answer": "pen",
-            "emoji": "🖊️"
-          }
-        ]
-      },
-      {
-        "id": "act_eval_p72_2",
-        "title": "Part 2: Complete the sentences",
-        "type": "look_write",
-        "items": [
-          {
-            "num": 1,
-            "hint": "friend",
-            "answer": "friend",
-            "emoji": "🤝"
-          },
-          {
-            "num": 2,
-            "hint": "apple",
-            "answer": "apple",
-            "emoji": "🍎"
+            "hint": "r-u-l-e-r",
+            "answer": "ruler",
+            "emoji": "📏"
           }
         ]
       }
