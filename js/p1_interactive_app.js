@@ -517,10 +517,58 @@ document.addEventListener('DOMContentLoaded', () => {
         renderPage(currentPageIndex);
     });
 
-    function showResultModal(score, total) {
-        modalScoreText.textContent = `${score} / ${total}`;
-        resultModal.classList.remove('hidden');
+    const btnSendWhatsapp = document.getElementById('btn-send-whatsapp');
+    const btnModalWhatsapp = document.getElementById('btn-modal-whatsapp');
+
+    function sendToWhatsapp() {
+        const data = pagesData[currentPageIndex];
+        let teacherPhone = localStorage.getItem('teacherWhatsappPhone') || '';
+        
+        const inputPhone = prompt('أدخل رقم واتساب المعلم/المعلمة (برمز الدولة مثل: 201012345678):', teacherPhone);
+        if (!inputPhone) return;
+
+        let cleanPhone = inputPhone.replace(/[^\d]/g, '');
+        if (cleanPhone.startsWith('01')) {
+            cleanPhone = '2' + cleanPhone; // Auto format Egyptian numbers
+        }
+        localStorage.setItem('teacherWhatsappPhone', cleanPhone);
+
+        const items = pageCard.querySelectorAll('.question-box');
+        let answersReport = [];
+        let totalItems = items.length;
+        let correctCount = 0;
+
+        items.forEach((item, idx) => {
+            const input = item.querySelector('.clean-input, .dots-input');
+            const studentVal = input ? input.value.trim() : 'لم يُجب';
+            const expected = (item.dataset.answer || '').trim();
+            
+            const normExpected = expected.toLowerCase().replace(/\s+/g, ' ').replace(/[.-]/g, '');
+            const normStudent = studentVal.toLowerCase().replace(/\s+/g, ' ').replace(/[.-]/g, '');
+            
+            const isCorrect = normExpected && normStudent === normExpected;
+            if (isCorrect) correctCount++;
+            
+            answersReport.push(`س${idx+1}: ${studentVal} ${isCorrect ? '✅' : '❌ (المطلوب: ' + expected + ')'}`);
+        });
+
+        const studentName = localStorage.getItem('currentUser') || 'طالب';
+        const msgHeader = `*تقرير حل الطالب في الكتاب التفاعلي* 📚✨\n` +
+                          `👤 *اسم الطالب:* ${studentName}\n` +
+                          `📖 *الصفحة:* ${data.pageNumber} (${data.unit} - ${data.lesson || data.title})\n` +
+                          `🎯 *النتيجة:* ${correctCount} من ${totalItems}\n` +
+                          `-----------------------------------\n` +
+                          `*تفاصيل الإجابات:*\n` +
+                          answersReport.join('\n') + `\n` +
+                          `-----------------------------------\n` +
+                          `تم الحل عبر منصة English Toon 🚀`;
+
+        const waUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(msgHeader)}`;
+        window.open(waUrl, '_blank');
     }
+
+    if (btnSendWhatsapp) btnSendWhatsapp.addEventListener('click', sendToWhatsapp);
+    if (btnModalWhatsapp) btnModalWhatsapp.addEventListener('click', sendToWhatsapp);
 
     btnModalClose.addEventListener('click', () => {
         resultModal.classList.add('hidden');

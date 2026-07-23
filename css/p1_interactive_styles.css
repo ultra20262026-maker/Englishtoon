@@ -52,37 +52,40 @@ body {
 
 /* Top Navbar Header */
 .top-navbar {
-    height: 60px;
+    min-height: 56px;
     background: #FFFFFF;
     border-bottom: 1px solid var(--border-color);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 20px;
+    padding: 6px 12px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.03);
     z-index: 50;
     flex-shrink: 0;
+    flex-wrap: wrap;
+    gap: 6px;
 }
 
 .nav-left, .nav-center, .nav-right {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 6px;
 }
 
 .btn-sidebar-trigger {
     background: var(--primary-light);
     color: var(--primary);
     border: 1px solid #C7D2FE;
-    padding: 7px 14px;
+    padding: 5px 10px;
     border-radius: var(--radius-sm);
     font-weight: 700;
-    font-size: 14px;
+    font-size: 12px;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     cursor: pointer;
     transition: all 0.2s ease;
+    white-space: nowrap;
 }
 
 .btn-sidebar-trigger:hover {
@@ -95,13 +98,14 @@ body {
     color: white;
     font-family: var(--font-en);
     font-weight: 800;
-    padding: 4px 12px;
+    padding: 3px 8px;
     border-radius: 20px;
-    font-size: 13px;
+    font-size: 11px;
+    white-space: nowrap;
 }
 
 .app-title {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 800;
     color: var(--text-main);
     font-family: var(--font-en);
@@ -871,17 +875,74 @@ body {
     font-size: 32px;
 }
 
-/* Mobile Responsiveness */
-@media (max-width: 768px) {
-    .app-title { display: none; }
-    .exact-page-card { padding: 16px; }
+/* WhatsApp Button Action */
+.btn-whatsapp {
+    background: linear-gradient(135deg, #25D366, #128C7E) !important;
+    color: white !important;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.35) !important;
 }
 
-@media (max-width: 600px) {
-    .top-navbar { padding: 0 10px; }
-    .bottom-action-bar { padding: 0 10px; gap: 6px; }
-    .btn-action { padding: 6px 12px; font-size: 12px; }
-    .questions-layout { grid-template-columns: 1fr; }
-    .cover-heading { font-size: 24px; }
-    .cover-emojis-row { font-size: 54px; }
+.btn-whatsapp:hover {
+    background: linear-gradient(135deg, #22bf5b, #0e7065) !important;
+    transform: translateY(-2px);
 }
+
+/* Mobile Responsiveness & Perfect Overflow Control */
+@media (max-width: 768px) {
+    body {
+        overflow-y: auto !important; /* Allow natural smooth scrolling on mobile */
+        height: auto !important;
+        min-height: 100vh;
+    }
+    .clean-app {
+        height: auto !important;
+        min-height: 100vh;
+        overflow: visible !important;
+    }
+    .top-navbar {
+        position: sticky;
+        top: 0;
+        padding: 6px 8px;
+    }
+    .app-title { display: none; }
+    .grade-badge { display: none; }
+    .page-stage-container {
+        padding: 8px 6px;
+        overflow: visible !important;
+    }
+    .exact-page-card {
+        padding: 12px 10px;
+        max-height: none !important;
+        height: auto !important;
+        border-radius: 14px;
+    }
+    .bottom-action-bar {
+        position: sticky;
+        bottom: 0;
+        z-index: 100;
+        padding: 8px;
+        gap: 6px;
+        flex-wrap: wrap;
+        justify-content: center;
+        background: #ffffff;
+        box-shadow: 0 -4px 15px rgba(0,0,0,0.08);
+    }
+    .btn-action {
+        flex: 1 1 calc(50% - 6px);
+        padding: 8px 6px;
+        font-size: 11px;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .btn-sidebar-trigger span { display: none; } /* Show icon only on small phones */
+    .btn-sidebar-trigger { padding: 6px 8px; }
+    .page-nav-group { padding: 2px 6px; gap: 4px; }
+    .nav-circle-btn { width: 28px; height: 28px; font-size: 11px; }
+    .page-dropdown-select { font-size: 12px; padding: 2px 6px; }
+    .star-score-badge { font-size: 13px; padding: 3px 8px; }
+    .cover-heading { font-size: 20px; }
+    .cover-emojis-row { font-size: 40px; }
+}
+
