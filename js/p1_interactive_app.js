@@ -105,46 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (e) {}
     };
 
-    // Touch Swipe Event Listeners
-    stageContainer.addEventListener('touchstart', (e) => {
-        touchStartX = e.changedTouches[0].screenX;
-        isSwiping = true;
-    }, { passive: true });
-
-    stageContainer.addEventListener('touchend', (e) => {
-        if (!isSwiping) return;
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipeGesture();
-        isSwiping = false;
-    }, { passive: true });
-
-    stageContainer.addEventListener('mousedown', (e) => {
-        if (['INPUT', 'BUTTON', 'SELECT', 'LABEL'].includes(e.target.tagName)) return;
-        touchStartX = e.screenX;
-        isSwiping = true;
-    });
-
-    stageContainer.addEventListener('mouseup', (e) => {
-        if (!isSwiping) return;
-        touchEndX = e.screenX;
-        handleSwipeGesture();
-        isSwiping = false;
-    });
-
-    function handleSwipeGesture() {
-        const distance = touchEndX - touchStartX;
-        if (Math.abs(distance) >= minSwipeDistance) {
-            if (distance < 0) {
-                if (currentPageIndex < pagesData.length - 1) {
-                    flipToPage(currentPageIndex + 1, 'next');
-                }
-            } else {
-                if (currentPageIndex > 0) {
-                    flipToPage(currentPageIndex - 1, 'prev');
-                }
-            }
-        }
-    }
+    // Touch Swipe Event Listeners Disabled as Requested
 
     function flipToPage(targetIndex, direction) {
         if (targetIndex < 0 || targetIndex >= pagesData.length) return;
@@ -517,6 +478,29 @@ document.addEventListener('DOMContentLoaded', () => {
         renderPage(currentPageIndex);
     });
 
+    // Help Dropdown Toggle Handler
+    const btnHelpDropdown = document.getElementById('btn-help-dropdown');
+    const helpDropdownMenu = document.getElementById('help-dropdown-menu');
+
+    if (btnHelpDropdown && helpDropdownMenu) {
+        btnHelpDropdown.addEventListener('click', (e) => {
+            e.stopPropagation();
+            helpDropdownMenu.classList.toggle('hidden');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!helpDropdownMenu.contains(e.target) && e.target !== btnHelpDropdown) {
+                helpDropdownMenu.classList.add('hidden');
+            }
+        });
+
+        helpDropdownMenu.querySelectorAll('.help-menu-item').forEach(item => {
+            item.addEventListener('click', () => {
+                helpDropdownMenu.classList.add('hidden');
+            });
+        });
+    }
+
     const btnSendWhatsapp = document.getElementById('btn-send-whatsapp');
     const btnModalWhatsapp = document.getElementById('btn-modal-whatsapp');
 
@@ -524,13 +508,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = pagesData[currentPageIndex];
         let teacherPhone = localStorage.getItem('teacherWhatsappPhone') || '';
         
-        const inputPhone = prompt('أدخل رقم واتساب المعلم/المعلمة (برمز الدولة مثل: 201012345678):', teacherPhone);
+        const inputPhone = prompt('أدخل رقم واتساب المعلم/المعلمة (مثال: 01012345678 وسيتم إضافة مفتاح الدولة تلقائياً):', teacherPhone || '01');
         if (!inputPhone) return;
 
         let cleanPhone = inputPhone.replace(/[^\d]/g, '');
-        if (cleanPhone.startsWith('01')) {
-            cleanPhone = '2' + cleanPhone; // Auto format Egyptian numbers
+        // Automatic country code addition (Prepend 2 for Egypt if local 01xxxxxxxxx is entered)
+        if (cleanPhone.startsWith('01') && cleanPhone.length === 11) {
+            cleanPhone = '2' + cleanPhone; // Becomes 201012345678 (+20)
+        } else if (!cleanPhone.startsWith('20') && cleanPhone.length === 10 && cleanPhone.startsWith('1')) {
+            cleanPhone = '20' + cleanPhone; // Handles 1012345678 -> 201012345678
         }
+        
         localStorage.setItem('teacherWhatsappPhone', cleanPhone);
 
         const items = pageCard.querySelectorAll('.question-box');

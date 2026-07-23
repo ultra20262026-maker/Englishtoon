@@ -49,6 +49,32 @@
             </div>
 
             <div class="nav-right">
+                <!-- 💡 HELP & ACTIONS DROPDOWN MENU -->
+                <div class="help-dropdown-wrap">
+                    <button id="btn-help-dropdown" class="btn-help-trigger" title="خيارات المساعدة والتصحيح">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        <span>مساعدة 🔻</span>
+                    </button>
+                    <div id="help-dropdown-menu" class="help-dropdown-menu hidden">
+                        <button id="btn-check-answers" class="help-menu-item item-check">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <span>تصحح تلقائياً (تحقق)</span>
+                        </button>
+                        <button id="btn-send-whatsapp" class="help-menu-item item-whatsapp">
+                            <i class="fa-brands fa-whatsapp"></i>
+                            <span>إرسال الإجابات للمعلم</span>
+                        </button>
+                        <button id="btn-show-answers" class="help-menu-item item-show">
+                            <i class="fa-solid fa-eye"></i>
+                            <span>إظهار الحلول الصحيحة</span>
+                        </button>
+                        <button id="btn-reset-page" class="help-menu-item item-reset">
+                            <i class="fa-solid fa-rotate-right"></i>
+                            <span>إعادة الصفحة</span>
+                        </button>
+                    </div>
+                </div>
+
                 <div class="star-score-badge" title="النجوم المكتسبة">
                     <span>⭐</span>
                     <span id="total-stars-count">0</span>
@@ -66,26 +92,6 @@
                 <!-- Content Rendered Dynamically -->
             </div>
         </main>
-
-        <!-- Integrated Bottom Action Bar -->
-        <footer class="bottom-action-bar">
-            <button id="btn-check-answers" class="btn-action btn-grade">
-                <i class="fa-solid fa-circle-check"></i>
-                <span>تصحح تلقائياً (تحقق)</span>
-            </button>
-            <button id="btn-send-whatsapp" class="btn-action btn-whatsapp">
-                <i class="fa-brands fa-whatsapp"></i>
-                <span>إرسال الإجابات للمعلم</span>
-            </button>
-            <button id="btn-show-answers" class="btn-action btn-show">
-                <i class="fa-solid fa-eye"></i>
-                <span>إظهار الحلول الصحيحة</span>
-            </button>
-            <button id="btn-reset-page" class="btn-action btn-reset">
-                <i class="fa-solid fa-rotate-right"></i>
-                <span>إعادة الصفحة</span>
-            </button>
-        </footer>
 
         <!-- Sidebar Drawer Index -->
         <aside id="sidebar" class="sidebar-panel">
