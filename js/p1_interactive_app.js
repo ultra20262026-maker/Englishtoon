@@ -607,3 +607,15 @@ document.addEventListener('DOMContentLoaded', () => {
     initNavigation();
     goToPage(0);
 });
+
+    // Grade Switcher Handler for Interactive Books
+    const bookGradeSelector = document.getElementById('book-grade-selector');
+    if (bookGradeSelector) {
+        bookGradeSelector.addEventListener('change', (e) => {
+            const selectedGrade = e.target.value;
+            if (selectedGrade !== 'p1') {
+                alert('⏳ جاري إعداد وتجهيز الكتاب التفاعلي لهذا الصف وسيتم إضافته قريباً!');
+                bookGradeSelector.value = 'p1';
+            }
+        });
+    }

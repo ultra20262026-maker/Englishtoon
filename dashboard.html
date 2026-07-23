@@ -35,7 +35,7 @@
             <!-- Navigation Tabs -->
             <nav class="header-nav-links">
                 <a href="dashboard.html" class="nav-tab-item active">🏠 الرئيسية</a>
-                <a href="#grades-container" class="nav-tab-item">📚 الصفوف</a>
+                <a href="#grades-container" class="nav-tab-item">🎮 الألعاب</a>
                 <a href="interactive-books.html?v=20260723_v72_final" class="nav-tab-item">📖 الكتب التفاعلية</a>
                 </nav>
 
@@ -65,7 +65,7 @@
                 <div class="section-title-wrap">
             <h2 class="section-h2">
                 <span class="section-icon-badge">🏫</span>
-                الصفوف الدراسية المتاحة
+                الألعاب التعليمية المتاحة
             </h2>
             <span class="section-count-pill" id="grade-count-badge">جاري التحميل...</span>
         </div>
@@ -85,7 +85,7 @@
         </a>
         <a href="dashboard.html#grades-container" class="dock-item">
             <span class="dock-icon">📚</span>
-            <span>الصفوف</span>
+            <span>الألعاب</span>
         </a>
         <a href="interactive-books.html?v=20260723_v72_final" class="dock-item">
             <span class="dock-icon">📖</span>
@@ -113,15 +113,15 @@
 
         // Grade Card Images Mapping
         const gradeImages = {
-            'primary-1': 'images/primary_1.png',
-            'primary-2': 'images/primary_2.png',
-            'primary-3': 'images/primary_3.png',
-            'primary-4': 'images/primary_4.png',
-            'primary-5': 'images/primary_5.png',
-            'primary-6': 'images/primary_6.png',
-            'prep-1':    'images/prep_1.png',
-            'prep-2':    'images/prep_2.png',
-            'prep-3':    'images/prep_3.png'
+            'primary-1': 'images/primary_card.jpg',
+            'primary-2': 'images/primary_card.jpg',
+            'primary-3': 'images/primary_card.jpg',
+            'primary-4': 'images/primary_card.jpg',
+            'primary-5': 'images/primary_card.jpg',
+            'primary-6': 'images/primary_card.jpg',
+            'prep-1':    'images/prep_card.jpg',
+            'prep-2':    'images/prep_card.jpg',
+            'prep-3':    'images/prep_card.jpg'
         };
 
         const container = document.getElementById('grades-container');
@@ -144,12 +144,9 @@
                 <div class="grade-card-photo-header" style="background-image: url('${imgSrc}')">
                     <span class="grade-level-pill-badge">${levelLabel}</span>
                 </div>
-                <div class="grade-tile-body">
-                    <h3 class="grade-tile-title">${grade.name}</h3>
-                    <div class="grade-tile-meta-row">
-                        <span style="font-size: 0.82rem; color: #94A3B8; font-weight: 700;">🎮 6 وحدات دراسية</span>
-                        <span class="btn-play-cta">دخول المغامرة ⚡</span>
-                    </div>
+                <div class="grade-tile-body" style="padding: 14px 18px; display: flex; align-items: center; justify-content: space-between;">
+                    <h3 class="grade-tile-title" style="font-size: 1.15rem; font-weight: 800; color: #fff; margin: 0;">${grade.name}</h3>
+                    <span class="btn-play-cta" style="font-size: 0.82rem; padding: 6px 14px;">لعب 🎮</span>
                 </div>
             `;
             container.appendChild(tile);
