@@ -1,0 +1,189 @@
+[
+  {
+    "q_num": 8,
+    "q": "Eating more fruits gives us _____.",
+    "choices": [
+      "Reading",
+      "Sleeping",
+      "Swimming",
+      "arms"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 20,
+    "q": "Sports teach teamwork and _____.",
+    "choices": [
+      "time",
+      "hair",
+      "weight",
+      "improving health"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 32,
+    "q": "Our bodies need _____ to stay strong.",
+    "choices": [
+      "energy",
+      "tiredness",
+      "anxiety",
+      "joy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 44,
+    "q": "Team sports build _____.",
+    "choices": [
+      "tired",
+      "lazy",
+      "active",
+      "sleeping"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 53,
+    "q": "I saw _____ bird in the tree.",
+    "choices": [
+      "weak",
+      "sick",
+      "fit",
+      "an"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 65,
+    "q": "I don't have _____ friends here.",
+    "choices": [
+      "any",
+      "a",
+      "an",
+      "an"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 77,
+    "q": "There are _____ oranges on the table.",
+    "choices": [
+      "a",
+      "some",
+      "an",
+      "a"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 89,
+    "q": "Can you give me _____ advice?",
+    "choices": [
+      "some",
+      "an",
+      "a",
+      "a"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 98,
+    "q": "The heart works like a _____.",
+    "choices": [
+      "a",
+      "some",
+      "an",
+      "oxygen"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 109,
+    "q": "The heart _____ blood all day.",
+    "choices": [
+      "food",
+      "blood",
+      "air",
+      "water"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 121,
+    "q": "Fatty foods can be _____ for the heart.",
+    "choices": [
+      "sports",
+      "nothing",
+      "bad things",
+      "river"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 133,
+    "q": "The heart _____ without stopping.",
+    "choices": [
+      "slowly",
+      "never",
+      "automatically",
+      "bone"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 143,
+    "q": "Brush your teeth daily with _____ to stay healthy.",
+    "choices": [
+      "beat",
+      "talk",
+      "sing",
+      "fatty"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 154,
+    "q": "Eating fruits provides _____.",
+    "choices": [
+      "cakes",
+      "biscuits",
+      "fruits",
+      "eat late"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 166,
+    "q": "We use a _____ to clean our teeth.",
+    "choices": [
+      "sick",
+      "well",
+      "tired",
+      "ambulance"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 178,
+    "q": "A hospital is a place for _____.",
+    "choices": [
+      "muscles",
+      "vitamins",
+      "germs",
+      "stress"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 180,
+    "q": "We should thank our healthcare _____.",
+    "choices": [
+      "safely",
+      "badly",
+      "wrongly",
+      "workers"
+    ],
+    "answer": 0
+  }
+]

@@ -1,0 +1,178 @@
+[
+  {
+    "q_num": 10,
+    "q": "He is my brother. _____ name is Ali.",
+    "choices": [
+      "aunt",
+      "uncle",
+      "brother",
+      "sister"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 22,
+    "q": "She _____ two brothers.",
+    "choices": [
+      "My",
+      "Her",
+      "His",
+      "His"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 34,
+    "q": "My family is _____.",
+    "choices": [
+      "is",
+      "has",
+      "have",
+      "Those"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 45,
+    "q": "They love _____ friends.",
+    "choices": [
+      "are",
+      "has",
+      "have",
+      "has"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 55,
+    "q": "6th of October reminds us of our _____ soldiers.",
+    "choices": [
+      "bad",
+      "favorite",
+      "sad",
+      "Sham El-Nessim"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 67,
+    "q": "What is your favorite _____?",
+    "choices": [
+      "scared",
+      "brave",
+      "sad",
+      "soldiers"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 79,
+    "q": "I want to be a _____ soldier.",
+    "choices": [
+      "October",
+      "Al-Fitr",
+      "Mother",
+      "exit"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 90,
+    "q": "This is a good _____.",
+    "choices": [
+      "happy",
+      "sad",
+      "bad",
+      "door"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 101,
+    "q": "I take a _____ with my camer",
+    "choices": [
+      "a) takes",
+      "cooks",
+      "helps",
+      "plays"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 113,
+    "q": "Which word has the /f/ sound?",
+    "choices": [
+      "graph",
+      "phone",
+      "photo",
+      "elephant"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 125,
+    "q": "The family _____ dinner together.",
+    "choices": [
+      "loving",
+      "love",
+      "loves",
+      "reads"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 135,
+    "q": "My dad is _____ the phone.",
+    "choices": [
+      "make",
+      "making",
+      "makes",
+      "help"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 146,
+    "q": "The baker _____ delicious foo",
+    "choices": [
+      "a) bakes",
+      "works",
+      "helps",
+      "pilot"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 158,
+    "q": "He is _____ pilot.",
+    "choices": [
+      "doctor",
+      "pilot",
+      "baker",
+      "doctor"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 170,
+    "q": "_____ helps patients?",
+    "choices": [
+      "a",
+      "the",
+      "an",
+      "doing"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 180,
+    "q": "I love all the _____ in my family.",
+    "choices": [
+      "Where",
+      "Who",
+      "What",
+      "Who"
+    ],
+    "answer": 0
+  }
+]

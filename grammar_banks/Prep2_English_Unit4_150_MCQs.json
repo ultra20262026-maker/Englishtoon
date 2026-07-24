@@ -1,0 +1,1503 @@
+[
+  {
+    "q_num": 1,
+    "q": "You can see many different _____ in a gallery.",
+    "choices": [
+      "hidden",
+      "valuable",
+      "artworks"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 2,
+    "q": "Every artwork has a powerful _____.",
+    "choices": [
+      "sculpture",
+      "message",
+      "hidden"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 3,
+    "q": "Artists use different _____ to create sculptures.",
+    "choices": [
+      "materials",
+      "hidden",
+      "ways"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 4,
+    "q": "_____ is a very important life skill.",
+    "choices": [
+      "Creativity",
+      "Paintings",
+      "Artists"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 5,
+    "q": "The opposite of 'imagination' is _____.",
+    "choices": [
+      "creativity",
+      "local",
+      "reality"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 6,
+    "q": "Last week, I visited an art _____ in Zamalek.",
+    "choices": [
+      "theater",
+      "gallery",
+      "stadium"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 7,
+    "q": "The gallery was filled with _____ paintings and sculptures.",
+    "choices": [
+      "invisible",
+      "boring",
+      "colorful"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 8,
+    "q": "Artists showcased their _____ artworks.",
+    "choices": [
+      "original",
+      "copied",
+      "fake"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 9,
+    "q": "They _____ different kinds of material like paper, clay, and metal.",
+    "choices": [
+      "destroyed",
+      "cut",
+      "mixed"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 10,
+    "q": "Using different materials makes the artworks special and _____.",
+    "choices": [
+      "meaningful",
+      "meaningless",
+      "bad"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 11,
+    "q": "A _____ is a 3D work of art made from clay, stone, or metal.",
+    "choices": [
+      "drawing",
+      "painting",
+      "sculpture"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 12,
+    "q": "_____ is an art form using brushes and colors.",
+    "choices": [
+      "Photography",
+      "Music",
+      "Painting"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 13,
+    "q": "Photography captures moments through a camera _____.",
+    "choices": [
+      "lens",
+      "brush",
+      "pencil"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 14,
+    "q": "Drawing is a basic form of art using pencils or _____.",
+    "choices": [
+      "metal",
+      "stone",
+      "charcoal"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 15,
+    "q": "An artwork doesn't need to be _____ to be valuable or beautiful.",
+    "choices": [
+      "messy",
+      "perfect",
+      "ugly"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 16,
+    "q": "Every piece of art carries a _____.",
+    "choices": [
+      "bag",
+      "message",
+      "box"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 17,
+    "q": "The artist used _____ for making this amazing statue.",
+    "choices": [
+      "water",
+      "paintings",
+      "clay"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 18,
+    "q": "The gallery is filled with amazing _____.",
+    "choices": [
+      "colorful",
+      "pieces",
+      "element"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 19,
+    "q": "Every artwork expresses the artist's thoughts and _____.",
+    "choices": [
+      "installations",
+      "feelings",
+      "clay"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 20,
+    "q": "We should promote creativity and _____ among students.",
+    "choices": [
+      "artworks",
+      "hidden",
+      "imagination"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 21,
+    "q": "She used a piece of _____ to carve a beautiful statue.",
+    "choices": [
+      "stone",
+      "air",
+      "water"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 22,
+    "q": "Artists like to _____ their new works in large exhibitions.",
+    "choices": [
+      "ignore",
+      "hide",
+      "exhibit"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 23,
+    "q": "The opposite of 'national' is _____.",
+    "choices": [
+      "local",
+      "private",
+      "international"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 24,
+    "q": "The antonym of 'beautiful' is _____.",
+    "choices": [
+      "ugly",
+      "stunning",
+      "perfect"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 25,
+    "q": "He is a famous _____; he makes statues from metal.",
+    "choices": [
+      "sculptor",
+      "photographer",
+      "painter"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 26,
+    "q": "Making art requires a lot of _____ and creativity.",
+    "choices": [
+      "boredom",
+      "rules",
+      "imagination"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 27,
+    "q": "To _____ is to make a 3D shape from wood or stone.",
+    "choices": [
+      "sing",
+      "paint",
+      "sculpt"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 28,
+    "q": "His work is full of creativity and _____.",
+    "choices": [
+      "imagination",
+      "sense",
+      "boring"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 29,
+    "q": "The sculptures looked very _____ because they were different.",
+    "choices": [
+      "stunning",
+      "ugly",
+      "terrible"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 30,
+    "q": "I always include interactive _____ in my big installations.",
+    "choices": [
+      "elements",
+      "artworks",
+      "awards"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 31,
+    "q": "She passed the final exam _____ she studied har",
+    "choices": [
+      "a) but",
+      "because",
+      "so"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 32,
+    "q": "_____ she woke up early, she didn't catch the bus.",
+    "choices": [
+      "But",
+      "So",
+      "Although"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 33,
+    "q": "He didn't win the race _____ he hurt his knee.",
+    "choices": [
+      "but",
+      "although",
+      "because"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 34,
+    "q": "They played well, _____ they lost.",
+    "choices": [
+      "because",
+      "but",
+      "so"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 35,
+    "q": "I eat unhealthy food, _____ I gained weight.",
+    "choices": [
+      "because",
+      "so",
+      "but"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 36,
+    "q": "He was sick, _____ he finished his homework.",
+    "choices": [
+      "so",
+      "because",
+      "but"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 37,
+    "q": "His work is very special, _____ he deserves recognition.",
+    "choices": [
+      "but",
+      "so",
+      "although"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 38,
+    "q": "His paintings are original _____ they are made from different materials.",
+    "choices": [
+      "although",
+      "because",
+      "so"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 39,
+    "q": "He is rich, _____ he is wearing old clothes.",
+    "choices": [
+      "because",
+      "but",
+      "so"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 40,
+    "q": "Omar walked slowly _____ he was tire",
+    "choices": [
+      "a) but",
+      "because",
+      "so"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 41,
+    "q": "He was sick, _____ he didn't go to school.",
+    "choices": [
+      "because",
+      "but",
+      "so"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 42,
+    "q": "_____ she doesn't draw well, she participated in the competition.",
+    "choices": [
+      "Although",
+      "Because",
+      "But"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 43,
+    "q": "_____ his artworks are amazing, he doesn't deserve recognition. (Correct connector: )",
+    "choices": [
+      "Although",
+      "So",
+      "Because"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 44,
+    "q": "He prepared well, _____ he won the race.",
+    "choices": [
+      "so",
+      "because",
+      "although"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 45,
+    "q": "It was raining, _____ we played football.",
+    "choices": [
+      "because",
+      "so",
+      "but"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 46,
+    "q": "I don't have much money, _____ I can't buy a new mobile.",
+    "choices": [
+      "but",
+      "so",
+      "because"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 47,
+    "q": "She was very tired _____ she went to bed early.",
+    "choices": [
+      "but",
+      "although",
+      "so"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 48,
+    "q": "_____ it was late, they continued working on the project.",
+    "choices": [
+      "Although",
+      "So",
+      "Because"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 49,
+    "q": "The statue is beautiful, _____ it is very expensive.",
+    "choices": [
+      "because",
+      "but",
+      "so"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 50,
+    "q": "He got an award _____ his sculpture was amazing.",
+    "choices": [
+      "because",
+      "so",
+      "but"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 51,
+    "q": "The gallery was closed, _____ we went home.",
+    "choices": [
+      "so",
+      "because",
+      "although"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 52,
+    "q": "_____ he is a great artist, he is very humble.",
+    "choices": [
+      "Because",
+      "So",
+      "Although"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 53,
+    "q": "We bought the painting _____ it had a powerful message.",
+    "choices": [
+      "so",
+      "because",
+      "although"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 54,
+    "q": "She loves art, _____ she visits the museum every week.",
+    "choices": [
+      "so",
+      "but",
+      "although"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 55,
+    "q": "He ran very fast, _____ he didn't win the medal.",
+    "choices": [
+      "so",
+      "because",
+      "but"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 56,
+    "q": "_____ the test was easy, many students faile",
+    "choices": [
+      "a) Because",
+      "Although",
+      "So"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 57,
+    "q": "I like this photo _____ it shows the beauty of nature.",
+    "choices": [
+      "but",
+      "because",
+      "so"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 58,
+    "q": "The weather was bad, _____ we stayed indoors.",
+    "choices": [
+      "but",
+      "so",
+      "because"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 59,
+    "q": "They worked together, _____ they finished the task quickly.",
+    "choices": [
+      "but",
+      "although",
+      "so"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 60,
+    "q": "_____ I practiced a lot, I still felt nervous before the speech.",
+    "choices": [
+      "Because",
+      "Although",
+      "So"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 61,
+    "q": "Mahmoud Mokhtar is a famous Egyptian _____.",
+    "choices": [
+      "singer",
+      "artist",
+      "doctor"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 62,
+    "q": "He mixed different kinds of art styles in his _____.",
+    "choices": [
+      "artworks",
+      "clothes",
+      "food"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 63,
+    "q": "He gained international _____ for his remarkable artworks.",
+    "choices": [
+      "recognition",
+      "money",
+      "punishment"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 64,
+    "q": "One of his artworks that is recognized globally is _____ Statue.",
+    "choices": [
+      "Nahdet Misr",
+      "Sphinx",
+      "Liberty"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 65,
+    "q": "He exhibited his artworks in many _____ around the worl",
+    "choices": [
+      "a) exhibitions",
+      "hospitals",
+      "schools"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 66,
+    "q": "Al Khamaseen is one of his _____ pieces.",
+    "choices": [
+      "incredible",
+      "ugly",
+      "boring"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 67,
+    "q": "Mahmoud Mokhtar is well known as a very creative _____.",
+    "choices": [
+      "painter",
+      "sculptor",
+      "teacher"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 68,
+    "q": "There are many different types of _____, and each has its own beauty.",
+    "choices": [
+      "food",
+      "sports",
+      "art"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 69,
+    "q": "Drawing is one of the most _____ forms of art.",
+    "choices": [
+      "complex",
+      "basic",
+      "new"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 70,
+    "q": "Artists use pencils or _____ to create images in drawing.",
+    "choices": [
+      "water",
+      "charcoal",
+      "stone"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 71,
+    "q": "_____ is another popular form using brushes and colors.",
+    "choices": [
+      "Photography",
+      "Sculpture",
+      "Painting"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 72,
+    "q": "Photography captures moments through a camera _____.",
+    "choices": [
+      "brush",
+      "pencil",
+      "lens"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 73,
+    "q": "Sculpture involves creating _____ works from materials like clay.",
+    "choices": [
+      "3D",
+      "1D",
+      "2D"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 74,
+    "q": "An artwork doesn't need to be perfect to be _____.",
+    "choices": [
+      "bad",
+      "valuable",
+      "useless"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 75,
+    "q": "The gallery held a _____ competition among artists every year.",
+    "choices": [
+      "sculpture",
+      "recognition",
+      "national"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 76,
+    "q": "Mahmoud Mokhtar's works deserve _____.",
+    "choices": [
+      "punishment",
+      "ignore",
+      "recognition"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 77,
+    "q": "He is considered a pioneer of modern Egyptian _____.",
+    "choices": [
+      "sculpture",
+      "painting",
+      "photography"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 78,
+    "q": "He travelled to _____ to study art.",
+    "choices": [
+      "Japan",
+      "England",
+      "France"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 79,
+    "q": "His statues express the feelings of the Egyptian _____.",
+    "choices": [
+      "animals",
+      "birds",
+      "people"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 80,
+    "q": "Artworks can be found displayed in a _____.",
+    "choices": [
+      "pharmacy",
+      "bakery",
+      "gallery"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 81,
+    "q": "An artist's imagination helps them to _____ new things.",
+    "choices": [
+      "create",
+      "copy",
+      "destroy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 82,
+    "q": "The artist's thoughts and feelings are the _____ of the artwork.",
+    "choices": [
+      "price",
+      "message",
+      "weight"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 83,
+    "q": "In an exhibition, artists _____ their original works.",
+    "choices": [
+      "break",
+      "hide",
+      "showcase"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 84,
+    "q": "Using mixed materials shows the artist's _____.",
+    "choices": [
+      "laziness",
+      "creativity",
+      "sadness"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 85,
+    "q": "The piece of art was so _____ that everyone stopped to look at it.",
+    "choices": [
+      "ugly",
+      "invisible",
+      "stunning"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 86,
+    "q": "Art is a way to express our _____.",
+    "choices": [
+      "shoes",
+      "food",
+      "feelings"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 87,
+    "q": "A famous sculptor received _____ for his pieces of artistic work.",
+    "choices": [
+      "punishment",
+      "bad treatment",
+      "recognition"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 88,
+    "q": "Making a statue out of stone is called _____.",
+    "choices": [
+      "painting",
+      "sculpting",
+      "drawing"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 89,
+    "q": "The Nahdet Misr statue is made of _____.",
+    "choices": [
+      "granite/stone",
+      "wood",
+      "plastic"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 90,
+    "q": "Mokhtar's art brought _____ to Egyptian culture.",
+    "choices": [
+      "shame",
+      "sadness",
+      "pride",
+      "& Let's Talk"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 91,
+    "q": "Teamwork means to _____ with each other.",
+    "choices": [
+      "collaborate",
+      "mix",
+      "pack"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 92,
+    "q": "We should value how we are _____ from each other.",
+    "choices": [
+      "different",
+      "hidden",
+      "old"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 93,
+    "q": "They found an old _____ of a 'Hidden Island'.",
+    "choices": [
+      "map",
+      "food",
+      "beauty"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 94,
+    "q": "Sami felt _____ for sharing his ideas with his friends.",
+    "choices": [
+      "bored",
+      "worried",
+      "appreciated"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 95,
+    "q": "They packed food, water, and a _____.",
+    "choices": [
+      "book",
+      "flag",
+      "compass"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 96,
+    "q": "Four friends - Hany, Faris, Malik, and Sami - were living on a quiet _____ islan",
+    "choices": [
+      "a) coastal",
+      "mountain",
+      "desert"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 97,
+    "q": "Hany encouraged them to go and discover the _____.",
+    "choices": [
+      "island",
+      "moon",
+      "city"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 98,
+    "q": "They agreed on a rule of collaboration and _____.",
+    "choices": [
+      "hate",
+      "respect",
+      "fighting"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 99,
+    "q": "They _____ the value of being different.",
+    "choices": [
+      "hated",
+      "appreciated",
+      "ignored"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 100,
+    "q": "Malik enjoyed drawing the _____ while they sailed to the islan",
+    "choices": [
+      "a) grass",
+      "water",
+      "scenery"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 101,
+    "q": "We should _____ each other's thoughts although we are different.",
+    "choices": [
+      "report",
+      "respect",
+      "ignore"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 102,
+    "q": "Malik used his _____ to draw maps of the islan",
+    "choices": [
+      "a) responsibility",
+      "creativity",
+      "respect"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 103,
+    "q": "Leadership is about caring for others and helping them _____.",
+    "choices": [
+      "annoy",
+      "shine",
+      "fail"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 104,
+    "q": "To come up with new ideas means _____.",
+    "choices": [
+      "collaboration",
+      "museum",
+      "creativity"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 105,
+    "q": "Every piece of any artwork should be _____.",
+    "choices": [
+      "imagination",
+      "original",
+      "boring"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 106,
+    "q": "They packed what they would need for the _____.",
+    "choices": [
+      "journey",
+      "hospital",
+      "school"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 107,
+    "q": "A compass is used to find _____.",
+    "choices": [
+      "food",
+      "water",
+      "directions"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 108,
+    "q": "The friends showed that _____ makes adventures more fun.",
+    "choices": [
+      "sadness",
+      "laziness",
+      "creativity"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 109,
+    "q": "No one is the _____ in their group; they all collaborate.",
+    "choices": [
+      "friend",
+      "boss",
+      "helper"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 110,
+    "q": "Working together on a ship requires _____.",
+    "choices": [
+      "teamwork",
+      "fighting",
+      "sleeping"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 111,
+    "q": "They respected each other's _____.",
+    "choices": [
+      "clothes",
+      "ideas",
+      "shoes"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 112,
+    "q": "Sami's ideas were _____ by the rest of the group.",
+    "choices": [
+      "ignored",
+      "laughed at",
+      "appreciated"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 113,
+    "q": "The 'Hidden Island' was a _____ waiting to be discovere",
+    "choices": [
+      "a) mystery",
+      "boring place",
+      "known place"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 114,
+    "q": "They wrote down their plans in their _____.",
+    "choices": [
+      "notebooks",
+      "water bottles",
+      "compasses"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 115,
+    "q": "The group realized that their _____ made them stronger.",
+    "choices": [
+      "weaknesses",
+      "fights",
+      "differences"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 116,
+    "q": "True friends _____ each other in difficult times.",
+    "choices": [
+      "support",
+      "leave",
+      "ignore"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 117,
+    "q": "When you collaborate, you work _____.",
+    "choices": [
+      "alone",
+      "against each other",
+      "together"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 118,
+    "q": "The map showed the way to the _____ islan",
+    "choices": [
+      "a) hidden",
+      "famous",
+      "crowded"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 119,
+    "q": "Art doesn't have to be _____ to be valuable.",
+    "choices": [
+      "original",
+      "ugly",
+      "perfect"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 120,
+    "q": "Exploring new places requires a lot of _____.",
+    "choices": [
+      "courage",
+      "fear",
+      "laziness"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 121,
+    "q": "You can see many different artworks in a _____.",
+    "choices": [
+      "bank",
+      "hospital",
+      "gallery"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 122,
+    "q": "Artists use different _____ like paper, clay, and metal.",
+    "choices": [
+      "food",
+      "drinks",
+      "materials"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 123,
+    "q": "I didn't go to school _____ I was sick.",
+    "choices": [
+      "so",
+      "because",
+      "but"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 124,
+    "q": "He is very rich, _____ he is not happy.",
+    "choices": [
+      "but",
+      "so",
+      "because"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 125,
+    "q": "_____ she studied hard, she failed the exam.",
+    "choices": [
+      "Because",
+      "So",
+      "Although"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 126,
+    "q": "Mahmoud Mokhtar is a famous Egyptian _____.",
+    "choices": [
+      "actor",
+      "sculptor",
+      "singer"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 127,
+    "q": "He gained international _____ for his artworks.",
+    "choices": [
+      "punishment",
+      "recognition",
+      "money"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 128,
+    "q": "The opposite of 'imagination' is _____.",
+    "choices": [
+      "reality",
+      "creativity",
+      "dream"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 129,
+    "q": "A/An _____ is an object made out of stone, wood, or clay.",
+    "choices": [
+      "painting",
+      "sculpture",
+      "drawing"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 130,
+    "q": "They found an old _____ of a 'Hidden Island'.",
+    "choices": [
+      "book",
+      "letter",
+      "map"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 131,
+    "q": "Teamwork means to _____ with each other.",
+    "choices": [
+      "ignore",
+      "fight",
+      "collaborate"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 132,
+    "q": "They packed food, water, and a _____ for the journey.",
+    "choices": [
+      "fridge",
+      "compass",
+      "television"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 133,
+    "q": "Photography captures moments through a camera _____.",
+    "choices": [
+      "pen",
+      "lens",
+      "brush"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 134,
+    "q": "Drawing uses pencils or _____.",
+    "choices": [
+      "charcoal",
+      "water",
+      "oil"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 135,
+    "q": "The gallery held a _____ competition among artists.",
+    "choices": [
+      "national",
+      "boring",
+      "useless"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 136,
+    "q": "I always include interactive _____ in my installations.",
+    "choices": [
+      "sounds",
+      "elements",
+      "words"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 137,
+    "q": "The statue is so _____ that people take photos of it.",
+    "choices": [
+      "terrible",
+      "stunning",
+      "ugly"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 138,
+    "q": "He walked slowly _____ he was tire",
+    "choices": [
+      "a) so",
+      "although",
+      "because"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 139,
+    "q": "The weather was cold, _____ we stayed at home.",
+    "choices": [
+      "because",
+      "so",
+      "but"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 140,
+    "q": "_____ it rained heavily, they went out for a walk.",
+    "choices": [
+      "So",
+      "Although",
+      "Because"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 141,
+    "q": "Making art requires a lot of _____ and creativity.",
+    "choices": [
+      "math",
+      "imagination",
+      "rules"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 142,
+    "q": "Sami felt _____ for sharing his ideas.",
+    "choices": [
+      "sad",
+      "worried",
+      "appreciated"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 143,
+    "q": "Leadership is about caring for others and helping them _____.",
+    "choices": [
+      "shine",
+      "cry",
+      "fail"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 144,
+    "q": "They agreed on a rule of collaboration and _____.",
+    "choices": [
+      "hate",
+      "fear",
+      "respect"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 145,
+    "q": "Every piece of art carries a _____.",
+    "choices": [
+      "color",
+      "price",
+      "message"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 146,
+    "q": "She used a piece of _____ to carve a statue.",
+    "choices": [
+      "water",
+      "stone",
+      "air"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 147,
+    "q": "He prepared well, _____ he won the race.",
+    "choices": [
+      "although",
+      "so",
+      "because"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 148,
+    "q": "_____ his artworks are amazing, he doesn't deserve recognition. (Correct: Although)",
+    "choices": [
+      "Because",
+      "So",
+      "Although"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 149,
+    "q": "Artists _____ their original works in exhibitions.",
+    "choices": [
+      "destroy",
+      "showcase",
+      "hide"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 150,
+    "q": "An artwork doesn't need to be _____ to be valuable.",
+    "choices": [
+      "worthless",
+      "ugly",
+      "perfect"
+    ],
+    "answer": 0
+  }
+]

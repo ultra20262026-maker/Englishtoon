@@ -1,0 +1,189 @@
+[
+  {
+    "q_num": 8,
+    "q": "Maddie was Peggy's _____.",
+    "choices": [
+      "quiet",
+      "bad",
+      "noisy",
+      "middle"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 20,
+    "q": "Wanda walked to school _____.",
+    "choices": [
+      "see",
+      "annoy",
+      "help",
+      "Maddie"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 32,
+    "q": "They thought Wanda was telling a _____.",
+    "choices": [
+      "help",
+      "annoy",
+      "teach",
+      "Heights"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 44,
+    "q": "She sat in the corner where the _____ boys sat.",
+    "choices": [
+      "books",
+      "happiness",
+      "anger",
+      "song"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 53,
+    "q": "The letter said Wanda _____ to the big city.",
+    "choices": [
+      "clean",
+      "noisy",
+      "quiet",
+      "reading"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 63,
+    "q": "Wanda's house looked _____ but clean.",
+    "choices": [
+      "village",
+      "town",
+      "city",
+      "shoes"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 73,
+    "q": "The boys won a competition for designing _____.",
+    "choices": [
+      "eating",
+      "home",
+      "playing",
+      "slept"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 85,
+    "q": "Wanda's drawings proved she was telling the _____.",
+    "choices": [
+      "students",
+      "doctors",
+      "police",
+      "empty"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 94,
+    "q": "They wrote 'Please _____' on the envelope.",
+    "choices": [
+      "paper",
+      "glass",
+      "wood",
+      "amazement"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 105,
+    "q": "She gave the blue dress drawing to _____.",
+    "choices": [
+      "lost",
+      "won",
+      "played",
+      "shoes"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 117,
+    "q": "Wanda was very _____ to give them the drawings.",
+    "choices": [
+      "five",
+      "ten",
+      "hundred",
+      "books"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 129,
+    "q": "Wanda drew the girls _____.",
+    "choices": [
+      "glad",
+      "sad",
+      "angry",
+      "lesson"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 139,
+    "q": "Wanda _____ to the big city.",
+    "choices": [
+      "walls",
+      "doors",
+      "floors",
+      "darker"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 150,
+    "q": "Who said: 'I'm happy at my new school'?",
+    "choices": [
+      "blue",
+      "black",
+      "green",
+      "phone"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 162,
+    "q": "Maddie didn't like _____ Wand",
+    "choices": [
+      "a) Miss Mason",
+      "Peggy and Maddie",
+      "Wanda",
+      "Miss Mason"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 173,
+    "q": "Wanda proved she had a hundred _____.",
+    "choices": [
+      "poorer",
+      "richer",
+      "taller",
+      "glad"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 180,
+    "q": "We should treat others with _____.",
+    "choices": [
+      "paper",
+      "silk",
+      "cotton",
+      "proud"
+    ],
+    "answer": 0
+  }
+]

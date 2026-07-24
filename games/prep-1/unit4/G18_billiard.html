@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pool Table Strike 🎱 - prep-1 Unit 4</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+  body { background: #218c74; color: #fff; font-family: 'Segoe UI', Tahoma, sans-serif; overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
+  .g-hud { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: rgba(0,0,0,0.6); border-bottom: 2px solid #33d9b2; z-index: 10; }
+  .g-title { font-size: 1.2rem; font-weight: bold; color: #33d9b2; }
+  .g-qnum { font-size: 1rem; color: #ecf0f1; background: rgba(255,255,255,0.1); padding: 4px 12px; border-radius: 20px; }
+  .g-score { font-size: 1.2rem; font-weight: bold; color: #2ecc71; }
+  .g-qpanel { background: rgba(0,0,0,0.7); padding: 16px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); z-index: 10; min-height: 80px; display: flex; align-items: center; justify-content: center; }
+  .g-qtext { font-size: 1.4rem; color: #fff; font-weight: 600; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+  .g-targets { position: absolute; width: 100%; top: 38%; display: flex; justify-content: space-around; padding: 0 20px; z-index: 8; pointer-events: none; }
+  .tbtn { pointer-events: auto; background: rgba(255,255,255,0.1); border: 2px solid #33d9b2; color: #fff; padding: 14px 20px; font-size: 1.2rem; font-weight: bold; border-radius: 16px; cursor: pointer; transition: all 0.2s ease; backdrop-filter: blur(8px); min-width: 120px; text-align: center; }
+  .tbtn:hover { transform: translateY(-4px); background: #33d9b2; color: #111; }
+  .tbtn.correct { background: #2ecc71 !important; border-color: #27ae60 !important; color: #fff !important; transform: scale(1.08); }
+  .tbtn.wrong { background: #e74c3c !important; border-color: #c0392b !important; color: #fff !important; opacity: 0.6; }
+  .g-canvas { flex: 1; width: 100%; height: 100%; position: absolute; top: 0; left: 0; z-index: 1; }
+  .g-pbar { height: 6px; background: #33d9b2; width: 0%; transition: width 0.3s ease; position: absolute; bottom: 0; left: 0; z-index: 10; }
+  .g-end { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 100; flex-direction: column; align-items: center; justify-content: center; gap: 20px; text-align: center; }
+  .g-end h1 { font-size: 3rem; color: #33d9b2; }
+  .g-end p { font-size: 1.8rem; color: #2ecc71; }
+  .g-end button { padding: 14px 36px; font-size: 1.3rem; font-weight: bold; background: #33d9b2; border: none; color: #111; border-radius: 30px; cursor: pointer; }
+</style>
+</head>
+<body>
+<div class="g-hud">
+  <div class="g-title">Pool Table Strike 🎱</div>
+  <div id="qn" class="g-qnum">Q 1/5</div>
+  <div class="g-score">Score: <span id="sc">0</span></div>
+</div>
+<div class="g-qpanel"><div id="qt" class="g-qtext">Loading...</div></div>
+<div id="tg" class="g-targets"></div>
+<canvas id="cv" class="g-canvas"></canvas>
+<div id="pb" class="g-pbar"></div>
+<div id="end" class="g-end">
+  <h1 id="eh">Awesome! 🎉</h1>
+  <p id="es">Score: 0</p>
+  <button onclick="location.reload()">Play Again 🔄</button>
+</div>
+<script>
+const QS = [{"q_num": 16, "q": "A _____ is an interactive board used in classrooms.", "choices": ["tablet", "smartboard", "whiteboard"], "answer": 0}, {"q_num": 17, "q": "A _____ is a page on the internet that gives information.", "choices": ["website", "tablet", "app"], "answer": 0}, {"q_num": 18, "q": "I read _____ on my tablet.", "choices": ["photos", "ebooks", "images"], "answer": 0}, {"q_num": 19, "q": "A _____ is a portable computer.", "choices": ["screen", "smartboard", "laptop"], "answer": 0}, {"q_num": 20, "q": "I use the _____ to print my homework.", "choices": ["keyboard", "mouse", "printer"], "answer": 0}, {"q_num": 21, "q": "We use _____ to listen to musi", "choices": ["a) keyboards", "webcams", "headphones"], "answer": 0}, {"q_num": 22, "q": "My favorite _____ has lots of useful information.", "choices": ["radio", "website", "TV"], "answer": 0}, {"q_num": 23, "q": "A _____ produces sound from a computer.", "choices": ["speaker", "keyboard", "printer"], "answer": 0}, {"q_num": 24, "q": "Can you _____ me of the deadline of the interview?", "choices": ["forget", "remind", "remember"], "answer": 0}, {"q_num": 25, "q": "Something _____ means using computer technology.", "choices": ["manual", "digital", "natural"], "answer": 0}];
+let qi=0, score=0, locked=false, parts=[];
+let cv, ctx, W, H, AC;
+
+window.addEventListener('load', () => {
+  cv = document.getElementById('cv'); ctx = cv.getContext('2d');
+  resize(); window.addEventListener('resize', resize);
+  AC = new (window.AudioContext || window.webkitAudioContext)();
+  loadQ(); loop();
+});
+
+function resize() { W = cv.width = window.innerWidth; H = cv.height = window.innerHeight; }
+function tone(f,d,t,v) {
+  if(!AC) return; if(AC.state==='suspended') AC.resume();
+  const o=AC.createOscillator(), gn=AC.createGain(); o.connect(gn); gn.connect(AC.destination);
+  o.type=t||'sine'; o.frequency.value=f; gn.gain.setValueAtTime(v||0.3, AC.currentTime);
+  gn.gain.exponentialRampToValueAtTime(0.001, AC.currentTime+d); o.start(); o.stop(AC.currentTime+d);
+}
+function ok_snd() { tone(523,.08); setTimeout(()=>tone(659,.08),80); setTimeout(()=>tone(784,.25),160); }
+function fail_snd() { tone(200,.2,'sawtooth'); setTimeout(()=>tone(150,.35,'sawtooth'),200); }
+
+function burst(x,y,color) {
+  for(let i=0;i<25;i++) {
+    const a=Math.random()*Math.PI*2, sp=Math.random()*8+2;
+    parts.push({x, y, vx:Math.cos(a)*sp, vy:Math.sin(a)*sp, life:1, color, sz:Math.random()*5+3});
+  }
+}
+
+function loop() {
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle = '#218c74'; ctx.fillRect(0,0,W,H);
+  ctx.fillStyle = '#33d9b211'; ctx.beginPath(); ctx.arc(W/2, H*0.4, 250, 0, Math.PI*2); ctx.fill();
+  parts = parts.filter(p=>p.life>0);
+  parts.forEach(p=> {
+    p.x+=p.vx; p.y+=p.vy; p.vy+=0.2; p.life-=0.02;
+    ctx.globalAlpha=Math.max(0, p.life); ctx.fillStyle=p.color;
+    ctx.beginPath(); ctx.arc(p.x,p.y,p.sz,0,Math.PI*2); ctx.fill(); ctx.globalAlpha=1;
+  });
+  requestAnimationFrame(loop);
+}
+
+function loadQ() {
+  if(qi >= QS.length) { endGame(); return; }
+  const q = QS[qi]; locked = false;
+  document.getElementById('qt').textContent = q.q;
+  document.getElementById('qn').textContent = 'Q ' + (qi+1) + '/' + QS.length;
+  document.getElementById('pb').style.width = (qi/QS.length*100) + '%';
+  const cont = document.getElementById('tg'); cont.innerHTML = '';
+  const correctText = q.choices[q.answer] || q.choices[0];
+  let ch = [...q.choices];
+  const lab = ch.map(c => ({ t: c, ok: c === correctText }));
+  lab.sort(() => Math.random() - 0.5);
+  lab.forEach((item) => {
+    const btn = document.createElement('button'); btn.className = 'tbtn';
+    btn.textContent = item.t; btn.onclick = () => pick(btn, item.ok);
+    cont.appendChild(btn);
+  });
+}
+
+function pick(btn, good) {
+  if(locked) return; locked = true;
+  const rect = btn.getBoundingClientRect();
+  if(good) {
+    btn.classList.add('correct'); ok_snd(); burst(rect.left+rect.width/2, rect.top+rect.height/2, '#2ecc71');
+    score += 10; document.getElementById('sc').textContent = score;
+  } else {
+    btn.classList.add('wrong'); fail_snd(); burst(rect.left+rect.width/2, rect.top+rect.height/2, '#e74c3c');
+    Array.from(document.getElementById('tg').children).forEach(b => {
+      if(b.textContent === QS[qi].choices[QS[qi].answer]) b.classList.add('correct');
+    });
+  }
+  setTimeout(() => { qi++; loadQ(); }, 1500);
+}
+
+function endGame() {
+  document.getElementById('end').style.display = 'flex';
+  document.getElementById('es').textContent = 'Final Score: ' + score + ' / ' + (QS.length*10);
+}
+</script>
+</body>
+</html>

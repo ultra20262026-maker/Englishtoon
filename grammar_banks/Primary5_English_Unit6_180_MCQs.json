@@ -1,0 +1,188 @@
+[
+  {
+    "q_num": 8,
+    "q": "Billie learned how to _____ fish.",
+    "choices": [
+      "Native American",
+      "Egyptian",
+      "French",
+      "London"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 20,
+    "q": "Nature is _____ if we don't take care of it.",
+    "choices": [
+      "car",
+      "house",
+      "fire",
+      "money"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 32,
+    "q": "Billie didn't believe the Earth could talk because she was _____.",
+    "choices": [
+      "careless",
+      "loud",
+      "cautious",
+      "hated"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 44,
+    "q": "The elders wanted Billie to _____ nature.",
+    "choices": [
+      "learn",
+      "forget",
+      "ignore",
+      "shop"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 53,
+    "q": "_____ forests help clean the air.",
+    "choices": [
+      "noise",
+      "fear",
+      "peace",
+      "freezes"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 65,
+    "q": "We need to use _____ energy sources.",
+    "choices": [
+      "marine",
+      "sky",
+      "desert",
+      "Water"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 77,
+    "q": "_____ helps save water.",
+    "choices": [
+      "waste",
+      "trees",
+      "water",
+      "polluted"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 89,
+    "q": "_____ is harmful to wildlife.",
+    "choices": [
+      "bad",
+      "polluting",
+      "eco-friendly",
+      "Waste"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 98,
+    "q": "They saw a deep _____.",
+    "choices": [
+      "trash",
+      "care",
+      "no care",
+      "think"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 110,
+    "q": "They traveled through fields and _____.",
+    "choices": [
+      "food",
+      "toy",
+      "place",
+      "out"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 122,
+    "q": "The setting of the end is the _____.",
+    "choices": [
+      "angry",
+      "thirsty",
+      "sad",
+      "slow"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 134,
+    "q": "The frogs hopped and _____.",
+    "choices": [
+      "froze",
+      "dried up",
+      "flooded",
+      "traveled"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 143,
+    "q": "The boy hides _____ the door.",
+    "choices": [
+      "run",
+      "think",
+      "cry",
+      "buy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 155,
+    "q": "I put my books _____ my bag.",
+    "choices": [
+      "behind",
+      "front",
+      "under",
+      "in"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 167,
+    "q": "The _____ is full of trash.",
+    "choices": [
+      "in",
+      "on",
+      "next",
+      "on"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 179,
+    "q": "The boy is hiding _____ the tree.",
+    "choices": [
+      "pin",
+      "pear",
+      "bear",
+      "pat"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 180,
+    "q": "3,000,000 is three _____.",
+    "choices": [
+      "million",
+      "billion",
+      "thousand"
+    ],
+    "answer": 0
+  }
+]

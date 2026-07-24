@@ -1,0 +1,5862 @@
+[
+  {
+    "q_num": 1,
+    "q": "You _____ not eat unhealthy foo",
+    "choices": [
+      "a) do",
+      "are",
+      "does"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 2,
+    "q": "He usually _____ stories at night.",
+    "choices": [
+      "read",
+      "reading",
+      "reads"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 3,
+    "q": "She _____ to school every day.",
+    "choices": [
+      "walking",
+      "walk",
+      "walks"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 4,
+    "q": "The nature in Ras Mohamed National Park is _____.",
+    "choices": [
+      "boring",
+      "bad",
+      "amazing"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 5,
+    "q": "Ahmed sometimes _____ the floor.",
+    "choices": [
+      "sweeping",
+      "sweeps",
+      "sweep"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 6,
+    "q": "_____ Asmaa visit the museum?",
+    "choices": [
+      "Does",
+      "Do",
+      "Is"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 7,
+    "q": "_____ Ahmed visit the museum?",
+    "choices": [
+      "Is",
+      "Does",
+      "Do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 8,
+    "q": "Mona _____ to school every day.",
+    "choices": [
+      "walks",
+      "walking",
+      "walk"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 9,
+    "q": "Asmaa _____ not play tennis.",
+    "choices": [
+      "is",
+      "do",
+      "does"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 10,
+    "q": "My friends _____ to the club on Fridays.",
+    "choices": [
+      "going",
+      "go",
+      "goes"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 11,
+    "q": "Ras Mohamed is a famous national park in the _____ of Sinai.",
+    "choices": [
+      "east",
+      "north",
+      "south"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 12,
+    "q": "_____ live in the river and they are dangerous.",
+    "choices": [
+      "Tilapia",
+      "Crocodiles",
+      "Ducks"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 13,
+    "q": "My father _____ not play tennis.",
+    "choices": [
+      "do",
+      "does",
+      "is"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 14,
+    "q": "The boys never _____ late.",
+    "choices": [
+      "comes",
+      "come",
+      "coming"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 15,
+    "q": "_____ My father visit the museum?",
+    "choices": [
+      "Is",
+      "Do",
+      "Does"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 16,
+    "q": "Carpenters make furniture in _____.",
+    "choices": [
+      "Aswan",
+      "Luxor",
+      "Damietta"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 17,
+    "q": "They never _____ late.",
+    "choices": [
+      "coming",
+      "come",
+      "comes"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 18,
+    "q": "Mona _____ not play tennis.",
+    "choices": [
+      "is",
+      "do",
+      "does"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 19,
+    "q": "We never _____ late.",
+    "choices": [
+      "coming",
+      "come",
+      "comes"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 20,
+    "q": "What time do The boys _____?",
+    "choices": [
+      "left",
+      "leaves",
+      "leave"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 21,
+    "q": "He _____ not play tennis.",
+    "choices": [
+      "is",
+      "do",
+      "does"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 22,
+    "q": "The Nile _____ through Egypt from south to north.",
+    "choices": [
+      "runs",
+      "flies",
+      "flows"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 23,
+    "q": "Kingfishers and herons are types of _____ near the Nile.",
+    "choices": [
+      "reptiles",
+      "birds",
+      "fish"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 24,
+    "q": "The boys _____ to the club on Fridays.",
+    "choices": [
+      "goes",
+      "going",
+      "go"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 25,
+    "q": "Tourists come to Egypt to visit the ancient _____.",
+    "choices": [
+      "shops",
+      "sites",
+      "factories"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 26,
+    "q": "People fish using small fishing _____.",
+    "choices": [
+      "trees",
+      "cars",
+      "nets"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 27,
+    "q": "The girls never _____ late.",
+    "choices": [
+      "come",
+      "comes",
+      "coming"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 28,
+    "q": "They _____ to the club on Fridays.",
+    "choices": [
+      "go",
+      "going",
+      "goes"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 29,
+    "q": "We _____ not eat unhealthy foo",
+    "choices": [
+      "a) are",
+      "do",
+      "does"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 30,
+    "q": "His family learns many new things about the Egyptian _____.",
+    "choices": [
+      "Museum",
+      "Math",
+      "Stadium"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 31,
+    "q": "They spend a great day _____ Aswan.",
+    "choices": [
+      "of",
+      "off",
+      "in"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 32,
+    "q": "She usually _____ stories at night.",
+    "choices": [
+      "read",
+      "reading",
+      "reads"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 33,
+    "q": "They _____ not eat unhealthy foo",
+    "choices": [
+      "a) does",
+      "do",
+      "are"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 34,
+    "q": "Mona usually _____ stories at night.",
+    "choices": [
+      "read",
+      "reads",
+      "reading"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 35,
+    "q": "The teacher _____ not play tennis.",
+    "choices": [
+      "does",
+      "is",
+      "do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 36,
+    "q": "What time _____ you leave for school?",
+    "choices": [
+      "did",
+      "do",
+      "does"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 37,
+    "q": "My father _____ to school every day.",
+    "choices": [
+      "walks",
+      "walk",
+      "walking"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 38,
+    "q": "People from all over the world visit Ras Mohamed to swim and _____.",
+    "choices": [
+      "dive",
+      "fly",
+      "drive"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 39,
+    "q": "The girls _____ to the club on Fridays.",
+    "choices": [
+      "go",
+      "goes",
+      "going"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 40,
+    "q": "The sun _____ us light.",
+    "choices": [
+      "give",
+      "gave",
+      "gives"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 41,
+    "q": "In the village, some people _____ wool.",
+    "choices": [
+      "harvest",
+      "spin",
+      "drink"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 42,
+    "q": "Ahmed _____ to school every day.",
+    "choices": [
+      "walk",
+      "walks",
+      "walking"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 43,
+    "q": "His family learns many new things about the Egyptian _____.",
+    "choices": [
+      "Math",
+      "Stadium",
+      "Museum"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 44,
+    "q": "There are mountains and _____ trees near the beach.",
+    "choices": [
+      "orange",
+      "mangrove",
+      "apple"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 45,
+    "q": "_____ She visit the museum?",
+    "choices": [
+      "Does",
+      "Is",
+      "Do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 46,
+    "q": "_____ You play football?",
+    "choices": [
+      "Are",
+      "Does",
+      "Do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 47,
+    "q": "The moon _____ round the earth.",
+    "choices": [
+      "went",
+      "goes",
+      "go"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 48,
+    "q": "You _____ to the club on Fridays.",
+    "choices": [
+      "going",
+      "go",
+      "goes"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 49,
+    "q": "My father sometimes _____ the floor.",
+    "choices": [
+      "sweeping",
+      "sweep",
+      "sweeps"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 50,
+    "q": "She _____ not play tennis.",
+    "choices": [
+      "do",
+      "does",
+      "is"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 51,
+    "q": "He sometimes _____ the floor.",
+    "choices": [
+      "sweeps",
+      "sweep",
+      "sweeping"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 52,
+    "q": "_____ The girls play football?",
+    "choices": [
+      "Do",
+      "Does",
+      "Are"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 53,
+    "q": "The boys always _____ their homework.",
+    "choices": [
+      "do",
+      "doing",
+      "does"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 54,
+    "q": "People fish using small fishing _____.",
+    "choices": [
+      "nets",
+      "trees",
+      "cars"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 55,
+    "q": "The girls _____ not eat unhealthy foo",
+    "choices": [
+      "a) does",
+      "are",
+      "do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 56,
+    "q": "People from all over the world visit Ras Mohamed to swim and _____.",
+    "choices": [
+      "fly",
+      "dive",
+      "drive"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 57,
+    "q": "Hassan's family weaves wool on _____.",
+    "choices": [
+      "boats",
+      "looms",
+      "nets"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 58,
+    "q": "She always _____ the be",
+    "choices": [
+      "a) makes",
+      "make",
+      "making"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 59,
+    "q": "What time do My friends _____?",
+    "choices": [
+      "leaves",
+      "left",
+      "leave"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 60,
+    "q": "My father usually _____ stories at night.",
+    "choices": [
+      "reading",
+      "read",
+      "reads"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 61,
+    "q": "Asmaa _____ to school every day.",
+    "choices": [
+      "walking",
+      "walk",
+      "walks"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 62,
+    "q": "There are mountains and _____ trees near the beach.",
+    "choices": [
+      "orange",
+      "mangrove",
+      "apple"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 63,
+    "q": "Farmers _____ the crops in the village.",
+    "choices": [
+      "weave",
+      "harvest",
+      "spin"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 64,
+    "q": "The teacher _____ to school every day.",
+    "choices": [
+      "walking",
+      "walk",
+      "walks"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 65,
+    "q": "Ras Mohamed is known for its beautiful coral _____.",
+    "choices": [
+      "leaves",
+      "trees",
+      "reefs"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 66,
+    "q": "She sometimes _____ the floor.",
+    "choices": [
+      "sweeps",
+      "sweeping",
+      "sweep"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 67,
+    "q": "Ras Mohamed is known for its beautiful coral _____.",
+    "choices": [
+      "trees",
+      "reefs",
+      "leaves"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 68,
+    "q": "Mona always _____ the be",
+    "choices": [
+      "a) makes",
+      "make",
+      "making"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 69,
+    "q": "In the past, the river _____ and brought good soil.",
+    "choices": [
+      "burned",
+      "flooded",
+      "dried"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 70,
+    "q": "What time _____ you leave for school?",
+    "choices": [
+      "do",
+      "does",
+      "did"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 71,
+    "q": "_____ We play football?",
+    "choices": [
+      "Do",
+      "Are",
+      "Does"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 72,
+    "q": "You never _____ late.",
+    "choices": [
+      "coming",
+      "comes",
+      "come"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 73,
+    "q": "In the village, some people _____ wool.",
+    "choices": [
+      "drink",
+      "spin",
+      "harvest"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 74,
+    "q": "You can see sea turtles and _____ in the national park.",
+    "choices": [
+      "elephants",
+      "lions",
+      "dolphins"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 75,
+    "q": "_____ They play football?",
+    "choices": [
+      "Do",
+      "Does",
+      "Are"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 76,
+    "q": "They spend a great day _____ Aswan.",
+    "choices": [
+      "in",
+      "of",
+      "off"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 77,
+    "q": "The teacher sometimes _____ the floor.",
+    "choices": [
+      "sweep",
+      "sweeping",
+      "sweeps"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 78,
+    "q": "My friends always _____ their homework.",
+    "choices": [
+      "do",
+      "does",
+      "doing"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 79,
+    "q": "_____ The teacher visit the museum?",
+    "choices": [
+      "Do",
+      "Is",
+      "Does"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 80,
+    "q": "The sun _____ us light.",
+    "choices": [
+      "gave",
+      "gives",
+      "give"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 81,
+    "q": "In the past, the river _____ and brought good soil.",
+    "choices": [
+      "burned",
+      "dried",
+      "flooded"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 82,
+    "q": "The teacher always _____ the be",
+    "choices": [
+      "a) make",
+      "making",
+      "makes"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 83,
+    "q": "_____ He visit the museum?",
+    "choices": [
+      "Is",
+      "Do",
+      "Does"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 84,
+    "q": "We buy _____ from Khan El Khalili.",
+    "choices": [
+      "furniture",
+      "cars",
+      "souvenirs"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 85,
+    "q": "The nature in Ras Mohamed National Park is _____.",
+    "choices": [
+      "boring",
+      "amazing",
+      "bad"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 86,
+    "q": "Asmaa always _____ the be",
+    "choices": [
+      "a) make",
+      "makes",
+      "making"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 87,
+    "q": "The girls always _____ their homework.",
+    "choices": [
+      "do",
+      "doing",
+      "does"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 88,
+    "q": "Big fish like Nile _____ swim in the water.",
+    "choices": [
+      "perch",
+      "dogs",
+      "cats"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 89,
+    "q": "The Nile _____ through Egypt from south to north.",
+    "choices": [
+      "runs",
+      "flies",
+      "flows"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 90,
+    "q": "Farmers _____ the crops in the village.",
+    "choices": [
+      "harvest",
+      "weave",
+      "spin"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 91,
+    "q": "He _____ to school every day.",
+    "choices": [
+      "walk",
+      "walking",
+      "walks"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 92,
+    "q": "You always _____ their homework.",
+    "choices": [
+      "does",
+      "doing",
+      "do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 93,
+    "q": "We always _____ their homework.",
+    "choices": [
+      "doing",
+      "do",
+      "does"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 94,
+    "q": "What time do They _____?",
+    "choices": [
+      "leaves",
+      "leave",
+      "left"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 95,
+    "q": "We buy _____ from Khan El Khalili.",
+    "choices": [
+      "furniture",
+      "cars",
+      "souvenirs"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 96,
+    "q": "The moon _____ round the earth.",
+    "choices": [
+      "went",
+      "goes",
+      "go"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 97,
+    "q": "They always _____ their homework.",
+    "choices": [
+      "does",
+      "doing",
+      "do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 98,
+    "q": "The teacher usually _____ stories at night.",
+    "choices": [
+      "reads",
+      "read",
+      "reading"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 99,
+    "q": "My father always _____ the be",
+    "choices": [
+      "a) makes",
+      "make",
+      "making"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 100,
+    "q": "Carpenters make furniture in _____.",
+    "choices": [
+      "Aswan",
+      "Luxor",
+      "Damietta"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 1,
+    "q": "Look! They _____ in the park.",
+    "choices": [
+      "are running",
+      "runs",
+      "run"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 2,
+    "q": "My brother _____ not studying at the moment.",
+    "choices": [
+      "is",
+      "do",
+      "does"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 3,
+    "q": "After the jewelry, we saw tools and _____.",
+    "choices": [
+      "books",
+      "artifacts",
+      "clothes"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 4,
+    "q": "Farmers _____ fruits like guavas and figs.",
+    "choices": [
+      "grow",
+      "build",
+      "make"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 5,
+    "q": "Plane journeys cause a lot of _____.",
+    "choices": [
+      "exercise",
+      "pollution",
+      "monuments"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 6,
+    "q": "Listen! My brother _____ a song.",
+    "choices": [
+      "sing",
+      "is singing",
+      "sings"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 7,
+    "q": "The boys _____ visiting London now.",
+    "choices": [
+      "are",
+      "is",
+      "do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 8,
+    "q": "Cairo is a very _____ place with many cars.",
+    "choices": [
+      "quiet",
+      "busy",
+      "empty"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 9,
+    "q": "Listen! He _____ a song.",
+    "choices": [
+      "is singing",
+      "sings",
+      "sing"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 10,
+    "q": "There were bracelets and _____ from Ancient Egypt.",
+    "choices": [
+      "shoes",
+      "necklaces",
+      "dresses"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 11,
+    "q": "When it's hot, people rest in the _____.",
+    "choices": [
+      "shade",
+      "dust",
+      "sun"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 12,
+    "q": "Tourists can _____ the natural environment.",
+    "choices": [
+      "keep",
+      "save",
+      "damage"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 13,
+    "q": "Why _____ He running?",
+    "choices": [
+      "does",
+      "has",
+      "is"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 14,
+    "q": "Eman _____ his room right now.",
+    "choices": [
+      "is cleaning",
+      "clean",
+      "cleans"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 15,
+    "q": "What is hibiscus used _____ in the family?",
+    "choices": [
+      "for",
+      "of",
+      "from"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 16,
+    "q": "Farmers _____ fruits like guavas and figs.",
+    "choices": [
+      "build",
+      "make",
+      "grow"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 17,
+    "q": "Aisha _____ his room right now.",
+    "choices": [
+      "cleans",
+      "clean",
+      "is cleaning"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 18,
+    "q": "We _____ not wearing jackets, it's hot.",
+    "choices": [
+      "do",
+      "is",
+      "are"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 19,
+    "q": "In Egypt, people use _____ like basil in cooking.",
+    "choices": [
+      "fruits",
+      "herbs",
+      "meat"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 20,
+    "q": "Plane journeys cause a lot of _____.",
+    "choices": [
+      "exercise",
+      "monuments",
+      "pollution"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 21,
+    "q": "They are _____ for the football game.",
+    "choices": [
+      "practicing",
+      "practice",
+      "practices"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 22,
+    "q": "Look! We _____ in the park.",
+    "choices": [
+      "runs",
+      "are running",
+      "run"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 23,
+    "q": "Aisha _____ not studying at the moment.",
+    "choices": [
+      "does",
+      "is",
+      "do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 24,
+    "q": "_____ The boys eating lunch at the moment?",
+    "choices": [
+      "Are",
+      "Is",
+      "Do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 25,
+    "q": "People use olives to make _____.",
+    "choices": [
+      "oil",
+      "juice",
+      "water"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 26,
+    "q": "Good sleep is important for a _____ life.",
+    "choices": [
+      "bad",
+      "healthy",
+      "sick"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 27,
+    "q": "We help grandpa take _____ of the plants.",
+    "choices": [
+      "care",
+      "have",
+      "grow"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 28,
+    "q": "What are We _____?",
+    "choices": [
+      "do",
+      "doing",
+      "does"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 29,
+    "q": "The countryside is _____ than Cairo.",
+    "choices": [
+      "faster",
+      "quieter",
+      "noisier"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 30,
+    "q": "Why _____ My brother running?",
+    "choices": [
+      "does",
+      "is",
+      "has"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 31,
+    "q": "Listen! She _____ a song.",
+    "choices": [
+      "sing",
+      "is singing",
+      "sings"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 32,
+    "q": "Healthy habits are a good way to _____ your life.",
+    "choices": [
+      "lose",
+      "enjoy",
+      "hate"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 33,
+    "q": "Look! She _____ tennis now.",
+    "choices": [
+      "plays",
+      "play",
+      "is playing"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 34,
+    "q": "They _____ visiting London now.",
+    "choices": [
+      "do",
+      "is",
+      "are"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 35,
+    "q": "We wear hats to _____ ourselves from the sun.",
+    "choices": [
+      "heat",
+      "clean",
+      "protect"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 36,
+    "q": "_____ We eating lunch at the moment?",
+    "choices": [
+      "Do",
+      "Is",
+      "Are"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 37,
+    "q": "After the jewelry, we saw tools and _____.",
+    "choices": [
+      "clothes",
+      "books",
+      "artifacts"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 38,
+    "q": "_____ Ahmed washing the dishes now?",
+    "choices": [
+      "Does",
+      "Are",
+      "Is"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 39,
+    "q": "Healthy habits are a good way to _____ your life.",
+    "choices": [
+      "enjoy",
+      "lose",
+      "hate"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 40,
+    "q": "_____ Mohamed washing the dishes now?",
+    "choices": [
+      "Is",
+      "Does",
+      "Are"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 41,
+    "q": "I _____ out the weeds from the garden every morning.",
+    "choices": [
+      "check",
+      "pull",
+      "eat"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 42,
+    "q": "In _____ weather, people should drink a lot of water.",
+    "choices": [
+      "cool",
+      "hot",
+      "rainy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 43,
+    "q": "You _____ not wearing jackets, it's hot.",
+    "choices": [
+      "do",
+      "is",
+      "are"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 44,
+    "q": "_____ She washing the dishes now?",
+    "choices": [
+      "Are",
+      "Does",
+      "Is"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 45,
+    "q": "We help grandpa take _____ of the plants.",
+    "choices": [
+      "have",
+      "care",
+      "grow"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 46,
+    "q": "My friends _____ visiting London now.",
+    "choices": [
+      "is",
+      "do",
+      "are"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 47,
+    "q": "Eman _____ not studying at the moment.",
+    "choices": [
+      "is",
+      "does",
+      "do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 48,
+    "q": "_____ My brother washing the dishes now?",
+    "choices": [
+      "Does",
+      "Is",
+      "Are"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 49,
+    "q": "Why _____ She running?",
+    "choices": [
+      "is",
+      "has",
+      "does"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 50,
+    "q": "In Egypt, people use _____ like basil in cooking.",
+    "choices": [
+      "herbs",
+      "meat",
+      "fruits"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 51,
+    "q": "We are _____ for the football game.",
+    "choices": [
+      "practice",
+      "practices",
+      "practicing"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 52,
+    "q": "Look! My brother _____ tennis now.",
+    "choices": [
+      "is playing",
+      "play",
+      "plays"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 53,
+    "q": "I _____ out the weeds from the garden every morning.",
+    "choices": [
+      "check",
+      "eat",
+      "pull"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 54,
+    "q": "What are My friends _____?",
+    "choices": [
+      "do",
+      "doing",
+      "does"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 55,
+    "q": "Why _____ Eman running?",
+    "choices": [
+      "has",
+      "does",
+      "is"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 56,
+    "q": "It is windy and the sky is full of dark _____.",
+    "choices": [
+      "plants",
+      "clouds",
+      "stars"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 57,
+    "q": "_____ They eating lunch at the moment?",
+    "choices": [
+      "Is",
+      "Are",
+      "Do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 58,
+    "q": "My friends _____ not wearing jackets, it's hot.",
+    "choices": [
+      "is",
+      "are",
+      "do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 59,
+    "q": "He _____ his room right now.",
+    "choices": [
+      "clean",
+      "cleans",
+      "is cleaning"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 60,
+    "q": "_____ You eating lunch at the moment?",
+    "choices": [
+      "Are",
+      "Do",
+      "Is"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 61,
+    "q": "She _____ not studying at the moment.",
+    "choices": [
+      "is",
+      "does",
+      "do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 62,
+    "q": "I like looking at the high _____ in the se",
+    "choices": [
+      "a) mountains",
+      "stars",
+      "waves"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 63,
+    "q": "_____ Eman washing the dishes now?",
+    "choices": [
+      "Is",
+      "Does",
+      "Are"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 64,
+    "q": "Mohamed _____ not studying at the moment.",
+    "choices": [
+      "do",
+      "is",
+      "does"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 65,
+    "q": "Listen! Mohamed _____ a song.",
+    "choices": [
+      "is singing",
+      "sing",
+      "sings"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 66,
+    "q": "Ahmed _____ his room right now.",
+    "choices": [
+      "clean",
+      "cleans",
+      "is cleaning"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 67,
+    "q": "Listen! Ahmed _____ a song.",
+    "choices": [
+      "is singing",
+      "sing",
+      "sings"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 68,
+    "q": "_____ Aisha washing the dishes now?",
+    "choices": [
+      "Is",
+      "Are",
+      "Does"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 69,
+    "q": "We wear hats to _____ ourselves from the sun.",
+    "choices": [
+      "clean",
+      "protect",
+      "heat"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 70,
+    "q": "What are They _____?",
+    "choices": [
+      "doing",
+      "does",
+      "do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 71,
+    "q": "What are You _____?",
+    "choices": [
+      "doing",
+      "do",
+      "does"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 72,
+    "q": "The streets are _____ because it is raining heavily.",
+    "choices": [
+      "dry",
+      "dusty",
+      "wet"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 73,
+    "q": "Look! The boys _____ in the park.",
+    "choices": [
+      "runs",
+      "run",
+      "are running"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 74,
+    "q": "You are _____ for the football game.",
+    "choices": [
+      "practices",
+      "practice",
+      "practicing"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 75,
+    "q": "We visited a room with lots of _____.",
+    "choices": [
+      "chairs",
+      "books",
+      "jewelry"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 76,
+    "q": "The boys _____ not wearing jackets, it's hot.",
+    "choices": [
+      "is",
+      "do",
+      "are"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 77,
+    "q": "Look! My friends _____ in the park.",
+    "choices": [
+      "run",
+      "are running",
+      "runs"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 78,
+    "q": "Why _____ Aisha running?",
+    "choices": [
+      "does",
+      "has",
+      "is"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 79,
+    "q": "We _____ the plants every day.",
+    "choices": [
+      "burn",
+      "water",
+      "oil"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 80,
+    "q": "He _____ not studying at the moment.",
+    "choices": [
+      "do",
+      "is",
+      "does"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 81,
+    "q": "The streets are _____ because it is raining heavily.",
+    "choices": [
+      "dry",
+      "dusty",
+      "wet"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 82,
+    "q": "_____ He washing the dishes now?",
+    "choices": [
+      "Are",
+      "Does",
+      "Is"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 83,
+    "q": "Listen! Eman _____ a song.",
+    "choices": [
+      "is singing",
+      "sings",
+      "sing"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 84,
+    "q": "In _____ weather, people should drink a lot of water.",
+    "choices": [
+      "cool",
+      "rainy",
+      "hot"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 85,
+    "q": "What is hibiscus used _____ in the family?",
+    "choices": [
+      "from",
+      "for",
+      "of"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 86,
+    "q": "Ahmed _____ not studying at the moment.",
+    "choices": [
+      "do",
+      "is",
+      "does"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 87,
+    "q": "Look! Mohamed _____ tennis now.",
+    "choices": [
+      "play",
+      "plays",
+      "is playing"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 88,
+    "q": "Look! Ahmed _____ tennis now.",
+    "choices": [
+      "plays",
+      "is playing",
+      "play"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 89,
+    "q": "Why _____ Ahmed running?",
+    "choices": [
+      "has",
+      "is",
+      "does"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 90,
+    "q": "It is windy and the sky is full of dark _____.",
+    "choices": [
+      "plants",
+      "stars",
+      "clouds"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 91,
+    "q": "Why _____ Mohamed running?",
+    "choices": [
+      "has",
+      "is",
+      "does"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 92,
+    "q": "You _____ visiting London now.",
+    "choices": [
+      "do",
+      "is",
+      "are"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 93,
+    "q": "When it's hot, people rest in the _____.",
+    "choices": [
+      "dust",
+      "shade",
+      "sun"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 94,
+    "q": "My friends are _____ for the football game.",
+    "choices": [
+      "practice",
+      "practicing",
+      "practices"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 95,
+    "q": "Look! Eman _____ tennis now.",
+    "choices": [
+      "plays",
+      "is playing",
+      "play"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 96,
+    "q": "Look! Aisha _____ tennis now.",
+    "choices": [
+      "play",
+      "plays",
+      "is playing"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 97,
+    "q": "Every morning, I check for _____ on the plants.",
+    "choices": [
+      "insects",
+      "cats",
+      "birds"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 98,
+    "q": "Every morning, I check for _____ on the plants.",
+    "choices": [
+      "birds",
+      "cats",
+      "insects"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 99,
+    "q": "_____ My friends eating lunch at the moment?",
+    "choices": [
+      "Do",
+      "Is",
+      "Are"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 100,
+    "q": "I like looking at the high _____ in the se",
+    "choices": [
+      "a) waves",
+      "stars",
+      "mountains"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 1,
+    "q": "Dairy products like milk and _____ are good for us.",
+    "choices": [
+      "meat",
+      "cheese",
+      "bread"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 2,
+    "q": "_____ Hassan do the research?",
+    "choices": [
+      "Can",
+      "Is",
+      "Does"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 3,
+    "q": "She is able _____ English very well.",
+    "choices": [
+      "to speak",
+      "speak",
+      "speaking"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 4,
+    "q": "He _____ not walk to school.",
+    "choices": [
+      "do not",
+      "is not",
+      "cannot"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 5,
+    "q": "The students _____ play tennis outside.",
+    "choices": [
+      "are",
+      "can",
+      "able"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 6,
+    "q": "Scientists try to know when a volcano _____.",
+    "choices": [
+      "melts",
+      "travels",
+      "erupts"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 7,
+    "q": "Are They _____ to tidy the flat?",
+    "choices": [
+      "could",
+      "able",
+      "can"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 8,
+    "q": "Hedaya won the bronze _____ in 2016.",
+    "choices": [
+      "book",
+      "medal",
+      "cup"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 9,
+    "q": "_____ Mona do the research?",
+    "choices": [
+      "Does",
+      "Can",
+      "Is"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 10,
+    "q": "_____ The students help the community?",
+    "choices": [
+      "Are",
+      "Can",
+      "Do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 11,
+    "q": "He is _____ to draw beautifully.",
+    "choices": [
+      "could",
+      "able",
+      "can"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 12,
+    "q": "They _____ play tennis outside.",
+    "choices": [
+      "are",
+      "can",
+      "able"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 13,
+    "q": "You _____ play tennis outside.",
+    "choices": [
+      "can",
+      "able",
+      "are"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 14,
+    "q": "Hassan _____ speak French.",
+    "choices": [
+      "able",
+      "is",
+      "can"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 15,
+    "q": "They _____ play tennis outside.",
+    "choices": [
+      "are",
+      "able",
+      "can"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 16,
+    "q": "_____ They help the community?",
+    "choices": [
+      "Do",
+      "Are",
+      "Can"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 17,
+    "q": "Are We _____ to tidy the flat?",
+    "choices": [
+      "able",
+      "can",
+      "could"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 18,
+    "q": "She is _____ to draw beautifully.",
+    "choices": [
+      "can",
+      "able",
+      "could"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 19,
+    "q": "When the volcano is awake, we say it is _____.",
+    "choices": [
+      "dead",
+      "active",
+      "sleeping"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 20,
+    "q": "Carbohydrates are found in bread and _____.",
+    "choices": [
+      "rice",
+      "meat",
+      "milk"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 21,
+    "q": "A _____ cleans the roads.",
+    "choices": [
+      "street cleaner",
+      "teacher",
+      "mechanic"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 22,
+    "q": "Hassan _____ not walk to school.",
+    "choices": [
+      "is not",
+      "do not",
+      "cannot"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 23,
+    "q": "_____ You help the community?",
+    "choices": [
+      "Can",
+      "Are",
+      "Do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 24,
+    "q": "She _____ not walk to school.",
+    "choices": [
+      "is not",
+      "cannot",
+      "do not"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 25,
+    "q": "Mechanics fix _____.",
+    "choices": [
+      "computers",
+      "vehicles",
+      "bags"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 26,
+    "q": "Are We _____ to tidy the flat?",
+    "choices": [
+      "can",
+      "could",
+      "able"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 27,
+    "q": "Scientists try to know when a volcano _____.",
+    "choices": [
+      "melts",
+      "travels",
+      "erupts"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 28,
+    "q": "_____ She do the research?",
+    "choices": [
+      "Is",
+      "Does",
+      "Can"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 29,
+    "q": "A _____ brings food or packages to places.",
+    "choices": [
+      "nurse",
+      "doctor",
+      "delivery person"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 30,
+    "q": "We are able _____ fast.",
+    "choices": [
+      "run",
+      "to run",
+      "running"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 31,
+    "q": "Scientists who study food are called _____.",
+    "choices": [
+      "plumbers",
+      "nutritionists",
+      "mechanics"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 32,
+    "q": "The students are able _____ fast.",
+    "choices": [
+      "run",
+      "running",
+      "to run"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 33,
+    "q": "Nancy Johnson invented the first ice cream _____.",
+    "choices": [
+      "shop",
+      "churn",
+      "factory"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 34,
+    "q": "He _____ speak French.",
+    "choices": [
+      "able",
+      "is",
+      "can"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 35,
+    "q": "Are The students _____ to tidy the flat?",
+    "choices": [
+      "can",
+      "could",
+      "able"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 36,
+    "q": "A _____ helps patients in emergencies.",
+    "choices": [
+      "paramedic",
+      "policeman",
+      "cleaner"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 37,
+    "q": "Hassan _____ not walk to school.",
+    "choices": [
+      "do not",
+      "is not",
+      "cannot"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 38,
+    "q": "Are You _____ to tidy the flat?",
+    "choices": [
+      "able",
+      "could",
+      "can"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 39,
+    "q": "_____ The students help the community?",
+    "choices": [
+      "Can",
+      "Are",
+      "Do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 40,
+    "q": "Mona _____ not walk to school.",
+    "choices": [
+      "is not",
+      "cannot",
+      "do not"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 41,
+    "q": "Hedaya won the bronze _____ in 2016.",
+    "choices": [
+      "book",
+      "cup",
+      "medal"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 42,
+    "q": "Mona is _____ to draw beautifully.",
+    "choices": [
+      "could",
+      "can",
+      "able"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 43,
+    "q": "_____ He do the research?",
+    "choices": [
+      "Can",
+      "Does",
+      "Is"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 44,
+    "q": "Hassan is _____ to draw beautifully.",
+    "choices": [
+      "able",
+      "can",
+      "could"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 45,
+    "q": "She carried the Egyptian _____ at the Tokyo Olympic Games.",
+    "choices": [
+      "book",
+      "bag",
+      "flag"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 46,
+    "q": "_____ They help the community?",
+    "choices": [
+      "Can",
+      "Are",
+      "Do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 47,
+    "q": "You are able _____ fast.",
+    "choices": [
+      "to run",
+      "running",
+      "run"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 48,
+    "q": "We _____ not able to swim.",
+    "choices": [
+      "do",
+      "can",
+      "are"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 49,
+    "q": "He used bread and _____ for the first sandwich.",
+    "choices": [
+      "eggs",
+      "meat",
+      "cheese"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 50,
+    "q": "They rode camels into the Sahara _____.",
+    "choices": [
+      "Desert",
+      "Lake",
+      "River"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 51,
+    "q": "They are able _____ fast.",
+    "choices": [
+      "run",
+      "running",
+      "to run"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 52,
+    "q": "When the rock is very hot, it is called _____.",
+    "choices": [
+      "lava",
+      "water",
+      "ice"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 53,
+    "q": "Hedaya Malak is a famous Egyptian _____ player.",
+    "choices": [
+      "taekwondo",
+      "tennis",
+      "football"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 54,
+    "q": "They _____ not able to swim.",
+    "choices": [
+      "can",
+      "are",
+      "do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 55,
+    "q": "He is _____ to draw beautifully.",
+    "choices": [
+      "could",
+      "can",
+      "able"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 56,
+    "q": "There are a lot of ice cream _____ like chocolate and vanill",
+    "choices": [
+      "a) flowers",
+      "flour",
+      "flavors"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 57,
+    "q": "The students are able _____ fast.",
+    "choices": [
+      "to run",
+      "running",
+      "run"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 58,
+    "q": "The students _____ not able to swim.",
+    "choices": [
+      "can",
+      "do",
+      "are"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 59,
+    "q": "You _____ not able to swim.",
+    "choices": [
+      "can",
+      "are",
+      "do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 60,
+    "q": "A camel _____ helped me to climb onto the saddle.",
+    "choices": [
+      "waiter",
+      "mechanic",
+      "driver"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 61,
+    "q": "A camel _____ helped me to climb onto the saddle.",
+    "choices": [
+      "driver",
+      "waiter",
+      "mechanic"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 62,
+    "q": "Carbohydrates are found in bread and _____.",
+    "choices": [
+      "meat",
+      "rice",
+      "milk"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 63,
+    "q": "When the volcano is awake, we say it is _____.",
+    "choices": [
+      "active",
+      "dead",
+      "sleeping"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 64,
+    "q": "John Montagu invented the _____ in 1750.",
+    "choices": [
+      "sandwich",
+      "plane",
+      "car"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 65,
+    "q": "Hassan is able _____ English very well.",
+    "choices": [
+      "to speak",
+      "speak",
+      "speaking"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 66,
+    "q": "A _____ brings food or packages to places.",
+    "choices": [
+      "delivery person",
+      "doctor",
+      "nurse"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 67,
+    "q": "_____ She do the research?",
+    "choices": [
+      "Does",
+      "Is",
+      "Can"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 68,
+    "q": "Mona _____ speak French.",
+    "choices": [
+      "is",
+      "can",
+      "able"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 69,
+    "q": "She carried the Egyptian _____ at the Tokyo Olympic Games.",
+    "choices": [
+      "book",
+      "bag",
+      "flag"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 70,
+    "q": "Mona is able _____ English very well.",
+    "choices": [
+      "speaking",
+      "speak",
+      "to speak"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 71,
+    "q": "The traffic officer helps people _____ the roa",
+    "choices": [
+      "a) cross",
+      "make",
+      "put"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 72,
+    "q": "She _____ not walk to school.",
+    "choices": [
+      "do not",
+      "cannot",
+      "is not"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 73,
+    "q": "He used bread and _____ for the first sandwich.",
+    "choices": [
+      "eggs",
+      "cheese",
+      "meat"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 74,
+    "q": "They _____ not able to swim.",
+    "choices": [
+      "are",
+      "can",
+      "do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 75,
+    "q": "We _____ play tennis outside.",
+    "choices": [
+      "can",
+      "able",
+      "are"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 76,
+    "q": "She _____ speak French.",
+    "choices": [
+      "is",
+      "can",
+      "able"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 77,
+    "q": "Hassan is _____ to draw beautifully.",
+    "choices": [
+      "able",
+      "can",
+      "could"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 78,
+    "q": "_____ We help the community?",
+    "choices": [
+      "Can",
+      "Are",
+      "Do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 79,
+    "q": "Mona is able _____ English very well.",
+    "choices": [
+      "speaking",
+      "to speak",
+      "speak"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 80,
+    "q": "When the rock is very hot, it is called _____.",
+    "choices": [
+      "water",
+      "lava",
+      "ice"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 81,
+    "q": "Volcanoes can be called _____ mountains.",
+    "choices": [
+      "ice",
+      "water",
+      "fire"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 82,
+    "q": "We _____ not able to swim.",
+    "choices": [
+      "can",
+      "are",
+      "do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 83,
+    "q": "She is able _____ English very well.",
+    "choices": [
+      "speaking",
+      "speak",
+      "to speak"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 84,
+    "q": "He is able _____ English very well.",
+    "choices": [
+      "to speak",
+      "speak",
+      "speaking"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 85,
+    "q": "_____ Hassan do the research?",
+    "choices": [
+      "Is",
+      "Can",
+      "Does"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 86,
+    "q": "The students _____ not able to swim.",
+    "choices": [
+      "do",
+      "can",
+      "are"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 87,
+    "q": "Protein is found in meat, fish and _____.",
+    "choices": [
+      "rice",
+      "beans",
+      "apples"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 88,
+    "q": "They rode camels into the Sahara _____.",
+    "choices": [
+      "River",
+      "Lake",
+      "Desert"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 89,
+    "q": "Mechanics fix _____.",
+    "choices": [
+      "vehicles",
+      "bags",
+      "computers"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 90,
+    "q": "Are They _____ to tidy the flat?",
+    "choices": [
+      "can",
+      "able",
+      "could"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 91,
+    "q": "We _____ play tennis outside.",
+    "choices": [
+      "able",
+      "are",
+      "can"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 92,
+    "q": "Mona is _____ to draw beautifully.",
+    "choices": [
+      "could",
+      "able",
+      "can"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 93,
+    "q": "The students _____ play tennis outside.",
+    "choices": [
+      "can",
+      "are",
+      "able"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 94,
+    "q": "John Montagu invented the _____ in 1750.",
+    "choices": [
+      "sandwich",
+      "plane",
+      "car"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 95,
+    "q": "He _____ not walk to school.",
+    "choices": [
+      "is not",
+      "cannot",
+      "do not"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 96,
+    "q": "A _____ cleans the roads.",
+    "choices": [
+      "street cleaner",
+      "mechanic",
+      "teacher"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 97,
+    "q": "You _____ not able to swim.",
+    "choices": [
+      "are",
+      "can",
+      "do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 98,
+    "q": "Nancy Johnson invented the first ice cream _____.",
+    "choices": [
+      "shop",
+      "factory",
+      "churn"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 99,
+    "q": "Mona _____ not walk to school.",
+    "choices": [
+      "cannot",
+      "do not",
+      "is not"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 100,
+    "q": "He liked to eat a sandwich and play _____.",
+    "choices": [
+      "football",
+      "cards",
+      "tennis"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 1,
+    "q": "Walking short distances saves _____.",
+    "choices": [
+      "food",
+      "energy",
+      "water"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 2,
+    "q": "They _____ touch electrical wires.",
+    "choices": [
+      "must",
+      "have to",
+      "mustn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 3,
+    "q": "Students _____ smoke, it's bad for health.",
+    "choices": [
+      "mustn't",
+      "should",
+      "must"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 4,
+    "q": "To _____ is to continue to exist for a long time.",
+    "choices": [
+      "waste",
+      "harm",
+      "survive"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 5,
+    "q": "We must _____ the Earth from pollution.",
+    "choices": [
+      "leave",
+      "protect",
+      "forget"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 6,
+    "q": "We use colored _____ to make beautiful jewelry.",
+    "choices": [
+      "papyrus",
+      "temples",
+      "stones"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 7,
+    "q": "We _____ stop when the light is re",
+    "choices": [
+      "a) must",
+      "mustn't",
+      "has to"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 8,
+    "q": "People _____ waste water.",
+    "choices": [
+      "should",
+      "shouldn't",
+      "are to"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 9,
+    "q": "They _____ waste water.",
+    "choices": [
+      "should",
+      "are to",
+      "shouldn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 10,
+    "q": "People _____ listen to the teacher carefully.",
+    "choices": [
+      "aren't to",
+      "mustn't",
+      "must"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 11,
+    "q": "Egypt sells _____ to other countries.",
+    "choices": [
+      "oil",
+      "villages",
+      "towns"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 12,
+    "q": "Papyrus is a _____ that lasts long.",
+    "choices": [
+      "golden stone",
+      "food",
+      "writing material"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 13,
+    "q": "You _____ protect the environment.",
+    "choices": [
+      "mustn't",
+      "must",
+      "shouldn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 14,
+    "q": "You _____ speak politely to parents.",
+    "choices": [
+      "mustn't",
+      "have",
+      "must"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 15,
+    "q": "Egypt sells _____ to other countries.",
+    "choices": [
+      "towns",
+      "oil",
+      "villages"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 16,
+    "q": "Papyrus is a _____ that lasts long.",
+    "choices": [
+      "writing material",
+      "food",
+      "golden stone"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 17,
+    "q": "People _____ protect the environment.",
+    "choices": [
+      "must",
+      "shouldn't",
+      "mustn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 18,
+    "q": "Students _____ stop when the light is re",
+    "choices": [
+      "a) mustn't",
+      "must",
+      "has to"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 19,
+    "q": "Wasting energy causes climate _____.",
+    "choices": [
+      "protect",
+      "change",
+      "panels"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 20,
+    "q": "People _____ smoke, it's bad for health.",
+    "choices": [
+      "must",
+      "should",
+      "mustn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 21,
+    "q": "We _____ turn off the computer when finishe",
+    "choices": [
+      "a) mustn't",
+      "shouldn't",
+      "should"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 22,
+    "q": "Oil is a black _____.",
+    "choices": [
+      "rocks",
+      "liquid",
+      "iron"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 23,
+    "q": "Students _____ speak politely to parents.",
+    "choices": [
+      "have",
+      "mustn't",
+      "must"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 24,
+    "q": "We _____ smoke, it's bad for health.",
+    "choices": [
+      "mustn't",
+      "should",
+      "must"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 25,
+    "q": "They _____ listen to the teacher carefully.",
+    "choices": [
+      "must",
+      "mustn't",
+      "aren't to"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 26,
+    "q": "They _____ waste water.",
+    "choices": [
+      "shouldn't",
+      "are to",
+      "should"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 27,
+    "q": "We _____ waste water.",
+    "choices": [
+      "are to",
+      "shouldn't",
+      "should"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 28,
+    "q": "Students _____ listen to the teacher carefully.",
+    "choices": [
+      "must",
+      "aren't to",
+      "mustn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 29,
+    "q": "We _____ smoke, it's bad for health.",
+    "choices": [
+      "must",
+      "should",
+      "mustn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 30,
+    "q": "They _____ protect the environment.",
+    "choices": [
+      "mustn't",
+      "must",
+      "shouldn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 31,
+    "q": "They _____ touch electrical wires.",
+    "choices": [
+      "must",
+      "mustn't",
+      "have to"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 32,
+    "q": "People _____ speak politely to parents.",
+    "choices": [
+      "mustn't",
+      "have",
+      "must"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 33,
+    "q": "Oil is a black _____.",
+    "choices": [
+      "liquid",
+      "iron",
+      "rocks"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 34,
+    "q": "Gold is a beautiful, yellow, shiny _____.",
+    "choices": [
+      "liquid",
+      "wood",
+      "metal"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 35,
+    "q": "We _____ protect the environment.",
+    "choices": [
+      "must",
+      "shouldn't",
+      "mustn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 36,
+    "q": "They _____ turn off the computer when finishe",
+    "choices": [
+      "a) mustn't",
+      "shouldn't",
+      "should"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 37,
+    "q": "Steel is used for cars and _____.",
+    "choices": [
+      "paper",
+      "food",
+      "buildings"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 38,
+    "q": "Walking short distances saves _____.",
+    "choices": [
+      "food",
+      "energy",
+      "water"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 39,
+    "q": "You _____ listen to the teacher carefully.",
+    "choices": [
+      "mustn't",
+      "aren't to",
+      "must"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 40,
+    "q": "To _____ means to make something look nice.",
+    "choices": [
+      "decorate",
+      "wrap",
+      "destroy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 41,
+    "q": "Students _____ stop when the light is re",
+    "choices": [
+      "a) has to",
+      "must",
+      "mustn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 42,
+    "q": "Students _____ touch electrical wires.",
+    "choices": [
+      "mustn't",
+      "have to",
+      "must"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 43,
+    "q": "Gases from cars and buses can _____ the air.",
+    "choices": [
+      "protect",
+      "pollute",
+      "clean"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 44,
+    "q": "People _____ touch electrical wires.",
+    "choices": [
+      "must",
+      "have to",
+      "mustn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 45,
+    "q": "A _____ is a person who you invite to your home.",
+    "choices": [
+      "guest",
+      "breath",
+      "adult"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 46,
+    "q": "You _____ turn off the computer when finishe",
+    "choices": [
+      "a) should",
+      "shouldn't",
+      "mustn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 47,
+    "q": "People _____ waste water.",
+    "choices": [
+      "are to",
+      "shouldn't",
+      "should"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 48,
+    "q": "We must _____ the Earth from pollution.",
+    "choices": [
+      "forget",
+      "protect",
+      "leave"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 49,
+    "q": "They _____ stop when the light is re",
+    "choices": [
+      "a) must",
+      "mustn't",
+      "has to"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 50,
+    "q": "You _____ turn off the computer when finishe",
+    "choices": [
+      "a) shouldn't",
+      "should",
+      "mustn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 51,
+    "q": "Candles are made of _____.",
+    "choices": [
+      "cotton",
+      "wax",
+      "sticks"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 52,
+    "q": "Students _____ protect the environment.",
+    "choices": [
+      "mustn't",
+      "shouldn't",
+      "must"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 53,
+    "q": "To _____ means to make something look nice.",
+    "choices": [
+      "decorate",
+      "destroy",
+      "wrap"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 54,
+    "q": "Iron and gold are found under the _____.",
+    "choices": [
+      "ground",
+      "sky",
+      "sun"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 55,
+    "q": "Egypt has many valuable things _____ the groun",
+    "choices": [
+      "a) under",
+      "behind",
+      "next"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 56,
+    "q": "People _____ touch electrical wires.",
+    "choices": [
+      "must",
+      "mustn't",
+      "have to"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 57,
+    "q": "People _____ protect the environment.",
+    "choices": [
+      "shouldn't",
+      "mustn't",
+      "must"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 58,
+    "q": "Egypt has many _____ that we can visit.",
+    "choices": [
+      "buses",
+      "solar panels",
+      "temples"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 59,
+    "q": "We _____ waste water.",
+    "choices": [
+      "shouldn't",
+      "are to",
+      "should"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 60,
+    "q": "Using more solar _____ saves money.",
+    "choices": [
+      "buses",
+      "cars",
+      "panels"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 61,
+    "q": "Ancient Egyptians used linen to _____ mummies.",
+    "choices": [
+      "eat",
+      "decorate",
+      "wrap"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 62,
+    "q": "Using more solar _____ saves money.",
+    "choices": [
+      "cars",
+      "panels",
+      "buses"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 63,
+    "q": "Students _____ protect the environment.",
+    "choices": [
+      "shouldn't",
+      "mustn't",
+      "must"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 64,
+    "q": "Gold is a beautiful, yellow, shiny _____.",
+    "choices": [
+      "wood",
+      "metal",
+      "liquid"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 65,
+    "q": "What types of energy do people _____ in Egypt?",
+    "choices": [
+      "uses",
+      "use",
+      "using"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 66,
+    "q": "Iron and gold are found under the _____.",
+    "choices": [
+      "ground",
+      "sky",
+      "sun"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 67,
+    "q": "People _____ stop when the light is re",
+    "choices": [
+      "a) mustn't",
+      "must",
+      "has to"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 68,
+    "q": "Students _____ turn off the computer when finishe",
+    "choices": [
+      "a) mustn't",
+      "shouldn't",
+      "should"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 69,
+    "q": "We _____ touch electrical wires.",
+    "choices": [
+      "must",
+      "mustn't",
+      "have to"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 70,
+    "q": "The sun is a _____ source of energy.",
+    "choices": [
+      "renewable",
+      "non-renewable",
+      "bad"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 71,
+    "q": "Students _____ touch electrical wires.",
+    "choices": [
+      "must",
+      "have to",
+      "mustn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 72,
+    "q": "Students _____ waste water.",
+    "choices": [
+      "should",
+      "shouldn't",
+      "are to"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 73,
+    "q": "People _____ speak politely to parents.",
+    "choices": [
+      "have",
+      "mustn't",
+      "must"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 74,
+    "q": "Students _____ smoke, it's bad for health.",
+    "choices": [
+      "must",
+      "mustn't",
+      "should"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 75,
+    "q": "They _____ speak politely to parents.",
+    "choices": [
+      "must",
+      "have",
+      "mustn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 76,
+    "q": "We _____ listen to the teacher carefully.",
+    "choices": [
+      "must",
+      "aren't to",
+      "mustn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 77,
+    "q": "We should turn _____ lights when we don't need them.",
+    "choices": [
+      "off",
+      "out",
+      "on"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 78,
+    "q": "We _____ turn off the computer when finishe",
+    "choices": [
+      "a) shouldn't",
+      "should",
+      "mustn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 79,
+    "q": "The sun is a _____ source of energy.",
+    "choices": [
+      "non-renewable",
+      "bad",
+      "renewable"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 80,
+    "q": "They _____ turn off the computer when finishe",
+    "choices": [
+      "a) shouldn't",
+      "mustn't",
+      "should"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 81,
+    "q": "Egypt has many _____ that we can visit.",
+    "choices": [
+      "solar panels",
+      "temples",
+      "buses"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 82,
+    "q": "Egypt has many valuable things _____ the groun",
+    "choices": [
+      "a) next",
+      "under",
+      "behind"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 83,
+    "q": "They _____ listen to the teacher carefully.",
+    "choices": [
+      "aren't to",
+      "must",
+      "mustn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 84,
+    "q": "We _____ protect the environment.",
+    "choices": [
+      "must",
+      "mustn't",
+      "shouldn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 85,
+    "q": "Students _____ listen to the teacher carefully.",
+    "choices": [
+      "mustn't",
+      "must",
+      "aren't to"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 86,
+    "q": "You _____ smoke, it's bad for health.",
+    "choices": [
+      "mustn't",
+      "should",
+      "must"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 87,
+    "q": "People _____ turn off the computer when finishe",
+    "choices": [
+      "a) shouldn't",
+      "mustn't",
+      "should"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 88,
+    "q": "To _____ is to continue to exist for a long time.",
+    "choices": [
+      "survive",
+      "waste",
+      "harm"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 89,
+    "q": "You _____ stop when the light is re",
+    "choices": [
+      "a) has to",
+      "must",
+      "mustn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 90,
+    "q": "We _____ touch electrical wires.",
+    "choices": [
+      "must",
+      "mustn't",
+      "have to"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 91,
+    "q": "People _____ listen to the teacher carefully.",
+    "choices": [
+      "mustn't",
+      "aren't to",
+      "must"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 92,
+    "q": "They _____ smoke, it's bad for health.",
+    "choices": [
+      "should",
+      "mustn't",
+      "must"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 93,
+    "q": "You _____ smoke, it's bad for health.",
+    "choices": [
+      "must",
+      "mustn't",
+      "should"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 94,
+    "q": "You _____ stop when the light is re",
+    "choices": [
+      "a) mustn't",
+      "has to",
+      "must"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 95,
+    "q": "You _____ protect the environment.",
+    "choices": [
+      "must",
+      "mustn't",
+      "shouldn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 96,
+    "q": "We should make use of our natural _____.",
+    "choices": [
+      "pollution",
+      "cars",
+      "resources"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 97,
+    "q": "They _____ speak politely to parents.",
+    "choices": [
+      "have",
+      "mustn't",
+      "must"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 98,
+    "q": "You _____ listen to the teacher carefully.",
+    "choices": [
+      "mustn't",
+      "aren't to",
+      "must"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 99,
+    "q": "People _____ stop when the light is re",
+    "choices": [
+      "a) mustn't",
+      "must",
+      "has to"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 100,
+    "q": "They _____ protect the environment.",
+    "choices": [
+      "shouldn't",
+      "mustn't",
+      "must"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 1,
+    "q": "Ali _____ dinner an hour ago.",
+    "choices": [
+      "has",
+      "have",
+      "had"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 2,
+    "q": "Alexandria is _____ on the Mediterranean Se",
+    "choices": [
+      "a) special",
+      "located",
+      "vision"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 3,
+    "q": "What did We _____ last night?",
+    "choices": [
+      "did",
+      "doing",
+      "do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 4,
+    "q": "I _____ dinner an hour ago.",
+    "choices": [
+      "have",
+      "had",
+      "has"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 5,
+    "q": "Let's _____ the museum next Friday.",
+    "choices": [
+      "visiting",
+      "visited",
+      "visit"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 6,
+    "q": "The _____ of the story is to work together.",
+    "choices": [
+      "moral",
+      "bundle",
+      "kitchen"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 7,
+    "q": "I _____ dinner an hour ago.",
+    "choices": [
+      "have",
+      "had",
+      "has"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 8,
+    "q": "They _____ in a holiday flat last summer.",
+    "choices": [
+      "sleeping",
+      "slept",
+      "sleep"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 9,
+    "q": "To _____ the plane you should have a ticket.",
+    "choices": [
+      "fly",
+      "board",
+      "guide"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 10,
+    "q": "The government plans to build more homes and _____ links.",
+    "choices": [
+      "cable",
+      "transportation",
+      "vision"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 11,
+    "q": "What did We _____ last night?",
+    "choices": [
+      "do",
+      "did",
+      "doing"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 12,
+    "q": "Mona _____ in a holiday flat last summer.",
+    "choices": [
+      "sleep",
+      "sleeping",
+      "slept"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 13,
+    "q": "Something scary makes you feel _____.",
+    "choices": [
+      "funny",
+      "frightened",
+      "sad"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 14,
+    "q": "He _____ not watch the show yesterday.",
+    "choices": [
+      "does",
+      "did",
+      "do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 15,
+    "q": "Where did I _____ yesterday?",
+    "choices": [
+      "go",
+      "going",
+      "went"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 16,
+    "q": "Mona _____ dinner an hour ago.",
+    "choices": [
+      "had",
+      "have",
+      "has"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 17,
+    "q": "Did Ali _____ the trip last week?",
+    "choices": [
+      "enjoyed",
+      "enjoys",
+      "enjoy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 18,
+    "q": "Let's _____ the museum next Friday.",
+    "choices": [
+      "visit",
+      "visiting",
+      "visited"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 19,
+    "q": "We _____ dinner an hour ago.",
+    "choices": [
+      "had",
+      "have",
+      "has"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 20,
+    "q": "Egypt's _____ for smart, sustainable cities is achievable.",
+    "choices": [
+      "cable",
+      "transportation",
+      "vision"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 21,
+    "q": "Ali _____ a new car last year.",
+    "choices": [
+      "buy",
+      "bought",
+      "buys"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 22,
+    "q": "I _____ in a holiday flat last summer.",
+    "choices": [
+      "sleeping",
+      "slept",
+      "sleep"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 23,
+    "q": "What did She _____ last night?",
+    "choices": [
+      "did",
+      "do",
+      "doing"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 24,
+    "q": "Ali was nervous and _____ on his first day.",
+    "choices": [
+      "shy",
+      "tidy",
+      "excited"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 25,
+    "q": "Let's _____ the museum next Friday.",
+    "choices": [
+      "visiting",
+      "visited",
+      "visit"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 26,
+    "q": "I _____ their house yesterday.",
+    "choices": [
+      "paint",
+      "painted",
+      "paints"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 27,
+    "q": "Let's _____ the museum next Friday.",
+    "choices": [
+      "visited",
+      "visiting",
+      "visit"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 28,
+    "q": "Ali _____ not watch the show yesterday.",
+    "choices": [
+      "did",
+      "do",
+      "does"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 29,
+    "q": "She _____ their house yesterday.",
+    "choices": [
+      "paints",
+      "paint",
+      "painted"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 30,
+    "q": "Mona _____ not watch the show yesterday.",
+    "choices": [
+      "did",
+      "do",
+      "does"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 31,
+    "q": "Mona _____ not at school yesterday.",
+    "choices": [
+      "did",
+      "were",
+      "was"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 32,
+    "q": "The government plans to build more homes and _____ links.",
+    "choices": [
+      "vision",
+      "cable",
+      "transportation"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 33,
+    "q": "You must have a _____ to enter a different country.",
+    "choices": [
+      "card",
+      "passport",
+      "visa"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 34,
+    "q": "Mona _____ not watch the show yesterday.",
+    "choices": [
+      "did",
+      "does",
+      "do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 35,
+    "q": "Did I _____ the trip last week?",
+    "choices": [
+      "enjoyed",
+      "enjoy",
+      "enjoys"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 36,
+    "q": "Let's _____ the museum next Friday.",
+    "choices": [
+      "visited",
+      "visit",
+      "visiting"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 37,
+    "q": "Ali sent me an _____ to his birthday.",
+    "choices": [
+      "invitation",
+      "moral",
+      "bundle"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 38,
+    "q": "Let's _____ the museum next Friday.",
+    "choices": [
+      "visiting",
+      "visited",
+      "visit"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 39,
+    "q": "Let's _____ the museum next Friday.",
+    "choices": [
+      "visiting",
+      "visit",
+      "visited"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 40,
+    "q": "They _____ not at school yesterday.",
+    "choices": [
+      "was",
+      "did",
+      "were"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 41,
+    "q": "We _____ a new car last year.",
+    "choices": [
+      "buy",
+      "bought",
+      "buys"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 42,
+    "q": "The tourist phoned the hotel to _____ a room.",
+    "choices": [
+      "book",
+      "buy",
+      "pack"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 43,
+    "q": "She _____ dinner an hour ago.",
+    "choices": [
+      "had",
+      "has",
+      "have"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 44,
+    "q": "She _____ a new car last year.",
+    "choices": [
+      "bought",
+      "buy",
+      "buys"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 45,
+    "q": "Benban is one of the world's largest solar _____.",
+    "choices": [
+      "panels",
+      "stations",
+      "parks"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 46,
+    "q": "Nada moved to a new _____ with her family.",
+    "choices": [
+      "school",
+      "park",
+      "apartment"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 47,
+    "q": "He _____ not at school yesterday.",
+    "choices": [
+      "did",
+      "was",
+      "were"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 48,
+    "q": "Ali _____ not at school yesterday.",
+    "choices": [
+      "was",
+      "were",
+      "did"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 49,
+    "q": "I _____ not at school yesterday.",
+    "choices": [
+      "were",
+      "did",
+      "was"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 50,
+    "q": "Where did He _____ yesterday?",
+    "choices": [
+      "going",
+      "went",
+      "go"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 51,
+    "q": "Go to the _____ when you don't know where to go.",
+    "choices": [
+      "swimming pool",
+      "toy shop",
+      "information desk"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 52,
+    "q": "Go to the _____ when you don't know where to go.",
+    "choices": [
+      "toy shop",
+      "information desk",
+      "swimming pool"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 53,
+    "q": "We _____ not at school yesterday.",
+    "choices": [
+      "was",
+      "were",
+      "did"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 54,
+    "q": "Where did They _____ yesterday?",
+    "choices": [
+      "went",
+      "going",
+      "go"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 55,
+    "q": "Did We _____ the trip last week?",
+    "choices": [
+      "enjoy",
+      "enjoys",
+      "enjoyed"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 56,
+    "q": "They _____ dinner an hour ago.",
+    "choices": [
+      "had",
+      "has",
+      "have"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 57,
+    "q": "What did They _____ last night?",
+    "choices": [
+      "did",
+      "do",
+      "doing"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 58,
+    "q": "Great projects created thousands of _____.",
+    "choices": [
+      "machines",
+      "jobs",
+      "robots"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 59,
+    "q": "Ali _____ their house yesterday.",
+    "choices": [
+      "painted",
+      "paints",
+      "paint"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 60,
+    "q": "Ali _____ in a holiday flat last summer.",
+    "choices": [
+      "sleeping",
+      "slept",
+      "sleep"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 61,
+    "q": "The new apartment has a big _____, she can see the street from it.",
+    "choices": [
+      "bathroom",
+      "kitchen",
+      "balcony"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 62,
+    "q": "Benban is one of the world's largest solar _____.",
+    "choices": [
+      "stations",
+      "panels",
+      "parks"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 63,
+    "q": "The _____ of the story is to work together.",
+    "choices": [
+      "kitchen",
+      "bundle",
+      "moral"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 64,
+    "q": "Where did He _____ yesterday?",
+    "choices": [
+      "going",
+      "went",
+      "go"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 65,
+    "q": "What did She _____ last night?",
+    "choices": [
+      "do",
+      "doing",
+      "did"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 66,
+    "q": "Let's _____ the museum next Friday.",
+    "choices": [
+      "visiting",
+      "visited",
+      "visit"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 67,
+    "q": "Did She _____ the trip last week?",
+    "choices": [
+      "enjoyed",
+      "enjoys",
+      "enjoy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 68,
+    "q": "Where did Ali _____ yesterday?",
+    "choices": [
+      "go",
+      "going",
+      "went"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 69,
+    "q": "Let's _____ the museum next Friday.",
+    "choices": [
+      "visited",
+      "visiting",
+      "visit"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 70,
+    "q": "Did Ali _____ the trip last week?",
+    "choices": [
+      "enjoyed",
+      "enjoy",
+      "enjoys"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 71,
+    "q": "He _____ in a holiday flat last summer.",
+    "choices": [
+      "sleeping",
+      "slept",
+      "sleep"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 72,
+    "q": "Where did They _____ yesterday?",
+    "choices": [
+      "going",
+      "go",
+      "went"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 73,
+    "q": "What did They _____ last night?",
+    "choices": [
+      "do",
+      "doing",
+      "did"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 74,
+    "q": "Did They _____ the trip last week?",
+    "choices": [
+      "enjoyed",
+      "enjoys",
+      "enjoy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 75,
+    "q": "He _____ dinner an hour ago.",
+    "choices": [
+      "has",
+      "have",
+      "had"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 76,
+    "q": "Mona _____ in a holiday flat last summer.",
+    "choices": [
+      "slept",
+      "sleeping",
+      "sleep"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 77,
+    "q": "She _____ not at school yesterday.",
+    "choices": [
+      "was",
+      "were",
+      "did"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 78,
+    "q": "You must have a _____ to enter a different country.",
+    "choices": [
+      "passport",
+      "card",
+      "visa"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 79,
+    "q": "Ali _____ a new car last year.",
+    "choices": [
+      "buy",
+      "bought",
+      "buys"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 80,
+    "q": "They _____ their house yesterday.",
+    "choices": [
+      "painted",
+      "paint",
+      "paints"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 81,
+    "q": "The bundle of _____ was hard to break.",
+    "choices": [
+      "metal",
+      "sticks",
+      "glass"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 82,
+    "q": "She _____ not watch the show yesterday.",
+    "choices": [
+      "do",
+      "did",
+      "does"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 83,
+    "q": "Ali _____ their house yesterday.",
+    "choices": [
+      "paints",
+      "paint",
+      "painted"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 84,
+    "q": "She _____ a new car last year.",
+    "choices": [
+      "bought",
+      "buy",
+      "buys"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 85,
+    "q": "To _____ the plane you should have a ticket.",
+    "choices": [
+      "board",
+      "fly",
+      "guide"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 86,
+    "q": "We _____ their house yesterday.",
+    "choices": [
+      "paints",
+      "paint",
+      "painted"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 87,
+    "q": "They _____ not watch the show yesterday.",
+    "choices": [
+      "do",
+      "does",
+      "did"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 88,
+    "q": "He _____ a new car last year.",
+    "choices": [
+      "buys",
+      "bought",
+      "buy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 89,
+    "q": "What did I _____ last night?",
+    "choices": [
+      "did",
+      "do",
+      "doing"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 90,
+    "q": "The bundle of _____ was hard to break.",
+    "choices": [
+      "sticks",
+      "metal",
+      "glass"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 91,
+    "q": "The roads are busy, so I never _____ to school.",
+    "choices": [
+      "walk",
+      "fly",
+      "swim"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 92,
+    "q": "We _____ not at school yesterday.",
+    "choices": [
+      "were",
+      "did",
+      "was"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 93,
+    "q": "I read a travel _____ to learn about Al Galala City.",
+    "choices": [
+      "watched",
+      "cooked",
+      "brochure"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 94,
+    "q": "Let's _____ the museum next Friday.",
+    "choices": [
+      "visited",
+      "visiting",
+      "visit"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 95,
+    "q": "I _____ not watch the show yesterday.",
+    "choices": [
+      "did",
+      "does",
+      "do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 96,
+    "q": "Omar helped a new student with the _____.",
+    "choices": [
+      "pens",
+      "textbooks",
+      "rulers"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 97,
+    "q": "We _____ dinner an hour ago.",
+    "choices": [
+      "have",
+      "had",
+      "has"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 98,
+    "q": "He _____ a new car last year.",
+    "choices": [
+      "buys",
+      "bought",
+      "buy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 99,
+    "q": "Mona _____ dinner an hour ago.",
+    "choices": [
+      "have",
+      "has",
+      "had"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 100,
+    "q": "Ali _____ not watch the show yesterday.",
+    "choices": [
+      "does",
+      "did",
+      "do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 1,
+    "q": "I _____ a lot of homework yesterday.",
+    "choices": [
+      "have",
+      "do",
+      "had"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 2,
+    "q": "The archaeologists _____ many old tools last year.",
+    "choices": [
+      "found",
+      "finds",
+      "find"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 3,
+    "q": "The brothers help their father grow tomatoes, _____ and potatoes.",
+    "choices": [
+      "bananas",
+      "onions",
+      "apples"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 4,
+    "q": "Her sisters clean the house and milk the _____.",
+    "choices": [
+      "dogs",
+      "cows",
+      "cats"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 5,
+    "q": "They start a project called 'Water _____'.",
+    "choices": [
+      "Waisters",
+      "Polluters",
+      "Savers"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 6,
+    "q": "The teacher was _____ about the project.",
+    "choices": [
+      "excitement",
+      "excited",
+      "exciting"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 7,
+    "q": "Hedaya Malak is a famous Egyptian _____ player.",
+    "choices": [
+      "taekwondo",
+      "swimmer",
+      "footballer"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 8,
+    "q": "She didn't slice the fruit by _____.",
+    "choices": [
+      "myself",
+      "herself",
+      "himself"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 9,
+    "q": "She carried the Egyptian _____ at the Tokyo Olympic Games.",
+    "choices": [
+      "bag",
+      "book",
+      "flag"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 10,
+    "q": "I go to the supermarket to buy _____.",
+    "choices": [
+      "vegetables",
+      "laundry",
+      "groceries"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 11,
+    "q": "They saw bears from _____.",
+    "choices": [
+      "Asia",
+      "Africa",
+      "Russia"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 12,
+    "q": "My brother _____ me late last night.",
+    "choices": [
+      "phone",
+      "phoned",
+      "phones"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 13,
+    "q": "What did You _____ three hours ago?",
+    "choices": [
+      "do",
+      "doing",
+      "did"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 14,
+    "q": "Fatma, Nora, and Farida noticed water being _____ from leaky taps.",
+    "choices": [
+      "document",
+      "precious",
+      "wasted"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 15,
+    "q": "She _____ not at home yesterday.",
+    "choices": [
+      "is",
+      "was",
+      "were"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 16,
+    "q": "Fatma, Nora, and Farida noticed water being _____ from leaky taps.",
+    "choices": [
+      "wasted",
+      "document",
+      "precious"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 17,
+    "q": "She gave my father a _____ list.",
+    "choices": [
+      "laundry",
+      "chop",
+      "grocery"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 18,
+    "q": "My sister _____ not at home yesterday.",
+    "choices": [
+      "is",
+      "were",
+      "was"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 19,
+    "q": "My brother _____ me late last night.",
+    "choices": [
+      "phoned",
+      "phone",
+      "phones"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 20,
+    "q": "We use herbs in many Egyptian _____.",
+    "choices": [
+      "clothes",
+      "cars",
+      "dishes"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 21,
+    "q": "_____ means falling in small drops like water from a tap.",
+    "choices": [
+      "Puddles",
+      "Dripping",
+      "Precious"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 22,
+    "q": "Let's _____ the classroom with balloons!",
+    "choices": [
+      "wrap",
+      "decorate",
+      "Ancient"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 23,
+    "q": "The _____ said the elephant was sick that day.",
+    "choices": [
+      "farmer",
+      "doctor",
+      "zookeeper"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 24,
+    "q": "My sister _____ not at home yesterday.",
+    "choices": [
+      "is",
+      "was",
+      "were"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 25,
+    "q": "She carried the Egyptian _____ at the Tokyo Olympic Games.",
+    "choices": [
+      "bag",
+      "book",
+      "flag"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 26,
+    "q": "I _____ a lot of homework yesterday.",
+    "choices": [
+      "do",
+      "had",
+      "have"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 27,
+    "q": "The teacher was _____ about the project.",
+    "choices": [
+      "excited",
+      "excitement",
+      "exciting"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 28,
+    "q": "The story shows how _____ can make a big difference.",
+    "choices": [
+      "wasted",
+      "teamwork",
+      "precious"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 29,
+    "q": "Hedaya won the bronze _____ in Rio and Tokyo.",
+    "choices": [
+      "medal",
+      "cup",
+      "award"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 30,
+    "q": "We went hiking in the _____ during our trip.",
+    "choices": [
+      "mountains",
+      "wrapped",
+      "decorate"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 31,
+    "q": "Did You _____ a cake yesterday?",
+    "choices": [
+      "makes",
+      "made",
+      "make"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 32,
+    "q": "Their efforts _____, helping students and teachers save water.",
+    "choices": [
+      "document",
+      "spread",
+      "teamwork"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 33,
+    "q": "I can _____ vegetables and do the laundry.",
+    "choices": [
+      "feed",
+      "slice",
+      "chop"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 34,
+    "q": "The Ancient Egyptians _____ mummies thousands of years ago.",
+    "choices": [
+      "wrapped",
+      "decorate",
+      "mountains"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 35,
+    "q": "He _____ me late last night.",
+    "choices": [
+      "phones",
+      "phoned",
+      "phone"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 36,
+    "q": "When something is valuable, it is _____.",
+    "choices": [
+      "bad",
+      "cheap",
+      "precious"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 37,
+    "q": "I ironed my shirt by _____.",
+    "choices": [
+      "myself",
+      "herself",
+      "himself"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 38,
+    "q": "The story shows how _____ can make a big difference.",
+    "choices": [
+      "precious",
+      "wasted",
+      "teamwork"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 39,
+    "q": "I _____ to the library last week.",
+    "choices": [
+      "went",
+      "goes",
+      "go"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 40,
+    "q": "They did the research by _____.",
+    "choices": [
+      "ourselves",
+      "myself",
+      "themselves"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 41,
+    "q": "He _____ me late last night.",
+    "choices": [
+      "phone",
+      "phoned",
+      "phones"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 42,
+    "q": "My sister didn't _____ the fruit by herself.",
+    "choices": [
+      "slice",
+      "go",
+      "feed"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 43,
+    "q": "He went to school by _____.",
+    "choices": [
+      "myself",
+      "himself",
+      "herself"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 44,
+    "q": "We went hiking in the _____ during our trip.",
+    "choices": [
+      "mountains",
+      "wrapped",
+      "decorate"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 45,
+    "q": "My sister didn't _____ the fruit by herself.",
+    "choices": [
+      "go",
+      "slice",
+      "feed"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 46,
+    "q": "I _____ to the library last week.",
+    "choices": [
+      "went",
+      "go",
+      "goes"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 47,
+    "q": "She didn't slice the fruit by _____.",
+    "choices": [
+      "herself",
+      "myself",
+      "himself"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 48,
+    "q": "They start a project called 'Water _____'.",
+    "choices": [
+      "Savers",
+      "Polluters",
+      "Waisters"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 49,
+    "q": "_____ means falling in small drops like water from a tap.",
+    "choices": [
+      "Dripping",
+      "Precious",
+      "Puddles"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 50,
+    "q": "Did You _____ a cake yesterday?",
+    "choices": [
+      "makes",
+      "make",
+      "made"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 51,
+    "q": "She gave my father a _____ list.",
+    "choices": [
+      "grocery",
+      "laundry",
+      "chop"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 52,
+    "q": "Hedaya Malak is a famous Egyptian _____ player.",
+    "choices": [
+      "footballer",
+      "swimmer",
+      "taekwondo"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 53,
+    "q": "I grow _____ like basil, mint, and parsley.",
+    "choices": [
+      "healthy",
+      "trees",
+      "herbs"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 54,
+    "q": "Her sisters clean the house and milk the _____.",
+    "choices": [
+      "dogs",
+      "cats",
+      "cows"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 55,
+    "q": "He went to school by _____.",
+    "choices": [
+      "himself",
+      "myself",
+      "herself"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 56,
+    "q": "We cleaned the room by _____.",
+    "choices": [
+      "yourselves",
+      "themselves",
+      "ourselves"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 57,
+    "q": "Their efforts _____, helping students and teachers save water.",
+    "choices": [
+      "teamwork",
+      "spread",
+      "document"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 58,
+    "q": "What did You _____ three hours ago?",
+    "choices": [
+      "did",
+      "doing",
+      "do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 59,
+    "q": "They saw tigers from _____ and Afric",
+    "choices": [
+      "a) Russia",
+      "Asia",
+      "England"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 60,
+    "q": "They saw tigers from _____ and Afric",
+    "choices": [
+      "a) Russia",
+      "Asia",
+      "England"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 61,
+    "q": "I can _____ vegetables and do the laundry.",
+    "choices": [
+      "slice",
+      "chop",
+      "feed"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 62,
+    "q": "The _____ said the elephant was sick that day.",
+    "choices": [
+      "zookeeper",
+      "doctor",
+      "farmer"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 63,
+    "q": "The Ancient Egyptians _____ mummies thousands of years ago.",
+    "choices": [
+      "mountains",
+      "decorate",
+      "wrapped"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 64,
+    "q": "They saw bears from _____.",
+    "choices": [
+      "Asia",
+      "Russia",
+      "Africa"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 65,
+    "q": "They _____ at the cinema last night.",
+    "choices": [
+      "was",
+      "were",
+      "are"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 66,
+    "q": "My brother went to school by _____.",
+    "choices": [
+      "himself",
+      "herself",
+      "myself"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 67,
+    "q": "They did the research by _____.",
+    "choices": [
+      "ourselves",
+      "myself",
+      "themselves"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 68,
+    "q": "She _____ not at home yesterday.",
+    "choices": [
+      "were",
+      "was",
+      "is"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 69,
+    "q": "They _____ at the cinema last night.",
+    "choices": [
+      "were",
+      "are",
+      "was"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 70,
+    "q": "Hedaya won the bronze _____ in Rio and Tokyo.",
+    "choices": [
+      "cup",
+      "medal",
+      "award"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 71,
+    "q": "Asmaa feeds the animals and cooks _____ every morning.",
+    "choices": [
+      "dinner",
+      "snack",
+      "breakfast"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 72,
+    "q": "Asmaa feeds the animals and cooks _____ every morning.",
+    "choices": [
+      "snack",
+      "dinner",
+      "breakfast"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 73,
+    "q": "My sister didn't slice the fruit by _____.",
+    "choices": [
+      "herself",
+      "himself",
+      "myself"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 74,
+    "q": "Let's _____ the classroom with balloons!",
+    "choices": [
+      "decorate",
+      "Ancient",
+      "wrap"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 75,
+    "q": "We use herbs in many Egyptian _____.",
+    "choices": [
+      "cars",
+      "dishes",
+      "clothes"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 76,
+    "q": "I ironed my shirt by _____.",
+    "choices": [
+      "myself",
+      "herself",
+      "himself"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 77,
+    "q": "My sister didn't slice the fruit by _____.",
+    "choices": [
+      "herself",
+      "myself",
+      "himself"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 78,
+    "q": "I grow _____ like basil, mint, and parsley.",
+    "choices": [
+      "herbs",
+      "healthy",
+      "trees"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 79,
+    "q": "The brothers help their father grow tomatoes, _____ and potatoes.",
+    "choices": [
+      "bananas",
+      "onions",
+      "apples"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 80,
+    "q": "My brother went to school by _____.",
+    "choices": [
+      "herself",
+      "myself",
+      "himself"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 81,
+    "q": "The archaeologists _____ many old tools last year.",
+    "choices": [
+      "found",
+      "finds",
+      "find"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 82,
+    "q": "We _____ not win the match last week.",
+    "choices": [
+      "didn't",
+      "don't",
+      "weren't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 83,
+    "q": "We _____ not win the match last week.",
+    "choices": [
+      "don't",
+      "weren't",
+      "didn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 84,
+    "q": "We cleaned the room by _____.",
+    "choices": [
+      "ourselves",
+      "themselves",
+      "yourselves"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 85,
+    "q": "I go to the supermarket to buy _____.",
+    "choices": [
+      "groceries",
+      "vegetables",
+      "laundry"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 86,
+    "q": "When something is valuable, it is _____.",
+    "choices": [
+      "cheap",
+      "bad",
+      "precious"
+    ],
+    "answer": 0
+  }
+]

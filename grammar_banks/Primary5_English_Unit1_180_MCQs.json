@@ -1,0 +1,189 @@
+[
+  {
+    "q_num": 8,
+    "q": "Tiny _____ fly near the water.",
+    "choices": [
+      "water weeds",
+      "birds",
+      "crocodiles",
+      "Crocodile"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 20,
+    "q": "_____ eat small fish, insects and plants.",
+    "choices": [
+      "water weeds",
+      "crocodiles",
+      "insects",
+      "plant"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 32,
+    "q": "The Nile is important to _____.",
+    "choices": [
+      "crocodiles",
+      "birds",
+      "fish",
+      "salt"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 44,
+    "q": "Where do tiny insects fly?",
+    "choices": [
+      "useless",
+      "important",
+      "bad",
+      "Crocodiles"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 53,
+    "q": "Lizards eat _____ to get energy in the desert.",
+    "choices": [
+      "Polluting the river",
+      "Hunting them",
+      "Protecting the river",
+      "well"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 63,
+    "q": "She _____ forgets her umbrella, so she gets wet in the rain.",
+    "choices": [
+      "during the day",
+      "at night",
+      "when it rains",
+      "dry"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 74,
+    "q": "Camels eat plants to stay _____.",
+    "choices": [
+      "never",
+      "rarely",
+      "usually",
+      "always"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 86,
+    "q": "My family _____ eats dinner together every night.",
+    "choices": [
+      "insects",
+      "sand",
+      "rocks",
+      "hide"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 96,
+    "q": "The tree had a thick _____ that supported its branches.",
+    "choices": [
+      "water",
+      "shade",
+      "energy",
+      "cold"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 107,
+    "q": "Trees give us _____.",
+    "choices": [
+      "hat",
+      "shoe",
+      "crown",
+      "generous"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 119,
+    "q": "Trees give us _____ to eat.",
+    "choices": [
+      "beautiful",
+      "scary",
+      "ugly",
+      "br-"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 130,
+    "q": "The consonant cluster in 'crown' is _____.",
+    "choices": [
+      "car",
+      "tree",
+      "house",
+      "crowns"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 139,
+    "q": "It's important to share good food, not to be _____.",
+    "choices": [
+      "cr-",
+      "sh-",
+      "br-",
+      "br-"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 151,
+    "q": "Then, add some _____.",
+    "choices": [
+      "recipe",
+      "flyer",
+      "Koshari",
+      "smaller"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 163,
+    "q": "The restaurant put up a colorful _____ to attract customers.",
+    "choices": [
+      "Cut",
+      "Boil",
+      "Pour",
+      "bad"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 175,
+    "q": "To advertise a restaurant, you make a _____.",
+    "choices": [
+      "book",
+      "recipe",
+      "story",
+      "recipe"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 180,
+    "q": "Lentils are boiled in _____.",
+    "choices": [
+      "bad",
+      "sad",
+      "tasty",
+      "first"
+    ],
+    "answer": 0
+  }
+]

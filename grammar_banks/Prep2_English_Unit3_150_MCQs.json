@@ -1,0 +1,1503 @@
+[
+  {
+    "q_num": 1,
+    "q": "If you don't give up easily, this means you have _____.",
+    "choices": [
+      "information",
+      "determination",
+      "preparation"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 2,
+    "q": "My friend Ali finds grammar difficult. He _____ with it.",
+    "choices": [
+      "struggled",
+      "supported",
+      "started"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 3,
+    "q": "Failing a quiz makes me discourage",
+    "choices": [
+      "'Discouraged' has the",
+      "happy",
+      "glad",
+      "disappointed"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 4,
+    "q": "When we feel that something is difficult, it takes courage to keep _____.",
+    "choices": [
+      "going",
+      "doing",
+      "playing"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 5,
+    "q": "During his journey with Science, Dr. Zewail _____ a lot of challenges.",
+    "choices": [
+      "overslept",
+      "overcame",
+      "overdid"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 6,
+    "q": "With determination, Soha wanted to overcome her _____ with grammar.",
+    "choices": [
+      "improve",
+      "posters",
+      "challenges"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 7,
+    "q": "She watched videos and made grammar _____ for her room.",
+    "choices": [
+      "challenges",
+      "posters",
+      "obstacles"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 8,
+    "q": "Each grammar rule felt like an _____, but she didn't stop.",
+    "choices": [
+      "obstacle",
+      "poster",
+      "improve"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 9,
+    "q": "Slowly, she began to _____. She passed her next quiz.",
+    "choices": [
+      "obstacle",
+      "poster",
+      "improve"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 10,
+    "q": "My brother felt _____ when he took part in the art competition.",
+    "choices": [
+      "terrible",
+      "sad",
+      "excited"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 11,
+    "q": "He wanted to _____ the race as he hurt his knee very much.",
+    "choices": [
+      "quite",
+      "quit",
+      "gain"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 12,
+    "q": "Sometimes, we want to win _____ our fear, not win a medal or a cup.",
+    "choices": [
+      "against",
+      "for",
+      "after"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 13,
+    "q": "The government is trying to find _____ to most of our problems.",
+    "choices": [
+      "salutes",
+      "obstacles",
+      "solutions"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 14,
+    "q": "There are big traffic _____ on the streets and highways of Cairo.",
+    "choices": [
+      "blocks",
+      "jams",
+      "cars"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 15,
+    "q": "Most students feel _____ before exams.",
+    "choices": [
+      "stressed",
+      "happy",
+      "glad"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 16,
+    "q": "One of the greatest projects in Cairo is building a lot of _____.",
+    "choices": [
+      "apartments",
+      "flyovers",
+      "walls"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 17,
+    "q": "The _____ is a train that runs on a single rail, usually above the groun",
+    "choices": [
+      "a) underground",
+      "monorail",
+      "metro"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 18,
+    "q": "Cairo is a very busy city. People drive their cars and roads get _____.",
+    "choices": [
+      "blocked",
+      "dirty",
+      "stressed"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 19,
+    "q": "This causes pollution, making the air _____.",
+    "choices": [
+      "dirty",
+      "blocked",
+      "jams"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 20,
+    "q": "It also makes people feel _____ and tired from waiting.",
+    "choices": [
+      "stressed",
+      "blocked",
+      "dirty"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 21,
+    "q": "Building more roads and bridges will help make it easy to move _____.",
+    "choices": [
+      "on",
+      "behind",
+      "around"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 22,
+    "q": "Last week, I went to school late as I got _____ in a traffic jam.",
+    "choices": [
+      "stuck",
+      "sticker",
+      "stick"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 23,
+    "q": "Leila felt _____ when she lost the race.",
+    "choices": [
+      "disappointing",
+      "disappointed",
+      "disappoint"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 24,
+    "q": "To face any challenge, focus _____ one rule at a time.",
+    "choices": [
+      "in",
+      "at",
+      "on"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 25,
+    "q": "You should have _____ to overcome your challenges.",
+    "choices": [
+      "determination",
+      "laziness",
+      "fear"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 26,
+    "q": "A traffic jam happens when long lines of cars are moving very _____.",
+    "choices": [
+      "slowly",
+      "quickly",
+      "fast"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 27,
+    "q": "We show _____ towards other people when we understand their feelings.",
+    "choices": [
+      "strength",
+      "conflicts",
+      "empathy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 28,
+    "q": "To stay safe online, you should be aware _____ what you share.",
+    "choices": [
+      "from",
+      "for",
+      "of"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 29,
+    "q": "We should all take part in finding a _____ to the problem of pollution.",
+    "choices": [
+      "solution",
+      "reason",
+      "cause"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 30,
+    "q": "She felt proud _____ herself when she passed the quiz.",
+    "choices": [
+      "for",
+      "off",
+      "of"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 31,
+    "q": "While _____ my lunch, Adel phoned me.",
+    "choices": [
+      "having",
+      "had",
+      "was having"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 32,
+    "q": "When my father _____, my mother was making dinner.",
+    "choices": [
+      "came",
+      "come",
+      "coming"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 33,
+    "q": "We _____ a new movie last Friday.",
+    "choices": [
+      "watched",
+      "were watching",
+      "watch"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 34,
+    "q": "It was raining when we _____ the cinem",
+    "choices": [
+      "a) leave",
+      "left",
+      "were leaving"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 35,
+    "q": "While I _____ home, I met an old frien",
+    "choices": [
+      "a) was going",
+      "go",
+      "went"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 36,
+    "q": "When he _____ down, he was playing football.",
+    "choices": [
+      "falling",
+      "fell",
+      "falls"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 37,
+    "q": "During my stay in France, I _____ French.",
+    "choices": [
+      "was studying",
+      "studied",
+      "study"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 38,
+    "q": "While I _____ sleeping, I had a bad dream.",
+    "choices": [
+      "was",
+      "am",
+      "were"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 39,
+    "q": "During my _____, the light went out.",
+    "choices": [
+      "study",
+      "studied",
+      "studying"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 40,
+    "q": "When the teacher entered the class, the students _____ a project.",
+    "choices": [
+      "did",
+      "were doing",
+      "are doing"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 41,
+    "q": "As we _____ bikes, Ali broke his leg.",
+    "choices": [
+      "rode",
+      "ride",
+      "were riding"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 42,
+    "q": "How about _____ a study plan?",
+    "choices": [
+      "making",
+      "make",
+      "made"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 43,
+    "q": "I suggest _____ fishing tomorrow.",
+    "choices": [
+      "go",
+      "gone",
+      "going"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 44,
+    "q": "Maybe we should _____ our garden.",
+    "choices": [
+      "cleaning",
+      "cleaned",
+      "clean"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 45,
+    "q": "It might be a good idea to _____ our apartment.",
+    "choices": [
+      "redecorates",
+      "redecorating",
+      "redecorate"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 46,
+    "q": "While my mother was making the salad, my father _____.",
+    "choices": [
+      "comes",
+      "coming",
+      "came"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 47,
+    "q": "When I fell asleep, I _____ a movie.",
+    "choices": [
+      "watch",
+      "was watching",
+      "watched"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 48,
+    "q": "How about _____ fishing next week?",
+    "choices": [
+      "going",
+      "go",
+      "gone"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 49,
+    "q": "During my flight to Paris, I _____ a movie.",
+    "choices": [
+      "was watching",
+      "watch",
+      "watched"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 50,
+    "q": "I suggest _____ tennis next weeken",
+    "choices": [
+      "a) play",
+      "played",
+      "playing"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 51,
+    "q": "While my father was driving his car, it _____ down.",
+    "choices": [
+      "breaks",
+      "broke",
+      "breaking"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 52,
+    "q": "I was watching TV when the lights _____ out.",
+    "choices": [
+      "goes",
+      "went",
+      "go"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 53,
+    "q": "My sister _____ when her friend phoned her.",
+    "choices": [
+      "was cooking",
+      "cooked",
+      "cooking"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 54,
+    "q": "My dad had a flat tire while he _____ to work.",
+    "choices": [
+      "drives",
+      "drove",
+      "was driving"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 55,
+    "q": "While he was sleeping, his friend _____ him.",
+    "choices": [
+      "phoning",
+      "phoned",
+      "phones"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 56,
+    "q": "When he fell down, he _____ basketball.",
+    "choices": [
+      "was playing",
+      "played",
+      "plays"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 57,
+    "q": "While I was walking to school, I _____ an accident.",
+    "choices": [
+      "saw",
+      "see",
+      "was seeing"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 58,
+    "q": "They _____ tennis when it started to rain.",
+    "choices": [
+      "play",
+      "were playing",
+      "played"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 59,
+    "q": "I suggest _____ to the park on Friday.",
+    "choices": [
+      "going",
+      "go",
+      "went"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 60,
+    "q": "Maybe we _____ study together.",
+    "choices": [
+      "should",
+      "must",
+      "could"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 61,
+    "q": "If you are creative this means you come _____ new ideas.",
+    "choices": [
+      "up to",
+      "up with",
+      "up for"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 62,
+    "q": "To be a role model for others means to _____ them.",
+    "choices": [
+      "inspire",
+      "empire",
+      "conspire"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 63,
+    "q": "When you work hard without giving up and stay _____ to who you are, you achieve success.",
+    "choices": [
+      "true",
+      "false",
+      "wrong"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 64,
+    "q": "A true leader should act _____ in his work.",
+    "choices": [
+      "responsibly",
+      "fearfully",
+      "angrily"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 65,
+    "q": "Students always _____ their creative pieces of work in school fairs.",
+    "choices": [
+      "pretend",
+      "forget",
+      "display"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 66,
+    "q": "All the children displayed their work on the day of the _____.",
+    "choices": [
+      "hospital",
+      "bank",
+      "fair"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 67,
+    "q": "Amal stood _____ with her robot.",
+    "choices": [
+      "badly",
+      "proudly",
+      "sadly"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 68,
+    "q": "When she presented it, the robot spoke: 'Be yourself. Never give _____!'.",
+    "choices": [
+      "in",
+      "up",
+      "out"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 69,
+    "q": "The children _____ Amal's hard work and creativity.",
+    "choices": [
+      "ignored",
+      "hated",
+      "admired"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 70,
+    "q": "The teacher said, 'Amal, you showed _____ and honesty.'",
+    "choices": [
+      "determination",
+      "laziness",
+      "fear"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 71,
+    "q": "Amal felt proud because she had expressed _____ honestly.",
+    "choices": [
+      "herself",
+      "yourself",
+      "himself"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 72,
+    "q": "When I make a mistake during a presentation, I feel _____.",
+    "choices": [
+      "happy",
+      "discouraged",
+      "glad"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 73,
+    "q": "I sometimes feel nervous when I have to _____ a speech to my class.",
+    "choices": [
+      "escape",
+      "give",
+      "take"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 74,
+    "q": "Our teacher asked us to _____ more research online.",
+    "choices": [
+      "take",
+      "do",
+      "make"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 75,
+    "q": "Facing an obstacle can surprise us, but we can _____ it with hard work.",
+    "choices": [
+      "get through",
+      "get into",
+      "get off"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 76,
+    "q": "Facing challenges in life teaches us to be braver and more _____.",
+    "choices": [
+      "lazy",
+      "confident",
+      "careless"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 77,
+    "q": "Our school principal _____ that the school fair would be next month.",
+    "choices": [
+      "announced",
+      "prepared",
+      "keep"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 78,
+    "q": "Facing challenges makes a lot of people better _____ for the future.",
+    "choices": [
+      "announced",
+      "keep",
+      "prepared"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 79,
+    "q": "We should all _____ going, even if we face challenges.",
+    "choices": [
+      "prepare",
+      "keep",
+      "announce"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 80,
+    "q": "The teacher admired Amal's _____.",
+    "choices": [
+      "sadness",
+      "creativity",
+      "laziness"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 81,
+    "q": "Amal used her tools _____.",
+    "choices": [
+      "responsibly",
+      "badly",
+      "carelessly"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 82,
+    "q": "She felt proud because she stayed true to _____ she is.",
+    "choices": [
+      "who",
+      "where",
+      "when"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 83,
+    "q": "If you are a role model, people will try to be _____ you.",
+    "choices": [
+      "unlike",
+      "like",
+      "hate"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 84,
+    "q": "When I face an obstacle, I try to overcome _____.",
+    "choices": [
+      "them",
+      "her",
+      "it"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 85,
+    "q": "Giving a speech can make you feel _____ at first.",
+    "choices": [
+      "nervous",
+      "confident",
+      "happy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 86,
+    "q": "It's okay to make _____ in life; we learn from them.",
+    "choices": [
+      "mistakes",
+      "friends",
+      "money"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 87,
+    "q": "Amal's robot was a _____ invention.",
+    "choices": [
+      "creative",
+      "useless",
+      "boring"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 88,
+    "q": "To 'come up with' means to _____.",
+    "choices": [
+      "forget",
+      "invent/think of",
+      "destroy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 89,
+    "q": "A school fair is a place to _____ projects.",
+    "choices": [
+      "ignore",
+      "hide",
+      "display"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 90,
+    "q": "We should never _____ up.",
+    "choices": [
+      "keep",
+      "take",
+      "give"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 91,
+    "q": "Computers are being used more and more _____ in the world today.",
+    "choices": [
+      "narrowly",
+      "badly",
+      "widely"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 92,
+    "q": "Computers are far more _____ than human beings.",
+    "choices": [
+      "slow",
+      "efficient",
+      "lazy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 93,
+    "q": "Computers can _____ information faster and better.",
+    "choices": [
+      "store",
+      "break",
+      "lose"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 94,
+    "q": "Computers can help the police fight _____.",
+    "choices": [
+      "peace",
+      "health",
+      "crime"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 95,
+    "q": "They can find out information about people's _____.",
+    "choices": [
+      "appearance",
+      "dreams",
+      "food"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 96,
+    "q": "Photographs of criminals are seen across the computer _____.",
+    "choices": [
+      "keyboard",
+      "screen",
+      "mouse"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 97,
+    "q": "A new kind of criminal knows how to _____ a computer.",
+    "choices": [
+      "fix",
+      "build",
+      "corrupt"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 98,
+    "q": "Human beings are _____ than computers.",
+    "choices": [
+      "more efficient",
+      "less efficient",
+      "faster"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 99,
+    "q": "The criminal who corrupts a computer is very _____ to be caught.",
+    "choices": [
+      "difficult",
+      "easy",
+      "simple"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 100,
+    "q": "Saja uses her smartphone for _____ with her friends.",
+    "choices": [
+      "chatting",
+      "eating",
+      "sleeping"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 101,
+    "q": "She sometimes watches memes or short _____.",
+    "choices": [
+      "videos",
+      "magazines",
+      "books"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 102,
+    "q": "She thinks that using _____ can be fun.",
+    "choices": [
+      "cars",
+      "emojis",
+      "trees"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 103,
+    "q": "To balance real life and screen time, she puts her phone _____ during meals.",
+    "choices": [
+      "away",
+      "on",
+      "in"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 104,
+    "q": "She stops using it an hour before _____.",
+    "choices": [
+      "bed",
+      "school",
+      "lunch"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 105,
+    "q": "Water helps in moving _____ and keeping the body cool.",
+    "choices": [
+      "hair",
+      "blood",
+      "bones"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 106,
+    "q": "Gen Alpha are the first generation to grow up _____ in a digital worl",
+    "choices": [
+      "a) rarely",
+      "never",
+      "entirely"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 107,
+    "q": "Parents want their children to _____ their screen time.",
+    "choices": [
+      "double",
+      "higher",
+      "limit"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 108,
+    "q": "Parents want their children to balance online activities with _____ connections.",
+    "choices": [
+      "virtual",
+      "fake",
+      "real-life"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 109,
+    "q": "They have arranged to travel to Alex next week. They _____ to Alex.",
+    "choices": [
+      "travel",
+      "are traveling",
+      "traveled"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 110,
+    "q": "She cleans her room every day. Her room _____ every day.",
+    "choices": [
+      "cleans",
+      "cleaned",
+      "is cleaned"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 111,
+    "q": "I was watching TV when the lights _____ out.",
+    "choices": [
+      "goes",
+      "went",
+      "go"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 112,
+    "q": "Your online passwords should _____ a secret.",
+    "choices": [
+      "be kept",
+      "kept",
+      "keep"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 113,
+    "q": "A lot of photos _____ shared online every day.",
+    "choices": [
+      "are",
+      "is",
+      "was"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 114,
+    "q": "We _____ camping next Friday. It's arrange",
+    "choices": [
+      "a) are going",
+      "went",
+      "go"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 115,
+    "q": "My sister uses her laptop now. (Correct mistake)",
+    "choices": [
+      "use",
+      "uses",
+      "is using"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 116,
+    "q": "Does food prepared by your mom every day? (Correct mistake)",
+    "choices": [
+      "Are",
+      "Is",
+      "Do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 117,
+    "q": "The antonym of 'happy' is _____.",
+    "choices": [
+      "inhappy",
+      "unhappy",
+      "dishappy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 118,
+    "q": "They _____ dinner outdoors tomorrow. Everything is arrange",
+    "choices": [
+      "a) had",
+      "have",
+      "are having"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 119,
+    "q": "The use of social media is _____ by teens.",
+    "choices": [
+      "limit",
+      "limited",
+      "limiting"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 120,
+    "q": "Personal photos shouldn't _____ taken without permission.",
+    "choices": [
+      "be",
+      "is",
+      "are"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 121,
+    "q": "A lot of people use social media to _____ with their friends.",
+    "choices": [
+      "communicate",
+      "disappoint",
+      "disagree"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 122,
+    "q": "Gen Alpha learn to use technology _____ they learn to rea",
+    "choices": [
+      "a) after",
+      "during",
+      "before"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 123,
+    "q": "Gen Alpha are called digital _____.",
+    "choices": [
+      "natives",
+      "activities",
+      "devices"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 124,
+    "q": "I faced many challenges, but I stayed _____.",
+    "choices": [
+      "determines",
+      "determine",
+      "determined"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 125,
+    "q": "While I _____ walking to school, I saw an accident.",
+    "choices": [
+      "was",
+      "were",
+      "am"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 126,
+    "q": "My dad had a flat tire while he _____ to work.",
+    "choices": [
+      "driving",
+      "was driving",
+      "drove"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 127,
+    "q": "I suggest _____ to the park on Friday.",
+    "choices": [
+      "to go",
+      "going",
+      "go"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 128,
+    "q": "How about _____ a new study plan?",
+    "choices": [
+      "make",
+      "making",
+      "to make"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 129,
+    "q": "At the moment, she _____ a good meal.",
+    "choices": [
+      "is preparing",
+      "prepare",
+      "prepares"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 130,
+    "q": "Look! Adel _____ memes with his friends.",
+    "choices": [
+      "shares",
+      "is sharing",
+      "share"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 131,
+    "q": "They _____ playing tennis when it started to rain.",
+    "choices": [
+      "was",
+      "were",
+      "are"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 132,
+    "q": "I _____ going to Paris next week. I have the tickets.",
+    "choices": [
+      "am",
+      "was",
+      "were"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 133,
+    "q": "She _____ cooking when her friend phoned her.",
+    "choices": [
+      "is",
+      "was",
+      "were"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 134,
+    "q": "When he _____ down, he was playing basketball.",
+    "choices": [
+      "falls",
+      "falling",
+      "fell"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 135,
+    "q": "The hybrid bus runs on both electricity and _____.",
+    "choices": [
+      "water",
+      "gas",
+      "diesel"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 136,
+    "q": "He is a visual learner; he likes to use mind _____.",
+    "choices": [
+      "songs",
+      "maps",
+      "audios"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 137,
+    "q": "The _____ helps you organize your schedule.",
+    "choices": [
+      "oven",
+      "calendar",
+      "screen"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 138,
+    "q": "You should think _____ before posting personal information.",
+    "choices": [
+      "carelessly",
+      "carefully",
+      "badly"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 139,
+    "q": "A _____ footprint is left without you knowing.",
+    "choices": [
+      "active",
+      "positive",
+      "passive"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 140,
+    "q": "Amal's robot blinked its eyes and said _____.",
+    "choices": [
+      "Goodbye!",
+      "Stop!",
+      "Hello!"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 141,
+    "q": "To achieve success, you must have _____.",
+    "choices": [
+      "fear",
+      "laziness",
+      "determination"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 142,
+    "q": "Traffic jams make the air _____.",
+    "choices": [
+      "clean",
+      "fresh",
+      "dirty"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 143,
+    "q": "A _____ is a train running on a single rail.",
+    "choices": [
+      "bus",
+      "metro",
+      "monorail"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 144,
+    "q": "_____ is an interactive board in classrooms.",
+    "choices": [
+      "Keyboard",
+      "Smartboard",
+      "Printer"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 145,
+    "q": "Good students are _____ for their work.",
+    "choices": [
+      "punished",
+      "ignored",
+      "rewarded"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 146,
+    "q": "Our lessons _____ well by our teachers.",
+    "choices": [
+      "teach",
+      "is taught",
+      "are taught"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 147,
+    "q": "We should show _____ to people when we understand their feelings.",
+    "choices": [
+      "anger",
+      "hatred",
+      "empathy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 148,
+    "q": "To express emotions, people often use _____.",
+    "choices": [
+      "numbers",
+      "letters",
+      "emojis"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 149,
+    "q": "A traffic jam is when cars move very _____.",
+    "choices": [
+      "slowly",
+      "fast",
+      "quickly"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 150,
+    "q": "You must stay true to _____ you are.",
+    "choices": [
+      "when",
+      "where",
+      "who"
+    ],
+    "answer": 0
+  }
+]

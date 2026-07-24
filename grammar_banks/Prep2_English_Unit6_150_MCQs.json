@@ -1,0 +1,1502 @@
+[
+  {
+    "q_num": 1,
+    "q": "I have lots of _____ for the new project in Sharm El Sheikh.",
+    "choices": [
+      "thoughts",
+      "solve",
+      "decide"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 2,
+    "q": "To succeed in life, you have to follow some _____ to reach your goals.",
+    "choices": [
+      "steps",
+      "inventions",
+      "problems"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 3,
+    "q": "When you face a problem, you should _____ ideas to solve it.",
+    "choices": [
+      "brainstorm",
+      "feel",
+      "Invent"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 4,
+    "q": "The engineers built a _____ of the new smartphone before making the last version.",
+    "choices": [
+      "impact",
+      "prototype",
+      "plan"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 5,
+    "q": "Many famous _____ have changed the world with their amazing ideas.",
+    "choices": [
+      "athletes",
+      "painters",
+      "inventors"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 6,
+    "q": "When engineers create a new app, they first try to _____ any problems.",
+    "choices": [
+      "identify",
+      "impact",
+      "version"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 7,
+    "q": "Some apps are very _____, meaning they are not simple.",
+    "choices": [
+      "easy",
+      "complex",
+      "clear"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 8,
+    "q": "The way people use an app can have a big _____ on their daily lives.",
+    "choices": [
+      "identify",
+      "impact",
+      "version"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 9,
+    "q": "Then they make a new _____ that works better.",
+    "choices": [
+      "inventors",
+      "impact",
+      "version"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 10,
+    "q": "After washing the clothes, she put them in the _____ to remove the water.",
+    "choices": [
+      "dryer",
+      "fridge",
+      "oven"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 11,
+    "q": "His room was so _____ that it was hard to find his clothes under the be",
+    "choices": [
+      "a) messy",
+      "neat",
+      "clean"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 12,
+    "q": "Be careful! The floor is wet and you might start _____.",
+    "choices": [
+      "jumping",
+      "slipping",
+      "running"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 13,
+    "q": "She used a bottle of water to _____ the plants every morning.",
+    "choices": [
+      "drink",
+      "collect",
+      "spray"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 14,
+    "q": "The student felt _____ before the exam because she had studied har",
+    "choices": [
+      "a) afraid",
+      "nervous",
+      "confident"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 15,
+    "q": "_____ engineers use special tools to help patients.",
+    "choices": [
+      "Civil",
+      "Biomedical",
+      "Musical"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 16,
+    "q": "Many young players see Mohamed Salah as their _____ because of his success.",
+    "choices": [
+      "role model",
+      "enemy",
+      "Stranger"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 17,
+    "q": "_____ can help people with problems such as movement difficulties.",
+    "choices": [
+      "Sensors",
+      "Buttons",
+      "Screens"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 18,
+    "q": "Hany Azer is known for his _____ of science and young inventors.",
+    "choices": [
+      "movement",
+      "support",
+      "need"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 19,
+    "q": "_____ can change lives and help those in nee",
+    "choices": [
+      "a) Hunger",
+      "Technology",
+      "Sensor"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 20,
+    "q": "Hany Azer made a great _____ in the world of engineering.",
+    "choices": [
+      "civil",
+      "impact",
+      "sensors"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 21,
+    "q": "He has a relative who works as a _____ engineer.",
+    "choices": [
+      "biomedical",
+      "civil",
+      "role model"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 22,
+    "q": "We have different _____ of smartphones in our company.",
+    "choices": [
+      "materials",
+      "steps",
+      "versions"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 23,
+    "q": "Inventions don't have to be _____. What matters is the impact.",
+    "choices": [
+      "complex",
+      "easy",
+      "simple"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 24,
+    "q": "The scientist tested a _____ of the machine to see how it worke",
+    "choices": [
+      "a) prototype",
+      "type",
+      "version"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 25,
+    "q": "My teacher always _____ ideas before starting the lesson.",
+    "choices": [
+      "brainstorms",
+      "thinks",
+      "storms"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 26,
+    "q": "Do you have any _____ about how to test this tool?",
+    "choices": [
+      "thoughts",
+      "engineers",
+      "impacts"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 27,
+    "q": "A _____ engineer works to make cities safe and organize",
+    "choices": [
+      "a) fashion",
+      "civil",
+      "computer"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 28,
+    "q": "Learning a new language is a slow _____ that takes time and practice.",
+    "choices": [
+      "mistake",
+      "process",
+      "object"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 29,
+    "q": "Biomedical engineers use tools like _____ to help patients.",
+    "choices": [
+      "senses",
+      "screens",
+      "sensors"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 30,
+    "q": "He wore special shoes to stop himself from _____ on the wet groun",
+    "choices": [
+      "a) slips",
+      "slip",
+      "slipping"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 31,
+    "q": "She would pass the exam if she _____ harder.",
+    "choices": [
+      "studied",
+      "studies",
+      "study"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 32,
+    "q": "If I _____ fly, I would visit every country in the worl",
+    "choices": [
+      "a) can",
+      "could",
+      "will"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 33,
+    "q": "If you _____ me with homework, I will finish early.",
+    "choices": [
+      "helped",
+      "help",
+      "helps"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 34,
+    "q": "If we _____ in Paris, we would visit the Eiffel Tower.",
+    "choices": [
+      "are",
+      "were",
+      "was"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 35,
+    "q": "If I had a plane, I _____ to many countries in the worl",
+    "choices": [
+      "a) will travel",
+      "travel",
+      "would travel"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 36,
+    "q": "If Hany _____ more carefully, he would make fewer mistakes.",
+    "choices": [
+      "works",
+      "worked",
+      "working"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 37,
+    "q": "If I _____ you, I would see a doctor.",
+    "choices": [
+      "were",
+      "was",
+      "am"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 38,
+    "q": "What would you do if you _____ a lot of money?",
+    "choices": [
+      "wins",
+      "won",
+      "win"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 39,
+    "q": "If he _____ the answer, he would tell us.",
+    "choices": [
+      "knew",
+      "knows",
+      "know"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 40,
+    "q": "We would buy a bigger house if we _____ rich.",
+    "choices": [
+      "is",
+      "are",
+      "were"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 41,
+    "q": "If she didn't feel well, she _____ stay at home.",
+    "choices": [
+      "will",
+      "can",
+      "would"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 42,
+    "q": "I _____ help you if I had more time.",
+    "choices": [
+      "would",
+      "can",
+      "will"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 43,
+    "q": "If it rains tomorrow, we _____ go to the clu",
+    "choices": [
+      "a) don't",
+      "won't",
+      "wouldn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 44,
+    "q": "If you heat ice, it _____.",
+    "choices": [
+      "melt",
+      "melted",
+      "melts"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 45,
+    "q": "They will pass the test if they _____ har",
+    "choices": [
+      "a) study",
+      "studied",
+      "studies"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 46,
+    "q": "If he _____ fast, he wouldn't miss the train.",
+    "choices": [
+      "ran",
+      "run",
+      "runs"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 47,
+    "q": "She _____ come to the party if you invited her.",
+    "choices": [
+      "would",
+      "can",
+      "will"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 48,
+    "q": "If we _____ tickets, we would go to the concert.",
+    "choices": [
+      "has",
+      "had",
+      "have"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 49,
+    "q": "What will happen if you _____ the deadline?",
+    "choices": [
+      "miss",
+      "misses",
+      "missed"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 50,
+    "q": "If people used less plastic, the oceans _____ cleaner.",
+    "choices": [
+      "are",
+      "will be",
+      "would be"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 51,
+    "q": "If I _____ a bird, I would fly everywhere.",
+    "choices": [
+      "am",
+      "were",
+      "was"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 52,
+    "q": "You will get a stomachache if you _____ too many sweets.",
+    "choices": [
+      "ate",
+      "eats",
+      "eat"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 53,
+    "q": "I would travel the world if I _____ not have to work.",
+    "choices": [
+      "did",
+      "do",
+      "does"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 54,
+    "q": "If she _____ early, she will catch the bus.",
+    "choices": [
+      "wakes up",
+      "wake up",
+      "woke up"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 55,
+    "q": "We _____ go to the beach if the weather is nice.",
+    "choices": [
+      "did",
+      "will",
+      "would"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 56,
+    "q": "If children played more outside, they _____ healthier.",
+    "choices": [
+      "would be",
+      "are",
+      "will be"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 57,
+    "q": "He would buy that expensive car if he _____ a millionaire.",
+    "choices": [
+      "is",
+      "was",
+      "were"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 58,
+    "q": "If you don't water the plants, they _____.",
+    "choices": [
+      "would die",
+      "died",
+      "die"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 59,
+    "q": "If they _____ me, I would gladly help them.",
+    "choices": [
+      "ask",
+      "asks",
+      "asked"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 60,
+    "q": "She will be angry if you _____ her book.",
+    "choices": [
+      "loses",
+      "lose",
+      "lost"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 61,
+    "q": "Hany believes that _____ is about caring about others.",
+    "choices": [
+      "freedom",
+      "leadership",
+      "creativity"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 62,
+    "q": "The children became known as the _____ of the islan",
+    "choices": [
+      "a) explorers",
+      "artists",
+      "sculptors"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 63,
+    "q": "The children inspired others to _____ with kindness.",
+    "choices": [
+      "watch TV",
+      "cook",
+      "lead"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 64,
+    "q": "When they returned to the village, they _____.",
+    "choices": [
+      "slept",
+      "shared stories",
+      "traveled"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 65,
+    "q": "They think that _____ makes adventures more fun!",
+    "choices": [
+      "explorers",
+      "creativity",
+      "leadership"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 66,
+    "q": "Working together to come up with new ideas means _____.",
+    "choices": [
+      "painting",
+      "collecting",
+      "brainstorming"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 67,
+    "q": "If you received _____, it would help improve your design.",
+    "choices": [
+      "work",
+      "feedback",
+      "built"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 68,
+    "q": "Your invention should have a useful _____ on your community.",
+    "choices": [
+      "problem",
+      "prototype",
+      "impact"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 69,
+    "q": "If you didn't come up with a design, you may miss the _____.",
+    "choices": [
+      "deadline",
+      "invention",
+      "plane"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 70,
+    "q": "We participated in a competition for young _____.",
+    "choices": [
+      "feedback",
+      "prototype",
+      "inventors"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 71,
+    "q": "Our teacher encouraged us to brainstorm a _____ ide",
+    "choices": [
+      "a) boring",
+      "creative",
+      "useless"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 72,
+    "q": "We agreed on designing an innovative device to solve a real _____.",
+    "choices": [
+      "impact",
+      "brainstorm",
+      "problem"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 73,
+    "q": "Testing a _____ and receiving feedback will help improve our invention.",
+    "choices": [
+      "prototype",
+      "problem",
+      "presentation"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 74,
+    "q": "Parents always advise their kids to _____ themselves.",
+    "choices": [
+      "punish",
+      "express",
+      "annoy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 75,
+    "q": "When we want to download something, we should ask _____ permission first.",
+    "choices": [
+      "for",
+      "in",
+      "to"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 76,
+    "q": "When Amal felt frustrated, Yara showed _____.",
+    "choices": [
+      "happiness",
+      "empathy",
+      "surprise"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 77,
+    "q": "To succeed in her project, Amal showed determination and _____.",
+    "choices": [
+      "lies",
+      "honesty",
+      "anger"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 78,
+    "q": "Malik enjoyed drawing the _____ while they sailed to the islan",
+    "choices": [
+      "a) scenery",
+      "grass",
+      "water"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 79,
+    "q": "We should _____ each other's thoughts although we are all different.",
+    "choices": [
+      "ignore",
+      "respect",
+      "report"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 80,
+    "q": "Malik used his _____ to draw maps of the islan",
+    "choices": [
+      "a) respect",
+      "honesty",
+      "creativity"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 81,
+    "q": "Leadership is about caring for others and helping them _____.",
+    "choices": [
+      "shine",
+      "cry",
+      "fail"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 82,
+    "q": "Malak invented her machine because many students walk in with _____ shoes.",
+    "choices": [
+      "shiny",
+      "clean",
+      "dirty"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 83,
+    "q": "Malak made a _____ of her invention with her da",
+    "choices": [
+      "a) medal",
+      "prototype",
+      "problem"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 84,
+    "q": "Malak might add a _____, so the shoes don't stay wet.",
+    "choices": [
+      "toaster",
+      "dryer",
+      "stove"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 85,
+    "q": "The machine cleans shoes in only 10 _____.",
+    "choices": [
+      "days",
+      "seconds",
+      "hours"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 86,
+    "q": "This invention will help schools stay _____.",
+    "choices": [
+      "clean",
+      "messy",
+      "dirty"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 87,
+    "q": "Malak's machine will stop people from _____ on wet floors.",
+    "choices": [
+      "jumping",
+      "running",
+      "slipping"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 88,
+    "q": "What did Hani suggest doing in 'The Adventure of the Hidden Island'?",
+    "choices": [
+      "Stay home",
+      "Build a boat",
+      "Discover the island"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 89,
+    "q": "Amal's parents encourage her _____.",
+    "choices": [
+      "not to give up",
+      "not to work",
+      "not to hope"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 90,
+    "q": "When the group reached the island, they found mysterious _____.",
+    "choices": [
+      "caves",
+      "fish",
+      "birds"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 91,
+    "q": "A _____ is a place where you can see stunning pieces of art.",
+    "choices": [
+      "theater",
+      "gallery",
+      "workshop"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 92,
+    "q": "To _____ with an activity is to take part in such activity.",
+    "choices": [
+      "enter",
+      "engage",
+      "capture"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 93,
+    "q": "My father is an _____ for girls' rights to a good education.",
+    "choices": [
+      "oppose",
+      "advocator",
+      "fighter"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 94,
+    "q": "My holiday in Maldives is an _____ experience for me.",
+    "choices": [
+      "unforgettable",
+      "unhappy",
+      "unnecessary"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 95,
+    "q": "Mount Fuji is a very famous _____ in Japan.",
+    "choices": [
+      "landmark",
+      "village",
+      "city"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 96,
+    "q": "Petra, Jordan was once a very rich _____ city.",
+    "choices": [
+      "trade",
+      "trading",
+      "trader"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 97,
+    "q": "_____ is a hot spring from the earth's heat.",
+    "choices": [
+      "Geology",
+      "Geothermal",
+      "Geography"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 98,
+    "q": "A _____ is a model of something new made with simple materials.",
+    "choices": [
+      "brainstorm",
+      "promo",
+      "prototype"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 99,
+    "q": "The state of being free from public attention is your _____.",
+    "choices": [
+      "proclaim",
+      "partner",
+      "privacy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 100,
+    "q": "Going to the park is much _____ than going to the movie theater.",
+    "choices": [
+      "interesting",
+      "more interesting",
+      "most interesting"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 101,
+    "q": "I kept trying _____ I was exhauste",
+    "choices": [
+      "a) although",
+      "but",
+      "because"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 102,
+    "q": "My little daughter broke her arm while she _____.",
+    "choices": [
+      "skating",
+      "skates",
+      "was skating"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 103,
+    "q": "We should all _____ our online profiles carefully.",
+    "choices": [
+      "design",
+      "be designed",
+      "designed"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 104,
+    "q": "We have arranged to repaint our apartment. We _____ our apartment next summer.",
+    "choices": [
+      "have repainted",
+      "are repainting",
+      "repainted"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 105,
+    "q": "Adel _____ Basbousa at the moment.",
+    "choices": [
+      "is eating",
+      "eats",
+      "eat"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 106,
+    "q": "A lot of photos _____ online.",
+    "choices": [
+      "share",
+      "shared",
+      "are shared"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 107,
+    "q": "Cairo is the _____ city in Egypt.",
+    "choices": [
+      "largest",
+      "large",
+      "larger"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 108,
+    "q": "It was raining, _____ we played football.",
+    "choices": [
+      "so",
+      "but",
+      "although"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 109,
+    "q": "Adel's work is _____ impressive than Ali's.",
+    "choices": [
+      "less",
+      "more",
+      "most"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 110,
+    "q": "I don't have much money, _____ I can't buy a new mobile.",
+    "choices": [
+      "because",
+      "If",
+      "so"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 111,
+    "q": "We should keep our country _____. (keep + object + adjective)",
+    "choices": [
+      "be clean",
+      "cleaned",
+      "clean"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 112,
+    "q": "It's his habit to get up early. He _____ up early.",
+    "choices": [
+      "gets",
+      "got",
+      "getting"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 113,
+    "q": "If Hany worked more carefully, he _____ make fewer mistakes.",
+    "choices": [
+      "will",
+      "would",
+      "can"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 114,
+    "q": "The countryside is _____ than Cairo.",
+    "choices": [
+      "quietest",
+      "more quieter",
+      "quieter"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 115,
+    "q": "I was very tired _____ I went to bed early.",
+    "choices": [
+      "because",
+      "but",
+      "so"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 116,
+    "q": "She was running when she _____ down.",
+    "choices": [
+      "fell",
+      "falling",
+      "was falling"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 117,
+    "q": "Students should _____ the school rules.",
+    "choices": [
+      "be followed",
+      "following",
+      "follow"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 118,
+    "q": "A famous sculptor received _____ for his pieces of artistic work.",
+    "choices": [
+      "punishment",
+      "recognition",
+      "bad treatment"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 119,
+    "q": "Our trip in Jordan was one of the _____ we've ever ha",
+    "choices": [
+      "a) impressive",
+      "more impressive",
+      "most impressive"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 120,
+    "q": "The Citadel in Cairo _____ in 1176.",
+    "choices": [
+      "built",
+      "was built",
+      "build"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 121,
+    "q": "Playing sports is a fantastic way to stay _____.",
+    "choices": [
+      "active",
+      "unhealthy",
+      "lazy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 122,
+    "q": "Soccer and basketball are _____ sports.",
+    "choices": [
+      "individual",
+      "personal",
+      "team"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 123,
+    "q": "Individual sports are like running or _____.",
+    "choices": [
+      "soccer",
+      "swimming",
+      "basketball"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 124,
+    "q": "Sports can help you _____ your physical and mental health.",
+    "choices": [
+      "improve",
+      "fall",
+      "cross"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 125,
+    "q": "Our teacher _____ that there would be an English task next Monday.",
+    "choices": [
+      "asked",
+      "announced",
+      "told"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 126,
+    "q": "Your _____ footprint includes posts you choose to share.",
+    "choices": [
+      "active",
+      "weak",
+      "passive"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 127,
+    "q": "We should _____ a good online balance for both learning and fun.",
+    "choices": [
+      "take",
+      "find",
+      "leave"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 128,
+    "q": "The _____ in Tokyo is large, and the people are polite.",
+    "choices": [
+      "continent",
+      "pollution",
+      "population"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 129,
+    "q": "I worked hard, _____ I improved my skills.",
+    "choices": [
+      "although",
+      "so",
+      "because"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 130,
+    "q": "Reading short stories is much _____ than watching movies.",
+    "choices": [
+      "most useful",
+      "more useful",
+      "useful"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 131,
+    "q": "January is usually the _____ month in Egypt.",
+    "choices": [
+      "colder",
+      "coldest",
+      "cold"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 132,
+    "q": "The Sphinx is an _____ example of ancient Egyptian greatness.",
+    "choices": [
+      "impressive",
+      "medical",
+      "agricultural"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 133,
+    "q": "Gen Alpha are true _____ as they are born with technology all around them.",
+    "choices": [
+      "engineers",
+      "digital natives",
+      "citizens"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 134,
+    "q": "Hany Azer made a great _____ in the world of civil engineering.",
+    "choices": [
+      "impact",
+      "Mathematics",
+      "Science"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 135,
+    "q": "Hany Azer moved to _____.",
+    "choices": [
+      "Germany",
+      "England",
+      "France"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 136,
+    "q": "Together they believe in using _____ and technology to help people.",
+    "choices": [
+      "science",
+      "sports",
+      "arts"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 137,
+    "q": "The writer was sitting by the open window reading a new _____.",
+    "choices": [
+      "story",
+      "book",
+      "newspaper"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 138,
+    "q": "The writer used a _____ to see his way.",
+    "choices": [
+      "torch",
+      "ruler",
+      "knife"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 139,
+    "q": "It was a _____ that cried 'help'.",
+    "choices": [
+      "parrot",
+      "lady",
+      "boy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 140,
+    "q": "The word 'near' is the opposite of _____.",
+    "choices": [
+      "far",
+      "large",
+      "close"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 141,
+    "q": "While _____ yesterday, the light went out.",
+    "choices": [
+      "studied",
+      "studying",
+      "I was studying"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 142,
+    "q": "Schools _____ clean with the help of the students.",
+    "choices": [
+      "should be kept",
+      "keep",
+      "be keeping"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 143,
+    "q": "If you practiced well, you _____ well in the exam.",
+    "choices": [
+      "do",
+      "would do",
+      "did"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 144,
+    "q": "I _____ to school on foot.",
+    "choices": [
+      "usually going",
+      "usually go",
+      "am usually going"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 145,
+    "q": "They have arranged to spend their holiday in Alex. They _____ their holiday in Alex.",
+    "choices": [
+      "spend",
+      "are spending",
+      "will spend"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 146,
+    "q": "They played well, _____ they lost.",
+    "choices": [
+      "Although",
+      "but",
+      "so"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 147,
+    "q": "Traffic rules should _____ everywhere.",
+    "choices": [
+      "followed",
+      "follow",
+      "be followed"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 148,
+    "q": "She _____ a new story now.",
+    "choices": [
+      "read",
+      "reads",
+      "is reading"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 149,
+    "q": "Tarek: Your computer is very nice, is it new? Mona: _____.",
+    "choices": [
+      "I bought it a week ago.",
+      "Yes, it is.",
+      "No, it isn't."
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 150,
+    "q": "Tarek: Where is it made? Mona: _____.",
+    "choices": [
+      "I bought it a week ago.",
+      "It is made in Japan.",
+      "Yes, I can."
+    ],
+    "answer": 0
+  }
+]

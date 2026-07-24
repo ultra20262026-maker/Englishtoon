@@ -1,0 +1,1502 @@
+[
+  {
+    "q_num": 1,
+    "q": "Some people learn best by seeing information. These are _____ learners.",
+    "choices": [
+      "visual",
+      "kinesthetic",
+      "auditory"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 2,
+    "q": "Visual learners often make maps and charts to _____ information.",
+    "choices": [
+      "organize",
+      "know",
+      "choose"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 3,
+    "q": "_____ learners like to listen to music, discuss topics, and hear.",
+    "choices": [
+      "Auditory",
+      "Kinesthetic",
+      "Visual"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 4,
+    "q": "_____ learners often use their hands to help them think.",
+    "choices": [
+      "Visual",
+      "Kinesthetic",
+      "Auditory"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 5,
+    "q": "When you know how you learn best, you can choose the right _____.",
+    "choices": [
+      "chart",
+      "method",
+      "map"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 6,
+    "q": "_____ is related to hands-on activities and physical action.",
+    "choices": [
+      "Auditory",
+      "Kinesthetic",
+      "Visual"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 7,
+    "q": "_____ are visual tools used to organize information.",
+    "choices": [
+      "Songs",
+      "Mind maps",
+      "Experiments"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 8,
+    "q": "_____ is related to hearing things.",
+    "choices": [
+      "Kinesthetic",
+      "Visual",
+      "Auditory"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 9,
+    "q": "_____ means to arrange or put things in a particular order.",
+    "choices": [
+      "Ignore",
+      "Organize",
+      "Destroy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 10,
+    "q": "_____ is related to sight and seeing.",
+    "choices": [
+      "Visual",
+      "Physical",
+      "Auditory"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 11,
+    "q": "I'm _____ English with my frien",
+    "choices": [
+      "a) learn",
+      "learns",
+      "learning"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 12,
+    "q": "She can _____ with others and understand them.",
+    "choices": [
+      "communicating",
+      "communicates",
+      "communicate"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 13,
+    "q": "Digital devices create powerful learning _____.",
+    "choices": [
+      "problems",
+      "mistakes",
+      "experiences"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 14,
+    "q": "_____ thinking helps you solve problems.",
+    "choices": [
+      "Creative",
+      "Boring",
+      "Careless"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 15,
+    "q": "You need to share opinions to find _____.",
+    "choices": [
+      "devices",
+      "problems",
+      "solutions"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 16,
+    "q": "Teamwork helps students improve their _____.",
+    "choices": [
+      "eating",
+      "sleep",
+      "skills"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 17,
+    "q": "You can record your pronunciation to _____ your language.",
+    "choices": [
+      "remind",
+      "improve",
+      "organize"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 18,
+    "q": "I always _____ ideas with my friends to help each other.",
+    "choices": [
+      "practice",
+      "try",
+      "share"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 19,
+    "q": "Learning how to learn is one of the most important _____ for students.",
+    "choices": [
+      "games",
+      "books",
+      "skills"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 20,
+    "q": "The key is to find your own _____ that works.",
+    "choices": [
+      "style",
+      "device",
+      "problem"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 21,
+    "q": "Good learners don't just _____ information. They understand it.",
+    "choices": [
+      "forget",
+      "ignore",
+      "memorize"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 22,
+    "q": "They take notes and review _____.",
+    "choices": [
+      "never",
+      "rarely",
+      "regularly"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 23,
+    "q": "Visual learners like to read books and look at _____.",
+    "choices": [
+      "music",
+      "sounds",
+      "pictures"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 24,
+    "q": "Auditory learners learn best when they _____.",
+    "choices": [
+      "listen",
+      "draw",
+      "run"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 25,
+    "q": "Kinesthetic learners learn best when they _____ things.",
+    "choices": [
+      "see",
+      "hear",
+      "touch"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 26,
+    "q": "We use different learning _____ to improve our skills.",
+    "choices": [
+      "devices",
+      "techniques",
+      "mistakes"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 27,
+    "q": "I learn best when I can do _____.",
+    "choices": [
+      "sleeping",
+      "nothing",
+      "activities"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 28,
+    "q": "She uses colorful _____ to organize information.",
+    "choices": [
+      "sounds",
+      "notes",
+      "voices"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 29,
+    "q": "The most successful students never stop trying to _____.",
+    "choices": [
+      "fail",
+      "lose",
+      "improve"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 30,
+    "q": "Every person has a different learning _____.",
+    "choices": [
+      "face",
+      "style",
+      "name"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 31,
+    "q": "They _____ answer the questions because they are difficult.",
+    "choices": [
+      "can",
+      "am",
+      "can't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 32,
+    "q": "Ghada _____ revising for the English exam.",
+    "choices": [
+      "can",
+      "are",
+      "is"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 33,
+    "q": "We are _____ mind maps and charts to organize information.",
+    "choices": [
+      "drawing",
+      "draw",
+      "draws"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 34,
+    "q": "She _____ science with her father right now.",
+    "choices": [
+      "is studying",
+      "study",
+      "studying"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 35,
+    "q": "We can _____ experiments in the la",
+    "choices": [
+      "a) does",
+      "do",
+      "doing"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 36,
+    "q": "He _____ hard to win the match.",
+    "choices": [
+      "practices",
+      "is practicing",
+      "practice"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 37,
+    "q": "We _____ focus better when our teacher uses mind maps.",
+    "choices": [
+      "can",
+      "are",
+      "can't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 38,
+    "q": "They _____ to solve the problem.",
+    "choices": [
+      "trying",
+      "are trying",
+      "try"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 39,
+    "q": "My father _____ his work at this moment by using charts.",
+    "choices": [
+      "is organizing",
+      "organizes",
+      "organize"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 40,
+    "q": "I can _____ these questions because they are easy.",
+    "choices": [
+      "answer",
+      "answering",
+      "answers"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 41,
+    "q": "We _____ flowers in the garden right now.",
+    "choices": [
+      "plant",
+      "planted",
+      "are planting"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 42,
+    "q": "Amira can _____ us English.",
+    "choices": [
+      "teaches",
+      "teach",
+      "teaching"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 43,
+    "q": "The teacher _____ using mind maps and charts.",
+    "choices": [
+      "are",
+      "am",
+      "is"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 44,
+    "q": "He can _____ English very well.",
+    "choices": [
+      "speaks",
+      "speak",
+      "speaking"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 45,
+    "q": "Maria and Hind _____ drawing diagrams and charts.",
+    "choices": [
+      "are",
+      "has",
+      "is"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 46,
+    "q": "We _____ for our science test at this moment.",
+    "choices": [
+      "are studying",
+      "studying",
+      "study"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 47,
+    "q": "My brother can _____ with others in English.",
+    "choices": [
+      "communicate",
+      "communicated",
+      "communicating"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 48,
+    "q": "I'm _____ my learning habits to succee",
+    "choices": [
+      "a) improving",
+      "improve",
+      "improved"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 49,
+    "q": "They _____ trying to solve the problems together.",
+    "choices": [
+      "am",
+      "are",
+      "is"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 50,
+    "q": "Dina can't _____ diagrams and charts.",
+    "choices": [
+      "used",
+      "use",
+      "uses"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 51,
+    "q": "He can _____ his voice to know the correct pronunciation.",
+    "choices": [
+      "record",
+      "records",
+      "recording"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 52,
+    "q": "He _____ developing his skills to be confident.",
+    "choices": [
+      "were",
+      "are",
+      "is"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 53,
+    "q": "You can _____ your favorite learning techniques.",
+    "choices": [
+      "choose",
+      "chooses",
+      "choosing"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 54,
+    "q": "What _____ you doing now?",
+    "choices": [
+      "are",
+      "do",
+      "is"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 55,
+    "q": "I _____ reading a book.",
+    "choices": [
+      "are",
+      "is",
+      "am"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 56,
+    "q": "_____ she studying science?",
+    "choices": [
+      "Do",
+      "Is",
+      "Are"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 57,
+    "q": "_____ they working on a project?",
+    "choices": [
+      "Does",
+      "Is",
+      "Are"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 58,
+    "q": "I can't _____ you right now.",
+    "choices": [
+      "help",
+      "helps",
+      "helping"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 59,
+    "q": "They can _____ the problem easily.",
+    "choices": [
+      "solving",
+      "solve",
+      "solves"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 60,
+    "q": "Can you _____ me a cup of water, please?",
+    "choices": [
+      "fetching",
+      "fetches",
+      "fetch"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 61,
+    "q": "_____ means we believe in our success.",
+    "choices": [
+      "Care",
+      "Respect",
+      "Ambition"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 62,
+    "q": "We can't see the tree. It was _____ because of the rain.",
+    "choices": [
+      "easy",
+      "invisible",
+      "difficult"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 63,
+    "q": "At the end of the bridge appeared a golden door with a _____.",
+    "choices": [
+      "lock",
+      "key",
+      "message"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 64,
+    "q": "Never give _____, Determination opens every door.",
+    "choices": [
+      "up",
+      "in",
+      "out"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 65,
+    "q": "The team tried many _____ but nothing worke",
+    "choices": [
+      "a) ideas",
+      "locks",
+      "keys"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 66,
+    "q": "They refused to _____.",
+    "choices": [
+      "quit",
+      "work",
+      "try"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 67,
+    "q": "Finally Omar whispered, 'Let's sing together. Maybe _____ is the key.'",
+    "choices": [
+      "magic",
+      "unity",
+      "money"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 68,
+    "q": "_____ means working together as one.",
+    "choices": [
+      "Unity",
+      "Respect",
+      "Courage"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 69,
+    "q": "When we can't see something, it means it is _____.",
+    "choices": [
+      "visible",
+      "invisible",
+      "clear"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 70,
+    "q": "_____ is the key to success.",
+    "choices": [
+      "Laziness",
+      "Unity",
+      "Fear"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 71,
+    "q": "Take a deep _____ when you feel scare",
+    "choices": [
+      "a) step",
+      "breath",
+      "look"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 72,
+    "q": "_____ means not giving up, even when things are har",
+    "choices": [
+      "a) Determination",
+      "Honesty",
+      "Respect"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 73,
+    "q": "Winning the first prize was a big _____ for our team.",
+    "choices": [
+      "treatment",
+      "community",
+      "achievement"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 74,
+    "q": "The children _____ every problem by working together.",
+    "choices": [
+      "had",
+      "made",
+      "solved"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 75,
+    "q": "Respect, teamwork, courage and determination are the _____ we learne",
+    "choices": [
+      "a) nouns",
+      "values",
+      "words"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 76,
+    "q": "Their hearts were full of _____ and happiness.",
+    "choices": [
+      "pride",
+      "sadness",
+      "proud"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 77,
+    "q": "The greatest lessons were not about magic, but about _____.",
+    "choices": [
+      "respect",
+      "hate",
+      "anger"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 78,
+    "q": "Never giving _____ on themselves or each other is important.",
+    "choices": [
+      "up",
+      "down",
+      "out"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 79,
+    "q": "Learning with others has many _____.",
+    "choices": [
+      "benefits",
+      "mistakes",
+      "breaks"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 80,
+    "q": "Teamwork helps my friend to be _____.",
+    "choices": [
+      "confident",
+      "uncomfortable",
+      "shy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 81,
+    "q": "_____ learners learn best when they watch videos.",
+    "choices": [
+      "Kinesthetic",
+      "Visual",
+      "Auditory"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 82,
+    "q": "You should _____ your time before exams.",
+    "choices": [
+      "organize",
+      "waste",
+      "lose"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 83,
+    "q": "To _____ means to make something better.",
+    "choices": [
+      "review",
+      "improve",
+      "share"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 84,
+    "q": "_____ makes learning easier.",
+    "choices": [
+      "Cooperation",
+      "Cleaning",
+      "Painting"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 85,
+    "q": "Learning in groups has more _____ than learning alone.",
+    "choices": [
+      "devices",
+      "apps",
+      "benefits"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 86,
+    "q": "We can use _____ and websites to find information.",
+    "choices": [
+      "projects",
+      "experiments",
+      "digital devices"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 87,
+    "q": "Teamwork helps students to be _____.",
+    "choices": [
+      "invisible",
+      "creative",
+      "distracted"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 88,
+    "q": "You need to develop your skills to be _____.",
+    "choices": [
+      "confident",
+      "alone",
+      "enjoyable"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 89,
+    "q": "We learn cooperation and _____ from working in teams.",
+    "choices": [
+      "laziness",
+      "leadership",
+      "anger"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 90,
+    "q": "He is visiting his grandparents last Friday. (Correct the mistake: visiting -> ____)",
+    "choices": [
+      "visit",
+      "visits",
+      "visited"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 91,
+    "q": "We can learn cooperation and leadership from working in _____.",
+    "choices": [
+      "bed",
+      "sleep",
+      "teams"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 92,
+    "q": "Creative thinking helps you _____ problems.",
+    "choices": [
+      "solve",
+      "create",
+      "make"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 93,
+    "q": "You need to share opinions and discuss problems to find _____.",
+    "choices": [
+      "solutions",
+      "mistakes",
+      "breaks"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 94,
+    "q": "Every person learns _____.",
+    "choices": [
+      "the same",
+      "badly",
+      "differently"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 95,
+    "q": "Visual learners like to read books and look at _____.",
+    "choices": [
+      "words",
+      "pictures",
+      "sounds"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 96,
+    "q": "Dr. Gamal Hemdan was a famous Egyptian _____.",
+    "choices": [
+      "singer",
+      "actor",
+      "thinker"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 97,
+    "q": "He studied _____ at Cairo university.",
+    "choices": [
+      "music",
+      "geography",
+      "cooking"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 98,
+    "q": "He wasn't only a scientist, but also a deep _____.",
+    "choices": [
+      "singer",
+      "player",
+      "thinker"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 99,
+    "q": "He combined geography, history, and _____.",
+    "choices": [
+      "music",
+      "politics",
+      "sports"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 100,
+    "q": "People use many _____ every day to help them.",
+    "choices": [
+      "devices",
+      "animals",
+      "plants"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 101,
+    "q": "Computers are used for work, school, and _____.",
+    "choices": [
+      "eating",
+      "entertainment",
+      "sleeping"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 102,
+    "q": "Tablets are great for reading books and watching _____.",
+    "choices": [
+      "radio",
+      "music",
+      "movies"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 103,
+    "q": "Headphones allow us to listen to _____.",
+    "choices": [
+      "books",
+      "music",
+      "pictures"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 104,
+    "q": "These devices make our lives more _____.",
+    "choices": [
+      "difficult",
+      "hard",
+      "comfortable"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 105,
+    "q": "Tablets are useful for reading and watching _____.",
+    "choices": [
+      "movies",
+      "music",
+      "calls"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 106,
+    "q": "Computers are used to search the _____.",
+    "choices": [
+      "television",
+      "outdoors",
+      "internet"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 107,
+    "q": "You should _____ your time before exams.",
+    "choices": [
+      "destroy",
+      "organize",
+      "waste"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 108,
+    "q": "What technology do you use every day? 'Technology' is a/an _____.",
+    "choices": [
+      "verb",
+      "adjective",
+      "noun"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 109,
+    "q": "Our teacher showed us amazing videos. 'Amazing' is a/an _____.",
+    "choices": [
+      "adverb",
+      "verb",
+      "adjective"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 110,
+    "q": "Can you remind me of the deadline? 'Remind' is a/an _____.",
+    "choices": [
+      "noun",
+      "adjective",
+      "verb"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 111,
+    "q": "I sometimes use the computer in my science class. 'sometimes' is a/an _____.",
+    "choices": [
+      "noun",
+      "verb",
+      "adverb"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 112,
+    "q": "He is visiting his grandparents last Friday. (Find the mistake)",
+    "choices": [
+      "is -> are",
+      "is visiting -> visited",
+      "Friday -> week"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 113,
+    "q": "At the moment, he was doing his homework. (Find the mistake)",
+    "choices": [
+      "doing -> does",
+      "his -> her",
+      "was -> is"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 114,
+    "q": "My mother can cooks the best pasta ever. (Find the mistake)",
+    "choices": [
+      "best -> worst",
+      "can -> is",
+      "cooks -> cook"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 115,
+    "q": "I always eat eggs for breakfast. I don't like eggs at all. (Find the mistake)",
+    "choices": [
+      "breakfast -> lunch",
+      "eat -> ate",
+      "always -> never"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 116,
+    "q": "The opposite of correct is uncorrect. (Find the mistake)",
+    "choices": [
+      "correct -> right",
+      "opposite -> synonym",
+      "uncorrect -> incorrect"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 117,
+    "q": "Ali's habit is to do his homework. -> Ali _____ does his homework.",
+    "choices": [
+      "never",
+      "usually",
+      "rarely"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 118,
+    "q": "Huda has the ability to do difficult sums. -> Huda _____ do difficult sums.",
+    "choices": [
+      "can",
+      "is",
+      "does"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 119,
+    "q": "Hany never went to the club on Monday. -> Hany _____ go to the clu",
+    "choices": [
+      "a) doesn't",
+      "don't",
+      "didn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 120,
+    "q": "When I read in the evening, I use a darker setting. -> I use _____ mode.",
+    "choices": [
+      "morning",
+      "afternoon",
+      "night"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 121,
+    "q": "We all _____ Adel as he works har",
+    "choices": [
+      "a) leave",
+      "admire",
+      "hate"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 122,
+    "q": "My friend Adham _____ the leader of our project last year.",
+    "choices": [
+      "is",
+      "was",
+      "has"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 123,
+    "q": "Malak is always _____, even when there are hard times.",
+    "choices": [
+      "sad",
+      "cheerful",
+      "angry"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 124,
+    "q": "People who learn by doing activities prefer _____ learning.",
+    "choices": [
+      "visual",
+      "auditory",
+      "kinesthetic"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 125,
+    "q": "To have an unusual way of thinking is to think _____.",
+    "choices": [
+      "creatively",
+      "carelessly",
+      "traditionally"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 126,
+    "q": "When people work together, they _____ better.",
+    "choices": [
+      "relate",
+      "collaborate",
+      "imitate"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 127,
+    "q": "An elephant can swim, but it _____ fly.",
+    "choices": [
+      "can't",
+      "can",
+      "isn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 128,
+    "q": "You should feel _____ when you present a project.",
+    "choices": [
+      "confident",
+      "unhappy",
+      "annoyed"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 129,
+    "q": "The teacher was _____ our performance during the experiment.",
+    "choices": [
+      "monitoring",
+      "seeing",
+      "ignoring"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 130,
+    "q": "What _____ your favorite games when you were young?",
+    "choices": [
+      "is",
+      "were",
+      "are"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 131,
+    "q": "Malak _____ English grammar online right now.",
+    "choices": [
+      "studies",
+      "study",
+      "is studying"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 132,
+    "q": "_____ leave the tap open.",
+    "choices": [
+      "Usually",
+      "Always",
+      "Never"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 133,
+    "q": "Can you _____ me a cup of water, please?",
+    "choices": [
+      "fetch",
+      "fetches",
+      "fetching"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 134,
+    "q": "He _____ answer all the questions. He has the ability.",
+    "choices": [
+      "can't",
+      "can",
+      "is"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 135,
+    "q": "I _____ read my ebooks on my tablet.",
+    "choices": [
+      "am",
+      "never",
+      "often"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 136,
+    "q": "I use the _____ to write my assignment.",
+    "choices": [
+      "keyboard",
+      "speaker",
+      "headphone"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 137,
+    "q": "A _____ person is a happy and positive one.",
+    "choices": [
+      "cheerful",
+      "sad",
+      "boring"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 138,
+    "q": "A _____ is a device used to type letters into a computer.",
+    "choices": [
+      "screen",
+      "keyboard",
+      "smartboard"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 139,
+    "q": "Something _____ means using computer technology.",
+    "choices": [
+      "natural",
+      "digital",
+      "manual"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 140,
+    "q": "A _____ produces sound from a computer.",
+    "choices": [
+      "printer",
+      "speaker",
+      "keyboard"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 141,
+    "q": "A _____ is used for printing texts or images on paper.",
+    "choices": [
+      "keyboard",
+      "webcam",
+      "printer"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 142,
+    "q": "_____ are online platforms where people connect.",
+    "choices": [
+      "Social media",
+      "Keyboards",
+      "Printers"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 143,
+    "q": "We learn Arabic, English and French _____ school.",
+    "choices": [
+      "at",
+      "on",
+      "in"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 144,
+    "q": "She said, 'Reading is better _____ watching TV.'",
+    "choices": [
+      "than",
+      "then",
+      "that"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 145,
+    "q": "They visited Aswan last _____.",
+    "choices": [
+      "January",
+      "tomorrow",
+      "week"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 146,
+    "q": "I am writing this email to tell you _____ my digital day.",
+    "choices": [
+      "in",
+      "on",
+      "about"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 147,
+    "q": "Students work together to design an _____ poster.",
+    "choices": [
+      "eye-catcher",
+      "eye-catching",
+      "eye-catch"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 148,
+    "q": "You should be kind and _____ when you sit in a roundtable.",
+    "choices": [
+      "respect",
+      "respectful",
+      "respected"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 149,
+    "q": "We can end our emails with a phrase like: Write back _____!",
+    "choices": [
+      "late",
+      "soon",
+      "never"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 150,
+    "q": "I use the _____ when I make a video call with friends.",
+    "choices": [
+      "keyboard",
+      "printer",
+      "webcam"
+    ],
+    "answer": 0
+  }
+]

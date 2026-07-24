@@ -1,0 +1,189 @@
+[
+  {
+    "q_num": 8,
+    "q": "A heatwave lasts for many _____.",
+    "choices": [
+      "wildfire",
+      "sandstorm",
+      "flood",
+      "breathe"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 19,
+    "q": "A drought means there is no _____ for a long time.",
+    "choices": [
+      "water",
+      "fire",
+      "sand",
+      "rocks"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 30,
+    "q": "Lightning is a bright flash of _____.",
+    "choices": [
+      "light breeze",
+      "sunny day",
+      "sandstorm",
+      "powerful"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 42,
+    "q": "Animals suffer during a _____ because there is no water.",
+    "choices": [
+      "noise",
+      "wind",
+      "light",
+      "health"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 51,
+    "q": "The mud bricks were very _____.",
+    "choices": [
+      "forest",
+      "ocean",
+      "river",
+      "extreme"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 63,
+    "q": "What _____ you do during the heatwave?",
+    "choices": [
+      "sandstorm",
+      "flood",
+      "heatwave",
+      "dried"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 75,
+    "q": "They _____ to a safe place during the storm.",
+    "choices": [
+      "uses",
+      "using",
+      "used",
+      "is"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 87,
+    "q": "Ancient Egyptians _____ very clever.",
+    "choices": [
+      "faces",
+      "faced",
+      "face",
+      "see"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 96,
+    "q": "They _____ across the fiel",
+    "choices": [
+      "a) knew",
+      "know",
+      "knows",
+      "harmed"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 108,
+    "q": "The frogs needed _____ to live.",
+    "choices": [
+      "walk",
+      "jump",
+      "crawl",
+      "well"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 120,
+    "q": "The frogs are the _____ in the story.",
+    "choices": [
+      "deep",
+      "cold",
+      "dry",
+      "grass"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 132,
+    "q": "They were looking for a safe _____.",
+    "choices": [
+      "well",
+      "pond",
+      "desert",
+      "pond"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 141,
+    "q": "The _____ are the people or animals in the story.",
+    "choices": [
+      "weak",
+      "cold",
+      "strong",
+      "flew"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 153,
+    "q": "A _____ means too much water.",
+    "choices": [
+      "problem",
+      "moral",
+      "setting",
+      "soup"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 165,
+    "q": "A collage is an _____ project.",
+    "choices": [
+      "flood",
+      "storm",
+      "drought",
+      "snow"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 177,
+    "q": "Crops need _____ to grow.",
+    "choices": [
+      "water",
+      "sand",
+      "pictures",
+      "end"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 180,
+    "q": "We must respect _____.",
+    "choices": [
+      "Red Sea",
+      "desert",
+      "Nile",
+      "irrigation"
+    ],
+    "answer": 0
+  }
+]

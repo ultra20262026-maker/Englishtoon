@@ -1,0 +1,189 @@
+[
+  {
+    "q_num": 8,
+    "q": "They stop to take _____ with their cameras.",
+    "choices": [
+      "bazaar",
+      "museum",
+      "Nile",
+      "visit"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 20,
+    "q": "We can take a _____ on the Nile.",
+    "choices": [
+      "fly",
+      "ride",
+      "drive",
+      "Lake"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 32,
+    "q": "We took many _____ with our phone.",
+    "choices": [
+      "quiet",
+      "sad",
+      "famous",
+      "camels"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 44,
+    "q": "We learn about our country's _____.",
+    "choices": [
+      "facts",
+      "food",
+      "clothes",
+      "water"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 53,
+    "q": "The boy hides _____ the door.",
+    "choices": [
+      "bad",
+      "great",
+      "sad",
+      "buy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 65,
+    "q": "I put my books _____ my bag.",
+    "choices": [
+      "behind",
+      "front",
+      "under",
+      "on"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 77,
+    "q": "The _____ is full of trash.",
+    "choices": [
+      "on",
+      "next",
+      "in",
+      "under"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 89,
+    "q": "The boy is hiding _____ the tree.",
+    "choices": [
+      "pin",
+      "pear",
+      "bear",
+      "pan"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 98,
+    "q": "We go to the library to read or _____ books.",
+    "choices": [
+      "billion",
+      "thousand",
+      "million",
+      "quiet"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 109,
+    "q": "Yesterday, I went to Khan Al-Khalili _____.",
+    "choices": [
+      "clothes",
+      "history",
+      "food",
+      "sleep"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 120,
+    "q": "They went to the top of the Cairo _____.",
+    "choices": [
+      "quiet",
+      "sad",
+      "busy",
+      "trees"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 132,
+    "q": "You must not be _____ in the library.",
+    "choices": [
+      "top",
+      "under",
+      "bottom",
+      "gifts"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 141,
+    "q": "The weather is _____ in the morning in St. Catherine.",
+    "choices": [
+      "chairs",
+      "beds",
+      "trees",
+      "books"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 152,
+    "q": "It is _____ during the day in the desert.",
+    "choices": [
+      "River",
+      "Lake",
+      "Ocean",
+      "dates"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 163,
+    "q": "We went to the Pyramids last _____.",
+    "choices": [
+      "food",
+      "clothes",
+      "pictures",
+      "famous"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 174,
+    "q": "A trip to the oasis is very _____.",
+    "choices": [
+      "What",
+      "Why",
+      "Who",
+      "long"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 180,
+    "q": "Egypt is a wonderful _____ to visit.",
+    "choices": [
+      "bad",
+      "ugly",
+      "beautiful",
+      "monastery"
+    ],
+    "answer": 0
+  }
+]

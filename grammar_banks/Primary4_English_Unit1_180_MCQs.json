@@ -1,0 +1,188 @@
+[
+  {
+    "q_num": 8,
+    "q": "He can _____ their beautiful wings.",
+    "choices": [
+      "toys",
+      "senses",
+      "books",
+      "tree"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 20,
+    "q": "The rabbit feels soft to _____.",
+    "choices": [
+      "books",
+      "shoes",
+      "flowers",
+      "hear"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 32,
+    "q": "Which sense do you use to know the soup is salty?",
+    "choices": [
+      "six",
+      "five",
+      "four",
+      "forget"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 44,
+    "q": "We must protect our _____.",
+    "choices": [
+      "Sight",
+      "Hearing",
+      "Taste",
+      "Hearing"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 53,
+    "q": "_____, I do my homework.",
+    "choices": [
+      "sad",
+      "important",
+      "bad",
+      "drinking"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 65,
+    "q": "Eating too much candy is _____.",
+    "choices": [
+      "Next",
+      "Finally",
+      "First",
+      "First"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 77,
+    "q": "He _____ his hands with soap.",
+    "choices": [
+      "waking",
+      "wakes",
+      "wake",
+      "eating"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 89,
+    "q": "We _____ our vegetables.",
+    "choices": [
+      "drinks",
+      "plays",
+      "eats",
+      "sleep"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 98,
+    "q": "Omar paid with the sound of _____.",
+    "choices": [
+      "sleep",
+      "wake up",
+      "go to bed",
+      "smelled"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 110,
+    "q": "The owner _____ at the en",
+    "choices": [
+      "a) pay",
+      "eat",
+      "leave",
+      "generous"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 122,
+    "q": "He didn't eat the _____.",
+    "choices": [
+      "full",
+      "hungry",
+      "thirsty",
+      "eyes"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 134,
+    "q": "He walked in the _____.",
+    "choices": [
+      "drank",
+      "smelled",
+      "ate",
+      "clever"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 143,
+    "q": "Healthy food keeps your body and mind _____.",
+    "choices": [
+      "sound",
+      "sight",
+      "smell",
+      "strong"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 155,
+    "q": "They _____ the books in the morning.",
+    "choices": [
+      "groups",
+      "boxes",
+      "bags",
+      "sugar"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 167,
+    "q": "Then she _____ English before going to school.",
+    "choices": [
+      "takes",
+      "touches",
+      "hears",
+      "watch"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 179,
+    "q": "Fruit is a/an _____ foo",
+    "choices": [
+      "a) plays",
+      "play",
+      "playing",
+      "helps"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 180,
+    "q": "Sara _____ to her village every week.",
+    "choices": [
+      "traveled",
+      "travel",
+      "travels"
+    ],
+    "answer": 0
+  }
+]

@@ -1,0 +1,188 @@
+[
+  {
+    "q_num": 8,
+    "q": "She _____ sad yesterday.",
+    "choices": [
+      "went",
+      "going",
+      "go",
+      "are"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 20,
+    "q": "They _____ their homework last night.",
+    "choices": [
+      "am",
+      "was",
+      "were",
+      "see"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 32,
+    "q": "The cat _____ free.",
+    "choices": [
+      "draw",
+      "drew",
+      "draws",
+      "read"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 44,
+    "q": "The bird _____ in the sky.",
+    "choices": [
+      "hurting",
+      "hurts",
+      "hurt",
+      "wakes"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 53,
+    "q": "First, they eat breakfast. _____, they go to school.",
+    "choices": [
+      "fall",
+      "fell",
+      "falls",
+      "falls"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 65,
+    "q": "We are a team, _____ we work together.",
+    "choices": [
+      "but",
+      "then",
+      "and",
+      "and"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 77,
+    "q": "The dog barked _____ jumpe",
+    "choices": [
+      "a) and",
+      "then",
+      "but",
+      "and"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 89,
+    "q": "He played tennis _____ school.",
+    "choices": [
+      "so",
+      "because",
+      "but",
+      "together"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 98,
+    "q": "I am worried _____ my exam.",
+    "choices": [
+      "in",
+      "to",
+      "on",
+      "goal"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 110,
+    "q": "The fans _____ for the team.",
+    "choices": [
+      "with",
+      "to",
+      "on",
+      "start"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 122,
+    "q": "How did the team _____ after the goal?",
+    "choices": [
+      "fun",
+      "sad",
+      "bad",
+      "team"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 134,
+    "q": "We won the _____.",
+    "choices": [
+      "sad",
+      "happy",
+      "nervous",
+      "scored"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 143,
+    "q": "One sunny day, they _____ to the park.",
+    "choices": [
+      "team",
+      "ball",
+      "goal",
+      "proud"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 155,
+    "q": "Lina _____ her friend because she cares.",
+    "choices": [
+      "went",
+      "goes",
+      "go",
+      "went"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 167,
+    "q": "She was happy, _____ she didn't win.",
+    "choices": [
+      "shares",
+      "cries",
+      "shouts",
+      "scores"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 179,
+    "q": "Did he _____ his knee?",
+    "choices": [
+      "and",
+      "but",
+      "so",
+      "go"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 180,
+    "q": "Yes, he _____ his knee.",
+    "choices": [
+      "hurting",
+      "hurts",
+      "hurt"
+    ],
+    "answer": 0
+  }
+]

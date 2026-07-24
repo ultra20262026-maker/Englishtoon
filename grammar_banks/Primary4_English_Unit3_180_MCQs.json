@@ -1,0 +1,189 @@
+[
+  {
+    "q_num": 8,
+    "q": "Giraffes eat green _____.",
+    "choices": [
+      "striped",
+      "black",
+      "spotted",
+      "guide"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 20,
+    "q": "Dogs are very _____ animals.",
+    "choices": [
+      "vegetables",
+      "insects",
+      "meat",
+      "long"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 32,
+    "q": "A tiger has black _____.",
+    "choices": [
+      "lion",
+      "bear",
+      "giraffe",
+      "honey"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 44,
+    "q": "Penguins live in very _____ places.",
+    "choices": [
+      "food",
+      "clothes",
+      "toys",
+      "eyes"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 53,
+    "q": "Ahmed is _____ than Ali.",
+    "choices": [
+      "bad",
+      "slow",
+      "fast",
+      "books"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 65,
+    "q": "Hana is taller _____ Ran",
+    "choices": [
+      "a) laziest",
+      "lazy",
+      "lazier",
+      "big"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 77,
+    "q": "My grandfather is _____ than my father.",
+    "choices": [
+      "tall",
+      "tallest",
+      "taller",
+      "lazy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 89,
+    "q": "Ice is _____ than water.",
+    "choices": [
+      "young",
+      "younger",
+      "youngest",
+      "hard"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 98,
+    "q": "The lion could _____ the foolish animals.",
+    "choices": [
+      "thicker",
+      "thick",
+      "thickest",
+      "pretended"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 110,
+    "q": "The word 'pretended' means to act like something is _____.",
+    "choices": [
+      "food",
+      "footprints",
+      "books",
+      "out"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 122,
+    "q": "The animals wanted to be _____ to the sick lion.",
+    "choices": [
+      "book",
+      "meal",
+      "friend",
+      "under"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 134,
+    "q": "The fox walked away _____.",
+    "choices": [
+      "kindness",
+      "speed",
+      "anger",
+      "eyes"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 143,
+    "q": "The giant _____ is also an endangered animal.",
+    "choices": [
+      "full",
+      "hungry",
+      "happy",
+      "safety"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 154,
+    "q": "_____ you play football?",
+    "choices": [
+      "homes",
+      "hunters",
+      "food",
+      "burn"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 166,
+    "q": "We can make a _____ using pictures and words.",
+    "choices": [
+      "reading",
+      "read",
+      "reads",
+      "get"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 177,
+    "q": "Cutting down forests destroys animal _____.",
+    "choices": [
+      "run fast",
+      "grow up",
+      "die out",
+      "duty"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 180,
+    "q": "We can all _____ to save the animals.",
+    "choices": [
+      "illegal",
+      "helpful",
+      "good",
+      "everyone"
+    ],
+    "answer": 0
+  }
+]

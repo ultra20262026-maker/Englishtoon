@@ -1,0 +1,1502 @@
+[
+  {
+    "q_num": 1,
+    "q": "Individuals who have grown up with technology are known as digital _____.",
+    "choices": [
+      "natives",
+      "cameras",
+      "devices"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 2,
+    "q": "Women and girls usually follow the latest _____ in fashion.",
+    "choices": [
+      "trends",
+      "trams",
+      "trees"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 3,
+    "q": "Gen Alpha children are _____ discovering new movements in their communities.",
+    "choices": [
+      "constantly",
+      "constant",
+      "temporary"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 4,
+    "q": "Nowadays, parents are trying to _____ the time their children spend using digital devices.",
+    "choices": [
+      "increase",
+      "limit",
+      "gain"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 5,
+    "q": "Gen Alpha individuals like using technological devices to _____ their identity.",
+    "choices": [
+      "create",
+      "decrease",
+      "degrade"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 6,
+    "q": "Gen Alpha are the children who were born from around _____ to the mid-2020s.",
+    "choices": [
+      "2000",
+      "2010",
+      "1990"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 7,
+    "q": "They like creating short _____ to show their hobbies and opinions.",
+    "choices": [
+      "memes",
+      "photos",
+      "videos"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 8,
+    "q": "They share _____ and send emojis to show their emotions.",
+    "choices": [
+      "balance",
+      "memes",
+      "photos"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 9,
+    "q": "They are learning to _____ online activities with real-life connections.",
+    "choices": [
+      "balance",
+      "represent",
+      "videos"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 10,
+    "q": "They _____ a powerful trend that is shaping the future.",
+    "choices": [
+      "memes",
+      "represent",
+      "videos"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 11,
+    "q": "Working women try hard to _____ their personal life with their work.",
+    "choices": [
+      "limit",
+      "decrease",
+      "balance"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 12,
+    "q": "Nowadays, people use emojis to _____ their emotions.",
+    "choices": [
+      "limit",
+      "express",
+      "extend"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 13,
+    "q": "Gen Alpha generation should use social media _____.",
+    "choices": [
+      "foolishly",
+      "carelessly",
+      "wisely"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 14,
+    "q": "Using social media, generations Z and Alpha can _____ and have fun with others.",
+    "choices": [
+      "connect",
+      "contact",
+      "correct"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 15,
+    "q": "If people live _____, they can communicate using mobile phones.",
+    "choices": [
+      "apart",
+      "near",
+      "far apart"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 16,
+    "q": "Gen Z and Gen Alpha are interested in treating people with _____.",
+    "choices": [
+      "fair",
+      "careless",
+      "fairness"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 17,
+    "q": "People use technology to share their thoughts and _____ important issues.",
+    "choices": [
+      "contact",
+      "relax",
+      "support"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 18,
+    "q": "If people have something in _____, they have the same ideas and interests.",
+    "choices": [
+      "special",
+      "particular",
+      "common"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 19,
+    "q": "Gen Z and Gen Alpha like short videos, emojis, and _____.",
+    "choices": [
+      "books",
+      "memes",
+      "games"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 20,
+    "q": "Both generations speak the same digital _____.",
+    "choices": [
+      "about",
+      "language",
+      "thoughts"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 21,
+    "q": "Technology helps them _____ each other and cooperate.",
+    "choices": [
+      "to",
+      "understand",
+      "language"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 22,
+    "q": "The time people spend using a screen is called _____.",
+    "choices": [
+      "screen time",
+      "spare time",
+      "free time"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 23,
+    "q": "We should all treat old people _____ kindness.",
+    "choices": [
+      "for",
+      "with",
+      "to"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 24,
+    "q": "_____ are small digital images used to express emotions or ideas.",
+    "choices": [
+      "Sites",
+      "Emojis",
+      "Websites"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 25,
+    "q": "Many parents encourage their children to use _____ skills online.",
+    "choices": [
+      "digital",
+      "manual",
+      "interpersonal"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 26,
+    "q": "Gen Alpha is a generation that is hoped to _____ the future.",
+    "choices": [
+      "ship",
+      "shape",
+      "tape"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 27,
+    "q": "They learn to use technology before they can _____.",
+    "choices": [
+      "speak",
+      "read",
+      "walk"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 28,
+    "q": "They rarely spend a day _____ using technology.",
+    "choices": [
+      "with",
+      "in",
+      "without"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 29,
+    "q": "Many of them care _____ the environment.",
+    "choices": [
+      "with",
+      "about",
+      "for"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 30,
+    "q": "They share their _____ through using technology.",
+    "choices": [
+      "understand",
+      "thoughts",
+      "language"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 31,
+    "q": "They are _____ their homework now.",
+    "choices": [
+      "does",
+      "do",
+      "doing"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 32,
+    "q": "He _____ a new movie next Friday. He has already bought the tickets.",
+    "choices": [
+      "is watching",
+      "watch",
+      "will watch"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 33,
+    "q": "She is _____ to Aswan next week.",
+    "choices": [
+      "traveling",
+      "travel",
+      "travels"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 34,
+    "q": "Adel _____ Koshari right now.",
+    "choices": [
+      "is eating",
+      "eat",
+      "eats"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 35,
+    "q": "They _____ football next Friday. They have arranged to do that.",
+    "choices": [
+      "played",
+      "play",
+      "are playing"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 36,
+    "q": "At the moment, he _____ Science.",
+    "choices": [
+      "study",
+      "studies",
+      "is studying"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 37,
+    "q": "Adel _____ his grandparents next Friday.",
+    "choices": [
+      "is visit",
+      "is visiting",
+      "visits"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 38,
+    "q": "They _____ dinner now.",
+    "choices": [
+      "prepare",
+      "prepares",
+      "are preparing"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 39,
+    "q": "She _____ her laptop right now.",
+    "choices": [
+      "uses",
+      "using",
+      "is using"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 40,
+    "q": "We _____ a match in Cairo Stadium next Friday. We have prepared everything.",
+    "choices": [
+      "watches",
+      "watch",
+      "are watching"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 41,
+    "q": "My sister _____ online games now.",
+    "choices": [
+      "is playing",
+      "play",
+      "plays"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 42,
+    "q": "They _____ dinner outdoors tomorrow. They have arranged everything.",
+    "choices": [
+      "have",
+      "having",
+      "are having"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 43,
+    "q": "This week, they _____ Tennis. (Correct the mistake: play ->)",
+    "choices": [
+      "are playing",
+      "plays",
+      "playing"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 44,
+    "q": "He is _____ a new project right now. (Correct the mistake: done ->)",
+    "choices": [
+      "do",
+      "doing",
+      "does"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 45,
+    "q": "I _____ to Alexandria tomorrow. I've bought the tickets.",
+    "choices": [
+      "travel",
+      "am travelling",
+      "travels"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 46,
+    "q": "We _____ our friends tonight. It's arrange",
+    "choices": [
+      "a) meets",
+      "are meeting",
+      "meet"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 47,
+    "q": "She _____ a party next weeken",
+    "choices": [
+      "a) has",
+      "have",
+      "is having"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 48,
+    "q": "What _____ you doing tomorrow evening?",
+    "choices": [
+      "are",
+      "is",
+      "do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 49,
+    "q": "He _____ not playing football today.",
+    "choices": [
+      "is",
+      "are",
+      "does"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 50,
+    "q": "They _____ leaving at 8 AM tomorrow.",
+    "choices": [
+      "will",
+      "are",
+      "do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 51,
+    "q": "Are you _____ to the cinema tonight?",
+    "choices": [
+      "go",
+      "goes",
+      "going"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 52,
+    "q": "I _____ not working next week. I'm on holiday.",
+    "choices": [
+      "are",
+      "am",
+      "is"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 53,
+    "q": "She _____ her new dress to the party.",
+    "choices": [
+      "wears",
+      "wear",
+      "is wearing"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 54,
+    "q": "We _____ to the new restaurant later.",
+    "choices": [
+      "are going",
+      "goes",
+      "go"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 55,
+    "q": "He _____ an exam tomorrow morning.",
+    "choices": [
+      "takes",
+      "take",
+      "is taking"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 56,
+    "q": "They _____ a new car next month.",
+    "choices": [
+      "buy",
+      "buys",
+      "are buying"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 57,
+    "q": "I _____ my grandparents on Sunday.",
+    "choices": [
+      "visits",
+      "am visiting",
+      "visit"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 58,
+    "q": "She _____ a presentation next week.",
+    "choices": [
+      "is giving",
+      "give",
+      "gives"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 59,
+    "q": "We _____ to Paris next month. The flights are booke",
+    "choices": [
+      "a) are flying",
+      "fly",
+      "flies"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 60,
+    "q": "He _____ his friend at the airport tomorrow.",
+    "choices": [
+      "meets",
+      "meet",
+      "is meeting"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 61,
+    "q": "Your identity is _____ you are.",
+    "choices": [
+      "when",
+      "where",
+      "who"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 62,
+    "q": "In school fairs, students present the projects they are passionate _____.",
+    "choices": [
+      "about",
+      "of",
+      "for"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 63,
+    "q": "It isn't a good thing to laugh _____ others' actions.",
+    "choices": [
+      "at",
+      "about",
+      "to"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 64,
+    "q": "Before going out, young people should ask for their parents' _____.",
+    "choices": [
+      "connection",
+      "permission",
+      "education"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 65,
+    "q": "All parents should _____ their children to study har",
+    "choices": [
+      "a) ignore",
+      "discourage",
+      "encourage"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 66,
+    "q": "Amal was a curious girl. She _____ old toys, wires and little machines.",
+    "choices": [
+      "used",
+      "strange",
+      "special"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 67,
+    "q": "The other children annoyed her and said, 'You are _____.'",
+    "choices": [
+      "creative",
+      "strange",
+      "special"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 68,
+    "q": "Her parents always told her, 'Your identity is what makes you _____.'",
+    "choices": [
+      "strange",
+      "special",
+      "used"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 69,
+    "q": "Amal decided to build a _____ robot to take part in a school fair.",
+    "choices": [
+      "special",
+      "creative",
+      "strange"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 70,
+    "q": "Her friend, Farida, _____ her, 'We believe in you, Amal.'",
+    "choices": [
+      "discouraged",
+      "encouraged",
+      "ignored"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 71,
+    "q": "We can use the expression 'In my opinion' to explain our ideas _____ when talking to others.",
+    "choices": [
+      "carelessly",
+      "clearly",
+      "cleanly"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 72,
+    "q": "We should put our mobiles _____ during meals and before bedtime.",
+    "choices": [
+      "away",
+      "out",
+      "in"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 73,
+    "q": "Spending too much time on digital devices can be _____.",
+    "choices": [
+      "unhappy",
+      "unhealthy",
+      "untidy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 74,
+    "q": "We should learn how to find a _____ between our screen time and family life.",
+    "choices": [
+      "solution",
+      "jobs",
+      "balance"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 75,
+    "q": "A blog is an online journal or _____ where someone writes regularly.",
+    "choices": [
+      "app",
+      "trend",
+      "website"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 76,
+    "q": "Amal's parents encourage her _____.",
+    "choices": [
+      "not to hope",
+      "not to give up",
+      "not to continue"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 77,
+    "q": "Amal decided to build a robot to take part in a school _____.",
+    "choices": [
+      "bank",
+      "fair",
+      "hospital"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 78,
+    "q": "Farida showed _____ when Amal felt frustrate",
+    "choices": [
+      "a) anger",
+      "empathy",
+      "hatred"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 79,
+    "q": "Amal's hard work and _____ were admired by the teacher.",
+    "choices": [
+      "fear",
+      "laziness",
+      "creativity"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 80,
+    "q": "The robot blinked its eyes and said _____.",
+    "choices": [
+      "Stop!",
+      "Hello!",
+      "Goodbye!"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 81,
+    "q": "Amal and Yara cheered with _____.",
+    "choices": [
+      "sadness",
+      "anger",
+      "joy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 82,
+    "q": "Amal used her tools _____.",
+    "choices": [
+      "carelessly",
+      "responsibly",
+      "badly"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 83,
+    "q": "It's important to stay safe _____.",
+    "choices": [
+      "online",
+      "inline",
+      "offline"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 84,
+    "q": "You should believe in _____.",
+    "choices": [
+      "nobody",
+      "yourself",
+      "everyone"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 85,
+    "q": "How _____ do you spend using technology every day?",
+    "choices": [
+      "long",
+      "much time",
+      "many"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 86,
+    "q": "_____ my opinion, it's okay to enjoy your screen.",
+    "choices": [
+      "In",
+      "At",
+      "On"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 87,
+    "q": "Don't let the screen _____ you.",
+    "choices": [
+      "help",
+      "control",
+      "guide"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 88,
+    "q": "A blog post is written on the _____.",
+    "choices": [
+      "paper",
+      "board",
+      "internet"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 89,
+    "q": "Gen Alpha likes to create short _____.",
+    "choices": [
+      "books",
+      "videos",
+      "games"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 90,
+    "q": "They use technology to express their _____.",
+    "choices": [
+      "clothes",
+      "food",
+      "emotions"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 91,
+    "q": "We should use social media _____.",
+    "choices": [
+      "foolishly",
+      "carelessly",
+      "wisely"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 92,
+    "q": "Emojis are small digital _____ used to express emotions.",
+    "choices": [
+      "images",
+      "sounds",
+      "videos"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 93,
+    "q": "Interpersonal skills are important _____.",
+    "choices": [
+      "on TV",
+      "online",
+      "in books"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 94,
+    "q": "Gen Alpha are digital _____.",
+    "choices": [
+      "cameras",
+      "natives",
+      "devices"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 95,
+    "q": "They often learn to use technology before they can _____.",
+    "choices": [
+      "swim",
+      "run",
+      "read"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 96,
+    "q": "They explore the latest _____ that spread quickly.",
+    "choices": [
+      "games",
+      "sports",
+      "trends"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 97,
+    "q": "Parents want their children to _____ their screen time.",
+    "choices": [
+      "double",
+      "increase",
+      "limit"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 98,
+    "q": "Parents want children to balance online activities with _____ connections.",
+    "choices": [
+      "real-life",
+      "fake",
+      "virtual"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 99,
+    "q": "A blog is an online _____.",
+    "choices": [
+      "book",
+      "game",
+      "journal"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 100,
+    "q": "You should explain your ideas _____ when talking to others.",
+    "choices": [
+      "rudely",
+      "unclearly",
+      "clearly"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 101,
+    "q": "Putting mobiles away during meals is a _____ habit.",
+    "choices": [
+      "good",
+      "bad",
+      "unhealthy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 102,
+    "q": "Spending too much time on screens is _____.",
+    "choices": [
+      "unhealthy",
+      "safe",
+      "healthy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 103,
+    "q": "We should find a _____ between screen time and family life.",
+    "choices": [
+      "problem",
+      "balance",
+      "conflict"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 104,
+    "q": "Gen Z and Alpha speak the same digital _____.",
+    "choices": [
+      "sounds",
+      "language",
+      "words"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 105,
+    "q": "Technology helps them _____ to make their world a better place.",
+    "choices": [
+      "cooperate",
+      "fight",
+      "argue"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 106,
+    "q": "Many of them care about the _____.",
+    "choices": [
+      "environment",
+      "pollution",
+      "damage"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 107,
+    "q": "They share their thoughts through using _____.",
+    "choices": [
+      "letters",
+      "books",
+      "technology"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 108,
+    "q": "The time you spend looking at a screen is _____ time.",
+    "choices": [
+      "spare",
+      "screen",
+      "free"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 109,
+    "q": "To have something in _____ means having the same ideas.",
+    "choices": [
+      "special",
+      "common",
+      "different"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 110,
+    "q": "To _____ is to show or stand for something.",
+    "choices": [
+      "hide",
+      "represent",
+      "ignore"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 111,
+    "q": "Gen Alpha children are constantly _____ new movements.",
+    "choices": [
+      "discovering",
+      "hiding",
+      "losing"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 112,
+    "q": "A _____ trend is shaping the future.",
+    "choices": [
+      "powerful",
+      "weak",
+      "bad"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 113,
+    "q": "To express emotions, people use _____.",
+    "choices": [
+      "numbers",
+      "emojis",
+      "letters"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 114,
+    "q": "_____ is an important skill for Gen Alph",
+    "choices": [
+      "a) Hunting",
+      "Farming",
+      "Technology"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 115,
+    "q": "They share hobbies and _____ online.",
+    "choices": [
+      "food",
+      "clothes",
+      "opinions"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 116,
+    "q": "You should write a blog post about your digital _____.",
+    "choices": [
+      "food",
+      "habits",
+      "clothes"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 117,
+    "q": "What is your favorite digital _____?",
+    "choices": [
+      "device",
+      "color",
+      "food"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 118,
+    "q": "A robot is a type of _____.",
+    "choices": [
+      "animal",
+      "plant",
+      "machine"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 119,
+    "q": "To take part in a school fair means to _____ in it.",
+    "choices": [
+      "hide",
+      "ignore",
+      "participate"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 120,
+    "q": "Amal used old _____, wires and little machines.",
+    "choices": [
+      "toys",
+      "clothes",
+      "books"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 121,
+    "q": "The generation born from 2010 to mid-2020s is Gen _____.",
+    "choices": [
+      "Alpha",
+      "Z",
+      "X"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 122,
+    "q": "Gen Alpha are also called digital _____.",
+    "choices": [
+      "immigrants",
+      "natives",
+      "aliens"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 123,
+    "q": "Parents should _____ their children's screen time.",
+    "choices": [
+      "ignore",
+      "increase",
+      "limit"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 124,
+    "q": "It's important to _____ online activities with real life.",
+    "choices": [
+      "mix",
+      "separate",
+      "balance"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 125,
+    "q": "She _____ to Alexandria next week. She has the tickets.",
+    "choices": [
+      "travel",
+      "travels",
+      "is traveling"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 126,
+    "q": "We _____ a new project tomorrow morning.",
+    "choices": [
+      "start",
+      "starts",
+      "are starting"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 127,
+    "q": "He _____ his friend for lunch today.",
+    "choices": [
+      "meets",
+      "is meeting",
+      "meet"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 128,
+    "q": "They _____ the museum next weeken",
+    "choices": [
+      "a) are visiting",
+      "visits",
+      "visit"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 129,
+    "q": "I _____ a party on Saturday.",
+    "choices": [
+      "has",
+      "have",
+      "am having"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 130,
+    "q": "Gen Z and Gen Alpha use social media to _____.",
+    "choices": [
+      "connect",
+      "hide",
+      "disconnect"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 131,
+    "q": "They care a lot about the _____.",
+    "choices": [
+      "environment",
+      "history",
+      "past"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 132,
+    "q": "A small digital image used to express an emotion is an _____.",
+    "choices": [
+      "email",
+      "app",
+      "emoji"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 133,
+    "q": "Your identity is _____ you are.",
+    "choices": [
+      "what",
+      "where",
+      "who"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 134,
+    "q": "Amal decided to build a _____ for the school fair.",
+    "choices": [
+      "robot",
+      "car",
+      "plane"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 135,
+    "q": "Her friend Farida _____ her.",
+    "choices": [
+      "encouraged",
+      "discouraged",
+      "blamed"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 136,
+    "q": "It's not good to laugh _____ others.",
+    "choices": [
+      "for",
+      "with",
+      "at"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 137,
+    "q": "You should ask for _____ before going out.",
+    "choices": [
+      "food",
+      "permission",
+      "money"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 138,
+    "q": "In my _____, spending too much time online is unhealthy.",
+    "choices": [
+      "truth",
+      "fact",
+      "opinion"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 139,
+    "q": "We should put our phones _____ during dinner.",
+    "choices": [
+      "up",
+      "on",
+      "away"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 140,
+    "q": "A blog is an online _____.",
+    "choices": [
+      "journal",
+      "magazine",
+      "newspaper"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 141,
+    "q": "They are _____ football next Friday.",
+    "choices": [
+      "played",
+      "playing",
+      "play"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 142,
+    "q": "He is _____ Koshari right now.",
+    "choices": [
+      "eats",
+      "eat",
+      "eating"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 143,
+    "q": "She is _____ her laptop.",
+    "choices": [
+      "using",
+      "uses",
+      "use"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 144,
+    "q": "The hybrid bus runs on both electricity and _____.",
+    "choices": [
+      "water",
+      "diesel",
+      "gas"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 145,
+    "q": "The monorail runs _____ the groun",
+    "choices": [
+      "a) inside",
+      "under",
+      "above"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 146,
+    "q": "Technology helps us _____ pollution.",
+    "choices": [
+      "increase",
+      "reduce",
+      "worsen"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 147,
+    "q": "We should be _____ when we use the internet.",
+    "choices": [
+      "careless",
+      "careful",
+      "bad"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 148,
+    "q": "They are learning to _____ their emotions.",
+    "choices": [
+      "express",
+      "ignore",
+      "hide"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 149,
+    "q": "Gen Alpha is hoped to _____ the future.",
+    "choices": [
+      "shape",
+      "destroy",
+      "ignore"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 150,
+    "q": "We must treat people with _____.",
+    "choices": [
+      "kindness",
+      "cruelty",
+      "anger"
+    ],
+    "answer": 0
+  }
+]

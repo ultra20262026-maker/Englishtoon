@@ -1,0 +1,1502 @@
+[
+  {
+    "q_num": 1,
+    "q": "You should think about the _____ and negative sides of your choices.",
+    "choices": [
+      "difficult",
+      "positive",
+      "careless"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 2,
+    "q": "_____ means not caring about your actions.",
+    "choices": [
+      "Careless",
+      "Responsible",
+      "Polite"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 3,
+    "q": "You should think well before taking a _____.",
+    "choices": [
+      "decision",
+      "party",
+      "success"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 4,
+    "q": "My father encouraged me to be _____.",
+    "choices": [
+      "uncomfortable",
+      "responsible",
+      "negative"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 5,
+    "q": "Negative means bad or _____.",
+    "choices": [
+      "comfortable",
+      "hopeful",
+      "harmful"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 6,
+    "q": "All our choices have _____.",
+    "choices": [
+      "consequences",
+      "mistakes",
+      "benefits"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 7,
+    "q": "A/An _____ means something you want to achieve.",
+    "choices": [
+      "problem",
+      "opinion",
+      "goal"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 8,
+    "q": "_____ bad choices means we don't think carefully.",
+    "choices": [
+      "Making",
+      "Behaving",
+      "Doing"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 9,
+    "q": "We should _____ the consequences before we decide.",
+    "choices": [
+      "evaluate",
+      "want",
+      "take"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 10,
+    "q": "What are the _____ of eating healthy food?",
+    "choices": [
+      "mistakes",
+      "dangers",
+      "benefits"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 11,
+    "q": "You should _____ well with people.",
+    "choices": [
+      "behaving",
+      "behaved",
+      "behave"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 12,
+    "q": "When we are _____, we think about how our actions affect others.",
+    "choices": [
+      "careless",
+      "responsible",
+      "negative"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 13,
+    "q": "It is important to consider the _____ sides of a problem.",
+    "choices": [
+      "careless",
+      "positive",
+      "harmful"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 14,
+    "q": "A bad choice can be _____ to your future.",
+    "choices": [
+      "hopeful",
+      "harmful",
+      "positive"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 15,
+    "q": "To _____ a choice is to think about its good and bad points.",
+    "choices": [
+      "ignore",
+      "make",
+      "evaluate"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 16,
+    "q": "We must be careful not to make _____ mistakes.",
+    "choices": [
+      "foolish",
+      "smart",
+      "wise"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 17,
+    "q": "A _____ is a choice that you make after thinking.",
+    "choices": [
+      "consequence",
+      "goal",
+      "decision"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 18,
+    "q": "A _____ consequence is a bad result of an action.",
+    "choices": [
+      "hopeful",
+      "positive",
+      "negative"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 19,
+    "q": "A _____ consequence is a good result of an action.",
+    "choices": [
+      "negative",
+      "positive",
+      "harmful"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 20,
+    "q": "Taking a good _____ helps you achieve your goals.",
+    "choices": [
+      "decision",
+      "problem",
+      "mistake"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 21,
+    "q": "Careless driving can cause terrible _____.",
+    "choices": [
+      "consequences",
+      "goals",
+      "benefits"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 22,
+    "q": "You should set a _____ for your studies this year.",
+    "choices": [
+      "mistake",
+      "carelessness",
+      "goal"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 23,
+    "q": "_____ means producing a good or helpful result.",
+    "choices": [
+      "Harmful",
+      "Negative",
+      "Positive"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 24,
+    "q": "He was very _____ when he broke the window and didn't apologize.",
+    "choices": [
+      "careless",
+      "polite",
+      "responsible"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 25,
+    "q": "I felt very _____ about passing the exam.",
+    "choices": [
+      "harmful",
+      "negative",
+      "hopeful"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 26,
+    "q": "We should try to understand the _____ of our daily habits.",
+    "choices": [
+      "opinions",
+      "consequences",
+      "goals"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 27,
+    "q": "Always try to make _____ choices.",
+    "choices": [
+      "smart",
+      "careless",
+      "negative"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 28,
+    "q": "_____ means acting in a way that you can be truste",
+    "choices": [
+      "a) Responsible",
+      "Careless",
+      "Harmful"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 29,
+    "q": "You need to _____ what might happen before you act.",
+    "choices": [
+      "forget",
+      "evaluate",
+      "ignore"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 30,
+    "q": "A _____ choice can lead to big problems.",
+    "choices": [
+      "wise",
+      "positive",
+      "bad"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 31,
+    "q": "If you join the football team, we _____ the match.",
+    "choices": [
+      "will win",
+      "won",
+      "winning"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 32,
+    "q": "We _____ be careless if we want to succee",
+    "choices": [
+      "a) should",
+      "shouldn't",
+      "shall"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 33,
+    "q": "If you _____ well, you will win the medal.",
+    "choices": [
+      "train",
+      "trained",
+      "trains"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 34,
+    "q": "You _____ listen to your teacher's advice.",
+    "choices": [
+      "won't",
+      "shouldn't",
+      "should"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 35,
+    "q": "If you don't study hard, you _____ pass the math test.",
+    "choices": [
+      "won't",
+      "are",
+      "will"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 36,
+    "q": "The girls _____ make smart choices.",
+    "choices": [
+      "shouldn't",
+      "won't",
+      "should"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 37,
+    "q": "If she _____ healthy food, she won't feel strong.",
+    "choices": [
+      "didn't eat",
+      "eats",
+      "doesn't eat"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 38,
+    "q": "If he plays well, he _____ the trophy.",
+    "choices": [
+      "will get",
+      "got",
+      "gets"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 39,
+    "q": "You _____ eat too much junk foo",
+    "choices": [
+      "a) will",
+      "shouldn't",
+      "should"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 40,
+    "q": "If they arrive early, they _____ the bus.",
+    "choices": [
+      "will catch",
+      "catch",
+      "caught"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 41,
+    "q": "We _____ evaluate our choices carefully.",
+    "choices": [
+      "shouldn't",
+      "won't",
+      "should"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 42,
+    "q": "If it rains tomorrow, we _____ go to the park.",
+    "choices": [
+      "won't",
+      "wouldn't",
+      "don't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 43,
+    "q": "You _____ ask older people for advice.",
+    "choices": [
+      "mustn't",
+      "shouldn't",
+      "should"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 44,
+    "q": "If I _____ money, I will buy a new phone.",
+    "choices": [
+      "saves",
+      "saved",
+      "save"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 45,
+    "q": "He _____ ignore his friend's problem.",
+    "choices": [
+      "will",
+      "shouldn't",
+      "should"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 46,
+    "q": "If she _____ hard, she will succee",
+    "choices": [
+      "a) works",
+      "worked",
+      "work"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 47,
+    "q": "You _____ be polite to everyone.",
+    "choices": [
+      "should",
+      "won't",
+      "shouldn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 48,
+    "q": "If we _____ the environment, we will live a better life.",
+    "choices": [
+      "protected",
+      "protect",
+      "protects"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 49,
+    "q": "They _____ waste their time playing video games.",
+    "choices": [
+      "will",
+      "should",
+      "shouldn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 50,
+    "q": "If Ali _____ early, he will feel energeti",
+    "choices": [
+      "a) sleep",
+      "slept",
+      "sleeps"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 51,
+    "q": "You _____ think before you choose.",
+    "choices": [
+      "won't",
+      "should",
+      "shouldn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 52,
+    "q": "If you _____ too fast, you will have an accident.",
+    "choices": [
+      "drove",
+      "drives",
+      "drive"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 53,
+    "q": "We _____ respect others' opinions.",
+    "choices": [
+      "won't",
+      "should",
+      "shouldn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 54,
+    "q": "If they _____ a taxi, they will arrive on time.",
+    "choices": [
+      "takes",
+      "take",
+      "took"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 55,
+    "q": "You _____ cross the road without looking.",
+    "choices": [
+      "will",
+      "shouldn't",
+      "should"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 56,
+    "q": "If she doesn't revise her lessons, she _____ pass the exam.",
+    "choices": [
+      "won't",
+      "will",
+      "would"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 57,
+    "q": "He _____ eat vegetables to stay healthy.",
+    "choices": [
+      "won't",
+      "shouldn't",
+      "should"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 58,
+    "q": "If you _____ well, you will recover quickly.",
+    "choices": [
+      "rest",
+      "rested",
+      "rests"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 59,
+    "q": "Students _____ study hard for their exams.",
+    "choices": [
+      "should",
+      "won't",
+      "shouldn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 60,
+    "q": "If we work together, we _____ finish the project faster.",
+    "choices": [
+      "won't",
+      "will",
+      "do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 61,
+    "q": "A good decision has a positive _____ on your life.",
+    "choices": [
+      "risk",
+      "impact",
+      "problem"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 62,
+    "q": "If you rest, you will _____ quickly.",
+    "choices": [
+      "recover",
+      "train",
+      "face"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 63,
+    "q": "The synonym of the word 'consequences' is _____.",
+    "choices": [
+      "causes",
+      "results",
+      "choices"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 64,
+    "q": "_____ skills helped me a lot to win the swimming race.",
+    "choices": [
+      "Problem-solving",
+      "Foolish",
+      "Careless"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 65,
+    "q": "I talked to my coach, who had a big _____ on me.",
+    "choices": [
+      "risk",
+      "influence",
+      "injury"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 66,
+    "q": "If I run, it will make the _____ worse.",
+    "choices": [
+      "decision",
+      "influence",
+      "injury"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 67,
+    "q": "Sometimes, you should take a _____ decision before taking a risk.",
+    "choices": [
+      "wise",
+      "careless",
+      "foolish"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 68,
+    "q": "We can't _____ up now. We have lots of things to do.",
+    "choices": [
+      "recover",
+      "give",
+      "take"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 69,
+    "q": "My teacher is always _____ with us.",
+    "choices": [
+      "lazy",
+      "fair",
+      "unfair"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 70,
+    "q": "I was sad because my opinions were _____.",
+    "choices": [
+      "reminded",
+      "ignored",
+      "wanted"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 71,
+    "q": "Let's make _____ choices and think carefully.",
+    "choices": [
+      "negative",
+      "wise",
+      "careless"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 72,
+    "q": "She was excited to _____ something useful.",
+    "choices": [
+      "decide",
+      "create",
+      "want"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 73,
+    "q": "Lily felt left out because her ideas were _____.",
+    "choices": [
+      "respected",
+      "ignored",
+      "chosen"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 74,
+    "q": "Sara stopped and said gently, 'We need to be _____.'",
+    "choices": [
+      "careless",
+      "lazy",
+      "fair"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 75,
+    "q": "Everyone's ideas matter. We are a _____.",
+    "choices": [
+      "consequence",
+      "problem",
+      "team"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 76,
+    "q": "Karim added wisely, 'We must have _____.'",
+    "choices": [
+      "determination",
+      "fear",
+      "laziness"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 77,
+    "q": "When Karim made a mistake, no one _____ him.",
+    "choices": [
+      "blamed",
+      "passed",
+      "helped"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 78,
+    "q": "Instead of blaming Karim, they helped him to _____ it.",
+    "choices": [
+      "fix",
+      "make",
+      "break"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 79,
+    "q": "Climbing the tree is a very big _____.",
+    "choices": [
+      "risk",
+      "choice",
+      "result"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 80,
+    "q": "You should _____ new hobbies.",
+    "choices": [
+      "explore",
+      "leave",
+      "ignore"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 81,
+    "q": "Every decision has a _____, so you should think carefully.",
+    "choices": [
+      "consequence",
+      "injury",
+      "side"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 82,
+    "q": "The antonym of 'responsible' is _____.",
+    "choices": [
+      "careful",
+      "careless",
+      "smart"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 83,
+    "q": "To be _____ is to make a decision that helps everyone.",
+    "choices": [
+      "foolish",
+      "unfair",
+      "fair"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 84,
+    "q": "_____ means not giving up.",
+    "choices": [
+      "Laziness",
+      "Determination",
+      "Fear"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 85,
+    "q": "If you take a _____, you might get hurt.",
+    "choices": [
+      "rest",
+      "risk",
+      "goal"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 86,
+    "q": "A coach has a great _____ on his players.",
+    "choices": [
+      "influence",
+      "mistake",
+      "injury"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 87,
+    "q": "An _____ is physical harm to your body.",
+    "choices": [
+      "option",
+      "injury",
+      "impact"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 88,
+    "q": "To _____ is to get better after being sick or hurt.",
+    "choices": [
+      "face",
+      "recover",
+      "evaluate"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 89,
+    "q": "She felt sad because her ideas were _____.",
+    "choices": [
+      "ignored",
+      "chosen",
+      "respected"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 90,
+    "q": "The team showed great _____ by never giving up.",
+    "choices": [
+      "laziness",
+      "determination",
+      "carelessness"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 91,
+    "q": "The synonym of the word 'impact' is _____.",
+    "choices": [
+      "danger",
+      "influence",
+      "risk"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 92,
+    "q": "The word _____ means something good or hopeful.",
+    "choices": [
+      "negative",
+      "foolish",
+      "positive"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 93,
+    "q": "The synonym of the word 'negative' is _____.",
+    "choices": [
+      "bad",
+      "positive",
+      "wise"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 94,
+    "q": "The word _____ is the synonym of the word 'smart'.",
+    "choices": [
+      "foolish",
+      "wise",
+      "careless"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 95,
+    "q": "Which punctuation mark is used at the end of a question?",
+    "choices": [
+      "Comma (,)",
+      "Period (.)",
+      "Question mark (?)"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 96,
+    "q": "Which punctuation mark is used to show strong feeling?",
+    "choices": [
+      "Period (.)",
+      "Comma (,)",
+      "Exclamation point (!)"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 97,
+    "q": "Which punctuation mark is used to list items?",
+    "choices": [
+      "Question mark (?)",
+      "Comma (,)",
+      "Exclamation point (!)"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 98,
+    "q": "Wow _____ that's a big restaurant",
+    "choices": [
+      "(.)",
+      "(,)",
+      "(?)"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 99,
+    "q": "Why did you decide to join our football team _____",
+    "choices": [
+      "(!)",
+      "(?)",
+      "(.)"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 100,
+    "q": "I like candies _____ chocolate and ice cream.",
+    "choices": [
+      "comma (,)",
+      "exclamation point (!)",
+      "question mark (?)"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 101,
+    "q": "We must have honesty _____",
+    "choices": [
+      "period (.)",
+      "question mark (?)",
+      "comma (,)"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 102,
+    "q": "Before choosing, we should think about each _____ we have.",
+    "choices": [
+      "consequence",
+      "result",
+      "option"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 103,
+    "q": "Every choice has a _____.",
+    "choices": [
+      "option",
+      "consequence",
+      "problem"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 104,
+    "q": "Thinking carefully can help us solve a _____ in a better way.",
+    "choices": [
+      "decision",
+      "result",
+      "problem"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 105,
+    "q": "If you _____ a problem, it will get worse.",
+    "choices": [
+      "ignore",
+      "evaluate",
+      "solve"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 106,
+    "q": "Don't be _____ when you cross the street.",
+    "choices": [
+      "smart",
+      "careful",
+      "careless"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 107,
+    "q": "Mr. Yasser decided to say _____ words to his students to encourage them.",
+    "choices": [
+      "negative",
+      "positive",
+      "cold"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 108,
+    "q": "He broke his leg and the doctor said it may take a week to _____.",
+    "choices": [
+      "talk",
+      "recover",
+      "make"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 109,
+    "q": "Good teachers use their _____ to guide their students.",
+    "choices": [
+      "influence",
+      "affect",
+      "create"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 110,
+    "q": "If you drive too fast, you take a big _____.",
+    "choices": [
+      "impact",
+      "risk",
+      "cause"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 111,
+    "q": "We can _____ new ideas to solve problems.",
+    "choices": [
+      "leave",
+      "create",
+      "play"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 112,
+    "q": "You should _____ your choices before you decide.",
+    "choices": [
+      "forget",
+      "ignore",
+      "evaluate"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 113,
+    "q": "We should face our _____ together.",
+    "choices": [
+      "problems",
+      "rules",
+      "results"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 114,
+    "q": "I _____ my foot during training.",
+    "choices": [
+      "avoided",
+      "decided",
+      "injured"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 115,
+    "q": "She was very sad because she _____ my opinions.",
+    "choices": [
+      "talked",
+      "stopped",
+      "ignored"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 116,
+    "q": "I try to be _____ with my children.",
+    "choices": [
+      "fair",
+      "lazy",
+      "foolish"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 117,
+    "q": "_____ gives us courage to do the right thing.",
+    "choices": [
+      "Risky",
+      "Carefully",
+      "Honesty"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 118,
+    "q": "Omar wanted to take the _____ and finish quickly.",
+    "choices": [
+      "machine",
+      "lead",
+      "result"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 119,
+    "q": "They decided to make _____ choices.",
+    "choices": [
+      "foolish",
+      "wise",
+      "careless"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 120,
+    "q": "If you respect others, they _____ respect you.",
+    "choices": [
+      "won't",
+      "will",
+      "don't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 121,
+    "q": "Dr. Samira Moussa is an inspiring _____ model.",
+    "choices": [
+      "rule",
+      "roll",
+      "role"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 122,
+    "q": "Dr. Gamal Hemdan was a deep _____.",
+    "choices": [
+      "painter",
+      "thinker",
+      "singer"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 123,
+    "q": "We use the prefix _____ to get the opposite of 'regular'.",
+    "choices": [
+      "un-",
+      "il-",
+      "ir-"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 124,
+    "q": "She _____ her new mobile a year ago.",
+    "choices": [
+      "bought",
+      "buys",
+      "buy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 125,
+    "q": "If you _____ up late, you will be tire",
+    "choices": [
+      "a) stay",
+      "stays",
+      "stayed"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 126,
+    "q": "A global citizen takes _____ of the environment.",
+    "choices": [
+      "place",
+      "part",
+      "care"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 127,
+    "q": "We should develop our _____ to get a good jo",
+    "choices": [
+      "a) scenes",
+      "skins",
+      "skills"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 128,
+    "q": "He _____ visiting his grandparents last Friday. (Correct mistake)",
+    "choices": [
+      "visited",
+      "visit",
+      "visits"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 129,
+    "q": "To achieve your _____, you must work har",
+    "choices": [
+      "a) consequences",
+      "goals",
+      "mistakes"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 130,
+    "q": "We _____ all very happy on my brother's success yesterday.",
+    "choices": [
+      "are",
+      "were",
+      "was"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 131,
+    "q": "Ahmed El Mansy fought the _____ to protect our country.",
+    "choices": [
+      "tourists",
+      "terrorists",
+      "partners"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 132,
+    "q": "_____ people always feel interested in learning.",
+    "choices": [
+      "Lazy",
+      "Careless",
+      "Curious"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 133,
+    "q": "I felt very _____ when I passed the exam.",
+    "choices": [
+      "negative",
+      "positive",
+      "harmful"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 134,
+    "q": "A _____ is a choice you make after thinking.",
+    "choices": [
+      "decision",
+      "mistake",
+      "result"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 135,
+    "q": "If he _____ fast, he will catch the train.",
+    "choices": [
+      "run",
+      "runs",
+      "ran"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 136,
+    "q": "You _____ ignore your friend's advice.",
+    "choices": [
+      "shouldn't",
+      "should",
+      "will"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 137,
+    "q": "_____ a difference is a quality of inspiring persons.",
+    "choices": [
+      "Doing",
+      "Taking",
+      "Making"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 138,
+    "q": "She wanted to _____ her community.",
+    "choices": [
+      "leave",
+      "destroy",
+      "help"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 139,
+    "q": "Aspirin is a cheap kind of _____.",
+    "choices": [
+      "medicine",
+      "clothes",
+      "food"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 140,
+    "q": "The noun from 'agree' is _____.",
+    "choices": [
+      "agreement",
+      "agreed",
+      "agrees"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 141,
+    "q": "If you take a _____, you might get hurt.",
+    "choices": [
+      "goal",
+      "rest",
+      "risk"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 142,
+    "q": "He had a great _____ on his players.",
+    "choices": [
+      "influence",
+      "injury",
+      "risk"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 143,
+    "q": "We should try to understand the _____ of our habits.",
+    "choices": [
+      "opinions",
+      "goals",
+      "consequences"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 144,
+    "q": "_____ bad choices means we don't think carefully.",
+    "choices": [
+      "Making",
+      "Doing",
+      "Behaving"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 145,
+    "q": "The team showed great _____ by never giving up.",
+    "choices": [
+      "carelessness",
+      "determination",
+      "laziness"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 146,
+    "q": "The children returned to their classroom full of _____.",
+    "choices": [
+      "anger",
+      "pride",
+      "sadness"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 147,
+    "q": "Instead of blaming him, they helped him _____ his mistake.",
+    "choices": [
+      "break",
+      "fix",
+      "make"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 148,
+    "q": "Dr. Ghoneim worked hard to help people with _____ diseases.",
+    "choices": [
+      "kidney",
+      "lung",
+      "heart"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 149,
+    "q": "Winning the first prize was a big _____.",
+    "choices": [
+      "achievement",
+      "problem",
+      "mistake"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 150,
+    "q": "We should _____ our choices before deciding.",
+    "choices": [
+      "forget",
+      "ignore",
+      "evaluate"
+    ],
+    "answer": 0
+  }
+]

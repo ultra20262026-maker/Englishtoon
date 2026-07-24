@@ -1,0 +1,189 @@
+[
+  {
+    "q_num": 8,
+    "q": "The Nile River is a _____ water source.",
+    "choices": [
+      "Nile River",
+      "Red Sea",
+      "Mediterranean Sea",
+      "plants"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 20,
+    "q": "The sun gives us _____ and light.",
+    "choices": [
+      "Gold",
+      "Water",
+      "Diamond",
+      "shape"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 32,
+    "q": "Egypt's _____ is important for farming.",
+    "choices": [
+      "use",
+      "drink",
+      "waste",
+      "quick"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 44,
+    "q": "Nature gives us many _____.",
+    "choices": [
+      "dirty",
+      "clean",
+      "polluted",
+      "dangerous"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 53,
+    "q": "Gold is _____ than diamon",
+    "choices": [
+      "a) environment",
+      "trash",
+      "pollution",
+      "on trees"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 65,
+    "q": "Gold is used to make beautiful _____.",
+    "choices": [
+      "gooder",
+      "more good",
+      "better",
+      "most expensive"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 77,
+    "q": "Egypt is rich in natural _____.",
+    "choices": [
+      "cheap",
+      "valuable",
+      "common",
+      "bridges"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 89,
+    "q": "Our country has many _____.",
+    "choices": [
+      "water",
+      "iron",
+      "wood",
+      "damage"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 98,
+    "q": "The digger cleared a _____ around the ship.",
+    "choices": [
+      "safe",
+      "dangerous",
+      "lost",
+      "car"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 109,
+    "q": "The digger was very _____.",
+    "choices": [
+      "determination",
+      "laziness",
+      "fear",
+      "small"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 121,
+    "q": "The ship was in the _____.",
+    "choices": [
+      "No",
+      "Yes",
+      "Maybe",
+      "water"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 133,
+    "q": "When things are hard, we shouldn't _____.",
+    "choices": [
+      "stop",
+      "jump",
+      "fly",
+      "fear"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 143,
+    "q": "Gold and silver are _____ metals.",
+    "choices": [
+      "ship",
+      "digger",
+      "mud",
+      "car"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 154,
+    "q": "The sun provides _____ energy.",
+    "choices": [
+      "carelessly",
+      "wisely",
+      "badly",
+      "glass"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 166,
+    "q": "A _____ is something useful we get from nature.",
+    "choices": [
+      "water",
+      "electricity",
+      "soil",
+      "bad"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 178,
+    "q": "We must avoid _____ our natural resources.",
+    "choices": [
+      "man-made",
+      "natural",
+      "fake",
+      "problems"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 180,
+    "q": "Nature gives us many _____.",
+    "choices": [
+      "food",
+      "bridges",
+      "clothes",
+      "gifts"
+    ],
+    "answer": 0
+  }
+]

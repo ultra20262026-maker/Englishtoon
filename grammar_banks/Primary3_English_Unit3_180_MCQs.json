@@ -1,0 +1,178 @@
+[
+  {
+    "q_num": 9,
+    "q": "In the afternoon, he _____ at the park.",
+    "choices": [
+      "park",
+      "supermarket",
+      "library",
+      "library"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 21,
+    "q": "They _____ the train at the station.",
+    "choices": [
+      "supermarket",
+      "park",
+      "library",
+      "library"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 33,
+    "q": "Where can you see a train?",
+    "choices": [
+      "goes",
+      "go",
+      "went",
+      "to"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 45,
+    "q": "I read a story in the _____.",
+    "choices": [
+      "shopping",
+      "reading",
+      "house",
+      "have"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 57,
+    "q": "The Cairo Tower is in _____.",
+    "choices": [
+      "Cairo",
+      "Giza",
+      "Alexandria",
+      "Giza"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 69,
+    "q": "The bear has a lot of _____.",
+    "choices": [
+      "Alexandria",
+      "Giza",
+      "Cairo",
+      "small"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 81,
+    "q": "We _____ the Pyramids yesterday.",
+    "choices": [
+      "staff",
+      "off",
+      "less",
+      "in"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 90,
+    "q": "I like the _____ musi",
+    "choices": [
+      "a) enjoys",
+      "enjoy",
+      "enjoyed",
+      "are"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 101,
+    "q": "His toy car was _____.",
+    "choices": [
+      "under",
+      "in",
+      "between",
+      "behind"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 113,
+    "q": "He looked _____ it behind the curtain.",
+    "choices": [
+      "stick",
+      "between",
+      "stuck",
+      "under"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 125,
+    "q": "The dog is hiding _____ the couch.",
+    "choices": [
+      "gone",
+      "here",
+      "there",
+      "between"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 135,
+    "q": "They are sitting _____ to each other.",
+    "choices": [
+      "front",
+      "behind",
+      "next",
+      "front"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 147,
+    "q": "They _____ horses at the Pyramids.",
+    "choices": [
+      "supermarket",
+      "bank",
+      "zoo",
+      "in"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 159,
+    "q": "I _____ my face this morning.",
+    "choices": [
+      "took",
+      "take",
+      "taking",
+      "book"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 171,
+    "q": "They ate sandwiches for _____.",
+    "choices": [
+      "brushed",
+      "brushing",
+      "brush",
+      "played"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 180,
+    "q": "I had a _____ day.",
+    "choices": [
+      "water",
+      "chips",
+      "sandwiches",
+      "angry"
+    ],
+    "answer": 0
+  }
+]

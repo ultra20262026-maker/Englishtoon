@@ -1,0 +1,188 @@
+[
+  {
+    "q_num": 8,
+    "q": "When we help, we make our community _____.",
+    "choices": [
+      "break",
+      "help",
+      "hurt",
+      "feed"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 20,
+    "q": "I _____ cats and dogs.",
+    "choices": [
+      "sleep",
+      "plant",
+      "collect",
+      "neighbors"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 32,
+    "q": "She _____ dogs in the street.",
+    "choices": [
+      "help",
+      "collect",
+      "clean",
+      "plants"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 44,
+    "q": "Let's _____ our community great.",
+    "choices": [
+      "plants",
+      "plant",
+      "planting",
+      "cleaning"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 53,
+    "q": "Please, put _____ in bins.",
+    "choices": [
+      "angry",
+      "happy",
+      "sad",
+      "Is"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 65,
+    "q": "He _____ go to school by bus.",
+    "choices": [
+      "buses",
+      "problems",
+      "trash",
+      "buses"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 77,
+    "q": "We should use a _____ instead of a car.",
+    "choices": [
+      "Are",
+      "Does",
+      "Do",
+      "isn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 89,
+    "q": "Does he _____ healthy food?",
+    "choices": [
+      "has",
+      "having",
+      "have",
+      "are"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 98,
+    "q": "Egyptians are proud of their _____.",
+    "choices": [
+      "keeping",
+      "keep",
+      "keeps",
+      "Upper"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 110,
+    "q": "I _____ loud sounds.",
+    "choices": [
+      "songs",
+      "books",
+      "poems",
+      "jackets"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 122,
+    "q": "The weather in Egypt is _____.",
+    "choices": [
+      "disappears",
+      "appears",
+      "likes",
+      "illegal"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 134,
+    "q": "I _____ eating fish.",
+    "choices": [
+      "angry",
+      "proud",
+      "sad",
+      "culture"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 143,
+    "q": "I _____ my face.",
+    "choices": [
+      "appeared",
+      "disliked",
+      "disappeared",
+      "standing"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 155,
+    "q": "At the end of a diary, we write 'Yours _____,'.",
+    "choices": [
+      "dressed",
+      "eat",
+      "sleep",
+      "book"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 167,
+    "q": "We buy fresh vegetables from the _____.",
+    "choices": [
+      "fun",
+      "sad",
+      "bad",
+      "title"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 179,
+    "q": "I go to the _____ to learn.",
+    "choices": [
+      "nice",
+      "bad",
+      "sad",
+      "shoes"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 180,
+    "q": "I am proud of my _____.",
+    "choices": [
+      "pollution",
+      "traffic",
+      "country"
+    ],
+    "answer": 0
+  }
+]

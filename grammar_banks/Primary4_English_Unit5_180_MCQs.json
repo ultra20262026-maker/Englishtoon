@@ -1,0 +1,178 @@
+[
+  {
+    "q_num": 9,
+    "q": "He checks on the _____ to make sure they feel better.",
+    "choices": [
+      "car",
+      "uniform",
+      "book",
+      "teacher"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 21,
+    "q": "He uses a hose to put out the fire. He is a _____.",
+    "choices": [
+      "house",
+      "job",
+      "car",
+      "vet"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 33,
+    "q": "Farmers _____ early in the morning.",
+    "choices": [
+      "sock",
+      "helmet",
+      "jacket",
+      "uniform"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 45,
+    "q": "He loves to _____ people.",
+    "choices": [
+      "plane",
+      "boat",
+      "car",
+      "vet"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 56,
+    "q": "The Nile River is the _____ river.",
+    "choices": [
+      "writing",
+      "watching",
+      "telling",
+      "happy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 68,
+    "q": "The photographer took the _____ photos at the party.",
+    "choices": [
+      "nicest",
+      "nice",
+      "nicer",
+      "heavier"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 80,
+    "q": "She can make high and _____ voices.",
+    "choices": [
+      "hotter",
+      "hot",
+      "hottest",
+      "faster"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 90,
+    "q": "He uses his camera to take the _____ photos.",
+    "choices": [
+      "characters",
+      "pens",
+      "books",
+      "yesterday"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 101,
+    "q": "He had built it without _____.",
+    "choices": [
+      "weak",
+      "bad",
+      "strong",
+      "rest"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 113,
+    "q": "He did the work very _____.",
+    "choices": [
+      "work",
+      "live",
+      "play",
+      "doctor"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 125,
+    "q": "Sami felt _____ after repairing the house.",
+    "choices": [
+      "mistake",
+      "toy",
+      "cake",
+      "help"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 135,
+    "q": "Always be _____ of your work.",
+    "choices": [
+      "drink",
+      "check",
+      "eat",
+      "care"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 146,
+    "q": "Use a _____ to measure paper.",
+    "choices": [
+      "hospital",
+      "school",
+      "station",
+      "truck"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 157,
+    "q": "The firefighter's job is important because he _____ people.",
+    "choices": [
+      "origami",
+      "game",
+      "story",
+      "wood"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 168,
+    "q": "A fire truck is usually _____.",
+    "choices": [
+      "helmet",
+      "coat",
+      "uniform",
+      "brave"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 180,
+    "q": "Every job is _____ for the community.",
+    "choices": [
+      "advice",
+      "money",
+      "food",
+      "studio"
+    ],
+    "answer": 0
+  }
+]

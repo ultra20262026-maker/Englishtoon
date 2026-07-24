@@ -1,0 +1,1502 @@
+[
+  {
+    "q_num": 1,
+    "q": "Being a global citizen means being _____ to people from different countries.",
+    "choices": [
+      "fair",
+      "unkind",
+      "unfair"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 2,
+    "q": "To _____ the Earth, we must save water and electricity.",
+    "choices": [
+      "protect",
+      "destroy",
+      "spoil"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 3,
+    "q": "Showing respect and working together in _____ is a quality of a global citizen.",
+    "choices": [
+      "peace",
+      "piece",
+      "pace"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 4,
+    "q": "The antonym of the word 'waste' is _____.",
+    "choices": [
+      "destroy",
+      "save",
+      "find"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 5,
+    "q": "In our schools, students should be young _____ who can change the worl",
+    "choices": [
+      "a) children",
+      "leaders",
+      "players"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 6,
+    "q": "We can change the world by _____ good choices.",
+    "choices": [
+      "throwing",
+      "making",
+      "doing"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 7,
+    "q": "In our schools, we learn to _____ problems together.",
+    "choices": [
+      "safe",
+      "solve",
+      "improve"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 8,
+    "q": "We must remember that even small _____ can make a big difference.",
+    "choices": [
+      "improve",
+      "safe",
+      "actions"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 9,
+    "q": "We can plant trees and help keep our community _____ and clean.",
+    "choices": [
+      "actions",
+      "safe",
+      "improve"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 10,
+    "q": "Global _____ means helping others and taking care of the environment.",
+    "choices": [
+      "citizenship",
+      "hardship",
+      "friendship"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 11,
+    "q": "It's our _____ to do voluntary work to help the environment.",
+    "choices": [
+      "capability",
+      "ability",
+      "responsibility"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 12,
+    "q": "Everyone can _____ to a better planet.",
+    "choices": [
+      "pollute",
+      "salute",
+      "contribute"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 13,
+    "q": "The _____ is the world around us, like land, air, and water.",
+    "choices": [
+      "government",
+      "amusement",
+      "environment"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 14,
+    "q": "Egyptian people mustn't _____ rubbish in the streets.",
+    "choices": [
+      "throw",
+      "make",
+      "do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 15,
+    "q": "Our oceans are in danger. The meaning of 'in danger' is _____.",
+    "choices": [
+      "clean",
+      "safe",
+      "not safe"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 16,
+    "q": "Oceans show the beauty of _____ around the worl",
+    "choices": [
+      "a) disconnection",
+      "disability",
+      "diversity"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 17,
+    "q": "To save oceans, we can _____ in beach clean-ups.",
+    "choices": [
+      "pretend",
+      "participate",
+      "prepare"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 18,
+    "q": "The antonym of 'increase' is _____.",
+    "choices": [
+      "repeat",
+      "redo",
+      "reduce"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 19,
+    "q": "The word 'Save' can be the antonym of the word _____.",
+    "choices": [
+      "protect",
+      "keep",
+      "waste"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 20,
+    "q": "A global citizen _____ be unfair or unkind to others.",
+    "choices": [
+      "mustn't",
+      "must",
+      "will"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 21,
+    "q": "It's our responsibility as students to _____ care of the environment.",
+    "choices": [
+      "leave",
+      "throw",
+      "take"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 22,
+    "q": "Students can make posters about _____ places clean.",
+    "choices": [
+      "working",
+      "forgetting",
+      "keeping"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 23,
+    "q": "We can collect clothes to give to people _____ nee",
+    "choices": [
+      "a) at",
+      "on",
+      "in"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 24,
+    "q": "Nowadays, students should _____ a big impact on their community.",
+    "choices": [
+      "make",
+      "reach",
+      "do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 25,
+    "q": "People can show respect by working together _____.",
+    "choices": [
+      "violently",
+      "carelessly",
+      "kindly"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 26,
+    "q": "Giving someone support to do something is to _____ them.",
+    "choices": [
+      "discourage",
+      "encourage",
+      "stop"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 27,
+    "q": "Treating someone _____ means not to treat them in an equal way.",
+    "choices": [
+      "fairly",
+      "kindly",
+      "unfairly"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 28,
+    "q": "We use the phrase 'All in all' in the _____ of our text.",
+    "choices": [
+      "introduction",
+      "conclusion",
+      "middle"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 29,
+    "q": "You can collect clothes to _____ to people in nee",
+    "choices": [
+      "a) take",
+      "leave",
+      "give"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 30,
+    "q": "Volunteering helps to _____ our local community.",
+    "choices": [
+      "spoil",
+      "improve",
+      "destroy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 31,
+    "q": "Young children _____ do sports in the clu",
+    "choices": [
+      "a) mustn't",
+      "aren't",
+      "must"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 32,
+    "q": "Students _____ collect information before they start any project.",
+    "choices": [
+      "shouldn't",
+      "mustn't",
+      "must"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 33,
+    "q": "We _____ respect people from other cultures.",
+    "choices": [
+      "must",
+      "mustn't",
+      "shouldn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 34,
+    "q": "People aren't allowed to smoke in hospitals. They _____ smoke.",
+    "choices": [
+      "mustn't",
+      "must",
+      "should"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 35,
+    "q": "It's a necessity to wear your school uniform. You _____ wear it.",
+    "choices": [
+      "can't",
+      "must",
+      "mustn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 36,
+    "q": "Our responsibility is to plant trees. We _____ plant trees.",
+    "choices": [
+      "don't have to",
+      "must",
+      "mustn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 37,
+    "q": "She stayed home _____ her temperature was very high.",
+    "choices": [
+      "because",
+      "so",
+      "although"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 38,
+    "q": "They played well, _____ they won the championship.",
+    "choices": [
+      "because",
+      "so",
+      "but"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 39,
+    "q": "Mariam ate a big amount of Koshari _____ she was very hungry.",
+    "choices": [
+      "because",
+      "although",
+      "so"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 40,
+    "q": "_____ he reached the station late, he caught the train.",
+    "choices": [
+      "Although",
+      "Because",
+      "So"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 41,
+    "q": "Visitors of hospitals _____ shout there.",
+    "choices": [
+      "must",
+      "can",
+      "mustn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 42,
+    "q": "We _____ travel on holiday to London. It's our plan.",
+    "choices": [
+      "travel",
+      "are going to travel",
+      "traveled"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 43,
+    "q": "My uncle is my role model. He _____ me to respect others.",
+    "choices": [
+      "discourages",
+      "does",
+      "inspires"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 44,
+    "q": "My father _____ early for his work.",
+    "choices": [
+      "does always",
+      "is always",
+      "always is"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 45,
+    "q": "You _____ listen to your teachers.",
+    "choices": [
+      "must",
+      "can't",
+      "mustn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 46,
+    "q": "Drivers _____ follow traffic rules.",
+    "choices": [
+      "must",
+      "shouldn't",
+      "mustn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 47,
+    "q": "It's against the law to park your car here. You _____ park here.",
+    "choices": [
+      "mustn't",
+      "must",
+      "will"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 48,
+    "q": "You _____ be careless when you cross the street.",
+    "choices": [
+      "mustn't",
+      "must",
+      "should"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 49,
+    "q": "You _____ drop litter in the park.",
+    "choices": [
+      "can",
+      "mustn't",
+      "must"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 50,
+    "q": "I was sick, _____ I didn't go to school.",
+    "choices": [
+      "although",
+      "so",
+      "because"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 51,
+    "q": "I love playing football, _____ my brother prefers basketball.",
+    "choices": [
+      "but",
+      "because",
+      "so"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 52,
+    "q": "_____ it was raining, we went for a walk.",
+    "choices": [
+      "So",
+      "Because",
+      "Although"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 53,
+    "q": "We must _____ the environment clean.",
+    "choices": [
+      "keep",
+      "kept",
+      "keeping"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 54,
+    "q": "He _____ to study hard to pass the exam.",
+    "choices": [
+      "has",
+      "is",
+      "must"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 55,
+    "q": "We _____ be late for the meeting.",
+    "choices": [
+      "should",
+      "must",
+      "mustn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 56,
+    "q": "You _____ help the poor and needy.",
+    "choices": [
+      "can't",
+      "must",
+      "mustn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 57,
+    "q": "She didn't buy the dress _____ it was too expensive.",
+    "choices": [
+      "so",
+      "although",
+      "because"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 58,
+    "q": "The exam was difficult, _____ I answered all the questions.",
+    "choices": [
+      "but",
+      "because",
+      "so"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 59,
+    "q": "They _____ make noise in the library.",
+    "choices": [
+      "must",
+      "mustn't",
+      "should"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 60,
+    "q": "A good citizen _____ care about their country.",
+    "choices": [
+      "mustn't",
+      "shouldn't",
+      "must"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 61,
+    "q": "The school playground was filled _____ colorful tents.",
+    "choices": [
+      "in",
+      "of",
+      "with"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 62,
+    "q": "The team explained their water- saving machine _____.",
+    "choices": [
+      "confidence",
+      "confidently",
+      "confident"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 63,
+    "q": "The judges were _____ by the teamwork the team showe",
+    "choices": [
+      "a) impress",
+      "impression",
+      "impressed"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 64,
+    "q": "The team smiled with happiness as they had created something _____.",
+    "choices": [
+      "meaningful",
+      "meaningless",
+      "meaning"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 65,
+    "q": "The synonym of 'trophy' is _____.",
+    "choices": [
+      "a prize won",
+      "a machine",
+      "a device"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 66,
+    "q": "On the day of the fair, teams _____ their projects.",
+    "choices": [
+      "presented",
+      "destroyed",
+      "ignored"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 67,
+    "q": "Their teacher clapped _____ and said they are the real winners.",
+    "choices": [
+      "badly",
+      "proudly",
+      "sadly"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 68,
+    "q": "The values you show are more important than any _____.",
+    "choices": [
+      "trophy",
+      "problem",
+      "mistake"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 69,
+    "q": "We write about our role models' _____, or good qualities.",
+    "choices": [
+      "strong",
+      "strengths",
+      "strings"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 70,
+    "q": "Dr. Ghoneim worked hard to help people with _____ diseases.",
+    "choices": [
+      "heart",
+      "kidney",
+      "stomach"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 71,
+    "q": "Dr. Ghoneim developed new methods for kidney _____.",
+    "choices": [
+      "translations",
+      "transplants",
+      "transforms"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 72,
+    "q": "One person can _____ a big difference when they care about their work.",
+    "choices": [
+      "make",
+      "do",
+      "take"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 73,
+    "q": "True heroes are those who make their communities stronger and _____.",
+    "choices": [
+      "unhealthy",
+      "health",
+      "healthier"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 74,
+    "q": "Many young doctors say that Dr. Ghoneim _____ them to become better.",
+    "choices": [
+      "disappoints",
+      "stops",
+      "inspires"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 75,
+    "q": "_____ a difference is a quality of inspiring persons.",
+    "choices": [
+      "Taking",
+      "Making",
+      "Doing"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 76,
+    "q": "Sara said 'The team's _____ was to help people and save water'.",
+    "choices": [
+      "purpose",
+      "game",
+      "project"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 77,
+    "q": "In the final room, the children found a glowing _____ on a crystal stan",
+    "choices": [
+      "a) book",
+      "door",
+      "game"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 78,
+    "q": "What did the children see at the end of the invisible bridge?",
+    "choices": [
+      "A golden door",
+      "A silver key",
+      "A dark room"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 79,
+    "q": "The team worked late, _____ each other.",
+    "choices": [
+      "supporting",
+      "blaming",
+      "fighting"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 80,
+    "q": "Karim made a mistake, but no one _____ him.",
+    "choices": [
+      "blamed",
+      "helped",
+      "ignored"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 81,
+    "q": "Dr. Ghoneim is an inspiring _____ model.",
+    "choices": [
+      "roll",
+      "role",
+      "rule"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 82,
+    "q": "The children returned to their classroom, their hearts full of _____ and happiness.",
+    "choices": [
+      "pride",
+      "sad",
+      "anger"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 83,
+    "q": "Respect, teamwork, courage and determination are the _____ we learne",
+    "choices": [
+      "a) words",
+      "values",
+      "nouns"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 84,
+    "q": "We should always show _____ doing the right thing.",
+    "choices": [
+      "honesty",
+      "curiosity",
+      "cunning"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 85,
+    "q": "The children _____ every problem by working together.",
+    "choices": [
+      "showed",
+      "made",
+      "solved"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 86,
+    "q": "Determination means not giving up, even when things are _____.",
+    "choices": [
+      "easy",
+      "simple",
+      "hard"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 87,
+    "q": "Never give up. _____ opens every door.",
+    "choices": [
+      "Magic",
+      "Determination",
+      "Breath"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 88,
+    "q": "There was an _____ bridge. We couldn't see it.",
+    "choices": [
+      "invisible",
+      "big",
+      "huge"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 89,
+    "q": "Courage means we try even when we are _____.",
+    "choices": [
+      "excited",
+      "scared",
+      "happy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 90,
+    "q": "Respect means we _____ and care for each other.",
+    "choices": [
+      "hit",
+      "shout",
+      "listen"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 91,
+    "q": "Being a global citizen means caring about others and helping the _____.",
+    "choices": [
+      "park",
+      "project",
+      "community"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 92,
+    "q": "Students and teachers picked _____ trash and planted trees.",
+    "choices": [
+      "up",
+      "out",
+      "in"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 93,
+    "q": "When you write a Social Media post, _____ with a catchy intro.",
+    "choices": [
+      "start",
+      "finish",
+      "end"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 94,
+    "q": "You can _____ a poster you are making into two parts.",
+    "choices": [
+      "complete",
+      "fill",
+      "divide"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 95,
+    "q": "A global citizen must _____ responsibility and support others.",
+    "choices": [
+      "leave",
+      "take",
+      "win"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 96,
+    "q": "Farida Osman is a famous Egyptian _____.",
+    "choices": [
+      "footballer",
+      "runner",
+      "swimmer"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 97,
+    "q": "She was born in 1995 in _____.",
+    "choices": [
+      "Alexandria",
+      "Cairo",
+      "Giza"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 98,
+    "q": "Farida started swimming when she was _____ years ol",
+    "choices": [
+      "a) seven",
+      "ten",
+      "five"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 99,
+    "q": "She has won many medals in different _____ around the worl",
+    "choices": [
+      "a) schools",
+      "tournaments",
+      "books"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 100,
+    "q": "In 2017, she won a _____ medal.",
+    "choices": [
+      "bronze",
+      "gold",
+      "silver"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 101,
+    "q": "She shows that with hard work, you can achieve great _____.",
+    "choices": [
+      "sadness",
+      "success",
+      "failure"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 102,
+    "q": "Farida loves her country and always wants to make Egypt _____.",
+    "choices": [
+      "ashamed",
+      "sad",
+      "proud"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 103,
+    "q": "Adel learned about global citizenship in his _____ class.",
+    "choices": [
+      "Math",
+      "English",
+      "Geography"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 104,
+    "q": "Adel and his classmates decided to help by collecting _____ for schools in nee",
+    "choices": [
+      "a) food",
+      "money",
+      "books"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 105,
+    "q": "Adel joined a clean-up event at the _____.",
+    "choices": [
+      "park",
+      "street",
+      "beach"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 106,
+    "q": "Adel felt _____ to take part in something that helps the environment.",
+    "choices": [
+      "sad",
+      "annoyed",
+      "proud"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 107,
+    "q": "His teacher said being a global citizen means thinking about _____ around you.",
+    "choices": [
+      "money",
+      "people and places",
+      "yourself only"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 108,
+    "q": "Learning in groups has more _____ than learning alone.",
+    "choices": [
+      "mistakes",
+      "breaks",
+      "benefits"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 109,
+    "q": "When students work in groups, they _____ opinions and discuss problems.",
+    "choices": [
+      "ignore",
+      "hide",
+      "share"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 110,
+    "q": "Teamwork helps students to develop their skills and be _____.",
+    "choices": [
+      "uncomfortable",
+      "shy",
+      "confident"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 111,
+    "q": "It helps them know how to _____ with others and understand them.",
+    "choices": [
+      "fight",
+      "argue",
+      "communicate"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 112,
+    "q": "Saving electricity is important for both yourself and the _____.",
+    "choices": [
+      "street",
+      "environment",
+      "sky"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 113,
+    "q": "Use energy-efficient light bulbs that consume _____ power.",
+    "choices": [
+      "more",
+      "extra",
+      "less"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 114,
+    "q": "Unplug devices like phone chargers when you are not _____ them.",
+    "choices": [
+      "selling",
+      "buying",
+      "using"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 115,
+    "q": "In the winter, wear warm clothes instead of using the _____.",
+    "choices": [
+      "AC",
+      "fan",
+      "heater"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 116,
+    "q": "In the summer, set the air conditioner to 24°C and use _____.",
+    "choices": [
+      "heaters",
+      "lamps",
+      "fans"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 117,
+    "q": "Try to use _____ light during the day instead of turning on lamps.",
+    "choices": [
+      "artificial",
+      "natural",
+      "extra"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 118,
+    "q": "New Alamein is a marvelous city on the North Coast of _____.",
+    "choices": [
+      "Egypt",
+      "France",
+      "Italy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 119,
+    "q": "The city has a strong impact on _____ and the economy.",
+    "choices": [
+      "education",
+      "agriculture",
+      "tourism"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 120,
+    "q": "You should start an email with a friendly _____.",
+    "choices": [
+      "closing",
+      "warning",
+      "greeting"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 121,
+    "q": "I always use _____ mode to protect my eyes in low light.",
+    "choices": [
+      "evening",
+      "night",
+      "morning"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 122,
+    "q": "Something that is difficult to do and tests someone's ability to compete is a _____.",
+    "choices": [
+      "competition",
+      "challenge",
+      "completion"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 123,
+    "q": "The verb 'improve' means to make something _____.",
+    "choices": [
+      "destroy",
+      "better",
+      "spoil"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 124,
+    "q": "When we show care and kindness to people, we _____ them.",
+    "choices": [
+      "refuse",
+      "hate",
+      "respect"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 125,
+    "q": "Dr. Gamal Hemdan _____ the State Appreciation Award in 1986.",
+    "choices": [
+      "won",
+      "hated",
+      "lost"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 126,
+    "q": "Responsible is the antonym of _____.",
+    "choices": [
+      "wise",
+      "careless",
+      "careful"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 127,
+    "q": "We should develop our _____ to get a good jo",
+    "choices": [
+      "a) skills",
+      "skins",
+      "scales"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 128,
+    "q": "To _____ your goals, you must work har",
+    "choices": [
+      "a) reach",
+      "refuse",
+      "leave"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 129,
+    "q": "Rules are sets of _____ that people must follow.",
+    "choices": [
+      "instructions",
+      "corruptions",
+      "information"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 130,
+    "q": "A _____ gives his time and effort to help others for free.",
+    "choices": [
+      "doctor",
+      "volunteer",
+      "plumber"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 131,
+    "q": "What can you _____ in difficult situations?",
+    "choices": [
+      "does",
+      "did",
+      "do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 132,
+    "q": "She _____ drives her car in rush hours.",
+    "choices": [
+      "didn't",
+      "doesn't",
+      "never"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 133,
+    "q": "Where did she _____ her school books?",
+    "choices": [
+      "leave",
+      "leaves",
+      "left"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 134,
+    "q": "If you _____ stay up late, you will get up early.",
+    "choices": [
+      "doesn't",
+      "don't",
+      "didn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 135,
+    "q": "They _____ Alex next summer. It's their plan.",
+    "choices": [
+      "visits",
+      "will visit",
+      "are going to visit"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 136,
+    "q": "Drivers must _____ traffic rules.",
+    "choices": [
+      "follow",
+      "followed",
+      "following"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 137,
+    "q": "When I was on holiday, I _____ to the beach every day.",
+    "choices": [
+      "went",
+      "go",
+      "goes"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 138,
+    "q": "Hady _____ his room at the moment.",
+    "choices": [
+      "organize",
+      "is organizing",
+      "organizes"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 139,
+    "q": "I _____ my lunch at 3 o'clock.",
+    "choices": [
+      "having",
+      "usually have",
+      "have usually"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 140,
+    "q": "If you study hard, you _____ succee",
+    "choices": [
+      "a) would",
+      "will",
+      "won't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 141,
+    "q": "Ali never _____ his tablet late at night.",
+    "choices": [
+      "use",
+      "using",
+      "uses"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 142,
+    "q": "What _____ you buy at the market last Friday?",
+    "choices": [
+      "did",
+      "does",
+      "do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 143,
+    "q": "Are they _____ to spend their holiday abroad?",
+    "choices": [
+      "going",
+      "goes",
+      "go"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 144,
+    "q": "She is _____ an exciting movie now.",
+    "choices": [
+      "watching",
+      "watch",
+      "watches"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 145,
+    "q": "My advice to you is to make a study plan. You _____ make a study plan.",
+    "choices": [
+      "should",
+      "must",
+      "shouldn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 146,
+    "q": "He has the ability to repair his devices. He _____ repair his devices.",
+    "choices": [
+      "does",
+      "is",
+      "can"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 147,
+    "q": "It may rain tomorrow, so I _____ go out.",
+    "choices": [
+      "do",
+      "won't",
+      "will"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 148,
+    "q": "I _____ my uncle this week. This is my plan.",
+    "choices": [
+      "visit",
+      "am going to visit",
+      "visited"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 149,
+    "q": "He _____ medicine in the future. This is his goal.",
+    "choices": [
+      "will study",
+      "is going to study",
+      "studies"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 150,
+    "q": "We _____ be happy when we went to Matrouh last year.",
+    "choices": [
+      "was",
+      "are",
+      "were"
+    ],
+    "answer": 0
+  }
+]

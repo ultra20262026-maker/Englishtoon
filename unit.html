@@ -182,13 +182,68 @@
 
             const container = document.getElementById('games-container');
             let unitGames = [];
+            let grammarGames = [];
 
             if (typeof GAMES_MAP !== 'undefined' && GAMES_MAP[gradeId] && GAMES_MAP[gradeId][unitId]) {
                 unitGames = GAMES_MAP[gradeId][unitId];
             }
+            if (typeof GRAMMAR_GAMES_MAP !== 'undefined' && GRAMMAR_GAMES_MAP[gradeId] && GRAMMAR_GAMES_MAP[gradeId][unitId]) {
+                grammarGames = GRAMMAR_GAMES_MAP[gradeId][unitId];
+            }
 
-            if (unitGames.length === 0) {
-                document.getElementById('games-count-badge').textContent = '0 لعبة';
+            const totalCount = unitGames.length + grammarGames.length;
+            document.getElementById('games-count-badge').textContent = `${totalCount} لعبة متاحة`;
+
+            container.innerHTML = '';
+
+            // 1. Render Grammar Games Section if available
+            if (grammarGames.length > 0) {
+                const grammarSectionHeader = document.createElement('div');
+                grammarSectionHeader.style.cssText = "grid-column: 1 / -1; margin-top: 15px; margin-bottom: 10px;";
+                grammarSectionHeader.innerHTML = `
+                    <h3 style="font-size: 1.4rem; color: #f39c12; display: flex; align-items: center; gap: 10px;">
+                        <span>📝</span> قسم ألعاب القواعد والجرامر (Grammar Suite)
+                    </h3>
+                    <p style="color: #a0aec0; font-size: 0.95rem; margin-top: 4px;">5 ألعاب تفاعلية مخصصة لقواعد هذه الوحدة</p>
+                `;
+                container.appendChild(grammarSectionHeader);
+
+                grammarGames.forEach((game, idx) => {
+                    const visual = getGameVisual(game.name);
+                    const gamePath = `games/${gradeId}/unit${unitId}/${game.file}`;
+                    const tile = document.createElement('a');
+                    tile.href = gamePath;
+                    tile.className = 'game-tile';
+                    tile.innerHTML = `
+                        <div class="game-thumb-container" style="background: ${visual.bg};">
+                            <span class="game-emoji-badge">${visual.emoji}</span>
+                            <div class="game-play-hover-overlay">
+                                <div class="play-action-circle">▶</div>
+                            </div>
+                        </div>
+                        <div class="game-info-box">
+                            <h3 class="game-info-title">${game.name}</h3>
+                            <div class="game-info-meta">
+                                <span class="game-cta-text" style="color:#f39c12;">⚡ لعبة جرامر</span>
+                                <span class="badge-new-game">📝 قواعد</span>
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(tile);
+                });
+
+                // Divider before lesson games
+                const lessonSectionHeader = document.createElement('div');
+                lessonSectionHeader.style.cssText = "grid-column: 1 / -1; margin-top: 30px; margin-bottom: 10px;";
+                lessonSectionHeader.innerHTML = `
+                    <h3 style="font-size: 1.4rem; color: #6366f1; display: flex; align-items: center; gap: 10px;">
+                        <span>🎮</span> ألعاب الدروس والمهارات التفاعلية
+                    </h3>
+                `;
+                container.appendChild(lessonSectionHeader);
+            }
+
+            if (unitGames.length === 0 && grammarGames.length === 0) {
                 container.innerHTML = `
                     <div class="empty-box" style="grid-column: 1 / -1;">
                         <div class="empty-icon">🚀</div>
@@ -196,8 +251,6 @@
                         <p>جاري تصميم وإضافة ألعاب تفاعلية جديدة لهذه الوحدة.</p>
                     </div>`;
             } else {
-                document.getElementById('games-count-badge').textContent = `${unitGames.length} ألعاب متاحة`;
-
                 unitGames.forEach((game, idx) => {
                     const visual = getGameVisual(game.name);
                     const gamePath = `games/${gradeId}/unit${unitId}/${game.file}`;

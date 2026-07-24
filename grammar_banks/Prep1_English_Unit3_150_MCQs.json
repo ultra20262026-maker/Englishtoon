@@ -1,0 +1,1502 @@
+[
+  {
+    "q_num": 1,
+    "q": "My father is the most _____ person in my life.",
+    "choices": [
+      "inspired",
+      "inspiring",
+      "inspire"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 2,
+    "q": "_____ is one of the qualities a scientist needs to help their community.",
+    "choices": [
+      "Determination",
+      "Determined",
+      "Determine"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 3,
+    "q": "Dr. Samira Moussa showed a great love for science _____ an early age.",
+    "choices": [
+      "for",
+      "from",
+      "on"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 4,
+    "q": "Dr. Samira's achievement made her a symbol of _____ for many Egyptian girls.",
+    "choices": [
+      "hope",
+      "happiness",
+      "failure"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 5,
+    "q": "_____ my grandfather died in a car accident last year.",
+    "choices": [
+      "Sad",
+      "Sadly",
+      "Sadness"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 6,
+    "q": "Science should be used for _____ and to improve people's lives.",
+    "choices": [
+      "fights",
+      "peace",
+      "wars"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 7,
+    "q": "She often said, 'My wish for cancer treatment is to be as _____ as aspirin.'",
+    "choices": [
+      "costly",
+      "cheap",
+      "expensive"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 8,
+    "q": "She worked hard in _____ and taught students at Cairo University.",
+    "choices": [
+      "playing",
+      "sleeping",
+      "research"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 9,
+    "q": "Your _____ model is someone you admire and try to be like him.",
+    "choices": [
+      "role",
+      "roll",
+      "rule"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 10,
+    "q": "I respect my mother as she never gives _____ in any situation.",
+    "choices": [
+      "out",
+      "up",
+      "of"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 11,
+    "q": "Ahmed El Mansy fought the _____ and protected our country.",
+    "choices": [
+      "tourists",
+      "terrorists",
+      "partners"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 12,
+    "q": "We should develop our _____ to get a good jo",
+    "choices": [
+      "a) scenes",
+      "skills",
+      "skins"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 13,
+    "q": "To _____ your goals, you must work har",
+    "choices": [
+      "a) leave",
+      "refuse",
+      "reach"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 14,
+    "q": "Dr. Samira Moussa was born in Egypt in _____.",
+    "choices": [
+      "1928",
+      "1995",
+      "1917"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 15,
+    "q": "She was known for Atomic _____.",
+    "choices": [
+      "Subtraction",
+      "Addition",
+      "Radiation"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 16,
+    "q": "An Egyptian _____ fights to protect his country.",
+    "choices": [
+      "doctor",
+      "hero",
+      "scientist"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 17,
+    "q": "I _____ Dr. Samira Moussa because of her great achievements.",
+    "choices": [
+      "dislike",
+      "admire",
+      "hate"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 18,
+    "q": "My mother _____ me to study har",
+    "choices": [
+      "a) inspires",
+      "stops",
+      "hates"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 19,
+    "q": "A _____ is a person who studies physics.",
+    "choices": [
+      "scientist",
+      "doctor",
+      "baker"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 20,
+    "q": "Cancer is a very dangerous _____.",
+    "choices": [
+      "toy",
+      "game",
+      "disease"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 21,
+    "q": "She wanted to _____ her community.",
+    "choices": [
+      "help",
+      "destroy",
+      "leave"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 22,
+    "q": "Aspirin is a cheap kind of _____.",
+    "choices": [
+      "food",
+      "clothes",
+      "medicine"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 23,
+    "q": "She taught students _____ Cairo University.",
+    "choices": [
+      "in",
+      "at",
+      "on"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 24,
+    "q": "To be a hero, you must have _____.",
+    "choices": [
+      "laziness",
+      "fear",
+      "courage"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 25,
+    "q": "Ahmed El Mansy is an _____ in the Egyptian Army.",
+    "choices": [
+      "officer",
+      "engineer",
+      "artist"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 26,
+    "q": "A good role model sets a good _____ for others.",
+    "choices": [
+      "example",
+      "mistake",
+      "problem"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 27,
+    "q": "We learn about heroes to be _____ by them.",
+    "choices": [
+      "inspired",
+      "bored",
+      "tired"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 28,
+    "q": "She wanted to _____ people's lives for the better.",
+    "choices": [
+      "destroy",
+      "improve",
+      "ruin"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 29,
+    "q": "To admire someone means you _____ them very much.",
+    "choices": [
+      "ignore",
+      "hate",
+      "respect"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 30,
+    "q": "A symbol of hope gives people a reason to be _____.",
+    "choices": [
+      "optimistic",
+      "sad",
+      "angry"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 31,
+    "q": "We use the prefix _____ to get the opposite of the word 'regular'.",
+    "choices": [
+      "ir-",
+      "un-",
+      "il-"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 32,
+    "q": "The noun from the verb 'agree' is _____.",
+    "choices": [
+      "agreed",
+      "agrees",
+      "agreement"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 33,
+    "q": "Dr. Gamal Hemdan was not only a geographer, but also a deep _____.",
+    "choices": [
+      "singer",
+      "painter",
+      "thinker"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 34,
+    "q": "Dr. Gamal Hemdan won many _____ such as the State Appreciation Awar",
+    "choices": [
+      "a) books",
+      "titles",
+      "awards"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 35,
+    "q": "Egypt's location made it _____.",
+    "choices": [
+      "power",
+      "powerless",
+      "powerful"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 36,
+    "q": "We _____ all very happy on my brother's success yesterday.",
+    "choices": [
+      "were",
+      "was",
+      "did"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 37,
+    "q": "When I was young, I usually _____ to the theater on Friday.",
+    "choices": [
+      "went",
+      "goes",
+      "go"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 38,
+    "q": "I _____ visit my uncle last Friday.",
+    "choices": [
+      "doesn't",
+      "didn't",
+      "don't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 39,
+    "q": "She _____ her new mobile a year ago.",
+    "choices": [
+      "buys",
+      "buying",
+      "bought"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 40,
+    "q": "_____ you late for school yesterday?",
+    "choices": [
+      "Are",
+      "Were",
+      "Was"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 41,
+    "q": "Where _____ you go last summer?",
+    "choices": [
+      "does",
+      "do",
+      "did"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 42,
+    "q": "We _____ happy when we went to Matrouh last year.",
+    "choices": [
+      "are",
+      "were",
+      "was"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 43,
+    "q": "They _____ go fishing yesterday.",
+    "choices": [
+      "didn't",
+      "don't",
+      "doesn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 44,
+    "q": "_____ Ali absent last week?",
+    "choices": [
+      "Was",
+      "Did",
+      "Were"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 45,
+    "q": "My friend _____ absent last week.",
+    "choices": [
+      "were",
+      "is",
+      "was"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 46,
+    "q": "Where _____ you yesterday?",
+    "choices": [
+      "were",
+      "was",
+      "did"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 47,
+    "q": "He _____ visiting his grandparents last Friday. (Correct the mistake)",
+    "choices": [
+      "visit",
+      "visited",
+      "visits"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 48,
+    "q": "What _____ you buy at the market last Friday?",
+    "choices": [
+      "does",
+      "did",
+      "do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 49,
+    "q": "We add the prefix _____ to the word 'tidy' to make it opposite.",
+    "choices": [
+      "il-",
+      "ir-",
+      "un-"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 50,
+    "q": "The prefix _____ is added to 'correct' to give the opposite.",
+    "choices": [
+      "in-",
+      "dis-",
+      "ir-"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 51,
+    "q": "To make the opposite of 'legal', we add the prefix _____.",
+    "choices": [
+      "il-",
+      "dis-",
+      "un-"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 52,
+    "q": "A person who studies geography is a _____.",
+    "choices": [
+      "geographer",
+      "scientist",
+      "doctor"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 53,
+    "q": "You should be careful, not _____.",
+    "choices": [
+      "carefulness",
+      "careless",
+      "care"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 54,
+    "q": "He got his PhD _____ a university in Englan",
+    "choices": [
+      "a) from",
+      "of",
+      "on"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 55,
+    "q": "He combined geography, history, and _____ to explain Egypt's personality.",
+    "choices": [
+      "music",
+      "arts",
+      "politics"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 56,
+    "q": "The suffix _____ changes 'care' to an adjective meaning without care.",
+    "choices": [
+      "-er",
+      "-ful",
+      "-less"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 57,
+    "q": "If you don't agree, you _____.",
+    "choices": [
+      "disagree",
+      "unagree",
+      "inagree"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 58,
+    "q": "The prefix 'dis-' gives the _____ of the wor",
+    "choices": [
+      "a) noun",
+      "opposite",
+      "synonym"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 59,
+    "q": "The suffix in 'thinker' is _____.",
+    "choices": [
+      "-er",
+      "-ful",
+      "-less"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 60,
+    "q": "At the moment, he _____ doing his homework.",
+    "choices": [
+      "was",
+      "were",
+      "is"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 61,
+    "q": "Farida Osman is a famous Egyptian _____.",
+    "choices": [
+      "footballer",
+      "swimmer",
+      "runner"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 62,
+    "q": "She was born _____ Cairo.",
+    "choices": [
+      "at",
+      "in",
+      "on"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 63,
+    "q": "Farida started swimming when she was _____ years ol",
+    "choices": [
+      "a) seven",
+      "ten",
+      "five"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 64,
+    "q": "She has won many _____ around the worl",
+    "choices": [
+      "a) books",
+      "bags",
+      "medals"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 65,
+    "q": "Farida won a _____ medal in 2017.",
+    "choices": [
+      "silver",
+      "gold",
+      "bronze"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 66,
+    "q": "The word 'tournaments' means _____.",
+    "choices": [
+      "friends",
+      "competitions",
+      "schools"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 67,
+    "q": "With hard work, you can achieve great _____.",
+    "choices": [
+      "failure",
+      "sadness",
+      "success"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 68,
+    "q": "Farida is an example for many young _____ in Egypt.",
+    "choices": [
+      "teachers",
+      "athletes",
+      "doctors"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 69,
+    "q": "We all _____ Adel as he works hard and never gives up.",
+    "choices": [
+      "disappear",
+      "hate",
+      "admire"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 70,
+    "q": "My friend Adham _____ the leader of our project last year.",
+    "choices": [
+      "has",
+      "was",
+      "is"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 71,
+    "q": "Malak is always _____, even when there are hard times.",
+    "choices": [
+      "cheerful",
+      "angry",
+      "sad"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 72,
+    "q": "To have an unusual way of thinking is to think _____.",
+    "choices": [
+      "traditionally",
+      "creatively",
+      "carelessly"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 73,
+    "q": "When people work together, they _____ better.",
+    "choices": [
+      "imitate",
+      "collaborate",
+      "relate"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 74,
+    "q": "You should feel _____ when you present a project.",
+    "choices": [
+      "confident",
+      "sad",
+      "annoyed"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 75,
+    "q": "The teacher was _____ our performance during the experiment.",
+    "choices": [
+      "ignoring",
+      "seeing",
+      "monitoring"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 76,
+    "q": "What _____ your favorite games when you were young?",
+    "choices": [
+      "is",
+      "were",
+      "are"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 77,
+    "q": "Can you _____ me a cup of water, please?",
+    "choices": [
+      "fetch",
+      "fetching",
+      "fetches"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 78,
+    "q": "The opposite of correct is _____.",
+    "choices": [
+      "incorrect",
+      "discorrect",
+      "uncorrect"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 79,
+    "q": "Dr. Gamal Hemdan studied _____ at Cairo University.",
+    "choices": [
+      "math",
+      "history",
+      "geography"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 80,
+    "q": "A _____ is a flat surface on which pictures or words are shown.",
+    "choices": [
+      "book",
+      "screen",
+      "keyboard"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 81,
+    "q": "A/An _____ board is used in classrooms.",
+    "choices": [
+      "stupid",
+      "smart",
+      "dumb"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 82,
+    "q": "To succeed, we need to show _____ and work together.",
+    "choices": [
+      "weakness",
+      "carelessness",
+      "responsibility"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 83,
+    "q": "_____ people always feel interested in learning and knowing.",
+    "choices": [
+      "Curious",
+      "Curly",
+      "Cunning"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 84,
+    "q": "In kindergarten, children loved _____ new things.",
+    "choices": [
+      "discovering",
+      "hiding",
+      "ignoring"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 85,
+    "q": "The monorail will _____ travel time.",
+    "choices": [
+      "reduce",
+      "double",
+      "increase"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 86,
+    "q": "The monorail runs on _____ instead of fuel.",
+    "choices": [
+      "coal",
+      "water",
+      "electricity"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 87,
+    "q": "The monorail runs _____ the groun",
+    "choices": [
+      "a) under",
+      "above",
+      "inside"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 88,
+    "q": "Technology helps improve _____ through apps.",
+    "choices": [
+      "communication",
+      "transportation",
+      "production"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 89,
+    "q": "Students need to _____ their time before exams.",
+    "choices": [
+      "organize",
+      "lose",
+      "waste"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 90,
+    "q": "An elephant can swim, but it _____ fly.",
+    "choices": [
+      "can",
+      "can't",
+      "isn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 91,
+    "q": "Determination means not giving up, even when things are _____.",
+    "choices": [
+      "hard",
+      "simple",
+      "easy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 92,
+    "q": "The children _____ every problem by working together.",
+    "choices": [
+      "solved",
+      "showed",
+      "made"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 93,
+    "q": "We should always show _____ doing the right thing.",
+    "choices": [
+      "honesty",
+      "curiosity",
+      "cunning"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 94,
+    "q": "Respect, teamwork, courage and determination are the _____ we learne",
+    "choices": [
+      "a) puzzles",
+      "nouns",
+      "values"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 95,
+    "q": "The children returned to their classroom, their hearts full of _____ and happiness.",
+    "choices": [
+      "sad",
+      "honest",
+      "pride"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 96,
+    "q": "The greatest lessons they learned were not about magic, but about _____.",
+    "choices": [
+      "anger",
+      "hate",
+      "respect"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 97,
+    "q": "When we write about our role models, we should write 3-4 _____ they have.",
+    "choices": [
+      "strong",
+      "strengths",
+      "strings"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 98,
+    "q": "Dr. Ghoneim worked hard to help people with _____ diseases.",
+    "choices": [
+      "kidney",
+      "heart",
+      "lung"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 99,
+    "q": "Dr. Ghoneim developed new methods for kidney _____.",
+    "choices": [
+      "translations",
+      "transplants",
+      "transforms"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 100,
+    "q": "One person can _____ a big difference when they care about their work.",
+    "choices": [
+      "do",
+      "take",
+      "make"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 101,
+    "q": "True heroes make their communities stronger and _____.",
+    "choices": [
+      "healthier",
+      "health",
+      "unhealthy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 102,
+    "q": "The judges were _____ by the teamwork Sara's team showe",
+    "choices": [
+      "a) impress",
+      "impression",
+      "impressed"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 103,
+    "q": "The school playground was filled _____ colorful tents.",
+    "choices": [
+      "in",
+      "at",
+      "with"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 104,
+    "q": "The team explained their water- saving machine _____.",
+    "choices": [
+      "confident",
+      "confidence",
+      "confidently"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 105,
+    "q": "The team created something _____.",
+    "choices": [
+      "meaning",
+      "meaningful",
+      "meaningless"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 106,
+    "q": "The synonym of 'trophy' is a _____.",
+    "choices": [
+      "job",
+      "device",
+      "prize won"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 107,
+    "q": "On the day of the fair, teams _____ their projects.",
+    "choices": [
+      "ignored",
+      "presented",
+      "destroyed"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 108,
+    "q": "Their teacher clapped _____ and said they are the real winners.",
+    "choices": [
+      "sadly",
+      "proudly",
+      "badly"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 109,
+    "q": "The values you show are more important than any _____.",
+    "choices": [
+      "problem",
+      "mistake",
+      "trophy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 110,
+    "q": "Many young doctors say that Dr. Ghoneim _____ them to become better.",
+    "choices": [
+      "inspires",
+      "disappoints",
+      "stops"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 111,
+    "q": "_____ a difference is a quality of inspiring persons.",
+    "choices": [
+      "Making",
+      "Doing",
+      "Taking"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 112,
+    "q": "Winning the first prize was a big _____ for our team.",
+    "choices": [
+      "achievement",
+      "treatment",
+      "community"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 113,
+    "q": "To be keen to learn or know more about something means you are _____.",
+    "choices": [
+      "curious",
+      "responsible",
+      "honest"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 114,
+    "q": "Treating someone _____ means not to treat them in an equal way.",
+    "choices": [
+      "fairly",
+      "kindly",
+      "unfairly"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 115,
+    "q": "_____ means to move the head up and down to show agreement.",
+    "choices": [
+      "Nod",
+      "Point",
+      "Sigh"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 116,
+    "q": "They helped Karim to _____ his mistake.",
+    "choices": [
+      "make",
+      "break",
+      "fix"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 117,
+    "q": "The children walked through an invisible _____.",
+    "choices": [
+      "tree",
+      "wall",
+      "bridge"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 118,
+    "q": "The glowing sign read: 'Only those with respect, ambition, and _____ can cross.'",
+    "choices": [
+      "fear",
+      "sadness",
+      "courage"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 119,
+    "q": "The greatest lessons were about never giving _____ on themselves.",
+    "choices": [
+      "up",
+      "in",
+      "out"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 120,
+    "q": "Dr. Ghoneim is an inspiring _____.",
+    "choices": [
+      "athlete",
+      "doctor",
+      "singer"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 121,
+    "q": "A _____ gives his time and effort to help others for free.",
+    "choices": [
+      "plumber",
+      "volunteer",
+      "doctor"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 122,
+    "q": "What can you _____ in difficult situations?",
+    "choices": [
+      "does",
+      "did",
+      "do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 123,
+    "q": "Where did she _____ her school books?",
+    "choices": [
+      "leave",
+      "left",
+      "leaves"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 124,
+    "q": "If you _____ stay up late, you will get up early.",
+    "choices": [
+      "don't",
+      "doesn't",
+      "didn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 125,
+    "q": "She _____ her new mobile a year ago.",
+    "choices": [
+      "buy",
+      "bought",
+      "buying"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 126,
+    "q": "He _____ visiting his grandparents last Friday. (Correct the mistake)",
+    "choices": [
+      "visited",
+      "visits",
+      "visit"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 127,
+    "q": "They _____ at the cinema last night.",
+    "choices": [
+      "did",
+      "were",
+      "was"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 128,
+    "q": "_____ they go to spend their holiday abroad?",
+    "choices": [
+      "Do",
+      "Did",
+      "Are"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 129,
+    "q": "My mother _____ the best pasta ever.",
+    "choices": [
+      "cooks",
+      "cooking",
+      "cook"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 130,
+    "q": "She _____ her aunt yesterday.",
+    "choices": [
+      "visits",
+      "visit",
+      "visited"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 131,
+    "q": "The word _____ means to make something better.",
+    "choices": [
+      "improve",
+      "spoil",
+      "destroy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 132,
+    "q": "Dr. Samira Moussa was born in _____.",
+    "choices": [
+      "England",
+      "Egypt",
+      "France"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 133,
+    "q": "Dr. Gamal Hemdan is a famous Egyptian _____.",
+    "choices": [
+      "mathematician",
+      "biologist",
+      "geographer"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 134,
+    "q": "He wrote a book called 'The _____ of Egypt'.",
+    "choices": [
+      "Geography",
+      "Personality",
+      "History"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 135,
+    "q": "_____ means doing the right thing even when no one is watching.",
+    "choices": [
+      "Curiosity",
+      "Cunning",
+      "Honesty"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 136,
+    "q": "_____ means we try even when we are scare",
+    "choices": [
+      "a) Ambition",
+      "Respect",
+      "Courage"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 137,
+    "q": "In kindergarten, children loved _____ new things.",
+    "choices": [
+      "discovering",
+      "hiding",
+      "ignoring"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 138,
+    "q": "The hybrid bus runs on both electricity and _____.",
+    "choices": [
+      "gas",
+      "water",
+      "diesel"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 139,
+    "q": "The hybrid bus helps _____ pollution.",
+    "choices": [
+      "reduce",
+      "worsen",
+      "increase"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 140,
+    "q": "A/An _____ is a flat surface on which pictures are shown.",
+    "choices": [
+      "keyboard",
+      "screen",
+      "mouse"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 141,
+    "q": "A _____ is a portable computer.",
+    "choices": [
+      "printer",
+      "smartboard",
+      "laptop"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 142,
+    "q": "To make a video call, I use the _____.",
+    "choices": [
+      "speaker",
+      "printer",
+      "webcam"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 143,
+    "q": "My favorite _____ has lots of useful information.",
+    "choices": [
+      "TV",
+      "radio",
+      "website"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 144,
+    "q": "A _____ person is a happy and positive one.",
+    "choices": [
+      "angry",
+      "cheerful",
+      "sad"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 145,
+    "q": "Screen _____ is the time you spend using devices.",
+    "choices": [
+      "look",
+      "time",
+      "watch"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 146,
+    "q": "_____ means feeling interested in learning.",
+    "choices": [
+      "Tired",
+      "Boring",
+      "Curious"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 147,
+    "q": "I use the _____ to record a presentation.",
+    "choices": [
+      "microphone",
+      "screen",
+      "mouse"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 148,
+    "q": "Technology makes our lives more _____ and enjoyable.",
+    "choices": [
+      "difficult",
+      "comfortable",
+      "hard"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 149,
+    "q": "Being a global citizen means taking _____ of the environment.",
+    "choices": [
+      "part",
+      "place",
+      "care"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 150,
+    "q": "Rules are sets of _____ that people must follow.",
+    "choices": [
+      "corruptions",
+      "instructions",
+      "information"
+    ],
+    "answer": 0
+  }
+]

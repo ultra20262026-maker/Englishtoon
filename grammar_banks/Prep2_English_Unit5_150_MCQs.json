@@ -1,0 +1,1492 @@
+[
+  {
+    "q_num": 1,
+    "q": "Europe and America are two different _____.",
+    "choices": [
+      "countries",
+      "continents",
+      "villages"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 2,
+    "q": "What are your _____ experiences in Egypt?",
+    "choices": [
+      "unforgettable",
+      "calmness",
+      "unkindness"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 3,
+    "q": "The pyramids in Giza are more _____ than anything I have visited before.",
+    "choices": [
+      "bad",
+      "impressive",
+      "ugly"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 4,
+    "q": "The Egyptian _____ is getting higher every year.",
+    "choices": [
+      "population",
+      "culture",
+      "landmark"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 5,
+    "q": "You can join our tea _____ tomorrow in our house.",
+    "choices": [
+      "country",
+      "ceremony",
+      "culture"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 6,
+    "q": "I stayed in a beautiful _____ full of life.",
+    "choices": [
+      "building",
+      "city",
+      "street"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 7,
+    "q": "Tokyo is the _____ city of Japan.",
+    "choices": [
+      "continent",
+      "capital",
+      "village"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 8,
+    "q": "The _____ has the body of a lion and the head of a king.",
+    "choices": [
+      "pyramid",
+      "mummy",
+      "Sphinx"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 9,
+    "q": "The Grand Egyptian Museum has many ancient _____.",
+    "choices": [
+      "treasures",
+      "shows",
+      "bazaars"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 10,
+    "q": "The Sphinx looks _____ for many people around the worl",
+    "choices": [
+      "a) invaluable",
+      "mysterious",
+      "known"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 11,
+    "q": "You can buy _____ and bargain at Khan El Khalili Bazaar.",
+    "choices": [
+      "treasures",
+      "souvenirs",
+      "mummies"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 12,
+    "q": "A _____ is a cover for the face used in celebrations and shows.",
+    "choices": [
+      "hat",
+      "mask",
+      "glove"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 13,
+    "q": "Luxor and Aswan are popular travel _____ for tourists.",
+    "choices": [
+      "paths",
+      "traditions",
+      "destinations"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 14,
+    "q": "Most of our ancient statues were _____ from stones.",
+    "choices": [
+      "visited",
+      "moved",
+      "carved"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 15,
+    "q": "_____ means a special beauty or attraction.",
+    "choices": [
+      "Hiking",
+      "Peace",
+      "Charm"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 16,
+    "q": "You can visit the Blue _____ in Icelan",
+    "choices": [
+      "a) painting",
+      "Lagoon",
+      "trail"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 17,
+    "q": "I still have unforgettable _____ about my last visit to Luxor.",
+    "choices": [
+      "glaciers",
+      "memories",
+      "mountains"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 18,
+    "q": "Reykjavik is the northernmost _____ in the worl",
+    "choices": [
+      "a) capital",
+      "continent",
+      "town"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 19,
+    "q": "_____ is a hot spring from the earth's heat.",
+    "choices": [
+      "Geothermal",
+      "Glacier",
+      "Waterfall"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 20,
+    "q": "You can also see volcanoes and _____ in Icelan",
+    "choices": [
+      "a) pyramids",
+      "monuments",
+      "glaciers"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 21,
+    "q": "Each country has a special _____.",
+    "choices": [
+      "tradition",
+      "souvenir",
+      "treasure"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 22,
+    "q": "Aswan is a special place full of _____ and culture.",
+    "choices": [
+      "surprising",
+      "exciting",
+      "charm"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 23,
+    "q": "Dubai has become a famous _____ city.",
+    "choices": [
+      "painting",
+      "trading",
+      "hiking"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 24,
+    "q": "He told me about his amazing _____ after climbing the mountains.",
+    "choices": [
+      "paintings",
+      "statues",
+      "adventures"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 25,
+    "q": "The Pyramids in Giza were one of the ancient seven _____.",
+    "choices": [
+      "wonders",
+      "cities",
+      "countries"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 26,
+    "q": "The trip to Ras Mohamed was an _____ experience.",
+    "choices": [
+      "unforgettable",
+      "forgettable",
+      "peaceful"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 27,
+    "q": "We can enjoy the beautiful _____ in Al Fayoum.",
+    "choices": [
+      "weather",
+      "stadium",
+      "bridge"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 28,
+    "q": "Salah El Din's _____ was built to protect Cairo.",
+    "choices": [
+      "school",
+      "Citadel",
+      "hospital"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 29,
+    "q": "Some people are afraid of shark _____ in the se",
+    "choices": [
+      "a) rocks",
+      "stones",
+      "attacks"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 30,
+    "q": "Tourists explore different traditions and _____.",
+    "choices": [
+      "cultures",
+      "perfumes",
+      "objects"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 31,
+    "q": "Grand Egyptian Museum is one of the _____ museums in the worl",
+    "choices": [
+      "a) largest",
+      "large",
+      "larger"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 32,
+    "q": "The population in China is _____ than Egypt's.",
+    "choices": [
+      "biggest",
+      "big",
+      "bigger"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 33,
+    "q": "Our ancient history is the _____ impressive.",
+    "choices": [
+      "more",
+      "much",
+      "most"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 34,
+    "q": "Maria is _____ beautiful than her frien",
+    "choices": [
+      "a) most",
+      "the most",
+      "more"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 35,
+    "q": "My hometown is _____ than Alexandri",
+    "choices": [
+      "a) quietest",
+      "quiet",
+      "quieter"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 36,
+    "q": "Grand Egyptian Museum is the _____ impressive one.",
+    "choices": [
+      "most",
+      "more",
+      "less"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 37,
+    "q": "This is the _____ expensive car I have ever seen.",
+    "choices": [
+      "most",
+      "much",
+      "more"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 38,
+    "q": "Luxor is _____ than Sharm El Sheikh.",
+    "choices": [
+      "hot",
+      "hotter",
+      "hottest"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 39,
+    "q": "The Nile River is the _____ river in the worl",
+    "choices": [
+      "a) longer",
+      "long",
+      "longest"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 40,
+    "q": "The painting is _____ beautiful than the one in the living room.",
+    "choices": [
+      "the most",
+      "more",
+      "most"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 41,
+    "q": "Cairo is _____ crowded than Luxor.",
+    "choices": [
+      "most",
+      "the most",
+      "more"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 42,
+    "q": "Reading short stories is much _____ than watching movies.",
+    "choices": [
+      "useful",
+      "more useful",
+      "most useful"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 43,
+    "q": "January is usually the _____ month in Egypt.",
+    "choices": [
+      "coldest",
+      "colder",
+      "cold"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 44,
+    "q": "Our trip in Jordan was one of the _____ we've ever ha",
+    "choices": [
+      "a) most impressive",
+      "impressive",
+      "more impressive"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 45,
+    "q": "Asia is the _____ continent in the worl",
+    "choices": [
+      "a) larger",
+      "large",
+      "largest"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 46,
+    "q": "Cairo is _____ than Alexandri",
+    "choices": [
+      "a) bigger",
+      "big",
+      "biggest"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 47,
+    "q": "No month is _____ than August in Egypt.",
+    "choices": [
+      "hot",
+      "hotter",
+      "hottest"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 48,
+    "q": "I have never read a _____ exciting story than 'The Little Inventor'.",
+    "choices": [
+      "less",
+      "more",
+      "most"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 49,
+    "q": "Adel is _____ than Ali.",
+    "choices": [
+      "short",
+      "shortest",
+      "shorter"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 50,
+    "q": "Japan is _____ modern than Indi",
+    "choices": [
+      "a) more",
+      "the most",
+      "most"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 51,
+    "q": "Amira is the _____ intelligent one in class.",
+    "choices": [
+      "most",
+      "much",
+      "more"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 52,
+    "q": "English is _____ than Math for some students.",
+    "choices": [
+      "easier",
+      "easiest",
+      "easy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 53,
+    "q": "This book is _____ interesting than the other one.",
+    "choices": [
+      "most",
+      "more",
+      "much"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 54,
+    "q": "Which is the _____ animal in the world?",
+    "choices": [
+      "fastest",
+      "faster",
+      "fast"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 55,
+    "q": "My bag is _____ than yours.",
+    "choices": [
+      "heaviest",
+      "heavy",
+      "heavier"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 56,
+    "q": "He is the _____ boy in the team.",
+    "choices": [
+      "tall",
+      "taller",
+      "tallest"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 57,
+    "q": "A plane is _____ than a train.",
+    "choices": [
+      "faster",
+      "fastest",
+      "fast"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 58,
+    "q": "Health is _____ important than money.",
+    "choices": [
+      "much",
+      "more",
+      "most"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 59,
+    "q": "That was the _____ day of my life!",
+    "choices": [
+      "happiest",
+      "happier",
+      "happy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 60,
+    "q": "Ali is _____ careful than his brother.",
+    "choices": [
+      "most",
+      "much",
+      "more"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 61,
+    "q": "When I was in Europe, I saw _____ plants I have never seen before.",
+    "choices": [
+      "ugly",
+      "strange",
+      "safe"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 62,
+    "q": "You can enjoy the _____ in Al Fayoum.",
+    "choices": [
+      "stadium",
+      "waterfall",
+      "highway"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 63,
+    "q": "We can _____ into pairs and explore the city.",
+    "choices": [
+      "dream",
+      "cut",
+      "split"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 64,
+    "q": "The story about how the pharaohs built the pyramids is still _____.",
+    "choices": [
+      "curious",
+      "known",
+      "mysterious"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 65,
+    "q": "They want to collect _____ stones from the beach.",
+    "choices": [
+      "noisy",
+      "ugly",
+      "shiny"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 66,
+    "q": "While walking through the forest, we heard a _____ soun",
+    "choices": [
+      "a) ordinary",
+      "strange",
+      "bad"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 67,
+    "q": "My friend pointed at an old tree that had split into two _____.",
+    "choices": [
+      "leaves",
+      "branches",
+      "parts"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 68,
+    "q": "Playing sports is a fantastic way to stay _____.",
+    "choices": [
+      "unhealthy",
+      "active",
+      "lazy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 69,
+    "q": "Soccer and basketball are _____ sports.",
+    "choices": [
+      "personal",
+      "individual",
+      "team"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 70,
+    "q": "Individual sports are like running or _____.",
+    "choices": [
+      "soccer",
+      "swimming",
+      "basketball"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 71,
+    "q": "Sports can help you _____ your physical and mental health.",
+    "choices": [
+      "improve",
+      "fall",
+      "cross"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 72,
+    "q": "Sports can help you develop _____ and leadership skills.",
+    "choices": [
+      "laziness",
+      "teamwork",
+      "selfishness"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 73,
+    "q": "Our teacher _____ that there would be an English task next Monday.",
+    "choices": [
+      "told",
+      "announced",
+      "asked"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 74,
+    "q": "We should _____ a good online balance for both learning and fun.",
+    "choices": [
+      "find",
+      "leave",
+      "take"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 75,
+    "q": "The _____ in Tokyo is large, and the people are polite.",
+    "choices": [
+      "pollution",
+      "continent",
+      "population"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 76,
+    "q": "I worked hard, _____ I improved my skills.",
+    "choices": [
+      "although",
+      "so",
+      "because"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 77,
+    "q": "_____ they practiced very hard, they didn't win.",
+    "choices": [
+      "Although",
+      "Because",
+      "So"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 78,
+    "q": "During our camping trip, we stayed in a _____ surrounded by beautiful nature.",
+    "choices": [
+      "tent",
+      "station",
+      "park"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 79,
+    "q": "The opposite of the word 'peaceful' is _____.",
+    "choices": [
+      "calm",
+      "quiet",
+      "noisy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 80,
+    "q": "Traveling makes you see famous _____ and hear new languages.",
+    "choices": [
+      "houses",
+      "landmarks",
+      "trips"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 81,
+    "q": "We stayed for _____ when we were in France.",
+    "choices": [
+      "days",
+      "awhile",
+      "long"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 82,
+    "q": "I think this trip gave us the best _____ we will keep forever.",
+    "choices": [
+      "money",
+      "memorize",
+      "memories"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 83,
+    "q": "The animals always _____ their babies from danger.",
+    "choices": [
+      "protect",
+      "ignore",
+      "attack"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 84,
+    "q": "Did you buy any _____ for your mother when you were in London?",
+    "choices": [
+      "souvenirs",
+      "memories",
+      "mummies"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 85,
+    "q": "The tourists go around the world to explore different _____.",
+    "choices": [
+      "cultures",
+      "souvenirs",
+      "perfumes"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 86,
+    "q": "Paris is the _____ city of France.",
+    "choices": [
+      "castle",
+      "citadel",
+      "capital"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 88,
+    "q": "He _____ Europe many times before.",
+    "choices": [
+      "has visited",
+      "visit",
+      "visited"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 89,
+    "q": "The ancient statue was _____ from a single piece of stone.",
+    "choices": [
+      "carved",
+      "carving",
+      "carves"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 90,
+    "q": "Ali always smiles _____ he is facing many problems.",
+    "choices": [
+      "but",
+      "although",
+      "so"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 91,
+    "q": "Khan El Khalili is famous for its _____.",
+    "choices": [
+      "bazaars",
+      "rivers",
+      "mountains"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 92,
+    "q": "People like to visit Khan El Khalili to buy souvenirs and _____ for fun.",
+    "choices": [
+      "bargain",
+      "run",
+      "swim"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 93,
+    "q": "To express admiration, we can say 'Wow! That is _____ indeed!'",
+    "choices": [
+      "impressive",
+      "boring",
+      "terrible"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 94,
+    "q": "In a dialogue about sports, a person asks: 'What do you like to do in your _____ time?'",
+    "choices": [
+      "work",
+      "busy",
+      "free"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 95,
+    "q": "I like comedy films. What _____ you?",
+    "choices": [
+      "with",
+      "for",
+      "about"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 96,
+    "q": "Do you like going _____? Yes, I love buying new clothes.",
+    "choices": [
+      "hiking",
+      "swimming",
+      "shopping"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 97,
+    "q": "Who do you go shopping _____? With my friends.",
+    "choices": [
+      "for",
+      "with",
+      "about"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 98,
+    "q": "We go shopping _____ a week.",
+    "choices": [
+      "once",
+      "one",
+      "two"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 99,
+    "q": "The only thing I don't like about shopping is _____ the heavy bags.",
+    "choices": [
+      "to carry",
+      "carrying",
+      "carried"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 100,
+    "q": "Water helps in moving _____ and keeping the body cool.",
+    "choices": [
+      "stones",
+      "air",
+      "blood"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 101,
+    "q": "Computers are far more _____ than human beings.",
+    "choices": [
+      "efficient",
+      "slow",
+      "tired"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 102,
+    "q": "Computers can store _____ faster and better.",
+    "choices": [
+      "water",
+      "food",
+      "information"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 103,
+    "q": "Computers are useful for helping us catch _____.",
+    "choices": [
+      "teachers",
+      "doctors",
+      "criminals"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 104,
+    "q": "A new kind of criminal knows how to _____ a computer.",
+    "choices": [
+      "clean",
+      "fix",
+      "corrupt"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 105,
+    "q": "My mom is a teacher, and my dad is an _____.",
+    "choices": [
+      "engineer",
+      "artist",
+      "actor"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 106,
+    "q": "My dad does _____ for storybooks.",
+    "choices": [
+      "sports",
+      "music",
+      "drawings"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 107,
+    "q": "My mom teaches elementary school children and they do lots of _____ activities.",
+    "choices": [
+      "boring",
+      "creative",
+      "lazy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 108,
+    "q": "_____ is one of the most basic forms of arts using pencils or charcoal.",
+    "choices": [
+      "Sculpture",
+      "Drawing",
+      "Photography"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 109,
+    "q": "_____ involves creating 3D works from materials like clay.",
+    "choices": [
+      "Drawing",
+      "Painting",
+      "Sculpture"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 110,
+    "q": "_____ captures moments and emotions through a camera lens.",
+    "choices": [
+      "Photography",
+      "Sculpture",
+      "Painting"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 111,
+    "q": "Being in nature made the vacation feel refreshing and _____.",
+    "choices": [
+      "calm",
+      "noisy",
+      "bad"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 112,
+    "q": "We set up a tent near a _____ and spent the days hiking.",
+    "choices": [
+      "lake",
+      "street",
+      "highway"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 113,
+    "q": "The evenings were peaceful, sitting by the _____ and listening to the forest.",
+    "choices": [
+      "campfire",
+      "radio",
+      "television"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 114,
+    "q": "Being close to nature made the trip a perfect way to relax and _____.",
+    "choices": [
+      "stress",
+      "work",
+      "unwind"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 115,
+    "q": "An email to a friend about a trip should be written in a _____ tone.",
+    "choices": [
+      "friendly",
+      "angry",
+      "formal"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 116,
+    "q": "A paragraph about 'Famous Landmarks in Egypt' might include the _____.",
+    "choices": [
+      "Eiffel Tower",
+      "Big Ben",
+      "Sphinx"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 117,
+    "q": "When writing about a country you want to visit, you describe its _____ and traditions.",
+    "choices": [
+      "stars",
+      "planets",
+      "culture"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 118,
+    "q": "To start a story, you can use phrases like '_____'.",
+    "choices": [
+      "Tomorrow",
+      "Next year",
+      "Last summer"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 119,
+    "q": "A biography is a text written about someone's _____.",
+    "choices": [
+      "life",
+      "car",
+      "house"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 120,
+    "q": "A dream holiday usually involves _____ to amazing places.",
+    "choices": [
+      "working",
+      "traveling",
+      "sleeping"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 121,
+    "q": "My trip to London is full of _____ experiences.",
+    "choices": [
+      "forgettable",
+      "unforgettable",
+      "bad"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 122,
+    "q": "I had a sense of _____. It was so calm and quiet inside.",
+    "choices": [
+      "peaceful",
+      "peacefulness",
+      "peace"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 123,
+    "q": "The postcards are so _____ with pictures of the temple at sunset.",
+    "choices": [
+      "colorful",
+      "terrible",
+      "dark"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 124,
+    "q": "I bought a small statue of Horus as a _____.",
+    "choices": [
+      "souvenir",
+      "treasure",
+      "stone"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 125,
+    "q": "The statue is huge and is beautifully _____.",
+    "choices": [
+      "carving",
+      "carved",
+      "carves"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 126,
+    "q": "Egypt is located in the _____ of Afric",
+    "choices": [
+      "a) continent",
+      "country",
+      "city"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 127,
+    "q": "He studied hard, _____ he succeede",
+    "choices": [
+      "a) but",
+      "so",
+      "because"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 128,
+    "q": "I have never read a _____ exciting story than this one.",
+    "choices": [
+      "most",
+      "more",
+      "less"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 129,
+    "q": "Ali always smiles _____ he is facing many problems.",
+    "choices": [
+      "although",
+      "so",
+      "because"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 130,
+    "q": "They have arranged to spend their holiday in Alex. They _____ to Alex.",
+    "choices": [
+      "travel",
+      "traveled",
+      "are traveling"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 131,
+    "q": "While I _____ to school, I saw an accident.",
+    "choices": [
+      "was walking",
+      "walked",
+      "walk"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 132,
+    "q": "I suggest _____ to the park on Friday.",
+    "choices": [
+      "go",
+      "going",
+      "went"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 133,
+    "q": "A lot of videos _____ from the internet.",
+    "choices": [
+      "download",
+      "is downloaded",
+      "are downloaded"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 134,
+    "q": "We should _____ a hand to the poor.",
+    "choices": [
+      "gave",
+      "give",
+      "given"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 135,
+    "q": "It's important to _____ healthy foo",
+    "choices": [
+      "a) ate",
+      "eating",
+      "eat"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 136,
+    "q": "Teachers help students _____ their lessons.",
+    "choices": [
+      "understood",
+      "understanding",
+      "understand"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 137,
+    "q": "Your active footprint includes posts you _____ to share.",
+    "choices": [
+      "choose",
+      "choosing",
+      "choose to"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 138,
+    "q": "A famous sculptor received _____ for his pieces of artistic work.",
+    "choices": [
+      "threat",
+      "punishment",
+      "recognition"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 139,
+    "q": "The population in Tokyo is _____, and the people are polite.",
+    "choices": [
+      "large",
+      "tiny",
+      "small"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 140,
+    "q": "I _____ a local trip for the Japanese tourists.",
+    "choices": [
+      "organizes",
+      "organized",
+      "organizing"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 141,
+    "q": "The painting is _____ beautiful than the one in the living room.",
+    "choices": [
+      "much",
+      "most",
+      "more"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 142,
+    "q": "They were playing tennis when it _____ to rain.",
+    "choices": [
+      "was starting",
+      "starts",
+      "started"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 143,
+    "q": "She _____ her room every day.",
+    "choices": [
+      "is cleaning",
+      "clean",
+      "cleans"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 144,
+    "q": "I was watching TV when the lights _____ out.",
+    "choices": [
+      "going",
+      "went",
+      "go"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 145,
+    "q": "Look! Adel _____ memes with his friends.",
+    "choices": [
+      "share",
+      "is sharing",
+      "shares"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 146,
+    "q": "You shouldn't _____ personal photos without permission.",
+    "choices": [
+      "taking",
+      "be taken",
+      "take"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 147,
+    "q": "What does water _____ in our bodies?",
+    "choices": [
+      "do",
+      "does",
+      "did"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 148,
+    "q": "Being close to nature made the trip a perfect way to _____.",
+    "choices": [
+      "work",
+      "relax",
+      "study"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 149,
+    "q": "The Sphinx has the body of a _____ and the head of a king.",
+    "choices": [
+      "dog",
+      "cat",
+      "lion"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 150,
+    "q": "You can visit the Blue _____ in Icelan",
+    "choices": [
+      "a) Sea",
+      "Lagoon",
+      "River"
+    ],
+    "answer": 0
+  }
+]

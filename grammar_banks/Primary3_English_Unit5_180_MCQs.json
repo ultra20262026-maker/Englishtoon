@@ -1,0 +1,178 @@
+[
+  {
+    "q_num": 9,
+    "q": "They _____ their project.",
+    "choices": [
+      "in",
+      "on",
+      "at",
+      "donate"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 21,
+    "q": "Hady and Salma want to help their _____.",
+    "choices": [
+      "project",
+      "supermarket",
+      "park",
+      "jump"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 33,
+    "q": "The cat was stuck _____ a fence.",
+    "choices": [
+      "donate",
+      "eat",
+      "drink",
+      "sad"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 45,
+    "q": "We live in _____.",
+    "choices": [
+      "but",
+      "first",
+      "while",
+      "free"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 56,
+    "q": "She _____ her sister with the homework.",
+    "choices": [
+      "shout",
+      "share",
+      "eat",
+      "sky"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 68,
+    "q": "They felt _____ of their project.",
+    "choices": [
+      "share",
+      "eat",
+      "drink",
+      "tidy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 80,
+    "q": "I _____ my frien",
+    "choices": [
+      "a) at",
+      "in",
+      "on",
+      "told"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 90,
+    "q": "He _____ a goal yesterday.",
+    "choices": [
+      "anger",
+      "hate",
+      "care",
+      "shouts"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 100,
+    "q": "He is _____ every day.",
+    "choices": [
+      "happy",
+      "nervous",
+      "tall",
+      "happy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 112,
+    "q": "Mariem is _____ passing the exam.",
+    "choices": [
+      "kicks",
+      "kicking",
+      "kick",
+      "mud"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 124,
+    "q": "Her friend needed _____ getting ready.",
+    "choices": [
+      "plays",
+      "play",
+      "playing",
+      "sprays"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 135,
+    "q": "Look, the cat is _____ on the chair.",
+    "choices": [
+      "where",
+      "what",
+      "how",
+      "run"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 147,
+    "q": "Flowers bloom in the _____.",
+    "choices": [
+      "spring",
+      "string",
+      "scratch",
+      "spring"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 159,
+    "q": "She _____ her friend get ready.",
+    "choices": [
+      "spray",
+      "splash",
+      "split",
+      "bad"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 171,
+    "q": "Are you _____?",
+    "choices": [
+      "sadly",
+      "together",
+      "alone",
+      "in"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 180,
+    "q": "The sun is _____.",
+    "choices": [
+      "sleeps",
+      "sleep",
+      "sleeping",
+      "is"
+    ],
+    "answer": 0
+  }
+]

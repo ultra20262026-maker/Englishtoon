@@ -1,0 +1,1502 @@
+[
+  {
+    "q_num": 1,
+    "q": "You can change your website _____ to control who can see your information.",
+    "choices": [
+      "settings",
+      "sits",
+      "sets"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 2,
+    "q": "The antonym of the word 'small' is _____.",
+    "choices": [
+      "big",
+      "short",
+      "tiny"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 3,
+    "q": "One of the tips for keeping safe online is to change your _____ often.",
+    "choices": [
+      "password",
+      "word order",
+      "crossword"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 4,
+    "q": "We should keep our information _____ to stay safe online.",
+    "choices": [
+      "danger",
+      "security",
+      "secure"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 5,
+    "q": "Your digital _____ is a mark or impression something leaves online.",
+    "choices": [
+      "paper print",
+      "fingerprint",
+      "footprint"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 6,
+    "q": "You should think _____ before posting personal information online.",
+    "choices": [
+      "carefully",
+      "carelessly",
+      "hopefully"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 7,
+    "q": "The verb 'experience' means to go _____ something yourself.",
+    "choices": [
+      "through",
+      "to",
+      "on"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 8,
+    "q": "An _____ is a person who is fully grown up.",
+    "choices": [
+      "toddler",
+      "adult",
+      "child"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 9,
+    "q": "I _____ my friends twice a week.",
+    "choices": [
+      "calls",
+      "called",
+      "call"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 10,
+    "q": "Your digital footprint is made up through the clues you leave _____ when using social medi",
+    "choices": [
+      "a) above",
+      "behind",
+      "in front"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 11,
+    "q": "When someone chooses to post or share something online, this is an _____ footprint.",
+    "choices": [
+      "active",
+      "negative",
+      "passive"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 12,
+    "q": "It is very important to think carefully before you share something online as what you share adds to your online _____.",
+    "choices": [
+      "identity",
+      "game",
+      "culture"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 13,
+    "q": "My brother's favorite hobby is _____ old stories.",
+    "choices": [
+      "collecting",
+      "cutting",
+      "cancelling"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 14,
+    "q": "We can use the prefix '_____' to give the opposite of the word 'comfortable'.",
+    "choices": [
+      "im-",
+      "un-",
+      "in-"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 15,
+    "q": "The policemen are working hard to find a _____ that leads to the criminal.",
+    "choices": [
+      "coin",
+      "clay",
+      "clue"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 16,
+    "q": "The synonym of the word 'protect' is _____.",
+    "choices": [
+      "save",
+      "spoil",
+      "destroy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 17,
+    "q": "Which is your favorite _____ on social media?",
+    "choices": [
+      "pavement",
+      "sidewalk",
+      "platform"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 18,
+    "q": "Always can give the same meaning as _____.",
+    "choices": [
+      "whenever",
+      "forever",
+      "whatever"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 19,
+    "q": "The prefix '_____' is used to give the opposite of 'agree'.",
+    "choices": [
+      "in-",
+      "un-",
+      "dis-"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 20,
+    "q": "A _____ footprint includes things you do not choose to leave online.",
+    "choices": [
+      "positive",
+      "passive",
+      "active"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 21,
+    "q": "We should use the internet _____.",
+    "choices": [
+      "carelessly",
+      "badly",
+      "safely"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 22,
+    "q": "A _____ is a secret word or phrase that you use to access a computer or website.",
+    "choices": [
+      "password",
+      "clue",
+      "keyboard"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 23,
+    "q": "If you are not careful, anyone can see your personal _____.",
+    "choices": [
+      "information",
+      "shoes",
+      "clothes"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 24,
+    "q": "To stay _____ online, don't share your location.",
+    "choices": [
+      "safe",
+      "dangerous",
+      "bad"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 25,
+    "q": "Everything you do online creates your digital _____.",
+    "choices": [
+      "footprint",
+      "handprint",
+      "voice"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 26,
+    "q": "The prefix '_____' gives the opposite of 'happy'.",
+    "choices": [
+      "dis-",
+      "im-",
+      "un-"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 27,
+    "q": "The antonym of 'carefully' is _____.",
+    "choices": [
+      "carelessly",
+      "wisely",
+      "smartly"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 28,
+    "q": "When you go _____ a difficult time, you learn from it.",
+    "choices": [
+      "in",
+      "above",
+      "through"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 29,
+    "q": "He is no longer a child; he is an _____.",
+    "choices": [
+      "toddler",
+      "adult",
+      "baby"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 30,
+    "q": "Social media platforms are used by _____ of people.",
+    "choices": [
+      "hundreds",
+      "dozens",
+      "millions"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 31,
+    "q": "English _____ all over the worl",
+    "choices": [
+      "a) is speaking",
+      "speaks",
+      "is spoken"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 32,
+    "q": "Strong passwords _____ to protect our information.",
+    "choices": [
+      "are used",
+      "use",
+      "are using"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 33,
+    "q": "Our lessons _____ well by our teachers.",
+    "choices": [
+      "are teach",
+      "teach",
+      "are taught"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 34,
+    "q": "My room _____ clean to stay healthy.",
+    "choices": [
+      "is kept",
+      "keep",
+      "keeps"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 35,
+    "q": "A lot of products _____ to many countries by Egypt.",
+    "choices": [
+      "exported",
+      "are exported",
+      "export"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 36,
+    "q": "The latest technology _____ inside the classes by teachers.",
+    "choices": [
+      "is used",
+      "are used",
+      "uses"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 37,
+    "q": "If water is boiled, it _____ into vapor.",
+    "choices": [
+      "turns",
+      "is turned",
+      "turning"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 38,
+    "q": "Teachers explain their lessons using smartboards. -> Smartboards _____ to explain lessons.",
+    "choices": [
+      "is used",
+      "are used",
+      "uses"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 39,
+    "q": "A lot of videos _____ from the internet.",
+    "choices": [
+      "download",
+      "is downloaded",
+      "are downloaded"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 40,
+    "q": "The Metro _____ to go to and from our work.",
+    "choices": [
+      "uses",
+      "is used",
+      "are used"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 41,
+    "q": "Good students _____ for their work by teachers.",
+    "choices": [
+      "are rewarded",
+      "reward",
+      "rewards"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 42,
+    "q": "A lot of messages _____ on the internet.",
+    "choices": [
+      "sends",
+      "are sent",
+      "is sent"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 43,
+    "q": "Cameras _____ to take photos.",
+    "choices": [
+      "uses",
+      "are used",
+      "is used"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 44,
+    "q": "A lot of projects _____ in Egypt by the government.",
+    "choices": [
+      "does",
+      "are done",
+      "is done"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 45,
+    "q": "Different goods _____ in our town.",
+    "choices": [
+      "produces",
+      "is produced",
+      "are produced"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 46,
+    "q": "The internet _____ by millions of people.",
+    "choices": [
+      "are used",
+      "is used",
+      "uses"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 47,
+    "q": "Personal information _____ hidden from strangers.",
+    "choices": [
+      "keeps",
+      "is kept",
+      "are kept"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 48,
+    "q": "Many languages _____ in Afric",
+    "choices": [
+      "a) is spoken",
+      "speaks",
+      "are spoken"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 49,
+    "q": "New apps _____ every day.",
+    "choices": [
+      "creates",
+      "are created",
+      "is created"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 50,
+    "q": "The class _____ every morning.",
+    "choices": [
+      "is cleaned",
+      "cleans",
+      "are cleaned"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 51,
+    "q": "Trees _____ in the park by students.",
+    "choices": [
+      "are planted",
+      "plants",
+      "is planted"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 52,
+    "q": "Homework _____ by the teacher.",
+    "choices": [
+      "checks",
+      "are checked",
+      "is checked"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 53,
+    "q": "Cars _____ in factories.",
+    "choices": [
+      "makes",
+      "is made",
+      "are made"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 54,
+    "q": "The news _____ on TV every evening.",
+    "choices": [
+      "are broadcasted",
+      "is broadcasted",
+      "broadcasts"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 55,
+    "q": "Books _____ in the library.",
+    "choices": [
+      "keeps",
+      "is kept",
+      "are kept"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 56,
+    "q": "This game _____ by many children.",
+    "choices": [
+      "is played",
+      "are played",
+      "plays"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 57,
+    "q": "Photos _____ with mobile phones.",
+    "choices": [
+      "are taken",
+      "takes",
+      "is taken"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 58,
+    "q": "My computer _____ by my brother.",
+    "choices": [
+      "fixes",
+      "is fixed",
+      "are fixed"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 59,
+    "q": "Rice _____ in Egypt.",
+    "choices": [
+      "grows",
+      "is grown",
+      "are grown"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 60,
+    "q": "Beautiful songs _____ by the singer.",
+    "choices": [
+      "sings",
+      "is sung",
+      "are sung"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 61,
+    "q": "As the exam day _____, most students feel increasingly stresse",
+    "choices": [
+      "a) comes closer",
+      "goes closer",
+      "leaves closer"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 62,
+    "q": "We should avoid mixing with people who laugh _____ our backs.",
+    "choices": [
+      "behind",
+      "beside",
+      "before"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 63,
+    "q": "If a friend feels disappointed, we should show _____.",
+    "choices": [
+      "laughing",
+      "empathy",
+      "hatred"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 64,
+    "q": "In this changing world, we must stay _____ to our values.",
+    "choices": [
+      "true",
+      "truth",
+      "truly"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 65,
+    "q": "Never _____ others' work; be original.",
+    "choices": [
+      "copy",
+      "read",
+      "write"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 66,
+    "q": "My parents always encourage me to _____ and never give up.",
+    "choices": [
+      "protect",
+      "prevent",
+      "persevere"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 67,
+    "q": "Before the fair day, Amal faced many _____.",
+    "choices": [
+      "toys",
+      "games",
+      "problems"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 68,
+    "q": "Amal felt like _____ up, but her parents encouraged her.",
+    "choices": [
+      "give",
+      "given",
+      "giving"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 69,
+    "q": "Amal felt _____ when her robot didn't work.",
+    "choices": [
+      "frustrated",
+      "happy",
+      "joyful"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 70,
+    "q": "Yara helped her by showing _____.",
+    "choices": [
+      "fear",
+      "empathy",
+      "anger"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 71,
+    "q": "Amal made sure she was learning from _____ places online.",
+    "choices": [
+      "trustworthy",
+      "bad",
+      "dangerous"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 72,
+    "q": "Finally, the robot blinked its eyes and said '_____'!",
+    "choices": [
+      "Stop",
+      "Goodbye",
+      "Hello"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 73,
+    "q": "Amal and Yara cheered with _____.",
+    "choices": [
+      "joy",
+      "anger",
+      "sadness"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 74,
+    "q": "Last year, my father's facebook account was _____.",
+    "choices": [
+      "hooked",
+      "hacked",
+      "healed"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 75,
+    "q": "His password was very _____ so it was easily hacke",
+    "choices": [
+      "a) simple",
+      "complex",
+      "strong"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 76,
+    "q": "If I don't set my _____ settings, all my photos will be seen.",
+    "choices": [
+      "privacy",
+      "public",
+      "open"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 77,
+    "q": "Don't put yourself _____ risk by trying extreme sports.",
+    "choices": [
+      "in",
+      "at",
+      "on"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 78,
+    "q": "To stay safe online, you shouldn't _____ your full name.",
+    "choices": [
+      "take",
+      "read",
+      "share"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 79,
+    "q": "You should _____ sure that you don't post your personal details.",
+    "choices": [
+      "make",
+      "have",
+      "do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 80,
+    "q": "It is important to make a study plan. -> You _____ make a study plan.",
+    "choices": [
+      "should",
+      "shouldn't",
+      "mustn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 81,
+    "q": "You should think twice before posting. -> You should think _____.",
+    "choices": [
+      "badly",
+      "carefully",
+      "carelessly"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 82,
+    "q": "When we download something, we should ask for _____ first.",
+    "choices": [
+      "forgiveness",
+      "money",
+      "permission"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 83,
+    "q": "Amal's hard work and _____ were admire",
+    "choices": [
+      "a) laziness",
+      "determination",
+      "fear"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 84,
+    "q": "She fixed the problems _____ her robot.",
+    "choices": [
+      "in",
+      "with",
+      "of"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 85,
+    "q": "Being _____ means you understand how someone feels.",
+    "choices": [
+      "careless",
+      "selfish",
+      "empathetic"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 86,
+    "q": "A strong password is not _____ to guess.",
+    "choices": [
+      "easy",
+      "impossible",
+      "hard"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 87,
+    "q": "Your online security is your _____.",
+    "choices": [
+      "game",
+      "hobby",
+      "responsibility"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 88,
+    "q": "We must protect our _____ footprint.",
+    "choices": [
+      "digital",
+      "physical",
+      "manual"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 89,
+    "q": "People who laugh _____ you are not real friends.",
+    "choices": [
+      "with",
+      "for",
+      "at"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 90,
+    "q": "Amal stayed true to who she _____.",
+    "choices": [
+      "are",
+      "were",
+      "is"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 91,
+    "q": "The good points of using social media include staying in _____ with friends.",
+    "choices": [
+      "away",
+      "far",
+      "touch"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 92,
+    "q": "Social media is a great platform for _____ and finding information.",
+    "choices": [
+      "eating",
+      "sleeping",
+      "learning"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 93,
+    "q": "A bad point of social media is that it can be a waste of _____.",
+    "choices": [
+      "time",
+      "money",
+      "water"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 94,
+    "q": "Sitting too long on digital devices is bad for your _____.",
+    "choices": [
+      "car",
+      "health",
+      "shoes"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 95,
+    "q": "You should spend your free time doing physical _____.",
+    "choices": [
+      "sleep",
+      "activities",
+      "screens"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 96,
+    "q": "A strong password should contain letters, numbers, and _____.",
+    "choices": [
+      "videos",
+      "symbols",
+      "photos"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 97,
+    "q": "Always check the _____ of a website before trusting it.",
+    "choices": [
+      "color",
+      "size",
+      "source"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 98,
+    "q": "Do not accept friend requests from _____.",
+    "choices": [
+      "strangers",
+      "teachers",
+      "family"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 99,
+    "q": "Cyberbullying is a _____ part of the internet.",
+    "choices": [
+      "negative",
+      "helpful",
+      "positive"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 100,
+    "q": "If someone bullies you online, you should tell an _____.",
+    "choices": [
+      "adult",
+      "baby",
+      "child"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 101,
+    "q": "Digital footprint is a record of your online _____.",
+    "choices": [
+      "clothes",
+      "food",
+      "activities"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 102,
+    "q": "You cannot easily _____ a digital footprint once it is create",
+    "choices": [
+      "a) see",
+      "erase",
+      "find"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 103,
+    "q": "Employers often check a person's digital footprint before giving them a _____.",
+    "choices": [
+      "house",
+      "job",
+      "car"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 104,
+    "q": "Using the internet wisely is part of digital _____.",
+    "choices": [
+      "friendship",
+      "hardship",
+      "citizenship"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 105,
+    "q": "A good password is like a _____ for your digital house.",
+    "choices": [
+      "door",
+      "window",
+      "key"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 106,
+    "q": "Protecting your personal data is very _____.",
+    "choices": [
+      "important",
+      "useless",
+      "bad"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 107,
+    "q": "We should use technology for our _____.",
+    "choices": [
+      "harm",
+      "benefit",
+      "damage"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 108,
+    "q": "To write a good paragraph, you must start with a _____ sentence.",
+    "choices": [
+      "topic",
+      "closing",
+      "meaningless"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 109,
+    "q": "A blog post should be interesting to _____ the reader.",
+    "choices": [
+      "engage",
+      "annoy",
+      "bore"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 110,
+    "q": "It's helpful to _____ your time between online and offline activities.",
+    "choices": [
+      "ignore",
+      "balance",
+      "forget"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 111,
+    "q": "The internet connects _____ of people globally.",
+    "choices": [
+      "nobody",
+      "millions",
+      "dozens"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 112,
+    "q": "An active footprint is created _____.",
+    "choices": [
+      "unwittingly",
+      "intentionally",
+      "accidentally"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 113,
+    "q": "A passive footprint is created _____ you knowing.",
+    "choices": [
+      "without",
+      "with",
+      "by"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 114,
+    "q": "Websites use _____ to track your passive footprint.",
+    "choices": [
+      "candies",
+      "apples",
+      "cookies"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 115,
+    "q": "Privacy settings control who can _____ your profile.",
+    "choices": [
+      "drink",
+      "view",
+      "eat"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 116,
+    "q": "You should never share your home _____ online.",
+    "choices": [
+      "name",
+      "hobbies",
+      "address"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 117,
+    "q": "When you post a photo, it becomes part of your _____.",
+    "choices": [
+      "physical footprint",
+      "digital footprint",
+      "shoe size"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 118,
+    "q": "Always log _____ of your accounts on public computers.",
+    "choices": [
+      "on",
+      "out",
+      "in"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 119,
+    "q": "Being polite online is just as important as being polite _____.",
+    "choices": [
+      "offline",
+      "online",
+      "inline"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 120,
+    "q": "Technology has changed the way we _____ with each other.",
+    "choices": [
+      "eat",
+      "drink",
+      "communicate"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 121,
+    "q": "Individuals who have grown up with technology are digital _____.",
+    "choices": [
+      "natives",
+      "devices",
+      "tourists"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 122,
+    "q": "She is _____ to Aswan next week.",
+    "choices": [
+      "travels",
+      "travel",
+      "traveling"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 123,
+    "q": "They are _____ dinner outdoors tomorrow.",
+    "choices": [
+      "have",
+      "has",
+      "having"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 124,
+    "q": "English _____ all over the worl",
+    "choices": [
+      "a) is speaking",
+      "speaks",
+      "is spoken"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 125,
+    "q": "Good students _____ for their work.",
+    "choices": [
+      "are rewarded",
+      "reward",
+      "is rewarded"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 126,
+    "q": "The antonym of 'small' is _____.",
+    "choices": [
+      "tiny",
+      "big",
+      "little"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 127,
+    "q": "You should think _____ before posting.",
+    "choices": [
+      "careless",
+      "badly",
+      "carefully"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 128,
+    "q": "A person who is fully grown is an _____.",
+    "choices": [
+      "toddler",
+      "child",
+      "adult"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 129,
+    "q": "To 'experience' means to go _____ something.",
+    "choices": [
+      "through",
+      "in",
+      "on"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 130,
+    "q": "Gen Alpha are children born from _____.",
+    "choices": [
+      "2000",
+      "2010",
+      "1990"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 131,
+    "q": "Parents try to _____ their children's screen time.",
+    "choices": [
+      "increase",
+      "limit",
+      "double"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 132,
+    "q": "The _____ helps you organize your schedule.",
+    "choices": [
+      "fridge",
+      "oven",
+      "calendar"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 133,
+    "q": "They like to share _____ and emojis.",
+    "choices": [
+      "food",
+      "memes",
+      "clothes"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 134,
+    "q": "Working women try to _____ their personal life with work.",
+    "choices": [
+      "reduce",
+      "limit",
+      "balance"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 135,
+    "q": "If people live _____, they communicate using mobiles.",
+    "choices": [
+      "close",
+      "far apart",
+      "near"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 136,
+    "q": "The policemen found a _____ that leads to the criminal.",
+    "choices": [
+      "clue",
+      "clay",
+      "coin"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 137,
+    "q": "A lot of projects _____ in Egypt.",
+    "choices": [
+      "are done",
+      "is done",
+      "does"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 138,
+    "q": "The internet _____ by millions.",
+    "choices": [
+      "are used",
+      "is used",
+      "use"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 139,
+    "q": "Amal felt frustrated, but Yara showed _____.",
+    "choices": [
+      "fear",
+      "anger",
+      "empathy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 140,
+    "q": "Never laugh _____ someone's mistakes.",
+    "choices": [
+      "at",
+      "in",
+      "with"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 141,
+    "q": "If I don't set my privacy settings, my photos will be seen. The password was _____.",
+    "choices": [
+      "hacked",
+      "hooked",
+      "healed"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 142,
+    "q": "Don't put yourself _____ risk.",
+    "choices": [
+      "on",
+      "at",
+      "in"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 143,
+    "q": "You should make _____ that you don't share your location.",
+    "choices": [
+      "do",
+      "take",
+      "sure"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 144,
+    "q": "A passive footprint is left _____.",
+    "choices": [
+      "intentionally",
+      "purposefully",
+      "unintentionally"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 145,
+    "q": "We _____ our grandparents next weeken",
+    "choices": [
+      "a) are visiting",
+      "visit",
+      "visits"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 146,
+    "q": "My room _____ clean.",
+    "choices": [
+      "is kept",
+      "keeps",
+      "keep"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 147,
+    "q": "The synonym of 'protect' is _____.",
+    "choices": [
+      "spoil",
+      "destroy",
+      "save"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 148,
+    "q": "Prefix '_____' gives the opposite of 'comfortable'.",
+    "choices": [
+      "dis-",
+      "in-",
+      "un-"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 149,
+    "q": "Amal was learning from _____ places online.",
+    "choices": [
+      "dangerous",
+      "unreliable",
+      "trustworthy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 150,
+    "q": "My computer _____ by my brother.",
+    "choices": [
+      "is fixed",
+      "fixes",
+      "are fixed"
+    ],
+    "answer": 0
+  }
+]

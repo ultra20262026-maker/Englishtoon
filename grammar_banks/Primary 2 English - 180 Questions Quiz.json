@@ -1,0 +1,1794 @@
+[
+  {
+    "q_num": 1,
+    "q": "I sit on a ________ at school.",
+    "choices": [
+      "desk",
+      "chair",
+      "window"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 2,
+    "q": "The teacher writes on the ________.",
+    "choices": [
+      "bag",
+      "cat",
+      "board"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 3,
+    "q": "\"Hello\" is a classroom ________.",
+    "choices": [
+      "greeting",
+      "shape",
+      "number"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 4,
+    "q": "I put my books in my ________.",
+    "choices": [
+      "pen",
+      "bag",
+      "fan"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 5,
+    "q": "Close the ________, please.",
+    "choices": [
+      "teacher",
+      "student",
+      "door"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 6,
+    "q": "This is ________ eraser.",
+    "choices": [
+      "a",
+      "an",
+      "two"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 7,
+    "q": "That is ________ ruler.",
+    "choices": [
+      "a",
+      "an",
+      "many"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 8,
+    "q": "I put my pencils in the ________ case.",
+    "choices": [
+      "book",
+      "pencil",
+      "ruler"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 9,
+    "q": "At the end of the day, I say ________.",
+    "choices": [
+      "Hello",
+      "Goodbye",
+      "Yes"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 10,
+    "q": "My books are ________ the desk.",
+    "choices": [
+      "in",
+      "on",
+      "under"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 11,
+    "q": "I see a ________. It says meow!",
+    "choices": [
+      "hat",
+      "cat",
+      "map"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 13,
+    "q": "There is a ________ on the wall to show places.",
+    "choices": [
+      "cap",
+      "map",
+      "man"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 14,
+    "q": "Is this ________ student?",
+    "choices": [
+      "a",
+      "an",
+      "the"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 15,
+    "q": "My ________ is kin",
+    "choices": [
+      "I love my school.",
+      "desk",
+      "teacher",
+      "chair"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 16,
+    "q": "We use the ________ to throw paper away.",
+    "choices": [
+      "bin",
+      "pen",
+      "fig"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 17,
+    "q": "Look! That is ________ window. 7/17/26, 1:00 PM Primary 2 English - 180 Questions Quiz file:///C:/Users/Mr Mahmoud Elziadi/Downloads/gemini-code-1784282295252.html 2/20",
+    "choices": [
+      "an",
+      "a",
+      "one"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 18,
+    "q": "My red ________ is on my hea",
+    "choices": [
+      "a) cap",
+      "cat",
+      "car"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 19,
+    "q": "We have ________ pencils in our bag.",
+    "choices": [
+      "a",
+      "an",
+      "some"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 20,
+    "q": "Which word has the 'a' sound like 'cat'?",
+    "choices": [
+      "pen",
+      "hat",
+      "bin"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 21,
+    "q": "Reorder: (is / a / This / map.)",
+    "choices": [
+      "This a is map.",
+      "This is a map.",
+      "Is map a this."
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 22,
+    "q": "Choose the correct spelling:",
+    "choices": [
+      "Teacher",
+      "Techher",
+      "Taecher"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 23,
+    "q": "\"Hello. My ________ is Hany.\"",
+    "choices": [
+      "teacher",
+      "name",
+      "desk"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 24,
+    "q": "A student ________ at a desk.",
+    "choices": [
+      "sits",
+      "sit",
+      "sitting"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 25,
+    "q": "We use a ________ to write.",
+    "choices": [
+      "bin",
+      "pencil",
+      "window"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 26,
+    "q": "\"Open your ________, please.\"",
+    "choices": [
+      "board",
+      "window",
+      "book"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 27,
+    "q": "\"Is this a pen?\" - \"Yes, ________.\"",
+    "choices": [
+      "it is",
+      "is it",
+      "it isn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 28,
+    "q": "Which one is an object?",
+    "choices": [
+      "Cat",
+      "Ruler",
+      "Teacher"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 29,
+    "q": "Complete: C_t, H_t, M_p.",
+    "choices": [
+      "e",
+      "a",
+      "i"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 30,
+    "q": "\"I ________ school.\"",
+    "choices": [
+      "love",
+      "sits",
+      "board"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 31,
+    "q": "A circle is ________.",
+    "choices": [
+      "square",
+      "round",
+      "long"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 32,
+    "q": "A ________ has three sides.",
+    "choices": [
+      "square",
+      "circle",
+      "triangle"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 33,
+    "q": "How ________ balloons are there?",
+    "choices": [
+      "many",
+      "much",
+      "old"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 34,
+    "q": "There ________ four rulers.",
+    "choices": [
+      "is",
+      "are",
+      "am"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 35,
+    "q": "I see a blue ________. 7/17/26, 1:00 PM Primary 2 English - 180 Questions Quiz file:///C:/Users/Mr Mahmoud Elziadi/Downloads/gemini-code-1784282295252.html 4/20",
+    "choices": [
+      "circle",
+      "numbers",
+      "counting"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 36,
+    "q": "1, 2, 3, 4, ________.",
+    "choices": [
+      "six",
+      "five",
+      "zero"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 37,
+    "q": "A box has ________ sides.",
+    "choices": [
+      "four",
+      "one",
+      "zero"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 38,
+    "q": "I have one ________.",
+    "choices": [
+      "bag",
+      "bags",
+      "pencils"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 39,
+    "q": "The sun is ________.",
+    "choices": [
+      "blue",
+      "yellow",
+      "green"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 40,
+    "q": "I eat a sweet ________ on my birthday.",
+    "choices": [
+      "cake",
+      "snake",
+      "grapes"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 41,
+    "q": "Grapes are a ________.",
+    "choices": [
+      "shape",
+      "fruit",
+      "number"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 42,
+    "q": "A ________ lives in a cave.",
+    "choices": [
+      "cake",
+      "snake",
+      "lake"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 43,
+    "q": "I have ________ pencils (2).",
+    "choices": [
+      "one",
+      "two",
+      "three"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 44,
+    "q": "A square has four ________ sides.",
+    "choices": [
+      "equal",
+      "different",
+      "round"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 45,
+    "q": "What ________ is this? - It's a triangle.",
+    "choices": [
+      "color",
+      "shape",
+      "number"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 46,
+    "q": "I have a ________ dog.",
+    "choices": [
+      "box",
+      "brown",
+      "sun"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 47,
+    "q": "\"There ________ one cat.\"",
+    "choices": [
+      "are",
+      "is",
+      "am"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 48,
+    "q": "A ________ is a forest animal.",
+    "choices": [
+      "fox",
+      "bun",
+      "cup"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 49,
+    "q": "We drink from a ________.",
+    "choices": [
+      "cup",
+      "bun",
+      "sun"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 50,
+    "q": "I see ________ (3) notebooks.",
+    "choices": [
+      "two",
+      "three",
+      "four"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 51,
+    "q": "Sound 'u': S_n, B_n, C_p.",
+    "choices": [
+      "a",
+      "u",
+      "o"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 52,
+    "q": "A cake has the long ________ soun",
+    "choices": [
+      "a) a",
+      "e",
+      "i"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 53,
+    "q": "\"How many ________ are there?\"",
+    "choices": [
+      "ruler",
+      "rulers",
+      "a ruler"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 54,
+    "q": "Which is a number? 7/17/26, 1:00 PM Primary 2 English - 180 Questions Quiz file:///C:/Users/Mr Mahmoud Elziadi/Downloads/gemini-code-1784282295252.html 6/20",
+    "choices": [
+      "Red",
+      "Triangle",
+      "Four"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 55,
+    "q": "\"This is a red circle.\" - (Re",
+    "choices": [
+      "is a ________.",
+      "shape",
+      "color",
+      "verb"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 56,
+    "q": "Reorder: (pencils / How / many / are / there?)",
+    "choices": [
+      "How many are there pencils?",
+      "How many pencils are there?",
+      "Pencils are there how many?"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 57,
+    "q": "There is ________ apple in the box.",
+    "choices": [
+      "a",
+      "an",
+      "five"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 58,
+    "q": "Choose the correct spelling:",
+    "choices": [
+      "Graps",
+      "Grapes",
+      "Greps"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 59,
+    "q": "A triangle has ________ sides.",
+    "choices": [
+      "1",
+      "2",
+      "3"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 60,
+    "q": "\"There are ________ bags.\" (for number 5)",
+    "choices": [
+      "four",
+      "five",
+      "three"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 61,
+    "q": "I ________ a picture.",
+    "choices": [
+      "sing",
+      "draw",
+      "sit"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 62,
+    "q": "________ your hand to speak.",
+    "choices": [
+      "Sit",
+      "Raise",
+      "Write"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 63,
+    "q": "I ________ my desk.",
+    "choices": [
+      "clean",
+      "read",
+      "clap"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 64,
+    "q": "I ________ with my friends.",
+    "choices": [
+      "play",
+      "write",
+      "raise"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 65,
+    "q": "She is ________ a book.",
+    "choices": [
+      "reading",
+      "drawing",
+      "singing"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 66,
+    "q": "________ your hands.",
+    "choices": [
+      "Clap",
+      "Sit",
+      "Read"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 67,
+    "q": "I ________ in my notebook.",
+    "choices": [
+      "write",
+      "clean",
+      "sing"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 68,
+    "q": "________ up, please.",
+    "choices": [
+      "Sit",
+      "Stand",
+      "Draw"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 69,
+    "q": "He is ________ a song.",
+    "choices": [
+      "singing",
+      "reading",
+      "writing"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 70,
+    "q": "________ your book.",
+    "choices": [
+      "Open",
+      "Clap",
+      "Sing"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 71,
+    "q": "I ________ a circle on the boar",
+    "choices": [
+      "a) open",
+      "draw",
+      "raise"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 72,
+    "q": "Reorder: (clean / I / class / my.) 7/17/26, 1:00 PM Primary 2 English - 180 Questions Quiz file:///C:/Users/Mr Mahmoud Elziadi/Downloads/gemini-code-1784282295252.html 8/20",
+    "choices": [
+      "I my class clean.",
+      "I clean my class.",
+      "My class I clean."
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 73,
+    "q": "\"________ down on your chair.\"",
+    "choices": [
+      "Stand",
+      "Sit",
+      "Raise"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 74,
+    "q": "I color the ________.",
+    "choices": [
+      "picture",
+      "hands",
+      "song"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 75,
+    "q": "The student is ________ her name.",
+    "choices": [
+      "writing",
+      "singing",
+      "standing"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 76,
+    "q": "\"Close your ________.\"",
+    "choices": [
+      "book",
+      "hands",
+      "circle"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 77,
+    "q": "I listen to a ________.",
+    "choices": [
+      "song",
+      "picture",
+      "desk"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 78,
+    "q": "\"Write ________ name.\"",
+    "choices": [
+      "you",
+      "your",
+      "me"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 79,
+    "q": "I like to ________ with my brother.",
+    "choices": [
+      "play",
+      "raise",
+      "open"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 80,
+    "q": "\"Raise your hand to ________.\"",
+    "choices": [
+      "sleep",
+      "speak",
+      "sit"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 81,
+    "q": "I ________ my book every day.",
+    "choices": [
+      "read",
+      "raise",
+      "draw"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 82,
+    "q": "\"Sing a ________ together.\"",
+    "choices": [
+      "book",
+      "song",
+      "pen"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 83,
+    "q": "She is ________ on the boar",
+    "choices": [
+      "a) drawing",
+      "claping",
+      "sitting"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 84,
+    "q": "I have ________ pencil.",
+    "choices": [
+      "a",
+      "an",
+      "two"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 85,
+    "q": "Reorder: (your / Close / book.)",
+    "choices": [
+      "Close your book.",
+      "Book your close.",
+      "Your close book."
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 86,
+    "q": "I clean ________ classroom.",
+    "choices": [
+      "the",
+      "an",
+      "up"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 87,
+    "q": "\"Show me how you ________ your hands.\"",
+    "choices": [
+      "clap",
+      "read",
+      "draw"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 88,
+    "q": "I write with my ________.",
+    "choices": [
+      "hand",
+      "book",
+      "board"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 89,
+    "q": "We ________ in the playgroun",
+    "choices": [
+      "a) play",
+      "write",
+      "draw"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 90,
+    "q": "\"Stand ________ when the teacher comes.\"",
+    "choices": [
+      "up",
+      "down",
+      "next"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 91,
+    "q": "This is my ________. She is my mother's mother.",
+    "choices": [
+      "father",
+      "grandfather",
+      "grandmother"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 92,
+    "q": "He is my ________. He is my father's father.",
+    "choices": [
+      "brother",
+      "grandfather",
+      "mother"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 93,
+    "q": "I ________ my teeth in the morning.",
+    "choices": [
+      "wash",
+      "brush",
+      "eat"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 94,
+    "q": "I ________ up at seven o'clock.",
+    "choices": [
+      "sleep",
+      "wake",
+      "walk"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 95,
+    "q": "She ________ lunch with her family.",
+    "choices": [
+      "eats",
+      "drinks",
+      "brushes"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 96,
+    "q": "I ________ my hands before dinner.",
+    "choices": [
+      "wash",
+      "brush",
+      "read"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 97,
+    "q": "He ________ at night.",
+    "choices": [
+      "sleeps",
+      "wakes",
+      "eats"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 98,
+    "q": "My ________ is my father's sister.",
+    "choices": [
+      "aunt",
+      "uncle",
+      "sister"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 99,
+    "q": "Who is ________? - This is my brother.",
+    "choices": [
+      "this",
+      "these",
+      "that"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 100,
+    "q": "My ________ helps me with my math homework.",
+    "choices": [
+      "father",
+      "glue",
+      "cube"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 101,
+    "q": "Which word has 'th' like 'thumb'?",
+    "choices": [
+      "math",
+      "this",
+      "mother"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 102,
+    "q": "The red ________ smells nice.",
+    "choices": [
+      "rose",
+      "nose",
+      "rope"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 103,
+    "q": "I use ________ to fix my paper.",
+    "choices": [
+      "glue",
+      "cube",
+      "nose"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 104,
+    "q": "A ________ has six faces.",
+    "choices": [
+      "cube",
+      "cub",
+      "rope"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 105,
+    "q": "I ________ to school with my sister.",
+    "choices": [
+      "walk",
+      "sleep",
+      "wash"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 106,
+    "q": "My ________ is small and brown.",
+    "choices": [
+      "nose",
+      "brother",
+      "father"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 107,
+    "q": "We hear ________ during a storm.",
+    "choices": [
+      "thunder",
+      "thumb",
+      "math"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 108,
+    "q": "This book is very ________.",
+    "choices": [
+      "thick",
+      "thin",
+      "thumb"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 109,
+    "q": "This pencil is very ________.",
+    "choices": [
+      "thick",
+      "thin",
+      "math"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 110,
+    "q": "Reorder: (brush / I / teeth. / my)",
+    "choices": [
+      "I brush my teeth.",
+      "My teeth I brush.",
+      "Brush my teeth I."
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 111,
+    "q": "Who is she? - She is my ________.",
+    "choices": [
+      "sister",
+      "brother",
+      "father"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 112,
+    "q": "We ________ lunch at 2 o'clock.",
+    "choices": [
+      "eat",
+      "wake up",
+      "sleep"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 113,
+    "q": "My ________ works at school.",
+    "choices": [
+      "mother",
+      "brush",
+      "thumb"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 114,
+    "q": "\"I brush my ________.\"",
+    "choices": [
+      "teeth",
+      "face",
+      "eyes"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 115,
+    "q": "\"I wash my ________.\"",
+    "choices": [
+      "hair",
+      "face",
+      "teeth"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 116,
+    "q": "This is ________ grandfather.",
+    "choices": [
+      "my",
+      "me",
+      "I"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 117,
+    "q": "I like to ________ my book.",
+    "choices": [
+      "read",
+      "brush",
+      "wake up"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 118,
+    "q": "My brother is ________. 7/17/26, 1:00 PM Primary 2 English - 180 Questions Quiz file:///C:/Users/Mr Mahmoud Elziadi/Downloads/gemini-code-1784282295252.html 13/20",
+    "choices": [
+      "big",
+      "rose",
+      "thunder"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 119,
+    "q": "A ________ has one thumb on each han",
+    "choices": [
+      "a) baby",
+      "person",
+      "cat"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 120,
+    "q": "\"Goodbye, ________!\"",
+    "choices": [
+      "mom",
+      "brush",
+      "wake"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 121,
+    "q": "The cat is ________ the table.",
+    "choices": [
+      "in",
+      "under",
+      "next"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 122,
+    "q": "I sleep in the ________.",
+    "choices": [
+      "kitchen",
+      "bedroom",
+      "garden"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 123,
+    "q": "My mom cooks in the ________.",
+    "choices": [
+      "kitchen",
+      "bathroom",
+      "bedroom"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 124,
+    "q": "The lamp is ________ to the be",
+    "choices": [
+      "a) next",
+      "on",
+      "in"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 125,
+    "q": "The flowers are in the ________.",
+    "choices": [
+      "garden",
+      "bathroom",
+      "kitchen"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 126,
+    "q": "We watch TV in the ________ room.",
+    "choices": [
+      "living",
+      "dining",
+      "bed"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 127,
+    "q": "The ball is ________ the box.",
+    "choices": [
+      "on",
+      "in",
+      "next"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 128,
+    "q": "I wash my face in the ________.",
+    "choices": [
+      "bathroom",
+      "bedroom",
+      "dining room"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 129,
+    "q": "Where ________ the flowers?",
+    "choices": [
+      "is",
+      "are",
+      "am"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 130,
+    "q": "There ________ a lamp on the table.",
+    "choices": [
+      "is",
+      "are",
+      "am"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 131,
+    "q": "The car is ________ the table.",
+    "choices": [
+      "on",
+      "under",
+      "next to"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 132,
+    "q": "We eat in the ________ room.",
+    "choices": [
+      "dining",
+      "bed",
+      "bath"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 133,
+    "q": "My favorite room is my ________.",
+    "choices": [
+      "bedroom",
+      "lamp",
+      "couch"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 134,
+    "q": "There is a ________ in the living room.",
+    "choices": [
+      "couch",
+      "bed",
+      "shower"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 135,
+    "q": "I ________ my mom at home.",
+    "choices": [
+      "help",
+      "cook",
+      "watch"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 136,
+    "q": "My father ________ TV. 7/17/26, 1:00 PM Primary 2 English - 180 Questions Quiz file:///C:/Users/Mr Mahmoud Elziadi/Downloads/gemini-code-1784282295252.html 15/20",
+    "choices": [
+      "watches",
+      "cooks",
+      "cleans"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 137,
+    "q": "I ________ my bedroom every day.",
+    "choices": [
+      "clean",
+      "help",
+      "cook"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 138,
+    "q": "My mother ________ dinner.",
+    "choices": [
+      "cooks",
+      "watches",
+      "helps"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 139,
+    "q": "Which word has 'sh' sound like 'ship'?",
+    "choices": [
+      "fish",
+      "thin",
+      "chair"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 140,
+    "q": "I use a ________ to clean my teeth.",
+    "choices": [
+      "brush",
+      "dish",
+      "shop"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 141,
+    "q": "The ________ is in the se",
+    "choices": [
+      "a) ship",
+      "shop",
+      "sheep"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 142,
+    "q": "A ________ gives us wool.",
+    "choices": [
+      "sheep",
+      "ship",
+      "dish"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 143,
+    "q": "I put my food on a ________.",
+    "choices": [
+      "dish",
+      "brush",
+      "fish"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 144,
+    "q": "Reorder: (lamp / The / is / on / the table.)",
+    "choices": [
+      "The lamp is on the table.",
+      "On the table the lamp is.",
+      "Lamp the table on is."
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 145,
+    "q": "\"Where ________ the cat?\" - \"It's on the mat.\"",
+    "choices": [
+      "is",
+      "are",
+      "am"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 146,
+    "q": "We cook lunch in the ________.",
+    "choices": [
+      "kitchen",
+      "living room",
+      "garden"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 147,
+    "q": "I have a big ________ in my room.",
+    "choices": [
+      "bed",
+      "kitchen",
+      "bathroom"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 148,
+    "q": "The plant is ________ the window.",
+    "choices": [
+      "next to",
+      "in",
+      "under"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 149,
+    "q": "\"There ________ two chairs in the room.\"",
+    "choices": [
+      "are",
+      "is",
+      "am"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 150,
+    "q": "I ________ my bedroom.",
+    "choices": [
+      "love",
+      "next",
+      "on"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 151,
+    "q": "Where ________ you sleep?",
+    "choices": [
+      "do",
+      "does",
+      "are"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 152,
+    "q": "I sleep in the ________.",
+    "choices": [
+      "bedroom",
+      "kitchen",
+      "hall"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 153,
+    "q": "Where ________ she cook dinner?",
+    "choices": [
+      "do",
+      "does",
+      "is"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 154,
+    "q": "I brush my teeth in the ________. 7/17/26, 1:00 PM Primary 2 English - 180 Questions Quiz file:///C:/Users/Mr Mahmoud Elziadi/Downloads/gemini-code-1784282295252.html 17/20",
+    "choices": [
+      "bathroom",
+      "garden",
+      "kitchen"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 155,
+    "q": "I watch TV in the ________ room.",
+    "choices": [
+      "living",
+      "dining",
+      "hall"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 156,
+    "q": "There ________ tables in the kitchen.",
+    "choices": [
+      "are",
+      "is",
+      "am"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 157,
+    "q": "There ________ a fridge in the kitchen.",
+    "choices": [
+      "is",
+      "are",
+      "am"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 158,
+    "q": "The ________ is the space between rooms.",
+    "choices": [
+      "hall",
+      "balcony",
+      "kitchen"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 159,
+    "q": "I can see the street from my ________.",
+    "choices": [
+      "balcony",
+      "bathroom",
+      "dining room"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 160,
+    "q": "\"Where do you eat?\" - \"In the ________.\"",
+    "choices": [
+      "dining room",
+      "bathroom",
+      "hall"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 161,
+    "q": "Reorder: (do / watch / Where / you / TV?)",
+    "choices": [
+      "Where do you watch TV?",
+      "Where you watch TV do?",
+      "Do you where watch TV?"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 162,
+    "q": "\"There is a ________ in the bedroom.\"",
+    "choices": [
+      "bed",
+      "fridge",
+      "shower"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 163,
+    "q": "I wash my hands ________ the bathroom.",
+    "choices": [
+      "in",
+      "on",
+      "under"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 164,
+    "q": "Is there a TV? - Yes, ________ is.",
+    "choices": [
+      "there",
+      "they",
+      "it"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 165,
+    "q": "Are there ________ windows?",
+    "choices": [
+      "any",
+      "a",
+      "an"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 166,
+    "q": "My brother ________ the dishes.",
+    "choices": [
+      "washes",
+      "cleans",
+      "cooks"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 167,
+    "q": "My sister ________ a book in be",
+    "choices": [
+      "a) reads",
+      "reads",
+      "washes"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 168,
+    "q": "We have ________ chairs next to the table.",
+    "choices": [
+      "two",
+      "a",
+      "an"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 169,
+    "q": "The ________ is for keeping food col",
+    "choices": [
+      "a) fridge",
+      "bed",
+      "couch"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 170,
+    "q": "My favorite ________ is the balcony.",
+    "choices": [
+      "room",
+      "place",
+      "table"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 171,
+    "q": "Where is ________ table?",
+    "choices": [
+      "the",
+      "an",
+      "any"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 172,
+    "q": "I watch ________ with my family.",
+    "choices": [
+      "TV",
+      "bed",
+      "shower"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 173,
+    "q": "Reorder: (is / a / There / fridge.) 7/17/26, 1:00 PM Primary 2 English - 180 Questions Quiz file:///C:/Users/Mr Mahmoud Elziadi/Downloads/gemini-code-1784282295252.html 19/20",
+    "choices": [
+      "There is a fridge.",
+      "A fridge there is.",
+      "There a fridge is."
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 174,
+    "q": "In the kitchen, there are ________.",
+    "choices": [
+      "plates",
+      "beds",
+      "showers"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 175,
+    "q": "\"Is it next to the window?\" - \"Yes, ________ is.\"",
+    "choices": [
+      "it",
+      "there",
+      "he"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 176,
+    "q": "Which word rhymes with 'lake'?",
+    "choices": [
+      "cake",
+      "cat",
+      "car"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 177,
+    "q": "Which word rhymes with 'bin'?",
+    "choices": [
+      "thin",
+      "ten",
+      "tan"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 178,
+    "q": "My mom ________ lunch in the dining room.",
+    "choices": [
+      "serves",
+      "cooks",
+      "cleans"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 179,
+    "q": "I like my ________ very much.",
+    "choices": [
+      "home",
+      "hall",
+      "under"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 180,
+    "q": "Goodbye, unit ________!",
+    "choices": [
+      "six",
+      "house",
+      "home"
+    ],
+    "answer": 0
+  }
+]

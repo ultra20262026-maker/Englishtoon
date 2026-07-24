@@ -1,0 +1,189 @@
+[
+  {
+    "q_num": 8,
+    "q": "My friends and I met at a sports _____.",
+    "choices": [
+      "theme park",
+      "restaurant",
+      "bakery",
+      "club"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 20,
+    "q": "I can buy bread and cakes at the _____.",
+    "choices": [
+      "supermarket",
+      "theme park",
+      "restaurant",
+      "bakery"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 31,
+    "q": "Where can you play tennis?",
+    "choices": [
+      "restaurant",
+      "coffee shop",
+      "supermarket",
+      "bakery"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 43,
+    "q": "Fresh baked goods are at the _____.",
+    "choices": [
+      "Sports club",
+      "Theme park",
+      "Supermarket",
+      "Restaurant"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 53,
+    "q": "She was born _____ March.",
+    "choices": [
+      "theme park",
+      "supermarket",
+      "coffee shop",
+      "club"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 65,
+    "q": "It gets cold _____ winter.",
+    "choices": [
+      "on",
+      "at",
+      "in",
+      "at"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 77,
+    "q": "The air in the village is very _____.",
+    "choices": [
+      "meeting",
+      "field",
+      "animals",
+      "animals"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 89,
+    "q": "The concert is _____ October.",
+    "choices": [
+      "malls",
+      "towers",
+      "cottages",
+      "squares"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 98,
+    "q": "The famous Icon _____ will be built there.",
+    "choices": [
+      "at",
+      "in",
+      "on",
+      "increase traffic"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 110,
+    "q": "The police officer wears a ba_____.",
+    "choices": [
+      "steel",
+      "plastic",
+      "paper",
+      "smart"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 122,
+    "q": "The word 'bridge' has the _____ soun",
+    "choices": [
+      "a) igh",
+      "tch",
+      "dge",
+      "tch"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 132,
+    "q": "The word 'light' uses the _____ trigraph.",
+    "choices": [
+      "dge",
+      "tch",
+      "igh",
+      "wide"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 141,
+    "q": "The city is a large _____ with many places to visit.",
+    "choices": [
+      "systems",
+      "cottages",
+      "barns",
+      "Alexandria"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 152,
+    "q": "The city is full of tall _____.",
+    "choices": [
+      "meeting",
+      "square",
+      "supermarket",
+      "field"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 164,
+    "q": "People travel by _____ in the city.",
+    "choices": [
+      "animals",
+      "people",
+      "plants",
+      "families"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 175,
+    "q": "A village is much _____ than a city.",
+    "choices": [
+      "friendly",
+      "sad",
+      "angry",
+      "lights"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 180,
+    "q": "Egypt is building new cities to help the _____.",
+    "choices": [
+      "clean",
+      "fresh",
+      "polluted",
+      "barns"
+    ],
+    "answer": 0
+  }
+]

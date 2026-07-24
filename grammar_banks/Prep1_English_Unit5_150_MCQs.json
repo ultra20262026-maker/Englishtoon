@@ -1,0 +1,1504 @@
+[
+  {
+    "q_num": 1,
+    "q": "My brother has the _____ to study abroad one day.",
+    "choices": [
+      "patient",
+      "pretend",
+      "passion"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 2,
+    "q": "We are going to have a new project so we need a skillful _____.",
+    "choices": [
+      "designer",
+      "designs",
+      "design"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 3,
+    "q": "Your dream will become a _____ if you start planning now.",
+    "choices": [
+      "fake",
+      "fail",
+      "reality"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 4,
+    "q": "I wish to find a _____ that makes me happy.",
+    "choices": [
+      "profile",
+      "design",
+      "profession"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 5,
+    "q": "This workshop is a great _____ to learn about different careers.",
+    "choices": [
+      "opportunity",
+      "plan",
+      "goal"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 6,
+    "q": "The word 'succeed' is the opposite of '_____'.",
+    "choices": [
+      "fill",
+      "feel",
+      "fail"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 7,
+    "q": "A _____ is a natural skill or ability.",
+    "choices": [
+      "dream",
+      "goal",
+      "talent"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 8,
+    "q": "My teacher said I have a real talent, and that gave me more _____.",
+    "choices": [
+      "patience",
+      "bravery",
+      "confidence"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 9,
+    "q": "Dr. El-Baz helped the Apollo _____ select safe landing sites on the moon.",
+    "choices": [
+      "astronomers",
+      "pilots",
+      "astronauts"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 10,
+    "q": "Dr. El-Baz studied _____ at Ain Shams University in Egypt.",
+    "choices": [
+      "geology",
+      "physics",
+      "medicine"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 11,
+    "q": "To achieve our goals, we need time, _____ and support from others.",
+    "choices": [
+      "energy",
+      "engines",
+      "effort"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 12,
+    "q": "My sister chose painting as it _____ her talent.",
+    "choices": [
+      "goes",
+      "has",
+      "matches"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 13,
+    "q": "Working hard helps students _____ their goals.",
+    "choices": [
+      "achieve",
+      "go",
+      "read"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 14,
+    "q": "I should work very hard to make my dreams come _____.",
+    "choices": [
+      "true",
+      "go",
+      "find"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 15,
+    "q": "Doctors need training in hospitals so they can learn how to look _____ patients.",
+    "choices": [
+      "for",
+      "into",
+      "after"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 16,
+    "q": "After school, I will go to _____ to study medicine.",
+    "choices": [
+      "bakery",
+      "university",
+      "factory"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 17,
+    "q": "I will also need to _____ in hospitals.",
+    "choices": [
+      "train",
+      "university",
+      "success"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 18,
+    "q": "This training will help me have the _____ I need for success.",
+    "choices": [
+      "times",
+      "skills",
+      "failures"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 19,
+    "q": "We should _____ every skill we need to succee",
+    "choices": [
+      "a) develop",
+      "reduce",
+      "neglect"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 20,
+    "q": "His _____ is to study medicine when he leaves school.",
+    "choices": [
+      "role",
+      "goal",
+      "rule"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 21,
+    "q": "If you work hard and believe _____ yourself, you will reach your goals.",
+    "choices": [
+      "of",
+      "at",
+      "in"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 22,
+    "q": "Training will help you have the skills you need for _____ in your profession.",
+    "choices": [
+      "success",
+      "losing",
+      "failure"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 23,
+    "q": "We must choose the profession that _____ our abilities and talents.",
+    "choices": [
+      "matches",
+      "leaves",
+      "gives"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 24,
+    "q": "A graphic _____ creates digital art and posters.",
+    "choices": [
+      "doctor",
+      "vet",
+      "designer"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 25,
+    "q": "If you visit our website, you are going to discover a whole world of _____.",
+    "choices": [
+      "struggles",
+      "hardships",
+      "opportunities"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 26,
+    "q": "An _____ goes to space to explore the moon and planets.",
+    "choices": [
+      "pilot",
+      "astronaut",
+      "astronomer"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 27,
+    "q": "_____ is the study of rocks, mountains, and the Earth.",
+    "choices": [
+      "Geology",
+      "Medicine",
+      "Biology"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 28,
+    "q": "If you have a _____ for something, you love doing it very much.",
+    "choices": [
+      "hate",
+      "passion",
+      "fear"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 29,
+    "q": "She wants to be a _____ in a big hospital to help sick people.",
+    "choices": [
+      "doctor",
+      "astronaut",
+      "designer"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 30,
+    "q": "You must put a lot of _____ into your studies to succee",
+    "choices": [
+      "a) affect",
+      "effort",
+      "afford"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 31,
+    "q": "My friends _____ take part in the poetry competition.",
+    "choices": [
+      "going to",
+      "is going to",
+      "are going to"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 32,
+    "q": "Malak _____ eat Koshari for lunch today.",
+    "choices": [
+      "going to",
+      "are going to",
+      "is going to"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 33,
+    "q": "It is cloudy today. It _____.",
+    "choices": [
+      "rains",
+      "is going to rain",
+      "raining"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 34,
+    "q": "My plan is to study medicine. I _____ study medicine.",
+    "choices": [
+      "will",
+      "going to",
+      "am going to"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 35,
+    "q": "She has an intention to be a graphic designer. She _____ be a designer.",
+    "choices": [
+      "is going to",
+      "going",
+      "are going to"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 36,
+    "q": "They have decided to join the football team. They _____ join the team.",
+    "choices": [
+      "are going to",
+      "is going to",
+      "going to"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 37,
+    "q": "Adel _____ to London next week. It's his plan.",
+    "choices": [
+      "is going to travel",
+      "travels",
+      "traveling"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 38,
+    "q": "What _____ you going to do tomorrow?",
+    "choices": [
+      "is",
+      "are",
+      "do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 39,
+    "q": "I _____ going to visit my uncle this week.",
+    "choices": [
+      "is",
+      "am",
+      "are"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 40,
+    "q": "She _____ her grandparents next week. This is her intention.",
+    "choices": [
+      "visits",
+      "is going to visit",
+      "will visit"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 41,
+    "q": "He _____ medicine in the future. This is his goal.",
+    "choices": [
+      "will study",
+      "is going to study",
+      "studies"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 42,
+    "q": "Look at those dark clouds! It _____.",
+    "choices": [
+      "rains",
+      "is going to rain",
+      "will rain"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 43,
+    "q": "I have decide",
+    "choices": [
+      "I _____ buy a new",
+      "am going to",
+      "buy",
+      "will"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 44,
+    "q": "Are you _____ to spend your holiday abroad?",
+    "choices": [
+      "going",
+      "go",
+      "goes"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 45,
+    "q": "Where _____ he going to spend his weekend?",
+    "choices": [
+      "is",
+      "are",
+      "do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 46,
+    "q": "_____ they going to play football?",
+    "choices": [
+      "Do",
+      "Is",
+      "Are"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 47,
+    "q": "She is _____ to buy a new dress.",
+    "choices": [
+      "go",
+      "goes",
+      "going"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 48,
+    "q": "We _____ going to watch a movie tonight.",
+    "choices": [
+      "am",
+      "are",
+      "is"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 49,
+    "q": "He isn't _____ to travel alone.",
+    "choices": [
+      "goes",
+      "go",
+      "going"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 50,
+    "q": "I am not _____ to eat this pizz",
+    "choices": [
+      "a) go",
+      "goes",
+      "going"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 51,
+    "q": "What is she going to _____?",
+    "choices": [
+      "wear",
+      "wearing",
+      "wears"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 52,
+    "q": "They are going to _____ their homework later.",
+    "choices": [
+      "does",
+      "doing",
+      "do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 53,
+    "q": "Is Ali going to _____ us?",
+    "choices": [
+      "visit",
+      "visiting",
+      "visits"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 54,
+    "q": "We are going to _____ a new language.",
+    "choices": [
+      "learning",
+      "learns",
+      "learn"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 55,
+    "q": "I am going to _____ my friend tomorrow.",
+    "choices": [
+      "meets",
+      "meet",
+      "meeting"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 56,
+    "q": "My parents _____ going to buy a new car.",
+    "choices": [
+      "are",
+      "do",
+      "is"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 57,
+    "q": "She is going to _____ a cake for the party.",
+    "choices": [
+      "baking",
+      "bake",
+      "bakes"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 58,
+    "q": "It is very col",
+    "choices": [
+      "It is going to _____.",
+      "snowing",
+      "snows",
+      "snow"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 59,
+    "q": "Are we going to _____ the match?",
+    "choices": [
+      "win",
+      "winning",
+      "wins"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 60,
+    "q": "I _____ going to be a vet when I grow up.",
+    "choices": [
+      "are",
+      "is",
+      "am"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 61,
+    "q": "When the machine didn't work perfectly, some members of the team felt _____.",
+    "choices": [
+      "proud",
+      "happy",
+      "discouraged"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 62,
+    "q": "Karim made a mistake, but no one _____ him. Instead, they helped him.",
+    "choices": [
+      "solved",
+      "passed",
+      "blamed"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 63,
+    "q": "Instead of blaming Karim, they helped him to _____ it.",
+    "choices": [
+      "fix",
+      "pass",
+      "hit"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 64,
+    "q": "_____ people don't feel comfort in dealing with strangers.",
+    "choices": [
+      "Shy",
+      "Cunning",
+      "Brave"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 65,
+    "q": "Respect, teamwork, courage and _____ are the values we learned from the story.",
+    "choices": [
+      "doublework",
+      "determination",
+      "individual work"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 66,
+    "q": "The children were proud _____ what they built-not just the machine, but the friendship.",
+    "choices": [
+      "in",
+      "of",
+      "at"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 67,
+    "q": "The team worked late, _____ each other.",
+    "choices": [
+      "supporting",
+      "blaming",
+      "ignoring"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 68,
+    "q": "They _____ every idea from the team members.",
+    "choices": [
+      "blamed",
+      "respected",
+      "ignored"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 69,
+    "q": "They organized the work when _____ tasks.",
+    "choices": [
+      "breaking",
+      "dividing",
+      "hiding"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 70,
+    "q": "Why shouldn't we _____ other members of the team who make mistakes?",
+    "choices": [
+      "help",
+      "support",
+      "blame"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 71,
+    "q": "It is important to have a clear _____ when doing a project.",
+    "choices": [
+      "blame",
+      "mistake",
+      "purpose"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 72,
+    "q": "The children were proud of the _____ they share",
+    "choices": [
+      "a) sadness",
+      "machines",
+      "friendship"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 73,
+    "q": "Lily felt left out because her ideas were _____.",
+    "choices": [
+      "respected",
+      "ignored",
+      "supported"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 74,
+    "q": "Sara reminded them, 'We can't _____ up now.'",
+    "choices": [
+      "take",
+      "feel",
+      "give"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 75,
+    "q": "Everyone's ideas _____. We are a team.",
+    "choices": [
+      "matter",
+      "drop",
+      "fail"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 76,
+    "q": "Even when their ideas failed at first, they kept _____.",
+    "choices": [
+      "giving up",
+      "trying",
+      "sleeping"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 77,
+    "q": "They shared _____ along the way.",
+    "choices": [
+      "respect",
+      "hate",
+      "blame"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 78,
+    "q": "Working in a team teaches students _____ and responsibility.",
+    "choices": [
+      "cooperation",
+      "wasting time",
+      "laziness"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 79,
+    "q": "Farida Osman is a famous Egyptian _____.",
+    "choices": [
+      "swimmer",
+      "footballer",
+      "runner"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 80,
+    "q": "Farida was born in 1995 in _____.",
+    "choices": [
+      "Luxor",
+      "Cairo",
+      "Alexandria"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 81,
+    "q": "She started swimming when she was _____ years ol",
+    "choices": [
+      "a) five",
+      "seven",
+      "ten"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 82,
+    "q": "She practices every day to become _____.",
+    "choices": [
+      "worse",
+      "better",
+      "slower"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 83,
+    "q": "She won a bronze medal in _____.",
+    "choices": [
+      "2010",
+      "2017",
+      "2020"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 84,
+    "q": "Farida is an example for many young _____ in Egypt.",
+    "choices": [
+      "doctors",
+      "teachers",
+      "athletes"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 85,
+    "q": "She shows that with hard work, you can achieve great _____.",
+    "choices": [
+      "failure",
+      "laziness",
+      "success"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 86,
+    "q": "She wants to make Egypt _____.",
+    "choices": [
+      "proud",
+      "ashamed",
+      "sad"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 87,
+    "q": "The word 'tournaments' means _____.",
+    "choices": [
+      "friends",
+      "competitions",
+      "schools"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 88,
+    "q": "Farida is very _____ in the water.",
+    "choices": [
+      "slow",
+      "fast",
+      "lazy"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 89,
+    "q": "She dreams of winning more _____.",
+    "choices": [
+      "books",
+      "medals",
+      "bags"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 90,
+    "q": "Saving electricity is important for both yourself and the _____.",
+    "choices": [
+      "sky",
+      "street",
+      "environment"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 91,
+    "q": "A vet is a doctor who _____ animals.",
+    "choices": [
+      "raises",
+      "treats",
+      "eats"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 92,
+    "q": "_____ for sick animals is a good side in working as a vet.",
+    "choices": [
+      "Cared",
+      "Cares",
+      "Caring"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 93,
+    "q": "Helping animals makes a _____ to them and their owners.",
+    "choices": [
+      "differs",
+      "difference",
+      "different"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 94,
+    "q": "You can make a _____ map to show your future dreams.",
+    "choices": [
+      "road",
+      "mind",
+      "traffic"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 95,
+    "q": "You will succeed if you work hard and stay _____.",
+    "choices": [
+      "focused",
+      "focuses",
+      "focus"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 96,
+    "q": "'the boys books are on the desk' - > the _____ books are on the desk.",
+    "choices": [
+      "boys'",
+      "boys",
+      "boy's"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 97,
+    "q": "'I dont smoke at all' -> I _____ smoke at all.",
+    "choices": [
+      "don't",
+      "doesn't",
+      "didn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 98,
+    "q": "'malik s mobile is expensive' -> _____ mobile is expensive.",
+    "choices": [
+      "Malik",
+      "Maliks",
+      "Malik's"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 99,
+    "q": "A _____ treats sick animals.",
+    "choices": [
+      "vet",
+      "surgeon",
+      "dentist"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 100,
+    "q": "I have a special _____ for drawing.",
+    "choices": [
+      "talent",
+      "play",
+      "dreams"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 101,
+    "q": "He _____ medicine in the future. This is his goal.",
+    "choices": [
+      "studied",
+      "is going to study",
+      "studies"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 102,
+    "q": "The machine used rainwater to water plants and clean small _____.",
+    "choices": [
+      "runways",
+      "passageways",
+      "pathways"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 103,
+    "q": "If you want to succeed, you need to _____ your next steps carefully.",
+    "choices": [
+      "walk",
+      "plan",
+      "plant"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 104,
+    "q": "Our dreams will _____ true when we exert more efforts.",
+    "choices": [
+      "raise",
+      "come",
+      "leave"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 105,
+    "q": "We must choose the profession that _____ our abilities and talents.",
+    "choices": [
+      "leaves",
+      "matches",
+      "gives"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 106,
+    "q": "If you visit our website, you are going to discover a whole world of _____ with us.",
+    "choices": [
+      "hardships",
+      "opportunities",
+      "struggles"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 107,
+    "q": "What should people do to _____ their goals in the future?",
+    "choices": [
+      "do",
+      "give",
+      "achieve"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 108,
+    "q": "He has the _____ to study abroad one day.",
+    "choices": [
+      "job",
+      "rule",
+      "passion"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 109,
+    "q": "The word 'succeed' is the opposite of '_____'.",
+    "choices": [
+      "fail",
+      "fill",
+      "feel"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 110,
+    "q": "'Determination' means not giving _____ even when things are har",
+    "choices": [
+      "a) in",
+      "out",
+      "up"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 111,
+    "q": "He _____ to London next week. It's his plan.",
+    "choices": [
+      "travels",
+      "traveled",
+      "is going to travel"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 112,
+    "q": "If you work hard and believe _____ yourself, you will reach your goals.",
+    "choices": [
+      "of",
+      "at",
+      "in"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 113,
+    "q": "To _____ your goals, you must work har",
+    "choices": [
+      "a) reach",
+      "refuse",
+      "leave"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 114,
+    "q": "I am _____ to visit my uncle this week. This is my plan.",
+    "choices": [
+      "goes",
+      "go",
+      "going"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 115,
+    "q": "_____ is a natural skill or ability.",
+    "choices": [
+      "Dream",
+      "Talent",
+      "Goal"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 116,
+    "q": "Dr. El-Baz helped the _____ select safe landing sites on the moon.",
+    "choices": [
+      "astronomers",
+      "pilots",
+      "astronauts"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 117,
+    "q": "To achieve our goals, we need time, _____ and support from others.",
+    "choices": [
+      "energy",
+      "engines",
+      "effort"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 118,
+    "q": "After school, I will go to _____ to study medicine.",
+    "choices": [
+      "club",
+      "hospital",
+      "university"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 119,
+    "q": "Working hard helps students _____ their goals.",
+    "choices": [
+      "do",
+      "achieve",
+      "read"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 120,
+    "q": "I wish to _____ a profession that makes me happy.",
+    "choices": [
+      "finding",
+      "find",
+      "found"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 121,
+    "q": "A _____ gives his time and effort to help others for free.",
+    "choices": [
+      "plumber",
+      "doctor",
+      "volunteer"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 122,
+    "q": "I always use _____ mode to protect my eyes in low light.",
+    "choices": [
+      "evening",
+      "morning",
+      "night"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 123,
+    "q": "Something that is difficult to do and tests someone's ability to compete is a _____.",
+    "choices": [
+      "competition",
+      "completion",
+      "challenge"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 124,
+    "q": "The verb '_____' means to make something better.",
+    "choices": [
+      "destroy",
+      "improve",
+      "spoil"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 125,
+    "q": "When we show care and kindness to people, we _____ them.",
+    "choices": [
+      "respect",
+      "refuse",
+      "hate"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 126,
+    "q": "Dr. Gamal Hemdan _____ the State Appreciation Award in 1986.",
+    "choices": [
+      "hated",
+      "won",
+      "lost"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 127,
+    "q": "Responsible is the antonym of _____.",
+    "choices": [
+      "careless",
+      "careful",
+      "wise"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 128,
+    "q": "We should develop our _____ to get a good jo",
+    "choices": [
+      "a) scenes",
+      "skills",
+      "skins"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 129,
+    "q": "To _____ your goals, you must work har",
+    "choices": [
+      "a) refuse",
+      "reach",
+      "leave"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 130,
+    "q": "Rules are sets of _____ that people must follow.",
+    "choices": [
+      "corruptions",
+      "information",
+      "instructions"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 131,
+    "q": "What can you _____ in difficult situations?",
+    "choices": [
+      "did",
+      "does",
+      "do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 132,
+    "q": "She _____ drives her car in rush hours.",
+    "choices": [
+      "never",
+      "didn't",
+      "doesn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 133,
+    "q": "Where did she _____ her school books?",
+    "choices": [
+      "left",
+      "leave",
+      "leaves"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 134,
+    "q": "If you _____ stay up late, you will get up early.",
+    "choices": [
+      "didn't",
+      "don't",
+      "doesn't"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 135,
+    "q": "They _____ Alex next summer. It's their plan.",
+    "choices": [
+      "will visit",
+      "visits",
+      "are going to visit"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 136,
+    "q": "Drivers must _____ traffic rules.",
+    "choices": [
+      "followed",
+      "follow",
+      "following"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 137,
+    "q": "When I was on holiday, I _____ to the beach every day.",
+    "choices": [
+      "go",
+      "goes",
+      "went"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 138,
+    "q": "Hady _____ his room at the moment.",
+    "choices": [
+      "organize",
+      "organizes",
+      "is organizing"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 139,
+    "q": "I _____ my lunch at 3 o'clock.",
+    "choices": [
+      "having",
+      "have usually",
+      "usually have"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 140,
+    "q": "It isn't allowed for visitors to smoke in hospitals. You _____ smoke.",
+    "choices": [
+      "mustn't",
+      "must",
+      "should"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 141,
+    "q": "They've planned to buy a new car. They _____ buy a new car.",
+    "choices": [
+      "go to",
+      "are going to",
+      "will"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 142,
+    "q": "Ali never _____ his tablet late at night.",
+    "choices": [
+      "using",
+      "uses",
+      "use"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 143,
+    "q": "What _____ you buy at the market last Friday?",
+    "choices": [
+      "does",
+      "did",
+      "do"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 144,
+    "q": "Are they _____ to spend their holiday abroad?",
+    "choices": [
+      "going",
+      "goes",
+      "go"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 145,
+    "q": "She is _____ an exciting movie now.",
+    "choices": [
+      "watch",
+      "watching",
+      "watches"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 146,
+    "q": "The children _____ ideas and solved the challenge by working as a team.",
+    "choices": [
+      "shared",
+      "ignored",
+      "refused"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 147,
+    "q": "Adam said they need to show _____ and work together to succee",
+    "choices": [
+      "a) unkindness",
+      "carelessness",
+      "responsibility"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 148,
+    "q": "In front of the children was an _____ bridge.",
+    "choices": [
+      "huge",
+      "invisible",
+      "big"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 149,
+    "q": "The water-saving machine used _____ to water plants.",
+    "choices": [
+      "sea water",
+      "pure water",
+      "rainwater"
+    ],
+    "answer": 0
+  },
+  {
+    "q_num": 150,
+    "q": "The team smiled with happiness as they knew they had created something _____.",
+    "choices": [
+      "meaningful",
+      "meaning",
+      "meaningless"
+    ],
+    "answer": 0
+  }
+]
