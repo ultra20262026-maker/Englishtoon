@@ -173,6 +173,10 @@
             return { emoji: '🎮', bg: 'linear-gradient(135deg, #6366F1, #8B5CF6)' };
         }
 
+        // Global variables for unit scope
+        let unitGames = [];
+        let grammarGames = [];
+
         if (!grade || !unitId) {
             window.location.href = 'dashboard.html';
         } else {
@@ -181,8 +185,6 @@
             document.getElementById('breadcrumb-unit-title').textContent = `الوحدة ${unitId}`;
 
             const container = document.getElementById('games-container');
-            let unitGames = [];
-            let grammarGames = [];
 
             if (typeof GAMES_MAP !== 'undefined' && GAMES_MAP[gradeId] && GAMES_MAP[gradeId][unitId]) {
                 unitGames = GAMES_MAP[gradeId][unitId];
@@ -196,25 +198,30 @@
 
             container.innerHTML = '';
 
-            // 1. Render SINGLE Grammar Games Icon/Tile if available
+            // 1. Render SINGLE Realistic Folder Tile for Grammar Games
             if (grammarGames.length > 0) {
-                const grammarTile = document.createElement('div');
-                grammarTile.className = 'game-tile';
-                grammarTile.style.cssText = "cursor: pointer; border: 2px solid #f39c12;";
-                grammarTile.onclick = () => openGrammarModal();
+                const grammarTile = document.createElement('a');
+                grammarTile.href = "#";
+                grammarTile.className = 'game-tile folder-tile';
+                grammarTile.style.cssText = "cursor: pointer; border: 2px solid #f39c12; box-shadow: 0 10px 30px rgba(243, 156, 18, 0.3);";
+                grammarTile.onclick = (e) => {
+                    e.preventDefault();
+                    openGrammarModal();
+                    return false;
+                };
 
                 grammarTile.innerHTML = `
-                    <div class="game-thumb-container" style="background: linear-gradient(135deg, #f39c12, #d35400);">
-                        <span class="game-emoji-badge">📝</span>
+                    <div class="game-thumb-container" style="background: linear-gradient(135deg, #d35400, #f39c12, #f1c40f);">
+                        <span class="game-emoji-badge" style="font-size: 3.5rem;">📂</span>
                         <div class="game-play-hover-overlay">
-                            <div class="play-action-circle">▶</div>
+                            <div class="play-action-circle" style="background:#f39c12; color:#111;">📂</div>
                         </div>
                     </div>
                     <div class="game-info-box">
-                        <h3 class="game-info-title" style="color:#f1c40f;">Grammar Games 📝</h3>
+                        <h3 class="game-info-title" style="color:#f1c40f;">Grammar Games 📁</h3>
                         <div class="game-info-meta">
-                            <span class="game-cta-text" style="color:#f39c12;">🎮 5 ألعاب قواعد تفاعلية</span>
-                            <span class="badge-new-game" style="background:#f39c12; color:#111;">★ مميز</span>
+                            <span class="game-cta-text" style="color:#f39c12;">📂 مجلد ألعاب القواعد (5 ألعاب)</span>
+                            <span class="badge-new-game" style="background:#f39c12; color:#111;">★ مجلد ملفات</span>
                         </div>
                     </div>
                 `;
@@ -262,7 +269,7 @@
             const grid = document.getElementById('grammar-modal-grid');
             grid.innerHTML = '';
 
-            if (grammarGames.length > 0) {
+            if (grammarGames && grammarGames.length > 0) {
                 grammarGames.forEach((game) => {
                     const visual = getGameVisual(game.name);
                     const gamePath = `games/${gradeId}/unit${unitId}/${game.file}`;
@@ -301,12 +308,12 @@
     </script>
 
     <!-- Grammar Games Modal Popup -->
-    <div id="grammar-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(15px); z-index: 1000; align-items: center; justify-content: center; padding: 20px;">
+    <div id="grammar-modal" onclick="if(event.target===this) closeGrammarModal();" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(15px); z-index: 1000; align-items: center; justify-content: center; padding: 20px;">
         <div style="background: #1e293b; border: 2px solid #f39c12; border-radius: 24px; width: 100%; max-width: 900px; max-height: 90vh; overflow-y: auto; padding: 30px; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.8);">
             <button onclick="closeGrammarModal()" style="position: absolute; top: 20px; left: 20px; background: rgba(255,255,255,0.1); border: none; color: #fff; font-size: 1.5rem; width: 44px; height: 44px; border-radius: 50%; cursor: pointer;">✕</button>
             <div style="text-align: center; margin-bottom: 25px;">
-                <h2 style="font-size: 2rem; color: #f1c40f; font-weight: 800;">Grammar Games 📝</h2>
-                <p style="color: #94a3b8; font-size: 1.1rem; margin-top: 6px;">اختر لعبة من ألعاب القواعد والجرامر الـ 5 المخصصة لهذه الوحدة</p>
+                <h2 style="font-size: 2rem; color: #f1c40f; font-weight: 800;">Grammar Games 📂</h2>
+                <p style="color: #94a3b8; font-size: 1.1rem; margin-top: 6px;">مجلد ألعاب القواعد والجرامر الـ 5 المخصصة لهذه الوحدة</p>
             </div>
             <div class="cards-grid" id="grammar-modal-grid"></div>
         </div>
