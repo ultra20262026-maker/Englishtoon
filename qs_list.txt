@@ -1,0 +1,801 @@
+[1] Q: 'Outgoing' is a synonym for _____.
+     Choices: ['shy', 'introvert', 'extrovert', 'outstanding']
+
+[2] Q: A fashion _____ always works hard to produce new clothes.
+     Choices: ['driver', 'doctor', 'farmer', 'designer']
+
+[3] Q: A good _____ inspires people to work together and achieve success.
+     Choices: ['stranger', 'tourist', 'follower', 'leader']
+
+[4] Q: A truly _____ person always helps others and shows kindness.
+     Choices: ['careless', 'selfish', 'caring', 'rude']
+
+[5] Q: A truly _____ student can think of new ideas and solve problems.
+     Choices: ['lazy', 'weak', 'creative', 'boring']
+
+[6] Q: After a long day's work, he decided to _____ the job.
+     Choices: ['enjoy', 'join', 'build', 'quit']
+
+[7] Q: Ahmed showed his teacher some quick _____ of animals.
+     Choices: ['sketches', 'games', 'bags', 'maps']
+
+[8] Q: Ali is very _____; he paints and designs new things.
+     Choices: ['creative', 'lazy', 'tired', 'weak']
+
+[9] Q: Before the interview, he was very _____.
+     Choices: ['strong', 'cheerful', 'nervous', 'calm']
+
+[10] Q: Climate _____ affect the way people live, work, and travel.
+     Choices: ['results', 'answers', 'views', 'changes']
+
+[11] Q: Climbing the high mountain was a big _____.
+     Choices: ['holiday', 'game', 'mistake', 'challenge']
+
+[12] Q: Creative people can _____ amazing ideas from simple materials.
+     Choices: ['create', 'waste', 'forget', 'break']
+
+[13] Q: Drivers must _____ their speed on crowded roads to avoid accidents.
+     Choices: ['control', 'lose', 'break', 'miss']
+
+[14] Q: During the class _____, Youssef tried to prove that he is right.
+     Choices: ['team', 'match', 'race', 'debate']
+
+[15] Q: Egypt has a warm and sunny _____ most of the year.
+     Choices: ['game', 'climate', 'food', 'desk']
+
+[16] Q: Engineers usually make several _____ before building the final version.
+     Choices: ['answers', 'prototypes', 'mistakes', 'problems']
+
+[17] Q: Every student has the _____ to learn new skills.
+     Choices: ['ability', 'problem', 'failure', 'mistake']
+
+[18] Q: Farmers work in the field of _____ to grow food.
+     Choices: ['industry', 'trade', 'agriculture', 'design']
+
+[19] Q: Good _____ helps people understand each other better.
+     Choices: ['imagination', 'competition', 'communication', 'decoration']
+
+[20] Q: Great projects are _____ out in Egypt now.
+     Choices: ['screens', 'carried', 'smart', 'do']
+
+[21] Q: He became very _____ when his little brother broke his favorite toy.
+     Choices: ['calm', 'relaxed', 'happy', 'angry']
+
+[22] Q: He is very _____. He can't lift the heavy weight.
+     Choices: ['lazy', 'slow', 'smart', 'weak']
+
+[23] Q: He looked at himself in the _____ before going out of the house.
+     Choices: ['mirror', 'glasses', 'wood', 'sketchbook']
+
+[24] Q: Honesty has a great _____ in our lives.
+     Choices: ['weather', 'noise', 'color', 'value']
+
+[25] Q: How _____ hours do you spend on screens every day?
+     Choices: ['many', 'few', 'much', 'long']
+
+[26] Q: I always carry my books inside a big _____.
+     Choices: ['shelf', 'backpack', 'basket', 'pocket']
+
+[27] Q: I didn't _____ my friend because she changed her hairstyle.
+     Choices: ['build', 'recognize', 'open', 'fix']
+
+[28] Q: I've never _____ squash.
+     Choices: ['plays', 'play', 'played', 'playing']
+
+[29] Q: If she _____ the instructions, she wouldn't have done it incorrectly.
+     Choices: ['read', 'had read', "hadn't done", 'reads']
+
+[30] Q: If she _____, we would have gone out.
+     Choices: ['would have phoned', 'will phone', 'had phoned', 'would phone']
+
+[31] Q: If she had driven carefully, she _____ the accident.
+     Choices: ['would have avoided', 'will avoid', 'had avoided', 'would avoid']
+
+[32] Q: If we had gone to the museum, we _____ the new exhibition.
+     Choices: ['saw', 'see', 'would have seen', 'would see']
+
+[33] Q: It is _____ to blame one student when the whole class was late.
+     Choices: ['healthy', 'kind', 'unfair', 'fair']
+
+[34] Q: It is important for us to _____ screen use with physical activity.
+     Choices: ['watch', 'end', 'balance', 'limit']
+
+[35] Q: It's Ahmed's first day in a new school and he can't fit _____ easily.
+     Choices: ['on', 'for', 'at', 'in']
+
+[36] Q: My best friend is always _____ when I have a problem.
+     Choices: ['silent', 'supportive', 'careless', 'lazy']
+
+[37] Q: My greatest _____ is to become a doctor.
+     Choices: ['habit', 'ambition', 'problem', 'fear']
+
+[38] Q: My homework _____ yet.
+     Choices: ['had corrected', "hasn't been corrected", "hasn't corrected", 'was corrected']
+
+[39] Q: My teacher gave me a difficult _____ to finish today.
+     Choices: ['meal', 'song', 'task', 'game']
+
+[40] Q: Omar showed great _____ when he started the project alone.
+     Choices: ['initiative', 'chair', 'sport', 'holiday']
+
+[41] Q: Our government works hard to _____ air pollution by encouraging public transport.
+     Choices: ['spread', 'grow', 'create', 'reduce']
+
+[42] Q: Parents should _____ the time their children spend online.
+     Choices: ['control', 'allow', 'forget', 'waste']
+
+[43] Q: People should always try to _____ good decisions.
+     Choices: ['make', 'destroy', 'lose', 'do']
+
+[44] Q: Sara and her _____ play tennis together every weekend.
+     Choices: ['aunt', 'grandma', 'grandpa', 'siblings']
+
+[45] Q: Sara joined an _____ English class because she speaks very well.
+     Choices: ['simple', 'basic', 'advanced', 'easy']
+
+[46] Q: Scientists _____ the space in the future to discover new planets.
+     Choices: ['explore', 'ignore', 'close', 'forget']
+
+[47] Q: Scientists work hard to _____ new medicines.
+     Choices: ['refuse', 'develop', 'damage', 'come']
+
+[48] Q: Screen time means the total time a person spends looking at _____.
+     Choices: ['activities', 'walls', 'screens', 'stones']
+
+[49] Q: She can _____ a beautiful song on the piano.
+     Choices: ['read', 'compose', 'drive', 'eat']
+
+[50] Q: She felt _____ when she failed the exam.
+     Choices: ['excited', 'strong', 'happy', 'disappointed']
+
+[51] Q: She finally _____ her dream of becoming a doctor after many years.
+     Choices: ['achieved', 'failed', 'forgot', 'missed']
+
+[52] Q: She is _____ to her studies and does her homework on time.
+     Choices: ['angry', 'lazy', 'late', 'dedicated']
+
+[53] Q: She opened her _____ widely in surprise.
+     Choices: ['feet', 'hands', 'eyes', 'ears']
+
+[54] Q: She spoke _____ about her mistakes, and everyone respected her honesty.
+     Choices: ['quietly', 'noisy', 'honestly', 'rude']
+
+[55] Q: Strong _____ are built on trust, cooperation, and shared goals.
+     Choices: ['communities', 'bottles', 'windows', 'chairs']
+
+[56] Q: Students should keep a good _____ between studying and relaxing.
+     Choices: ['balance', 'fear', 'mistake', 'problem']
+
+[57] Q: Success comes from _____ work, patience, and never giving up.
+     Choices: ['slow', 'lazy', 'hard', 'weak']
+
+[58] Q: Technology helps us. _____ the other hand, it causes distractions.
+     Choices: ['On', 'In', 'At', 'Of']
+
+[59] Q: The Pyramids _____ by the tourists recently.
+     Choices: ['have been visited', 'has been visited', 'has visited', 'have visited']
+
+[60] Q: The _____ of the country gave a speech about peace.
+     Choices: ['teacher', 'player', 'visitor', 'president']
+
+[61] Q: The antonym of the word 'achieve' is _____.
+     Choices: ['sad', 'fail', 'happy', 'success']
+
+[62] Q: The antonym of the word 'ambition' is _____.
+     Choices: ['smart', 'laziness', 'courage', 'anger']
+
+[63] Q: The antonym of the word 'appropriate' is _____.
+     Choices: ['build', 'inappropriate', 'slow', 'success']
+
+[64] Q: The antonym of the word 'artificial' is _____.
+     Choices: ['fear', 'slow', 'start', 'natural']
+
+[65] Q: The antonym of the word 'attractive' is _____.
+     Choices: ['sad', 'ugly', 'lazy', 'knowledge']
+
+[66] Q: The antonym of the word 'balance' is _____.
+     Choices: ['knowledge', 'lazy', 'imbalance', 'useless']
+
+[67] Q: The antonym of the word 'brainstorm' is _____.
+     Choices: ['failure', 'ignore', 'start', 'sad']
+
+[68] Q: The antonym of the word 'challenge' is _____.
+     Choices: ['build', 'important', 'advantage', 'courage']
+
+[69] Q: The antonym of the word 'communication' is _____.
+     Choices: ['failure', 'slow', 'courage', 'silence']
+
+[70] Q: The antonym of the word 'confidence' is _____.
+     Choices: ['doubt', 'slow', 'smart', 'lazy']
+
+[71] Q: The antonym of the word 'confident' is _____.
+     Choices: ['sad', 'failure', 'start', 'unsure']
+
+[72] Q: The antonym of the word 'connection' is _____.
+     Choices: ['useless', 'disconnection', 'smart', 'fast']
+
+[73] Q: The antonym of the word 'creative' is _____.
+     Choices: ['lazy', 'success', 'smart', 'unimaginative']
+
+[74] Q: The antonym of the word 'curiosity' is _____.
+     Choices: ['smart', 'indifference', 'happy', 'start']
+
+[75] Q: The antonym of the word 'debate' is _____.
+     Choices: ['agreement', 'slow', 'happy', 'smart']
+
+[76] Q: The antonym of the word 'dedicated' is _____.
+     Choices: ['success', 'build', 'important', 'indifferent']
+
+[77] Q: The antonym of the word 'designer' is _____.
+     Choices: ['success', 'destroyer', 'build', 'failure']
+
+[78] Q: The antonym of the word 'determination' is _____.
+     Choices: ['build', 'failure', 'hesitation', 'important']
+
+[79] Q: The antonym of the word 'distant' is _____.
+     Choices: ['slow', 'smart', 'courage', 'close']
+
+[80] Q: The antonym of the word 'empathy' is _____.
+     Choices: ['lazy', 'cruelty', 'destroy', 'smart']
+
+[81] Q: The antonym of the word 'extrovert' is _____.
+     Choices: ['lazy', 'destroy', 'sad', 'introvert']
+
+[82] Q: The antonym of the word 'flexible' is _____.
+     Choices: ['lazy', 'destroy', 'useless', 'inflexible']
+
+[83] Q: The antonym of the word 'honest' is _____.
+     Choices: ['dishonest', 'success', 'build', 'stop']
+
+[84] Q: The antonym of the word 'innovation' is _____.
+     Choices: ['happy', 'tradition', 'success', 'start']
+
+[85] Q: The antonym of the word 'instant' is _____.
+     Choices: ['useless', 'happy', 'fear', 'delayed']
+
+[86] Q: The antonym of the word 'intelligence' is _____.
+     Choices: ['knowledge', 'destroy', 'stupidity', 'failure']
+
+[87] Q: The antonym of the word 'introvert' is _____.
+     Choices: ['extrovert', 'destroy', 'smart', 'knowledge']
+
+[88] Q: The antonym of the word 'leader' is _____.
+     Choices: ['follower', 'build', 'lazy', 'courage']
+
+[89] Q: The antonym of the word 'modern' is _____.
+     Choices: ['useless', 'knowledge', 'destroy', 'ancient']
+
+[90] Q: The antonym of the word 'moral' is _____.
+     Choices: ['courage', 'immorality', 'happy', 'stop']
+
+[91] Q: The antonym of the word 'ordinary' is _____.
+     Choices: ['anger', 'extraordinary', 'fast', 'slow']
+
+[92] Q: The antonym of the word 'patient' is _____.
+     Choices: ['important', 'failure', 'success', 'impatient']
+
+[93] Q: The antonym of the word 'portrait' is _____.
+     Choices: ['success', 'destroy', 'landscape', 'important']
+
+[94] Q: The antonym of the word 'powerful' is _____.
+     Choices: ['start', 'success', 'weak', 'sad']
+
+[95] Q: The antonym of the word 'practical' is _____.
+     Choices: ['theoretical', 'smart', 'fear', 'useless']
+
+[96] Q: The antonym of the word 'prototype' is _____.
+     Choices: ['failure', 'final product', 'success', 'sad']
+
+[97] Q: The antonym of the word 'recognize' is _____.
+     Choices: ['stop', 'knowledge', 'success', 'forget']
+
+[98] Q: The antonym of the word 'reduce' is _____.
+     Choices: ['smart', 'stop', 'useless', 'increase']
+
+[99] Q: The antonym of the word 'resilience' is _____.
+     Choices: ['happy', 'weakness', 'stop', 'anger']
+
+[100] Q: The antonym of the word 'resolve' is _____.
+     Choices: ['knowledge', 'complicate', 'destroy', 'useless']
+
+[101] Q: The antonym of the word 'smart' is _____.
+     Choices: ['success', 'stop', 'slow', 'stupid']
+
+[102] Q: The antonym of the word 'supportive' is _____.
+     Choices: ['happy', 'unhelpful', 'fast', 'success']
+
+[103] Q: The antonym of the word 'useful' is _____.
+     Choices: ['anger', 'failure', 'useless', 'smart']
+
+[104] Q: The artist painted a beautiful _____ of the queen.
+     Choices: ['journey', 'forest', 'portrait', 'machine']
+
+[105] Q: The bus got _____ in traffic for hours.
+     Choices: ['free', 'stuck', 'moved', 'arrived']
+
+[106] Q: The charity asked for a _____ to help poor families.
+     Choices: ['gift', 'picture', 'donation', 'toy']
+
+[107] Q: The children have _____ types of toys.
+     Choices: ['empty', 'awful', 'various', 'new']
+
+[108] Q: The film made everyone cry because it showed strong _____.
+     Choices: ['houses', 'emotions', 'cars', 'trees']
+
+[109] Q: The girl is _____ the front row.
+     Choices: ['off', 'over', 'on', 'in']
+
+[110] Q: The hotel looks very _____ with its modern design.
+     Choices: ['attractive', 'boring', 'dirty', 'ugly']
+
+[111] Q: The internet _____ was very slow last night.
+     Choices: ['direction', 'connection', 'invention', 'solution']
+
+[112] Q: The internet _____ was very weak yesterday.
+     Choices: ['animal', 'story', 'table', 'connection']
+
+[113] Q: The little boy was _____ to know what was inside the box.
+     Choices: ['hungry', 'sleepy', 'curious', 'tired']
+
+[114] Q: The new phone is a great _____ in technology.
+     Choices: ['mistake', 'problem', 'innovation', 'toy']
+
+[115] Q: The new phone is very _____ since it can connect to the internet.
+     Choices: ['useless', 'smart', 'broken', 'old']
+
+[116] Q: The school _____ decided to build a new library for the students.
+     Choices: ['team', 'council', 'family', 'group']
+
+[117] Q: The speaker was very _____ and relaxed when she answered questions.
+     Choices: ['nervous', 'confident', 'afraid', 'worried']
+
+[118] Q: The storm was very _____ and destroyed many houses.
+     Choices: ['quiet', 'small', 'powerful', 'weak']
+
+[119] Q: The story of the kind king teaches children an important _____.
+     Choices: ['question', 'mistake', 'plan', 'moral']
+
+[120] Q: The student felt _____ after reading the difficult question.
+     Choices: ['happy', 'excited', 'relaxed', 'confused']
+
+[121] Q: The students _____ working on the project even after school ended.
+     Choices: ['failed', 'continued', 'stopped', 'forgot']
+
+[122] Q: The students had a long _____ about whether exams should be easier.
+     Choices: ['holiday', 'party', 'problem', 'discussion']
+
+[123] Q: The students worked hard on a _____ about protecting the environment.
+     Choices: ['mistake', 'school', 'fancy', 'project']
+
+[124] Q: The suffix -ity gives the _____.
+     Choices: ['noun', 'verb', 'adjective', 'adverb']
+
+[125] Q: The synonym of the word 'achieve' is _____.
+     Choices: ['stop', 'slow', 'fast', 'accomplish']
+
+[126] Q: The synonym of the word 'ambition' is _____.
+     Choices: ['stop', 'fear', 'knowledge', 'goal']
+
+[127] Q: The synonym of the word 'appropriate' is _____.
+     Choices: ['suitable', 'lazy', 'start', 'build']
+
+[128] Q: The synonym of the word 'artificial' is _____.
+     Choices: ['fake', 'happy', 'fear', 'success']
+
+[129] Q: The synonym of the word 'attractive' is _____.
+     Choices: ['courage', 'sad', 'beautiful', 'failure']
+
+[130] Q: The synonym of the word 'balance' is _____.
+     Choices: ['fear', 'stability', 'stop', 'important']
+
+[131] Q: The synonym of the word 'brainstorm' is _____.
+     Choices: ['fast', 'stop', 'think', 'sad']
+
+[132] Q: The synonym of the word 'challenge' is _____.
+     Choices: ['smart', 'courage', 'difficulty', 'failure']
+
+[133] Q: The synonym of the word 'communication' is _____.
+     Choices: ['success', 'courage', 'knowledge', 'interaction']
+
+[134] Q: The synonym of the word 'confidence' is _____.
+     Choices: ['trust', 'sad', 'stop', 'success']
+
+[135] Q: The synonym of the word 'confident' is _____.
+     Choices: ['start', 'useless', 'stop', 'sure']
+
+[136] Q: The synonym of the word 'connection' is _____.
+     Choices: ['link', 'build', 'important', 'slow']
+
+[137] Q: The synonym of the word 'creative' is _____.
+     Choices: ['slow', 'destroy', 'imaginative', 'courage']
+
+[138] Q: The synonym of the word 'curiosity' is _____.
+     Choices: ['interest', 'useless', 'build', 'courage']
+
+[139] Q: The synonym of the word 'debate' is _____.
+     Choices: ['argument', 'fear', 'sad', 'lazy']
+
+[140] Q: The synonym of the word 'dedicated' is _____.
+     Choices: ['stop', 'fast', 'smart', 'committed']
+
+[141] Q: The synonym of the word 'designer' is _____.
+     Choices: ['slow', 'failure', 'knowledge', 'creator']
+
+[142] Q: The synonym of the word 'determination' is _____.
+     Choices: ['important', 'resolution', 'build', 'happy']
+
+[143] Q: The synonym of the word 'distant' is _____.
+     Choices: ['far', 'smart', 'success', 'courage']
+
+[144] Q: The synonym of the word 'empathy' is _____.
+     Choices: ['failure', 'compassion', 'knowledge', 'courage']
+
+[145] Q: The synonym of the word 'extrovert' is _____.
+     Choices: ['outgoing', 'slow', 'knowledge', 'fast']
+
+[146] Q: The synonym of the word 'flexible' is _____.
+     Choices: ['lazy', 'start', 'success', 'adaptable']
+
+[147] Q: The synonym of the word 'honest' is _____.
+     Choices: ['truthful', 'useless', 'build', 'anger']
+
+[148] Q: The synonym of the word 'innovation' is _____.
+     Choices: ['invention', 'happy', 'success', 'destroy']
+
+[149] Q: The synonym of the word 'instant' is _____.
+     Choices: ['stop', 'knowledge', 'start', 'immediate']
+
+[150] Q: The synonym of the word 'intelligence' is _____.
+     Choices: ['destroy', 'important', 'stop', 'cleverness']
+
+[151] Q: The synonym of the word 'introvert' is _____.
+     Choices: ['courage', 'fear', 'smart', 'shy person']
+
+[152] Q: The synonym of the word 'leader' is _____.
+     Choices: ['smart', 'failure', 'boss', 'slow']
+
+[153] Q: The synonym of the word 'modern' is _____.
+     Choices: ['slow', 'stop', 'new', 'destroy']
+
+[154] Q: The synonym of the word 'moral' is _____.
+     Choices: ['destroy', 'lesson', 'important', 'start']
+
+[155] Q: The synonym of the word 'ordinary' is _____.
+     Choices: ['fast', 'anger', 'sad', 'normal']
+
+[156] Q: The synonym of the word 'patient' is _____.
+     Choices: ['tolerant', 'anger', 'sad', 'build']
+
+[157] Q: The synonym of the word 'portrait' is _____.
+     Choices: ['courage', 'anger', 'useless', 'picture']
+
+[158] Q: The synonym of the word 'powerful' is _____.
+     Choices: ['stop', 'strong', 'happy', 'sad']
+
+[159] Q: The synonym of the word 'practical' is _____.
+     Choices: ['fear', 'lazy', 'stop', 'realistic']
+
+[160] Q: The synonym of the word 'prototype' is _____.
+     Choices: ['start', 'failure', 'model', 'destroy']
+
+[161] Q: The synonym of the word 'recognize' is _____.
+     Choices: ['courage', 'identify', 'success', 'build']
+
+[162] Q: The synonym of the word 'reduce' is _____.
+     Choices: ['destroy', 'start', 'anger', 'decrease']
+
+[163] Q: The synonym of the word 'resilience' is _____.
+     Choices: ['important', 'start', 'slow', 'toughness']
+
+[164] Q: The synonym of the word 'resolve' is _____.
+     Choices: ['success', 'solve', 'start', 'knowledge']
+
+[165] Q: The synonym of the word 'smart' is _____.
+     Choices: ['clever', 'useless', 'fast', 'anger']
+
+[166] Q: The synonym of the word 'supportive' is _____.
+     Choices: ['sad', 'failure', 'success', 'helpful']
+
+[167] Q: The synonym of the word 'useful' is _____.
+     Choices: ['build', 'smart', 'helpful', 'slow']
+
+[168] Q: The teacher asked the group to _____ ideas together.
+     Choices: ['brainstorm', 'waste', 'forget', 'delete']
+
+[169] Q: The teacher asked the students to look _____ at the map.
+     Choices: ['loudly', 'closely', 'lazily', 'quickly']
+
+[170] Q: The teacher gave clear _____ on how to prepare for the science project.
+     Choices: ['dangers', 'excuses', 'recommendations', 'communications']
+
+[171] Q: The teacher gave me a helpful _____ on my homework.
+     Choices: ['picture', 'food', 'feedback', 'holiday']
+
+[172] Q: The train passes _____ the tunnel.
+     Choices: ['over', 'under', 'through', 'across']
+
+[173] Q: There are many _____ cities in Egypt.
+     Choices: ['screens', 'stones', 'walls', 'smart']
+
+[174] Q: To _____ means to keep things equal or in the right amount.
+     Choices: ['limit', 'imagine', 'make', 'balance']
+
+[175] Q: To form the word 'achieve', we add the suffix _____ to 'achieve'.
+     Choices: ['-ful', '-ment', '-ive', '-ly']
+
+[176] Q: To form the word 'ambition', we add the suffix _____ to 'ambitious'.
+     Choices: ['-ion', '-ment', '-ful', '-ive']
+
+[177] Q: To form the word 'artificial', we add the suffix _____ to 'artifice'.
+     Choices: ['-ial', '-ive', '-ly', '-ful']
+
+[178] Q: To form the word 'attractive', we add the suffix _____ to 'attract'.
+     Choices: ['-ly', '-ion', '-ment', '-ive']
+
+[179] Q: To form the word 'communication', we add the suffix _____ to 'communicate'.
+     Choices: ['-ive', '-ion', '-ness', '-ity']
+
+[180] Q: To form the word 'confidence', we add the suffix _____ to 'confident'.
+     Choices: ['-ence', '-ly', '-ness', '-ion']
+
+[181] Q: To form the word 'confident', we add the suffix _____ to 'confide'.
+     Choices: ['-ive', '-ment', '-ent', '-ful']
+
+[182] Q: To form the word 'connection', we add the suffix _____ to 'connect'.
+     Choices: ['-ment', '-ly', '-ful', '-ion']
+
+[183] Q: To form the word 'creative', we add the suffix _____ to 'create'.
+     Choices: ['-ly', '-ive', '-ment', '-ness']
+
+[184] Q: To form the word 'curiosity', we add the suffix _____ to 'curious'.
+     Choices: ['-ity', '-ness', '-able', '-ion']
+
+[185] Q: To form the word 'dedicated', we add the suffix _____ to 'dedicate'.
+     Choices: ['-ed', '-ion', '-ly', '-ness']
+
+[186] Q: To form the word 'designer', we add the suffix _____ to 'design'.
+     Choices: ['-er', '-ive', '-ment', '-able']
+
+[187] Q: To form the word 'determination', we add the suffix _____ to 'determine'.
+     Choices: ['-ity', '-ment', '-ion', '-ly']
+
+[188] Q: To form the word 'distant', we add the suffix _____ to 'distance'.
+     Choices: ['-ness', '-ant', '-ly', '-able']
+
+[189] Q: To form the word 'innovation', we add the suffix _____ to 'innovate'.
+     Choices: ['-ful', '-ive', '-able', '-ion']
+
+[190] Q: To form the word 'intelligence', we add the suffix _____ to 'intelligent'.
+     Choices: ['-ence', '-ive', '-ful', '-ness']
+
+[191] Q: To form the word 'leader', we add the suffix _____ to 'lead'.
+     Choices: ['-ful', '-ity', '-er', '-ly']
+
+[192] Q: To form the word 'powerful', we add the suffix _____ to 'power'.
+     Choices: ['-ion', '-ment', '-ity', '-ful']
+
+[193] Q: To form the word 'practical', we add the suffix _____ to 'practice'.
+     Choices: ['-al', '-able', '-ment', '-ful']
+
+[194] Q: To form the word 'recognize', we add the suffix _____ to 'recognition'.
+     Choices: ['-ize', '-ly', '-able', '-ness']
+
+[195] Q: To form the word 'resilience', we add the suffix _____ to 'resilient'.
+     Choices: ['-ly', '-ity', '-able', '-ence']
+
+[196] Q: To form the word 'supportive', we add the suffix _____ to 'support'.
+     Choices: ['-able', '-ion', '-ful', '-ive']
+
+[197] Q: To form the word 'useful', we add the suffix _____ to 'use'.
+     Choices: ['-ity', '-ment', '-ful', '-ly']
+
+[198] Q: To turn the adjective (critical) into an adverb, we add the suffix _____.
+     Choices: ['ily', 'ion', 'ly', 'ing']
+
+[199] Q: Today we can send an _____ message by phone.
+     Choices: ['cold', 'instant', 'late', 'slow']
+
+[200] Q: We add the prefix _____ to 'appropriate' to give the opposite or related meaning.
+     Choices: ['ir-', 'in-', 'un-', 'dis-']
+
+[201] Q: We add the prefix _____ to 'balance' to give the opposite or related meaning.
+     Choices: ['re-', 'dis-', 'in-', 'im-']
+
+[202] Q: We add the prefix _____ to 'flexible' to give the opposite or related meaning.
+     Choices: ['re-', 'in-', 'dis-', 'il-']
+
+[203] Q: We add the prefix _____ to 'honest' to give the opposite or related meaning.
+     Choices: ['im-', 'in-', 'il-', 'dis-']
+
+[204] Q: We add the prefix _____ to 'moral' to give the opposite or related meaning.
+     Choices: ['im-', 're-', 'ir-', 'un-']
+
+[205] Q: We add the prefix _____ to 'ordinary' to give the opposite or related meaning.
+     Choices: ['extra-', 'ir-', 'un-', 'dis-']
+
+[206] Q: We add the prefix _____ to 'patient' to give the opposite or related meaning.
+     Choices: ['im-', 'un-', 'dis-', 'mis-']
+
+[207] Q: We add the prefix _____ to 'solve' to give the opposite or related meaning.
+     Choices: ['ir-', 're-', 'im-', 'un-']
+
+[208] Q: We add the prefix _____ to 'type' to give the opposite or related meaning.
+     Choices: ['re-', 'ir-', 'dis-', 'proto-']
+
+[209] Q: We add the prefix _____ to 'vert' to give the opposite or related meaning.
+     Choices: ['mis-', 'intro-', 'ir-', 'dis-']
+
+[210] Q: We have lived here _____ five years.
+     Choices: ['never', 'for', 'since', 'yet']
+
+[211] Q: We live in a _____ world where technology develops quickly.
+     Choices: ['lazy', 'weak', 'modern', 'old']
+
+[212] Q: We should not cross the speed _____ on the road.
+     Choices: ['colors', 'flowers', 'books', 'limits']
+
+[213] Q: We should show _____ to teachers, parents, and everyone in our society.
+     Choices: ['respect', 'hate', 'noise', 'anger']
+
+[214] Q: What do people use today to make communication faster?
+     Choices: ['Letters', 'Face-to-face talks', 'Phones and emails', 'Books']
+
+[215] Q: When I spoke in public, it helped me build _____ in my abilities.
+     Choices: ['confide', 'confident', 'confidently', 'confidence']
+
+[216] Q: Which of the following is also an important part of communication?
+     Choices: ['Using difficult words', 'Shouting loudly', 'Writing long letters', 'Listening carefully']
+
+[217] Q: With courage and _____, the team finished the race despite difficulties.
+     Choices: ['fear', 'determination', 'weakness', 'laziness']
+
+[218] Q: Yasser is very outgoing and loves meeting new people. 'Outgoing' is an antonym for _____.
+     Choices: ['happy', 'introvert', 'outstanding', 'shy']
+
+[219] Q: You _____ cross the road when the light is red.
+     Choices: ['must', "oughtn't", "mustn't", 'should']
+
+[220] Q: You _____ make noise in the library.
+     Choices: ['can', "oughtn't", "mustn't", 'should']
+
+[221] Q: You must always _____ in yourself if you want to achieve success.
+     Choices: ['forget', 'believe', 'doubt', 'ignore']
+
+[222] Q: You should also _____ useful activities away from screens.
+     Choices: ['do', 'take', 'meet', 'make']
+
+[223] Q: Young people _____ spend more than two hours a day on entertainment screen time.
+     Choices: ["oughtn't", 'should', "shouldn't", 'must']
+
+[224] Q: _____ means a first or preliminary model of something.
+     Choices: ['Prototype', 'success', 'anger', 'useless']
+
+[225] Q: _____ means a formal discussion on a particular topic.
+     Choices: ['Debate', 'knowledge', 'important', 'start']
+
+[226] Q: _____ means a lesson that can be derived from a story or experience.
+     Choices: ['useless', 'Moral', 'stop', 'fast']
+
+[227] Q: _____ means a painting, drawing, or photograph of a person.
+     Choices: ['courage', 'slow', 'destroy', 'Portrait']
+
+[228] Q: _____ means a person who plans the form or structure of something.
+     Choices: ['happy', 'anger', 'Designer', 'lazy']
+
+[229] Q: _____ means a relationship in which a person or thing is linked with something else.
+     Choices: ['Connection', 'courage', 'smart', 'happy']
+
+[230] Q: _____ means a shy, reticent person.
+     Choices: ['destroy', 'Introvert', 'failure', 'knowledge']
+
+[231] Q: _____ means a strong desire to do or to achieve something.
+     Choices: ['stop', 'Ambition', 'important', 'failure']
+
+[232] Q: _____ means a strong desire to know or learn something.
+     Choices: ['destroy', 'Curiosity', 'failure', 'courage']
+
+[233] Q: _____ means a task or situation that tests someone's abilities.
+     Choices: ['destroy', 'Challenge', 'sad', 'knowledge']
+
+[234] Q: _____ means able to accept or tolerate delays or problems.
+     Choices: ['start', 'important', 'Patient', 'happy']
+
+[235] Q: _____ means able to be used for a practical purpose.
+     Choices: ['fast', 'Useful', 'slow', 'lazy']
+
+[236] Q: _____ means an even distribution of weight or amount.
+     Choices: ['build', 'happy', 'lazy', 'Balance']
+
+[237] Q: _____ means an outgoing, socially confident person.
+     Choices: ['slow', 'build', 'smart', 'Extrovert']
+
+[238] Q: _____ means capable of bending easily without breaking.
+     Choices: ['fear', 'lazy', 'Flexible', 'useless']
+
+[239] Q: _____ means devoted to a task or purpose.
+     Choices: ['destroy', 'Dedicated', 'success', 'fast']
+
+[240] Q: _____ means far away in space or time.
+     Choices: ['useless', 'knowledge', 'destroy', 'Distant']
+
+[241] Q: _____ means feeling or showing certainty about something.
+     Choices: ['Confident', 'failure', 'destroy', 'anger']
+
+[242] Q: _____ means firmness of purpose.
+     Choices: ['stop', 'failure', 'Determination', 'fear']
+
+[243] Q: _____ means free of deceit and untruthfulness.
+     Choices: ['smart', 'stop', 'courage', 'Honest']
+
+[244] Q: _____ means happening or coming immediately.
+     Choices: ['fear', 'Instant', 'slow', 'fast']
+
+[245] Q: _____ means having great strength or influence.
+     Choices: ['start', 'sad', 'happy', 'Powerful']
+
+[246] Q: _____ means having or showing a quick-witted intelligence.
+     Choices: ['Smart', 'lazy', 'build', 'success']
+
+[247] Q: _____ means identify from having encountered them before.
+     Choices: ['fast', 'Recognize', 'build', 'important']
+
+[248] Q: _____ means learning more about who you are.
+     Choices: ['Curiosity', 'Self-discovery', 'Resilience', 'Popularity']
+
+[249] Q: _____ means made or produced by human beings rather than occurring naturally.
+     Choices: ['failure', 'happy', 'Artificial', 'courage']
+
+[250] Q: _____ means make smaller or less in amount.
+     Choices: ['Reduce', 'success', 'sad', 'important']
+
+[251] Q: _____ means pleasing or appealing to the senses.
+     Choices: ['lazy', 'failure', 'start', 'Attractive']
+
+[252] Q: _____ means produce an idea or way of solving a problem by holding a spontaneous group discussion.
+     Choices: ['smart', 'sad', 'Brainstorm', 'start']
+
+[253] Q: _____ means providing encouragement or emotional help.
+     Choices: ['Supportive', 'lazy', 'happy', 'slow']
+
+[254] Q: _____ means relating to or involving the imagination.
+     Choices: ['smart', 'Creative', 'important', 'fear']
+
+[255] Q: _____ means relating to the present or recent times.
+     Choices: ['success', 'Modern', 'important', 'slow']
+
+[256] Q: _____ means settle or find a solution to a problem.
+     Choices: ['important', 'Resolve', 'courage', 'sad']
+
+[257] Q: _____ means successfully bring about or reach a goal.
+     Choices: ['knowledge', 'important', 'useless', 'Achieve']
+
+[258] Q: _____ means suitable or proper in the circumstances.
+     Choices: ['lazy', 'happy', 'Appropriate', 'fast']
+
+[259] Q: _____ means the ability to acquire and apply knowledge and skills.
+     Choices: ['knowledge', 'important', 'Intelligence', 'happy']
+
+[260] Q: _____ means the ability to understand and share someone else's feeling.
+     Choices: ['Creation', 'Hesitation', 'Evil', 'Empathy']
+
+[261] Q: _____ means the ability to understand and share the feelings of another.
+     Choices: ['fast', 'happy', 'slow', 'Empathy']
+
+[262] Q: _____ means the action or process of inventing new ideas or products.
+     Choices: ['smart', 'success', 'start', 'Innovation']
+
+[263] Q: _____ means the capacity to recover quickly from difficulties.
+     Choices: ['happy', 'important', 'Resilience', 'useless']
+
+[264] Q: _____ means the feeling or belief that one can rely on someone or something.
+     Choices: ['destroy', 'Confidence', 'lazy', 'sad']
+
+[265] Q: _____ means the imparting or exchanging of information.
+     Choices: ['sad', 'anger', 'success', 'Communication']
+
+[266] Q: _____ means the person who commands a group, organization, or country.
+     Choices: ['Leader', 'slow', 'lazy', 'fast']
+
+[267] Q: _____ means with no special or distinctive features.
+     Choices: ['Ordinary', 'sad', 'failure', 'important']
+

@@ -1,7 +1,9 @@
 // Controller with Full Word Audio Speech Pronunciation & Precise LTR Missing Dots Position
 document.addEventListener('DOMContentLoaded', () => {
     // State
-    let currentGrade = 'p1';
+    const urlParams = new URLSearchParams(window.location.search);
+    const paramGrade = urlParams.get('grade');
+    let currentGrade = (paramGrade === 'p1' || paramGrade === 'primary-1') ? 'p1' : 'p2';
     let currentPageIndex = 0;
 
     function getActivePagesData() {
@@ -602,10 +604,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     sidebarSearch.addEventListener('input', (e) => {
         const query = e.target.value.toLowerCase();
+        const activeData = getActivePagesData();
         document.querySelectorAll('.grid-page-btn').forEach(btn => {
             const pNum = btn.querySelector('.num').textContent;
-            const pData = pagesData[parseInt(btn.dataset.index)];
-            const match = pNum.includes(query) || pData.unit.toLowerCase().includes(query) || pData.lesson.toLowerCase().includes(query);
+            const pData = activeData[parseInt(btn.dataset.index)];
+            const unitMatch = pData && pData.unit ? pData.unit.toLowerCase().includes(query) : false;
+            const lessonMatch = pData && pData.lesson ? pData.lesson.toLowerCase().includes(query) : false;
+            const match = pNum.includes(query) || unitMatch || lessonMatch;
             btn.style.display = match ? 'flex' : 'none';
         });
     });
@@ -616,13 +621,18 @@ document.addEventListener('DOMContentLoaded', () => {
         btnSoundToggle.innerHTML = soundEnabled ? '<i class="fa-solid fa-volume-high"></i>' : '<i class="fa-solid fa-volume-xmark"></i>';
     });
 
-    initNavigation();
-    goToPage(0);
-});
-
-    // Multi-Grade Switcher & Deep Link Handler for Interactive Books
+    // Multi-Grade Switcher & Deep Link Handler
     const bookGradeSelector = document.getElementById('book-grade-selector');
-    
+    const appTitleElem = document.getElementById('app-header-title');
+
+    function updateGradeHeader() {
+        if (bookGradeSelector) bookGradeSelector.value = currentGrade;
+        if (appTitleElem) {
+            appTitleElem.textContent = currentGrade === 'p2' ? '📘 كتاب تقييمات الصف الثاني الابتدائي 2027' : '📗 كتاب تقييمات الصف الأول الابتدائي 2027';
+        }
+        document.title = currentGrade === 'p2' ? 'كتاب تقييمات الثاني الابتدائي 2027 - English Language Workbook' : 'كتاب تقييمات الأول الابتدائي 2027 - English Language Workbook';
+    }
+
     function switchGrade(gradeKey) {
         if (gradeKey === 'p3') {
             alert('⏳ جاري إعداد وتجهيز كتاب الصف الثالث وسيتم إضافته قريباً!');
@@ -630,8 +640,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         currentGrade = (gradeKey === 'p2' || gradeKey === 'primary-2') ? 'p2' : 'p1';
-        if (bookGradeSelector) bookGradeSelector.value = currentGrade;
-        
+        updateGradeHeader();
         studentProgress = loadProgress();
         initNavigation();
         flipToPage(0, 'next');
@@ -643,9 +652,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Check URL query parameters for grade (e.g., ?grade=p2)
-    const urlParams = new URLSearchParams(window.location.search);
-    const initialGrade = urlParams.get('grade');
-    if (initialGrade === 'p2' || initialGrade === 'primary-2') {
-        switchGrade('p2');
-    }
+    // Initial setup with selected grade
+    updateGradeHeader();
+    initNavigation();
+    goToPage(0);
+});
