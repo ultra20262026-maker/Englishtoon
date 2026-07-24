@@ -14,16 +14,18 @@
   .g-qnum { font-size: 1.1rem; color: #ecf0f1; background: rgba(255,255,255,0.12); padding: 6px 16px; border-radius: 20px; font-weight: 600; }
   .g-score { font-size: 1.3rem; font-weight: bold; color: #2ecc71; }
   
-  /* Standardized Full-Scale Question Panel (1.8rem font size) */
+  /* Standardized Full-Scale Question Panel */
   .g-qpanel { background: rgba(0, 0, 0, 0.85); padding: 18px 24px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.12); z-index: 10; min-height: 90px; display: flex; align-items: center; justify-content: center; }
   #qt { font-size: 1.8rem !important; color: #ffffff !important; font-weight: 700 !important; line-height: 1.4 !important; text-shadow: 0 2px 8px rgba(0,0,0,0.8); }
   
-  /* Standardized Choice Buttons overlaying canvas targets */
-  .g-targets { position: absolute; width: 100%; top: 40%; display: flex; justify-content: space-around; padding: 0 24px; z-index: 8; pointer-events: none; }
-  .tbtn { pointer-events: auto; background: linear-gradient(135deg, rgba(255,255,255,0.24), rgba(255,255,255,0.08)); border: 2.5px solid #9b59b6; color: #fff; padding: 16px 28px !important; font-size: 1.3rem !important; font-weight: bold !important; border-radius: 20px; cursor: pointer; transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); backdrop-filter: blur(12px); box-shadow: 0 8px 24px rgba(0,0,0,0.5); min-width: 140px; text-align: center; }
-  .tbtn:hover { transform: translateY(-4px) scale(1.06); background: #9b59b6; color: #111; box-shadow: 0 12px 30px #9b59b6aa; }
-  .tbtn.correct { background: #2ecc71 !important; border-color: #27ae60 !important; color: #fff !important; transform: scale(1.12); box-shadow: 0 0 35px #2ecc71; }
-  .tbtn.wrong { background: #e74c3c !important; border-color: #c0392b !important; color: #fff !important; opacity: 0.55; transform: scale(0.94); }
+  /* Container for moving target buttons */
+  .g-targets { position: absolute; inset: 0; z-index: 8; pointer-events: none; }
+
+  /* Continuously Moving Choice Buttons */
+  .tbtn { position: absolute; pointer-events: auto; background: linear-gradient(135deg, rgba(255,255,255,0.26), rgba(255,255,255,0.1)); border: 2.5px solid #9b59b6; color: #fff; padding: 14px 26px !important; font-size: 1.3rem !important; font-weight: bold !important; border-radius: 22px; cursor: pointer; transition: background 0.2s, transform 0.1s; backdrop-filter: blur(12px); box-shadow: 0 8px 24px rgba(0,0,0,0.6); white-space: nowrap; text-align: center; }
+  .tbtn:hover { transform: scale(1.08); background: #9b59b6; color: #111; box-shadow: 0 12px 30px #9b59b6bb; }
+  .tbtn.correct { background: #2ecc71 !important; border-color: #27ae60 !important; color: #fff !important; transform: scale(1.15); box-shadow: 0 0 35px #2ecc71; }
+  .tbtn.wrong { background: #e74c3c !important; border-color: #c0392b !important; color: #fff !important; opacity: 0.55; transform: scale(0.92); }
 
   .g-canvas { flex: 1; width: 100%; height: 100%; position: absolute; top: 0; left: 0; z-index: 1; }
   .g-pbar { height: 6px; background: #9b59b6; width: 0%; transition: width 0.3s ease; position: absolute; bottom: 0; left: 0; z-index: 10; box-shadow: 0 0 10px #9b59b6; }
@@ -58,8 +60,11 @@
 const QS = [{"q_num": 69, "q": "The opposite of black is _____.", "choices": ["bed", "house", "homework", "bad"], "answer": 0}, {"q_num": 81, "q": "Don't _____ late for school.", "choices": ["whale", "white", "what", "wheels"], "answer": 0}, {"q_num": 92, "q": "She _____ short hair.", "choices": ["Hit", "Shout", "Respect", "chair"], "answer": 0}, {"q_num": 104, "q": "He always _____ his friends.", "choices": ["have", "am", "has", "has"], "answer": 0}, {"q_num": 116, "q": "What kind of person _____ Tala?", "choices": ["talking", "talk", "talks", "high"], "answer": 0}, {"q_num": 128, "q": "_____ you have brown hair?", "choices": ["am", "is", "are", "are"], "answer": 0}, {"q_num": 139, "q": "He _____ his bed every day.", "choices": ["do", "does", "am", "is"], "answer": 0}, {"q_num": 151, "q": "I do my _____ after school.", "choices": ["brushing", "brushes", "brush", "brush"], "answer": 0}, {"q_num": 163, "q": "I watch TV _____ night.", "choices": ["doing", "does", "do", "watches"], "answer": 0}, {"q_num": 175, "q": "He _____ an apple.", "choices": ["on", "at", "in", "kitchen"], "answer": 0}];
 let qi=0, score=0, locked=false, parts=[], animId=null, time=0;
 let cv, ctx, W, H, AC;
-let hookY = 140, hookTargetY = 140, isHooking = false;
+let hookY = 140, hookTargetY = 140, hookX = 0;
 let mouseX = 0, mouseY = 0;
+
+// Dynamic Moving Targets Array
+let targets = [];
 
 window.addEventListener('load', () => {
   cv = document.getElementById('cv'); ctx = cv.getContext('2d');
@@ -69,7 +74,7 @@ window.addEventListener('load', () => {
   loadQ(); loop();
 });
 
-function resize() { W = cv.width = window.innerWidth; H = cv.height = window.innerHeight; mouseX = W/2; }
+function resize() { W = cv.width = window.innerWidth; H = cv.height = window.innerHeight; mouseX = W/2; hookX = W/2; }
 
 function tone(f,d,t,v) {
   if(!AC) return; if(AC.state==='suspended') AC.resume();
@@ -117,165 +122,185 @@ function burst(x,y,color,n=35) {
   }
 }
 
-/* ---------------- AAA-QUALITY REALISTIC CANVAS ENGINES ---------------- */
+/* ---------------- CONTINUOUS MOVING TARGETS & CANVAS RENDERING ---------------- */
 
-/* 1. 🎣 Fishing Hunter Engine: Swimming Fish with Animated Tails & Hook Drop */
-function renderFishing() {
+function initTargets(choices, correctText) {
+  targets = [];
+  const n = choices.length;
+  const spacing = W / (n + 1);
+
+  choices.forEach((text, i) => {
+    let startX = spacing * (i + 1);
+    let startY = H * 0.38 + (i % 2) * 80;
+    let vx = (i % 2 === 0 ? 1 : -1) * (1.2 + Math.random() * 0.8);
+    let vy = (0.5 + Math.random() * 0.5);
+
+    if ('space' === 'balloon') startY = H * 0.55 + (i * 30);
+    if ('space' === 'cannon') startY = 160 + (i * 45);
+
+    targets.push({
+      text: text,
+      ok: text === correctText,
+      x: startX,
+      y: startY,
+      vx: vx,
+      vy: vy,
+      baseY: startY,
+      color: ['#ff7675', '#74b9ff', '#55efc4', '#ffeaa7'][i % 4],
+      btnEl: null
+    });
+  });
+}
+
+function updateTargetPositions() {
   time += 0.03;
-  // Underwater Ocean Gradient
-  const grad = ctx.createLinearGradient(0, 0, 0, H);
-  grad.addColorStop(0, '#031024'); grad.addColorStop(0.4, '#0077b6'); grad.addColorStop(1, '#001838');
-  ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H);
 
-  // Animated Water Waves Light Caustics
-  ctx.fillStyle = 'rgba(255,255,255,0.06)';
-  ctx.beginPath();
-  for(let x=0; x<W; x+=15) {
-    const y = 140 + Math.sin(x*0.02 + time)*12;
-    if(x===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
-  }
-  ctx.lineTo(W, H); ctx.lineTo(0, H); ctx.fill();
+  targets.forEach((t, i) => {
+    if ('space' === 'fishing') {
+      // Swimming Fish movement left/right + wave float
+      t.x += t.vx * 1.5;
+      t.y = t.baseY + Math.sin(time * 3 + i) * 18;
+      if (t.vx > 0 && t.x > W + 80) t.x = -80;
+      if (t.vx < 0 && t.x < -80) t.x = W + 80;
+    }
+    else if ('space' === 'cannon') {
+      // Descending parachutes slowly float down + sway
+      t.y += 0.6;
+      t.x += Math.sin(time * 2 + i) * 1.8;
+      if (t.y > H - 150) t.y = 150;
+    }
+    else if ('space' === 'balloon') {
+      // Floating balloons float up + gentle wind sway
+      t.y -= 0.9;
+      t.x += Math.sin(time * 2.5 + i) * 2;
+      if (t.y < 130) t.y = H + 60;
+    }
+    else if ('space' === 'space') {
+      // Alien space drones weave down & across
+      t.y += 0.7;
+      t.x += Math.cos(time * 2 + i) * 2.5;
+      if (t.y > H - 140) t.y = 150;
+    }
+    else if ('space' === 'archery') {
+      // Archery target boards slide horizontally back & forth
+      t.x += t.vx * 2;
+      if (t.x > W - 100 || t.x < 100) t.vx *= -1;
+    }
 
-  // Swaying Sea Floor Plants
-  ctx.fillStyle = '#10b981';
-  for(let i=0; i<W; i+=60) {
-    ctx.beginPath();
-    ctx.moveTo(i, H);
-    ctx.quadraticCurveTo(i + Math.sin(time + i)*20, H - 70, i + Math.sin(time + i)*10, H - 120);
-    ctx.quadraticCurveTo(i - 10, H - 70, i, H);
-    ctx.fill();
-  }
-
-  // Fisherman Boat at top
-  ctx.fillStyle = '#b45309';
-  ctx.beginPath(); ctx.arc(W/2, 135, 55, 0, Math.PI); ctx.fill();
-  ctx.fillStyle = '#fff'; ctx.font = '28px sans-serif'; ctx.fillText('🎣', W/2 - 14, 130);
-
-  // Fishing Hook Movement
-  hookY += (hookTargetY - hookY) * 0.12;
-  ctx.strokeStyle = 'rgba(255,255,255,0.6)'; ctx.lineWidth = 2.5;
-  ctx.beginPath(); ctx.moveTo(W/2, 135); ctx.lineTo(W/2, hookY); ctx.stroke();
-  ctx.fillStyle = '#cbd5e1'; ctx.beginPath(); ctx.arc(W/2, hookY, 6, 0, Math.PI*2); ctx.fill();
-
-  // Swimming Fish Animation under target buttons
-  const btns = Array.from(document.querySelectorAll('.tbtn'));
-  btns.forEach((btn, idx) => {
-    const rect = btn.getBoundingClientRect();
-    const fishX = rect.left + rect.width/2;
-    const fishY = rect.top + rect.height/2;
-
-    // Draw Realistic Swimming Fish Shape around button
-    const tailWiggle = Math.sin(time*6 + idx)*14;
-    ctx.fillStyle = ['#ff7675', '#74b9ff', '#55efc4', '#ffeaa7'][idx % 4];
-    
-    // Fish Body Oval
-    ctx.beginPath();
-    ctx.ellipse(fishX, fishY, rect.width/2 + 18, rect.height/2 + 12, 0, 0, Math.PI*2);
-    ctx.fill();
-    ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.stroke();
-
-    // Fish Tail Fin
-    ctx.beginPath();
-    ctx.moveTo(fishX + rect.width/2 + 15, fishY);
-    ctx.lineTo(fishX + rect.width/2 + 40, fishY - 18 + tailWiggle);
-    ctx.lineTo(fishX + rect.width/2 + 40, fishY + 18 + tailWiggle);
-    ctx.closePath(); ctx.fill();
-
-    // Fish Eye
-    ctx.fillStyle = '#1e293b'; ctx.beginPath(); ctx.arc(fishX - rect.width/2 - 4, fishY - 6, 5, 0, Math.PI*2); ctx.fill();
-    ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(fishX - rect.width/2 - 6, fishY - 8, 2, 0, Math.PI*2); ctx.fill();
+    // Update DOM button position directly over canvas object
+    if (t.btnEl) {
+      const btnW = t.btnEl.offsetWidth || 140;
+      const btnH = t.btnEl.offsetHeight || 50;
+      t.btnEl.style.left = (t.x - btnW / 2) + 'px';
+      t.btnEl.style.top = (t.y - btnH / 2) + 'px';
+    }
   });
 }
 
-/* 2. 💣 Cannon Parachute Siege Engine */
-function renderCannon() {
-  time += 0.03;
-  ctx.fillStyle = '#0f172a'; ctx.fillRect(0, 0, W, H);
+/* Render Canvas Visual Graphics Surrounding Moving Targets */
+function renderCanvasGraphics() {
+  if ('space' === 'fishing') {
+    // Underwater Ocean Background & Waves
+    const grad = ctx.createLinearGradient(0, 0, 0, H);
+    grad.addColorStop(0, '#031024'); grad.addColorStop(0.4, '#0077b6'); grad.addColorStop(1, '#001838');
+    ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H);
 
-  // Parachute Canopy over buttons
-  const btns = Array.from(document.querySelectorAll('.tbtn'));
-  btns.forEach((btn, idx) => {
-    const rect = btn.getBoundingClientRect();
-    const bx = rect.left + rect.width/2;
-    const by = rect.top;
+    ctx.fillStyle = 'rgba(255,255,255,0.06)';
+    ctx.beginPath();
+    for(let x=0; x<W; x+=15) {
+      const y = 140 + Math.sin(x*0.02 + time)*12;
+      if(x===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+    }
+    ctx.lineTo(W, H); ctx.lineTo(0, H); ctx.fill();
 
-    ctx.fillStyle = '#ef4444';
-    ctx.beginPath(); ctx.arc(bx, by - 25, 45, Math.PI, 0); ctx.fill();
-    ctx.strokeStyle = '#cbd5e1'; ctx.lineWidth = 1.5;
-    ctx.beginPath(); ctx.moveTo(bx - 40, by - 25); ctx.lineTo(bx - 20, by); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(bx + 40, by - 25); ctx.lineTo(bx + 20, by); ctx.stroke();
-  });
+    // Fisherman Boat at top
+    ctx.fillStyle = '#b45309'; ctx.beginPath(); ctx.arc(W/2, 135, 55, 0, Math.PI); ctx.fill();
+    ctx.fillStyle = '#fff'; ctx.font = '28px sans-serif'; ctx.fillText('🎣', W/2 - 14, 130);
 
-  // Cannon Base & Barrel rotating to mouse position
-  const angle = Math.atan2(mouseY - (H-30), mouseX - W/2);
-  ctx.save(); ctx.translate(W/2, H-30); ctx.rotate(angle);
-  ctx.fillStyle = '#64748b'; ctx.fillRect(0, -14, 65, 28); ctx.restore();
-  ctx.fillStyle = '#334155'; ctx.beginPath(); ctx.arc(W/2, H-30, 40, Math.PI, 0); ctx.fill();
-}
+    // Fishing Hook
+    hookY += (hookTargetY - hookY) * 0.12;
+    ctx.strokeStyle = 'rgba(255,255,255,0.6)'; ctx.lineWidth = 2.5;
+    ctx.beginPath(); ctx.moveTo(W/2, 135); ctx.lineTo(hookX, hookY); ctx.stroke();
+    ctx.fillStyle = '#cbd5e1'; ctx.beginPath(); ctx.arc(hookX, hookY, 6, 0, Math.PI*2); ctx.fill();
 
-/* 3. 🎈 Glossy Balloon Popper Engine */
-function renderBalloon() {
-  time += 0.02;
-  ctx.fillStyle = '#1b1947'; ctx.fillRect(0, 0, W, H);
-
-  // Clouds
-  ctx.fillStyle = 'rgba(255,255,255,0.05)';
-  ctx.beginPath(); ctx.arc(W*0.2, H*0.3 + Math.sin(time)*15, 90, 0, Math.PI*2); ctx.fill();
-  ctx.beginPath(); ctx.arc(W*0.8, H*0.25 + Math.cos(time)*15, 110, 0, Math.PI*2); ctx.fill();
-
-  // Balloon Strings underneath target buttons
-  const btns = Array.from(document.querySelectorAll('.tbtn'));
-  btns.forEach((btn, idx) => {
-    const rect = btn.getBoundingClientRect();
-    const bx = rect.left + rect.width/2;
-    const by = rect.bottom;
-
-    ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 2;
-    ctx.beginPath(); ctx.moveTo(bx, by);
-    ctx.quadraticCurveTo(bx + Math.sin(time*4 + idx)*15, by + 40, bx, by + 70); ctx.stroke();
-  });
-}
-
-/* 4. 🚀 Space Fighter Laser Engine */
-function renderSpace() {
-  time += 0.05;
-  ctx.fillStyle = '#050515'; ctx.fillRect(0, 0, W, H);
-
-  // Stars Scrolling
-  ctx.fillStyle = '#fff';
-  for(let i=0; i<40; i++) {
-    const sx = (i*47) % W;
-    const sy = (i*83 + time*100) % H;
-    ctx.fillRect(sx, sy, 2, 2);
+    // Swimming Fish shapes behind moving choice buttons
+    targets.forEach((t, i) => {
+      const tailWiggle = Math.sin(time*6 + i)*14;
+      ctx.fillStyle = t.color;
+      ctx.beginPath(); ctx.ellipse(t.x, t.y, 85, 40, 0, 0, Math.PI*2); ctx.fill();
+      ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(t.x + 75, t.y); ctx.lineTo(t.x + 105, t.y - 18 + tailWiggle); ctx.lineTo(t.x + 105, t.y + 18 + tailWiggle); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = '#1e293b'; ctx.beginPath(); ctx.arc(t.x - 60, t.y - 6, 5, 0, Math.PI*2); ctx.fill();
+    });
   }
+  else if ('space' === 'cannon') {
+    ctx.fillStyle = '#0f172a'; ctx.fillRect(0, 0, W, H);
 
-  // Player Spacecraft
-  ctx.fillStyle = '#38bdf8';
-  ctx.beginPath(); ctx.moveTo(mouseX, H - 75); ctx.lineTo(mouseX - 30, H - 25); ctx.lineTo(mouseX + 30, H - 25); ctx.closePath(); ctx.fill();
-  ctx.fillStyle = '#f97316'; ctx.beginPath(); ctx.arc(mouseX, H - 20, 8, 0, Math.PI*2); ctx.fill();
-}
+    // Parachute Canopies over moving buttons
+    targets.forEach((t) => {
+      ctx.fillStyle = '#ef4444';
+      ctx.beginPath(); ctx.arc(t.x, t.y - 35, 50, Math.PI, 0); ctx.fill();
+      ctx.strokeStyle = '#cbd5e1'; ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.moveTo(t.x - 45, t.y - 35); ctx.lineTo(t.x - 25, t.y); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(t.x + 45, t.y - 35); ctx.lineTo(t.x + 25, t.y); ctx.stroke();
+    });
 
-/* 5. 🏹 Archery Bow Target Engine */
-function renderArchery() {
-  time += 0.02;
-  ctx.fillStyle = '#0d1b2a'; ctx.fillRect(0, 0, W, H);
+    // Cannon Barrel
+    const angle = Math.atan2(mouseY - (H-30), mouseX - W/2);
+    ctx.save(); ctx.translate(W/2, H-30); ctx.rotate(angle);
+    ctx.fillStyle = '#64748b'; ctx.fillRect(0, -14, 65, 28); ctx.restore();
+    ctx.fillStyle = '#334155'; ctx.beginPath(); ctx.arc(W/2, H-30, 40, Math.PI, 0); ctx.fill();
+  }
+  else if ('space' === 'balloon') {
+    ctx.fillStyle = '#1b1947'; ctx.fillRect(0, 0, W, H);
 
-  // Wooden Archery Bow at bottom
-  ctx.strokeStyle = '#b45309'; ctx.lineWidth = 6;
-  ctx.beginPath(); ctx.arc(W/2, H - 10, 85, Math.PI*1.15, Math.PI*1.85); ctx.stroke();
-  ctx.strokeStyle = '#fff'; ctx.lineWidth = 2;
-  ctx.beginPath(); ctx.moveTo(W/2 - 75, H - 25); ctx.lineTo(W/2 + 75, H - 25); ctx.stroke();
+    // Glossy 3D Balloons & Strings under moving buttons
+    targets.forEach((t, i) => {
+      ctx.fillStyle = t.color;
+      ctx.beginPath(); ctx.ellipse(t.x, t.y, 80, 42, 0, 0, Math.PI*2); ctx.fill();
+      ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.stroke();
+      ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(t.x, t.y + 35); ctx.quadraticCurveTo(t.x + Math.sin(time*4 + i)*15, t.y + 70, t.x, t.y + 95); ctx.stroke();
+    });
+  }
+  else if ('space' === 'space') {
+    ctx.fillStyle = '#050515'; ctx.fillRect(0, 0, W, H);
+
+    // Stars
+    ctx.fillStyle = '#fff';
+    for(let i=0; i<35; i++) ctx.fillRect((i*47)%W, (i*83 + time*90)%H, 2, 2);
+
+    // Alien Drones surrounding moving targets
+    targets.forEach((t) => {
+      ctx.fillStyle = '#9333ea';
+      ctx.beginPath(); ctx.ellipse(t.x, t.y, 85, 38, 0, 0, Math.PI*2); ctx.fill();
+      ctx.strokeStyle = '#c084fc'; ctx.lineWidth = 2; ctx.stroke();
+    });
+
+    // Player Spacecraft
+    ctx.fillStyle = '#38bdf8';
+    ctx.beginPath(); ctx.moveTo(mouseX, H - 75); ctx.lineTo(mouseX - 30, H - 25); ctx.lineTo(mouseX + 30, H - 25); ctx.closePath(); ctx.fill();
+  }
+  else if ('space' === 'archery') {
+    ctx.fillStyle = '#0d1b2a'; ctx.fillRect(0, 0, W, H);
+
+    // Moving Archery Target Boards
+    targets.forEach((t) => {
+      ctx.fillStyle = '#b45309'; ctx.fillRect(t.x - 85, t.y - 35, 170, 70);
+      ctx.strokeStyle = '#ef4444'; ctx.lineWidth = 3; ctx.strokeRect(t.x - 80, t.y - 30, 160, 60);
+    });
+
+    // Wooden Bow
+    ctx.strokeStyle = '#b45309'; ctx.lineWidth = 6;
+    ctx.beginPath(); ctx.arc(W/2, H - 10, 85, Math.PI*1.15, Math.PI*1.85); ctx.stroke();
+  }
 }
 
 function loop() {
-  ctx.clearRect(0,0,W,H);
+  ctx.clearRect(0, 0, W, H);
 
-  if ('space' === 'fishing') renderFishing();
-  else if ('space' === 'cannon') renderCannon();
-  else if ('space' === 'balloon') renderBalloon();
-  else if ('space' === 'space') renderSpace();
-  else if ('space' === 'archery') renderArchery();
-  else renderFishing();
+  updateTargetPositions();
+  renderCanvasGraphics();
 
   // Burst Particles
   parts = parts.filter(p=>p.life>0);
@@ -295,34 +320,35 @@ function loadQ() {
   document.getElementById('qn').textContent = 'Q ' + (qi+1) + '/' + QS.length;
   document.getElementById('pb').style.width = (qi/QS.length*100) + '%';
   const cont = document.getElementById('tg'); cont.innerHTML = '';
+
   const correctText = q.choices[q.answer] || q.choices[0];
   let ch = [...q.choices];
-  const lab = ch.map(c => ({ t: c, ok: c === correctText }));
-  lab.sort(() => Math.random() - 0.5);
-  lab.forEach((item) => {
-    const btn = document.createElement('button'); btn.className = 'tbtn';
-    btn.textContent = item.t; btn.onclick = () => pick(btn, item.ok);
+  ch.sort(() => Math.random() - 0.5);
+
+  initTargets(ch, correctText);
+
+  targets.forEach((t) => {
+    const btn = document.createElement('button');
+    btn.className = 'tbtn';
+    btn.textContent = t.text;
+    btn.onclick = () => pick(btn, t);
     cont.appendChild(btn);
+    t.btnEl = btn;
   });
 }
 
-function pick(btn, good) {
+function pick(btn, targetObj) {
   if(locked) return; locked = true;
-  const rect = btn.getBoundingClientRect();
-  const targetX = rect.left + rect.width/2;
-  const targetY = rect.top + rect.height/2;
+  hookX = targetObj.x;
+  hookTargetY = targetObj.y;
 
-  if ('space' === 'fishing') {
-    hookTargetY = targetY;
-  }
-
-  if(good) {
-    btn.classList.add('correct'); playApplauseSnd(); burst(targetX, targetY, '#2ecc71', 45);
+  if(targetObj.ok) {
+    btn.classList.add('correct'); playApplauseSnd(); burst(targetObj.x, targetObj.y, '#2ecc71', 45);
     score += 10; document.getElementById('sc').textContent = score;
   } else {
-    btn.classList.add('wrong'); fail_snd(); burst(targetX, targetY, '#e74c3c', 25);
-    Array.from(document.getElementById('tg').children).forEach(b => {
-      if(b.textContent === QS[qi].choices[QS[qi].answer]) b.classList.add('correct');
+    btn.classList.add('wrong'); fail_snd(); burst(targetObj.x, targetObj.y, '#e74c3c', 25);
+    targets.forEach(t => {
+      if(t.ok && t.btnEl) t.btnEl.classList.add('correct');
     });
   }
   setTimeout(() => { hookTargetY = 140; qi++; loadQ(); }, 1600);
