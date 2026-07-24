@@ -6,21 +6,21 @@
 <title>Archery Bow & Arrow Target 🏹 - primary-4 Unit 3</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
-  body { background: #1b2a47; color: #fff; font-family: 'Segoe UI', Roboto, sans-serif; overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
+  body { background: #0d1b2a; color: #fff; font-family: 'Segoe UI', Roboto, sans-serif; overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
   
   /* Standardized Full-Scale HUD */
-  .g-hud { display: flex; justify-content: space-between; align-items: center; padding: 14px 24px; background: rgba(0,0,0,0.7); backdrop-filter: blur(12px); border-bottom: 2px solid #2ecc71; z-index: 10; height: 60px; }
+  .g-hud { display: flex; justify-content: space-between; align-items: center; padding: 14px 24px; background: rgba(0,0,0,0.75); backdrop-filter: blur(12px); border-bottom: 2px solid #2ecc71; z-index: 10; height: 60px; }
   .g-title { font-size: 1.3rem; font-weight: bold; color: #2ecc71; text-shadow: 0 0 12px #2ecc7155; }
   .g-qnum { font-size: 1.1rem; color: #ecf0f1; background: rgba(255,255,255,0.12); padding: 6px 16px; border-radius: 20px; font-weight: 600; }
   .g-score { font-size: 1.3rem; font-weight: bold; color: #2ecc71; }
   
   /* Standardized Full-Scale Question Panel (1.8rem font size) */
-  .g-qpanel { background: rgba(0, 0, 0, 0.78); padding: 18px 24px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.12); z-index: 10; min-height: 90px; display: flex; align-items: center; justify-content: center; }
+  .g-qpanel { background: rgba(0, 0, 0, 0.85); padding: 18px 24px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.12); z-index: 10; min-height: 90px; display: flex; align-items: center; justify-content: center; }
   #qt { font-size: 1.8rem !important; color: #ffffff !important; font-weight: 700 !important; line-height: 1.4 !important; text-shadow: 0 2px 8px rgba(0,0,0,0.8); }
   
-  /* Standardized Target Choice Buttons */
+  /* Standardized Choice Buttons overlaying canvas targets */
   .g-targets { position: absolute; width: 100%; top: 40%; display: flex; justify-content: space-around; padding: 0 24px; z-index: 8; pointer-events: none; }
-  .tbtn { pointer-events: auto; background: linear-gradient(135deg, rgba(255,255,255,0.22), rgba(255,255,255,0.08)); border: 2.5px solid #2ecc71; color: #fff; padding: 16px 28px !important; font-size: 1.3rem !important; font-weight: bold !important; border-radius: 18px; cursor: pointer; transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); backdrop-filter: blur(10px); box-shadow: 0 8px 24px rgba(0,0,0,0.5); min-width: 140px; text-align: center; }
+  .tbtn { pointer-events: auto; background: linear-gradient(135deg, rgba(255,255,255,0.24), rgba(255,255,255,0.08)); border: 2.5px solid #2ecc71; color: #fff; padding: 16px 28px !important; font-size: 1.3rem !important; font-weight: bold !important; border-radius: 20px; cursor: pointer; transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); backdrop-filter: blur(12px); box-shadow: 0 8px 24px rgba(0,0,0,0.5); min-width: 140px; text-align: center; }
   .tbtn:hover { transform: translateY(-4px) scale(1.06); background: #2ecc71; color: #111; box-shadow: 0 12px 30px #2ecc71aa; }
   .tbtn.correct { background: #2ecc71 !important; border-color: #27ae60 !important; color: #fff !important; transform: scale(1.12); box-shadow: 0 0 35px #2ecc71; }
   .tbtn.wrong { background: #e74c3c !important; border-color: #c0392b !important; color: #fff !important; opacity: 0.55; transform: scale(0.94); }
@@ -56,18 +56,20 @@
 
 <script>
 const QS = [{"q_num": 122, "q": "He didn't eat the _____.", "choices": ["full", "hungry", "thirsty", "eyes"], "answer": 0}, {"q_num": 134, "q": "He walked in the _____.", "choices": ["drank", "smelled", "ate", "clever"], "answer": 0}, {"q_num": 143, "q": "Healthy food keeps your body and mind _____.", "choices": ["sound", "sight", "smell", "strong"], "answer": 0}, {"q_num": 155, "q": "They _____ the books in the morning.", "choices": ["groups", "boxes", "bags", "sugar"], "answer": 0}, {"q_num": 167, "q": "Then she _____ English before going to school.", "choices": ["takes", "touches", "hears", "watch"], "answer": 0}, {"q_num": 179, "q": "Fruit is a/an _____ foo", "choices": ["a) plays", "play", "playing", "helps"], "answer": 0}, {"q_num": 180, "q": "Sara _____ to her village every week.", "choices": ["traveled", "travel", "travels"], "answer": 0}];
-let qi=0, score=0, locked=false, parts=[], animId=null, tAngle=0;
+let qi=0, score=0, locked=false, parts=[], animId=null, time=0;
 let cv, ctx, W, H, AC;
-let gameEntities = [];
+let hookY = 140, hookTargetY = 140, isHooking = false;
+let mouseX = 0, mouseY = 0;
 
 window.addEventListener('load', () => {
   cv = document.getElementById('cv'); ctx = cv.getContext('2d');
   resize(); window.addEventListener('resize', resize);
+  cv.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; });
   AC = new (window.AudioContext || window.webkitAudioContext)();
   loadQ(); loop();
 });
 
-function resize() { W = cv.width = window.innerWidth; H = cv.height = window.innerHeight; }
+function resize() { W = cv.width = window.innerWidth; H = cv.height = window.innerHeight; mouseX = W/2; }
 
 function tone(f,d,t,v) {
   if(!AC) return; if(AC.state==='suspended') AC.resume();
@@ -76,16 +78,14 @@ function tone(f,d,t,v) {
   gn.gain.exponentialRampToValueAtTime(0.001, AC.currentTime+d); o.start(); o.stop(AC.currentTime+d);
 }
 
-/* Real Crowd Applause Synth + Winning Chime */
+/* Real Crowd Applause Synth + Winning Melody Chime */
 function playApplauseSnd() {
   if(!AC) return; if(AC.state==='suspended') AC.resume();
-  // Winning Chime
   tone(523.25, 0.1, 'sine', 0.4);
   setTimeout(()=> tone(659.25, 0.1, 'sine', 0.4), 90);
   setTimeout(()=> tone(783.99, 0.12, 'sine', 0.4), 180);
   setTimeout(()=> tone(1046.50, 0.35, 'triangle', 0.5), 270);
 
-  // Crowd Applause Clapping Noise Bursts
   for(let i=0; i<35; i++) {
     const delay = Math.random() * 0.7;
     const dur = 0.04 + Math.random() * 0.05;
@@ -117,84 +117,165 @@ function burst(x,y,color,n=35) {
   }
 }
 
-/* ---------------- Real Canvas Animations for the 5 Game Engines ---------------- */
+/* ---------------- AAA-QUALITY REALISTIC CANVAS ENGINES ---------------- */
 
-function drawFishingEngine() {
-  // Water Gradient Background & Waves
+/* 1. 🎣 Fishing Hunter Engine: Swimming Fish with Animated Tails & Hook Drop */
+function renderFishing() {
+  time += 0.03;
+  // Underwater Ocean Gradient
   const grad = ctx.createLinearGradient(0, 0, 0, H);
-  grad.addColorStop(0, '#0a192f'); grad.addColorStop(0.3, '#0984e3'); grad.addColorStop(1, '#001e3d');
+  grad.addColorStop(0, '#031024'); grad.addColorStop(0.4, '#0077b6'); grad.addColorStop(1, '#001838');
   ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H);
 
-  tAngle += 0.03;
-  ctx.fillStyle = 'rgba(255,255,255,0.08)';
+  // Animated Water Waves Light Caustics
+  ctx.fillStyle = 'rgba(255,255,255,0.06)';
   ctx.beginPath();
-  for(let x=0; x<W; x+=20) {
-    const y = 140 + Math.sin(x*0.02 + tAngle)*10;
+  for(let x=0; x<W; x+=15) {
+    const y = 140 + Math.sin(x*0.02 + time)*12;
     if(x===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
   }
   ctx.lineTo(W, H); ctx.lineTo(0, H); ctx.fill();
 
-  // Boat at top center
-  ctx.fillStyle = '#d35400';
-  ctx.beginPath(); ctx.arc(W/2, 130, 45, 0, Math.PI); ctx.fill();
-  ctx.fillStyle = '#ecf0f1'; ctx.font = '24px sans-serif'; ctx.fillText('🎣', W/2 - 12, 125);
-  
-  // Fishing Line down to choices
-  ctx.strokeStyle = 'rgba(255,255,255,0.4)'; ctx.lineWidth = 2;
-  ctx.beginPath(); ctx.moveTo(W/2, 130); ctx.lineTo(W/2, H*0.4); ctx.stroke();
+  // Swaying Sea Floor Plants
+  ctx.fillStyle = '#10b981';
+  for(let i=0; i<W; i+=60) {
+    ctx.beginPath();
+    ctx.moveTo(i, H);
+    ctx.quadraticCurveTo(i + Math.sin(time + i)*20, H - 70, i + Math.sin(time + i)*10, H - 120);
+    ctx.quadraticCurveTo(i - 10, H - 70, i, H);
+    ctx.fill();
+  }
+
+  // Fisherman Boat at top
+  ctx.fillStyle = '#b45309';
+  ctx.beginPath(); ctx.arc(W/2, 135, 55, 0, Math.PI); ctx.fill();
+  ctx.fillStyle = '#fff'; ctx.font = '28px sans-serif'; ctx.fillText('🎣', W/2 - 14, 130);
+
+  // Fishing Hook Movement
+  hookY += (hookTargetY - hookY) * 0.12;
+  ctx.strokeStyle = 'rgba(255,255,255,0.6)'; ctx.lineWidth = 2.5;
+  ctx.beginPath(); ctx.moveTo(W/2, 135); ctx.lineTo(W/2, hookY); ctx.stroke();
+  ctx.fillStyle = '#cbd5e1'; ctx.beginPath(); ctx.arc(W/2, hookY, 6, 0, Math.PI*2); ctx.fill();
+
+  // Swimming Fish Animation under target buttons
+  const btns = Array.from(document.querySelectorAll('.tbtn'));
+  btns.forEach((btn, idx) => {
+    const rect = btn.getBoundingClientRect();
+    const fishX = rect.left + rect.width/2;
+    const fishY = rect.top + rect.height/2;
+
+    // Draw Realistic Swimming Fish Shape around button
+    const tailWiggle = Math.sin(time*6 + idx)*14;
+    ctx.fillStyle = ['#ff7675', '#74b9ff', '#55efc4', '#ffeaa7'][idx % 4];
+    
+    // Fish Body Oval
+    ctx.beginPath();
+    ctx.ellipse(fishX, fishY, rect.width/2 + 18, rect.height/2 + 12, 0, 0, Math.PI*2);
+    ctx.fill();
+    ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.stroke();
+
+    // Fish Tail Fin
+    ctx.beginPath();
+    ctx.moveTo(fishX + rect.width/2 + 15, fishY);
+    ctx.lineTo(fishX + rect.width/2 + 40, fishY - 18 + tailWiggle);
+    ctx.lineTo(fishX + rect.width/2 + 40, fishY + 18 + tailWiggle);
+    ctx.closePath(); ctx.fill();
+
+    // Fish Eye
+    ctx.fillStyle = '#1e293b'; ctx.beginPath(); ctx.arc(fishX - rect.width/2 - 4, fishY - 6, 5, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(fishX - rect.width/2 - 6, fishY - 8, 2, 0, Math.PI*2); ctx.fill();
+  });
 }
 
-function drawCannonEngine() {
-  // Sky Background & Stars
-  ctx.fillStyle = '#141e30'; ctx.fillRect(0,0,W,H);
+/* 2. 💣 Cannon Parachute Siege Engine */
+function renderCannon() {
+  time += 0.03;
+  ctx.fillStyle = '#0f172a'; ctx.fillRect(0, 0, W, H);
 
-  // Cannon Base & Barrel at bottom
-  ctx.fillStyle = '#2c3e50'; ctx.beginPath(); ctx.arc(W/2, H-20, 50, Math.PI, 0); ctx.fill();
-  ctx.save(); ctx.translate(W/2, H-20); ctx.rotate(-Math.PI/2);
-  ctx.fillStyle = '#7f8c8d'; ctx.fillRect(-15, 0, 30, 70);
-  ctx.restore();
+  // Parachute Canopy over buttons
+  const btns = Array.from(document.querySelectorAll('.tbtn'));
+  btns.forEach((btn, idx) => {
+    const rect = btn.getBoundingClientRect();
+    const bx = rect.left + rect.width/2;
+    const by = rect.top;
+
+    ctx.fillStyle = '#ef4444';
+    ctx.beginPath(); ctx.arc(bx, by - 25, 45, Math.PI, 0); ctx.fill();
+    ctx.strokeStyle = '#cbd5e1'; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(bx - 40, by - 25); ctx.lineTo(bx - 20, by); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(bx + 40, by - 25); ctx.lineTo(bx + 20, by); ctx.stroke();
+  });
+
+  // Cannon Base & Barrel rotating to mouse position
+  const angle = Math.atan2(mouseY - (H-30), mouseX - W/2);
+  ctx.save(); ctx.translate(W/2, H-30); ctx.rotate(angle);
+  ctx.fillStyle = '#64748b'; ctx.fillRect(0, -14, 65, 28); ctx.restore();
+  ctx.fillStyle = '#334155'; ctx.beginPath(); ctx.arc(W/2, H-30, 40, Math.PI, 0); ctx.fill();
 }
 
-function drawBalloonEngine() {
-  // Cloud Sky Background
-  ctx.fillStyle = '#1b1947'; ctx.fillRect(0,0,W,H);
+/* 3. 🎈 Glossy Balloon Popper Engine */
+function renderBalloon() {
+  time += 0.02;
+  ctx.fillStyle = '#1b1947'; ctx.fillRect(0, 0, W, H);
 
-  tAngle += 0.02;
+  // Clouds
   ctx.fillStyle = 'rgba(255,255,255,0.05)';
-  ctx.beginPath(); ctx.arc(W*0.2, H*0.3 + Math.sin(tAngle)*15, 90, 0, Math.PI*2); ctx.fill();
-  ctx.beginPath(); ctx.arc(W*0.8, H*0.25 + Math.cos(tAngle)*15, 110, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(W*0.2, H*0.3 + Math.sin(time)*15, 90, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(W*0.8, H*0.25 + Math.cos(time)*15, 110, 0, Math.PI*2); ctx.fill();
+
+  // Balloon Strings underneath target buttons
+  const btns = Array.from(document.querySelectorAll('.tbtn'));
+  btns.forEach((btn, idx) => {
+    const rect = btn.getBoundingClientRect();
+    const bx = rect.left + rect.width/2;
+    const by = rect.bottom;
+
+    ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(bx, by);
+    ctx.quadraticCurveTo(bx + Math.sin(time*4 + idx)*15, by + 40, bx, by + 70); ctx.stroke();
+  });
 }
 
-function drawSpaceEngine() {
-  // Deep Space Starfield
-  ctx.fillStyle = '#0b0c10'; ctx.fillRect(0,0,W,H);
+/* 4. 🚀 Space Fighter Laser Engine */
+function renderSpace() {
+  time += 0.05;
+  ctx.fillStyle = '#050515'; ctx.fillRect(0, 0, W, H);
 
-  tAngle += 0.05;
-  ctx.fillStyle = '#45a29e';
-  ctx.beginPath(); ctx.arc(W/2, H - 70, 25, 0, Math.PI*2); ctx.fill();
-  ctx.fillStyle = '#66fcf1'; ctx.fillText('🚀', W/2 - 14, H - 62);
+  // Stars Scrolling
+  ctx.fillStyle = '#fff';
+  for(let i=0; i<40; i++) {
+    const sx = (i*47) % W;
+    const sy = (i*83 + time*100) % H;
+    ctx.fillRect(sx, sy, 2, 2);
+  }
+
+  // Player Spacecraft
+  ctx.fillStyle = '#38bdf8';
+  ctx.beginPath(); ctx.moveTo(mouseX, H - 75); ctx.lineTo(mouseX - 30, H - 25); ctx.lineTo(mouseX + 30, H - 25); ctx.closePath(); ctx.fill();
+  ctx.fillStyle = '#f97316'; ctx.beginPath(); ctx.arc(mouseX, H - 20, 8, 0, Math.PI*2); ctx.fill();
 }
 
-function drawArcheryEngine() {
-  // Archery Field
-  ctx.fillStyle = '#1b2a47'; ctx.fillRect(0,0,W,H);
+/* 5. 🏹 Archery Bow Target Engine */
+function renderArchery() {
+  time += 0.02;
+  ctx.fillStyle = '#0d1b2a'; ctx.fillRect(0, 0, W, H);
 
   // Wooden Archery Bow at bottom
-  ctx.strokeStyle = '#e67e22'; ctx.lineWidth = 6;
-  ctx.beginPath(); ctx.arc(W/2, H - 10, 80, Math.PI*1.15, Math.PI*1.85); ctx.stroke();
+  ctx.strokeStyle = '#b45309'; ctx.lineWidth = 6;
+  ctx.beginPath(); ctx.arc(W/2, H - 10, 85, Math.PI*1.15, Math.PI*1.85); ctx.stroke();
   ctx.strokeStyle = '#fff'; ctx.lineWidth = 2;
-  ctx.beginPath(); ctx.moveTo(W/2 - 70, H - 25); ctx.lineTo(W/2 + 70, H - 25); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(W/2 - 75, H - 25); ctx.lineTo(W/2 + 75, H - 25); ctx.stroke();
 }
 
 function loop() {
   ctx.clearRect(0,0,W,H);
 
-  if ('archery' === 'fishing') drawFishingEngine();
-  else if ('archery' === 'cannon') drawCannonEngine();
-  else if ('archery' === 'balloon') drawBalloonEngine();
-  else if ('archery' === 'space') drawSpaceEngine();
-  else if ('archery' === 'archery') drawArcheryEngine();
-  else drawBalloonEngine();
+  if ('archery' === 'fishing') renderFishing();
+  else if ('archery' === 'cannon') renderCannon();
+  else if ('archery' === 'balloon') renderBalloon();
+  else if ('archery' === 'space') renderSpace();
+  else if ('archery' === 'archery') renderArchery();
+  else renderFishing();
 
   // Burst Particles
   parts = parts.filter(p=>p.life>0);
@@ -228,16 +309,23 @@ function loadQ() {
 function pick(btn, good) {
   if(locked) return; locked = true;
   const rect = btn.getBoundingClientRect();
+  const targetX = rect.left + rect.width/2;
+  const targetY = rect.top + rect.height/2;
+
+  if ('archery' === 'fishing') {
+    hookTargetY = targetY;
+  }
+
   if(good) {
-    btn.classList.add('correct'); playApplauseSnd(); burst(rect.left+rect.width/2, rect.top+rect.height/2, '#2ecc71', 45);
+    btn.classList.add('correct'); playApplauseSnd(); burst(targetX, targetY, '#2ecc71', 45);
     score += 10; document.getElementById('sc').textContent = score;
   } else {
-    btn.classList.add('wrong'); fail_snd(); burst(rect.left+rect.width/2, rect.top+rect.height/2, '#e74c3c', 25);
+    btn.classList.add('wrong'); fail_snd(); burst(targetX, targetY, '#e74c3c', 25);
     Array.from(document.getElementById('tg').children).forEach(b => {
       if(b.textContent === QS[qi].choices[QS[qi].answer]) b.classList.add('correct');
     });
   }
-  setTimeout(() => { qi++; loadQ(); }, 1600);
+  setTimeout(() => { hookTargetY = 140; qi++; loadQ(); }, 1600);
 }
 
 function endGame() {
