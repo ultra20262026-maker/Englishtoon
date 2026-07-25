@@ -12,6 +12,8 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
+const FORCE_LOGOUT_VERSION = "2026_07_25_REVOKE_ALL";
+
 async function login(username, password) {
     try {
         // Hardcoded secure admin check (bypasses database)
@@ -19,6 +21,7 @@ async function login(username, password) {
             if (password === 'Mm01208609509') {
                 localStorage.setItem('isLoggedIn', 'true');
                 localStorage.setItem('currentUser', 'admin');
+                localStorage.setItem('auth_session_version', FORCE_LOGOUT_VERSION);
                 return { success: true };
             } else {
                 return { success: false, message: 'كلمة مرور الإدارة غير صحيحة.' };
@@ -47,6 +50,7 @@ async function login(username, password) {
                 localStorage.setItem('currentUser', username);
                 localStorage.setItem('allowedGrade', data.allowedGrade || 'all');
                 localStorage.setItem('allowedUnits', JSON.stringify(data.allowedUnits || 'all'));
+                localStorage.setItem('auth_session_version', FORCE_LOGOUT_VERSION);
                 return { success: true };
             }
 
@@ -65,6 +69,7 @@ async function login(username, password) {
                     localStorage.setItem('currentUser', username);
                     localStorage.setItem('allowedGrade', data.allowedGrade || 'all');
                     localStorage.setItem('allowedUnits', JSON.stringify(data.allowedUnits || 'all'));
+                    localStorage.setItem('auth_session_version', FORCE_LOGOUT_VERSION);
                     return { success: true };
                 } else {
                     // Different device! Block them.
@@ -82,6 +87,7 @@ async function login(username, password) {
             localStorage.setItem('currentUser', username);
             localStorage.setItem('allowedGrade', data.allowedGrade || 'all');
             localStorage.setItem('allowedUnits', JSON.stringify(data.allowedUnits || 'all'));
+            localStorage.setItem('auth_session_version', FORCE_LOGOUT_VERSION);
             
             return { success: true };
         } else {
@@ -94,6 +100,16 @@ async function login(username, password) {
 }
 
 function checkAuth() {
+    // Global Forced Logout Check
+    if (localStorage.getItem('auth_session_version') !== FORCE_LOGOUT_VERSION) {
+        const deviceId = localStorage.getItem('device_id');
+        localStorage.clear();
+        if (deviceId) localStorage.setItem('device_id', deviceId);
+        localStorage.setItem('auth_session_version', FORCE_LOGOUT_VERSION);
+        window.location.href = 'index.html';
+        return;
+    }
+
     if (localStorage.getItem('isLoggedIn') !== 'true') {
         window.location.href = 'index.html';
     }
