@@ -12,7 +12,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-const FORCE_LOGOUT_VERSION = "2026_07_26_FORCE_ADMIN_REFRESH";
+const FORCE_LOGOUT_VERSION = "2026_07_26_UNREGISTER_SW_V5";
 
 async function login(username, password) {
     try {
@@ -122,13 +122,20 @@ async function login(username, password) {
 }
 
 function checkAuth() {
-    // Global Forced Logout Check
+    // Global Forced Logout Check & SW Unregister
     if (localStorage.getItem('auth_session_version') !== FORCE_LOGOUT_VERSION) {
         const deviceId = localStorage.getItem('device_id');
         localStorage.clear();
         if (deviceId) localStorage.setItem('device_id', deviceId);
         localStorage.setItem('auth_session_version', FORCE_LOGOUT_VERSION);
-        window.location.href = 'index.html';
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(regs => {
+                for (let r of regs) r.unregister();
+                window.location.href = 'index.html';
+            }).catch(() => { window.location.href = 'index.html'; });
+        } else {
+            window.location.href = 'index.html';
+        }
         return;
     }
 
