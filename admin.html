@@ -463,9 +463,10 @@
     <script>
         // Check Authentication
         checkAuth();
-        if (localStorage.getItem('currentUser') !== 'admin') {
-            alert('عذراً، هذه الصفحة مخصصة للأدمن فقط.');
-            window.location.href = 'dashboard.html';
+        const loggedUser = (localStorage.getItem('currentUser') || '').trim().toLowerCase();
+        if (loggedUser !== 'admin') {
+            alert('عذراً، هذه الصفحة مخصصة للأدمن فقط. يرجى تسجيل الدخول بحساب admin أولاً.');
+            window.location.href = 'index.html';
         }
 
         // Tab Switching Logic

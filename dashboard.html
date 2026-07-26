@@ -388,7 +388,11 @@
         checkAuth();
         const currentUser = localStorage.getItem('currentUser') || 'طالب';
         document.getElementById('user-display').textContent = currentUser;
-        if (currentUser === 'admin') document.getElementById('admin-btn-link').style.display = 'inline-flex';
+        if (currentUser.trim().toLowerCase() === 'admin') {
+            document.getElementById('admin-btn-link').style.cssText = 'display: inline-flex !important; visibility: visible !important; opacity: 1 !important;';
+            const heroAdmin = document.getElementById('admin-hero-btn');
+            if (heroAdmin) heroAdmin.style.display = 'inline-flex';
+        }
 
         // ===== CAROUSEL =====
         const track  = document.getElementById('carouselTrack');
