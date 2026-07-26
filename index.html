@@ -63,7 +63,15 @@
     <script src="js/auth.js?v=20260726_v999"></script>
 
     <script>
-        if (localStorage.getItem('isLoggedIn') === 'true') {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('logout') === 'true' || urlParams.get('reset') === '1') {
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('allowedGrade');
+            localStorage.removeItem('allowedUnits');
+            localStorage.removeItem('isTrial');
+            localStorage.removeItem('trialExpiresAt');
+        } else if (localStorage.getItem('isLoggedIn') === 'true') {
             window.location.href = 'dashboard.html';
         }
 

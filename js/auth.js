@@ -160,6 +160,11 @@ function setupAdminHeader() {
     const currUser = (localStorage.getItem('currentUser') || '').trim().toLowerCase();
     const isAdmin = (currUser === 'admin');
 
+    const userDisplay = document.getElementById('user-display');
+    if (userDisplay) {
+        userDisplay.textContent = isAdmin ? 'admin (المدير)' : (localStorage.getItem('currentUser') || 'طالب');
+    }
+
     const adminBtn = document.getElementById('admin-btn-link');
     if (adminBtn) {
         if (isAdmin) {
@@ -192,11 +197,6 @@ function setupAdminHeader() {
 }
 
 function logout() {
-    localStorage.removeItem('isLoggedIn');
-    localStorage.removeItem('currentUser');
-    localStorage.removeItem('allowedGrade');
-    localStorage.removeItem('allowedUnits');
-    localStorage.removeItem('isTrial');
-    localStorage.removeItem('trialExpiresAt');
-    window.location.href = 'index.html';
+    localStorage.clear();
+    window.location.href = 'index.html?logout=true';
 }
