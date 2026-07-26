@@ -188,7 +188,50 @@
             <!-- Primary Section -->
             <div id="primary-section">
                 <div class="level-section-label">📚 المرحلة الابتدائية</div>
-                <div class="grades-grid" id="primary-grid"></div>
+                <div class="grades-grid" id="primary-grid">
+                    <a href="grade.html?id=primary-1" class="grade-card" data-grade="primary-1">
+                        <img class="grade-card-img" src="images/primary_card.jpg" alt="الصف الأول الابتدائي">
+                        <div class="grade-card-body">
+                            <span class="grade-card-name">الصف الأول الابتدائي</span>
+                            <span class="grade-card-badge">لعب 🎮</span>
+                        </div>
+                    </a>
+                    <a href="grade.html?id=primary-2" class="grade-card" data-grade="primary-2">
+                        <img class="grade-card-img" src="images/primary_card.jpg" alt="الصف الثاني الابتدائي">
+                        <div class="grade-card-body">
+                            <span class="grade-card-name">الصف الثاني الابتدائي</span>
+                            <span class="grade-card-badge">لعب 🎮</span>
+                        </div>
+                    </a>
+                    <a href="grade.html?id=primary-3" class="grade-card" data-grade="primary-3">
+                        <img class="grade-card-img" src="images/primary_card.jpg" alt="الصف الثالث الابتدائي">
+                        <div class="grade-card-body">
+                            <span class="grade-card-name">الصف الثالث الابتدائي</span>
+                            <span class="grade-card-badge">لعب 🎮</span>
+                        </div>
+                    </a>
+                    <a href="grade.html?id=primary-4" class="grade-card" data-grade="primary-4">
+                        <img class="grade-card-img" src="images/primary_card.jpg" alt="الصف الرابع الابتدائي">
+                        <div class="grade-card-body">
+                            <span class="grade-card-name">الصف الرابع الابتدائي</span>
+                            <span class="grade-card-badge">لعب 🎮</span>
+                        </div>
+                    </a>
+                    <a href="grade.html?id=primary-5" class="grade-card" data-grade="primary-5">
+                        <img class="grade-card-img" src="images/primary_card.jpg" alt="الصف الخامس الابتدائي">
+                        <div class="grade-card-body">
+                            <span class="grade-card-name">الصف الخامس الابتدائي</span>
+                            <span class="grade-card-badge">لعب 🎮</span>
+                        </div>
+                    </a>
+                    <a href="grade.html?id=primary-6" class="grade-card" data-grade="primary-6">
+                        <img class="grade-card-img" src="images/primary_card.jpg" alt="الصف السادس الابتدائي">
+                        <div class="grade-card-body">
+                            <span class="grade-card-name">الصف السادس الابتدائي</span>
+                            <span class="grade-card-badge">لعب 🎮</span>
+                        </div>
+                    </a>
+                </div>
             </div>
 
             <div class="section-divider" id="divider"></div>
@@ -196,7 +239,29 @@
             <!-- Prep Section -->
             <div id="prep-section">
                 <div class="level-section-label">🎓 المرحلة الإعدادية</div>
-                <div class="grades-grid" id="prep-grid"></div>
+                <div class="grades-grid" id="prep-grid">
+                    <a href="grade.html?id=prep-1" class="grade-card" data-grade="prep-1">
+                        <img class="grade-card-img" src="images/prep_card.jpg" alt="الصف الأول الإعدادي">
+                        <div class="grade-card-body">
+                            <span class="grade-card-name">الصف الأول الإعدادي</span>
+                            <span class="grade-card-badge">لعب 🎮</span>
+                        </div>
+                    </a>
+                    <a href="grade.html?id=prep-2" class="grade-card" data-grade="prep-2">
+                        <img class="grade-card-img" src="images/prep_card.jpg" alt="الصف الثاني الإعدادي">
+                        <div class="grade-card-body">
+                            <span class="grade-card-name">الصف الثاني الإعدادي</span>
+                            <span class="grade-card-badge">لعب 🎮</span>
+                        </div>
+                    </a>
+                    <a href="grade.html?id=prep-3" class="grade-card" data-grade="prep-3">
+                        <img class="grade-card-img" src="images/prep_card.jpg" alt="الصف الثالث الإعدادي">
+                        <div class="grade-card-body">
+                            <span class="grade-card-name">الصف الثالث الإعدادي</span>
+                            <span class="grade-card-badge">لعب 🎮</span>
+                        </div>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -218,7 +283,7 @@
     </nav>
 
     <script src="js/data.js"></script>
-    <script src="js/auth.js"></script>
+    <script src="js/auth.js?v=20260726_v999"></script>
     <script>
         checkAuth();
         const currentUser = localStorage.getItem('currentUser') || 'طالب';
@@ -245,22 +310,17 @@
         const currUser = (localStorage.getItem('currentUser') || '').trim().toLowerCase();
         const isAdmin = (currUser === 'admin');
 
-        // Build grade cards
-        GRADES_DATA.forEach(grade => {
-            if (!isAdmin && allowedGrade !== 'all' && allowedGrade !== grade.id) return;
-            const isPrep = grade.id.startsWith('prep-');
-            const card = document.createElement('a');
-            card.href = `grade.html?id=${grade.id}`;
-            card.className = 'grade-card';
-            card.dataset.grade = grade.id;
-            card.innerHTML = `
-                <img class="grade-card-img" src="${gradeImages[grade.id]}" alt="${grade.name}">
-                <div class="grade-card-body">
-                    <span class="grade-card-name">${grade.name}</span>
-                    <span class="grade-card-badge">لعب 🎮</span>
-                </div>
-            `;
-            (isPrep ? prepGrid : primaryGrid).appendChild(card);
+        // Filter by pill
+        let activeGrade = 'all';
+
+        document.getElementById('gradePills').addEventListener('click', e => {
+            const pill = e.target.closest('.grade-pill');
+            if (!pill) return;
+
+            document.querySelectorAll('.grade-pill').forEach(p => p.classList.remove('active'));
+            pill.classList.add('active');
+            activeGrade = pill.dataset.grade;
+            applyFilter();
         });
 
         // Filter by pill
