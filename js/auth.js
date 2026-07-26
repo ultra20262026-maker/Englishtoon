@@ -170,32 +170,13 @@ function setupAdminHeader() {
         if (isAdmin) {
             adminBtn.style.cssText = 'display: inline-flex !important; visibility: visible !important; opacity: 1 !important; background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; border-radius: 20px; font-weight: bold; border: 1px solid #f59e0b; padding: 8px 18px; margin-left: 8px; text-decoration: none;';
         } else {
-            adminBtn.style.cssText = 'display: none !important;';
+            adminBtn.style.cssText = 'display: none !important; visibility: hidden !important; opacity: 0 !important;';
         }
     }
 
     const heroBtn = document.getElementById('admin-hero-btn');
     if (heroBtn) {
         heroBtn.style.display = isAdmin ? 'inline-flex' : 'none';
-    }
-
-    // Quick Admin Login Button for Non-Admins
-    let quickAdminBtn = document.getElementById('quick-admin-login-btn');
-    if (!isAdmin) {
-        if (!quickAdminBtn) {
-            const headerActions = document.querySelector('.header-actions');
-            if (headerActions) {
-                quickAdminBtn = document.createElement('button');
-                quickAdminBtn.id = 'quick-admin-login-btn';
-                quickAdminBtn.onclick = quickAdminLogin;
-                quickAdminBtn.className = 'btn-nav-action';
-                quickAdminBtn.style.cssText = 'background: rgba(245, 158, 11, 0.18); border: 1px solid #f59e0b; color: #f59e0b; font-weight: bold; border-radius: 20px; padding: 6px 14px; cursor: pointer; margin-left: 6px; font-size: 0.82rem; transition: all 0.2s ease;';
-                quickAdminBtn.innerHTML = '🔑 دخول الأدمن';
-                headerActions.insertBefore(quickAdminBtn, headerActions.firstChild);
-            }
-        }
-    } else {
-        if (quickAdminBtn) quickAdminBtn.remove();
     }
 
     const existingFloat = document.getElementById('global-floating-admin-btn');
