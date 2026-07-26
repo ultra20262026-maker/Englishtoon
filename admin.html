@@ -461,12 +461,20 @@
     <script src="js/data.js"></script>
     <script src="js/auth.js"></script>
     <script>
-        // Check Authentication
+        // Check Authentication & Prompt for Admin Password if not already admin
         checkAuth();
-        const loggedUser = (localStorage.getItem('currentUser') || '').trim().toLowerCase();
+        let loggedUser = (localStorage.getItem('currentUser') || '').trim().toLowerCase();
         if (loggedUser !== 'admin') {
-            alert('عذراً، هذه الصفحة مخصصة للأدمن فقط. يرجى تسجيل الدخول بحساب admin أولاً.');
-            window.location.href = 'index.html';
+            const inputPass = prompt('🔒 دخول لوحة الإدارة — يرجى إدخال كلمة مرور الأدمن:');
+            const cleanInput = (inputPass || '').trim();
+            if (cleanInput === 'Mm01208609509' || cleanInput === 'mm01208609509' || cleanInput === '01208609509') {
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('currentUser', 'admin');
+                localStorage.setItem('auth_session_version', FORCE_LOGOUT_VERSION);
+            } else {
+                alert('❌ كلمة المرور غير صحيحة.');
+                window.location.href = 'dashboard.html';
+            }
         }
 
         // Tab Switching Logic
