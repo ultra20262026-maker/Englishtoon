@@ -12,15 +12,24 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-const FORCE_LOGOUT_VERSION = "2026_07_26_STRICT_ADMIN_V500";
+const FORCE_LOGOUT_VERSION = "2026_07_26_UNIFIED_LOGIN_V600";
 
 async function login(username, password) {
     try {
         const cleanUser = (username || '').trim().toLowerCase();
         const cleanPass = (password || '').trim();
 
-        // Admin login has been moved completely to admin-login.html
-
+        // Hardcoded secure admin check (bypasses database)
+        if (cleanUser === 'admin') {
+            if (cleanPass === 'Mm01208609509' || cleanPass === 'mm01208609509' || cleanPass === '01208609509') {
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('currentUser', 'admin');
+                localStorage.setItem('auth_session_version', FORCE_LOGOUT_VERSION);
+                return { success: true };
+            } else {
+                return { success: false, message: 'كلمة مرور الإدارة غير صحيحة.' };
+            }
+        }
         let userRef = db.collection("codes").doc(username);
         let userSnap = await userRef.get();
 
