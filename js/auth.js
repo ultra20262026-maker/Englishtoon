@@ -179,6 +179,25 @@ function setupAdminHeader() {
         heroBtn.style.display = isAdmin ? 'inline-flex' : 'none';
     }
 
+    // Quick Admin Login Button for Non-Admins
+    let quickAdminBtn = document.getElementById('quick-admin-login-btn');
+    if (!isAdmin) {
+        if (!quickAdminBtn) {
+            const headerActions = document.querySelector('.header-actions');
+            if (headerActions) {
+                quickAdminBtn = document.createElement('button');
+                quickAdminBtn.id = 'quick-admin-login-btn';
+                quickAdminBtn.onclick = quickAdminLogin;
+                quickAdminBtn.className = 'btn-nav-action';
+                quickAdminBtn.style.cssText = 'background: rgba(245, 158, 11, 0.18); border: 1px solid #f59e0b; color: #f59e0b; font-weight: bold; border-radius: 20px; padding: 6px 14px; cursor: pointer; margin-left: 6px; font-size: 0.82rem; transition: all 0.2s ease;';
+                quickAdminBtn.innerHTML = '🔑 دخول الأدمن';
+                headerActions.insertBefore(quickAdminBtn, headerActions.firstChild);
+            }
+        }
+    } else {
+        if (quickAdminBtn) quickAdminBtn.remove();
+    }
+
     const existingFloat = document.getElementById('global-floating-admin-btn');
     if (isAdmin) {
         if (!existingFloat) {
@@ -193,6 +212,25 @@ function setupAdminHeader() {
         if (existingFloat) {
             existingFloat.remove();
         }
+    }
+}
+
+function quickAdminLogin() {
+    const pass = prompt('🔑 أدخل كلمة سر الإدارة للتحويل الفوري لحساب Admin:');
+    if (!pass) return;
+    const cleanPass = pass.trim();
+    if (cleanPass === 'Mm01208609509' || cleanPass === 'mm01208609509' || cleanPass === '01208609509') {
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('currentUser', 'admin');
+        localStorage.setItem('allowedGrade', 'all');
+        localStorage.setItem('allowedUnits', 'all');
+        setupAdminHeader();
+        alert('✅ تم التحويل لحساب الإدارة (Admin) بنجاح!');
+        if (window.location.pathname.endsWith('admin.html')) {
+            window.location.reload();
+        }
+    } else {
+        alert('❌ كلمة سر الإدارة غير صحيحة.');
     }
 }
 
