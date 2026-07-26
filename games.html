@@ -241,6 +241,7 @@
 
         const primaryGrid = document.getElementById('primary-grid');
         const prepGrid    = document.getElementById('prep-grid');
+        const allowedGrade = localStorage.getItem('allowedGrade') || 'all';
         const currUser = (localStorage.getItem('currentUser') || '').trim().toLowerCase();
         const isAdmin = (currUser === 'admin');
 
