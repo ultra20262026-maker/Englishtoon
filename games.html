@@ -313,28 +313,18 @@
         // Filter by pill
         let activeGrade = 'all';
 
-        document.getElementById('gradePills').addEventListener('click', e => {
-            const pill = e.target.closest('.grade-pill');
-            if (!pill) return;
+        const gradePillsEl = document.getElementById('gradePills');
+        if (gradePillsEl) {
+            gradePillsEl.addEventListener('click', e => {
+                const pill = e.target.closest('.grade-pill');
+                if (!pill) return;
 
-            document.querySelectorAll('.grade-pill').forEach(p => p.classList.remove('active'));
-            pill.classList.add('active');
-            activeGrade = pill.dataset.grade;
-            applyFilter();
-        });
-
-        // Filter by pill
-        let activeGrade = 'all';
-
-        document.getElementById('gradePills').addEventListener('click', e => {
-            const pill = e.target.closest('.grade-pill');
-            if (!pill) return;
-
-            document.querySelectorAll('.grade-pill').forEach(p => p.classList.remove('active'));
-            pill.classList.add('active');
-            activeGrade = pill.dataset.grade;
-            applyFilter();
-        });
+                document.querySelectorAll('.grade-pill').forEach(p => p.classList.remove('active'));
+                pill.classList.add('active');
+                activeGrade = pill.dataset.grade;
+                applyFilter();
+            });
+        }
 
         function applyFilter() {
             const allCards = document.querySelectorAll('.grade-card');
@@ -346,9 +336,13 @@
             // Show/hide sections
             const primaryVisible = activeGrade === 'all' || activeGrade.startsWith('primary-');
             const prepVisible    = activeGrade === 'all' || activeGrade.startsWith('prep-');
-            document.getElementById('primary-section').style.display = primaryVisible ? 'block' : 'none';
-            document.getElementById('prep-section').style.display    = prepVisible    ? 'block' : 'none';
-            document.getElementById('divider').style.display          = (primaryVisible && prepVisible) ? 'block' : 'none';
+            const primarySec = document.getElementById('primary-section');
+            const prepSec = document.getElementById('prep-section');
+            const dividerEl = document.getElementById('divider');
+
+            if (primarySec) primarySec.style.display = primaryVisible ? 'block' : 'none';
+            if (prepSec) prepSec.style.display = prepVisible ? 'block' : 'none';
+            if (dividerEl) dividerEl.style.display = (primaryVisible && prepVisible) ? 'block' : 'none';
         }
 
         // Auto-select from URL param
