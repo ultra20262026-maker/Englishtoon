@@ -196,25 +196,6 @@ function setupAdminHeader() {
     }
 }
 
-function quickAdminLogin() {
-    const pass = prompt('🔑 أدخل كلمة سر الإدارة للتحويل الفوري لحساب Admin:');
-    if (!pass) return;
-    const cleanPass = pass.trim();
-    if (cleanPass === 'Mm01208609509' || cleanPass === 'mm01208609509' || cleanPass === '01208609509') {
-        localStorage.setItem('isLoggedIn', 'true');
-        localStorage.setItem('currentUser', 'admin');
-        localStorage.setItem('allowedGrade', 'all');
-        localStorage.setItem('allowedUnits', 'all');
-        setupAdminHeader();
-        alert('✅ تم التحويل لحساب الإدارة (Admin) بنجاح!');
-        if (window.location.pathname.endsWith('admin.html')) {
-            window.location.reload();
-        }
-    } else {
-        alert('❌ كلمة سر الإدارة غير صحيحة.');
-    }
-}
-
 function logout() {
     localStorage.clear();
     window.location.href = 'index.html?logout=true';
