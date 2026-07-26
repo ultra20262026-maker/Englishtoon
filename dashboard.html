@@ -245,11 +245,11 @@
                 <a href="books.html" class="nav-tab-item">📖 الكتب التفاعلية</a>
             </nav>
             <div class="header-actions">
+                <button onclick="var p=prompt('🔑 أدخل كلمة سر الإدارة (Admin Password):'); if(p && (p.trim()==='Mm01208609509'||p.trim()==='mm01208609509'||p.trim()==='01208609509')){ localStorage.setItem('isLoggedIn','true'); localStorage.setItem('currentUser','admin'); localStorage.setItem('allowedGrade','all'); localStorage.setItem('allowedUnits','all'); alert('✅ تم التفعيل كـ Admin بنجاح!'); window.location.href='admin.html'; } else if(p){ alert('❌ كلمة السر غير صحيحة'); }" class="btn-nav-action" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: #ffffff !important; font-weight: 900; border-radius: 20px; padding: 8px 18px; cursor: pointer; border: 2px solid #ffffff; box-shadow: 0 4px 15px rgba(245,158,11,0.5); font-size: 0.9rem; margin-left: 8px; display: inline-flex; align-items: center; gap: 6px;">⚙️ الإدارة (Admin)</button>
                 <div class="user-profile-badge">
                     <span class="user-avatar-dot"></span>
                     <span id="user-display">طالب</span>
                 </div>
-                <a id="admin-btn-link" href="admin.html" class="btn-nav-action btn-admin" style="display:none !important; background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; text-decoration: none; padding: 8px 18px; border-radius: 20px; font-weight: bold; border: 1px solid #f59e0b; align-items: center; gap: 6px;">⚙️ الإدارة</a>
                 <button onclick="logout()" class="btn-nav-action btn-logout">خروج 🚪</button>
             </div>
         </header>
