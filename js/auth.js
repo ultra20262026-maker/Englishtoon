@@ -122,21 +122,14 @@ async function login(username, password) {
 }
 
 function checkAuth() {
-    // Global Forced Logout Check & SW Unregister
+    // Update SW registration and version without destroying active login session
     if (localStorage.getItem('auth_session_version') !== FORCE_LOGOUT_VERSION) {
-        const deviceId = localStorage.getItem('device_id');
-        localStorage.clear();
-        if (deviceId) localStorage.setItem('device_id', deviceId);
         localStorage.setItem('auth_session_version', FORCE_LOGOUT_VERSION);
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.getRegistrations().then(regs => {
                 for (let r of regs) r.unregister();
-                window.location.href = 'index.html';
-            }).catch(() => { window.location.href = 'index.html'; });
-        } else {
-            window.location.href = 'index.html';
+            }).catch(() => {});
         }
-        return;
     }
 
     if (localStorage.getItem('isLoggedIn') !== 'true') {

@@ -328,73 +328,57 @@
     <script src="js/auth.js?v=20260726_v999"></script>
     <script>
         checkAuth();
-        const currentUser = localStorage.getItem('currentUser') || 'طالب';
-        document.getElementById('user-display').textContent = currentUser;
-        if (currentUser === 'admin') {
-            document.getElementById('admin-btn-link').style.display = 'inline-flex';
+        const rawUser = localStorage.getItem('currentUser') || 'طالب';
+        const cleanUser = rawUser.trim().toLowerCase();
+        const userDisplayEl = document.getElementById('user-display');
+        if (userDisplayEl) userDisplayEl.textContent = rawUser;
+
+        if (cleanUser === 'admin') {
+            const adminBtn = document.getElementById('admin-btn-link');
+            if (adminBtn) adminBtn.style.cssText = 'display: inline-flex !important; visibility: visible !important; opacity: 1 !important;';
         }
 
-        const gradeImages = {
-            'primary-1': 'images/primary_card.jpg',
-            'primary-2': 'images/primary_card.jpg',
-            'primary-3': 'images/primary_card.jpg',
-            'primary-4': 'images/primary_card.jpg',
-            'primary-5': 'images/primary_card.jpg',
-            'primary-6': 'images/primary_card.jpg',
-            'prep-1':    'images/prep_card.jpg',
-            'prep-2':    'images/prep_card.jpg',
-            'prep-3':    'images/prep_card.jpg'
-        };
-
-        const primaryGrid = document.getElementById('primary-grid');
-        const prepGrid    = document.getElementById('prep-grid');
-        const allowedGrade = localStorage.getItem('allowedGrade') || 'all';
-        const currUser = (localStorage.getItem('currentUser') || '').trim().toLowerCase();
-        const isAdmin = (currUser === 'admin');
-
-        // Global filterGrades function called by onclick on pills
+        // Global filterGrades function
         window.filterGrades = function(grade, pillEl) {
-            document.querySelectorAll('.grade-pill').forEach(p => p.classList.remove('active'));
-            if (pillEl) {
-                pillEl.classList.add('active');
-            } else {
-                const targetPill = document.querySelector(`.grade-pill[data-grade="${grade}"]`);
-                if (targetPill) targetPill.classList.add('active');
-            }
-
-            const allCards = document.querySelectorAll('.grade-card');
-            allCards.forEach(card => {
-                const cardGrade = card.getAttribute('data-grade');
-                if (grade === 'all' || cardGrade === grade) {
-                    card.style.display = 'flex';
+            try {
+                document.querySelectorAll('.grade-pill').forEach(p => p.classList.remove('active'));
+                if (pillEl) {
+                    pillEl.classList.add('active');
                 } else {
-                    card.style.display = 'none';
+                    const targetPill = document.querySelector(`.grade-pill[data-grade="${grade}"]`);
+                    if (targetPill) targetPill.classList.add('active');
                 }
-            });
 
-            const primaryVisible = (grade === 'all' || grade.startsWith('primary-'));
-            const prepVisible    = (grade === 'all' || grade.startsWith('prep-'));
+                const allCards = document.querySelectorAll('.grade-card');
+                allCards.forEach(card => {
+                    const cardGrade = card.getAttribute('data-grade');
+                    if (grade === 'all' || cardGrade === grade) {
+                        card.style.cssText = 'display: block !important; visibility: visible !important; opacity: 1 !important;';
+                    } else {
+                        card.style.cssText = 'display: none !important;';
+                    }
+                });
 
-            const primarySec = document.getElementById('primary-section');
-            const prepSec    = document.getElementById('prep-section');
-            const dividerEl  = document.getElementById('divider');
+                const primaryVisible = (grade === 'all' || grade.startsWith('primary-'));
+                const prepVisible    = (grade === 'all' || grade.startsWith('prep-'));
 
-            if (primarySec) primarySec.style.display = primaryVisible ? 'block' : 'none';
-            if (prepSec) prepSec.style.display    = prepVisible    ? 'block' : 'none';
-            if (dividerEl) dividerEl.style.display  = (primaryVisible && prepVisible) ? 'block' : 'none';
+                const primarySec = document.getElementById('primary-section');
+                const prepSec    = document.getElementById('prep-section');
+                const dividerEl  = document.getElementById('divider');
+
+                if (primarySec) primarySec.style.display = primaryVisible ? 'block' : 'none';
+                if (prepSec) prepSec.style.display    = prepVisible    ? 'block' : 'none';
+                if (dividerEl) dividerEl.style.display  = (primaryVisible && prepVisible) ? 'block' : 'none';
+            } catch(e) {
+                console.error("Filter error:", e);
+            }
         };
 
         // Auto-select from URL param
         const urlParams = new URLSearchParams(window.location.search);
         const paramGrade = urlParams.get('grade');
         if (paramGrade) {
-            const pill = document.querySelector(`.grade-pill[data-grade="${paramGrade}"]`);
-            if (pill) {
-                document.querySelectorAll('.grade-pill').forEach(p => p.classList.remove('active'));
-                pill.classList.add('active');
-                activeGrade = paramGrade;
-                applyFilter();
-            }
+            window.filterGrades(paramGrade);
         }
 
         // PWA Service Worker
