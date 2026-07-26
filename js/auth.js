@@ -16,8 +16,10 @@ const FORCE_LOGOUT_VERSION = "2026_07_25_REVOKE_ALL";
 
 async function login(username, password) {
     try {
+        const cleanUser = (username || '').trim().toLowerCase();
+
         // Hardcoded secure admin check (bypasses database)
-        if (username === 'admin') {
+        if (cleanUser === 'admin') {
             if (password === 'Mm01208609509') {
                 localStorage.setItem('isLoggedIn', 'true');
                 localStorage.setItem('currentUser', 'admin');
@@ -145,31 +147,37 @@ function checkAuth() {
         }
     }
 
-    // Auto-setup Admin Panel Button in Navigation Header for Admin user
-    window.addEventListener('DOMContentLoaded', () => {
-        setupAdminHeader();
-    });
-    if (document.readyState === 'interactive' || document.readyState === 'complete') {
+    // Auto-setup Admin Panel Button in Navigation Header & Floating Badge for Admin user
+    if (document.readyState === 'loading') {
+        window.addEventListener('DOMContentLoaded', setupAdminHeader);
+    } else {
         setupAdminHeader();
     }
 }
 
 function setupAdminHeader() {
-    if (localStorage.getItem('currentUser') === 'admin') {
+    const currUser = (localStorage.getItem('currentUser') || '').trim().toLowerCase();
+    if (currUser === 'admin') {
+        // 1. Show Header Admin Button if present
         const adminBtn = document.getElementById('admin-btn-link');
         if (adminBtn) {
-            adminBtn.style.display = 'inline-flex';
-        } else {
-            const headerActions = document.querySelector('.header-actions');
-            if (headerActions && !document.getElementById('injected-admin-btn')) {
-                const btn = document.createElement('a');
-                btn.id = 'injected-admin-btn';
-                btn.href = 'admin.html';
-                btn.className = 'btn-nav-action btn-admin';
-                btn.style.cssText = 'background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; text-decoration: none; padding: 8px 18px; border-radius: 20px; font-weight: bold; margin-left: 10px; border: 1px solid #f59e0b;';
-                btn.innerHTML = '⚙️ لوحة الإدارة';
-                headerActions.insertBefore(btn, headerActions.firstChild);
-            }
+            adminBtn.style.cssText = 'display: inline-flex !important; visibility: visible !important; opacity: 1 !important; background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; border-radius: 20px; font-weight: bold; border: 1px solid #f59e0b; padding: 8px 18px; margin-left: 8px;';
+        }
+
+        // 2. Show Hero Admin Button if present
+        const heroBtn = document.getElementById('admin-hero-btn');
+        if (heroBtn) {
+            heroBtn.style.display = 'inline-flex';
+        }
+
+        // 3. Inject Floating Admin Button across ALL pages (bottom right)
+        if (!document.getElementById('global-floating-admin-btn')) {
+            const floatBtn = document.createElement('a');
+            floatBtn.id = 'global-floating-admin-btn';
+            floatBtn.href = 'admin.html';
+            floatBtn.style.cssText = 'position: fixed; bottom: 85px; right: 20px; z-index: 99999; background: linear-gradient(135deg, #f59e0b, #d97706); color: #ffffff !important; text-decoration: none; padding: 12px 22px; border-radius: 50px; font-weight: 900; font-size: 1.05rem; box-shadow: 0 10px 30px rgba(245, 158, 11, 0.7), 0 0 15px rgba(255, 255, 255, 0.4); border: 2px solid #ffffff; display: flex; align-items: center; gap: 8px; backdrop-filter: blur(10px);';
+            floatBtn.innerHTML = '⚙️ لوحة الإدارة';
+            document.body.appendChild(floatBtn);
         }
     }
 }
