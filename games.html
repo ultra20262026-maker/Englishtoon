@@ -171,16 +171,16 @@
 
         <!-- Grade Filter Pills -->
         <div class="grade-selector-wrap" id="gradePills">
-            <div class="grade-pill active" data-grade="all">🌟 كل الصفوف</div>
-            <div class="grade-pill" data-grade="primary-1">الأول ابتدائي</div>
-            <div class="grade-pill" data-grade="primary-2">الثاني ابتدائي</div>
-            <div class="grade-pill" data-grade="primary-3">الثالث ابتدائي</div>
-            <div class="grade-pill" data-grade="primary-4">الرابع ابتدائي</div>
-            <div class="grade-pill" data-grade="primary-5">الخامس ابتدائي</div>
-            <div class="grade-pill" data-grade="primary-6">السادس ابتدائي</div>
-            <div class="grade-pill" data-grade="prep-1">الأول إعدادي</div>
-            <div class="grade-pill" data-grade="prep-2">الثاني إعدادي</div>
-            <div class="grade-pill" data-grade="prep-3">الثالث إعدادي</div>
+            <div class="grade-pill active" data-grade="all" onclick="filterGrades('all', this)">🌟 كل الصفوف</div>
+            <div class="grade-pill" data-grade="primary-1" onclick="filterGrades('primary-1', this)">الأول ابتدائي</div>
+            <div class="grade-pill" data-grade="primary-2" onclick="filterGrades('primary-2', this)">الثاني ابتدائي</div>
+            <div class="grade-pill" data-grade="primary-3" onclick="filterGrades('primary-3', this)">الثالث ابتدائي</div>
+            <div class="grade-pill" data-grade="primary-4" onclick="filterGrades('primary-4', this)">الرابع ابتدائي</div>
+            <div class="grade-pill" data-grade="primary-5" onclick="filterGrades('primary-5', this)">الخامس ابتدائي</div>
+            <div class="grade-pill" data-grade="primary-6" onclick="filterGrades('primary-6', this)">السادس ابتدائي</div>
+            <div class="grade-pill" data-grade="prep-1" onclick="filterGrades('prep-1', this)">الأول إعدادي</div>
+            <div class="grade-pill" data-grade="prep-2" onclick="filterGrades('prep-2', this)">الثاني إعدادي</div>
+            <div class="grade-pill" data-grade="prep-3" onclick="filterGrades('prep-3', this)">الثالث إعدادي</div>
         </div>
 
         <!-- Grades Display -->
@@ -310,40 +310,37 @@
         const currUser = (localStorage.getItem('currentUser') || '').trim().toLowerCase();
         const isAdmin = (currUser === 'admin');
 
-        // Filter by pill
-        let activeGrade = 'all';
+        // Global filterGrades function called by onclick on pills
+        window.filterGrades = function(grade, pillEl) {
+            document.querySelectorAll('.grade-pill').forEach(p => p.classList.remove('active'));
+            if (pillEl) {
+                pillEl.classList.add('active');
+            } else {
+                const targetPill = document.querySelector(`.grade-pill[data-grade="${grade}"]`);
+                if (targetPill) targetPill.classList.add('active');
+            }
 
-        const gradePillsEl = document.getElementById('gradePills');
-        if (gradePillsEl) {
-            gradePillsEl.addEventListener('click', e => {
-                const pill = e.target.closest('.grade-pill');
-                if (!pill) return;
-
-                document.querySelectorAll('.grade-pill').forEach(p => p.classList.remove('active'));
-                pill.classList.add('active');
-                activeGrade = pill.dataset.grade;
-                applyFilter();
-            });
-        }
-
-        function applyFilter() {
             const allCards = document.querySelectorAll('.grade-card');
             allCards.forEach(card => {
-                const show = activeGrade === 'all' || card.dataset.grade === activeGrade;
-                card.style.display = show ? 'block' : 'none';
+                const cardGrade = card.getAttribute('data-grade');
+                if (grade === 'all' || cardGrade === grade) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
             });
 
-            // Show/hide sections
-            const primaryVisible = activeGrade === 'all' || activeGrade.startsWith('primary-');
-            const prepVisible    = activeGrade === 'all' || activeGrade.startsWith('prep-');
+            const primaryVisible = (grade === 'all' || grade.startsWith('primary-'));
+            const prepVisible    = (grade === 'all' || grade.startsWith('prep-'));
+
             const primarySec = document.getElementById('primary-section');
-            const prepSec = document.getElementById('prep-section');
-            const dividerEl = document.getElementById('divider');
+            const prepSec    = document.getElementById('prep-section');
+            const dividerEl  = document.getElementById('divider');
 
             if (primarySec) primarySec.style.display = primaryVisible ? 'block' : 'none';
-            if (prepSec) prepSec.style.display = prepVisible ? 'block' : 'none';
-            if (dividerEl) dividerEl.style.display = (primaryVisible && prepVisible) ? 'block' : 'none';
-        }
+            if (prepSec) prepSec.style.display    = prepVisible    ? 'block' : 'none';
+            if (dividerEl) dividerEl.style.display  = (primaryVisible && prepVisible) ? 'block' : 'none';
+        };
 
         // Auto-select from URL param
         const urlParams = new URLSearchParams(window.location.search);

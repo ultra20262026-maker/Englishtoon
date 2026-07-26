@@ -12,7 +12,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-const FORCE_LOGOUT_VERSION = "2026_07_26_FIX_PILLS_FILTER_V6";
+const FORCE_LOGOUT_VERSION = "2026_07_26_INLINE_ONCLICK_FILTER_V7";
 
 async function login(username, password) {
     try {
