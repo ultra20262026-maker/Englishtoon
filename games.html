@@ -241,11 +241,12 @@
 
         const primaryGrid = document.getElementById('primary-grid');
         const prepGrid    = document.getElementById('prep-grid');
-        const allowedGrade = localStorage.getItem('allowedGrade') || 'all';
+        const currUser = (localStorage.getItem('currentUser') || '').trim().toLowerCase();
+        const isAdmin = (currUser === 'admin');
 
         // Build grade cards
         GRADES_DATA.forEach(grade => {
-            if (allowedGrade !== 'all' && allowedGrade !== grade.id && currentUser !== 'admin') return;
+            if (!isAdmin && allowedGrade !== 'all' && allowedGrade !== grade.id) return;
             const isPrep = grade.id.startsWith('prep-');
             const card = document.createElement('a');
             card.href = `grade.html?id=${grade.id}`;

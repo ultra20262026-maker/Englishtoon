@@ -110,16 +110,27 @@
             const container = document.getElementById('units-container');
             const allowedUnitsStr = localStorage.getItem('allowedUnits');
             let allowedUnits = 'all';
-            try { allowedUnits = JSON.parse(allowedUnitsStr || '"all"'); } catch(e) {}
+            try { 
+                if (allowedUnitsStr && allowedUnitsStr !== 'all') {
+                    allowedUnits = JSON.parse(allowedUnitsStr);
+                }
+            } catch(e) {}
+
+            const currUser = (localStorage.getItem('currentUser') || '').trim().toLowerCase();
+            const isAdmin = (currUser === 'admin');
 
             const unitIcons = ['🌟', '🚀', '🌊', '⚡', '💡', '🏆'];
             const unitTitles = ['الوحدة الأولى', 'الوحدة الثانية', 'الوحدة الثالثة', 'الوحدة الرابعة', 'الوحدة الخامسة', 'الوحدة السادسة'];
 
             for (let i = 1; i <= UNITS_PER_GRADE; i++) {
-                if (allowedUnits !== 'all' && !allowedUnits.includes(i) && localStorage.getItem('currentUser') !== 'admin') continue;
+                if (!isAdmin && allowedUnits !== 'all' && Array.isArray(allowedUnits)) {
+                    const hasAccess = allowedUnits.some(u => String(u) === String(i));
+                    if (!hasAccess) continue;
+                }
 
                 const tile = document.createElement('a');
                 tile.className = 'unit-tile';
+                tile.href = `unit.html?grade=${gradeId}&unit=${i}`;
                 tile.style.backgroundImage = `linear-gradient(180deg, rgba(7,10,18,0.35), rgba(7,10,18,0.92)), url('images/unit_${i}.png')`;
 
                 tile.innerHTML = `
@@ -133,7 +144,6 @@
                     <div class="unit-tile-hover-bar">⚡ دخول الألعاب والتحديات ←</div>
                 `;
 
-                tile.onclick = () => window.location.href = `unit.html?grade=${gradeId}&unit=${i}`;
                 container.appendChild(tile);
             }
         }

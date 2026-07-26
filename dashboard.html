@@ -286,6 +286,15 @@
             </div>
         </div>
 
+        <!-- GRADES SELECTION GRID -->
+        <section class="features-section" style="margin-top: 40px; margin-bottom: 40px;">
+            <div class="section-label">✦ الصفوف الدراسية ✦</div>
+            <h2 class="section-heading">اختر صفك الدراسي <span>وابدأ المغامرة 🎮</span></h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; max-width: 1100px; margin: 30px auto 0;" id="dashboard-grades-grid">
+            </div>
+        </section>
+
         <!-- FEATURES CAROUSEL -->
         <section class="features-section">
             <div class="section-label">✦ ليه English Toon ✦</div>
@@ -383,6 +392,7 @@
         </a>
     </nav>
 
+    <script src="js/data.js"></script>
     <script src="js/auth.js?v=20260726_v999"></script>
     <script>
         checkAuth();
@@ -392,6 +402,31 @@
             document.getElementById('admin-btn-link').style.cssText = 'display: inline-flex !important; visibility: visible !important; opacity: 1 !important;';
             const heroAdmin = document.getElementById('admin-hero-btn');
             if (heroAdmin) heroAdmin.style.display = 'inline-flex';
+        }
+
+        // ===== RENDER DASHBOARD GRADE CARDS =====
+        const allowedGrade = localStorage.getItem('allowedGrade') || 'all';
+        const currUser = (localStorage.getItem('currentUser') || '').trim().toLowerCase();
+        const isAdmin = (currUser === 'admin');
+        const dashGrid = document.getElementById('dashboard-grades-grid');
+
+        if (dashGrid && typeof GRADES_DATA !== 'undefined') {
+            GRADES_DATA.forEach(grade => {
+                if (!isAdmin && allowedGrade !== 'all' && allowedGrade !== grade.id) return;
+                const isPrep = grade.id.startsWith('prep-');
+                const card = document.createElement('a');
+                card.href = `grade.html?id=${grade.id}`;
+                card.className = 'feature-card';
+                card.style.cssText = 'text-decoration: none; color: inherit; display: flex; flex-direction: column; cursor: pointer; border-radius: 20px; background: rgba(18, 25, 43, 0.85); border: 1px solid rgba(255,255,255,0.12); overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease; padding: 22px; text-align: center;';
+                card.innerHTML = `
+                    <div style="font-size: 2.5rem; margin-bottom: 10px;">${isPrep ? '🎓' : '📚'}</div>
+                    <h3 style="font-size: 1.15rem; font-weight: 800; color: #fff; margin-bottom: 12px;">${grade.name}</h3>
+                    <span style="display: inline-block; background: linear-gradient(135deg, #6366f1, #a855f7); color: #fff; padding: 7px 18px; border-radius: 50px; font-weight: 700; font-size: 0.85rem; box-shadow: 0 4px 15px rgba(99,102,241,0.4);">دخول الألعاب والوحدات ⚡</span>
+                `;
+                card.onmouseover = () => card.style.transform = 'translateY(-6px)';
+                card.onmouseout = () => card.style.transform = 'translateY(0)';
+                dashGrid.appendChild(card);
+            });
         }
 
         // ===== CAROUSEL =====
