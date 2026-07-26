@@ -44,6 +44,25 @@ async function login(username, password) {
                 return { success: false, message: 'كلمة المرور غير صحيحة.' };
             }
 
+            // 24-Hour Trial Account Expiration Logic
+            if (data.isTrial === true || data.isTrial24h === true) {
+                let trialExpiresAt = data.trialExpiresAt;
+                if (!trialExpiresAt) {
+                    trialExpiresAt = Date.now() + (24 * 60 * 60 * 1000); // 24 hours from first login
+                    await userRef.update({ trialExpiresAt: trialExpiresAt });
+                }
+
+                if (Date.now() > trialExpiresAt) {
+                    return { success: false, message: 'عذراً، انتهت الفترة التجريبية لهذا الحساب (24 ساعة). يرجى التواصل مع الإدارة للتفعيل الكامل.' };
+                }
+
+                localStorage.setItem('isTrial', 'true');
+                localStorage.setItem('trialExpiresAt', trialExpiresAt.toString());
+            } else {
+                localStorage.removeItem('isTrial');
+                localStorage.removeItem('trialExpiresAt');
+            }
+
             // If it's a multi-user account, let them in without device checking
             if (data.isMultiUser === true) {
                 localStorage.setItem('isLoggedIn', 'true');
@@ -112,6 +131,46 @@ function checkAuth() {
 
     if (localStorage.getItem('isLoggedIn') !== 'true') {
         window.location.href = 'index.html';
+        return;
+    }
+
+    // Check 24-Hour Trial Account Expiry
+    if (localStorage.getItem('isTrial') === 'true') {
+        const expiresAt = parseInt(localStorage.getItem('trialExpiresAt') || '0', 10);
+        if (expiresAt > 0 && Date.now() > expiresAt) {
+            localStorage.clear();
+            alert('عذراً، انتهت الفترة التجريبية لحسابك (24 ساعة). تم تسجيل الخروج تلقائياً.');
+            window.location.href = 'index.html';
+            return;
+        }
+    }
+
+    // Auto-setup Admin Panel Button in Navigation Header for Admin user
+    window.addEventListener('DOMContentLoaded', () => {
+        setupAdminHeader();
+    });
+    if (document.readyState === 'interactive' || document.readyState === 'complete') {
+        setupAdminHeader();
+    }
+}
+
+function setupAdminHeader() {
+    if (localStorage.getItem('currentUser') === 'admin') {
+        const adminBtn = document.getElementById('admin-btn-link');
+        if (adminBtn) {
+            adminBtn.style.display = 'inline-flex';
+        } else {
+            const headerActions = document.querySelector('.header-actions');
+            if (headerActions && !document.getElementById('injected-admin-btn')) {
+                const btn = document.createElement('a');
+                btn.id = 'injected-admin-btn';
+                btn.href = 'admin.html';
+                btn.className = 'btn-nav-action btn-admin';
+                btn.style.cssText = 'background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; text-decoration: none; padding: 8px 18px; border-radius: 20px; font-weight: bold; margin-left: 10px; border: 1px solid #f59e0b;';
+                btn.innerHTML = '⚙️ لوحة الإدارة';
+                headerActions.insertBefore(btn, headerActions.firstChild);
+            }
+        }
     }
 }
 
@@ -120,5 +179,7 @@ function logout() {
     localStorage.removeItem('currentUser');
     localStorage.removeItem('allowedGrade');
     localStorage.removeItem('allowedUnits');
+    localStorage.removeItem('isTrial');
+    localStorage.removeItem('trialExpiresAt');
     window.location.href = 'index.html';
 }

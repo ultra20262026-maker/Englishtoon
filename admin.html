@@ -367,6 +367,11 @@
                         <span>يوزر متعدد (السماح لأكثر من جهاز بالدخول في نفس الوقت)</span>
                     </label>
 
+                    <label class="checkbox-container" style="margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 10px;">
+                        <input type="checkbox" id="trial-user-checkbox">
+                        <span style="color: #f59e0b; font-weight: bold;">⏱️ حساب تجريبي (مؤقت 24 ساعة - يفصل تلقائياً بعد يوم)</span>
+                    </label>
+
                     <button type="submit" class="action-btn btn-primary">
                         <i class="fa-solid fa-floppy-disk"></i> حفظ وإضافة الطالب
                     </button>
@@ -406,6 +411,11 @@
                         </select>
                     </div>
 
+                    <label class="checkbox-container" style="margin-bottom: 20px;">
+                        <input type="checkbox" id="bulk-trial-checkbox">
+                        <span style="color: #f59e0b; font-weight: bold;">⏱️ توليد مجموعة حسابات تجريبية مؤقتة (24 ساعة)</span>
+                    </label>
+
                     <button type="submit" class="action-btn btn-success">
                         <i class="fa-solid fa-file-arrow-down"></i> توليد الحسابات وتنزيل الملف
                     </button>
@@ -416,11 +426,12 @@
         <!-- SECTION 3: Users Table -->
         <div id="manage-users" class="section">
             <div class="table-container">
-                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid rgba(255,255,255,0.1); padding-bottom: 15px; margin-bottom: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid rgba(255,255,255,0.1); padding-bottom: 15px; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
                     <h2 style="font-size: 1.8rem; color: #f1f5f9;"><i class="fa-solid fa-address-book"></i> سجل الطلاب المضافين</h2>
-                    <button class="btn-small btn-primary" onclick="loadUsers()" style="padding: 10px 20px;">
-                        <i class="fa-solid fa-rotate-right"></i> تحديث الجدول
-                    </button>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="btn-small btn-primary" onclick="resetAllUsersDevices()" style="padding: 10px 16px; background: linear-gradient(135deg, #f59e0b, #d97706);"><i class="fa-solid fa-unlock-keyhole"></i> تصفير جميع الأجهزة</button>
+                        <button class="btn-small btn-primary" onclick="loadUsers()" style="padding: 10px 16px;"><i class="fa-solid fa-rotate-right"></i> تحديث الجدول</button>
+                    </div>
                 </div>
                 
                 <table>
@@ -474,6 +485,7 @@
             const user = document.getElementById('new-username').value.trim();
             const pass = document.getElementById('new-password').value.trim();
             const isMultiUser = document.getElementById('multi-user-checkbox').checked;
+            const isTrial = document.getElementById('trial-user-checkbox').checked;
             const gradeSelect = document.getElementById('grade-select').value;
             
             const btn = document.querySelector('#create-user-form button');
@@ -483,21 +495,25 @@
             btn.disabled = true;
 
             try {
-                await db.collection("codes").doc(user).set({
+                const userData = {
                     password: pass,
                     used: false,
                     isMultiUser: isMultiUser,
+                    isTrial: isTrial,
                     allowedGrade: gradeSelect,
                     allowedUnits: 'all'
-                });
+                };
+
+                await db.collection("codes").doc(user).set(userData);
 
                 alertBox.className = 'alert alert-success';
-                alertBox.innerHTML = '<i class="fa-solid fa-circle-check"></i> تم حفظ بيانات الطالب بنجاح!';
+                alertBox.innerHTML = '<i class="fa-solid fa-circle-check"></i> تم حفظ بيانات الطالب بنجاح!' + (isTrial ? ' ⏱️ (حساب تجريبي 24 ساعة)' : '');
                 alertBox.style.display = 'block';
                 
                 document.getElementById('new-username').value = '';
                 document.getElementById('new-password').value = '';
                 document.getElementById('multi-user-checkbox').checked = false;
+                document.getElementById('trial-user-checkbox').checked = false;
                 
                 setTimeout(() => alertBox.style.display = 'none', 4000);
             } catch (error) {
@@ -515,6 +531,7 @@
             e.preventDefault();
             const count = parseInt(document.getElementById('bulk-count').value, 10);
             const gradeSelect = document.getElementById('bulk-grade-select').value;
+            const isTrial = document.getElementById('bulk-trial-checkbox').checked;
             const btn = document.querySelector('#bulk-user-form button');
             const alertBox = document.getElementById('bulk-alert');
             
@@ -530,10 +547,10 @@
                 const batch = db.batch();
                 
                 // BOM ensures Notepad reads Arabic correctly
-                let txtContent = "\uFEFFبسم الله الرحمن الرحيم\nقائمة الحسابات المجمعة لطلاب مدرسة إنجلش تون\n";
+                let txtContent = "\uFEFFبسم الله الرحمن الرحيم\nقائمة الحسابات المجمعة لطلاب مدرسة إنجلش تون" + (isTrial ? " (فترة تجريبية 24 ساعة)" : "") + "\n";
                 txtContent += "=================================================\n\n";
                 
-                let prefix = gradeSelect === 'all' ? 'user_' : gradeSelect + '_';
+                let prefix = isTrial ? 'trial_' : (gradeSelect === 'all' ? 'user_' : gradeSelect + '_');
 
                 for (let i = 0; i < count; i++) {
                     const randomNum = Math.floor(1000 + Math.random() * 9000); 
@@ -546,12 +563,14 @@
                         password: password,
                         used: false,
                         isMultiUser: false,
+                        isTrial: isTrial,
                         allowedGrade: gradeSelect,
                         allowedUnits: 'all'
                     });
 
                     txtContent += `اسم المستخدم: ${username}\n`;
                     txtContent += `الرقم السري:  ${password}\n`;
+                    txtContent += `نوع الحساب:   ${isTrial ? 'مؤقت (24 ساعة)' : 'دائم'}\n`;
                     txtContent += `------------------------\n`;
                 }
 
@@ -567,7 +586,7 @@
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = `Student_Accounts_${count}_${new Date().getTime()}.txt`;
+                a.download = `Student_Accounts_${isTrial ? 'Trial_' : ''}${count}_${new Date().getTime()}.txt`;
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
@@ -603,8 +622,11 @@
                     const data = doc.data();
                     const username = doc.id;
                     const usedBadge = data.used ? '<span class="badge badge-red">تم الدخول 🔴</span>' : '<span class="badge badge-green">غير مستخدم 🟢</span>';
-                    const typeBadge = data.isMultiUser ? '<span class="badge badge-blue">دخول متعدد 👥</span>' : '<span class="badge" style="background: rgba(255,255,255,0.1);">فردي 👤</span>';
-                    
+                    let typeBadge = data.isMultiUser ? '<span class="badge badge-blue">دخول متعدد 👥</span>' : '<span class="badge" style="background: rgba(255,255,255,0.1);">فردي 👤</span>';
+                    if (data.isTrial || data.isTrial24h) {
+                        typeBadge += ' <span class="badge" style="background: rgba(245, 158, 11, 0.25); color: #fbbf24; border: 1px solid #f59e0b;">⏱️ تجريبي (24س)</span>';
+                    }
+
                     let gradeText = 'صلاحية كاملة';
                     if (data.allowedGrade && data.allowedGrade !== 'all') {
                         gradeText = data.allowedGrade;
@@ -642,7 +664,7 @@
             }
         }
 
-        // Reset User Device
+        // Reset Single User Device
         window.resetUser = async function(username) {
             if(confirm(`هل أنت متأكد أنك تريد تصفير المحاولات للطالب "${username}"؟ سيسمح له بالدخول من جهاز جديد.`)) {
                 try {
@@ -653,6 +675,27 @@
                     loadUsers();
                 } catch (error) {
                     alert('حدث خطأ: ' + error.message);
+                }
+            }
+        }
+
+        // Reset ALL Users Devices Global
+        window.resetAllUsersDevices = async function() {
+            if(confirm('هل أنت متأكد من تصفير محاولات الأجهزة لجميع الطلاب المضافين؟ سيتمكن جميع الطلاب من الدخول مجدداً من أي جهاز جديد.')) {
+                try {
+                    const snapshot = await db.collection("codes").get();
+                    const batch = db.batch();
+                    snapshot.forEach(doc => {
+                        batch.update(doc.ref, {
+                            used: false,
+                            deviceId: firebase.firestore.FieldValue.delete()
+                        });
+                    });
+                    await batch.commit();
+                    alert('تم تصفير محاولات جميع الطلاب بنجاح!');
+                    loadUsers();
+                } catch (error) {
+                    alert('حدث خطأ أثناء تصفير الحسابات: ' + error.message);
                 }
             }
         }
