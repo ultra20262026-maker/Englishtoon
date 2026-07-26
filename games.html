@@ -6,6 +6,48 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <title>English Toon — الألعاب التعليمية</title>
     <link rel="stylesheet" href="css/style.css?v=20260723_v1002">
+    <script>
+        function filterGrades(grade, pillEl) {
+            try {
+                // Highlight active pill
+                var pills = document.querySelectorAll('.grade-pill');
+                pills.forEach(function(p) { p.classList.remove('active'); });
+                
+                if (pillEl) {
+                    pillEl.classList.add('active');
+                } else {
+                    var targetPill = document.querySelector('.grade-pill[data-grade="' + grade + '"]');
+                    if (targetPill) targetPill.classList.add('active');
+                }
+
+                // Show / hide grade cards
+                var cards = document.querySelectorAll('.grade-card');
+                cards.forEach(function(card) {
+                    var cardGrade = card.getAttribute('data-grade');
+                    if (grade === 'all' || cardGrade === grade) {
+                        card.style.cssText = 'display: flex !important; visibility: visible !important; opacity: 1 !important;';
+                    } else {
+                        card.style.cssText = 'display: none !important;';
+                    }
+                });
+
+                // Show / hide level sections
+                var primaryVisible = (grade === 'all' || grade.indexOf('primary-') === 0);
+                var prepVisible    = (grade === 'all' || grade.indexOf('prep-') === 0);
+
+                var primarySec = document.getElementById('primary-section');
+                var prepSec    = document.getElementById('prep-section');
+                var dividerEl  = document.getElementById('divider');
+
+                if (primarySec) primarySec.style.display = primaryVisible ? 'block' : 'none';
+                if (prepSec) prepSec.style.display    = prepVisible    ? 'block' : 'none';
+                if (dividerEl) dividerEl.style.display  = (primaryVisible && prepVisible) ? 'block' : 'none';
+            } catch(err) {
+                console.error("Filter error:", err);
+            }
+        }
+        window.filterGrades = filterGrades;
+    </script>
     <style>
         .games-hero {
             padding: 110px 24px 40px;
