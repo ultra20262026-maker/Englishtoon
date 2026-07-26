@@ -19,17 +19,7 @@ async function login(username, password) {
         const cleanUser = (username || '').trim().toLowerCase();
         const cleanPass = (password || '').trim();
 
-        // Hardcoded secure admin check (bypasses database)
-        if (cleanUser === 'admin') {
-            if (cleanPass === 'Mm01208609509' || cleanPass === 'mm01208609509' || cleanPass === '01208609509') {
-                localStorage.setItem('isLoggedIn', 'true');
-                localStorage.setItem('currentUser', 'admin');
-                localStorage.setItem('auth_session_version', FORCE_LOGOUT_VERSION);
-                return { success: true };
-            } else {
-                return { success: false, message: 'كلمة مرور الإدارة غير صحيحة.' };
-            }
-        }
+        // Admin login has been moved completely to admin-login.html
 
         let userRef = db.collection("codes").doc(username);
         let userSnap = await userRef.get();
