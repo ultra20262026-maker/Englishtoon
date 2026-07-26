@@ -157,26 +157,37 @@ function checkAuth() {
 }
 
 function setupAdminHeader() {
-    // 1. Show Header Admin Button if present
+    const currUser = (localStorage.getItem('currentUser') || '').trim().toLowerCase();
+    const isAdmin = (currUser === 'admin');
+
     const adminBtn = document.getElementById('admin-btn-link');
     if (adminBtn) {
-        adminBtn.style.cssText = 'display: inline-flex !important; visibility: visible !important; opacity: 1 !important; background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; border-radius: 20px; font-weight: bold; border: 1px solid #f59e0b; padding: 8px 18px; margin-left: 8px; text-decoration: none;';
+        if (isAdmin) {
+            adminBtn.style.cssText = 'display: inline-flex !important; visibility: visible !important; opacity: 1 !important; background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; border-radius: 20px; font-weight: bold; border: 1px solid #f59e0b; padding: 8px 18px; margin-left: 8px; text-decoration: none;';
+        } else {
+            adminBtn.style.cssText = 'display: none !important;';
+        }
     }
 
-    // 2. Show Hero Admin Button if present
     const heroBtn = document.getElementById('admin-hero-btn');
     if (heroBtn) {
-        heroBtn.style.display = 'inline-flex';
+        heroBtn.style.display = isAdmin ? 'inline-flex' : 'none';
     }
 
-    // 3. Inject Floating Admin Button across ALL pages (bottom right)
-    if (!document.getElementById('global-floating-admin-btn')) {
-        const floatBtn = document.createElement('a');
-        floatBtn.id = 'global-floating-admin-btn';
-        floatBtn.href = 'admin.html';
-        floatBtn.style.cssText = 'position: fixed; bottom: 85px; right: 20px; z-index: 99999; background: linear-gradient(135deg, #f59e0b, #d97706); color: #ffffff !important; text-decoration: none; padding: 12px 22px; border-radius: 50px; font-weight: 900; font-size: 1.05rem; box-shadow: 0 10px 30px rgba(245, 158, 11, 0.7), 0 0 15px rgba(255, 255, 255, 0.4); border: 2px solid #ffffff; display: flex; align-items: center; gap: 8px; backdrop-filter: blur(10px);';
-        floatBtn.innerHTML = '⚙️ لوحة الإدارة';
-        document.body.appendChild(floatBtn);
+    const existingFloat = document.getElementById('global-floating-admin-btn');
+    if (isAdmin) {
+        if (!existingFloat) {
+            const floatBtn = document.createElement('a');
+            floatBtn.id = 'global-floating-admin-btn';
+            floatBtn.href = 'admin.html';
+            floatBtn.style.cssText = 'position: fixed; bottom: 85px; right: 20px; z-index: 99999; background: linear-gradient(135deg, #f59e0b, #d97706); color: #ffffff !important; text-decoration: none; padding: 12px 22px; border-radius: 50px; font-weight: 900; font-size: 1.05rem; box-shadow: 0 10px 30px rgba(245, 158, 11, 0.7), 0 0 15px rgba(255, 255, 255, 0.4); border: 2px solid #ffffff; display: flex; align-items: center; gap: 8px; backdrop-filter: blur(10px);';
+            floatBtn.innerHTML = '⚙️ لوحة الإدارة';
+            document.body.appendChild(floatBtn);
+        }
+    } else {
+        if (existingFloat) {
+            existingFloat.remove();
+        }
     }
 }
 
