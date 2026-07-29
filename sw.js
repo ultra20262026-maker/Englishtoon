@@ -1,6 +1,13 @@
-﻿const CACHE_NAME = 'english-toon-v20260726043340';
+﻿const CACHE_NAME = 'english-toon-v20260728_v1';
 const urlsToCache = [
     "/",
+    "/p2-books.html",
+    "/p2-books/unit1.html",
+    "/p2-books/unit2.html",
+    "/p2-books/unit3.html",
+    "/p2-books/unit4.html",
+    "/p2-books/unit5.html",
+    "/p2-books/unit6.html",
     "/.gitattributes",
     "/admin.html",
     "/books.html",

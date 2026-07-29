@@ -3,7 +3,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // State
     const urlParams = new URLSearchParams(window.location.search);
     const paramGrade = urlParams.get('grade');
-    let currentGrade = (paramGrade === 'p1' || paramGrade === 'primary-1') ? 'p1' : 'p2';
+    if (paramGrade === 'p2' || paramGrade === 'primary-2') {
+        window.location.replace('p2-books.html');
+        return;
+    }
+    let currentGrade = 'p1';
     let currentPageIndex = 0;
 
     function getActivePagesData() {
@@ -634,12 +638,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function switchGrade(gradeKey) {
+        if (gradeKey === 'p2' || gradeKey === 'primary-2') {
+            window.location.href = 'p2-books.html';
+            return;
+        }
         if (gradeKey === 'p3') {
             alert('⏳ جاري إعداد وتجهيز كتاب الصف الثالث وسيتم إضافته قريباً!');
             if (bookGradeSelector) bookGradeSelector.value = currentGrade;
             return;
         }
-        currentGrade = (gradeKey === 'p2' || gradeKey === 'primary-2') ? 'p2' : 'p1';
+        currentGrade = 'p1';
         updateGradeHeader();
         studentProgress = loadProgress();
         initNavigation();

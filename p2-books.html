@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <title>English Toon — تقييمات الصف الثاني الابتدائي (6 وحدات)</title>
+    <link rel="stylesheet" href="css/style.css?v=20260723_v1004">
+    <style>
+        .books-hero {
+            padding: 110px 24px 40px;
+            text-align: center;
+        }
+        .books-hero-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(16,185,129,.15), rgba(6,182,212,.15));
+            border: 1px solid rgba(16,185,129,.35);
+            color: #6ee7b7;
+            font-size: .85rem;
+            font-weight: 700;
+            padding: 7px 20px;
+            border-radius: 999px;
+            margin-bottom: 20px;
+        }
+        .books-hero-title {
+            font-size: clamp(1.8rem, 5vw, 3.2rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, #fff 30%, #6ee7b7 70%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 14px;
+        }
+        .books-hero-sub {
+            color: #94a3b8;
+            font-size: 1.05rem;
+            margin-bottom: 16px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.7;
+        }
+
+        /* CTA tagline box */
+        .books-tagline {
+            max-width: 700px;
+            margin: 0 auto 48px;
+            background: linear-gradient(135deg, rgba(16,185,129,.12), rgba(99,102,241,.12));
+            border: 1px solid rgba(16,185,129,.3);
+            border-radius: 16px;
+            padding: 18px 28px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #e2e8f0;
+            line-height: 1.6;
+        }
+        .books-tagline span { color: #6ee7b7; }
+
+        /* BOOKS GRID */
+        .books-wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px 120px;
+        }
+        .level-label {
+            font-size: .75rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #10b981;
+            margin-bottom: 18px;
+            padding-right: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 22px;
+            margin-bottom: 40px;
+        }
+
+        /* Cards */
+        .book-card {
+            background: rgba(18,25,43,.88);
+            border: 1px solid rgba(255,255,255,.12);
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            color: inherit;
+            transition: all .3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+        .book-card.ready:hover {
+            transform: translateY(-7px);
+            border-color: rgba(16,185,129,.6);
+            box-shadow: 0 24px 60px rgba(0,0,0,.55);
+        }
+        .book-card-img {
+            width: 100%;
+            height: 190px;
+            object-fit: cover;
+            display: block;
+        }
+        .book-card-body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            flex-grow: 1;
+            justify-content: space-between;
+        }
+        .book-card-name {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #fff;
+        }
+        .badge-ready {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: #fff;
+            padding: 10px 18px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 15px rgba(16,185,129,0.35);
+        }
+        .btn-back-all {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 24px;
+            border-radius: 50px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #e2e8f0;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .btn-back-all:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="page-books">
+
+    <div id="toastPopup" class="toast-popup">
+        <span>⏳ قريباً جداً... جاري تجهيز هذا المحتوى!</span>
+    </div>
+
+    <!-- MAIN APP WRAPPER -->
+    <div class="main-wrapper">
+
+        <!-- TOP NAVBAR -->
+        <header class="app-header">
+            <a href="dashboard.html" class="header-logo" style="text-decoration:none;">
+                <img src="images/logo.png" alt="English Toon" class="logo-icon" style="width:145px; height:auto;">
+                <div class="logo-text">
+                    <span class="logo-title" style="display:none;">English Toon</span>
+                </div>
+            </a>
+            <nav class="header-nav-links">
+                <a href="dashboard.html" class="nav-tab-item">🏠 الرئيسية</a>
+                <a href="games.html" class="nav-tab-item">🎮 الألعاب</a>
+                <a href="books.html" class="nav-tab-item active">📖 الكتب التفاعلية</a>
+            </nav>
+            <div class="header-actions">
+                <div class="user-profile-badge">
+                    <span class="user-avatar-dot"></span>
+                    <span id="user-display">طالب</span>
+                </div>
+                <a id="admin-btn-link" href="admin.html" class="btn-nav-action btn-admin" style="display:none !important;">⚙️ الإدارة</a>
+                <button onclick="logout()" class="btn-nav-action btn-logout">خروج 🚪</button>
+            </div>
+        </header>
+
+        <div class="books-hero">
+            <div class="books-hero-badge">📚 كتب تقييمات 2027 التفاعلية</div>
+            <h1 class="books-hero-title">📘 الصف الثاني الابتدائي (6 وحدات)</h1>
+            <p class="books-hero-sub">اختر الوحدة الدراسية وابدأ التقييم الإلكتروني والتمارين التفاعلية على طول!</p>
+            <div class="books-tagline">
+                ✏️ <span>نظام امتحانات وتقييمات إلكتروني متكامل</span> — حل واعرف غلطك وارسل لمعلمك إجاباتك بسهولة!
+            </div>
+        </div>
+
+        <div class="books-wrapper">
+
+            <!-- PRIMARY 2 UNITS -->
+            <div class="level-label">
+                <span>📘 وحدات الصف الثاني الابتدائي (2027)</span>
+                <a href="books.html" class="btn-back-all">⬅ العودة لكل الصفوف</a>
+            </div>
+            <div class="books-grid">
+
+                <!-- UNIT 1 -->
+                <a href="p2-books/unit1.html" class="book-card ready">
+                    <img class="book-card-img" src="images/book_pmid.jpg" alt="الوحدة الأولى">
+                    <div class="book-card-body">
+                        <span class="book-card-name">📘 الوحدة الأولى (Unit 1)</span>
+                        <span style="color:#94a3b8; font-size:0.9rem;">امتحان إلكتروني وتمارين تفاعلية شاملة</span>
+                        <span class="badge-ready">🏆 ابدأ الوحدة</span>
+                    </div>
+                </a>
+
+                <!-- UNIT 2 -->
+                <a href="p2-books/unit2.html" class="book-card ready">
+                    <img class="book-card-img" src="images/book_pmid.jpg" alt="الوحدة الثانية">
+                    <div class="book-card-body">
+                        <span class="book-card-name">📘 الوحدة الثانية (Unit 2)</span>
+                        <span style="color:#94a3b8; font-size:0.9rem;">امتحان إلكتروني وتمارين تفاعلية شاملة</span>
+                        <span class="badge-ready">🏆 ابدأ الوحدة</span>
+                    </div>
+                </a>
+
+                <!-- UNIT 3 -->
+                <a href="p2-books/unit3.html" class="book-card ready">
+                    <img class="book-card-img" src="images/book_pmid.jpg" alt="الوحدة الثالثة">
+                    <div class="book-card-body">
+                        <span class="book-card-name">📘 الوحدة الثالثة (Unit 3)</span>
+                        <span style="color:#94a3b8; font-size:0.9rem;">امتحان إلكتروني وتمارين تفاعلية شاملة</span>
+                        <span class="badge-ready">🏆 ابدأ الوحدة</span>
+                    </div>
+                </a>
+
+                <!-- UNIT 4 -->
+                <a href="p2-books/unit4.html" class="book-card ready">
+                    <img class="book-card-img" src="images/book_pmid.jpg" alt="الوحدة الرابعة">
+                    <div class="book-card-body">
+                        <span class="book-card-name">📘 الوحدة الرابعة (Unit 4)</span>
+                        <span style="color:#94a3b8; font-size:0.9rem;">امتحان إلكتروني وتمارين تفاعلية شاملة</span>
+                        <span class="badge-ready">🏆 ابدأ الوحدة</span>
+                    </div>
+                </a>
+
+                <!-- UNIT 5 -->
+                <a href="p2-books/unit5.html" class="book-card ready">
+                    <img class="book-card-img" src="images/book_pmid.jpg" alt="الوحدة الخامسة">
+                    <div class="book-card-body">
+                        <span class="book-card-name">📘 الوحدة الخامسة (Unit 5)</span>
+                        <span style="color:#94a3b8; font-size:0.9rem;">امتحان إلكتروني وتمارين تفاعلية شاملة</span>
+                        <span class="badge-ready">🏆 ابدأ الوحدة</span>
+                    </div>
+                </a>
+
+                <!-- UNIT 6 -->
+                <a href="p2-books/unit6.html" class="book-card ready">
+                    <img class="book-card-img" src="images/book_pmid.jpg" alt="الوحدة السادسة">
+                    <div class="book-card-body">
+                        <span class="book-card-name">📘 الوحدة السادسة (Unit 6)</span>
+                        <span style="color:#94a3b8; font-size:0.9rem;">امتحان إلكتروني وتمارين تفاعلية شاملة</span>
+                        <span class="badge-ready">🏆 ابدأ الوحدة</span>
+                    </div>
+                </a>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Mobile Bottom Nav -->
+    <nav class="mobile-bottom-dock">
+        <a href="dashboard.html" class="dock-item">
+            <span class="dock-icon">🏠</span>
+            <span>الرئيسية</span>
+        </a>
+        <a href="games.html" class="dock-item">
+            <span class="dock-icon">🎮</span>
+            <span>الألعاب</span>
+        </a>
+        <a href="books.html" class="dock-item active">
+            <span class="dock-icon">📖</span>
+            <span>كتب تفاعلية</span>
+        </a>
+    </nav>
+
+    <script src="js/auth.js"></script>
+    <script>
+        checkAuth();
+        const currentUser = localStorage.getItem('currentUser') || 'طالب';
+        document.getElementById('user-display').textContent = currentUser;
+        if (currentUser === 'admin') document.getElementById('admin-btn-link').style.display = 'inline-flex';
+    </script>
+</body>
+</html>

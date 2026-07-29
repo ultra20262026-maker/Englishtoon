@@ -12,7 +12,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-const FORCE_LOGOUT_VERSION = "2026_07_26_UNIFIED_LOGIN_V601";
+const FORCE_LOGOUT_VERSION = "2026_07_28_ADMIN_FIX_V701";
 
 async function login(username, password) {
     try {
@@ -157,7 +157,7 @@ function checkAuth() {
 
 function setupAdminHeader() {
     const currUser = (localStorage.getItem('currentUser') || '').trim().toLowerCase();
-    const isAdmin = (currUser === 'admin');
+    const isAdmin = (currUser === 'admin' || currUser === '01208609509' || currUser === 'mm01208609509');
 
     const userDisplay = document.getElementById('user-display');
     if (userDisplay) {
