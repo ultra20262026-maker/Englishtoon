@@ -104,8 +104,8 @@
         if (!grade) {
             window.location.href = 'dashboard.html';
         } else {
-            document.getElementById('grade-title').textContent = grade.name;
-            document.getElementById('grade-subtitle').textContent = grade.desc;
+            document.getElementById('grade-subtitle').textContent = grade.name;
+            document.getElementById('breadcrumb-grade-title').textContent = grade.name;
 
             const container = document.getElementById('units-container');
             const allowedUnitsStr = localStorage.getItem('allowedUnits');
