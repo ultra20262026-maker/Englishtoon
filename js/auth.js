@@ -12,7 +12,22 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-const FORCE_LOGOUT_VERSION = "2026_07_28_ADMIN_FIX_V701";
+const CURRENT_APP_VERSION = "20260729_V1000_FORCE_CLEAN";
+if (localStorage.getItem('app_ver') !== CURRENT_APP_VERSION) {
+    localStorage.setItem('app_ver', CURRENT_APP_VERSION);
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(regs => {
+            for (let r of regs) r.unregister();
+        });
+    }
+    if ('caches' in window) {
+        caches.keys().then(names => {
+            for (let name of names) caches.delete(name);
+        });
+    }
+}
+
+const FORCE_LOGOUT_VERSION = "2026_07_29_ADMIN_FIX_V800";
 
 async function login(username, password) {
     try {
