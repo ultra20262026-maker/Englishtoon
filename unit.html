@@ -95,7 +95,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
     <script src="js/data.js"></script>
-    <script src="js/auth.js"></script>
+    <script src="js/auth.js?v=20260729_V1000"></script>
 
     <script>
         checkAuth();
@@ -106,7 +106,8 @@
 
         // Security Authorization Check
         const allowedGrade = localStorage.getItem('allowedGrade') || 'all';
-        const isAdmin = localStorage.getItem('currentUser') === 'admin';
+        const currUser = (localStorage.getItem('currentUser') || '').trim().toLowerCase();
+        const isAdmin = (currUser === 'admin' || currUser === '01208609509' || currUser === 'mm01208609509');
         let allowedUnits = 'all';
         try { allowedUnits = JSON.parse(localStorage.getItem('allowedUnits') || '"all"'); } catch(e) {}
 

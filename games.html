@@ -325,15 +325,15 @@
     </nav>
 
     <script src="js/data.js"></script>
-    <script src="js/auth.js?v=2026_07_26_V600"></script>
+    <script src="js/auth.js?v=20260729_V1000"></script>
     <script>
         checkAuth();
-        const rawUser = localStorage.getItem('currentUser') || 'طالب';
-        const cleanUser = rawUser.trim().toLowerCase();
+        const rawUser = (localStorage.getItem('currentUser') || '').trim().toLowerCase();
+        const isAdmin = (rawUser === 'admin' || rawUser === '01208609509' || rawUser === 'mm01208609509');
         const userDisplayEl = document.getElementById('user-display');
-        if (userDisplayEl) userDisplayEl.textContent = rawUser;
+        if (userDisplayEl) userDisplayEl.textContent = isAdmin ? 'admin (المدير)' : (localStorage.getItem('currentUser') || 'طالب');
 
-        if (cleanUser === 'admin') {
+        if (isAdmin) {
             const adminBtn = document.getElementById('admin-btn-link');
             if (adminBtn) adminBtn.style.cssText = 'display: inline-flex !important; visibility: visible !important; opacity: 1 !important;';
         }
