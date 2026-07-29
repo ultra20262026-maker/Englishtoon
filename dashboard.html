@@ -393,12 +393,14 @@
     </nav>
 
     <script src="js/data.js"></script>
-    <script src="js/auth.js?v=2026_07_26_V601"></script>
+    <script src="js/auth.js?v=20260729_V1000"></script>
     <script>
         checkAuth();
-        const currentUser = localStorage.getItem('currentUser') || 'طالب';
+        const currUser = (localStorage.getItem('currentUser') || '').trim().toLowerCase();
+        const isAdmin = (currUser === 'admin' || currUser === '01208609509' || currUser === 'mm01208609509');
+        const currentUser = isAdmin ? 'admin (المدير)' : (localStorage.getItem('currentUser') || 'طالب');
         document.getElementById('user-display').textContent = currentUser;
-        if (currentUser.trim().toLowerCase() === 'admin') {
+        if (isAdmin) {
             document.getElementById('admin-btn-link').style.cssText = 'display: inline-flex !important; visibility: visible !important; opacity: 1 !important;';
             const heroAdmin = document.getElementById('admin-hero-btn');
             if (heroAdmin) heroAdmin.style.display = 'inline-flex';
@@ -406,8 +408,6 @@
 
         // ===== RENDER DASHBOARD GRADE CARDS =====
         const allowedGrade = localStorage.getItem('allowedGrade') || 'all';
-        const currUser = (localStorage.getItem('currentUser') || '').trim().toLowerCase();
-        const isAdmin = (currUser === 'admin');
         const dashGrid = document.getElementById('dashboard-grades-grid');
 
         if (dashGrid && typeof GRADES_DATA !== 'undefined') {
