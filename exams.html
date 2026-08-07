@@ -142,9 +142,9 @@
                 <span class="bg-white/20 text-white text-xs font-black px-3 py-1 rounded-full backdrop-blur-md mb-4 inline-block border border-white/30">
                     <i class="fa-solid fa-file-pen mr-1"></i> امتحن الآن
                 </span>
-                <h1 class="text-3xl md:text-5xl font-black mb-4 leading-tight">جاهز لاختبار <br><span class="text-yellow-300">قدراتك في الإنجليزية؟</span></h1>
+                <h1 class="text-3xl md:text-5xl font-black mb-4 leading-tight">اختر صفك الدراسي <br><span class="text-yellow-300">لتبدأ الامتحانات!</span></h1>
                 <p class="text-emerald-50 text-lg font-semibold mb-6 leading-relaxed">
-                    مجموعة من الامتحانات التفاعلية المصممة خصيصاً لتقييم مستواك وتدريبك على شكل أسئلة المنهج بأسلوب ممتع وشيق.
+                    تصفح الامتحانات التفاعلية لجميع الصفوف، واستعد لاختبار مستواك.
                 </p>
             </div>
             
@@ -154,95 +154,42 @@
             </div>
         </div>
 
-        <!-- Exams Grid -->
-        <div class="mb-8">
+        <!-- Grade Filter Pills -->
+        <div class="flex justify-center flex-wrap gap-2 mb-10" id="gradePills">
+            <div class="grade-pill active" data-grade="all" onclick="filterGrades('all', this)">كل الصفوف</div>
+            <div class="grade-pill" data-grade="primary-1" onclick="filterGrades('primary-1', this)">الأول الابتدائي</div>
+            <div class="grade-pill" data-grade="primary-2" onclick="filterGrades('primary-2', this)">الثاني الابتدائي</div>
+            <div class="grade-pill" data-grade="primary-3" onclick="filterGrades('primary-3', this)">الثالث الابتدائي</div>
+            <div class="grade-pill" data-grade="primary-4" onclick="filterGrades('primary-4', this)">الرابع الابتدائي</div>
+            <div class="grade-pill" data-grade="primary-5" onclick="filterGrades('primary-5', this)">الخامس الابتدائي</div>
+            <div class="grade-pill" data-grade="primary-6" onclick="filterGrades('primary-6', this)">السادس الابتدائي</div>
+            <div class="grade-pill" data-grade="prep-1" onclick="filterGrades('prep-1', this)">الأول الإعدادي</div>
+            <div class="grade-pill" data-grade="prep-2" onclick="filterGrades('prep-2', this)">الثاني الإعدادي</div>
+            <div class="grade-pill" data-grade="prep-3" onclick="filterGrades('prep-3', this)">الثالث الإعدادي</div>
+        </div>
+
+        <!-- Primary Section -->
+        <div id="primary-section" class="mb-12">
             <h3 class="text-2xl font-black text-slate-800 mb-6 flex items-center gap-3">
-                <i class="fa-solid fa-clipboard-check text-success"></i> الامتحانات المتاحة
+                <i class="fa-solid fa-child text-success"></i> المرحلة الابتدائية
             </h3>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6">
-                
-                <!-- Exam 1 -->
-                <div class="exam-card p-6 opacity-0 animate-fade-in-up anim-delay-1 flex flex-col h-full">
-                    <div class="flex items-center justify-between mb-4">
-                        <div class="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-2xl shadow-inner">
-                            <i class="fa-solid fa-book-open"></i>
-                        </div>
-                        <span class="bg-slate-100 text-slate-600 font-bold px-3 py-1 rounded-full text-xs">الوحدة 1 و 2</span>
-                    </div>
-                    
-                    <h4 class="text-xl font-black text-slate-800 mb-2">امتحان الكلمات والقواعد المجمعة</h4>
-                    <p class="text-slate-500 text-sm font-semibold mb-6 leading-relaxed flex-grow">
-                        اختبار شامل يغطي أهم الكلمات وقواعد اللغة الخاصة بالوحدتين الأولى والثانية لضمان استيعابك الكامل للمنهج.
-                    </p>
-                    
-                    <div class="bg-slate-50 rounded-xl p-3 mb-6 flex justify-between items-center text-xs font-bold text-slate-600 border border-slate-100">
-                        <div class="flex items-center gap-1"><i class="fa-regular fa-clock text-slate-400"></i> 20 دقيقة</div>
-                        <div class="flex items-center gap-1"><i class="fa-solid fa-list-ol text-slate-400"></i> 15 سؤال</div>
-                        <div class="flex items-center gap-1"><i class="fa-solid fa-star text-orange-400"></i> 50 نقطة</div>
-                    </div>
-                    
-                    <button class="btn-exam w-full text-white font-black py-3 rounded-xl flex items-center justify-center gap-2" onclick="alert('جاري إعداد الامتحان، يرجى الانتظار!')">
-                        <span>ابدأ الامتحان</span> <i class="fa-solid fa-pen-nib"></i>
-                    </button>
-                </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="primary-grid">
+                <!-- Rendered via JS -->
+            </div>
+        </div>
 
-                <!-- Exam 2 -->
-                <div class="exam-card p-6 opacity-0 animate-fade-in-up anim-delay-2 flex flex-col h-full">
-                    <div class="flex items-center justify-between mb-4">
-                        <div class="w-14 h-14 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center text-2xl shadow-inner">
-                            <i class="fa-solid fa-headphones"></i>
-                        </div>
-                        <span class="bg-slate-100 text-slate-600 font-bold px-3 py-1 rounded-full text-xs">مهارات الاستماع</span>
-                    </div>
-                    
-                    <h4 class="text-xl font-black text-slate-800 mb-2">اختبار الاستماع التفاعلي</h4>
-                    <p class="text-slate-500 text-sm font-semibold mb-6 leading-relaxed flex-grow">
-                        استمع إلى المقاطع الصوتية وأجب عن الأسئلة لتقييم مهارة الاستماع لديك ومعرفة مدى قدرتك على فهم المحادثات.
-                    </p>
-                    
-                    <div class="bg-slate-50 rounded-xl p-3 mb-6 flex justify-between items-center text-xs font-bold text-slate-600 border border-slate-100">
-                        <div class="flex items-center gap-1"><i class="fa-regular fa-clock text-slate-400"></i> 15 دقيقة</div>
-                        <div class="flex items-center gap-1"><i class="fa-solid fa-list-ol text-slate-400"></i> 10 أسئلة</div>
-                        <div class="flex items-center gap-1"><i class="fa-solid fa-star text-orange-400"></i> 30 نقطة</div>
-                    </div>
-                    
-                    <button class="btn-exam w-full text-white font-black py-3 rounded-xl flex items-center justify-center gap-2" onclick="alert('جاري إعداد الامتحان، يرجى الانتظار!')">
-                        <span>ابدأ الامتحان</span> <i class="fa-solid fa-pen-nib"></i>
-                    </button>
-                </div>
-
-                <!-- Exam 3 -->
-                <div class="exam-card p-6 opacity-0 animate-fade-in-up anim-delay-3 flex flex-col h-full">
-                    <div class="flex items-center justify-between mb-4">
-                        <div class="w-14 h-14 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center text-2xl shadow-inner">
-                            <i class="fa-solid fa-trophy"></i>
-                        </div>
-                        <span class="bg-slate-100 text-slate-600 font-bold px-3 py-1 rounded-full text-xs">نهاية الشهر</span>
-                    </div>
-                    
-                    <h4 class="text-xl font-black text-slate-800 mb-2">الامتحان الشهري الشامل</h4>
-                    <p class="text-slate-500 text-sm font-semibold mb-6 leading-relaxed flex-grow">
-                        امتحان شامل ومتقدم يقيم كل ما تعلمته خلال الشهر لتحديد نقاط قوتك وضعفك والحصول على تقييم دقيق.
-                    </p>
-                    
-                    <div class="bg-slate-50 rounded-xl p-3 mb-6 flex justify-between items-center text-xs font-bold text-slate-600 border border-slate-100">
-                        <div class="flex items-center gap-1"><i class="fa-regular fa-clock text-slate-400"></i> 45 دقيقة</div>
-                        <div class="flex items-center gap-1"><i class="fa-solid fa-list-ol text-slate-400"></i> 30 سؤال</div>
-                        <div class="flex items-center gap-1"><i class="fa-solid fa-star text-orange-400"></i> 100 نقطة</div>
-                    </div>
-                    
-                    <button class="btn-exam w-full text-white font-black py-3 rounded-xl flex items-center justify-center gap-2" onclick="alert('جاري إعداد الامتحان، يرجى الانتظار!')">
-                        <span>ابدأ الامتحان</span> <i class="fa-solid fa-pen-nib"></i>
-                    </button>
-                </div>
-
+        <!-- Prep Section -->
+        <div id="prep-section">
+            <h3 class="text-2xl font-black text-slate-800 mb-6 flex items-center gap-3">
+                <i class="fa-solid fa-school text-indigo-500"></i> المرحلة الإعدادية
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="prep-grid">
+                <!-- Rendered via JS -->
             </div>
         </div>
     </main>
 
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="js/data.js"></script>
     <script src="js/auth.js?v=20260807"></script>
     
     <script>
@@ -256,7 +203,61 @@
             // Set user name
             const currentUser = localStorage.getItem('currentUser') || 'طالبنا المتميز';
             document.getElementById('userNameDisplay').textContent = currentUser;
+
+            const primaryGrid = document.getElementById('primary-grid');
+            const prepGrid = document.getElementById('prep-grid');
+
+            // Render all grades from GRADES_DATA
+            GRADES_DATA.forEach(grade => {
+                const isPrimary = grade.id.startsWith('primary');
+                const html = `
+                    <a href="exams-grade.html?id=${grade.id}" class="exam-card block p-0 group">
+                        <img class="w-full h-40 object-cover border-b-2 border-white/50" src="${grade.image}" alt="${grade.name}" onerror="this.src='images/prep_card.jpg'">
+                        <div class="p-5 flex items-center justify-between bg-white/80">
+                            <span class="text-xl font-black text-slate-800">${grade.name}</span>
+                            <span class="bg-gradient-to-r from-success to-emerald-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-sm">امتحانات <i class="fa-solid fa-file-pen ml-1"></i></span>
+                        </div>
+                    </a>
+                `;
+                
+                if (isPrimary) {
+                    primaryGrid.innerHTML += html;
+                } else {
+                    prepGrid.innerHTML += html;
+                }
+            });
         });
+
+        function filterGrades(grade, pillEl) {
+            // Highlight pill
+            document.querySelectorAll('.grade-pill').forEach(p => p.classList.remove('active'));
+            if (pillEl) {
+                pillEl.classList.add('active');
+            }
+
+            // Filter cards
+            document.querySelectorAll('.exam-card').forEach(card => {
+                // To filter we need data-grade on the card. Wait, I forgot to add data-grade to the anchor!
+                // I will use URL matching for now, or just re-render. Let's add data-grade logic.
+            });
+            // Actually, a simpler filtering:
+            document.querySelectorAll('#primary-grid > a, #prep-grid > a').forEach(card => {
+                const url = new URL(card.href);
+                const cardGrade = url.searchParams.get('id');
+                if (grade === 'all' || cardGrade === grade) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Show/hide sections
+            const primaryVisible = (grade === 'all' || grade.startsWith('primary-'));
+            const prepVisible = (grade === 'all' || grade.startsWith('prep-'));
+
+            document.getElementById('primary-section').style.display = primaryVisible ? 'block' : 'none';
+            document.getElementById('prep-section').style.display = prepVisible ? 'block' : 'none';
+        }
     </script>
 </body>
 </html>
