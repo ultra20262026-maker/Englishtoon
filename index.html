@@ -191,7 +191,7 @@
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-    <script src="js/auth.js"></script>
+    <script src="js/auth.js?v=20260807"></script>
     
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -252,7 +252,7 @@
                             if (username.toLowerCase() === 'admin' || username === '01208609509' || username === 'mm01208609509') {
                                 window.location.replace('admin.html');
                             } else {
-                                window.location.replace('dashboard.html');
+                                window.location.replace("dashboard.html?t=" + new Date().getTime());
                             }
                         }, 800);
                     } else {
@@ -260,7 +260,7 @@
                         resetBtn();
                     }
                 } catch (error) {
-                    console.error("Login Error:", error);
+                    console.error("Login Error:", error); alert("Error: " + error.message);
                     showError('حدث خطأ في الاتصال بالخادم. يرجى التأكد من اتصالك بالإنترنت.');
                     resetBtn();
                 }
@@ -298,3 +298,4 @@
     </script>
 </body>
 </html>
+
