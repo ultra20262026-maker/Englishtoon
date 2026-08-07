@@ -190,7 +190,7 @@
             const isAdmin = (currUser === 'admin' || currUser === '01208609509' || currUser === 'mm01208609509');
 
             const unitIcons = ['ðŸŒŸ', 'ðŸš€', 'ðŸŒŠ', 'âš¡', 'ðŸ’¡', 'ðŸ†'];
-            const unitTitles = ['Ø§Ù„ÙˆØ­Ø¯Ø© Ø§Ù„Ø£ÙˆÙ„Ù‰', 'Ø§Ù„ÙˆØ­Ø¯Ø© Ø§Ù„Ø«Ø§Ù†ÙŠØ©', 'Ø§Ù„ÙˆØ­Ø¯Ø© Ø§Ù„Ø«Ø§Ù„Ø«Ø©', 'Ø§Ù„ÙˆØ­Ø¯Ø© Ø§Ù„Ø±Ø§Ø¨Ø¹Ø©', 'Ø§Ù„ÙˆØ­Ø¯Ø© Ø§Ù„Ø®Ø§Ù…Ø³Ø©', 'Ø§Ù„ÙˆØ­Ø¯Ø© Ø§Ù„Ø³Ø§Ø¯Ø³Ø©'];
+            const unitTitles = ['الوحدة الأولى', 'الوحدة الثانية', 'الوحدة الثالثة', 'الوحدة الرابعة', 'الوحدة الخامسة', 'الوحدة السادسة'];
 
             for (let i = 1; i <= UNITS_PER_GRADE; i++) {
                 if (!isAdmin && allowedUnits !== 'all' && Array.isArray(allowedUnits)) {
@@ -207,13 +207,12 @@
                     <span class="unit-big-num">0${i}</span>
                     <div class="unit-icon-box">${unitIcons[i-1] || 'ðŸ“–'}</div>
                     <div class="unit-info-body">
-                        <span class="text-white/70 text-sm font-bold block mb-1">Ø§Ù„ÙˆØ­Ø¯Ø©</span>
+                        <span class="text-white/70 text-sm font-bold block mb-1">الوحدة</span>
                         <h3 class="text-white text-2xl font-black mb-1">${unitTitles[i-1]}</h3>
                         <span class="font-en text-white/80 font-bold block">Unit ${i}</span>
                     </div>
                     <div class="unit-tile-hover-bar">
-                        <span>Ø¯Ø®ÙˆÙ„ Ø§Ù„Ø£Ù„Ø¹Ø§Ø¨</span>
-                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>دخول الامتحانات</span><i class="fa-solid fa-arrow-left"></i>
                     </div>
                 `;
 
@@ -223,4 +222,5 @@
     </script>
 </body>
 </html>
+
 

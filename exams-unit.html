@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -235,30 +235,29 @@
             colorClass = 'text-accent bg-orange-100';
         }
 
-        const html = 
-            <a href="exams//unit/" class="game-card bg-white rounded-3xl p-6 flex flex-col h-full animate-fade-in-up group relative overflow-hidden" style="animation-delay: 0.s">
+        const html = `
+            <a href="exams/${gradeId}/unit${unitId}/${exam.file}" class="game-card bg-white rounded-3xl p-6 flex flex-col h-full animate-fade-in-up group relative overflow-hidden" style="animation-delay: 0.${delay}s">
                 <div class="absolute top-0 right-0 w-32 h-32 bg-slate-50 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2 group-hover:bg-success/10 transition-colors duration-500"></div>
                 
                 <div class="flex items-center justify-between mb-6 relative z-10">
-                    <div class="w-14 h-14 rounded-2xl  flex items-center justify-center text-2xl shadow-inner group-hover:scale-110 transition-transform duration-300">
-                        
+                    <div class="w-14 h-14 rounded-2xl ${colorClass} flex items-center justify-center text-2xl shadow-inner group-hover:scale-110 transition-transform duration-300">
+                        ${iconHtml}
                     </div>
                     <div class="bg-slate-100 text-slate-500 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1 group-hover:bg-success group-hover:text-white transition-colors">
                         ابدأ الامتحان <i class="fa-solid fa-arrow-left text-[10px]"></i>
                     </div>
                 </div>
                 
-                <h4 class="text-xl font-black text-slate-800 mb-2 relative z-10 group-hover:text-success transition-colors"></h4>
+                <h4 class="text-xl font-black text-slate-800 mb-2 relative z-10 group-hover:text-success transition-colors">${exam.name}</h4>
                 <p class="text-slate-500 text-sm font-semibold relative z-10 flex-grow">
                     اختبر مستواك في هذا الدرس.
                 </p>
             </a>
-        ;
+        `;
         container.innerHTML += html;
     });
 });
     </script>
 </body>
-</html>
 
 
