@@ -1,4 +1,4 @@
-﻿const CACHE_NAME = 'englishtoon-cache-v20260807_WIPE_V1';
+﻿const CACHE_NAME = 'englishtoon-cache-v20260807_PREMIUM_V2';
 const urlsToCache = [
     "/",
     "/p2-books.html",
@@ -1379,4 +1379,5 @@ self.addEventListener('fetch', event => {
             })
     );
 });
+
 
