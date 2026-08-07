@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -224,7 +224,7 @@
 
                 // Inject Admin Card if user is Admin
                 if (currentUser === 'admin' || currentUser === '01208609509' || currentUser === 'mm01208609509') {
-                    const adminHtml = 
+                    const adminHtml = `
                         <div onclick="window.location.href='admin.html'" class="category-card rounded-[2.5rem] p-6 flex flex-col md:flex-row items-center gap-6 opacity-0 animate-fade-in-up group mt-6" style="--hover-color: #10b981; animation-delay: 0.4s;">
                             <div class="icon-container w-32 h-32 md:w-40 md:h-40 shrink-0 border-4 border-success/20">
                                 <img src="images/icon_admin_dashboard.jpg" alt="Admin" class="w-full h-full object-cover">
@@ -240,7 +240,7 @@
                                 </div>
                             </div>
                         </div>
-                    ;
+                    `;
                     document.getElementById('admin-section').innerHTML = adminHtml;
                 }
             }
