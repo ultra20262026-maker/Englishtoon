@@ -35,6 +35,32 @@ const GRAMMAR_GAMES_MAP = {"primary-1": {"1": [], "2": [], "3": [], "4": [], "5"
 
 const EXAMS_MAP = {
     "prep-1": {
+        "1": [
+            {
+                "name": "Unit 1 Lesson 1 ADayinMyDigitalLesson ife",
+                "file": "U1_L1_ADayinMyDigitalLife.html"
+            },
+            {
+                "name": "Unit 1 Lesson 2 WeUnit seTechnology",
+                "file": "U1_L2_WeUseTechnology.html"
+            },
+            {
+                "name": "Unit 1 Lesson 3 DigitalDevices",
+                "file": "U1_L3_DigitalDevices.html"
+            },
+            {
+                "name": "Unit 1 Lesson 4 ReadingADigitalDay",
+                "file": "U1_L4_ReadingADigitalDay.html"
+            },
+            {
+                "name": "Unit 1 Lesson 5 AnEmailtoaFriend",
+                "file": "U1_L5_AnEmailtoaFriend.html"
+            },
+            {
+                "name": "Unit 1 Lesson 6 TeamProjectRoundtable",
+                "file": "U1_L6_TeamProjectRoundtable.html"
+            }
+        ],
         "3": [
             {
                 "name": "Unit 3 Lesson 1 AnEgyptianHero",
@@ -167,6 +193,72 @@ const EXAMS_MAP = {
         ]
     },
     "prep-2": {
+        "1": [
+            {
+                "name": "Unit 1 Lesson 1 MeetGenAlpha",
+                "file": "U1_L1_MeetGenAlpha.html"
+            },
+            {
+                "name": "Unit 1 Lesson 2 GenAlphasDigitalLesson ife",
+                "file": "U1_L2_GenAlphasDigitalLife.html"
+            },
+            {
+                "name": "Unit 1 Lesson 3 TheDigitalBridge",
+                "file": "U1_L3_TheDigitalBridge.html"
+            },
+            {
+                "name": "Unit 1 Lesson 4 ReadingTheLesson ittleInventor",
+                "file": "U1_L4_ReadingTheLittleInventor.html"
+            },
+            {
+                "name": "Unit 1 Lesson 5 Lesson essons56ExpressingIdentityOnline",
+                "file": "U1_L5_Lessons56ExpressingIdentityOnline.html"
+            }
+        ],
+        "3": [
+            {
+                "name": "Unit 3 Lesson 1 OvercomingChallenges",
+                "file": "U3_L1_OvercomingChallenges.html"
+            },
+            {
+                "name": "Unit 3 Lesson 2 AdviceforFacingChallenges",
+                "file": "U3_L2_AdviceforFacingChallenges.html"
+            },
+            {
+                "name": "Unit 3 Lesson 3 FacingTrafficChallenges",
+                "file": "U3_L3_FacingTrafficChallenges.html"
+            },
+            {
+                "name": "Unit 3 Lesson 4 ReadingTheLesson ittleInventorCh3",
+                "file": "U3_L4_ReadingTheLittleInventorCh3.html"
+            },
+            {
+                "name": "Unit 3 Lesson 5 Lesson essons56ThePowerofFacingChallenges",
+                "file": "U3_L5_Lessons56ThePowerofFacingChallenges.html"
+            }
+        ],
+        "2": [
+            {
+                "name": "Unit 2 Lesson 1 ProtectingYourPrivacyintheDigitalAge",
+                "file": "U2_L1_ProtectingYourPrivacyintheDigitalAge.html"
+            },
+            {
+                "name": "Unit 2 Lesson 2 StayingSafeOnline",
+                "file": "U2_L2_StayingSafeOnline.html"
+            },
+            {
+                "name": "Unit 2 Lesson 3 ManagingYourOnlineData",
+                "file": "U2_L3_ManagingYourOnlineData.html"
+            },
+            {
+                "name": "Unit 2 Lesson 4 ReadingTheLesson ittleInventorCh2",
+                "file": "U2_L4_ReadingTheLittleInventorCh2.html"
+            },
+            {
+                "name": "Unit 2 Lesson 5 Lesson essons56DigitalDetectives",
+                "file": "U2_L5_Lessons56DigitalDetectives.html"
+            }
+        ],
         "5": [
             {
                 "name": "Unit 5 Lesson 1 HaveYouEverExploredtheWorld",
@@ -188,28 +280,150 @@ const EXAMS_MAP = {
                 "name": "Unit 5 Lesson 5 Lesson essons56ComeExplorewithUnit s",
                 "file": "U5_L5_Lessons56ComeExplorewithUs.html"
             }
+        ],
+        "4": [
+            {
+                "name": "Unit 4 Lesson 1 AJourneyThroughArt",
+                "file": "U4_L1_AJourneyThroughArt.html"
+            },
+            {
+                "name": "Unit 4 Lesson 2 ExploringArtLesson istenUnit p",
+                "file": "U4_L2_ExploringArtListenUp.html"
+            },
+            {
+                "name": "Unit 4 Lesson 3 BiographyofanArtist",
+                "file": "U4_L3_BiographyofanArtist.html"
+            },
+            {
+                "name": "Unit 4 Lesson 4 ReadingTheHiddenIslandCh1",
+                "file": "U4_L4_ReadingTheHiddenIslandCh1.html"
+            },
+            {
+                "name": "امتحان المراجعة",
+                "file": "U4_L5_Lessons56MyPerformanceReview.html"
+            }
+        ],
+        "6": [
+            {
+                "name": "Unit 6 Lesson 1 TurningIdeasintoanImpact",
+                "file": "U6_L1_TurningIdeasintoanImpact.html"
+            },
+            {
+                "name": "Unit 6 Lesson 2 InspiringYoungInventors",
+                "file": "U6_L2_InspiringYoungInventors.html"
+            },
+            {
+                "name": "Unit 6 Lesson 3 AManofImpact",
+                "file": "U6_L3_AManofImpact.html"
+            },
+            {
+                "name": "Unit 6 Lesson 4 ReadingTheHiddenIslandCh3",
+                "file": "U6_L4_ReadingTheHiddenIslandCh3.html"
+            },
+            {
+                "name": "Unit 6 Lesson 5 Lesson essons56IfIWereanInventor",
+                "file": "U6_L5_Lessons56IfIWereanInventor.html"
+            }
         ]
     },
     "primary-5": {
+        "1": [
+            {
+                "name": "u1 Lesson 1",
+                "file": "exam-g5-u1-l1.html"
+            },
+            {
+                "name": "u1 Lesson 2",
+                "file": "exam-g5-u1-l2.html"
+            },
+            {
+                "name": "u1 Lesson 3",
+                "file": "exam-g5-u1-l3.html"
+            },
+            {
+                "name": "u1 Lesson 4",
+                "file": "exam-g5-u1-l4.html"
+            },
+            {
+                "name": "u1 Lesson 5",
+                "file": "exam-g5-u1-l5.html"
+            },
+            {
+                "name": "امتحان المراجعة",
+                "file": "exam-g5-u1-review.html"
+            }
+        ],
+        "3": [
+            {
+                "name": "u3 Lesson 1",
+                "file": "exam-g5-u3-l1.html"
+            },
+            {
+                "name": "u3 Lesson 2",
+                "file": "exam-g5-u3-l2.html"
+            },
+            {
+                "name": "u3 Lesson 3",
+                "file": "exam-g5-u3-l3.html"
+            },
+            {
+                "name": "u3 Lesson 4",
+                "file": "exam-g5-u3-l4.html"
+            },
+            {
+                "name": "u3 Lesson 5",
+                "file": "exam-g5-u3-l5.html"
+            },
+            {
+                "name": "امتحان المراجعة",
+                "file": "exam-g5-u3-review.html"
+            }
+        ],
+        "2": [
+            {
+                "name": "u2 Lesson 1",
+                "file": "exam-g5-u2-l1.html"
+            },
+            {
+                "name": "u2 Lesson 2",
+                "file": "exam-g5-u2-l2.html"
+            },
+            {
+                "name": "u2 Lesson 3",
+                "file": "exam-g5-u2-l3.html"
+            },
+            {
+                "name": "u2 Lesson 4",
+                "file": "exam-g5-u2-l4.html"
+            },
+            {
+                "name": "u2 Lesson 5",
+                "file": "exam-g5-u2-l5.html"
+            },
+            {
+                "name": "امتحان المراجعة",
+                "file": "exam-g5-u2-review.html"
+            }
+        ],
         "5": [
             {
-                "name": "Exam-g5-u5-l1",
+                "name": "u5 Lesson 1",
                 "file": "exam-g5-u5-l1.html"
             },
             {
-                "name": "Exam-g5-u5-l2",
+                "name": "u5 Lesson 2",
                 "file": "exam-g5-u5-l2.html"
             },
             {
-                "name": "Exam-g5-u5-l3",
+                "name": "u5 Lesson 3",
                 "file": "exam-g5-u5-l3.html"
             },
             {
-                "name": "Exam-g5-u5-l4",
+                "name": "u5 Lesson 4",
                 "file": "exam-g5-u5-l4.html"
             },
             {
-                "name": "Exam-g5-u5-l5",
+                "name": "u5 Lesson 5",
                 "file": "exam-g5-u5-l5.html"
             },
             {
@@ -219,23 +433,23 @@ const EXAMS_MAP = {
         ],
         "4": [
             {
-                "name": "Exam-g5-u4-l1",
+                "name": "u4 Lesson 1",
                 "file": "exam-g5-u4-l1.html"
             },
             {
-                "name": "Exam-g5-u4-l2",
+                "name": "u4 Lesson 2",
                 "file": "exam-g5-u4-l2.html"
             },
             {
-                "name": "Exam-g5-u4-l3",
+                "name": "u4 Lesson 3",
                 "file": "exam-g5-u4-l3.html"
             },
             {
-                "name": "Exam-g5-u4-l4",
+                "name": "u4 Lesson 4",
                 "file": "exam-g5-u4-l4.html"
             },
             {
-                "name": "Exam-g5-u4-l5",
+                "name": "u4 Lesson 5",
                 "file": "exam-g5-u4-l5.html"
             },
             {
@@ -245,21 +459,87 @@ const EXAMS_MAP = {
         ]
     },
     "primary-4": {
+        "1": [
+            {
+                "name": "u1 Lesson 1",
+                "file": "exam-g4-u1-l1.html"
+            },
+            {
+                "name": "u1 Lesson 2",
+                "file": "exam-g4-u1-l2.html"
+            },
+            {
+                "name": "u1 Lesson 3",
+                "file": "exam-g4-u1-l3.html"
+            },
+            {
+                "name": "u1 Lesson 4",
+                "file": "exam-g4-u1-l4.html"
+            },
+            {
+                "name": "u1 Lesson 5",
+                "file": "exam-g4-u1-l5.html"
+            }
+        ],
+        "3": [
+            {
+                "name": "u3 Lesson 1",
+                "file": "exam-g4-u3-l1.html"
+            },
+            {
+                "name": "u3 Lesson 2",
+                "file": "exam-g4-u3-l2.html"
+            },
+            {
+                "name": "u3 Lesson 3",
+                "file": "exam-g4-u3-l3.html"
+            },
+            {
+                "name": "u3 Lesson 4",
+                "file": "exam-g4-u3-l4.html"
+            },
+            {
+                "name": "امتحان المراجعة",
+                "file": "exam-g4-u3-review.html"
+            }
+        ],
+        "2": [
+            {
+                "name": "u2 Lesson 1",
+                "file": "exam-g4-u2-l1.html"
+            },
+            {
+                "name": "u2 Lesson 2",
+                "file": "exam-g4-u2-l2.html"
+            },
+            {
+                "name": "u2 Lesson 3",
+                "file": "exam-g4-u2-l3.html"
+            },
+            {
+                "name": "u2 Lesson 4",
+                "file": "exam-g4-u2-l4.html"
+            },
+            {
+                "name": "امتحان المراجعة",
+                "file": "exam-g4-u2-review.html"
+            }
+        ],
         "5": [
             {
-                "name": "Exam-g4-u5-l1",
+                "name": "u5 Lesson 1",
                 "file": "exam-g4-u5-l1.html"
             },
             {
-                "name": "Exam-g4-u5-l2",
+                "name": "u5 Lesson 2",
                 "file": "exam-g4-u5-l2.html"
             },
             {
-                "name": "Exam-g4-u5-l3",
+                "name": "u5 Lesson 3",
                 "file": "exam-g4-u5-l3.html"
             },
             {
-                "name": "Exam-g4-u5-l4",
+                "name": "u5 Lesson 4",
                 "file": "exam-g4-u5-l4.html"
             },
             {
@@ -269,19 +549,19 @@ const EXAMS_MAP = {
         ],
         "4": [
             {
-                "name": "Exam-g4-u4-l1",
+                "name": "u4 Lesson 1",
                 "file": "exam-g4-u4-l1.html"
             },
             {
-                "name": "Exam-g4-u4-l2",
+                "name": "u4 Lesson 2",
                 "file": "exam-g4-u4-l2.html"
             },
             {
-                "name": "Exam-g4-u4-l3",
+                "name": "u4 Lesson 3",
                 "file": "exam-g4-u4-l3.html"
             },
             {
-                "name": "Exam-g4-u4-l4",
+                "name": "u4 Lesson 4",
                 "file": "exam-g4-u4-l4.html"
             },
             {
