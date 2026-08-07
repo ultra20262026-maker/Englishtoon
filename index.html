@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -249,11 +249,7 @@
                         loginBtn.style.boxShadow = '0 10px 20px -10px rgba(16, 185, 129, 0.5), 0 4px 0 #047857';
                         
                         setTimeout(() => {
-                            if (username.toLowerCase() === 'admin' || username === '01208609509' || username === 'mm01208609509') {
-                                window.location.replace('admin.html');
-                            } else {
-                                window.location.replace("dashboard.html?t=" + new Date().getTime());
-                            }
+                            window.location.replace('dashboard.html?t=' + new Date().getTime());
                         }, 800);
                     } else {
                         showError(result.message || 'بيانات الدخول غير صحيحة.');
