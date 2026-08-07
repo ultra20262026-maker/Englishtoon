@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -198,7 +198,7 @@
         return;
     }
 
-    document.getElementById('back-to-grade-btn').href = exams-grade.html?id= + gradeId;
+    document.getElementById('back-to-grade-btn').href = 'exams-grade.html?id=' + gradeId;
     
     const grade = GRADES_DATA.find(g => g.id === gradeId);
     if(grade) {
@@ -211,15 +211,15 @@
     document.getElementById('exams-count-badge').textContent = exams.length + ' امتحانات';
 
     if (exams.length === 0) {
-        container.innerHTML = 
-            <div class="col-span-1 md:col-span-2 lg:col-span-3 xl:col-span-4 bg-white/60 backdrop-blur-sm rounded-3xl p-12 text-center border-2 border-dashed border-slate-300">
+        container.innerHTML = `
+            <div class="col-span-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 bg-white/60 backdrop-blur-sm rounded-3xl p-12 text-center border-2 border-dashed border-slate-300">
                 <div class="w-24 h-24 mx-auto bg-slate-100 rounded-full flex items-center justify-center text-slate-400 text-4xl mb-6">
                     <i class="fa-solid fa-file-excel"></i>
                 </div>
                 <h4 class="text-2xl font-black text-slate-600 mb-2">لا توجد امتحانات حالياً</h4>
                 <p class="text-slate-500 font-bold">جاري تجهيز الامتحانات لهذه الوحدة، عد لاحقاً!</p>
             </div>
-        ;
+        `;
         return;
     }
 
@@ -259,6 +259,7 @@
 });
     </script>
 </body>
+
 
 
 
