@@ -2,22 +2,250 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>English Toon - قريباً</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الرئيسية | English Toon</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Outfit:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Cairo', 'sans-serif'],
+                        en: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#ec4899',
+                        accent: '#f59e0b',
+                        success: '#10b981',
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.6s ease-out forwards',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        body { font-family: sans-serif; background: #f8fafc; color: #1e293b; text-align: center; padding: 50px; }
-        h1 { color: #0ea5e9; }
-        .btn { display: inline-block; padding: 10px 20px; background: #0ea5e9; color: white; text-decoration: none; border-radius: 8px; margin: 10px; font-weight: bold; cursor: pointer; border: none; font-size: 16px;}
-        .btn-logout { background: #f43f5e; }
+        body {
+            background-color: #f8fafc;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.08) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(236, 72, 153, 0.08) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(245, 158, 11, 0.08) 0px, transparent 50%);
+            min-height: 100vh;
+            background-attachment: fixed;
+        }
+
+        .glass-header {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .hero-banner {
+            background-image: url('images/dashboard_hero_banner.jpg');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        .hero-overlay {
+            background: linear-gradient(to right, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.1) 100%);
+        }
+
+        .category-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+            cursor: pointer;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 0 0 2px var(--hover-color, #3b82f6);
+        }
+        
+        .category-card:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .icon-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .icon-container img {
+            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .category-card:hover .icon-container img {
+            transform: scale(1.15) rotate(3deg);
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
     </style>
 </head>
-<body>
-    <h1>English Toon 🚀</h1>
-    <p>الموقع الآن تحت الصيانة وإعادة البناء بالكامل لتوفير تجربة أفضل.</p>
-    <br>
-    <a href="admin.html" class="btn">الذهاب للوحة الإدارة</a>
-    <button onclick="logout()" class="btn btn-logout">تسجيل الخروج لرؤية واجهة الدخول</button>
+<body class="text-slate-800 pb-20">
+
+    <!-- Header -->
+    <header class="glass-header sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-xl bg-white shadow-sm border border-slate-100 overflow-hidden flex items-center justify-center">
+                    <img src="images/englishtoon_logo_new.jpg" alt="Logo" class="w-full h-full object-cover">
+                </div>
+                <div>
+                    <h1 class="font-en font-black text-xl tracking-tight leading-tight">
+                        English<span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Toon</span>
+                    </h1>
+                    <p class="text-xs font-bold text-slate-500">منصة التعليم الأذكى</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <div class="hidden md:block text-left mr-4">
+                    <p class="text-xs text-slate-500 font-bold">مرحباً بك،</p>
+                    <p id="userNameDisplay" class="font-bold text-primary">طالبنا المتميز</p>
+                </div>
+                <button onclick="logout()" class="w-10 h-10 rounded-full bg-red-50 text-red-500 hover:bg-red-500 hover:text-white transition-colors flex items-center justify-center shadow-sm" title="تسجيل الخروج">
+                    <i class="fa-solid fa-power-off"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 mt-8">
+        
+        <!-- Hero Banner -->
+        <div class="hero-banner w-full h-[250px] md:h-[350px] rounded-[2rem] md:rounded-[3rem] overflow-hidden opacity-0 animate-fade-in-up">
+            <div class="hero-overlay w-full h-full flex flex-col justify-center px-8 md:px-16">
+                <span class="inline-block bg-white/20 backdrop-blur-md text-white px-4 py-1.5 rounded-full text-sm font-bold w-max mb-4 border border-white/30 shadow-lg animate-float">
+                    🌟 جاهز للمغامرة؟
+                </span>
+                <h2 class="text-3xl md:text-5xl font-black text-white mb-2 text-shadow-lg leading-tight">
+                    أهلاً بك في عالم<br>English Toon
+                </h2>
+                <p class="text-white/90 font-bold text-lg max-w-md mt-2">
+                    تعلم اللغة الإنجليزية بطريقة تفاعلية وممتعة من خلال الألعاب والامتحانات الذكية!
+                </p>
+            </div>
+        </div>
+
+        <!-- Categories Grid -->
+        <div class="mt-12">
+            <h3 class="text-2xl font-black text-slate-800 mb-6 flex items-center gap-3 opacity-0 animate-fade-in-up delay-1">
+                <i class="fa-solid fa-compass text-primary"></i> اكتشف المنصة
+            </h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8" id="features-grid">
+                
+                <!-- Games Card -->
+                <div onclick="window.location.href='games.html'" class="category-card rounded-[2.5rem] p-6 flex flex-col md:flex-row items-center gap-6 opacity-0 animate-fade-in-up delay-2 group" style="--hover-color: #ec4899;">
+                    <div class="icon-container w-32 h-32 md:w-40 md:h-40 shrink-0">
+                        <img src="images/icon_games_dashboard.jpg" alt="Games" class="w-full h-full object-cover">
+                    </div>
+                    <div class="text-center md:text-right flex-1">
+                        <span class="text-xs font-black text-secondary uppercase tracking-wider bg-secondary/10 px-3 py-1 rounded-full mb-3 inline-block">Play & Learn</span>
+                        <h4 class="text-3xl font-black text-slate-800 mb-2">الألعاب التعليمية</h4>
+                        <p class="text-slate-500 font-bold text-sm md:text-base leading-relaxed mb-4">
+                            استمتع بتعلم الكلمات والقواعد من خلال مجموعة من الألعاب التفاعلية الممتعة المصممة خصيصاً لك.
+                        </p>
+                        <div class="inline-flex items-center gap-2 text-secondary font-bold group-hover:translate-x-[-5px] transition-transform">
+                            العب الآن <i class="fa-solid fa-arrow-left"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Exams Card -->
+                <div onclick="window.location.href='exams.html'" class="category-card rounded-[2.5rem] p-6 flex flex-col md:flex-row items-center gap-6 opacity-0 animate-fade-in-up delay-3 group" style="--hover-color: #f59e0b;">
+                    <div class="icon-container w-32 h-32 md:w-40 md:h-40 shrink-0">
+                        <img src="images/icon_exams_dashboard.jpg" alt="Exams" class="w-full h-full object-cover">
+                    </div>
+                    <div class="text-center md:text-right flex-1">
+                        <span class="text-xs font-black text-accent uppercase tracking-wider bg-accent/10 px-3 py-1 rounded-full mb-3 inline-block">Test Your Skills</span>
+                        <h4 class="text-3xl font-black text-slate-800 mb-2">الامتحانات الإلكترونية</h4>
+                        <p class="text-slate-500 font-bold text-sm md:text-base leading-relaxed mb-4">
+                            اختبر مستواك وتدرب على أسئلة المنهج من خلال امتحانات ذكية تقيم مستواك فوراً.
+                        </p>
+                        <div class="inline-flex items-center gap-2 text-accent font-bold group-hover:translate-x-[-5px] transition-transform">
+                            ابدأ الامتحان <i class="fa-solid fa-arrow-left"></i>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- Admin Section (Injected via JS if applicable) -->
+            <div id="admin-section" class="mt-8"></div>
+            
+        </div>
+
+    </main>
 
     <script>
+        // Check authentication
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            window.location.replace('index.html');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentUser = localStorage.getItem('currentUser');
+            
+            if (currentUser) {
+                // Determine display name
+                let displayName = currentUser;
+                if (currentUser === 'admin' || currentUser === '01208609509') {
+                    displayName = 'المدير';
+                }
+                document.getElementById('userNameDisplay').textContent = displayName;
+
+                // Inject Admin Card if user is Admin
+                if (currentUser === 'admin' || currentUser === '01208609509' || currentUser === 'mm01208609509') {
+                    const adminHtml = 
+                        <div onclick="window.location.href='admin.html'" class="category-card rounded-[2.5rem] p-6 flex flex-col md:flex-row items-center gap-6 opacity-0 animate-fade-in-up group mt-6" style="--hover-color: #10b981; animation-delay: 0.4s;">
+                            <div class="icon-container w-32 h-32 md:w-40 md:h-40 shrink-0 border-4 border-success/20">
+                                <img src="images/icon_admin_dashboard.jpg" alt="Admin" class="w-full h-full object-cover">
+                            </div>
+                            <div class="text-center md:text-right flex-1">
+                                <span class="text-xs font-black text-success uppercase tracking-wider bg-success/10 px-3 py-1 rounded-full mb-3 inline-block">Control Panel</span>
+                                <h4 class="text-3xl font-black text-slate-800 mb-2">لوحة الإدارة</h4>
+                                <p class="text-slate-500 font-bold text-sm md:text-base leading-relaxed mb-4">
+                                    هذا القسم يظهر لك فقط. يمكنك من هنا إدارة الطلاب، وتفعيل الاشتراكات، والتحكم بالمنصة.
+                                </p>
+                                <div class="inline-flex items-center gap-2 text-success font-bold group-hover:translate-x-[-5px] transition-transform">
+                                    الدخول للإدارة <i class="fa-solid fa-shield-halved"></i>
+                                </div>
+                            </div>
+                        </div>
+                    ;
+                    document.getElementById('admin-section').innerHTML = adminHtml;
+                }
+            }
+        });
+
         function logout() {
             localStorage.removeItem('isLoggedIn');
             localStorage.removeItem('currentUser');
