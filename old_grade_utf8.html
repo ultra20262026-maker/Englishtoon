@@ -1,0 +1,156 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Toon ΓÇö ╪º┘ä┘ê╪¡╪»╪º╪¬ ╪º┘ä╪»╪▒╪º╪│┘è╪⌐</title>
+    <link rel="stylesheet" href="css/style.css?v=20260722_v3">
+</head>
+<body>
+
+    
+
+    <!-- Cyber Background Mesh -->
+    <div class="cyber-bg">
+        <div class="glow-orb glow-orb-1"></div>
+        <div class="glow-orb glow-orb-2"></div>
+        <div class="glow-orb glow-orb-3"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="page-animate">
+
+        <!-- App Floating Header with 4 Tabs -->
+        <header class="app-header">
+            <a href="dashboard.html" class="header-brand">
+                <div class="header-logo-wrap">
+                    <img src="images/logo_icon.png" alt="English Toon" class="header-logo-img">
+                </div>
+                <div class="brand-text">
+                    <span class="brand-title">English Toon</span>
+                    <span class="brand-subtitle" id="grade-subtitle">╪º┘ä┘ê╪¡╪»╪º╪¬ ╪º┘ä╪»╪▒╪º╪│┘è╪⌐</span>
+                </div>
+            </a>
+
+            <!-- Navigation Tabs -->
+            <nav class="header-nav-links">
+                <a href="books.html" class="nav-tab-item">≡ƒôû ╪º┘ä┘â╪¬╪¿ ╪º┘ä╪¬┘ü╪º╪╣┘ä┘è╪⌐</a>
+                <a href="dashboard.html" class="nav-tab-item">≡ƒÅá ╪º┘ä╪▒╪ª┘è╪│┘è╪⌐</a>
+                <a href="games.html" class="nav-tab-item active">≡ƒÄ« ╪º┘ä╪ú┘ä╪╣╪º╪¿</a>
+                </nav>
+
+            <div class="header-actions">
+                <a id="admin-btn-link" href="admin.html" class="btn-nav-action btn-admin" style="display:none !important;">ΓÜÖ∩╕Å ╪º┘ä╪Ñ╪»╪º╪▒╪⌐</a>
+                <button onclick="logout()" class="btn-nav-action btn-logout">╪«╪▒┘ê╪¼ ≡ƒÜ¬</button>
+            </div>
+        </header>
+
+        <!-- Breadcrumb & Back Nav -->
+        <div class="breadcrumb-container">
+            <ul class="breadcrumb-list">
+                <li><a href="dashboard.html" class="breadcrumb-link">≡ƒÅá ╪º┘ä╪▒╪ª┘è╪│┘è╪⌐</a></li>
+                <li class="breadcrumb-separator">ΓÇ║</li>
+                <li class="breadcrumb-current" id="breadcrumb-grade-title">╪º┘ä┘ê╪¡╪»╪º╪¬</li>
+            </ul>
+
+            <a href="dashboard.html" class="btn-back">ΓåÉ ╪º┘ä╪╣┘ê╪»╪⌐ ┘ä┘ä╪╡┘ü┘ê┘ü</a>
+        </div>
+
+        <!-- Section Title & Grid -->
+        <div class="section-title-wrap">
+            <h2 class="section-h2">
+                <span class="section-icon-badge">≡ƒôû</span>
+                ╪º┘ä┘ê╪¡╪»╪º╪¬ ╪º┘ä╪»╪▒╪º╪│┘è╪⌐ ╪º┘ä┘à╪¬╪º╪¡╪⌐
+            </h2>
+            <span class="section-count-pill">┘ª ┘ê╪¡╪»╪º╪¬ ┘â╪º┘à┘ä╪⌐</span>
+        </div>
+
+        <!-- Units Cards Grid -->
+        <div class="cards-grid" id="units-container"></div>
+
+    </div>
+
+    <!-- Mobile Bottom Navigation Dock -->
+        <!-- Mobile Bottom Navigation Dock with 5 Tabs -->
+        <!-- Mobile Bottom Navigation Dock with 3 Tabs -->
+    <nav class="mobile-bottom-dock">
+        <a href="dashboard.html" class="dock-item">
+            <span class="dock-icon">≡ƒÅá</span>
+            <span>╪º┘ä╪▒╪ª┘è╪│┘è╪⌐</span>
+        </a>
+        <a href="games.html" class="dock-item">
+            <span class="dock-icon">≡ƒôÜ</span>
+            <span>╪º┘ä╪ú┘ä╪╣╪º╪¿</span>
+        </a>
+        <a href="books.html" class="dock-item">
+            <span class="dock-icon">≡ƒôû</span>
+            <span>┘â╪¬╪¿ ╪¬┘ü╪º╪╣┘ä┘è╪⌐</span>
+        </a>
+    </nav>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <script src="js/data.js"></script>
+    <script src="js/auth.js?v=20260729_V1000"></script>
+    <script>
+        checkAuth();
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const gradeId = urlParams.get('id');
+        const grade = GRADES_DATA.find(g => g.id === gradeId);
+
+        if (!grade) {
+            window.location.href = 'dashboard.html';
+        } else {
+            document.getElementById('grade-title').textContent = grade.name;
+            document.getElementById('grade-subtitle').textContent = grade.desc;
+
+            const container = document.getElementById('units-container');
+            const allowedUnitsStr = localStorage.getItem('allowedUnits');
+            let allowedUnits = 'all';
+            try { 
+                if (allowedUnitsStr && allowedUnitsStr !== 'all') {
+                    allowedUnits = JSON.parse(allowedUnitsStr);
+                }
+            } catch(e) {}
+
+            const currUser = (localStorage.getItem('currentUser') || '').trim().toLowerCase();
+            const isAdmin = (currUser === 'admin' || currUser === '01208609509' || currUser === 'mm01208609509');
+
+            const unitIcons = ['≡ƒîƒ', '≡ƒÜÇ', '≡ƒîè', 'ΓÜí', '≡ƒÆí', '≡ƒÅå'];
+            const unitTitles = ['╪º┘ä┘ê╪¡╪»╪⌐ ╪º┘ä╪ú┘ê┘ä┘ë', '╪º┘ä┘ê╪¡╪»╪⌐ ╪º┘ä╪½╪º┘å┘è╪⌐', '╪º┘ä┘ê╪¡╪»╪⌐ ╪º┘ä╪½╪º┘ä╪½╪⌐', '╪º┘ä┘ê╪¡╪»╪⌐ ╪º┘ä╪▒╪º╪¿╪╣╪⌐', '╪º┘ä┘ê╪¡╪»╪⌐ ╪º┘ä╪«╪º┘à╪│╪⌐', '╪º┘ä┘ê╪¡╪»╪⌐ ╪º┘ä╪│╪º╪»╪│╪⌐'];
+
+            for (let i = 1; i <= UNITS_PER_GRADE; i++) {
+                if (!isAdmin && allowedUnits !== 'all' && Array.isArray(allowedUnits)) {
+                    const hasAccess = allowedUnits.some(u => String(u) === String(i));
+                    if (!hasAccess) continue;
+                }
+
+                const tile = document.createElement('a');
+                tile.className = 'unit-tile';
+                tile.href = `unit.html?grade=${gradeId}&unit=${i}`;
+                tile.style.backgroundImage = `linear-gradient(180deg, rgba(7,10,18,0.35), rgba(7,10,18,0.92)), url('images/unit_${i}.png')`;
+
+                tile.innerHTML = `
+                    <span class="unit-big-num">0${i}</span>
+                    <div class="unit-icon-box">${unitIcons[i-1] || '≡ƒôû'}</div>
+                    <div class="unit-info-body">
+                        <span class="unit-label-small">╪º┘ä┘ê╪¡╪»╪⌐</span>
+                        <h3 class="unit-main-title">${unitTitles[i-1] || `╪º┘ä┘ê╪¡╪»╪⌐ ${i}`}</h3>
+                        <span class="unit-sub-en">Unit ${i}</span>
+                    </div>
+                    <div class="unit-tile-hover-bar">ΓÜí ╪»╪«┘ê┘ä ╪º┘ä╪ú┘ä╪╣╪º╪¿ ┘ê╪º┘ä╪¬╪¡╪»┘è╪º╪¬ ΓåÉ</div>
+                `;
+
+                container.appendChild(tile);
+            }
+        }
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+        }
+    </script>
+</body>
+</html>

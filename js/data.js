@@ -33,6 +33,355 @@ const GRAMMAR_GAMES_MAP = {"primary-1": {"1": [], "2": [], "3": [], "4": [], "5"
 
 
 
-const EXAMS_MAP = {};
+const EXAMS_MAP = {
+    "prep-1": {
+        "3": [
+            {
+                "name": "Unit 3 Lesson 1 AnEgyptianHero",
+                "file": "U3_L1_AnEgyptianHero.html"
+            },
+            {
+                "name": "Unit 3 Lesson 2 HeroesandRoleModels",
+                "file": "U3_L2_HeroesandRoleModels.html"
+            },
+            {
+                "name": "Unit 3 Lesson 3 AGreatEgyptianThinker",
+                "file": "U3_L3_AGreatEgyptianThinker.html"
+            },
+            {
+                "name": "Unit 3 Lesson 4 ReadingADoctorsStory",
+                "file": "U3_L4_ReadingADoctorsStory.html"
+            },
+            {
+                "name": "Unit 3 Lesson 5 AHeroWhoMadeaDifference",
+                "file": "U3_L5_AHeroWhoMadeaDifference.html"
+            },
+            {
+                "name": "Unit 3 Lesson 6 TeamProjectRoundtable",
+                "file": "U3_L6_TeamProjectRoundtable.html"
+            }
+        ],
+        "2": [
+            {
+                "name": "Unit 2 Lesson 1 MyLesson earningJourney",
+                "file": "U2_L1_MyLearningJourney.html"
+            },
+            {
+                "name": "Unit 2 Lesson 2 Lesson earningChallengesandSolutions",
+                "file": "U2_L2_LearningChallengesandSolutions.html"
+            },
+            {
+                "name": "Unit 2 Lesson 3 BenefitsofLesson earningTogether",
+                "file": "U2_L3_BenefitsofLearningTogether.html"
+            },
+            {
+                "name": "Unit 2 Lesson 4 ReadingWorkingasaTeam",
+                "file": "U2_L4_ReadingWorkingasaTeam.html"
+            },
+            {
+                "name": "Unit 2 Lesson 5 MyLesson earningPlan",
+                "file": "U2_L5_MyLearningPlan.html"
+            },
+            {
+                "name": "Unit 2 Lesson 6 TeamProjectRoundtable",
+                "file": "U2_L6_TeamProjectRoundtable.html"
+            }
+        ],
+        "5": [
+            {
+                "name": "Unit 5 Lesson 1 DiscoverYourFuture",
+                "file": "U5_L1_DiscoverYourFuture.html"
+            },
+            {
+                "name": "Unit 5 Lesson 2 AnInterviewwithaScientist",
+                "file": "U5_L2_AnInterviewwithaScientist.html"
+            },
+            {
+                "name": "Unit 5 Lesson 3 MyPlanforaFutureCareer",
+                "file": "U5_L3_MyPlanforaFutureCareer.html"
+            },
+            {
+                "name": "Unit 5 Lesson 4 ReadingAFutureEngineer",
+                "file": "U5_L4_ReadingAFutureEngineer.html"
+            },
+            {
+                "name": "Unit 5 Lesson 5 MyDreamJob",
+                "file": "U5_L5_MyDreamJob.html"
+            },
+            {
+                "name": "Unit 5 Lesson 6 TeamProjectRoundtable",
+                "file": "U5_L6_TeamProjectRoundtable.html"
+            }
+        ],
+        "4": [
+            {
+                "name": "Unit 4 Lesson 1 ThinkBeforeYouChoose",
+                "file": "U4_L1_ThinkBeforeYouChoose.html"
+            },
+            {
+                "name": "Unit 4 Lesson 2 DecisionsandConsequences",
+                "file": "U4_L2_DecisionsandConsequences.html"
+            },
+            {
+                "name": "Unit 4 Lesson 3 AnInterviewwithanAthlete",
+                "file": "U4_L3_AnInterviewwithanAthlete.html"
+            },
+            {
+                "name": "Unit 4 Lesson 4 ReadingAWiseDecision",
+                "file": "U4_L4_ReadingAWiseDecision.html"
+            },
+            {
+                "name": "Unit 4 Lesson 5 AskingforandGivingAdvice",
+                "file": "U4_L5_AskingforandGivingAdvice.html"
+            },
+            {
+                "name": "Unit 4 Lesson 6 TeamProjectRoundtable",
+                "file": "U4_L6_TeamProjectRoundtable.html"
+            }
+        ],
+        "6": [
+            {
+                "name": "Unit 6 Lesson 1 BeingaGlobalCitizen",
+                "file": "U6_L1_BeingaGlobalCitizen.html"
+            },
+            {
+                "name": "Unit 6 Lesson 2 GlobalCitizenTalk",
+                "file": "U6_L2_GlobalCitizenTalk.html"
+            },
+            {
+                "name": "Unit 6 Lesson 3 OceanCircle",
+                "file": "U6_L3_OceanCircle.html"
+            },
+            {
+                "name": "Unit 6 Lesson 4 ReadingProtectingtheOcean",
+                "file": "U6_L4_ReadingProtectingtheOcean.html"
+            },
+            {
+                "name": "Unit 6 Lesson 5 Lesson etsMakeaDifference",
+                "file": "U6_L5_LetsMakeaDifference.html"
+            },
+            {
+                "name": "Unit 6 Lesson 6 TeamProjectRoundtable",
+                "file": "U6_L6_TeamProjectRoundtable.html"
+            }
+        ]
+    },
+    "prep-2": {
+        "5": [
+            {
+                "name": "Unit 5 Lesson 1 HaveYouEverExploredtheWorld",
+                "file": "U5_L1_HaveYouEverExploredtheWorld.html"
+            },
+            {
+                "name": "Unit 5 Lesson 2 ATourAroundCairo",
+                "file": "U5_L2_ATourAroundCairo.html"
+            },
+            {
+                "name": "Unit 5 Lesson 3 AroundtheWorldinFourAmazingPlaces",
+                "file": "U5_L3_AroundtheWorldinFourAmazingPlaces.html"
+            },
+            {
+                "name": "Unit 5 Lesson 4 ReadingTheHiddenIslandCh2",
+                "file": "U5_L4_ReadingTheHiddenIslandCh2.html"
+            },
+            {
+                "name": "Unit 5 Lesson 5 Lesson essons56ComeExplorewithUnit s",
+                "file": "U5_L5_Lessons56ComeExplorewithUs.html"
+            }
+        ]
+    },
+    "primary-5": {
+        "5": [
+            {
+                "name": "Exam-g5-u5-l1",
+                "file": "exam-g5-u5-l1.html"
+            },
+            {
+                "name": "Exam-g5-u5-l2",
+                "file": "exam-g5-u5-l2.html"
+            },
+            {
+                "name": "Exam-g5-u5-l3",
+                "file": "exam-g5-u5-l3.html"
+            },
+            {
+                "name": "Exam-g5-u5-l4",
+                "file": "exam-g5-u5-l4.html"
+            },
+            {
+                "name": "Exam-g5-u5-l5",
+                "file": "exam-g5-u5-l5.html"
+            },
+            {
+                "name": "امتحان المراجعة",
+                "file": "exam-g5-u5-review.html"
+            }
+        ],
+        "4": [
+            {
+                "name": "Exam-g5-u4-l1",
+                "file": "exam-g5-u4-l1.html"
+            },
+            {
+                "name": "Exam-g5-u4-l2",
+                "file": "exam-g5-u4-l2.html"
+            },
+            {
+                "name": "Exam-g5-u4-l3",
+                "file": "exam-g5-u4-l3.html"
+            },
+            {
+                "name": "Exam-g5-u4-l4",
+                "file": "exam-g5-u4-l4.html"
+            },
+            {
+                "name": "Exam-g5-u4-l5",
+                "file": "exam-g5-u4-l5.html"
+            },
+            {
+                "name": "امتحان المراجعة",
+                "file": "exam-g5-u4-review.html"
+            }
+        ]
+    },
+    "primary-4": {
+        "5": [
+            {
+                "name": "Exam-g4-u5-l1",
+                "file": "exam-g4-u5-l1.html"
+            },
+            {
+                "name": "Exam-g4-u5-l2",
+                "file": "exam-g4-u5-l2.html"
+            },
+            {
+                "name": "Exam-g4-u5-l3",
+                "file": "exam-g4-u5-l3.html"
+            },
+            {
+                "name": "Exam-g4-u5-l4",
+                "file": "exam-g4-u5-l4.html"
+            },
+            {
+                "name": "امتحان المراجعة",
+                "file": "exam-g4-u5-review.html"
+            }
+        ],
+        "4": [
+            {
+                "name": "Exam-g4-u4-l1",
+                "file": "exam-g4-u4-l1.html"
+            },
+            {
+                "name": "Exam-g4-u4-l2",
+                "file": "exam-g4-u4-l2.html"
+            },
+            {
+                "name": "Exam-g4-u4-l3",
+                "file": "exam-g4-u4-l3.html"
+            },
+            {
+                "name": "Exam-g4-u4-l4",
+                "file": "exam-g4-u4-l4.html"
+            },
+            {
+                "name": "امتحان المراجعة",
+                "file": "exam-g4-u4-review.html"
+            }
+        ]
+    },
+    "primary-6": {
+        "1": [
+            {
+                "name": "Lesson 1 a day in egypt",
+                "file": "exam_lesson1_a_day_in_egypt.html"
+            },
+            {
+                "name": "Lesson 2 ras mohamed",
+                "file": "exam_lesson2_ras_mohamed.html"
+            },
+            {
+                "name": "Lesson 3 around egypt",
+                "file": "exam_lesson3_around_egypt.html"
+            },
+            {
+                "name": "Lesson 4and5 a day in my school",
+                "file": "exam_lesson4and5_a_day_in_my_school.html"
+            }
+        ],
+        "2": [
+            {
+                "name": "Lesson 1 caring for plants",
+                "file": "exam_lesson1_caring_for_plants.html"
+            },
+            {
+                "name": "Lesson 2 weather",
+                "file": "exam_lesson2_weather.html"
+            },
+            {
+                "name": "Lesson 3 nile river",
+                "file": "exam_lesson3_nile_river.html"
+            },
+            {
+                "name": "Lesson 4and5 wadi el rayan",
+                "file": "exam_lesson4and5_wadi_el_rayan.html"
+            }
+        ],
+        "3": [
+            {
+                "name": "Lesson 1 jobs",
+                "file": "exam_lesson1_jobs.html"
+            },
+            {
+                "name": "Lesson 2 help community",
+                "file": "exam_lesson2_help_community.html"
+            },
+            {
+                "name": "Lesson 3 proud rose",
+                "file": "exam_lesson3_proud_rose.html"
+            },
+            {
+                "name": "Lesson 4and5 egyptian hero",
+                "file": "exam_lesson4and5_egyptian_hero.html"
+            }
+        ],
+        "4": [
+            {
+                "name": "Lesson 1 past present",
+                "file": "exam_lesson1_past_present.html"
+            },
+            {
+                "name": "Lesson 2 energy wisely",
+                "file": "exam_lesson2_energy_wisely.html"
+            },
+            {
+                "name": "Lesson 3 gifts under ground",
+                "file": "exam_lesson3_gifts_under_ground.html"
+            },
+            {
+                "name": "Lesson 4and5 man made resources",
+                "file": "exam_lesson4and5_man_made_resources.html"
+            }
+        ],
+        "5": [
+            {
+                "name": "Lesson 1 trip through time",
+                "file": "exam_lesson1_trip_through_time.html"
+            },
+            {
+                "name": "Lesson 2 dream comes true",
+                "file": "exam_lesson2_dream_comes_true.html"
+            },
+            {
+                "name": "Lesson 3 bundle of sticks",
+                "file": "exam_lesson3_bundle_of_sticks.html"
+            },
+            {
+                "name": "Lesson 4and5 egypt goes green",
+                "file": "exam_lesson4and5_egypt_goes_green.html"
+            }
+        ]
+    }
+};
 
 
