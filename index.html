@@ -1,138 +1,222 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>English Toon — تسجيل الدخول</title>
-    <meta name="description" content="بوابة الألعاب التعليمية التفاعلية لتعلم اللغة الإنجليزية بسهولة وتسلية">
-    <link rel="stylesheet" href="css/style.css?v=20260722_v4">
-</head>
-<body>
-
+    <title>تسجيل الدخول | English Toon</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Cairo for Arabic, Outfit for English -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Cairo', 'sans-serif'],
+                        en: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#0ea5e9', // Sky Blue
+                        secondary: '#f43f5e', // Coral Pink
+                        surface: '#ffffff',
+                        background: '#f8fafc',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f8fafc;
+            background-image: radial-gradient(circle at 10% 20%, rgba(14, 165, 233, 0.1) 0%, transparent 40%), 
+                              radial-gradient(circle at 90% 80%, rgba(244, 63, 94, 0.1) 0%, transparent 40%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0,0,0,0.05);
+        }
 
-    <!-- Cyber Background Mesh & Ambient Glowing Orbs -->
-    <div class="cyber-bg">
-        <div class="glow-orb glow-orb-1"></div>
-        <div class="glow-orb glow-orb-2"></div>
-        <div class="glow-orb glow-orb-3"></div>
-    </div>
+        .input-field {
+            transition: all 0.3s ease;
+        }
+        
+        .input-field:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.2);
+        }
 
-    <!-- Login Container -->
-    <div class="login-page-container page-animate">
-        <div class="login-card-modern">
+        .btn-3d {
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 6px 0 rgba(14, 165, 233, 0.4);
+        }
+        
+        .btn-3d:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 0 rgba(14, 165, 233, 0.4);
+        }
+        
+        .btn-3d:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 rgba(14, 165, 233, 0.4);
+        }
 
-            <!-- Logo & Brand Header -->
-            <div class="login-brand-header">
-                <img src="images/logo_icon.png" alt="English Toon" class="login-header-logo">
-                <h1 class="login-brand-title">English Toon</h1>
-                <p class="login-subtitle">🎮 بوابة الألعاب التعليمية التفاعلية</p>
+        .loading-spinner {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="relative overflow-hidden">
+
+    <!-- Ambient Floating Orbs -->
+    <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-primary/20 rounded-full blur-[100px] pointer-events-none"></div>
+    <div class="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-secondary/20 rounded-full blur-[100px] pointer-events-none"></div>
+
+    <div class="w-full max-w-md px-6 z-10">
+        <!-- Logo Area -->
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-24 h-24 rounded-3xl bg-white shadow-xl shadow-primary/20 border border-white mb-4 relative group cursor-pointer">
+                <img src="images/logo_icon.png" alt="Logo" class="w-16 h-16 object-contain group-hover:scale-110 transition-transform duration-500" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3074/3074058.png'">
             </div>
+            <h1 class="text-4xl font-black text-slate-800 font-en tracking-tight">English<span class="text-primary">Toon</span></h1>
+            <p class="text-slate-500 font-semibold mt-2 text-sm bg-white/60 inline-block px-4 py-1 rounded-full border border-slate-100">منصة التعليم التفاعلي الأذكى</p>
+        </div>
 
-            <!-- Error / Success Alert -->
-            <div id="error-msg" class="alert-box alert-danger"></div>
-
-            <!-- Login Form -->
-            <form id="login-form">
-                <div class="form-group">
-                    <label class="form-label" for="username">👤 اسم المستخدم</label>
-                    <div class="form-input-wrapper">
-                        <input type="text" id="username" class="form-input" required placeholder="أدخل اسم المستخدم" autocomplete="username">
-                    </div>
+        <!-- Login Card -->
+        <div class="glass-card rounded-3xl p-8">
+            
+            <form id="loginForm" class="space-y-6">
+                <!-- Username -->
+                <div>
+                    <label class="block text-slate-700 text-sm font-bold mb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-user text-primary/80"></i> كود الطالب
+                    </label>
+                    <input type="text" id="username" class="input-field w-full px-5 py-4 rounded-2xl bg-slate-50 border-2 border-slate-100 text-slate-800 font-bold focus:outline-none focus:border-primary focus:bg-white placeholder-slate-400" placeholder="أدخل كود المرور الخاص بك" required autocomplete="username">
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label" for="password">🔒 كلمة المرور</label>
-                    <div class="form-input-wrapper">
-                        <input type="password" id="password" class="form-input" required placeholder="أدخل كلمة المرور" autocomplete="current-password">
-                        <button type="button" class="pwd-toggle-btn" id="toggle-pass" title="إظهار/إخفاء كلمة المرور">👁️</button>
-                    </div>
+                <!-- Password -->
+                <div>
+                    <label class="block text-slate-700 text-sm font-bold mb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-lock text-secondary/80"></i> كلمة المرور
+                    </label>
+                    <input type="password" id="password" class="input-field w-full px-5 py-4 rounded-2xl bg-slate-50 border-2 border-slate-100 text-slate-800 font-bold focus:outline-none focus:border-secondary focus:bg-white placeholder-slate-400" placeholder="••••••••" required autocomplete="current-password">
                 </div>
 
-                <button type="submit" class="btn-submit-main" id="login-btn">⚡ دخول المحطة التعليمية</button>
+                <!-- Error Message -->
+                <div id="error-message" class="hidden bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl text-sm font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <span id="error-text"></span>
+                </div>
+
+                <!-- Login Button -->
+                <button type="submit" id="loginBtn" class="btn-3d w-full bg-primary text-white font-black text-lg py-4 rounded-2xl flex items-center justify-center gap-3">
+                    <span>تسجيل الدخول</span>
+                    <i class="fa-solid fa-arrow-right-to-bracket text-white/80"></i>
+                </button>
             </form>
 
         </div>
+
+        <!-- Footer -->
+        <div class="text-center mt-8 text-slate-400 text-sm font-bold">
+            <p>جميع الحقوق محفوظة &copy; 2026 English Toon</p>
+        </div>
     </div>
 
-    <!-- Firebase Compat SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-
-    <script src="js/data.js"></script>
-    <script src="js/auth.js?v=20260729_V1000"></script>
-
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    
+    <!-- Auth Logic -->
+    <script src="js/auth.js"></script>
     <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('logout') === 'true' || urlParams.get('reset') === '1') {
-            localStorage.clear();
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.getRegistrations().then(regs => {
-                    for (let r of regs) r.unregister();
-                });
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if already logged in
+            if (localStorage.getItem('isLoggedIn') === 'true') {
+                const currentUser = localStorage.getItem('currentUser');
+                if (currentUser === 'admin') {
+                    window.location.replace('admin.html');
+                } else {
+                    window.location.replace('dashboard.html');
+                }
+                return;
             }
-            if ('caches' in window) {
-                caches.keys().then(names => {
-                    for (let name of names) caches.delete(name);
-                });
-            }
-        } else if (localStorage.getItem('isLoggedIn') === 'true') {
-            window.location.href = 'dashboard.html';
-        }
 
-        document.getElementById('toggle-pass').addEventListener('click', function() {
-            const pwd = document.getElementById('password');
-            const isHidden = pwd.type === 'password';
-            pwd.type = isHidden ? 'text' : 'password';
-            this.textContent = isHidden ? '🙈' : '👁️';
+            const loginForm = document.getElementById('loginForm');
+            const errorMsg = document.getElementById('error-message');
+            const errorText = document.getElementById('error-text');
+            const loginBtn = document.getElementById('loginBtn');
+
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const username = document.getElementById('username').value.trim();
+                const password = document.getElementById('password').value.trim();
+
+                if (!username || !password) {
+                    showError('يرجى إدخال كود الطالب وكلمة المرور.');
+                    return;
+                }
+
+                // Loading State
+                loginBtn.innerHTML = '<i class="fa-solid fa-spinner loading-spinner"></i> جاري الدخول...';
+                loginBtn.classList.add('opacity-80', 'cursor-not-allowed');
+                errorMsg.classList.add('hidden');
+
+                try {
+                    const result = await login(username, password);
+                    
+                    if (result.success) {
+                        loginBtn.innerHTML = '<i class="fa-solid fa-check"></i> تم بنجاح!';
+                        loginBtn.classList.replace('bg-primary', 'bg-emerald-500');
+                        loginBtn.style.boxShadow = '0 6px 0 rgba(16, 185, 129, 0.4)';
+                        
+                        setTimeout(() => {
+                            if (username.toLowerCase() === 'admin' || username === '01208609509' || username === 'mm01208609509') {
+                                window.location.replace('admin.html');
+                            } else {
+                                window.location.replace('dashboard.html');
+                            }
+                        }, 800);
+                    } else {
+                        showError(result.message || 'بيانات الدخول غير صحيحة.');
+                        resetBtn();
+                    }
+                } catch (error) {
+                    console.error("Login Error:", error);
+                    showError('حدث خطأ في الاتصال بالخادم. يرجى التأكد من اتصالك بالإنترنت.');
+                    resetBtn();
+                }
+            });
+
+            function showError(msg) {
+                errorText.textContent = msg;
+                errorMsg.classList.remove('hidden');
+                // Shake effect
+                loginForm.classList.add('animate-pulse');
+                setTimeout(() => loginForm.classList.remove('animate-pulse'), 500);
+            }
+
+            function resetBtn() {
+                loginBtn.innerHTML = '<span>تسجيل الدخول</span> <i class="fa-solid fa-arrow-right-to-bracket text-white/80"></i>';
+                loginBtn.classList.remove('opacity-80', 'cursor-not-allowed');
+            }
         });
-
-        document.getElementById('login-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const user = document.getElementById('username').value.trim();
-            const pass = document.getElementById('password').value.trim();
-            const btn = document.getElementById('login-btn');
-            const errorDiv = document.getElementById('error-msg');
-
-            btn.innerHTML = '⏳ جاري التحقق...';
-            btn.disabled = true;
-            btn.style.opacity = '0.85';
-
-            const result = await login(user, pass);
-
-            if (result.success) {
-                btn.innerHTML = '✅ تم الدخول! جاري التوجيه...';
-                btn.style.background = 'linear-gradient(135deg, #10B981 0%, #059669 100%)';
-                setTimeout(() => window.location.href = 'dashboard.html', 500);
-            } else {
-                errorDiv.innerHTML = '❌ ' + result.message;
-                errorDiv.style.display = 'block';
-                btn.innerHTML = '⚡ دخول المحطة التعليمية';
-                btn.disabled = false;
-                btn.style.opacity = '1';
-                
-                const card = document.querySelector('.login-card-modern');
-                card.style.animation = 'none';
-                card.offsetHeight;
-                card.style.animation = 'shakeCard 0.4s ease';
-            }
-        });
-
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes shakeCard {
-                0%, 100% { transform: translateX(0); }
-                20% { transform: translateX(-10px); }
-                40% { transform: translateX(10px); }
-                60% { transform: translateX(-6px); }
-                80% { transform: translateX(6px); }
-            }
-        `;
-        document.head.appendChild(style);
-
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
-        }
     </script>
 </body>
 </html>
