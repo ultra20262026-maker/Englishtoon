@@ -169,7 +169,7 @@
                 <i class="fa-solid fa-xmark"></i>
             </button>
             <div class="p-8 text-center border-b border-slate-100">
-                <h2 class="text-3xl font-black text-accent mb-2 font-ar">امتحانات جديدة ðŸŽ®</h2>
+                <h2 class="text-3xl font-black text-accent mb-2 font-ar">امتحانات جديدة 🎮</h2>
                 <p class="text-slate-500 font-bold hidden"></p>
             </div>
             <div class="p-8 bg-slate-50">
@@ -184,6 +184,7 @@
     <script src="js/auth.js?v=20260807"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+try { try {
     if (localStorage.getItem('isLoggedIn') !== 'true') {
         window.location.replace('index.html');
         return;
@@ -256,9 +257,12 @@
         `;
         container.innerHTML += html;
     });
+} catch(err) { document.getElementById('unit-header-sub').textContent = err.message; console.error(err); }
 });
     </script>
 </body>
+
+
 
 
 
