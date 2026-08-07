@@ -173,7 +173,7 @@
                     </div>
 
                     <div class="pt-2 opacity-0 animate-fade-in-up anim-delay-3">
-                        <button type="button" onclick="forceAdminLogin()" class="btn-premium w-full text-white font-black text-lg py-4 rounded-2xl flex items-center justify-center gap-3 mb-4 bg-purple-500 shadow-purple-500/50"><span>الدخول السريع كمدير (للتجربة)</span><i class="fa-solid fa-bolt"></i></button><button type="submit" id="loginBtn" class="btn-premium w-full text-white font-black text-lg py-4 rounded-2xl flex items-center justify-center gap-3">
+                        <button type="submit" id="loginBtn" class="btn-premium w-full text-white font-black text-lg py-4 rounded-2xl flex items-center justify-center gap-3">
                             <span>ابدأ التعلم الآن</span>
                             <i class="fa-solid fa-arrow-right-to-bracket text-white/90 text-xl"></i>
                         </button>
@@ -292,12 +292,6 @@
             window.location.reload();
         }
     
-        window.forceAdminLogin = function() {
-            localStorage.setItem("isLoggedIn", "true");
-            localStorage.setItem("currentUser", "admin");
-            localStorage.setItem("auth_session_version", "2026_07_29_ADMIN_FIX_V800");
-            window.location.replace("dashboard.html?t=" + new Date().getTime());
-        }
 </script>
 </body>
 </html>
