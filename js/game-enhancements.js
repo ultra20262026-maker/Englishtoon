@@ -2,7 +2,7 @@
 // Injected into all games to provide unified Back Button, disable background music, and improve readability
 
 document.addEventListener('DOMContentLoaded', () => {
-    injectWhatsAppBanner();
+    // injectWhatsAppBanner();
     createBackButton();
     injectMissingElementPolyfill();
     disableLegacyBGM();
