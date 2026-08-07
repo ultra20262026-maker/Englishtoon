@@ -58,60 +58,56 @@
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
         }
 
-        .game-card {
+        .grade-pill {
+            background: rgba(255,255,255,0.6);
+            color: #64748b;
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        .grade-pill:hover {
+            background: #fff;
+            color: #3b82f6;
+            box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.1);
+        }
+        .grade-pill.active {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .grade-card {
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 2px solid rgba(255, 255, 255, 1);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05),
-                        inset 0 0 0 1px rgba(255,255,255,0.8);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+            border-radius: 2rem;
             overflow: hidden;
-            position: relative;
+            display: block;
         }
-
-        .game-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 25px 30px -10px rgba(59, 130, 246, 0.2),
-                        0 0 20px rgba(59, 130, 246, 0.1);
+        .grade-card:hover {
+            transform: translateY(-8px);
             border-color: #3b82f6;
+            box-shadow: 0 20px 30px -10px rgba(59, 130, 246, 0.3);
         }
-
-        .game-card::after {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255,255,255,0.6), transparent);
-            transform: skewX(-25deg);
-            transition: all 0.6s ease;
+        .grade-card-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-bottom: 2px solid rgba(255,255,255,0.5);
         }
-
-        .game-card:hover::after {
-            left: 200%;
+        .grade-card-body {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
-
-        .btn-play {
-            background: linear-gradient(135deg, #ec4899 0%, #be185d 100%);
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 15px -5px rgba(236, 72, 153, 0.5), 0 4px 0 #9d174d;
-        }
-        
-        .btn-play:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 20px -5px rgba(236, 72, 153, 0.6), 0 6px 0 #9d174d;
-        }
-        
-        .btn-play:active {
-            transform: translateY(4px);
-            box-shadow: 0 0px 0px rgba(236, 72, 153, 0.5), 0 0px 0 #9d174d;
-        }
-
-        .anim-delay-1 { animation-delay: 0.1s; }
-        .anim-delay-2 { animation-delay: 0.2s; }
-        .anim-delay-3 { animation-delay: 0.3s; }
-        .anim-delay-4 { animation-delay: 0.4s; }
     </style>
 </head>
 <body class="text-slate-800 pb-20">
@@ -129,18 +125,6 @@
                         <p class="text-xs font-bold text-primary">العب، استمتع، وتعلم!</p>
                     </div>
                 </div>
-                
-                <div class="flex items-center gap-3">
-                    <div class="hidden sm:block text-left mr-3">
-                        <p class="text-xs font-bold text-slate-500">أهلاً بك</p>
-                        <p id="userNameDisplay" class="text-sm font-black text-primary">طالبنا المتميز</p>
-                    </div>
-                    <div class="w-12 h-12 rounded-[1rem] bg-gradient-to-tr from-primary to-secondary p-[2px] shadow-lg shadow-primary/20">
-                        <div class="w-full h-full bg-white rounded-[14px] overflow-hidden">
-                            <img src="images/englishtoon_logo_new.jpg" alt="Profile" class="w-full h-full object-cover">
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </header>
@@ -149,169 +133,104 @@
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
         
         <!-- Welcome Banner -->
-        <div class="bg-gradient-to-r from-primary to-blue-400 rounded-[2rem] p-8 md:p-10 text-white shadow-xl shadow-primary/20 mb-12 relative overflow-hidden opacity-0 animate-fade-in-up">
-            <div class="absolute top-0 right-0 w-64 h-64 bg-white opacity-10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
-            <div class="relative z-10 md:w-2/3">
-                <span class="bg-white/20 text-white text-xs font-black px-3 py-1 rounded-full backdrop-blur-md mb-4 inline-block border border-white/30">
-                    <i class="fa-solid fa-gamepad mr-1"></i> العب الآن
-                </span>
-                <h1 class="text-3xl md:text-5xl font-black mb-4 leading-tight">مرحباً بك في <br><span class="text-accent">عالم الألعاب التفاعلية</span></h1>
-                <p class="text-blue-50 text-lg font-semibold mb-6 leading-relaxed">
-                    اختر لعبتك المفضلة، اجمع النقاط، وتفوق على أصدقائك في تحديات اللغة الإنجليزية. كلما لعبت أكثر، كلما تعلمت أسرع!
-                </p>
-            </div>
-            
-            <div class="hidden md:block absolute left-10 bottom-0 w-64 h-64">
-                <!-- 3D Mascot or Icon placeholder -->
-                <img src="images/icon_games_3d.jpg" alt="Games" class="w-full h-full object-contain filter drop-shadow-2xl animate-float opacity-90 rounded-full mix-blend-multiply">
+        <div class="bg-gradient-to-r from-primary to-blue-400 rounded-[2rem] p-8 text-white shadow-xl shadow-primary/20 mb-8 relative overflow-hidden animate-fade-in-up">
+            <h1 class="text-3xl md:text-4xl font-black mb-2">اختر صفك الدراسي وابدأ اللعب!</h1>
+            <p class="text-blue-50 text-lg font-semibold">تصفح الألعاب التفاعلية لجميع الصفوف.</p>
+        </div>
+
+        <!-- Grade Filter Pills -->
+        <div class="flex justify-center flex-wrap gap-2 mb-10" id="gradePills">
+            <div class="grade-pill active" data-grade="all" onclick="filterGrades('all', this)">كل الصفوف</div>
+            <div class="grade-pill" data-grade="primary-1" onclick="filterGrades('primary-1', this)">الأول الابتدائي</div>
+            <div class="grade-pill" data-grade="primary-2" onclick="filterGrades('primary-2', this)">الثاني الابتدائي</div>
+            <div class="grade-pill" data-grade="primary-3" onclick="filterGrades('primary-3', this)">الثالث الابتدائي</div>
+            <div class="grade-pill" data-grade="primary-4" onclick="filterGrades('primary-4', this)">الرابع الابتدائي</div>
+            <div class="grade-pill" data-grade="primary-5" onclick="filterGrades('primary-5', this)">الخامس الابتدائي</div>
+            <div class="grade-pill" data-grade="primary-6" onclick="filterGrades('primary-6', this)">السادس الابتدائي</div>
+            <div class="grade-pill" data-grade="prep-1" onclick="filterGrades('prep-1', this)">الأول الإعدادي</div>
+            <div class="grade-pill" data-grade="prep-2" onclick="filterGrades('prep-2', this)">الثاني الإعدادي</div>
+            <div class="grade-pill" data-grade="prep-3" onclick="filterGrades('prep-3', this)">الثالث الإعدادي</div>
+        </div>
+
+        <!-- Primary Section -->
+        <div id="primary-section" class="mb-12">
+            <h3 class="text-2xl font-black text-slate-800 mb-6 flex items-center gap-3">
+                <i class="fa-solid fa-child text-primary"></i> المرحلة الابتدائية
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="primary-grid">
+                <!-- Rendered via JS -->
             </div>
         </div>
 
-        <!-- Games Grid -->
-        <div class="mb-8">
+        <!-- Prep Section -->
+        <div id="prep-section">
             <h3 class="text-2xl font-black text-slate-800 mb-6 flex items-center gap-3">
-                <i class="fa-solid fa-fire text-orange-500"></i> الألعاب الأكثر شعبية
+                <i class="fa-solid fa-school text-indigo-500"></i> المرحلة الإعدادية
             </h3>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                
-                <!-- Game 1 -->
-                <div class="game-card rounded-[2rem] p-5 opacity-0 animate-fade-in-up anim-delay-1 flex flex-col h-full">
-                    <div class="bg-gradient-to-br from-purple-100 to-fuchsia-100 rounded-[1.5rem] p-4 mb-5 flex items-center justify-center h-48 relative overflow-hidden group">
-                        <div class="absolute inset-0 bg-purple-500 opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
-                        <img src="images/game_icon_1.jpg" alt="Word Hunter" class="w-32 h-32 object-contain filter drop-shadow-lg transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 rounded-2xl relative z-20">
-                    </div>
-                    <div class="flex-grow">
-                        <div class="flex justify-between items-start mb-2">
-                            <h4 class="text-xl font-black text-slate-800">صائد الكلمات</h4>
-                            <span class="bg-orange-100 text-orange-600 text-xs font-bold px-2 py-1 rounded-md flex items-center gap-1"><i class="fa-solid fa-star text-[10px]"></i> +50</span>
-                        </div>
-                        <p class="text-slate-500 text-sm font-semibold mb-4 leading-relaxed">
-                            اصطد الكلمات الصحيحة التي تتطابق مع الصور في أسرع وقت ممكن!
-                        </p>
-                    </div>
-                    <button class="btn-play w-full text-white font-black py-3 rounded-xl mt-auto flex items-center justify-center gap-2" onclick="alert('سيتم إطلاق اللعبة قريباً!')">
-                        <span>العب الآن</span> <i class="fa-solid fa-play"></i>
-                    </button>
-                </div>
-
-                <!-- Game 2 -->
-                <div class="game-card rounded-[2rem] p-5 opacity-0 animate-fade-in-up anim-delay-2 flex flex-col h-full">
-                    <div class="bg-gradient-to-br from-green-100 to-emerald-100 rounded-[1.5rem] p-4 mb-5 flex items-center justify-center h-48 relative overflow-hidden group">
-                        <div class="absolute inset-0 bg-green-500 opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
-                        <img src="images/game_icon_2.jpg" alt="Grammar Ninja" class="w-32 h-32 object-contain filter drop-shadow-lg transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 rounded-2xl relative z-20">
-                    </div>
-                    <div class="flex-grow">
-                        <div class="flex justify-between items-start mb-2">
-                            <h4 class="text-xl font-black text-slate-800">نينجا القواعد</h4>
-                            <span class="bg-orange-100 text-orange-600 text-xs font-bold px-2 py-1 rounded-md flex items-center gap-1"><i class="fa-solid fa-star text-[10px]"></i> +100</span>
-                        </div>
-                        <p class="text-slate-500 text-sm font-semibold mb-4 leading-relaxed">
-                            استخدم سيفك لتقطيع الأفعال الخاطئة واختيار القاعدة الصحيحة في الجملة.
-                        </p>
-                    </div>
-                    <button class="btn-play w-full text-white font-black py-3 rounded-xl mt-auto flex items-center justify-center gap-2" onclick="alert('سيتم إطلاق اللعبة قريباً!')">
-                        <span>العب الآن</span> <i class="fa-solid fa-play"></i>
-                    </button>
-                </div>
-
-                <!-- Game 3 -->
-                <div class="game-card rounded-[2rem] p-5 opacity-0 animate-fade-in-up anim-delay-3 flex flex-col h-full">
-                    <div class="bg-gradient-to-br from-blue-100 to-cyan-100 rounded-[1.5rem] p-4 mb-5 flex items-center justify-center h-48 relative overflow-hidden group">
-                        <div class="absolute inset-0 bg-blue-500 opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
-                        <img src="images/game_icon_3.jpg" alt="Listening Master" class="w-32 h-32 object-contain filter drop-shadow-lg transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 rounded-2xl relative z-20">
-                    </div>
-                    <div class="flex-grow">
-                        <div class="flex justify-between items-start mb-2">
-                            <h4 class="text-xl font-black text-slate-800">بطل الاستماع</h4>
-                            <span class="bg-orange-100 text-orange-600 text-xs font-bold px-2 py-1 rounded-md flex items-center gap-1"><i class="fa-solid fa-star text-[10px]"></i> +75</span>
-                        </div>
-                        <p class="text-slate-500 text-sm font-semibold mb-4 leading-relaxed">
-                            استمع إلى الكلمات ورتب الحروف لتكوين الكلمة التي سمعتها بشكل صحيح.
-                        </p>
-                    </div>
-                    <button class="btn-play w-full text-white font-black py-3 rounded-xl mt-auto flex items-center justify-center gap-2" onclick="alert('سيتم إطلاق اللعبة قريباً!')">
-                        <span>العب الآن</span> <i class="fa-solid fa-play"></i>
-                    </button>
-                </div>
-
-                <!-- Game 4 -->
-                <div class="game-card rounded-[2rem] p-5 opacity-0 animate-fade-in-up anim-delay-4 flex flex-col h-full">
-                    <div class="bg-gradient-to-br from-amber-100 to-yellow-100 rounded-[1.5rem] p-4 mb-5 flex items-center justify-center h-48 relative overflow-hidden group">
-                        <div class="absolute inset-0 bg-yellow-500 opacity-0 group-hover:opacity-10 transition-opacity duration-300 z-10"></div>
-                        <img src="images/game_icon_4.jpg" alt="Vocab Memory" class="w-32 h-32 object-contain filter drop-shadow-lg transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 rounded-2xl relative z-20">
-                    </div>
-                    <div class="flex-grow">
-                        <div class="flex justify-between items-start mb-2">
-                            <h4 class="text-xl font-black text-slate-800">ذاكرة المفردات</h4>
-                            <span class="bg-orange-100 text-orange-600 text-xs font-bold px-2 py-1 rounded-md flex items-center gap-1"><i class="fa-solid fa-star text-[10px]"></i> +60</span>
-                        </div>
-                        <p class="text-slate-500 text-sm font-semibold mb-4 leading-relaxed">
-                            ابحث عن البطاقات المتطابقة للكلمة ومعناها لتنشيط ذاكرتك اللغوية.
-                        </p>
-                    </div>
-                    <button class="btn-play w-full text-white font-black py-3 rounded-xl mt-auto flex items-center justify-center gap-2" onclick="alert('سيتم إطلاق اللعبة قريباً!')">
-                        <span>العب الآن</span> <i class="fa-solid fa-play"></i>
-                    </button>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- Middle School Games Grid -->
-        <div class="mb-8 mt-12">
-            <h3 class="text-2xl font-black text-slate-800 mb-6 flex items-center gap-3">
-                <i class="fa-solid fa-school text-blue-500"></i> ألعاب المرحلة الإعدادية
-            </h3>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Prep 1 -->
-                <div class="game-card rounded-[2rem] p-5 opacity-0 animate-fade-in-up flex flex-col items-center text-center h-full cursor-pointer border-blue-200 hover:border-blue-500 group" onclick="window.location.href='games/prep-1/index.html'">
-                    <div class="w-24 h-24 mb-4 rounded-full bg-blue-100 flex items-center justify-center text-4xl shadow-inner text-blue-600 transform group-hover:scale-110 transition-transform duration-300">
-                        1️⃣
-                    </div>
-                    <h4 class="text-xl font-black text-slate-800 mb-2">الصف الأول الإعدادي</h4>
-                    <p class="text-slate-500 text-sm font-semibold">ألعاب تفاعلية لدروس وكلمات الصف الأول الإعدادي.</p>
-                </div>
-
-                <!-- Prep 2 -->
-                <div class="game-card rounded-[2rem] p-5 opacity-0 animate-fade-in-up flex flex-col items-center text-center h-full cursor-pointer anim-delay-1 border-indigo-200 hover:border-indigo-500 group" onclick="window.location.href='games/prep-2/index.html'">
-                    <div class="w-24 h-24 mb-4 rounded-full bg-indigo-100 flex items-center justify-center text-4xl shadow-inner text-indigo-600 transform group-hover:scale-110 transition-transform duration-300">
-                        2️⃣
-                    </div>
-                    <h4 class="text-xl font-black text-slate-800 mb-2">الصف الثاني الإعدادي</h4>
-                    <p class="text-slate-500 text-sm font-semibold">تحديات ممتعة خاصة بمنهج الصف الثاني الإعدادي.</p>
-                </div>
-
-                <!-- Prep 3 -->
-                <div class="game-card rounded-[2rem] p-5 opacity-0 animate-fade-in-up flex flex-col items-center text-center h-full cursor-pointer anim-delay-2 border-purple-200 hover:border-purple-500 group" onclick="window.location.href='games/prep-3/index.html'">
-                    <div class="w-24 h-24 mb-4 rounded-full bg-purple-100 flex items-center justify-center text-4xl shadow-inner text-purple-600 transform group-hover:scale-110 transition-transform duration-300">
-                        3️⃣
-                    </div>
-                    <h4 class="text-xl font-black text-slate-800 mb-2">الصف الثالث الإعدادي</h4>
-                    <p class="text-slate-500 text-sm font-semibold">استعد للامتحانات بألعاب ذكية للصف الثالث الإعدادي.</p>
-                </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="prep-grid">
+                <!-- Rendered via JS -->
             </div>
         </div>
 
     </main>
 
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="js/data.js"></script>
     <script src="js/auth.js?v=20260807"></script>
-    
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Check auth
             if (localStorage.getItem('isLoggedIn') !== 'true') {
                 window.location.replace('index.html');
                 return;
             }
 
-            // Set user name
-            const currentUser = localStorage.getItem('currentUser') || 'طالبنا المتميز';
-            document.getElementById('userNameDisplay').textContent = currentUser;
+            const primaryGrid = document.getElementById('primary-grid');
+            const prepGrid = document.getElementById('prep-grid');
+
+            // Render all grades from GRADES_DATA
+            GRADES_DATA.forEach(grade => {
+                const isPrimary = grade.id.startsWith('primary');
+                const html = `
+                    <a href="grade.html?id=${grade.id}" class="grade-card animate-fade-in-up" data-grade="${grade.id}">
+                        <img class="grade-card-img" src="${grade.image}" alt="${grade.name}" onerror="this.src='images/prep_card.jpg'">
+                        <div class="grade-card-body">
+                            <span class="text-xl font-black text-slate-800">${grade.name}</span>
+                            <span class="bg-gradient-to-r from-primary to-purple-500 text-white px-3 py-1 rounded-full text-xs font-bold">لعب 🎮</span>
+                        </div>
+                    </a>
+                `;
+                
+                if (isPrimary) {
+                    primaryGrid.innerHTML += html;
+                } else {
+                    prepGrid.innerHTML += html;
+                }
+            });
         });
+
+        function filterGrades(grade, pillEl) {
+            // Highlight pill
+            document.querySelectorAll('.grade-pill').forEach(p => p.classList.remove('active'));
+            if (pillEl) {
+                pillEl.classList.add('active');
+            }
+
+            // Filter cards
+            document.querySelectorAll('.grade-card').forEach(card => {
+                const cardGrade = card.getAttribute('data-grade');
+                if (grade === 'all' || cardGrade === grade) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Show/hide sections
+            const primaryVisible = (grade === 'all' || grade.startsWith('primary-'));
+            const prepVisible = (grade === 'all' || grade.startsWith('prep-'));
+
+            document.getElementById('primary-section').style.display = primaryVisible ? 'block' : 'none';
+            document.getElementById('prep-section').style.display = prepVisible ? 'block' : 'none';
+        }
     </script>
 </body>
 </html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الوحدات الدراسية | English Toon</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Outfit:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Cairo', 'sans-serif'],
+                        en: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#ec4899',
+                        accent: '#f59e0b',
+                        success: '#10b981',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #e0f2fe;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(255, 255, 255, 0.6) 0%, transparent 50%),
+                linear-gradient(135deg, #e0f2fe 0%, #bae6fd 40%, #7dd3fc 100%);
+            min-height: 100vh;
+            background-attachment: fixed;
+        }
+
+        .glass-header {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .unit-tile {
+            background-size: cover;
+            background-position: center;
+            border-radius: 2rem;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 24px;
+            height: 280px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            transition: all 0.4s ease;
+            text-decoration: none;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .unit-tile:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.3);
+            border-color: #3b82f6;
+        }
+
+        .unit-big-num {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 5rem;
+            font-weight: 900;
+            color: rgba(255,255,255,0.15);
+            font-family: 'Outfit', sans-serif;
+            line-height: 1;
+        }
+
+        .unit-icon-box {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.5);
+        }
+
+        .unit-info-body {
+            position: relative;
+            z-index: 10;
+        }
+
+        .unit-tile-hover-bar {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(5px);
+            padding: 8px 15px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: #fff;
+            margin-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .unit-tile:hover .unit-tile-hover-bar {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="text-slate-800 pb-20">
+
+    <!-- Header -->
+    <header class="glass-header sticky top-0 z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center gap-4">
+                    <a href="games.html" class="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm border border-slate-200 text-slate-500 hover:text-primary hover:border-primary transition-all duration-300 transform hover:-translate-x-1">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                    <div>
+                        <h2 class="text-xl font-black text-slate-800" id="grade-title">الوحدات الدراسية</h2>
+                        <p class="text-xs font-bold text-primary">اختر الوحدة للبدء</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+        
+        <div class="flex items-center justify-between mb-8">
+            <h3 class="text-2xl font-black text-slate-800 flex items-center gap-3">
+                <i class="fa-solid fa-book-open text-primary"></i> الوحدات المتاحة
+            </h3>
+            <span class="bg-blue-100 text-blue-600 font-bold px-4 py-2 rounded-full text-sm">6 وحدات كاملة</span>
+        </div>
+
+        <!-- Units Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="units-container">
+            <!-- Rendered via JS -->
+        </div>
+
+    </main>
+
+    <script src="js/data.js"></script>
+    <script src="js/auth.js?v=20260807"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('isLoggedIn') !== 'true') {
+                window.location.replace('index.html');
+                return;
+            }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const gradeId = urlParams.get('id');
+            const grade = GRADES_DATA.find(g => g.id === gradeId);
+
+            if (!grade) {
+                window.location.href = 'dashboard.html';
+                return;
+            }
+
+            document.getElementById('grade-title').textContent = grade.name;
+            const container = document.getElementById('units-container');
+            const allowedUnitsStr = localStorage.getItem('allowedUnits');
+            let allowedUnits = 'all';
+            try { 
+                if (allowedUnitsStr && allowedUnitsStr !== 'all') {
+                    allowedUnits = JSON.parse(allowedUnitsStr);
+                }
+            } catch(e) {}
+
+            const currUser = (localStorage.getItem('currentUser') || '').trim().toLowerCase();
+            const isAdmin = (currUser === 'admin' || currUser === '01208609509' || currUser === 'mm01208609509');
+
+            const unitIcons = ['🌟', '🚀', '🌊', '⚡', '💡', '🏆'];
+            const unitTitles = ['الوحدة الأولى', 'الوحدة الثانية', 'الوحدة الثالثة', 'الوحدة الرابعة', 'الوحدة الخامسة', 'الوحدة السادسة'];
+
+            for (let i = 1; i <= UNITS_PER_GRADE; i++) {
+                if (!isAdmin && allowedUnits !== 'all' && Array.isArray(allowedUnits)) {
+                    const hasAccess = allowedUnits.some(u => String(u) === String(i));
+                    if (!hasAccess) continue;
+                }
+
+                const tile = document.createElement('a');
+                tile.className = 'unit-tile';
+                tile.href = `unit.html?grade=${gradeId}&unit=${i}`;
+                tile.style.backgroundImage = `linear-gradient(180deg, rgba(7,10,18,0.35), rgba(7,10,18,0.92)), url('images/unit_${i}.png')`;
+
+                tile.innerHTML = `
+                    <span class="unit-big-num">0${i}</span>
+                    <div class="unit-icon-box">${unitIcons[i-1] || '📖'}</div>
+                    <div class="unit-info-body">
+                        <span class="text-white/70 text-sm font-bold block mb-1">الوحدة</span>
+                        <h3 class="text-white text-2xl font-black mb-1">${unitTitles[i-1]}</h3>
+                        <span class="font-en text-white/80 font-bold block">Unit ${i}</span>
+                    </div>
+                    <div class="unit-tile-hover-bar">
+                        <span>دخول الألعاب</span>
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </div>
+                `;
+
+                container.appendChild(tile);
+            }
+        });
+    </script>
+</body>
+</html>
