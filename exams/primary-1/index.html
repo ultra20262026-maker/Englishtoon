@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Primary (1) English - Interactive Performance Tasks & Assessments</title>
+    <meta name="description" content="Interactive Electronic Book for Primary 1 First Term - Egyptian Ministry of Education English Curriculum with gamified exercises, emojis, voice TTS, and rewards.">
+    <!-- Google Fonts: Fredoka & Outfit for kid-friendly premium educational typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Main Style Sheet -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Background Animated Gradients & Floating Shapes -->
+    <div class="bg-decoration">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <div class="glow-orb orb-3"></div>
+    </div>
+
+    <!-- Main App Container -->
+    <div id="app" class="app-container">
+        <!-- Top Navigation Header -->
+        <header class="top-header glass-card">
+            <div class="header-left">
+                <button id="btn-toc" class="icon-btn" title="Table of Contents (الفهرس)" aria-label="Table of Contents">
+                    <span class="btn-icon">📑</span>
+                    <span class="btn-text">Contents</span>
+                </button>
+                <div class="book-badge">
+                    <span class="badge-tag">Primary 1 • Term 1</span>
+                    <h1 id="header-unit-title" class="header-title">English Language</h1>
+                </div>
+            </div>
+
+            <!-- Page Controller -->
+            <div class="page-controller">
+                <button id="btn-prev-page" class="nav-arrow-btn" title="Previous Page (الصفحة السابقة)">
+                    <span>◀</span>
+                </button>
+                <div class="page-selector-wrapper">
+                    <span class="page-label">Page</span>
+                    <select id="page-select" class="page-dropdown" aria-label="Select Page">
+                        <!-- Populated by JS -->
+                    </select>
+                    <span id="total-pages-label" class="page-total">of 72</span>
+                </div>
+                <button id="btn-next-page" class="nav-arrow-btn" title="Next Page (الصفحة التالية)">
+                    <span>▶</span>
+                </button>
+            </div>
+
+            <!-- Gamification Score & Sound Controls -->
+            <div class="header-right">
+                <div class="score-pill" title="Your Earned Stars (نجومك)">
+                    <span class="star-icon">⭐</span>
+                    <span id="user-score">0</span>
+                    <span class="score-sep">/</span>
+                    <span id="user-total-score">0</span>
+                </div>
+                <button id="btn-certificate" class="icon-btn cert-btn" title="Certificate of Completion (شهادة الإنجاز)">
+                    <span class="btn-icon">🏆</span>
+                    <span class="btn-text">Certificate</span>
+                </button>
+                <button id="btn-sound-toggle" class="icon-btn" title="Toggle Sound Effects (الصوت)">
+                    <span id="sound-icon" class="btn-icon">🔊</span>
+                </button>
+                <button id="btn-theme-toggle" class="icon-btn" title="Toggle Dark/Light Mode (المظهر)">
+                    <span id="theme-icon" class="btn-icon">🌙</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Progress Bar Under Header -->
+        <div class="progress-bar-wrapper">
+            <div id="book-progress-fill" class="progress-fill" style="width: 1.4%;"></div>
+        </div>
+
+        <!-- Main Workspace -->
+        <main class="main-content">
+            <!-- Table of Contents Drawer (Sidebar) -->
+            <aside id="toc-drawer" class="toc-drawer glass-card">
+                <div class="toc-header">
+                    <h2>📑 Table of Contents</h2>
+                    <button id="btn-close-toc" class="close-btn" aria-label="Close Table of Contents">✕</button>
+                </div>
+                <div class="toc-filter">
+                    <input type="text" id="toc-search" placeholder="Search Unit or Lesson..." class="toc-search-input">
+                </div>
+                <nav id="toc-list" class="toc-list">
+                    <!-- Populated by JS -->
+                </nav>
+            </aside>
+            <div id="toc-overlay" class="drawer-overlay"></div>
+
+            <!-- Book Page Display Sheet -->
+            <section id="page-display" class="page-sheet glass-card">
+                <!-- Page Top Metadata Banner -->
+                <div class="page-meta-banner">
+                    <div class="meta-left">
+                        <span id="page-unit-badge" class="unit-badge">Unit 1</span>
+                        <span id="page-lesson-title" class="lesson-title">Lesson 1: Greetings</span>
+                    </div>
+                    <div class="meta-right">
+                        <!-- Activity Type Toggle (Classroom vs Homework) if available -->
+                        <div id="activity-tabs" class="activity-tabs">
+                            <!-- Dynamically added -->
+                        </div>
+                        <span id="page-number-badge" class="page-number-badge">Page 3</span>
+                    </div>
+                </div>
+
+                <!-- Page Intro / Instructions Header -->
+                <div id="page-instruction-box" class="instruction-box">
+                    <h2 id="page-main-heading">Classroom performance</h2>
+                    <p id="page-sub-instruction">Activity 1: Unscramble and write</p>
+                </div>
+
+                <!-- Dynamic Exercise Container -->
+                <div id="exercise-container" class="exercise-container">
+                    <!-- Populated by exercises.js -->
+                </div>
+
+                <!-- Page Footer Controls -->
+                <footer class="page-footer">
+                    <div class="footer-left">
+                        <button id="btn-play-all-audio" class="btn-secondary">
+                            <span>📢</span> Speak Page Words
+                        </button>
+                        <button id="btn-reset-page" class="btn-outline">
+                            <span>🔄</span> Reset Page
+                        </button>
+                    </div>
+                    <div class="footer-right">
+                        <button id="btn-check-page" class="btn-primary">
+                            <span>✨</span> Check Answers
+                        </button>
+                    </div>
+                </footer>
+            </section>
+        </main>
+
+        <!-- Celebration Modal (Appears when student completes a page with stars) -->
+        <div id="celebration-modal" class="modal-backdrop hidden">
+            <div class="modal-card celebration-card">
+                <div class="confetti-container" id="confetti-area"></div>
+                <div class="celebration-icon">🎉⭐🏆</div>
+                <h3 id="celebration-title">Excellent Job!</h3>
+                <p id="celebration-message">You completed this page correctly and earned 3 stars!</p>
+                <div class="star-rating-display" id="celebration-stars">
+                    <span>⭐</span><span>⭐</span><span>⭐</span>
+                </div>
+                <div class="modal-actions">
+                    <button id="btn-next-from-modal" class="btn-primary">
+                        Next Page ➔
+                    </button>
+                    <button id="btn-close-modal" class="btn-outline">
+                        Keep Practicing
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Certificate of Completion Modal -->
+        <div id="certificate-modal" class="modal-backdrop hidden">
+            <div class="modal-card certificate-card">
+                <button id="btn-close-cert" class="close-btn cert-close-btn">✕</button>
+                <div class="certificate-border">
+                    <div class="cert-header">
+                        <div class="cert-logo">🦅 Ministry of Education • Egyptian Curriculum</div>
+                        <div class="cert-badge">🏅 PRIMARY 1 • TERM 1</div>
+                    </div>
+                    <h2 class="cert-title">Certificate of Achievement</h2>
+                    <p class="cert-subtitle">This is proudly presented to</p>
+                    <div class="cert-name-input-wrapper">
+                        <input type="text" id="student-name-input" class="student-name-input" placeholder="Type Student Name Here..." value="Hero Student">
+                    </div>
+                    <p class="cert-desc">
+                        For successfully completing the English Language Performance Tasks & Assessments for the First Term, demonstrating outstanding dedication and creativity in learning!
+                    </p>
+                    <div class="cert-stats">
+                        <div class="stat-box">
+                            <span class="stat-num" id="cert-stars-count">0</span>
+                            <span class="stat-label">Stars Earned ⭐</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-num" id="cert-pages-count">0 / 72</span>
+                            <span class="stat-label">Pages Visited 📖</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-num">A+</span>
+                            <span class="stat-label">Grade 🏆</span>
+                        </div>
+                    </div>
+                    <div class="cert-footer">
+                        <div class="cert-sign">
+                            <div class="sign-line">Dr. Amira Fawzy / Dr. Amany</div>
+                            <div class="sign-title">Curriculum Supervisors & Designers</div>
+                        </div>
+                        <div class="cert-seal">
+                            <span>✨ CACD ✨</span>
+                        </div>
+                        <div class="cert-date">
+                            <div class="sign-line" id="cert-date-text">2026-2027</div>
+                            <div class="sign-title">Academic Year</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="cert-actions">
+                    <button id="btn-print-cert" class="btn-primary">
+                        <span>🖨️</span> Print / Save as PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/sound.js"></script>
+    <script src="js/bookData.js"></script>
+    <script src="js/exercises.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

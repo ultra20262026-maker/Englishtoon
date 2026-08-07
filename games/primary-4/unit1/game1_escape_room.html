@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Escape the Pyramid | A Day in Egypt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Poppins:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --lapis:#0F1C3D; --lapis2:#182b57; --gold:#D4AF37; --gold-dim:#8a742a;
+    --turq:#2E8B8B; --sand:#C89F65; --papyrus:#F4EBD9; --red:#C0392B; --green:#3FA34D;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;height:100%;}
+  body{
+    background: radial-gradient(circle at 50% 0%, #1c2f5e 0%, var(--lapis) 55%, #060c1c 100%);
+    font-family:'Poppins',sans-serif; color:var(--papyrus); min-height:100vh;
+    display:flex; align-items:center; justify-content:center; overflow-x:hidden;
+    padding:16px;
+  }
+  .stars{position:fixed; inset:0; z-index:0; pointer-events:none;}
+  .star{position:absolute; width:2px; height:2px; background:var(--gold); border-radius:50%; opacity:.6; animation:twinkle 3s infinite ease-in-out;}
+  @keyframes twinkle{0%,100%{opacity:.15}50%{opacity:.9}}
+  .wrap{position:relative; z-index:1; width:100%; max-width:760px;}
+  .card{
+    background:linear-gradient(160deg, var(--lapis2), #0c1735 80%);
+    border:2px solid var(--gold-dim); border-radius:18px;
+    box-shadow:0 20px 60px rgba(0,0,0,.5), inset 0 0 40px rgba(212,175,55,.06);
+    padding:28px 26px; position:relative; overflow:hidden;
+  }
+  .card::before{ /* corner glyph frame */
+    content:""; position:absolute; inset:8px; border:1px solid rgba(212,175,55,.25); border-radius:12px; pointer-events:none;
+  }
+  h1{
+    font-family:'Cinzel',serif; font-weight:900; letter-spacing:1px; color:var(--gold);
+    font-size:clamp(20px,4.5vw,30px); margin:0 0 4px; text-align:center;
+    text-shadow:0 0 18px rgba(212,175,55,.35);
+  }
+  .sub{text-align:center; color:var(--sand); font-size:14px; margin-bottom:18px;}
+  .hud{display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:16px; flex-wrap:wrap;}
+  .pill{
+    font-family:'Space Mono',monospace; background:rgba(0,0,0,.3); border:1px solid var(--gold-dim);
+    border-radius:10px; padding:8px 14px; font-size:14px; display:flex; gap:8px; align-items:center;
+  }
+  .torches{display:flex; gap:6px;}
+  .torch{font-size:18px; filter:drop-shadow(0 0 4px rgba(255,180,0,.8)); transition:opacity .3s;}
+  .torch.out{opacity:.15; filter:none;}
+  #timerPill.warn{color:#ff6b6b; border-color:#ff6b6b; animation:pulse 1s infinite;}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+  .doors{display:flex; gap:8px; justify-content:center; margin-bottom:18px;}
+  .door{
+    width:38px;height:52px; border:2px solid var(--gold-dim); border-radius:6px 6px 3px 3px;
+    background:linear-gradient(180deg,#3a2d15,#1c150a); display:flex; align-items:center; justify-content:center;
+    font-size:18px; transition:all .4s;
+  }
+  .door.open{background:linear-gradient(180deg,var(--turq),#155454); border-color:var(--gold); box-shadow:0 0 14px rgba(46,139,139,.8); transform:scale(1.08);}
+  .stage{min-height:300px; display:flex; flex-direction:column; justify-content:center;}
+  .scene-title{font-family:'Cinzel',serif; color:var(--sand); font-size:15px; text-align:center; margin-bottom:6px; letter-spacing:.5px;}
+  .question{
+    background:rgba(0,0,0,.25); border-radius:12px; padding:18px; font-size:clamp(15px,3vw,18px);
+    line-height:1.5; margin-bottom:16px; border-left:4px solid var(--gold);
+  }
+  .choices{display:grid; gap:10px;}
+  .choice{
+    font-family:'Poppins',sans-serif; font-size:15px; text-align:left; padding:13px 16px; border-radius:10px;
+    background:rgba(244,235,217,.06); border:1.5px solid rgba(244,235,217,.25); color:var(--papyrus);
+    cursor:pointer; transition:all .18s ease; position:relative;
+  }
+  .choice:hover:not(:disabled){background:rgba(212,175,55,.15); border-color:var(--gold); transform:translateX(4px);}
+  .choice:disabled{cursor:default;}
+  .choice.correct{background:rgba(63,163,77,.25); border-color:var(--green); animation:pop .35s;}
+  .choice.wrong{background:rgba(192,57,43,.25); border-color:var(--red); animation:shake .4s;}
+  @keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.03)}100%{transform:scale(1)}}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+  .feedback{text-align:center; font-weight:700; margin-top:12px; min-height:22px; font-size:14px;}
+  .feedback.good{color:var(--green);}
+  .feedback.bad{color:#ff8b7a;}
+  .btn{
+    font-family:'Cinzel',serif; font-weight:700; background:linear-gradient(160deg,var(--gold),#a3852a);
+    color:#1a1400; border:none; border-radius:10px; padding:12px 22px; font-size:15px; cursor:pointer;
+    letter-spacing:.5px; box-shadow:0 6px 16px rgba(212,175,55,.35); transition:transform .15s;
+  }
+  .btn:hover{transform:translateY(-2px);}
+  .center{display:flex; justify-content:center; margin-top:16px;}
+  .endscreen{text-align:center;}
+  .endscreen .big{font-family:'Cinzel',serif; font-size:clamp(26px,6vw,38px); font-weight:900; margin-bottom:6px;}
+  .win .big{color:var(--gold); text-shadow:0 0 20px rgba(212,175,55,.6);}
+  .lose .big{color:#ff6b6b;}
+  .confetti{position:fixed; top:-10px; z-index:5; font-size:20px; animation:fall linear forwards;}
+  @keyframes fall{to{transform:translateY(110vh) rotate(360deg); opacity:0;}}
+  .progress-label{text-align:center; font-size:12px; color:var(--sand); margin-bottom:10px; font-family:'Space Mono',monospace;}
+</style>
+</head>
+<body>
+<div class="stars" id="stars"></div>
+<div class="wrap">
+  <div class="card">
+    <h1>&#x1F3FA; Escape the Pyramid</h1>
+    <div class="sub">Unit 1 · Lesson 1 — A Day in Egypt</div>
+
+    <div class="hud">
+      <div class="pill" id="timerPill">&#9202; <span id="timeLeft">90</span>s</div>
+      <div class="pill">&#x1F511; <span id="score">0</span> pts</div>
+      <div class="pill torches" id="torches"><span class="torch">&#128293;</span><span class="torch">&#128293;</span><span class="torch">&#128293;</span></div>
+    </div>
+
+    <div class="doors" id="doors"></div>
+    <div class="progress-label" id="progressLabel">Gate 1 of 5</div>
+
+    <div class="stage" id="stage"></div>
+  </div>
+</div>
+
+<script>
+const questions = [
+  {
+    scene: "Gate 1 — The Guard's Riddle",
+    q: "In the morning, tourists visit ancient sites like the...",
+    choices: ["pyramids", "supermarket", "airport", "hospital"],
+    answer: 0,
+    why: "The reading says tourists visit ancient sites like the pyramids in the morning."
+  },
+  {
+    scene: "Gate 2 — The Market Lock",
+    q: "Tourists go to Khan El Khalili to...",
+    choices: ["play music", "buy souvenirs", "visit a hospital", "make furniture"],
+    answer: 1,
+    why: "People go to Khan El Khalili to buy souvenirs such as handmade gifts."
+  },
+  {
+    scene: "Gate 3 — The Carpenter's Puzzle",
+    q: "Carpenters ______ furniture in Damietta.",
+    choices: ["run", "write", "make", "watch"],
+    answer: 2,
+    why: "Carpenters MAKE furniture — Damietta is famous for wooden furniture."
+  },
+  {
+    scene: "Gate 4 — The Traveller's Test",
+    q: "They spend a great day ___ Aswan.",
+    choices: ["of", "off", "from", "in"],
+    answer: 3,
+    why: "We use 'in' with cities: spend a day IN Aswan."
+  },
+  {
+    scene: "Gate 5 — The Final Seal",
+    q: "At night, people in Egypt can relax and...",
+    choices: ["listen to music", "visit the moon", "swim to Aswan", "close the shop"],
+    answer: 0,
+    why: "The text says at night, people can relax and listen to music."
+  }
+];
+
+let current = 0, score = 0, lives = 3, timeLeft = 90, timerId = null, ended = false;
+
+function buildStars(){
+  const s = document.getElementById('stars');
+  for(let i=0;i<60;i++){
+    const d = document.createElement('div');
+    d.className='star';
+    d.style.left = Math.random()*100+'%';
+    d.style.top = Math.random()*100+'%';
+    d.style.animationDelay = (Math.random()*3)+'s';
+    s.appendChild(d);
+  }
+}
+buildStars();
+
+function buildDoors(){
+  const doors = document.getElementById('doors');
+  doors.innerHTML='';
+  for(let i=0;i<questions.length;i++){
+    const d = document.createElement('div');
+    d.className = 'door' + (i < current ? ' open' : '');
+    d.textContent = i < current ? '\u2713' : '\u{1F512}';
+    doors.appendChild(d);
+  }
+}
+
+function updateTorches(){
+  const t = document.querySelectorAll('.torch');
+  t.forEach((el,i)=>{ el.classList.toggle('out', i >= lives); });
+}
+
+// simple WebAudio beeps, no external files
+function beep(freq, dur, type='sine', vol=0.15){
+  try{
+    const ctx = window._actx || (window._actx = new (window.AudioContext||window.webkitAudioContext)());
+    const o = ctx.createOscillator(); const g = ctx.createGain();
+    o.type = type; o.frequency.value = freq;
+    g.gain.value = vol;
+    o.connect(g); g.connect(ctx.destination);
+    o.start();
+    g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + dur);
+    o.stop(ctx.currentTime + dur);
+  }catch(e){}
+}
+function sfxCorrect(){ beep(660,.12); setTimeout(()=>beep(880,.18),110); }
+function sfxWrong(){ beep(180,.25,'sawtooth',0.12); }
+function sfxWin(){ [523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,.22),i*140)); }
+function sfxLose(){ beep(140,.4,'sawtooth',0.1); setTimeout(()=>beep(100,.5,'sawtooth',0.1),200); }
+
+function confettiBurst(){
+  const emojis = ['\u{1F3C6}','\u2728','\u{1F947}','\u{1F511}','\u{1F31F}'];
+  for(let i=0;i<24;i++){
+    const c = document.createElement('div');
+    c.className='confetti';
+    c.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    c.style.left = Math.random()*100+'vw';
+    c.style.animationDuration = (2+Math.random()*1.5)+'s';
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(), 4000);
+  }
+}
+
+function renderQuestion(){
+  buildDoors();
+  document.getElementById('progressLabel').textContent = `Gate ${current+1} of ${questions.length}`;
+  const item = questions[current];
+  const stage = document.getElementById('stage');
+  stage.innerHTML = `
+    <div class="scene-title">${item.scene}</div>
+    <div class="question">${item.q}</div>
+    <div class="choices" id="choicesBox"></div>
+    <div class="feedback" id="feedback"></div>
+  `;
+  const box = document.getElementById('choicesBox');
+  item.choices.forEach((c,i)=>{
+    const b = document.createElement('button');
+    b.className='choice';
+    b.textContent = c;
+    b.onclick = ()=>selectAnswer(i,b);
+    box.appendChild(b);
+  });
+}
+
+function selectAnswer(i, btnEl){
+  if(ended) return;
+  const item = questions[current];
+  const buttons = document.querySelectorAll('.choice');
+  buttons.forEach(b=>b.disabled=true);
+  const fb = document.getElementById('feedback');
+  if(i === item.answer){
+    btnEl.classList.add('correct');
+    score += 20;
+    document.getElementById('score').textContent = score;
+    fb.textContent = '\u2705 Correct! ' + item.why;
+    fb.className = 'feedback good';
+    sfxCorrect();
+    confettiBurst();
+    setTimeout(()=>{
+      current++;
+      if(current >= questions.length){ winGame(); } else { renderQuestion(); }
+    }, 1300);
+  } else {
+    btnEl.classList.add('wrong');
+    buttons[item.answer].classList.add('correct');
+    lives--;
+    updateTorches();
+    fb.textContent = '\u274C Not quite. ' + item.why;
+    fb.className = 'feedback bad';
+    sfxWrong();
+    if(lives <= 0){
+      setTimeout(loseGame, 1200);
+    } else {
+      setTimeout(()=>{ buttons.forEach(b=>{b.disabled=false; b.classList.remove('wrong','correct');}); fb.textContent=''; }, 1300);
+    }
+  }
+}
+
+function tick(){
+  timeLeft--;
+  document.getElementById('timeLeft').textContent = timeLeft;
+  const pill = document.getElementById('timerPill');
+  pill.classList.toggle('warn', timeLeft <= 15);
+  if(timeLeft <= 0){ clearInterval(timerId); loseGame(); }
+}
+
+function winGame(){
+  ended = true; clearInterval(timerId);
+  sfxWin(); confettiBurst();
+  const stage = document.getElementById('stage');
+  stage.innerHTML = `
+    <div class="endscreen win">
+      <div class="big">&#x1F3C6; You Escaped!</div>
+      <p>All five gates unlocked with <b>${score}</b> points and ${lives} torch(es) left.</p>
+      <div class="center"><button class="btn" onclick="restart()">Play Again</button></div>
+    </div>`;
+  buildDoors();
+}
+
+function loseGame(){
+  ended = true; clearInterval(timerId);
+  sfxLose();
+  const stage = document.getElementById('stage');
+  stage.innerHTML = `
+    <div class="endscreen lose">
+      <div class="big">&#x1F480; The Torch Went Out</div>
+      <p>You reached Gate ${current+1} with ${score} points. Try again!</p>
+      <div class="center"><button class="btn" onclick="restart()">Try Again</button></div>
+    </div>`;
+}
+
+function restart(){
+  current=0; score=0; lives=3; timeLeft=90; ended=false;
+  document.getElementById('score').textContent = 0;
+  document.getElementById('timeLeft').textContent = 90;
+  document.getElementById('timerPill').classList.remove('warn');
+  updateTorches();
+  renderQuestion();
+  clearInterval(timerId);
+  timerId = setInterval(tick, 1000);
+}
+
+restart();
+</script>
+</body>
+</html>

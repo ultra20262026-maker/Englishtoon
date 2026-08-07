@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Future Dreams — Treasure Map</title>
+<style>
+  :root{ --navy:#0B1E33; --navy2:#112B47; --card:#16324F; --cyan:#35D0C9; --green:#8CE99A; --amber:#FFC168; --red:#FF8080; --light:#D7E3EC; --muted:#8FA6BC; }
+  *{box-sizing:border-box;}
+  body{ margin:0; min-height:100vh; background:radial-gradient(circle at 50% 0%, #2a2013, var(--navy) 60%);
+    font-family:'Segoe UI',Calibri,Arial,sans-serif; color:var(--light); display:flex; flex-direction:column; align-items:center; padding:24px; }
+  h1{color:#fff; font-size:1.7rem; margin:6px 0 2px; text-align:center;}
+  .sub{color:var(--cyan); font-weight:700; letter-spacing:2px; font-size:.8rem; text-transform:uppercase; margin-bottom:14px; text-align:center;}
+  .hud{display:flex; gap:14px; margin-bottom:16px; flex-wrap:wrap; justify-content:center;}
+  .pill{background:var(--card); border:1px solid #1E4568; border-radius:999px; padding:8px 18px; font-size:.9rem;}
+  .pill b{color:var(--green);}
+  #mapWrap{ position:relative; width:100%; max-width:640px; height:380px; background:
+      repeating-linear-gradient(45deg, #3a2f1e 0 2px, #33291a 2px 40px);
+    border:6px solid #6b5335; border-radius:14px; margin-bottom:18px; overflow:hidden; }
+  svg{ position:absolute; top:0; left:0; width:100%; height:100%; }
+  .marker{ position:absolute; width:54px; height:54px; border-radius:50%; background:var(--card); border:3px solid var(--amber);
+    display:flex; align-items:center; justify-content:center; font-size:1.4rem; cursor:pointer; transform:translate(-50%,-50%); }
+  .marker.done{ border-color:var(--green); background:linear-gradient(135deg,var(--green),#52a866); }
+  .marker.locked{ opacity:.4; cursor:not-allowed; }
+  #qmodal{ display:none; position:fixed; inset:0; background:rgba(4,10,18,.88); z-index:100; align-items:center; justify-content:center; padding:20px; }
+  #qcardbox{ background:var(--card); border:1px solid #1E4568; border-radius:18px; padding:28px; max-width:600px; width:100%; }
+  #qtext{ color:#fff; font-size:1.2rem; font-weight:700; margin-bottom:18px; line-height:1.4; }
+  .opt{ display:block; width:100%; text-align:left; background:var(--navy2); color:var(--light); border:1px solid #1E4568;
+    border-radius:10px; padding:13px 16px; margin-bottom:10px; font-size:1rem; cursor:pointer; }
+  .opt:hover{ border-color:var(--cyan); background:#183a5c; }
+  .opt.correct{ background:rgba(140,233,154,.18); border-color:var(--green); color:var(--green); font-weight:700; }
+  .opt.wrong{ background:rgba(255,128,128,.18); border-color:var(--red); color:var(--red); font-weight:700; }
+  .explain{ margin-top:12px; padding:12px 14px; background:var(--navy2); border-radius:10px; font-size:.9rem; color:var(--muted); display:none;}
+  .btn-close{ margin-top:16px; display:none; font-family:inherit; font-weight:700; font-size:1rem; border:none; border-radius:10px;
+    padding:12px 24px; cursor:pointer; color:var(--navy); background:linear-gradient(135deg, var(--cyan), var(--green)); }
+  #endscreen{ display:none; text-align:center; margin-top:26px; }
+  #endscreen h2{ font-size:2rem; color:#fff; }
+  button.replay{ font-family:inherit; font-weight:700; font-size:1rem; border:none; border-radius:12px; padding:13px 28px;
+    cursor:pointer; color:var(--navy); background:linear-gradient(135deg, var(--cyan), var(--green)); margin-top:16px; }
+  footer{ margin-top:20px; color:var(--muted); font-size:.75rem; text-align:center;}
+</style>
+</head>
+<body>
+  <div class="sub">Unit 5 · Future Dreams</div>
+  <h1>🗺️ Treasure Map: Path to Your Dream</h1>
+  <div class="hud">
+    <div class="pill">Step: <b id="stepNum">1</b> / 6</div>
+    <div class="pill">Score: <b id="score">0</b></div>
+  </div>
+
+  <div id="mapWrap">
+    <svg id="pathSvg"><polyline id="pathLine" fill="none" stroke="#8b6f3f" stroke-width="4" stroke-dasharray="8,6"/></svg>
+  </div>
+
+  <div id="qmodal">
+    <div id="qcardbox">
+      <div id="qtext"></div>
+      <div id="options"></div>
+      <div class="explain" id="explain"></div>
+      <button class="btn-close" id="closeBtn">Continue the Journey →</button>
+    </div>
+  </div>
+
+  <div id="endscreen">
+    <h2 id="endTitle"></h2>
+    <p id="endMsg" style="color:var(--muted); font-size:1.05rem;"></p>
+    <button class="replay" onclick="location.reload()">Play Again</button>
+  </div>
+
+  <footer>Original questions · Unit 5 grammar focus: Be Going To + Will</footer>
+
+<script>
+const markers = [
+  {x:8, y:75, icon:"🏁", q:"My plan is to study medicine.  →  I ___________ medicine.", opts:["study","am going to study","will studying","studies"], a:1, ex:"A decided plan uses 'be going to'."},
+  {x:25, y:35, icon:"🌴", q:"I think I ___________ (succeed) if I work hard. (prediction)", opts:["am going to succeed","will succeed","succeeds","succeeding"], a:1, ex:"A prediction uses 'will'."},
+  {x:45, y:60, icon:"⛰️", q:"She ___________ (become) a graphic designer. (decided plan)", opts:["is going to become","will becomes","become","becoming"], a:0, ex:"A decided plan uses 'be going to'."},
+  {x:62, y:25, icon:"🏝️", q:"Don't worry, I ___________ (support) you. (promise)", opts:["am going to support","will support","supports","supporting"], a:1, ex:"A promise uses 'will'."},
+  {x:80, y:55, icon:"🌋", q:"___________ they ___________ (travel) abroad next year? (plan)", opts:["Do...travel","Are...going to travel","Will...travelling","Is...travel"], a:1, ex:"Asking about a plan uses 'Are...going to'."},
+  {x:92, y:20, icon:"💎", q:"Maybe I ___________ (visit) space one day. (dream/prediction)", opts:["am going to visit","will visit","visits","visiting"], a:1, ex:"An unplanned dream uses 'will'."},
+];
+
+let stepIdx = 0;
+let score = 0;
+
+function renderMap(){
+  const wrap = document.getElementById('mapWrap');
+  document.querySelectorAll('.marker').forEach(m => m.remove());
+  markers.forEach((m, i) => {
+    const el = document.createElement('div');
+    el.className = 'marker';
+    if (i < stepIdx) el.classList.add('done');
+    if (i > stepIdx) el.classList.add('locked');
+    el.textContent = i < stepIdx ? '✅' : m.icon;
+    el.style.left = m.x + '%';
+    el.style.top = m.y + '%';
+    el.addEventListener('click', () => { if (i === stepIdx) openMarker(i); });
+    wrap.appendChild(el);
+  });
+  const points = markers.map(m => `${m.x}%,${m.y}%`).join(' ');
+  // convert percentage points to actual coordinates for polyline (SVG needs numeric, so approximate with viewBox 0-100)
+  document.getElementById('pathSvg').setAttribute('viewBox', '0 0 100 100');
+  document.getElementById('pathSvg').setAttribute('preserveAspectRatio', 'none');
+  document.getElementById('pathLine').setAttribute('points', markers.map(m => `${m.x},${m.y}`).join(' '));
+}
+renderMap();
+
+function openMarker(idx){
+  const m = markers[idx];
+  document.getElementById('qtext').textContent = m.q;
+  const optsDiv = document.getElementById('options');
+  optsDiv.innerHTML = '';
+  const explainDiv = document.getElementById('explain');
+  explainDiv.style.display = 'none';
+  const closeBtn = document.getElementById('closeBtn');
+  closeBtn.style.display = 'none';
+
+  m.opts.forEach((opt, i) => {
+    const b = document.createElement('button');
+    b.className = 'opt';
+    b.textContent = opt;
+    b.onclick = () => {
+      document.querySelectorAll('.opt').forEach(o => o.onclick = null);
+      if (i === m.a) {
+        b.classList.add('correct');
+        score += 15;
+      } else {
+        b.classList.add('wrong');
+        document.querySelectorAll('.opt')[m.a].classList.add('correct');
+      }
+      document.getElementById('score').textContent = score;
+      explainDiv.textContent = 'Why: ' + m.ex;
+      explainDiv.style.display = 'block';
+      closeBtn.style.display = 'inline-block';
+    };
+    optsDiv.appendChild(b);
+  });
+
+  document.getElementById('qmodal').style.display = 'flex';
+}
+
+document.getElementById('closeBtn').addEventListener('click', () => {
+  document.getElementById('qmodal').style.display = 'none';
+  stepIdx++;
+  document.getElementById('stepNum').textContent = Math.min(stepIdx+1, markers.length);
+  renderMap();
+  if (stepIdx >= markers.length) finishGame();
+});
+
+function finishGame(){
+  document.getElementById('mapWrap').style.display = 'none';
+  const end = document.getElementById('endscreen');
+  end.style.display = 'block';
+  let title = '🎉 Treasure Found!';
+  if (score >= 75) title = '🏆 Master Explorer!';
+  document.getElementById('endTitle').textContent = title;
+  document.getElementById('endMsg').textContent = `You reached the treasure with a score of ${score}.`;
+}
+</script>
+</body>
+</html>

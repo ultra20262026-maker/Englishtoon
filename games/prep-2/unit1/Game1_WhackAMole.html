@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gen Alpha — Whack-a-Mole</title>
+<style>
+  :root{ --navy:#0B1E33; --navy2:#112B47; --card:#16324F; --cyan:#35D0C9; --green:#8CE99A; --amber:#FFC168; --red:#FF8080; --light:#D7E3EC; --muted:#8FA6BC; }
+  *{box-sizing:border-box; -webkit-user-select:none; user-select:none;}
+  body{ margin:0; min-height:100vh; background:radial-gradient(circle at 30% 0%, var(--navy2), var(--navy) 65%); font-family:'Segoe UI',Calibri,Arial,sans-serif; color:var(--light); display:flex; flex-direction:column; align-items:center; padding:24px; }
+  h1{color:#fff; font-size:1.6rem; margin:6px 0 2px; text-align:center;}
+  .sub{color:var(--cyan); font-weight:700; letter-spacing:1.5px; font-size:.78rem; text-transform:uppercase; margin-bottom:14px; text-align:center;}
+  .hud{display:flex; gap:12px; margin-bottom:14px; flex-wrap:wrap; justify-content:center;}
+  .pill{background:var(--card); border:1px solid #1E4568; border-radius:999px; padding:7px 16px; font-size:.85rem;}
+  .pill b{color:var(--green);}
+  #qLabel{ color:var(--amber); font-weight:800; font-size:.75rem; letter-spacing:2px; text-transform:uppercase; text-align:center; margin-bottom:6px; }
+  #promptBox{ max-width:640px; text-align:center; background:var(--card); border:1px solid #1E4568; border-radius:14px; padding:14px 22px; margin-bottom:14px; font-size:1.1rem; font-weight:700; color:#fff; }
+  #field{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; max-width:640px; width:100%; }
+  .hole{ position:relative; aspect-ratio:1; background:radial-gradient(ellipse at center, #0c1e30 40%, #16324f 100%); border-radius:50%; border:3px solid #1E4568; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+  .mole{ position:absolute; bottom:-100%; width:88%; height:88%; border-radius:50%; background:linear-gradient(160deg,#8CE99A,#52a866); display:flex; align-items:center; justify-content:center; text-align:center; font-weight:800; font-size:.8rem; color:var(--navy); padding:6px; transition:bottom .18s ease-out; cursor:pointer; }
+  .mole.up{ bottom:4%; }
+  .mole.wrongcolor{ background:linear-gradient(160deg,#FF8080,#c25252); }
+  button{ font-family:inherit; font-weight:700; font-size:1rem; border:none; border-radius:12px; padding:13px 28px; cursor:pointer; color:var(--navy); background:linear-gradient(135deg, var(--cyan), var(--green)); margin-top:20px; box-shadow:0 8px 20px rgba(53,208,201,.3); }
+  #endscreen{ display:none; text-align:center; margin-top:26px; }
+  #endscreen h2{ font-size:2rem; color:#fff; }
+  .toast{ position:fixed; top:20px; left:50%; transform:translateX(-50%); background:var(--green); color:var(--navy); padding:10px 22px; border-radius:999px; font-weight:800; opacity:0; transition:opacity .3s; z-index:200;}
+  .toast.show{ opacity:1; }
+  .toast.bad{ background:var(--red); }
+  footer{ margin-top:24px; color:var(--muted); font-size:.72rem; text-align:center;}
+</style>
+</head>
+<body>
+  <div class="sub">Unit 1 · Gen Alpha</div>
+  <h1>🔨 Whack-a-Mole: Meet Gen Alpha</h1>
+  <div class="hud">
+    <div class="pill">Score: <b id="score">0</b></div>
+    <div class="pill">Round: <b id="roundNum">1</b> / 10</div>
+  </div>
+  <div id="qLabel">❓ Question</div>
+  <div id="promptBox">Loading round…</div>
+  <div id="field"></div>
+  <button id="startBtn">Start Game</button>
+
+  <div id="endscreen">
+    <h2 id="endTitle"></h2>
+    <p id="endMsg" style="color:var(--muted); font-size:1.05rem;"></p>
+    <button onclick="location.reload()">Play Again</button>
+  </div>
+  <div class="toast" id="toast"></div>
+  <footer>Original prompts · Unit 1, Lesson 1: Meet Gen Alpha</footer>
+
+<script>
+const rounds = [
+  { prompt:"Gen Alpha are children born from around...", correct:"2010 to the mid-2020s", wrong:["1990 to 2000","1980 to 1990","1960 to 1970"] },
+  { prompt:"Gen Alpha like creating short videos to show their hobbies and...", correct:"opinions", wrong:["mistakes","punishments","complaints"] },
+  { prompt:"Emojis are used to show...", correct:"emotions", wrong:["distances","prices","weights"] },
+  { prompt:"'Represent' means...", correct:"to be an example or symbol of something", wrong:["to hide something","to destroy something","to forget something"] },
+  { prompt:"'Balance' between screen time and family life means...", correct:"a healthy mix of both", wrong:["only screen time","only family time","ignoring both"] },
+  { prompt:"Gen Alpha are called...", correct:"digital natives", wrong:["factory workers","farmers","sailors"] },
+  { prompt:"Gen Alpha learn to use technology...", correct:"before they can read", wrong:["after they finish school","only as adults","never"] },
+  { prompt:"'Digital natives' means people who...", correct:"grew up using technology from birth", wrong:["never use technology","only use paper books","dislike computers"] },
+  { prompt:"Gen Alpha's parents try to...", correct:"limit their children's screen time", wrong:["increase screen time only","ignore screen time","forbid all technology"] },
+  { prompt:"Choose the correct question word: '_____ do you know about Gen Alpha?'", correct:"What", wrong:["Which","Whose","When"] },
+];
+
+let roundIdx = 0, score = 0, roundActive = false;
+const field = document.getElementById('field');
+const HOLE_COUNT = 9;
+let holes = [];
+
+function buildField(){
+  field.innerHTML = '';
+  holes = [];
+  for (let i=0;i<HOLE_COUNT;i++){
+    const hole = document.createElement('div');
+    hole.className = 'hole';
+    const mole = document.createElement('div');
+    mole.className = 'mole';
+    hole.appendChild(mole);
+    field.appendChild(hole);
+    holes.push(mole);
+  }
+}
+buildField();
+
+function showToast(msg, bad){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (bad ? ' bad' : '');
+  setTimeout(()=>{ t.className='toast'; }, 1100);
+}
+
+let popTimeouts = [];
+function clearPops(){ popTimeouts.forEach(clearTimeout); popTimeouts = []; holes.forEach(m => { m.classList.remove('up'); m.onclick = null; }); }
+
+function loadRound(){
+  if (roundIdx >= rounds.length) { finishGame(); return; }
+  document.getElementById('roundNum').textContent = roundIdx + 1;
+  const r = rounds[roundIdx];
+  document.getElementById('promptBox').textContent = r.prompt;
+  clearPops();
+
+  const options = [r.correct, ...r.wrong].sort(()=>Math.random()-0.5);
+  const holeIndices = [...Array(HOLE_COUNT).keys()].sort(()=>Math.random()-0.5).slice(0, options.length);
+
+  roundActive = true;
+  let answered = false;
+  options.forEach((opt, i) => {
+    const delay = 250 + i * 350; // small stagger so moles pop up one after another, just for fun
+    const t = setTimeout(() => {
+      if (!roundActive || answered) return;
+      const mole = holes[holeIndices[i]];
+      mole.textContent = opt;
+      mole.classList.add('up');
+      mole.onclick = () => {
+        if (answered) return;
+        answered = true;
+        if (opt === r.correct) {
+          mole.classList.remove('wrongcolor');
+          score += 10;
+          document.getElementById('score').textContent = score;
+          showToast('Correct! +10 🎉');
+        } else {
+          mole.classList.add('wrongcolor');
+          showToast('Not quite — try the next round!', true);
+        }
+        roundActive = false;
+        setTimeout(nextRound, 1200);
+      };
+      // Moles stay up until clicked — no auto-hide, no time pressure.
+    }, delay);
+    popTimeouts.push(t);
+  });
+}
+
+function nextRound(){ roundIdx++; loadRound(); }
+
+document.getElementById('startBtn').addEventListener('click', () => {
+  document.getElementById('startBtn').style.display = 'none';
+  loadRound();
+});
+
+function finishGame(){
+  clearPops();
+  document.getElementById('field').style.display = 'none';
+  document.getElementById('promptBox').style.display = 'none';
+  const end = document.getElementById('endscreen');
+  end.style.display = 'block';
+  let title = '🎉 Great Whacking!';
+  if (score >= 70) title = '🏆 Mole Master!';
+  else if (score >= 40) title = '👍 Nice Work!';
+  document.getElementById('endTitle').textContent = title;
+  document.getElementById('endMsg').textContent = `Final score: ${score} points across ${rounds.length} rounds.`;
+}
+</script>
+</body>
+</html>

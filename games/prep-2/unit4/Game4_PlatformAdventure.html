@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Art and Expression — Platform Adventure</title>
+<style>
+  :root{ --navy:#0B1E33; --navy2:#112B47; --card:#16324F; --cyan:#35D0C9; --green:#8CE99A; --amber:#FFC168; --red:#FF8080; --light:#D7E3EC; --muted:#8FA6BC; }
+  *{box-sizing:border-box;}
+  body{ margin:0; min-height:100vh; background:linear-gradient(180deg,#1c2b45,var(--navy) 70%); font-family:'Segoe UI',Calibri,Arial,sans-serif; color:var(--light); display:flex; flex-direction:column; align-items:center; padding:24px; }
+  h1{color:#fff; font-size:1.6rem; margin:6px 0 2px; text-align:center;}
+  .sub{color:var(--cyan); font-weight:700; letter-spacing:1.5px; font-size:.78rem; text-transform:uppercase; margin-bottom:14px; text-align:center;}
+  .hud{display:flex; gap:12px; margin-bottom:16px; flex-wrap:wrap; justify-content:center;}
+  .pill{background:var(--card); border:1px solid #1E4568; border-radius:999px; padding:7px 16px; font-size:.85rem;}
+  .pill b{color:var(--green);}
+  #platforms{ display:flex; align-items:flex-end; gap:6px; height:120px; max-width:680px; width:100%; margin-bottom:20px; overflow-x:auto; padding:10px; }
+  .plat{ min-width:70px; height:24px; background:var(--card); border:2px solid #1E4568; border-radius:6px; position:relative; flex-shrink:0; }
+  .plat.done{ background:var(--green); border-color:var(--green); }
+  .plat.current::after{ content:'🏃'; position:absolute; top:-30px; left:50%; transform:translateX(-50%); font-size:1.4rem; }
+  #qcard{ width:100%; max-width:640px; background:var(--card); border:1px solid #1E4568; border-radius:16px; padding:24px; }
+  #qLabel{ color:var(--amber); font-weight:800; font-size:.75rem; letter-spacing:2px; text-transform:uppercase; margin-bottom:8px; }
+  #qtext{ color:#fff; font-size:1.1rem; font-weight:700; margin-bottom:16px; }
+  .opt{ display:block; width:100%; text-align:left; background:var(--navy2); color:var(--light); border:1px solid #1E4568; border-radius:10px; padding:12px 16px; margin-bottom:9px; font-size:1rem; cursor:pointer; transition:.15s; }
+  .opt:hover{ border-color:var(--cyan); }
+  .opt.correct{ background:rgba(140,233,154,.18); border-color:var(--green); color:var(--green); font-weight:700; }
+  .opt.wrong{ background:rgba(255,128,128,.18); border-color:var(--red); color:var(--red); font-weight:700; }
+  .explain{ margin-top:12px; padding:12px 14px; background:var(--navy2); border-radius:10px; font-size:.9rem; color:var(--muted); display:none; }
+  button.next{ margin-top:14px; background:linear-gradient(135deg, var(--cyan), var(--green)); color:var(--navy); border:none; border-radius:10px; padding:12px 24px; font-weight:700; cursor:pointer; display:none; }
+  #endscreen{ display:none; text-align:center; margin-top:26px; }
+  #endscreen h2{ font-size:2rem; color:#fff; }
+  button.replay{ font-family:inherit; font-weight:700; font-size:1rem; border:none; border-radius:12px; padding:13px 28px; cursor:pointer; color:var(--navy); background:linear-gradient(135deg, var(--cyan), var(--green)); }
+  footer{ margin-top:24px; color:var(--muted); font-size:.72rem; text-align:center;}
+</style>
+</head>
+<body>
+  <div class="sub">Unit 4 · Art and Expression</div>
+  <h1>🏃 Platform Adventure: The Hidden Island Ch1</h1>
+  <div class="hud">
+    <div class="pill">Platform: <b id="platNum">1</b> / 8</div>
+    <div class="pill">Falls: <b id="fallCount">0</b></div>
+  </div>
+  <div id="platforms"></div>
+
+  <div id="qcard">
+    <div id="qLabel">❓ Question</div>
+    <div id="qtext"></div>
+    <div id="options"></div>
+    <div class="explain" id="explain"></div>
+    <button class="next" id="nextBtn">Jump to Next Platform →</button>
+  </div>
+
+  <div id="endscreen">
+    <h2 id="endTitle"></h2>
+    <p id="endMsg" style="color:var(--muted); font-size:1.05rem;"></p>
+    <button class="replay" onclick="location.reload()">Play Again</button>
+  </div>
+  <footer>Original questions · Unit 4, Lesson 4: Reading — The Hidden Island Ch1</footer>
+
+<script>
+const questions = [
+  { q:"Text: Four friends — Hany, Faris, Malik, and Sami — lived on a quiet coastal island. One day, they found an old map showing a hidden island nearby. — Where did the four friends live?", opts:["on a quiet coastal island","in a big city","in the desert","in the mountains"], a:0, ex:"They lived on a quiet coastal island." },
+  { q:"What did they find?", opts:["a treasure chest","an old map showing a hidden island","a boat","a letter"], a:1, ex:"They found an old map." },
+  { q:"Who encouraged everyone to prepare for the journey?", opts:["Hany","Faris","Malik","Sami"], a:0, ex:"Hany encouraged everyone to pack for the journey." },
+  { q:"What did they pack?", opts:["only food","food, water, notebooks, and a compass","nothing at all","weapons only"], a:1, ex:"They packed food, water, notebooks, and a compass." },
+  { q:"What rule did they agree on?", opts:["competition and selfishness","silence and secrecy","collaboration and respect","laziness"], a:2, ex:"They agreed on collaboration and respect." },
+  { q:"The word 'collaboration' means...", opts:["working alone","working together","arguing","ignoring each other"], a:1, ex:"'Collaboration' means working together." },
+  { q:"This text is mainly about...", opts:["a school lesson","friends preparing for an adventure together","a cooking class","a sports match"], a:1, ex:"It's about friends preparing for an adventure." },
+  { q:"Why is a compass useful on a journey?", opts:["it helps with finding direction","it provides food","it tells the time only","it has no use"], a:0, ex:"A compass helps with finding direction." },
+];
+
+let idx = 0, fallCount = 0;
+
+function renderPlatforms(){
+  const wrap = document.getElementById('platforms');
+  wrap.innerHTML = '';
+  questions.forEach((_, i) => {
+    const p = document.createElement('div');
+    p.className = 'plat';
+    if (i < idx) p.classList.add('done');
+    if (i === idx) p.classList.add('current');
+    wrap.appendChild(p);
+  });
+}
+
+function loadQ(){
+  if (idx >= questions.length) { finishGame(); return; }
+  document.getElementById('platNum').textContent = idx + 1;
+  renderPlatforms();
+  const q = questions[idx];
+  document.getElementById('qtext').textContent = q.q;
+  const optsDiv = document.getElementById('options');
+  optsDiv.innerHTML = '';
+  document.getElementById('explain').style.display = 'none';
+  document.getElementById('nextBtn').style.display = 'none';
+  q.opts.forEach((opt, i) => {
+    const b = document.createElement('button');
+    b.className = 'opt';
+    b.textContent = opt;
+    b.onclick = () => {
+      document.querySelectorAll('.opt').forEach(o => o.onclick = null);
+      if (i === q.a) {
+        b.classList.add('correct');
+      } else {
+        b.classList.add('wrong');
+        document.querySelectorAll('.opt')[q.a].classList.add('correct');
+        fallCount++;
+        document.getElementById('fallCount').textContent = fallCount;
+      }
+      document.getElementById('explain').textContent = 'Why: ' + q.ex;
+      document.getElementById('explain').style.display = 'block';
+      document.getElementById('nextBtn').style.display = 'inline-block';
+    };
+    optsDiv.appendChild(b);
+  });
+}
+
+document.getElementById('nextBtn').addEventListener('click', () => { idx++; loadQ(); });
+
+function finishGame(){
+  document.getElementById('qcard').style.display = 'none';
+  renderPlatforms();
+  document.querySelectorAll('.plat').forEach(p => p.classList.add('done'));
+  const end = document.getElementById('endscreen');
+  end.style.display = 'block';
+  let title = '🎉 You Crossed the Gallery!';
+  if (fallCount === 0) title = '🏆 Flawless Crossing!';
+  document.getElementById('endTitle').textContent = title;
+  document.getElementById('endMsg').textContent = `You crossed all ${questions.length} platforms with ${fallCount} falls.`;
+}
+
+loadQ();
+</script>
+</body>
+</html>

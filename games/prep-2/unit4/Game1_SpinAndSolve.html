@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Art and Expression — Spin and Solve</title>
+<style>
+  :root{ --navy:#0B1E33; --navy2:#112B47; --card:#16324F; --cyan:#35D0C9; --green:#8CE99A; --amber:#FFC168; --red:#FF8080; --light:#D7E3EC; --muted:#8FA6BC; }
+  *{box-sizing:border-box;}
+  body{ margin:0; min-height:100vh; background:radial-gradient(circle at 70% 10%, var(--navy2), var(--navy) 65%); font-family:'Segoe UI',Calibri,Arial,sans-serif; color:var(--light); display:flex; flex-direction:column; align-items:center; padding:24px; }
+  h1{color:#fff; font-size:1.6rem; margin:6px 0 2px; text-align:center;}
+  .sub{color:var(--cyan); font-weight:700; letter-spacing:1.5px; font-size:.78rem; text-transform:uppercase; margin-bottom:14px; text-align:center;}
+  .hud{display:flex; gap:12px; margin-bottom:16px; flex-wrap:wrap; justify-content:center;}
+  .pill{background:var(--card); border:1px solid #1E4568; border-radius:999px; padding:7px 16px; font-size:.85rem;}
+  .pill b{color:var(--green);}
+  .spinnerWrap{ position:relative; width:220px; height:220px; margin-bottom:20px; }
+  #spinner{ width:100%; height:100%; border-radius:50%; background:conic-gradient(#35D0C9 0deg 90deg, #8CE99A 90deg 180deg, #FFC168 180deg 270deg, #B79CFF 270deg 360deg); transition:transform 3s cubic-bezier(.17,.67,.12,1); box-shadow:0 0 0 6px var(--navy2), 0 16px 30px rgba(0,0,0,.4); }
+  .pointer{ position:absolute; top:-8px; left:50%; transform:translateX(-50%); width:0; height:0; border-left:14px solid transparent; border-right:14px solid transparent; border-top:24px solid var(--amber); z-index:5; }
+  #qcard{ width:100%; max-width:600px; background:var(--card); border:1px solid #1E4568; border-radius:16px; padding:24px; display:none; }
+  #qLabel{ color:var(--amber); font-weight:800; font-size:.75rem; letter-spacing:2px; text-transform:uppercase; margin-bottom:8px; }
+  #qtext{ color:#fff; font-size:1.1rem; font-weight:700; margin-bottom:16px; }
+  .opt{ display:block; width:100%; text-align:left; background:var(--navy2); color:var(--light); border:1px solid #1E4568; border-radius:10px; padding:12px 16px; margin-bottom:9px; font-size:1rem; cursor:pointer; transition:.15s; }
+  .opt:hover{ border-color:var(--cyan); }
+  .opt.correct{ background:rgba(140,233,154,.18); border-color:var(--green); color:var(--green); font-weight:700; }
+  .opt.wrong{ background:rgba(255,128,128,.18); border-color:var(--red); color:var(--red); font-weight:700; }
+  .explain{ margin-top:12px; padding:12px 14px; background:var(--navy2); border-radius:10px; font-size:.9rem; color:var(--muted); display:none; }
+  button{ font-family:inherit; font-weight:700; font-size:1rem; border:none; border-radius:12px; padding:13px 28px; cursor:pointer; color:var(--navy); background:linear-gradient(135deg, var(--cyan), var(--green)); margin-top:14px; box-shadow:0 8px 20px rgba(53,208,201,.3); }
+  button:disabled{ opacity:.4; cursor:not-allowed; }
+  #endscreen{ display:none; text-align:center; margin-top:26px; }
+  #endscreen h2{ font-size:2rem; color:#fff; }
+  footer{ margin-top:24px; color:var(--muted); font-size:.72rem; text-align:center;}
+</style>
+</head>
+<body>
+  <div class="sub">Unit 4 · Art and Expression</div>
+  <h1>🎡 Spin and Solve: A Journey Through Art!</h1>
+  <div class="hud">
+    <div class="pill">Score: <b id="score">0</b></div>
+    <div class="pill">Round: <b id="roundNum">1</b> / 8</div>
+  </div>
+
+  <div class="spinnerWrap">
+    <div class="pointer"></div>
+    <div id="spinner"></div>
+  </div>
+  <button id="spinBtn">Spin!</button>
+
+  <div id="qcard">
+    <div id="qLabel">❓ Question</div>
+    <div id="qtext"></div>
+    <div id="options"></div>
+    <div class="explain" id="explain"></div>
+    <button id="nextBtn" style="display:none;">Next Round →</button>
+  </div>
+
+  <div id="endscreen">
+    <h2 id="endTitle"></h2>
+    <p id="endMsg" style="color:var(--muted); font-size:1.05rem;"></p>
+    <button onclick="location.reload()">Play Again</button>
+  </div>
+  <footer>Original questions · Unit 4, Lesson 1: A Journey Through Art!</footer>
+
+<script>
+const questions = [
+  { q:"You can see many different _____ in a gallery.", opts:["paintings","foods","animals","cars"], a:0, points:10, ex:"A gallery displays 'paintings' and other artworks." },
+  { q:"Every artwork has a powerful _____.", opts:["message","price only","weight","smell"], a:0, points:10, ex:"Artworks carry a meaningful 'message'." },
+  { q:"Artists use different materials to create _____.", opts:["artworks","mistakes","problems","arguments"], a:0, points:10, ex:"Materials are used to create 'artworks'." },
+  { q:"_____ is a very important life skill.", opts:["Creativity","Laziness","Carelessness","Boredom"], a:0, points:15, ex:"'Creativity' is a valuable life skill." },
+  { q:"The opposite of 'imagination' is...", opts:["a lack of creativity","dreaming","art","color"], a:0, points:15, ex:"Without imagination, there's a lack of creativity." },
+  { q:"The gallery was filled with _____ paintings and different kinds of sculptures.", opts:["colorful","boring","empty","broken"], a:0, points:10, ex:"The gallery had 'colorful' paintings." },
+  { q:"Artists mixed different kinds of material like paper, clay, and _____.", opts:["metal","water","air","fire"], a:0, points:15, ex:"'Metal' is a material artists use, along with paper and clay." },
+  { q:"Each piece carries a meaningful _____.", opts:["message","price tag","weight","smell"], a:0, points:20, ex:"Every artwork carries a 'message'." },
+];
+
+let deck = [...questions].sort(()=>Math.random()-0.5);
+let round = 0, score = 0;
+const TOTAL_ROUNDS = 8;
+let currentRotation = 0;
+
+document.getElementById('spinBtn').addEventListener('click', () => {
+  if (round >= TOTAL_ROUNDS) return;
+  document.getElementById('spinBtn').disabled = true;
+  document.getElementById('qcard').style.display = 'none';
+  const spins = 4 + Math.floor(Math.random()*2);
+  const finalRotation = currentRotation + spins*360 + Math.floor(Math.random()*360);
+  currentRotation = finalRotation % 360;
+  document.getElementById('spinner').style.transform = `rotate(${finalRotation}deg)`;
+  setTimeout(openQuestion, 3200);
+});
+
+function openQuestion(){
+  round++;
+  document.getElementById('roundNum').textContent = Math.min(round, TOTAL_ROUNDS);
+  if (deck.length === 0) deck = [...questions].sort(()=>Math.random()-0.5);
+  const q = deck.pop();
+  document.getElementById('qcard').style.display = 'block';
+  document.getElementById('qtext').textContent = q.q + ` (worth ${q.points} pts)`;
+  const optsDiv = document.getElementById('options');
+  optsDiv.innerHTML = '';
+  document.getElementById('explain').style.display = 'none';
+  const nextBtn = document.getElementById('nextBtn');
+  nextBtn.style.display = 'none';
+
+  q.opts.forEach((opt, i) => {
+    const b = document.createElement('button');
+    b.className = 'opt';
+    b.style.marginTop = '0';
+    b.textContent = opt;
+    b.onclick = () => {
+      document.querySelectorAll('.opt').forEach(o => o.onclick = null);
+      if (i === q.a) {
+        b.classList.add('correct');
+        score += q.points;
+      } else {
+        b.classList.add('wrong');
+        document.querySelectorAll('.opt')[q.a].classList.add('correct');
+      }
+      document.getElementById('score').textContent = score;
+      document.getElementById('explain').textContent = 'Why: ' + q.ex;
+      document.getElementById('explain').style.display = 'block';
+      nextBtn.style.display = 'inline-block';
+      nextBtn.textContent = round >= TOTAL_ROUNDS ? 'See Final Score →' : 'Next Round →';
+    };
+    optsDiv.appendChild(b);
+  });
+}
+
+document.getElementById('nextBtn').addEventListener('click', () => {
+  if (round >= TOTAL_ROUNDS) { finishGame(); return; }
+  document.getElementById('qcard').style.display = 'none';
+  document.getElementById('spinBtn').disabled = false;
+});
+
+function finishGame(){
+  document.getElementById('qcard').style.display = 'none';
+  document.querySelector('.spinnerWrap').style.display = 'none';
+  document.getElementById('spinBtn').style.display = 'none';
+  const end = document.getElementById('endscreen');
+  end.style.display = 'block';
+  let title = '🎉 Great Job!';
+  if (score >= 90) title = '🏆 Connector Champion!';
+  document.getElementById('endTitle').textContent = title;
+  document.getElementById('endMsg').textContent = `Final score: ${score} points across ${TOTAL_ROUNDS} rounds.`;
+}
+</script>
+</body>
+</html>

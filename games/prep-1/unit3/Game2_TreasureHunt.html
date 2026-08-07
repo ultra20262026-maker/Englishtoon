@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Role Models — Treasure Hunt</title>
+<style>
+  :root{ --navy:#0B1E33; --navy2:#112B47; --card:#16324F; --cyan:#35D0C9; --green:#8CE99A; --amber:#FFC168; --red:#FF8080; --light:#D7E3EC; --muted:#8FA6BC; }
+  *{box-sizing:border-box;}
+  body{ margin:0; min-height:100vh; background:radial-gradient(circle at 50% 0%, #16324F, var(--navy) 70%);
+    font-family:'Segoe UI',Calibri,Arial,sans-serif; color:var(--light); display:flex; flex-direction:column; align-items:center; padding:24px; }
+  h1{color:#fff; font-size:1.7rem; margin:6px 0 2px; text-align:center;}
+  .sub{color:var(--cyan); font-weight:700; letter-spacing:2px; font-size:.8rem; text-transform:uppercase; margin-bottom:14px;}
+  .hud{display:flex; gap:14px; margin-bottom:16px; flex-wrap:wrap; justify-content:center;}
+  .pill{background:var(--card); border:1px solid #1E4568; border-radius:999px; padding:8px 18px; font-size:.9rem;}
+  .pill b{color:var(--green);}
+  #map{
+    position:relative; width:100%; max-width:640px; height:420px; background:
+      radial-gradient(circle at 30% 30%, #1a4a5a 0, transparent 40%),
+      radial-gradient(circle at 70% 60%, #1a4a3a 0, transparent 40%),
+      #123049;
+    border-radius:18px; border:2px dashed #2a5b86; overflow:hidden;
+  }
+  .spot{
+    position:absolute; width:60px; height:60px; border-radius:50%; background:var(--card); border:2px solid var(--amber);
+    display:flex; align-items:center; justify-content:center; font-size:1.6rem; cursor:pointer; transition:.2s;
+  }
+  .spot:hover{ transform:scale(1.1); }
+  .spot.found{ background:linear-gradient(135deg, var(--green), #52a866); border-color:var(--green); }
+  #qmodal{ display:none; position:fixed; inset:0; background:rgba(4,10,18,.88); z-index:100; align-items:center; justify-content:center; padding:20px; }
+  #qcardbox{ background:var(--card); border:1px solid #1E4568; border-radius:18px; padding:28px; max-width:600px; width:100%; }
+  #qtext{ color:#fff; font-size:1.2rem; font-weight:700; margin-bottom:18px; line-height:1.4; }
+  .opt{ display:block; width:100%; text-align:left; background:var(--navy2); color:var(--light); border:1px solid #1E4568;
+    border-radius:10px; padding:13px 16px; margin-bottom:10px; font-size:1rem; cursor:pointer; }
+  .opt:hover{ border-color:var(--cyan); background:#183a5c; }
+  .opt.correct{ background:rgba(140,233,154,.18); border-color:var(--green); color:var(--green); font-weight:700; }
+  .opt.wrong{ background:rgba(255,128,128,.18); border-color:var(--red); color:var(--red); font-weight:700; }
+  .explain{ margin-top:12px; padding:12px 14px; background:var(--navy2); border-radius:10px; font-size:.9rem; color:var(--muted); display:none;}
+  .btn-close{ margin-top:16px; display:none; font-family:inherit; font-weight:700; font-size:1rem; border:none; border-radius:10px;
+    padding:12px 24px; cursor:pointer; color:var(--navy); background:linear-gradient(135deg, var(--cyan), var(--green)); }
+  #endscreen{ display:none; text-align:center; margin-top:26px; }
+  #endscreen h2{ font-size:2rem; color:#fff; }
+  button.replay{ font-family:inherit; font-weight:700; font-size:1rem; border:none; border-radius:12px; padding:13px 28px;
+    cursor:pointer; color:var(--navy); background:linear-gradient(135deg, var(--cyan), var(--green)); margin-top:16px; }
+  footer{ margin-top:24px; color:var(--muted); font-size:.75rem; text-align:center;}
+</style>
+</head>
+<body>
+  <div class="sub">Unit 3 · Role Models</div>
+  <h1>🗺️ Treasure Hunt: Find the Hidden Facts</h1>
+  <div class="hud">
+    <div class="pill">Found: <b id="foundCount">0</b> / 6</div>
+    <div class="pill">Score: <b id="score">0</b></div>
+  </div>
+
+  <div id="map"></div>
+
+  <div id="qmodal">
+    <div id="qcardbox">
+      <div id="qtext"></div>
+      <div id="options"></div>
+      <div class="explain" id="explain"></div>
+      <button class="btn-close" id="closeBtn">Continue Hunting →</button>
+    </div>
+  </div>
+
+  <div id="endscreen">
+    <h2 id="endTitle"></h2>
+    <p id="endMsg" style="color:var(--muted); font-size:1.05rem;"></p>
+    <button class="replay" onclick="location.reload()">Play Again</button>
+  </div>
+
+  <footer>Original questions · Unit 3 grammar focus: Past Simple Tense</footer>
+
+<script>
+const spots = [
+  {x:10, y:15, q:"Dr. Samira Moussa ___________ (work) hard to help her community.", opts:["work","worked","works","working"], a:1, ex:"Regular verb + -ed: 'worked'."},
+  {x:60, y:10, q:"___________ Ahmed El Mansy protect the border?", opts:["Do","Does","Did","Was"], a:2, ex:"Past simple questions use 'Did'."},
+  {x:80, y:45, q:"Dr. Gamal Hemdan ___________ (write) 'The Personality of Egypt'.", opts:["write","writed","wrote","writes"], a:2, ex:"'Write' is irregular: write → wrote."},
+  {x:15, y:65, q:"They ___________ (not / know) about her achievement at first.", opts:["didn't know","doesn't know","don't knew","not knew"], a:0, ex:"'Didn't' + base verb: 'didn't know'."},
+  {x:55, y:75, q:"Dr. Ghoneim ___________ (help) thousands of patients.", opts:["helps","helping","helped","help"], a:2, ex:"Regular verb + -ed: 'helped'."},
+  {x:35, y:35, q:"How many awards ___________ she win?", opts:["do","does","did","was"], a:2, ex:"Past simple questions use 'did'."},
+];
+
+let foundCount = 0;
+let score = 0;
+
+const map = document.getElementById('map');
+function renderMap(){
+  map.innerHTML = '';
+  spots.forEach((s, i) => {
+    const el = document.createElement('div');
+    el.className = 'spot';
+    el.style.left = s.x + '%';
+    el.style.top = s.y + '%';
+    el.textContent = '❓';
+    el.dataset.idx = i;
+    el.addEventListener('click', () => openSpot(i, el));
+    map.appendChild(el);
+  });
+}
+renderMap();
+
+function openSpot(idx, el){
+  if (el.classList.contains('found')) return;
+  const s = spots[idx];
+  document.getElementById('qtext').textContent = s.q;
+  const optsDiv = document.getElementById('options');
+  optsDiv.innerHTML = '';
+  const explainDiv = document.getElementById('explain');
+  explainDiv.style.display = 'none';
+  const closeBtn = document.getElementById('closeBtn');
+  closeBtn.style.display = 'none';
+
+  s.opts.forEach((opt, i) => {
+    const b = document.createElement('button');
+    b.className = 'opt';
+    b.textContent = opt;
+    b.onclick = () => {
+      document.querySelectorAll('.opt').forEach(o => o.onclick = null);
+      if (i === s.a) {
+        b.classList.add('correct');
+        score += 15;
+        document.getElementById('score').textContent = score;
+        el.classList.add('found');
+        el.textContent = '💎';
+        foundCount++;
+        document.getElementById('foundCount').textContent = foundCount;
+      } else {
+        b.classList.add('wrong');
+        document.querySelectorAll('.opt')[s.a].classList.add('correct');
+      }
+      explainDiv.textContent = 'Why: ' + s.ex;
+      explainDiv.style.display = 'block';
+      closeBtn.style.display = 'inline-block';
+    };
+    optsDiv.appendChild(b);
+  });
+
+  document.getElementById('qmodal').style.display = 'flex';
+}
+
+document.getElementById('closeBtn').addEventListener('click', () => {
+  document.getElementById('qmodal').style.display = 'none';
+  if (foundCount === spots.length) finishGame();
+});
+
+function finishGame(){
+  document.getElementById('map').style.display = 'none';
+  const end = document.getElementById('endscreen');
+  end.style.display = 'block';
+  let title = '🎉 Treasure Found!';
+  if (score >= 80) title = '🏆 Master Treasure Hunter!';
+  document.getElementById('endTitle').textContent = title;
+  document.getElementById('endMsg').textContent = `You uncovered all the treasure with a score of ${score}.`;
+}
+</script>
+</body>
+</html>

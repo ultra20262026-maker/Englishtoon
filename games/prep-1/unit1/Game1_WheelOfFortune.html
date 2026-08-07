@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Habits — Wheel of Fortune</title>
+<style>
+  :root{
+    --navy:#0B1E33; --navy2:#112B47; --card:#16324F; --cyan:#35D0C9;
+    --green:#8CE99A; --amber:#FFC168; --red:#FF8080; --light:#D7E3EC; --muted:#8FA6BC;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; min-height:100vh; background:radial-gradient(circle at 70% 10%, var(--navy2), var(--navy) 60%);
+    font-family:'Segoe UI',Calibri,Arial,sans-serif; color:var(--light); display:flex; flex-direction:column; align-items:center; padding:24px;
+  }
+  h1{color:#fff; font-size:1.8rem; margin:6px 0 2px;}
+  .sub{color:var(--cyan); font-weight:700; letter-spacing:2px; font-size:.8rem; text-transform:uppercase; margin-bottom:14px;}
+  .hud{display:flex; gap:16px; margin-bottom:18px; flex-wrap:wrap; justify-content:center;}
+  .pill{background:var(--card); border:1px solid #1E4568; border-radius:999px; padding:8px 18px; font-size:.95rem;}
+  .pill b{color:var(--green);}
+  .arena{position:relative; width:340px; height:340px; margin:10px auto;}
+  .wheel{
+    width:100%; height:100%; border-radius:50%; position:relative; overflow:hidden;
+    transition: transform 3.6s cubic-bezier(.17,.67,.12,1); box-shadow:0 0 0 8px var(--navy2), 0 20px 40px rgba(0,0,0,.5);
+    transform:rotate(0deg);
+  }
+  .seg{
+    position:absolute; width:50%; height:50%; top:0; left:50%; transform-origin:0% 100%;
+    display:flex; align-items:flex-start; justify-content:center; font-weight:800; font-size:.95rem; color:var(--navy);
+  }
+  .seg span{ transform: translateY(20px); }
+  .pointer{
+    position:absolute; top:-10px; left:50%; transform:translateX(-50%);
+    width:0; height:0; border-left:16px solid transparent; border-right:16px solid transparent;
+    border-top:28px solid var(--amber); z-index:5; filter:drop-shadow(0 4px 4px rgba(0,0,0,.4));
+  }
+  .hub{
+    position:absolute; top:50%; left:50%; width:70px; height:70px; margin:-35px 0 0 -35px;
+    background:var(--navy2); border:3px solid var(--cyan); border-radius:50%; z-index:4;
+    display:flex; align-items:center; justify-content:center; font-size:1.6rem;
+  }
+  button{
+    font-family:inherit; font-weight:700; font-size:1rem; border:none; border-radius:12px; padding:14px 30px;
+    cursor:pointer; transition:transform .15s, box-shadow .15s; color:var(--navy);
+  }
+  button:hover{ transform:translateY(-2px); }
+  button:active{ transform:translateY(0); }
+  .btn-spin{ background:linear-gradient(135deg, var(--cyan), var(--green)); box-shadow:0 8px 20px rgba(53,208,201,.35); margin-top:18px;}
+  .btn-spin:disabled{ opacity:.4; cursor:not-allowed; transform:none; }
+  #qpanel{
+    display:none; width:100%; max-width:560px; background:var(--card); border:1px solid #1E4568;
+    border-radius:18px; padding:26px; margin-top:22px; animation:pop .35s ease;
+  }
+  @keyframes pop{ from{ opacity:0; transform:scale(.92); } to{ opacity:1; transform:scale(1); } }
+  #qcat{ color:var(--amber); font-weight:800; font-size:.8rem; letter-spacing:2px; text-transform:uppercase; margin-bottom:8px;}
+  #qtext{ color:#fff; font-size:1.25rem; font-weight:700; margin-bottom:18px; line-height:1.4;}
+  .opt{
+    display:block; width:100%; text-align:left; background:var(--navy2); color:var(--light); border:1px solid #1E4568;
+    border-radius:10px; padding:13px 16px; margin-bottom:10px; font-size:1rem; cursor:pointer; transition:.15s;
+  }
+  .opt:hover{ border-color:var(--cyan); background:#183a5c; }
+  .opt.correct{ background:rgba(140,233,154,.18); border-color:var(--green); color:var(--green); font-weight:700; }
+  .opt.wrong{ background:rgba(255,128,128,.18); border-color:var(--red); color:var(--red); font-weight:700; }
+  .explain{ margin-top:14px; padding:12px 14px; background:var(--navy2); border-radius:10px; font-size:.92rem; color:var(--muted); display:none;}
+  .btn-next{ margin-top:16px; background:var(--amber); display:none; }
+  #endscreen{ display:none; text-align:center; margin-top:26px; }
+  #endscreen h2{ font-size:2rem; color:#fff; }
+  .progress{ width:100%; max-width:560px; height:10px; background:var(--card); border-radius:6px; overflow:hidden; margin-top:8px;}
+  .progress-fill{ height:100%; background:linear-gradient(90deg, var(--cyan), var(--green)); width:0%; transition:width .4s; }
+  .toast{ position:fixed; top:20px; left:50%; transform:translateX(-50%); background:var(--green); color:var(--navy);
+    padding:10px 22px; border-radius:999px; font-weight:800; opacity:0; transition:opacity .3s; z-index:50;}
+  .toast.show{ opacity:1; }
+  footer{ margin-top:26px; color:var(--muted); font-size:.75rem; text-align:center;}
+</style>
+</head>
+<body>
+  <div class="sub">Unit 1 · Life in a Digital World</div>
+  <h1>🎡 Wheel of Fortune: Present Simple</h1>
+  <div class="hud">
+    <div class="pill">Score: <b id="score">0</b></div>
+    <div class="pill">Round: <b id="round">1</b> / 8</div>
+    <div class="pill">Streak: <b id="streak">0</b>🔥</div>
+  </div>
+  <div class="progress"><div class="progress-fill" id="prog"></div></div>
+
+  <div class="arena">
+    <div class="pointer"></div>
+    <div class="wheel" id="wheel"></div>
+    <div class="hub">⚡</div>
+  </div>
+  <button class="btn-spin" id="spinBtn">SPIN THE WHEEL</button>
+
+  <div id="qpanel">
+    <div id="qcat"></div>
+    <div id="qtext"></div>
+    <div id="options"></div>
+    <div class="explain" id="explain"></div>
+    <button class="btn-next" id="nextBtn">Next Round →</button>
+  </div>
+
+  <div id="endscreen">
+    <h2 id="endTitle"></h2>
+    <p id="endMsg" style="color:var(--muted); font-size:1.05rem;"></p>
+    <button class="btn-spin" onclick="location.reload()">Play Again</button>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <footer>Original practice content · Unit 1 grammar focus: Present Simple + Adverbs of Frequency</footer>
+
+<script>
+const categories = [
+  {name:"Always 100%", color:"#8CE99A"},
+  {name:"Usually", color:"#35D0C9"},
+  {name:"Often", color:"#7FD8E8"},
+  {name:"Sometimes", color:"#FFC168"},
+  {name:"Never 0%", color:"#FF8080"},
+  {name:"Do / Does", color:"#B79CFF"},
+  {name:"Positive Form", color:"#8CE99A"},
+  {name:"Negative Form", color:"#FF9D6E"},
+];
+
+const bank = [
+  {cat:"Always 100%", q:"My father _____ his email at work.", opts:["always check","always checks","is always check","always checking"], a:1, ex:"He/she/it takes -s in the positive form: 'always checks'."},
+  {cat:"Usually", q:"Noha _____ for information online.", opts:["usually search","usually searches","is usually search","does usually search"], a:1, ex:"Third person singular + adverb: 'usually searches'."},
+  {cat:"Often", q:"I _____ ebooks before bed.", opts:["often reads","am often read","often read","reading often"], a:2, ex:"I/you/we/they use the base form: 'often read'."},
+  {cat:"Sometimes", q:"She _____ music from the internet.", opts:["sometimes download","sometimes downloads","downloads sometimes always","is sometimes downloads"], a:1, ex:"'She downloads' + -s, with the adverb before the verb."},
+  {cat:"Never 0%", q:"They _____ to charge their laptops.", opts:["never forgets","don't never forget","never forget","forget never"], a:2, ex:"'Never' already makes it negative — no extra 'don't' is needed."},
+  {cat:"Do / Does", q:"_____ your sister play online games?", opts:["Do","Does","Is","Did"], a:1, ex:"'Your sister' = he/she/it, so the question uses 'Does'."},
+  {cat:"Positive Form", q:"My teacher _____ us videos on the smartboard.", opts:["show","shows","showing","is show"], a:1, ex:"He/she/it + base verb + -s: 'shows'."},
+  {cat:"Negative Form", q:"We _____ our tablets during class.", opts:["doesn't use","don't use","not use","isn't use"], a:1, ex:"'We' takes 'don't' + base verb: 'don't use'."},
+  {cat:"Do / Does", q:"_____ he have a laptop for school?", opts:["Do","Does","Have","Is"], a:1, ex:"'He' is third person singular, so the question word is 'Does'."},
+  {cat:"Always 100%", q:"I _____ lose my keyboard — I take good care of it.", opts:["always","never","usually","often"], a:1, ex:"Since he takes good care of it, the logical adverb is 'never' (0%)."},
+  {cat:"Positive Form", q:"My friends _____ online after school.", opts:["chats","chat","is chat","chatting"], a:1, ex:"'My friends' = they, so the base form 'chat' is correct."},
+  {cat:"Negative Form", q:"The teacher _____ phones in class.", opts:["don't allow","doesn't allow","not allows","isn't allow"], a:1, ex:"'The teacher' = he/she, so 'doesn't allow' is correct."},
+  {cat:"Always 100%", q:"My mom _____ me a message after school every single day.", opts:["always text","always texts","texts always","is always text"], a:1, ex:"'My mom' = she, so the verb takes -s: 'always texts'."},
+  {cat:"Usually", q:"We _____ our projects using the computer lab.", opts:["usually finish","usually finishes","finishes usually","is usually finish"], a:0, ex:"'We' takes the base form: 'usually finish'."},
+  {cat:"Often", q:"My classmates _____ videos to learn new vocabulary.", opts:["often watches","often watch","watch often only","is often watch"], a:1, ex:"'My classmates' = they, so 'often watch' is correct."},
+  {cat:"Sometimes", q:"He _____ his tablet at the library on weekends.", opts:["sometimes uses","sometimes use","use sometimes","is sometimes uses"], a:0, ex:"'He' + verb + -s: 'sometimes uses'."},
+  {cat:"Never 0%", q:"I _____ my password with anyone online.", opts:["never shares","don't never share","never share","share never"], a:2, ex:"'Never' makes the sentence negative on its own: 'I never share'."},
+  {cat:"Do / Does", q:"_____ your friends chat online after dinner?", opts:["Do","Does","Are","Is"], a:0, ex:"'Your friends' = they, so the question uses 'Do'."},
+  {cat:"Positive Form", q:"My cousin _____ funny pictures to our family group every week.", opts:["send","sends","sending","is send"], a:1, ex:"He/she/it + verb + -s: 'sends'."},
+  {cat:"Negative Form", q:"Nadia _____ her homework on paper anymore.", opts:["don't do","doesn't do","not does","isn't do"], a:1, ex:"'Nadia' = she, so 'doesn't do' is correct."},
+];
+
+let deck = [...bank].sort(()=>Math.random()-0.5);
+let round = 0, score = 0, streak = 0;
+const TOTAL_ROUNDS = 8;
+const wheelEl = document.getElementById('wheel');
+const spinBtn = document.getElementById('spinBtn');
+const qpanel = document.getElementById('qpanel');
+
+function buildWheel(){
+  const n = categories.length;
+  wheelEl.innerHTML = '';
+  const gradientParts = [];
+  const step = 360/n;
+  categories.forEach((c,i)=>{
+    gradientParts.push(`${c.color} ${i*step}deg ${(i+1)*step}deg`);
+  });
+  wheelEl.style.background = `conic-gradient(${gradientParts.join(',')})`;
+  categories.forEach((c,i)=>{
+    const seg = document.createElement('div');
+    seg.className = 'seg';
+    seg.style.transform = `rotate(${i*step + step/2}deg)`;
+    seg.innerHTML = `<span>${c.name}</span>`;
+    wheelEl.appendChild(seg);
+  });
+}
+buildWheel();
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 1400);
+}
+
+let currentRotation = 0;
+spinBtn.addEventListener('click', () => {
+  if (round >= TOTAL_ROUNDS) return;
+  spinBtn.disabled = true;
+  qpanel.style.display = 'none';
+  const n = categories.length;
+  const step = 360/n;
+  const targetIndex = Math.floor(Math.random()*n);
+  const spins = 4 + Math.floor(Math.random()*2);
+  const landingOffset = targetIndex*step + step/2;
+  const finalRotation = currentRotation + spins*360 + (360 - landingOffset);
+  currentRotation = finalRotation % 360;
+  wheelEl.style.transform = `rotate(${finalRotation}deg)`;
+
+  setTimeout(() => {
+    openQuestion(categories[targetIndex].name);
+    spinBtn.disabled = false;
+  }, 3700);
+});
+
+function openQuestion(catName){
+  round++;
+  document.getElementById('round').textContent = Math.min(round, TOTAL_ROUNDS);
+  document.getElementById('prog').style.width = `${(round/TOTAL_ROUNDS)*100}%`;
+
+  let pool = deck.filter(q => q.cat === catName);
+  if (pool.length === 0) pool = deck;
+  const q = pool[Math.floor(Math.random()*pool.length)];
+  deck = deck.filter(item => item !== q);
+  if (deck.length === 0) deck = [...bank].sort(()=>Math.random()-0.5);
+
+  qpanel.style.display = 'block';
+  document.getElementById('qcat').textContent = 'Category: ' + catName;
+  document.getElementById('qtext').textContent = q.q;
+  const optsDiv = document.getElementById('options');
+  optsDiv.innerHTML = '';
+  const explainDiv = document.getElementById('explain');
+  explainDiv.style.display = 'none';
+  const nextBtn = document.getElementById('nextBtn');
+  nextBtn.style.display = 'none';
+
+  q.opts.forEach((opt, idx) => {
+    const b = document.createElement('button');
+    b.className = 'opt';
+    b.textContent = opt;
+    b.onclick = () => {
+      document.querySelectorAll('.opt').forEach(o=>o.disabled=true);
+      if (idx === q.a) {
+        b.classList.add('correct');
+        const gained = 10 + streak*2;
+        score += gained;
+        streak++;
+        showToast(`+${gained} points! 🎉`);
+      } else {
+        b.classList.add('wrong');
+        document.querySelectorAll('.opt')[q.a].classList.add('correct');
+        streak = 0;
+        showToast('Not quite — check the explanation');
+      }
+      document.getElementById('score').textContent = score;
+      document.getElementById('streak').textContent = streak;
+      explainDiv.textContent = 'Why: ' + q.ex;
+      explainDiv.style.display = 'block';
+      if (round >= TOTAL_ROUNDS) {
+        nextBtn.textContent = 'See Final Score →';
+      } else {
+        nextBtn.textContent = 'Next Round →';
+      }
+      nextBtn.style.display = 'inline-block';
+    };
+    optsDiv.appendChild(b);
+  });
+
+  nextBtn.onclick = () => {
+    if (round >= TOTAL_ROUNDS) {
+      finishGame();
+    } else {
+      qpanel.style.display = 'none';
+    }
+  };
+}
+
+function finishGame(){
+  qpanel.style.display = 'none';
+  document.querySelector('.arena').style.display = 'none';
+  spinBtn.style.display = 'none';
+  const end = document.getElementById('endscreen');
+  end.style.display = 'block';
+  const pct = Math.round((score / (TOTAL_ROUNDS*14)) * 100);
+  let title = '🎉 Great Job!';
+  let msg = `You scored ${score} points.`;
+  if (pct >= 80){ title = '🏆 Digital Grammar Champion!'; }
+  else if (pct >= 50){ title = '👍 Nice Work!'; }
+  else { title = '💪 Keep Practicing!'; }
+  document.getElementById('endTitle').textContent = title;
+  document.getElementById('endMsg').textContent = msg + ' Spin again to beat your score!';
+}
+</script>
+</body>
+</html>

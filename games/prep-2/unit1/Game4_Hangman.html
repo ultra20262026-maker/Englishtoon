@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gen Alpha — Hangman</title>
+<style>
+  :root{ --navy:#0B1E33; --navy2:#112B47; --card:#16324F; --cyan:#35D0C9; --green:#8CE99A; --amber:#FFC168; --red:#FF8080; --light:#D7E3EC; --muted:#8FA6BC; }
+  *{box-sizing:border-box;}
+  body{ margin:0; min-height:100vh; background:radial-gradient(circle at 20% 0%, var(--navy2), var(--navy) 65%); font-family:'Segoe UI',Calibri,Arial,sans-serif; color:var(--light); display:flex; flex-direction:column; align-items:center; padding:24px; }
+  h1{color:#fff; font-size:1.6rem; margin:6px 0 2px; text-align:center;}
+  .sub{color:var(--cyan); font-weight:700; letter-spacing:1.5px; font-size:.78rem; text-transform:uppercase; margin-bottom:14px; text-align:center;}
+  .hud{display:flex; gap:12px; margin-bottom:16px; flex-wrap:wrap; justify-content:center;}
+  .pill{background:var(--card); border:1px solid #1E4568; border-radius:999px; padding:7px 16px; font-size:.85rem;}
+  .pill b{color:var(--green);}
+  #qLabel{ color:var(--amber); font-weight:800; font-size:.75rem; letter-spacing:2px; text-transform:uppercase; text-align:center; margin-bottom:6px; }
+  #clue{ max-width:600px; text-align:center; background:var(--card); border:1px solid #1E4568; border-radius:14px; padding:14px 20px; margin-bottom:18px; font-size:1rem; font-style:italic; color:var(--light); }
+  svg{ margin-bottom:10px; }
+  #wordDisplay{ font-size:2rem; font-weight:800; letter-spacing:10px; color:#fff; margin-bottom:22px; text-align:center; }
+  #keyboard{ display:grid; grid-template-columns:repeat(7,1fr); gap:8px; max-width:520px; width:100%; margin-bottom:10px; }
+  .key{ background:var(--card); border:1px solid #1E4568; border-radius:8px; padding:10px 0; font-weight:700; cursor:pointer; text-align:center; color:var(--light); }
+  .key:hover{ border-color:var(--cyan); }
+  .key.used-correct{ background:rgba(140,233,154,.2); border-color:var(--green); color:var(--green); pointer-events:none; }
+  .key.used-wrong{ background:rgba(255,128,128,.2); border-color:var(--red); color:var(--red); pointer-events:none; }
+  button{ font-family:inherit; font-weight:700; font-size:1rem; border:none; border-radius:12px; padding:13px 28px; cursor:pointer; color:var(--navy); background:linear-gradient(135deg, var(--cyan), var(--green)); margin-top:16px; box-shadow:0 8px 20px rgba(53,208,201,.3); }
+  #endscreen{ display:none; text-align:center; margin-top:26px; }
+  #endscreen h2{ font-size:2rem; color:#fff; }
+  footer{ margin-top:24px; color:var(--muted); font-size:.72rem; text-align:center;}
+</style>
+</head>
+<body>
+  <div class="sub">Unit 1 · Gen Alpha</div>
+  <h1>🪢 Hangman: The Little Inventor</h1>
+  <div id="qLabel">❓ Clue</div>
+  <div class="hud">
+    <div class="pill">Word: <b id="wordNum">1</b> / 6</div>
+    <div class="pill">Score: <b id="score">0</b></div>
+    <div class="pill">Wrong: <b id="wrongCount">0</b> / 6</div>
+  </div>
+  <div id="clue"></div>
+
+  <svg id="gallows" width="160" height="180" viewBox="0 0 160 180">
+    <line x1="10" y1="170" x2="110" y2="170" stroke="#8FA6BC" stroke-width="4"/>
+    <line x1="30" y1="170" x2="30" y2="10" stroke="#8FA6BC" stroke-width="4"/>
+    <line x1="30" y1="10" x2="100" y2="10" stroke="#8FA6BC" stroke-width="4"/>
+    <line x1="100" y1="10" x2="100" y2="30" stroke="#8FA6BC" stroke-width="4"/>
+    <circle id="p-head" cx="100" cy="45" r="15" stroke="#35D0C9" stroke-width="3" fill="none" visibility="hidden"/>
+    <line id="p-body" x1="100" y1="60" x2="100" y2="105" stroke="#35D0C9" stroke-width="3" visibility="hidden"/>
+    <line id="p-armL" x1="100" y1="75" x2="80" y2="95" stroke="#35D0C9" stroke-width="3" visibility="hidden"/>
+    <line id="p-armR" x1="100" y1="75" x2="120" y2="95" stroke="#35D0C9" stroke-width="3" visibility="hidden"/>
+    <line id="p-legL" x1="100" y1="105" x2="80" y2="140" stroke="#35D0C9" stroke-width="3" visibility="hidden"/>
+    <line id="p-legR" x1="100" y1="105" x2="120" y2="140" stroke="#35D0C9" stroke-width="3" visibility="hidden"/>
+  </svg>
+
+  <div id="wordDisplay"></div>
+  <div id="keyboard"></div>
+  <button id="restartBtn" style="display:none;">Next Word</button>
+
+  <div id="endscreen">
+    <h2 id="endTitle"></h2>
+    <p id="endMsg" style="color:var(--muted); font-size:1.05rem;"></p>
+    <button onclick="location.reload()">Play Again</button>
+  </div>
+  <footer>Original word list · Unit 1, Lesson 4: Reading — The Little Inventor</footer>
+
+<script>
+const words = [
+  { word:"CURIOUS", clue:"Eager to learn and explore new things (this describes Amal)" },
+  { word:"IDENTITY", clue:"Who you really are — what makes you special and unique" },
+  { word:"CREATIVE", clue:"Having original ideas and imagination (the robot Amal built)" },
+  { word:"ENCOURAGED", clue:"Gave someone support and confidence to keep trying" },
+  { word:"ROBOT", clue:"A machine that Amal decided to build for the school fair" },
+  { word:"STRANGE", clue:"Unusual — what some classmates unfairly called Amal" },
+];
+
+const bodyParts = ["p-head","p-body","p-armL","p-armR","p-legL","p-legR"];
+let wordIdx = 0, score = 0, wrongCount = 0, guessed = new Set();
+
+function loadWord(){
+  if (wordIdx >= words.length) { finishGame(); return; }
+  document.getElementById('wordNum').textContent = wordIdx + 1;
+  wrongCount = 0;
+  guessed = new Set();
+  document.getElementById('wrongCount').textContent = 0;
+  bodyParts.forEach(id => document.getElementById(id).setAttribute('visibility','hidden'));
+  document.getElementById('clue').textContent = words[wordIdx].clue;
+  document.getElementById('restartBtn').style.display = 'none';
+  renderWord();
+  renderKeyboard();
+}
+
+function renderWord(){
+  const w = words[wordIdx].word;
+  document.getElementById('wordDisplay').textContent = w.split('').map(ch => guessed.has(ch) ? ch : '_').join(' ');
+}
+
+function renderKeyboard(){
+  const kb = document.getElementById('keyboard');
+  kb.innerHTML = '';
+  'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(letter => {
+    const k = document.createElement('div');
+    k.className = 'key';
+    k.textContent = letter;
+    k.onclick = () => guessLetter(letter, k);
+    kb.appendChild(k);
+  });
+}
+
+function guessLetter(letter, keyEl){
+  const w = words[wordIdx].word;
+  if (w.includes(letter)) {
+    guessed.add(letter);
+    keyEl.classList.add('used-correct');
+    renderWord();
+    if (w.split('').every(ch => guessed.has(ch))) {
+      score += 10;
+      document.getElementById('score').textContent = score;
+      document.getElementById('restartBtn').style.display = 'inline-block';
+      document.querySelectorAll('.key').forEach(k => k.onclick = null);
+    }
+  } else {
+    keyEl.classList.add('used-wrong');
+    document.getElementById(bodyParts[wrongCount]).setAttribute('visibility','visible');
+    wrongCount++;
+    document.getElementById('wrongCount').textContent = wrongCount;
+    if (wrongCount >= bodyParts.length) {
+      document.getElementById('wordDisplay').textContent = w.split('').join(' ');
+      document.getElementById('restartBtn').style.display = 'inline-block';
+      document.querySelectorAll('.key').forEach(k => k.onclick = null);
+    }
+  }
+}
+
+document.getElementById('restartBtn').addEventListener('click', () => { wordIdx++; loadWord(); });
+
+function finishGame(){
+  document.getElementById('clue').style.display = 'none';
+  document.getElementById('gallows').style.display = 'none';
+  document.getElementById('wordDisplay').style.display = 'none';
+  document.getElementById('keyboard').style.display = 'none';
+  document.getElementById('restartBtn').style.display = 'none';
+  const end = document.getElementById('endscreen');
+  end.style.display = 'block';
+  document.getElementById('endTitle').textContent = '🎉 All Words Complete!';
+  document.getElementById('endMsg').textContent = `Final score: ${score} points across ${words.length} words.`;
+}
+
+loadWord();
+</script>
+</body>
+</html>

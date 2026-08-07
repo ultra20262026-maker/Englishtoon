@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>امتحان — الدرس الرابع — The Lion and the Fox</title>
+<style>
+:root{--ink:#14303A;--bg:#F3F8F9;--card:#FFFFFF;--brand:#B4552F;--brand2:#E08A55;
+ --ok:#17A673;--bad:#E14D4D;--muted:#6C8791;--line:#DCE7EB}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;background:var(--bg);
+ color:var(--ink);padding:14px;line-height:1.6}
+.wrap{max-width:640px;margin:0 auto;padding-bottom:30px}
+header{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;border-radius:18px;padding:20px}
+h1{font-size:1.3rem;line-height:1.4}
+.sub{font-size:.85rem;opacity:.92;margin-top:6px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-top:14px;
+ box-shadow:0 2px 10px rgba(20,48,58,.06)}
+label{display:block;font-weight:700;font-size:.9rem;margin:12px 0 6px}
+input{width:100%;font-family:inherit;font-size:1rem;padding:12px;border:2px solid var(--line);
+ border-radius:12px;background:#fff;color:var(--ink)}
+input:focus{outline:none;border-color:var(--brand)}
+.btn{width:100%;font-family:inherit;font-size:1.05rem;font-weight:800;border:0;border-radius:14px;
+ padding:14px;margin-top:14px;cursor:pointer;background:var(--brand);color:#fff;box-shadow:0 4px 0 rgba(0,0,0,.18)}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.18)}
+.btn.g{background:#25D366}.btn.b{background:#4A6CF7}.btn.gray{background:#5B7480}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.bar{position:sticky;top:0;z-index:5;background:var(--card);border:1px solid var(--line);border-radius:14px;
+ padding:10px 14px;display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:.88rem;margin-top:14px}
+.q{font-weight:800;font-size:1rem;direction:ltr;text-align:left;margin-bottom:10px}
+.qn{display:inline-block;background:var(--brand);color:#fff;border-radius:8px;padding:1px 9px;font-size:.8rem;margin-left:8px}
+.opts{display:grid;gap:8px}
+.opt{display:flex;align-items:center;gap:10px;border:2px solid var(--line);border-radius:12px;padding:11px 13px;
+ cursor:pointer;background:#fff;direction:ltr;text-align:left;font-size:.98rem;font-family:inherit;color:var(--ink)}
+.opt .k{width:26px;height:26px;border-radius:50%;background:#EEF3F5;display:flex;align-items:center;
+ justify-content:center;font-weight:800;font-size:.8rem;flex:0 0 auto}
+.opt.sel{border-color:var(--brand);background:#F0F9FB}
+.opt.right{border-color:var(--ok);background:#E9F8F1}
+.opt.right .k{background:var(--ok);color:#fff}
+.opt.wrong{border-color:var(--bad);background:#FCECEC}
+.opt.wrong .k{background:var(--bad);color:#fff}
+.tag{font-size:.8rem;font-weight:800;margin-top:8px}
+.tag.ok{color:var(--ok)}.tag.no{color:var(--bad)}
+.score{text-align:center}
+.big{font-size:3rem;font-weight:900;color:var(--brand)}
+.pct{font-size:1.1rem;font-weight:800;color:var(--muted)}
+.ring{width:150px;height:150px;margin:6px auto;border-radius:50%;display:flex;align-items:center;justify-content:center;
+ flex-direction:column}
+.list{margin-top:12px;font-size:.88rem}
+.list div{padding:8px 0;border-bottom:1px dashed var(--line);direction:ltr;text-align:left}
+.note{font-size:.82rem;color:var(--muted);margin-top:10px;text-align:center}
+.code{font-family:ui-monospace,monospace;font-weight:800;letter-spacing:2px;background:#EEF3F5;border-radius:8px;
+ padding:6px 10px;display:inline-block;margin-top:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>🦊 امتحان الدرس الرابع</h1>
+  <div class="sub">الوحدة الثالثة · الدرس الرابع — The Lion and the Fox · عدد الأسئلة: <b id="qcount">0</b> · الدرجة النهائية: <b id="total">0</b></div>
+</header>
+
+<!-- 1. بيانات الطالب -->
+<section id="s1">
+  <div class="card">
+    <p style="font-weight:700">قبل ما تبدأ، اكتب بياناتك:</p>
+    <label>اسم الطالب</label>
+    <input id="stName" placeholder="مثال: أحمد محمد">
+    <button class="btn" onclick="begin()">ابدأ الامتحان</button>
+    <p class="note">التصحيح فوري بعد التسليم، وبعدين تبعت النتيجة للمدرس.</p>
+  </div>
+</section>
+
+<!-- 2. الأسئلة -->
+<section id="s2" hidden>
+  <div class="bar"><span id="prog">0 / 0</span><span id="timer">00:00</span></div>
+  <div id="quiz"></div>
+  <button class="btn" id="submitBtn" onclick="finish()">تسليم الامتحان</button>
+</section>
+
+<!-- 3. النتيجة -->
+<section id="s3" hidden>
+  <div class="card score">
+    <div class="ring" id="ring"><div class="big" id="scoreN">0</div><div class="pct" id="scoreP">0%</div></div>
+    <h2 id="verdict" style="font-size:1.15rem"></h2>
+    <p class="note" id="who"></p>
+    <div class="code" id="code"></div>
+  </div>
+
+  <div class="card">
+    <p style="font-weight:800">مراجعة إجاباتك</p>
+    <div class="list" id="review"></div>
+  </div>
+
+  <div class="card">
+    <p style="font-weight:800">إرسال النتيجة للمدرس</p>
+    <label>اسم المدرس</label>
+    <input id="tName" placeholder="مثال: مستر محمود">
+    <label>رقم واتساب المدرس (اختياري — بكود الدولة)</label>
+    <input id="tPhone" placeholder="مثال: 201234567890" inputmode="numeric">
+    <label>إيميل المدرس (اختياري)</label>
+    <input id="tMail" placeholder="teacher@example.com">
+    <button class="btn g" onclick="sendWA()">إرسال بالواتساب</button>
+    <button class="btn b" onclick="sendMail()">إرسال بالإيميل</button>
+    <button class="btn gray" onclick="copyRes()">نسخ النتيجة</button>
+    <p class="note" id="sent"></p>
+  </div>
+
+  <button class="btn" onclick="location.reload()">إعادة الامتحان</button>
+</section>
+
+</div>
+
+<script>
+const QS=[{"q": "The old lion was too weak to ___ animals.", "opts": ["hunt", "help", "hear", "hold"], "ans": 0}, {"q": "The lion pretended to be very ___ .", "opts": ["sick", "happy", "strong", "fast"], "ans": 0}, {"q": "The old lion lived in a ___ .", "opts": ["cave", "house", "park", "market"], "ans": 0}, {"q": "A clever plan to cheat someone is a ___ .", "opts": ["trick", "tail", "trunk", "truck"], "ans": 0}, {"q": "The fox was clever and ___ .", "opts": ["wise", "weak", "wild", "warm"], "ans": 0}, {"q": "The fox saw many ___ going into the cave.", "opts": ["footprints", "leaves", "claws", "visitors"], "ans": 0}, {"q": "Which word has the blend 'dr'?", "opts": ["drum", "dog", "door", "down"], "ans": 0}, {"q": "Which word has the blend 'fr'?", "opts": ["fruit", "fish", "fun", "face"], "ans": 0}, {"q": "Which word starts with the blend 'bl'?", "opts": ["black", "back", "bank", "bath"], "ans": 0}, {"q": "Which word starts with the blend 'st'?", "opts": ["star", "sun", "set", "sit"], "ans": 0}];
+const LESSON="الوحدة الثالثة · الدرس الرابع — The Lion and the Fox";
+const S={i:0,answers:[],t0:0,tick:null,name:"",cls:""};
+const $=i=>document.getElementById(i);
+const shuffle=a=>a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(v=>v[1]);
+const K=["A","B","C","D"];
+
+$("qcount").textContent=QS.length;
+$("total").textContent=QS.length;
+
+function begin(){
+ S.name=$("stName").value.trim()||"طالب";
+ 
+ $("s1").hidden=true;$("s2").hidden=false;
+ QS.forEach(q=>{q._opts=shuffle(q.opts.map((o,i)=>({t:o,ok:i===q.ans})));});
+ render();
+ S.t0=Date.now();
+ S.tick=setInterval(()=>{const s=Math.floor((Date.now()-S.t0)/1000);
+  $("timer").textContent=String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0");},1000);
+}
+function render(){
+ const box=$("quiz");box.innerHTML="";
+ QS.forEach((q,qi)=>{
+  const c=document.createElement("div");c.className="card";
+  const h=document.createElement("div");h.className="q";
+  h.innerHTML=`<span class="qn">${qi+1}</span>${q.q}`;
+  c.appendChild(h);
+  const o=document.createElement("div");o.className="opts";o.id="o"+qi;
+  q._opts.forEach((op,oi)=>{
+   const b=document.createElement("button");b.className="opt";b.type="button";
+   b.innerHTML=`<span class="k">${K[oi]}</span><span>${op.t}</span>`;
+   b.onclick=()=>pick(qi,oi);
+   o.appendChild(b);
+  });
+  c.appendChild(o);
+  const t=document.createElement("div");t.className="tag";t.id="t"+qi;c.appendChild(t);
+  box.appendChild(c);
+ });
+ updateProg();
+}
+function pick(qi,oi){
+ if(S.done)return;
+ S.answers[qi]=oi;
+ [...$("o"+qi).children].forEach((b,i)=>b.classList.toggle("sel",i===oi));
+ updateProg();
+}
+function updateProg(){
+ const done=S.answers.filter(a=>a!==undefined).length;
+ $("prog").textContent=done+" / "+QS.length;
+}
+function finish(){
+ const missing=QS.length-S.answers.filter(a=>a!==undefined).length;
+ if(missing>0&&!confirm("فيه "+missing+" سؤال من غير إجابة. تسلّم كده؟"))return;
+ S.done=true;clearInterval(S.tick);
+ let right=0;const review=[];
+ QS.forEach((q,qi)=>{
+  const sel=S.answers[qi];
+  const correctIdx=q._opts.findIndex(o=>o.ok);
+  const ok=sel===correctIdx;
+  if(ok)right++;
+  [...$("o"+qi).children].forEach((b,i)=>{
+   b.classList.remove("sel");
+   if(i===correctIdx)b.classList.add("right");
+   if(i===sel&&!ok)b.classList.add("wrong");
+   b.disabled=true;
+  });
+  const tag=$("t"+qi);
+  tag.className="tag "+(ok?"ok":"no");
+  tag.textContent=ok?"✓ إجابة صحيحة":"✗ إجابة خطأ — الصح: "+q._opts[correctIdx].t;
+  if(!ok)review.push({n:qi+1,q:q.q,c:q._opts[correctIdx].t,
+    y:sel===undefined?"لم يجب":q._opts[sel].t});
+ });
+ S.right=right;S.review=review;
+ const pct=Math.round(right/QS.length*100);
+ const secs=Math.floor((Date.now()-S.t0)/1000);
+ S.time=String(Math.floor(secs/60)).padStart(2,"0")+":"+String(secs%60).padStart(2,"0");
+ $("s2").hidden=true;$("s3").hidden=false;
+ $("scoreN").textContent=right+" / "+QS.length;
+ $("scoreP").textContent=pct+"%";
+ $("verdict").textContent=pct===100?"ممتاز جدًا! درجة كاملة 🏆":pct>=80?"ممتاز 🌟":pct>=60?"جيد — محتاج مراجعة بسيطة 👍":pct>=40?"مقبول — راجع الدرس تاني 📖":"محتاج تذاكر الدرس من الأول 💪";
+ $("who").textContent=S.name+" · الزمن "+S.time;
+ S.code=makeCode();
+ $("code").textContent="كود التحقق: "+S.code;
+ const rv=$("review");
+ if(!review.length){rv.innerHTML="<div>مفيش أخطاء — كل الإجابات صح ✅</div>";}
+ else rv.innerHTML=review.map(r=>`<div><b>${r.n}.</b> ${r.q}<br>
+   <span style="color:#E14D4D">إجابتك: ${r.y}</span> — <span style="color:#17A673">الصح: ${r.c}</span></div>`).join("");
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+function makeCode(){
+ const raw=S.name+"|"+S.right+"|"+QS.length+"|"+LESSON;
+ let h=0;for(let i=0;i<raw.length;i++){h=(h*31+raw.charCodeAt(i))>>>0;}
+ return h.toString(36).toUpperCase().slice(0,6).padStart(6,"0");
+}
+function resultText(){
+ const t=$("tName").value.trim();
+ const pct=Math.round(S.right/QS.length*100);
+ let s="📋 نتيجة امتحان إلكتروني\n";
+ s+="الدرس: "+LESSON+"\n";
+ if(t)s+="المدرس: "+t+"\n";
+ s+="الطالب: "+S.name+"\n";
+ s+="الدرجة: "+S.right+" من "+QS.length+"  ("+pct+"%)\n";
+ s+="الزمن: "+S.time+"\nكود التحقق: "+S.code+"\n";
+ if(S.review.length){s+="\nالأسئلة الخطأ:\n";
+  S.review.forEach(r=>{s+="• س"+r.n+": إجابته ("+r.y+") — الصح ("+r.c+")\n";});}
+ else s+="\nمفيش أخطاء ✅\n";
+ s+="\nالتاريخ: "+new Date().toLocaleString("ar-EG");
+ return s;
+}
+function needTeacher(){
+ if(!$("tName").value.trim()){alert("اكتب اسم المدرس الأول");return false;}
+ return true;
+}
+function sendWA(){
+ if(!needTeacher())return;
+ const ph=$("tPhone").value.replace(/[^0-9]/g,"");
+ const url=(ph?"https://wa.me/"+ph+"?text=":"https://wa.me/?text=")+encodeURIComponent(resultText());
+ window.open(url,"_blank");$("sent").textContent="اتفتح الواتساب — دوس إرسال ✅";
+}
+function sendMail(){
+ if(!needTeacher())return;
+ const m=$("tMail").value.trim();
+ const sub=encodeURIComponent("نتيجة امتحان "+LESSON+" — "+S.name);
+ location.href="mailto:"+m+"?subject="+sub+"&body="+encodeURIComponent(resultText());
+ $("sent").textContent="اتفتح برنامج الإيميل ✅";
+}
+function copyRes(){
+ if(!needTeacher())return;
+ const txt=resultText();
+ if(navigator.clipboard&&navigator.clipboard.writeText){
+   navigator.clipboard.writeText(txt).then(()=>{$("sent").textContent="النتيجة اتنسخت — الصقها للمدرس ✅";});
+ } else {
+   const ta=document.createElement("textarea");ta.value=txt;document.body.appendChild(ta);
+   ta.select();document.execCommand("copy");ta.remove();
+   $("sent").textContent="النتيجة اتنسخت ✅";
+ }
+}
+</script>
+</body>
+</html>

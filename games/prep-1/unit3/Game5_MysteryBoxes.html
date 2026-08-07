@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Role Models — Mystery Boxes</title>
+<style>
+  :root{ --navy:#0B1E33; --navy2:#112B47; --card:#16324F; --cyan:#35D0C9; --green:#8CE99A; --amber:#FFC168; --red:#FF8080; --light:#D7E3EC; --muted:#8FA6BC; }
+  *{box-sizing:border-box;}
+  body{ margin:0; min-height:100vh; background:radial-gradient(circle at 50% 100%, var(--navy2), var(--navy) 65%);
+    font-family:'Segoe UI',Calibri,Arial,sans-serif; color:var(--light); display:flex; flex-direction:column; align-items:center; padding:24px; }
+  h1{color:#fff; font-size:1.7rem; margin:6px 0 2px; text-align:center;}
+  .sub{color:var(--cyan); font-weight:700; letter-spacing:2px; font-size:.8rem; text-transform:uppercase; margin-bottom:14px;}
+  .hud{display:flex; gap:14px; margin-bottom:16px; flex-wrap:wrap; justify-content:center;}
+  .pill{background:var(--card); border:1px solid #1E4568; border-radius:999px; padding:8px 18px; font-size:.9rem;}
+  .pill b{color:var(--green);}
+  #boxes{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; max-width:560px; width:100%; margin-bottom:10px; }
+  .box{
+    aspect-ratio:1/1; background:linear-gradient(135deg,#1a3a5c,#12233a); border:2px solid var(--amber); border-radius:14px;
+    display:flex; align-items:center; justify-content:center; font-size:2.4rem; cursor:pointer; transition:.2s;
+  }
+  .box:hover{ transform:translateY(-4px) scale(1.03); }
+  .box.opened{ opacity:.35; cursor:default; pointer-events:none; border-color:#334; }
+  #qmodal{ display:none; position:fixed; inset:0; background:rgba(4,10,18,.88); z-index:100; align-items:center; justify-content:center; padding:20px; }
+  #qcardbox{ background:var(--card); border:1px solid #1E4568; border-radius:18px; padding:28px; max-width:600px; width:100%; }
+  #ptsReveal{ text-align:center; font-size:1.6rem; font-weight:800; color:var(--amber); margin-bottom:14px; }
+  #qtext{ color:#fff; font-size:1.2rem; font-weight:700; margin-bottom:18px; line-height:1.4; }
+  .opt{ display:block; width:100%; text-align:left; background:var(--navy2); color:var(--light); border:1px solid #1E4568;
+    border-radius:10px; padding:13px 16px; margin-bottom:10px; font-size:1rem; cursor:pointer; }
+  .opt:hover{ border-color:var(--cyan); background:#183a5c; }
+  .opt.correct{ background:rgba(140,233,154,.18); border-color:var(--green); color:var(--green); font-weight:700; }
+  .opt.wrong{ background:rgba(255,128,128,.18); border-color:var(--red); color:var(--red); font-weight:700; }
+  .explain{ margin-top:12px; padding:12px 14px; background:var(--navy2); border-radius:10px; font-size:.9rem; color:var(--muted); display:none;}
+  .btn-close{ margin-top:16px; display:none; font-family:inherit; font-weight:700; font-size:1rem; border:none; border-radius:10px;
+    padding:12px 24px; cursor:pointer; color:var(--navy); background:linear-gradient(135deg, var(--cyan), var(--green)); }
+  #endscreen{ display:none; text-align:center; margin-top:26px; }
+  #endscreen h2{ font-size:2rem; color:#fff; }
+  button.replay{ font-family:inherit; font-weight:700; font-size:1rem; border:none; border-radius:12px; padding:13px 28px;
+    cursor:pointer; color:var(--navy); background:linear-gradient(135deg, var(--cyan), var(--green)); margin-top:16px; }
+  footer{ margin-top:24px; color:var(--muted); font-size:.75rem; text-align:center;}
+</style>
+</head>
+<body>
+  <div class="sub">Unit 3 · Role Models</div>
+  <h1>🎁 Mystery Boxes: Past Simple Edition</h1>
+  <div class="hud">
+    <div class="pill">Opened: <b id="openedCount">0</b> / 9</div>
+    <div class="pill">Score: <b id="score">0</b></div>
+  </div>
+
+  <div id="boxes"></div>
+
+  <div id="qmodal">
+    <div id="qcardbox">
+      <div id="ptsReveal"></div>
+      <div id="qtext"></div>
+      <div id="options"></div>
+      <div class="explain" id="explain"></div>
+      <button class="btn-close" id="closeBtn">Continue →</button>
+    </div>
+  </div>
+
+  <div id="endscreen">
+    <h2 id="endTitle"></h2>
+    <p id="endMsg" style="color:var(--muted); font-size:1.05rem;"></p>
+    <button class="replay" onclick="location.reload()">Play Again</button>
+  </div>
+
+  <footer>Original questions · Unit 3 grammar focus: Past Simple Tense</footer>
+
+<script>
+const pointValues = [10, 20, 30, 40, 50, 15, 25, 35, 45];
+const shuffledPoints = [...pointValues].sort(()=>Math.random()-0.5);
+
+const questions = [
+  {q:"Ahmed El Mansy ___________ (protect) his country.", opts:["protect","protected","protects","protecting"], a:1, ex:"Regular verb + -ed."},
+  {q:"___________ she achieve something amazing?", opts:["Do","Does","Did","Is"], a:2, ex:"Past questions use 'Did'."},
+  {q:"They ___________ (not / believe) it was possible.", opts:["didn't believe","doesn't believe","not believed","didn't believed"], a:0, ex:"'Didn't' + base verb."},
+  {q:"He ___________ (become) a role model for many.", opts:["become","became","becomes","becoming"], a:1, ex:"Irregular: become → became."},
+  {q:"We ___________ (be) inspired by her story.", opts:["was","is","were","are"], a:2, ex:"'We' + were."},
+  {q:"She ___________ (teach) students for many years.", opts:["teach","taught","teached","teaches"], a:1, ex:"Irregular: teach → taught."},
+  {q:"___________ he win the state award?", opts:["Do","Does","Did","Was"], a:2, ex:"Past questions use 'Did'."},
+  {q:"I ___________ (read) about her achievements.", opts:["read","readed","reads","reading"], a:0, ex:"'Read' is irregular but spelled the same in past tense."},
+  {q:"They ___________ (respect) her decision.", opts:["respect","respects","respected","respecting"], a:2, ex:"Regular verb + -ed."},
+];
+
+let score = 0;
+let openedCount = 0;
+
+const boxes = document.getElementById('boxes');
+function render(){
+  boxes.innerHTML = '';
+  questions.forEach((q, i) => {
+    const el = document.createElement('div');
+    el.className = 'box';
+    el.textContent = '🎁';
+    el.dataset.idx = i;
+    el.addEventListener('click', () => openBox(i, el));
+    boxes.appendChild(el);
+  });
+}
+render();
+
+function openBox(idx, el){
+  if (el.classList.contains('opened')) return;
+  const q = questions[idx];
+  const pts = shuffledPoints[idx];
+  document.getElementById('ptsReveal').textContent = `You revealed: ${pts} points!`;
+  document.getElementById('qtext').textContent = q.q;
+  const optsDiv = document.getElementById('options');
+  optsDiv.innerHTML = '';
+  const explainDiv = document.getElementById('explain');
+  explainDiv.style.display = 'none';
+  const closeBtn = document.getElementById('closeBtn');
+  closeBtn.style.display = 'none';
+
+  q.opts.forEach((opt, i) => {
+    const b = document.createElement('button');
+    b.className = 'opt';
+    b.textContent = opt;
+    b.onclick = () => {
+      document.querySelectorAll('.opt').forEach(o => o.onclick = null);
+      el.classList.add('opened');
+      el.textContent = '✔️';
+      openedCount++;
+      document.getElementById('openedCount').textContent = openedCount;
+      if (i === q.a) {
+        b.classList.add('correct');
+        score += pts;
+      } else {
+        b.classList.add('wrong');
+        document.querySelectorAll('.opt')[q.a].classList.add('correct');
+      }
+      document.getElementById('score').textContent = score;
+      explainDiv.textContent = 'Why: ' + q.ex;
+      explainDiv.style.display = 'block';
+      closeBtn.style.display = 'inline-block';
+    };
+    optsDiv.appendChild(b);
+  });
+
+  document.getElementById('qmodal').style.display = 'flex';
+}
+
+document.getElementById('closeBtn').addEventListener('click', () => {
+  document.getElementById('qmodal').style.display = 'none';
+  if (openedCount === questions.length) finishGame();
+});
+
+function finishGame(){
+  document.getElementById('boxes').style.display = 'none';
+  const end = document.getElementById('endscreen');
+  end.style.display = 'block';
+  let title = '🎉 All Boxes Opened!';
+  if (score >= 220) title = '🏆 Treasure Master!';
+  document.getElementById('endTitle').textContent = title;
+  document.getElementById('endMsg').textContent = `Final score: ${score} points across ${questions.length} boxes.`;
+}
+</script>
+</body>
+</html>

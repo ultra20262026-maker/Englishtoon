@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Global Citizens — Labyrinth</title>
+<style>
+  :root{ --navy:#0B1E33; --navy2:#112B47; --card:#16324F; --cyan:#35D0C9; --green:#8CE99A; --amber:#FFC168; --red:#FF8080; --light:#D7E3EC; --muted:#8FA6BC; }
+  *{box-sizing:border-box;}
+  body{ margin:0; min-height:100vh; background:radial-gradient(circle at 50% 100%, #1a1030, var(--navy) 65%);
+    font-family:'Segoe UI',Calibri,Arial,sans-serif; color:var(--light); display:flex; flex-direction:column; align-items:center; padding:24px; }
+  h1{color:#fff; font-size:1.7rem; margin:6px 0 2px; text-align:center;}
+  .sub{color:var(--cyan); font-weight:700; letter-spacing:2px; font-size:.8rem; text-transform:uppercase; margin-bottom:14px; text-align:center;}
+  .hud{display:flex; gap:14px; margin-bottom:16px; flex-wrap:wrap; justify-content:center;}
+  .pill{background:var(--card); border:1px solid #1E4568; border-radius:999px; padding:8px 18px; font-size:.9rem;}
+  .pill b{color:var(--green);}
+  #chamber{ background:var(--card); border:1px solid #1E4568; border-radius:18px; padding:28px; max-width:600px; width:100%; text-align:center; }
+  #chamberIcon{ font-size:3rem; margin-bottom:10px; }
+  #chamberText{ color:#fff; font-size:1.15rem; font-weight:700; margin-bottom:20px; line-height:1.4; }
+  .doorRow{ display:flex; gap:14px; flex-wrap:wrap; justify-content:center; }
+  .door-btn{ flex:1; min-width:140px; background:var(--navy2); border:1px solid #1E4568; color:var(--light); border-radius:12px;
+    padding:16px; font-size:1rem; font-weight:700; cursor:pointer; }
+  .door-btn:hover{ border-color:var(--cyan); background:#183a5c; }
+  .door-btn.correct{ background:rgba(140,233,154,.18); border-color:var(--green); color:var(--green); }
+  .door-btn.wrong{ background:rgba(255,128,128,.18); border-color:var(--red); color:var(--red); }
+  .explain{ margin-top:14px; padding:12px 14px; background:var(--navy2); border-radius:10px; font-size:.9rem; color:var(--muted); display:none;}
+  button.next{ margin-top:16px; display:none; font-family:inherit; font-weight:700; font-size:1rem; border:none; border-radius:10px;
+    padding:12px 24px; cursor:pointer; color:var(--navy); background:linear-gradient(135deg, var(--cyan), var(--green)); }
+  #endscreen{ display:none; text-align:center; margin-top:26px; }
+  #endscreen h2{ font-size:2rem; color:#fff; }
+  button.replay{ font-family:inherit; font-weight:700; font-size:1rem; border:none; border-radius:12px; padding:13px 28px;
+    cursor:pointer; color:var(--navy); background:linear-gradient(135deg, var(--cyan), var(--green)); margin-top:16px; }
+  .progress{ width:100%; max-width:600px; height:10px; background:var(--card); border-radius:6px; overflow:hidden; margin-bottom:16px;}
+  .progress-fill{ height:100%; background:linear-gradient(90deg, var(--cyan), var(--green)); width:0%; transition:width .4s; }
+  footer{ margin-top:20px; color:var(--muted); font-size:.75rem; text-align:center;}
+</style>
+</head>
+<body>
+  <div class="sub">Unit 6 · Global Citizens</div>
+  <h1>🌀 Labyrinth: The Path of the Global Citizen</h1>
+  <div class="hud">
+    <div class="pill">Chamber: <b id="chamberNum">1</b> / 6</div>
+    <div class="pill">Score: <b id="score">0</b></div>
+  </div>
+  <div class="progress"><div class="progress-fill" id="prog"></div></div>
+
+  <div id="chamber">
+    <div id="chamberIcon">🚪</div>
+    <div id="chamberText"></div>
+    <div class="doorRow" id="doors"></div>
+    <div class="explain" id="explain"></div>
+    <button class="next" id="nextBtn">Enter Next Chamber →</button>
+  </div>
+
+  <div id="endscreen">
+    <h2 id="endTitle"></h2>
+    <p id="endMsg" style="color:var(--muted); font-size:1.05rem;"></p>
+    <button class="replay" onclick="location.reload()">Play Again</button>
+  </div>
+
+  <footer>Original questions · Unit 6 grammar focus: Must/Mustn't + Connectors</footer>
+
+<script>
+const chambers = [
+  {icon:"🚪", text:"Choose the correct door: 'We ___________ (must) recycle at school.'", opts:["must recycle","must recycles","musts recycle"], a:0, ex:"'Must' + base verb."},
+  {icon:"🌊", text:"Choose the correct door: 'You ___________ (mustn't) pollute the ocean.'", opts:["mustn't pollutes","mustn't pollute","don't must pollute"], a:1, ex:"'Mustn't' + base verb."},
+  {icon:"🔥", text:"Choose the correct door: 'They worked hard, ___________ they succeeded.'", opts:["but","so","although"], a:1, ex:"'So' shows a result."},
+  {icon:"🌲", text:"Choose the correct door: 'We planted trees ___________ we love nature.'", opts:["because","but","so"], a:0, ex:"'Because' gives a reason."},
+  {icon:"⚡", text:"Choose the correct door: '___________ it was raining, we still cleaned the park.'", opts:["Because","So","Although"], a:2, ex:"'Although' starts a contrast clause."},
+  {icon:"🏆", text:"Choose the correct door: 'Global citizens ___________ (must) care for the planet.'", opts:["must care","must cares","musts care"], a:0, ex:"'Must' + base verb."},
+];
+
+let idx = 0;
+let score = 0;
+
+function loadChamber(){
+  if (idx >= chambers.length) { finishGame(); return; }
+  document.getElementById('chamberNum').textContent = idx + 1;
+  document.getElementById('prog').style.width = `${(idx/chambers.length)*100}%`;
+  const c = chambers[idx];
+  document.getElementById('chamberIcon').textContent = c.icon;
+  document.getElementById('chamberText').textContent = c.text;
+  const doorsDiv = document.getElementById('doors');
+  doorsDiv.innerHTML = '';
+  const explainDiv = document.getElementById('explain');
+  explainDiv.style.display = 'none';
+  document.getElementById('nextBtn').style.display = 'none';
+
+  c.opts.forEach((opt, i) => {
+    const b = document.createElement('button');
+    b.className = 'door-btn';
+    b.textContent = opt;
+    b.onclick = () => {
+      document.querySelectorAll('.door-btn').forEach(o => o.onclick = null);
+      if (i === c.a) {
+        b.classList.add('correct');
+        score += 15;
+      } else {
+        b.classList.add('wrong');
+        document.querySelectorAll('.door-btn')[c.a].classList.add('correct');
+      }
+      document.getElementById('score').textContent = score;
+      explainDiv.textContent = 'Why: ' + c.ex;
+      explainDiv.style.display = 'block';
+      document.getElementById('nextBtn').style.display = 'inline-block';
+      document.getElementById('nextBtn').textContent = (idx === chambers.length - 1) ? 'Exit the Labyrinth →' : 'Enter Next Chamber →';
+    };
+    doorsDiv.appendChild(b);
+  });
+}
+
+document.getElementById('nextBtn').addEventListener('click', () => {
+  idx++;
+  loadChamber();
+});
+
+function finishGame(){
+  document.getElementById('chamber').style.display = 'none';
+  const end = document.getElementById('endscreen');
+  end.style.display = 'block';
+  let title = '🎉 You Escaped the Labyrinth!';
+  if (score >= 75) title = '🏆 Labyrinth Master!';
+  document.getElementById('endTitle').textContent = title;
+  document.getElementById('endMsg').textContent = `Final score: ${score} points across ${chambers.length} chambers.`;
+}
+
+loadChamber();
+</script>
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Treasure of the Storm | How's the Weather in Your City?</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Poppins:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --deep:#062b3a; --deep2:#0a3f52; --turq:#2E8B8B; --gold:#D4AF37; --sand:#C89F65; --papyrus:#F4EBD9; --red:#C0392B; --green:#3FA34D; }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  body{
+    margin:0; min-height:100vh; font-family:'Poppins',sans-serif; color:var(--papyrus);
+    background:linear-gradient(180deg,#083b4d 0%, #062b3a 55%, #031722 100%);
+    display:flex; align-items:center; justify-content:center; padding:16px; overflow-x:hidden;
+  }
+  .bubble{position:fixed; bottom:-20px; width:8px; height:8px; border-radius:50%; background:rgba(244,235,217,.25); animation:rise linear forwards;}
+  @keyframes rise{to{transform:translateY(-110vh) translateX(20px); opacity:0;}}
+  .wrap{max-width:820px; width:100%; position:relative; z-index:2;}
+  .card{background:linear-gradient(160deg,var(--deep2),#052330 85%); border:2px solid #1c6a6a; border-radius:18px; padding:26px; box-shadow:0 20px 60px rgba(0,0,0,.55);}
+  h1{font-family:'Cinzel',serif; color:var(--gold); text-align:center; font-size:clamp(20px,4.5vw,28px); margin:0 0 2px;}
+  .sub{text-align:center; color:var(--sand); font-size:14px; margin-bottom:16px;}
+  .hud{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:16px;}
+  .pill{font-family:'Space Mono',monospace; background:rgba(0,0,0,.3); border:1px solid var(--turq); border-radius:10px; padding:8px 14px; font-size:14px;}
+  .warn{color:#ff8080; border-color:#ff8080; animation:pulse 1s infinite;}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+  .grid{display:grid; grid-template-columns:repeat(5,1fr); gap:10px; margin-bottom:18px;}
+  .chest{
+    aspect-ratio:1; border-radius:10px; background:linear-gradient(160deg,#1c6a6a,#0a3f52);
+    border:2px solid var(--turq); display:flex; align-items:center; justify-content:center; font-size:26px;
+    cursor:pointer; transition:all .2s; position:relative;
+  }
+  .chest:hover{transform:translateY(-3px) scale(1.04); box-shadow:0 8px 18px rgba(46,139,139,.5);}
+  .chest.done{background:linear-gradient(160deg,var(--gold),#8a742a); border-color:var(--gold); cursor:default;}
+  .chest.done:hover{transform:none;}
+  .chest .num{position:absolute; top:3px; left:6px; font-family:'Space Mono',monospace; font-size:11px; opacity:.7;}
+  .stage{min-height:270px; display:flex; flex-direction:column; justify-content:center;}
+  .qbox{background:rgba(0,0,0,.28); border-left:4px solid var(--gold); border-radius:12px; padding:18px; margin-bottom:14px; font-size:clamp(15px,3vw,17px); line-height:1.5;}
+  .choices{display:grid; gap:10px;}
+  .choice{font-family:'Poppins'; font-size:15px; text-align:left; padding:13px 16px; border-radius:10px; background:rgba(244,235,217,.06); border:1.5px solid rgba(244,235,217,.25); color:var(--papyrus); cursor:pointer; transition:.18s;}
+  .choice:hover:not(:disabled){background:rgba(212,175,55,.15); border-color:var(--gold); transform:translateX(4px);}
+  .choice.correct{background:rgba(63,163,77,.28); border-color:var(--green); animation:pop .35s;}
+  .choice.wrong{background:rgba(192,57,43,.28); border-color:var(--red); animation:shake .4s;}
+  @keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.04)}100%{transform:scale(1)}}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+  .feedback{text-align:center; font-weight:700; margin-top:10px; min-height:20px; font-size:14px;}
+  .feedback.good{color:var(--green);} .feedback.bad{color:#ff8b7a;}
+  .btn{font-family:'Cinzel',serif; font-weight:700; background:linear-gradient(160deg,var(--gold),#a3852a); color:#1a1400; border:none; border-radius:10px; padding:12px 22px; font-size:15px; cursor:pointer; box-shadow:0 6px 16px rgba(212,175,55,.35);}
+  .btn:hover{transform:translateY(-2px);}
+  .center{display:flex; justify-content:center; margin-top:14px;}
+  .endscreen{text-align:center;}
+  .endscreen .big{font-family:'Cinzel',serif; font-size:clamp(24px,6vw,36px); font-weight:900;}
+  .win .big{color:var(--gold);} .lose .big{color:#ff6b6b;}
+  .hint{text-align:center; font-size:13px; color:var(--sand); margin-top:2px;}
+  .confetti{position:fixed; top:-10px; z-index:5; font-size:20px; animation:fall linear forwards;}
+  @keyframes fall{to{transform:translateY(110vh) rotate(360deg); opacity:0;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <h1>&#x26C5; Treasure of the Storm</h1>
+    <div class="sub">Unit 2 · Lesson 2 — How's the Weather in Your City?</div>
+    <div class="hud">
+      <div class="pill" id="timerPill">&#9202; <span id="timeLeft">100</span>s</div>
+      <div class="pill">&#x1F4B0; <span id="score">0</span> pts</div>
+      <div class="pill">&#x1F41A; <span id="found">0</span>/10 chests</div>
+    </div>
+    <div class="grid" id="grid"></div>
+    <div class="hint" id="hint">Click a chest on the reef floor to open a question!</div>
+    <div class="stage" id="stage"></div>
+  </div>
+</div>
+
+<script>
+const items = [
+  {q:"Mohamed ______ tennis in the club now. (play)", choices:["is playing","play","plays","playing"], a:0, why:"Present continuous for now: is/are + verb-ing. Mohamed IS PLAYING."},
+  {q:"______ you eating your lunch at the moment?", choices:["Do","Are","Does","Is"], a:1, why:"Subject 'you' + present continuous question needs ARE."},
+  {q:"I ______ my jacket. It's hot. (not wear)", choices:["am not wearing","don't wear","not wearing","isn't wearing"], a:0, why:"Negative present continuous with 'I': am not + verb-ing."},
+  {q:"My friend and I ______ London now. (visit)", choices:["are visiting","is visiting","visit","visits"], a:0, why:"Plural subject (my friend and I = we) + present continuous: ARE VISITING."},
+  {q:"Ahmed ______ his room right now. (clean)", choices:["is cleaning","clean","cleans","are cleaning"], a:0, why:"Singular subject Ahmed + present continuous: IS CLEANING."},
+  {q:"Since ancient times, people used olives to make ______.", choices:["oil","grow","herbs","water"], a:0, why:"Olives are pressed to make OIL."},
+  {q:"My brother and I have a plant. We ______ it every day.", choices:["oil","grow","herbs","water"], a:3, why:"You WATER a plant to keep it alive."},
+  {q:"In Egypt, people use ______ like basil in cooking.", choices:["oil","grow","herbs","water"], a:2, why:"Basil is a HERB used for flavor in cooking."},
+  {q:"Farmers ______ fruits like guavas and figs.", choices:["oil","grow","herbs","water"], a:1, why:"Farmers GROW fruit on their farms."},
+  {q:"What is hibiscus used ______ in the family?", choices:["from","for","off","of"], a:1, why:"The correct preposition is 'used FOR' something."}
+];
+
+let opened = 0, score = 0, timeLeft = 100, timerId = null, ended = false, lastIndex=-1;
+
+function bubbles(){
+  setInterval(()=>{
+    if(ended) return;
+    const b = document.createElement('div');
+    b.className='bubble';
+    b.style.left = Math.random()*100+'vw';
+    b.style.animationDuration = (4+Math.random()*4)+'s';
+    document.body.appendChild(b);
+    setTimeout(()=>b.remove(), 9000);
+  }, 500);
+}
+bubbles();
+
+function beep(freq, dur, type='sine', vol=0.15){
+  try{
+    const ctx = window._actx || (window._actx = new (window.AudioContext||window.webkitAudioContext)());
+    const o = ctx.createOscillator(); const g = ctx.createGain();
+    o.type=type; o.frequency.value=freq; g.gain.value=vol;
+    o.connect(g); g.connect(ctx.destination); o.start();
+    g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime+dur);
+    o.stop(ctx.currentTime+dur);
+  }catch(e){}
+}
+function sfxCorrect(){ beep(700,.12); setTimeout(()=>beep(950,.18),100); }
+function sfxWrong(){ beep(170,.25,'sawtooth',0.12); }
+function sfxWin(){ [523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,.22),i*140)); }
+function sfxLose(){ beep(140,.4,'sawtooth',0.1); setTimeout(()=>beep(100,.5,'sawtooth',0.1),200); }
+
+function confettiBurst(){
+  const emojis = ['\u{1F4B0}','\u2728','\u{1F41A}','\u{1F3C6}','\u{1F49E}'];
+  for(let i=0;i<22;i++){
+    const c = document.createElement('div');
+    c.className='confetti'; c.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    c.style.left = Math.random()*100+'vw'; c.style.animationDuration=(2+Math.random()*1.5)+'s';
+    document.body.appendChild(c); setTimeout(()=>c.remove(),4000);
+  }
+}
+
+function buildGrid(){
+  const grid = document.getElementById('grid');
+  grid.innerHTML='';
+  for(let i=0;i<items.length;i++){
+    const c = document.createElement('div');
+    c.className='chest' + (window.doneSet.has(i) ? ' done' : '');
+    c.innerHTML = `<span class="num">${i+1}</span>${window.doneSet.has(i)?'&#x1F4B0;':'&#x1F4E6;'}`;
+    c.onclick = ()=>openChest(i);
+    grid.appendChild(c);
+  }
+}
+
+function openChest(i){
+  if(ended || window.doneSet.has(i)) return;
+  lastIndex = i;
+  document.getElementById('hint').textContent = `Chest ${i+1} opened — answer to claim the treasure!`;
+  const item = items[i];
+  const stage = document.getElementById('stage');
+  stage.innerHTML = `
+    <div class="qbox">${item.q}</div>
+    <div class="choices" id="choicesBox"></div>
+    <div class="feedback" id="feedback"></div>
+  `;
+  const box = document.getElementById('choicesBox');
+  item.choices.forEach((c,idx)=>{
+    const b = document.createElement('button');
+    b.className='choice'; b.textContent=c;
+    b.onclick = ()=>answer(idx,b,i);
+    box.appendChild(b);
+  });
+}
+
+function answer(idx, btnEl, chestIndex){
+  const item = items[chestIndex];
+  const buttons = document.querySelectorAll('.choice');
+  buttons.forEach(b=>b.disabled=true);
+  const fb = document.getElementById('feedback');
+  if(idx === item.a){
+    btnEl.classList.add('correct');
+    score += 15; opened++;
+    window.doneSet.add(chestIndex);
+    document.getElementById('score').textContent = score;
+    document.getElementById('found').textContent = opened;
+    fb.textContent = '\u2705 Treasure found! ' + item.why;
+    fb.className='feedback good';
+    sfxCorrect(); confettiBurst(); buildGrid();
+    if(opened >= items.length){ setTimeout(winGame, 1200); }
+    else { setTimeout(()=>{ document.getElementById('stage').innerHTML=''; document.getElementById('hint').textContent='Click another chest!'; }, 1300); }
+  } else {
+    btnEl.classList.add('wrong');
+    buttons[item.a].classList.add('correct');
+    score = Math.max(0, score - 5);
+    document.getElementById('score').textContent = score;
+    fb.textContent = '\u274C Not this one. ' + item.why;
+    fb.className='feedback bad';
+    sfxWrong();
+    setTimeout(()=>{ document.getElementById('stage').innerHTML=''; document.getElementById('hint').textContent='Try another chest!'; }, 1500);
+  }
+}
+
+function tick(){
+  timeLeft--;
+  document.getElementById('timeLeft').textContent = timeLeft;
+  document.getElementById('timerPill').classList.toggle('warn', timeLeft<=15);
+  if(timeLeft<=0){ clearInterval(timerId); loseGame(); }
+}
+
+function winGame(){
+  ended=true; clearInterval(timerId); sfxWin(); confettiBurst();
+  document.getElementById('stage').innerHTML = `
+    <div class="endscreen win">
+      <div class="big">&#x1F3C6; Reef Treasure Complete!</div>
+      <p>You collected all 10 treasures with <b>${score}</b> points!</p>
+      <div class="center"><button class="btn" onclick="restart()">Dive Again</button></div>
+    </div>`;
+}
+function loseGame(){
+  ended=true; clearInterval(timerId); sfxLose();
+  document.getElementById('stage').innerHTML = `
+    <div class="endscreen lose">
+      <div class="big">&#9203; Time's Up!</div>
+      <p>You found ${opened}/10 treasures with ${score} points.</p>
+      <div class="center"><button class="btn" onclick="restart()">Try Again</button></div>
+    </div>`;
+}
+
+function restart(){
+  window.doneSet = new Set();
+  opened=0; score=0; timeLeft=100; ended=false;
+  document.getElementById('score').textContent=0;
+  document.getElementById('found').textContent=0;
+  document.getElementById('timeLeft').textContent=100;
+  document.getElementById('timerPill').classList.remove('warn');
+  document.getElementById('hint').textContent = 'Click a chest on the reef floor to open a question!';
+  document.getElementById('stage').innerHTML='';
+  buildGrid();
+  clearInterval(timerId);
+  timerId = setInterval(tick,1000);
+}
+
+restart();
+</script>
+</body>
+</html>

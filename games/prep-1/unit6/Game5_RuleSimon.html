@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Global Citizens — Rule Simon</title>
+<style>
+  :root{ --navy:#0B1E33; --navy2:#112B47; --card:#16324F; --cyan:#35D0C9; --green:#8CE99A; --amber:#FFC168; --red:#FF8080; --light:#D7E3EC; --muted:#8FA6BC; }
+  *{box-sizing:border-box; -webkit-user-select:none; user-select:none;}
+  body{ margin:0; min-height:100vh; background:radial-gradient(circle at 50% 0%, var(--navy2), var(--navy) 65%);
+    font-family:'Segoe UI',Calibri,Arial,sans-serif; color:var(--light); display:flex; flex-direction:column; align-items:center; padding:24px; }
+  h1{color:#fff; font-size:1.7rem; margin:6px 0 2px; text-align:center;}
+  .sub{color:var(--cyan); font-weight:700; letter-spacing:2px; font-size:.8rem; text-transform:uppercase; margin-bottom:10px; text-align:center;}
+  .instructions{ color:var(--muted); font-size:.85rem; text-align:center; max-width:520px; margin-bottom:16px; }
+  .hud{display:flex; gap:14px; margin-bottom:16px; flex-wrap:wrap; justify-content:center;}
+  .pill{background:var(--card); border:1px solid #1E4568; border-radius:999px; padding:8px 18px; font-size:.9rem;}
+  .pill b{color:var(--green);}
+  #pad{ display:grid; grid-template-columns:repeat(2,140px); grid-template-rows:repeat(2,140px); gap:10px; margin-bottom:20px; }
+  .pad-btn{ border-radius:16px; border:none; font-size:1rem; font-weight:800; color:var(--navy); cursor:pointer; opacity:.7; transition:opacity .15s, transform .1s; }
+  .pad-btn.active{ opacity:1; transform:scale(1.04); box-shadow:0 0 20px rgba(255,255,255,.5); }
+  #pad1{ background:var(--green); }
+  #pad2{ background:var(--cyan); }
+  #pad3{ background:var(--amber); }
+  #pad4{ background:var(--red); }
+  button.start{ font-family:inherit; font-weight:700; font-size:1rem; border:none; border-radius:12px; padding:14px 30px;
+    cursor:pointer; color:var(--navy); background:linear-gradient(135deg, var(--cyan), var(--green)); margin-top:10px; }
+  #status{ min-height:24px; margin-bottom:10px; font-weight:700; color:#fff; text-align:center; }
+  #endscreen{ display:none; text-align:center; margin-top:26px; }
+  #endscreen h2{ font-size:2rem; color:#fff; }
+  footer{ margin-top:20px; color:var(--muted); font-size:.75rem; text-align:center;}
+</style>
+</head>
+<body>
+  <div class="sub">Unit 6 · Global Citizens</div>
+  <h1>🎵 Rule Simon: Remember the Sequence</h1>
+  <div class="instructions">Each color represents a citizenship rule. Watch the sequence light up, then repeat it back in the same order. The sequence grows by one every round!</div>
+  <div class="hud">
+    <div class="pill">Round: <b id="roundNum">0</b></div>
+    <div class="pill">Best: <b id="best">0</b></div>
+  </div>
+  <div id="status">Press Start to begin</div>
+
+  <div id="pad">
+    <button class="pad-btn" id="pad1" data-idx="0">Must recycle</button>
+    <button class="pad-btn" id="pad2" data-idx="1">Mustn't litter</button>
+    <button class="pad-btn" id="pad3" data-idx="2">Must respect</button>
+    <button class="pad-btn" id="pad4" data-idx="3">Mustn't waste</button>
+  </div>
+  <button class="start" id="startBtn">Start Game</button>
+
+  <div id="endscreen">
+    <h2 id="endTitle"></h2>
+    <p id="endMsg" style="color:var(--muted); font-size:1.05rem;"></p>
+    <button class="start" onclick="location.reload()">Play Again</button>
+  </div>
+
+  <footer>Original rule labels · Unit 6 topic: citizenship &amp; environmental responsibility</footer>
+
+<script>
+const pads = [document.getElementById('pad1'), document.getElementById('pad2'), document.getElementById('pad3'), document.getElementById('pad4')];
+let sequence = [];
+let playerStep = 0;
+let round = 0;
+let best = 0;
+let accepting = false;
+
+function flashPad(idx, duration=500){
+  return new Promise(resolve => {
+    pads[idx].classList.add('active');
+    setTimeout(() => {
+      pads[idx].classList.remove('active');
+      setTimeout(resolve, 150);
+    }, duration);
+  });
+}
+
+async function playSequence(){
+  accepting = false;
+  document.getElementById('status').textContent = 'Watch the sequence...';
+  await new Promise(r => setTimeout(r, 500));
+  for (const idx of sequence) {
+    await flashPad(idx);
+  }
+  playerStep = 0;
+  accepting = true;
+  document.getElementById('status').textContent = 'Your turn! Repeat the sequence.';
+}
+
+function nextRound(){
+  round++;
+  document.getElementById('roundNum').textContent = round;
+  sequence.push(Math.floor(Math.random()*4));
+  playSequence();
+}
+
+pads.forEach(pad => {
+  pad.addEventListener('click', () => {
+    if (!accepting) return;
+    const idx = parseInt(pad.dataset.idx, 10);
+    flashPad(idx, 250);
+    if (idx === sequence[playerStep]) {
+      playerStep++;
+      if (playerStep === sequence.length) {
+        accepting = false;
+        best = Math.max(best, round);
+        document.getElementById('best').textContent = best;
+        document.getElementById('status').textContent = 'Correct sequence! Get ready...';
+        setTimeout(nextRound, 1000);
+      }
+    } else {
+      accepting = false;
+      finishGame();
+    }
+  });
+});
+
+document.getElementById('startBtn').addEventListener('click', () => {
+  document.getElementById('startBtn').style.display = 'none';
+  sequence = [];
+  round = 0;
+  nextRound();
+});
+
+function finishGame(){
+  document.getElementById('pad').style.display = 'none';
+  document.getElementById('status').style.display = 'none';
+  const end = document.getElementById('endscreen');
+  end.style.display = 'block';
+  let title = '🎉 Good Memory!';
+  if (round >= 8) title = '🏆 Memory Champion!';
+  document.getElementById('endTitle').textContent = title;
+  document.getElementById('endMsg').textContent = `You remembered a sequence of ${round - 1} rule${round-1===1?'':'s'} correctly before missing one.`;
+}
+</script>
+</body>
+</html>

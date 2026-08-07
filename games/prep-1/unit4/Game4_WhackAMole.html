@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Choices — Whack-a-Mole</title>
+<style>
+  :root{ --navy:#0B1E33; --navy2:#112B47; --card:#16324F; --cyan:#35D0C9; --green:#8CE99A; --amber:#FFC168; --red:#FF8080; --light:#D7E3EC; --muted:#8FA6BC; }
+  *{box-sizing:border-box; -webkit-user-select:none; user-select:none;}
+  body{ margin:0; min-height:100vh; background:linear-gradient(180deg,#0d2438,var(--navy) 70%);
+    font-family:'Segoe UI',Calibri,Arial,sans-serif; color:var(--light); display:flex; flex-direction:column; align-items:center; padding:24px; }
+  h1{color:#fff; font-size:1.7rem; margin:6px 0 2px; text-align:center;}
+  .sub{color:var(--cyan); font-weight:700; letter-spacing:2px; font-size:.8rem; text-transform:uppercase; margin-bottom:10px; text-align:center;}
+  .hud{display:flex; gap:14px; margin-bottom:14px; flex-wrap:wrap; justify-content:center;}
+  .pill{background:var(--card); border:1px solid #1E4568; border-radius:999px; padding:8px 18px; font-size:.9rem;}
+  .pill b{color:var(--green);}
+  #promptBox{ max-width:600px; text-align:center; background:var(--card); border:1px solid #1E4568; border-radius:14px; padding:14px 22px; margin-bottom:16px; font-size:1.1rem; font-weight:700; color:#fff; }
+  #field{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; max-width:520px; width:100%; margin-bottom:16px; }
+  .hole{ aspect-ratio:1/1; background:radial-gradient(circle,#1a2f42,#0c1826); border-radius:50%; display:flex; align-items:center; justify-content:center;
+    position:relative; overflow:hidden; border:2px solid #1E4568; }
+  .mole{ width:88%; height:88%; border-radius:50%; background:linear-gradient(135deg,#1a3a5c,#12233a); border:2px solid var(--cyan);
+    display:flex; align-items:center; justify-content:center; font-size:.85rem; font-weight:800; color:#fff; text-align:center; padding:4px;
+    position:absolute; bottom:-100%; transition:bottom .25s ease; cursor:pointer; }
+  .mole.up{ bottom:5%; }
+  .mole.correct{ background:rgba(140,233,154,.3); border-color:var(--green); }
+  .mole.wrong{ background:rgba(255,128,128,.3); border-color:var(--red); }
+  button.start{ font-family:inherit; font-weight:700; font-size:1rem; border:none; border-radius:12px; padding:14px 30px;
+    cursor:pointer; color:var(--navy); background:linear-gradient(135deg, var(--cyan), var(--green)); margin-top:10px; }
+  #endscreen{ display:none; text-align:center; margin-top:26px; }
+  #endscreen h2{ font-size:2rem; color:#fff; }
+  footer{ margin-top:20px; color:var(--muted); font-size:.75rem; text-align:center;}
+</style>
+</head>
+<body>
+  <div class="sub">Unit 4 · Smart Choices</div>
+  <h1>🔨 Whack-a-Mole: Smart Choices Edition</h1>
+  <div class="hud">
+    <div class="pill">Score: <b id="score">0</b></div>
+    <div class="pill">Round: <b id="roundNum">0</b> / 8</div>
+    <div class="pill">Time: <b id="timer">30</b>s</div>
+  </div>
+  <div id="promptBox">Click Start to whack the mole with the correct answer!</div>
+  <div id="field"></div>
+  <button class="start" id="startBtn">Start Game</button>
+
+  <div id="endscreen">
+    <h2 id="endTitle"></h2>
+    <p id="endMsg" style="color:var(--muted); font-size:1.05rem;"></p>
+    <button class="start" onclick="location.reload()">Play Again</button>
+  </div>
+
+  <footer>Original prompts · Unit 4 grammar focus: Should/Shouldn't + First Conditional</footer>
+
+<script>
+const rounds = [
+  {prompt:"Whack the correct form: 'You ___ (should) think first.'", correct:"should think", wrong:["should thinks","shoulds think","should to think"]},
+  {prompt:"Whack the correct form: 'She ___ (shouldn't) ignore advice.'", correct:"shouldn't ignore", wrong:["shouldn't ignores","doesn't should ignore","not should ignore"]},
+  {prompt:"Whack the correct result: 'If you rest, you ___ (feel) better.'", correct:"will feel", wrong:["feel","feels","are feeling"]},
+  {prompt:"Whack the correct negative result: 'If they don't plan, they ___ (fail).'", correct:"will fail", wrong:["fail","don't fail","failed"]},
+  {prompt:"Whack the correct question word for advice:", correct:"Should", wrong:["Do","Will","Is"]},
+  {prompt:"Whack the correct form: 'We ___ (should) respect the rules.'", correct:"should respect", wrong:["should respects","shoulds respect","respecting should"]},
+  {prompt:"Whack the correct if-clause verb: 'If she ___ (study) hard, she will succeed.'", correct:"studies", wrong:["will study","studying","studied"]},
+  {prompt:"Whack the correct form: 'He ___ (shouldn't) take unnecessary risks.'", correct:"shouldn't take", wrong:["shouldn't takes","not should take","shouldn't taking"]},
+];
+
+let roundIdx = 0;
+let score = 0;
+let timeLeft = 30;
+let timerInterval = null;
+let popInterval = null;
+let running = false;
+
+const field = document.getElementById('field');
+for (let i=0;i<9;i++){
+  const hole = document.createElement('div');
+  hole.className = 'hole';
+  const mole = document.createElement('div');
+  mole.className = 'mole';
+  hole.appendChild(mole);
+  field.appendChild(hole);
+}
+const moles = Array.from(document.querySelectorAll('.mole'));
+
+function popRound(){
+  if (!running) return;
+  const r = rounds[roundIdx % rounds.length];
+  document.getElementById('promptBox').textContent = r.prompt;
+  moles.forEach(m => { m.classList.remove('up','correct','wrong'); m.textContent=''; m.onclick=null; });
+
+  const options = [r.correct, ...r.wrong].sort(()=>Math.random()-0.5);
+  const holeIndices = [...Array(9).keys()].sort(()=>Math.random()-0.5).slice(0, options.length);
+  holeIndices.forEach((holeIdx, i) => {
+    const mole = moles[holeIdx];
+    mole.textContent = options[i];
+    mole.classList.add('up');
+    mole.onclick = () => whack(mole, options[i], r.correct);
+  });
+}
+
+function whack(mole, opt, correctAnswer){
+  if (!running) return;
+  if (opt === correctAnswer) {
+    mole.classList.add('correct');
+    score += 10;
+    document.getElementById('score').textContent = score;
+  } else {
+    mole.classList.add('wrong');
+  }
+  moles.forEach(m => m.onclick = null);
+  roundIdx++;
+  document.getElementById('roundNum').textContent = Math.min(roundIdx, 8);
+  setTimeout(() => {
+    if (roundIdx >= 8) { finishGame(); return; }
+    popRound();
+  }, 700);
+}
+
+document.getElementById('startBtn').addEventListener('click', () => {
+  document.getElementById('startBtn').style.display = 'none';
+  running = true;
+  popRound();
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    document.getElementById('timer').textContent = timeLeft;
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      finishGame();
+    }
+  }, 1000);
+});
+
+function finishGame(){
+  running = false;
+  clearInterval(timerInterval);
+  document.getElementById('field').style.display = 'none';
+  document.getElementById('promptBox').style.display = 'none';
+  const end = document.getElementById('endscreen');
+  end.style.display = 'block';
+  let title = '🎉 Nice Whacking!';
+  if (score >= 60) title = '🏆 Whack Master!';
+  document.getElementById('endTitle').textContent = title;
+  document.getElementById('endMsg').textContent = `Final score: ${score} points across ${Math.min(roundIdx,8)} rounds.`;
+}
+</script>
+</body>
+</html>

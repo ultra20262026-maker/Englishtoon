@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Art and Expression — Hidden Objects</title>
+<style>
+  :root{ --navy:#0B1E33; --navy2:#112B47; --card:#16324F; --cyan:#35D0C9; --green:#8CE99A; --amber:#FFC168; --red:#FF8080; --light:#D7E3EC; --muted:#8FA6BC; }
+  *{box-sizing:border-box; -webkit-user-select:none; user-select:none;}
+  body{ margin:0; min-height:100vh; background:radial-gradient(circle at 80% 10%, var(--navy2), var(--navy) 65%); font-family:'Segoe UI',Calibri,Arial,sans-serif; color:var(--light); display:flex; flex-direction:column; align-items:center; padding:24px; }
+  h1{color:#fff; font-size:1.6rem; margin:6px 0 2px; text-align:center;}
+  .sub{color:var(--cyan); font-weight:700; letter-spacing:1.5px; font-size:.78rem; text-transform:uppercase; margin-bottom:14px; text-align:center;}
+  .hud{display:flex; gap:12px; margin-bottom:16px; flex-wrap:wrap; justify-content:center;}
+  .pill{background:var(--card); border:1px solid #1E4568; border-radius:999px; padding:7px 16px; font-size:.85rem;}
+  .pill b{color:var(--green);}
+  #scene{ position:relative; width:100%; max-width:640px; height:400px; background:linear-gradient(160deg,#1a3a5c,#0e2035); border:2px solid #1E4568; border-radius:16px; overflow:hidden; margin-bottom:16px; }
+  .hidden-item{ position:absolute; font-size:1.8rem; cursor:pointer; transition:transform .15s; filter:drop-shadow(0 2px 4px rgba(0,0,0,.5)); }
+  .hidden-item:hover{ transform:scale(1.2); }
+  .hidden-item.found{ opacity:.25; pointer-events:none; filter:grayscale(1); }
+  .itemList{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; max-width:640px; margin-bottom:16px; }
+  .itemChip{ background:var(--card); border:1px solid #1E4568; border-radius:999px; padding:6px 14px; font-size:.85rem; }
+  .itemChip.found{ background:rgba(140,233,154,.2); border-color:var(--green); color:var(--green); text-decoration:line-through; }
+  button{ font-family:inherit; font-weight:700; font-size:1rem; border:none; border-radius:12px; padding:13px 28px; cursor:pointer; color:var(--navy); background:linear-gradient(135deg, var(--cyan), var(--green)); margin-top:10px; box-shadow:0 8px 20px rgba(53,208,201,.3); }
+  #endscreen{ display:none; text-align:center; margin-top:26px; }
+  #endscreen h2{ font-size:2rem; color:#fff; }
+  .toast{ position:fixed; top:20px; left:50%; transform:translateX(-50%); background:var(--green); color:var(--navy); padding:10px 22px; border-radius:999px; font-weight:800; opacity:0; transition:opacity .3s; z-index:200;}
+  .toast.show{ opacity:1; }
+  footer{ margin-top:24px; color:var(--muted); font-size:.72rem; text-align:center;}
+</style>
+</head>
+<body>
+  <div class="sub">Unit 4 · Art and Expression</div>
+  <h1>🖼️ Hidden Objects: My Performance Review</h1>
+  <div class="hud">
+    <div class="pill">Found: <b id="foundCount">0</b> / <b id="totalCount">0</b></div>
+    <div class="pill">Take your time — no rush!</div>
+  </div>
+  <div id="qLabel" style="color:var(--amber); font-weight:800; font-size:.75rem; letter-spacing:2px; text-transform:uppercase; margin-bottom:6px;">❓ Task: Find These Items</div>
+  <div class="itemList" id="itemList"></div>
+  <div id="scene"></div>
+
+  <div id="endscreen">
+    <h2 id="endTitle"></h2>
+    <p id="endMsg" style="color:var(--muted); font-size:1.05rem;"></p>
+    <button onclick="location.reload()">Play Again</button>
+  </div>
+  <div class="toast" id="toast"></div>
+  <footer>Original vocabulary set · Unit 4, Lessons 5 &amp; 6: My Performance Review</footer>
+
+<script>
+const items = [
+  { emoji:"🧠", name:"Imagination" },
+  { emoji:"⭐", name:"Stunning piece" },
+  { emoji:"💯", name:"Perfect" },
+  { emoji:"🎨", name:"Creativity" },
+  { emoji:"🆕", name:"Original" },
+  { emoji:"🌍", name:"International" },
+  { emoji:"💎", name:"Valuable" },
+  { emoji:"📝", name:"Performance review" },
+];
+
+let foundCount = 0;
+const scene = document.getElementById('scene');
+const itemList = document.getElementById('itemList');
+
+function renderList(){
+  itemList.innerHTML = '';
+  items.forEach(it => {
+    const chip = document.createElement('div');
+    chip.className = 'itemChip';
+    chip.id = 'chip-' + it.name;
+    chip.textContent = it.name;
+    itemList.appendChild(chip);
+  });
+}
+renderList();
+document.getElementById('totalCount').textContent = items.length;
+
+function placeItems(){
+  scene.innerHTML = '';
+  const positions = [];
+  items.forEach(it => {
+    let x, y, tries = 0;
+    do {
+      x = 5 + Math.random()*85;
+      y = 5 + Math.random()*85;
+      tries++;
+    } while (positions.some(p => Math.abs(p.x-x)<12 && Math.abs(p.y-y)<12) && tries < 30);
+    positions.push({x,y});
+    const div = document.createElement('div');
+    div.className = 'hidden-item';
+    div.textContent = it.emoji;
+    div.style.left = x + '%';
+    div.style.top = y + '%';
+    div.style.transform = `rotate(${Math.random()*30-15}deg)`;
+    div.addEventListener('click', () => foundItem(div, it));
+    scene.appendChild(div);
+  });
+}
+placeItems();
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 1200);
+}
+
+function foundItem(div, it){
+  if (div.classList.contains('found')) return;
+  div.classList.add('found');
+  document.getElementById('chip-' + it.name).classList.add('found');
+  foundCount++;
+  document.getElementById('foundCount').textContent = foundCount;
+  showToast(`Found: ${it.name}! ✅`);
+  if (foundCount === items.length) finishGame();
+}
+
+function finishGame(){
+  const end = document.getElementById('endscreen');
+  end.style.display = 'block';
+  document.getElementById('endTitle').textContent = '🎉 All Objects Found!';
+  document.getElementById('endMsg').textContent = `You found all ${items.length} objects. Great job!`;
+}
+</script>
+</body>
+</html>

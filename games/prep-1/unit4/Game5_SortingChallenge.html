@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Choices — Sorting Game</title>
+<style>
+  :root{ --navy:#0B1E33; --navy2:#112B47; --card:#16324F; --cyan:#35D0C9; --green:#8CE99A; --amber:#FFC168; --red:#FF8080; --light:#D7E3EC; --muted:#8FA6BC; }
+  *{box-sizing:border-box;}
+  body{ margin:0; min-height:100vh; background:radial-gradient(circle at 15% 85%, var(--navy2), var(--navy) 60%);
+    font-family:'Segoe UI',Calibri,Arial,sans-serif; color:var(--light); display:flex; flex-direction:column; align-items:center; padding:24px; }
+  h1{color:#fff; font-size:1.7rem; margin:6px 0 2px; text-align:center;}
+  .sub{color:var(--cyan); font-weight:700; letter-spacing:2px; font-size:.8rem; text-transform:uppercase; margin-bottom:6px; text-align:center;}
+  .instructions{ color:var(--muted); font-size:.88rem; text-align:center; max-width:560px; margin-bottom:16px; }
+  .hud{display:flex; gap:14px; margin-bottom:16px; flex-wrap:wrap; justify-content:center;}
+  .pill{background:var(--card); border:1px solid #1E4568; border-radius:999px; padding:8px 18px; font-size:.9rem;}
+  .pill b{color:var(--green);}
+  #card{ max-width:560px; width:100%; background:var(--card); border:2px solid var(--cyan); border-radius:16px; padding:24px; text-align:center;
+    font-size:1.15rem; font-weight:700; color:#fff; margin-bottom:20px; min-height:80px; display:flex; align-items:center; justify-content:center; }
+  .bins{ display:flex; gap:20px; max-width:560px; width:100%; margin-bottom:20px; }
+  .bin{ flex:1; min-height:120px; background:var(--navy2); border:3px dashed #2a5b86; border-radius:14px; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; padding:14px; text-align:center; font-weight:800; color:var(--light); transition:.2s; }
+  .bin.smart{ border-color:var(--green); }
+  .bin.risky{ border-color:var(--red); }
+  .bin .icon{ font-size:2rem; margin-bottom:6px; }
+  .bin-buttons{ display:flex; gap:16px; max-width:560px; width:100%; }
+  .bin-buttons button{ flex:1; font-family:inherit; font-weight:700; font-size:1rem; border:none; border-radius:12px; padding:16px;
+    cursor:pointer; }
+  #smartBtn{ background:linear-gradient(135deg, var(--green), #52a866); color:var(--navy); }
+  #riskyBtn{ background:linear-gradient(135deg, var(--red), #d95f5f); color:var(--navy); }
+  .explain{ margin-top:14px; padding:12px 14px; background:var(--card); border-radius:10px; font-size:.9rem; color:var(--muted); max-width:560px; display:none;}
+  #endscreen{ display:none; text-align:center; margin-top:26px; }
+  #endscreen h2{ font-size:2rem; color:#fff; }
+  button.replay{ font-family:inherit; font-weight:700; font-size:1rem; border:none; border-radius:12px; padding:13px 28px;
+    cursor:pointer; color:var(--navy); background:linear-gradient(135deg, var(--cyan), var(--green)); margin-top:16px; }
+  .progress{ width:100%; max-width:560px; height:10px; background:var(--card); border-radius:6px; overflow:hidden; margin-bottom:16px;}
+  .progress-fill{ height:100%; background:linear-gradient(90deg, var(--cyan), var(--green)); width:0%; transition:width .4s; }
+  footer{ margin-top:24px; color:var(--muted); font-size:.75rem; text-align:center;}
+</style>
+</head>
+<body>
+  <div class="sub">Unit 4 · Smart Choices</div>
+  <h1>🗂️ Sorting Game: Smart or Risky?</h1>
+  <div class="instructions">Read each sentence and sort it into the correct bin based on the advice it gives.</div>
+  <div class="hud">
+    <div class="pill">Sorted: <b id="sortedCount">0</b> / 8</div>
+    <div class="pill">Score: <b id="score">0</b></div>
+  </div>
+  <div class="progress"><div class="progress-fill" id="prog"></div></div>
+
+  <div id="card"></div>
+
+  <div class="bins">
+    <div class="bin smart"><div class="icon">✅</div>Smart Choice</div>
+    <div class="bin risky"><div class="icon">⚠️</div>Risky Choice</div>
+  </div>
+
+  <div class="bin-buttons">
+    <button id="smartBtn">This is a Smart Choice</button>
+    <button id="riskyBtn">This is a Risky Choice</button>
+  </div>
+
+  <div class="explain" id="explain"></div>
+
+  <div id="endscreen">
+    <h2 id="endTitle"></h2>
+    <p id="endMsg" style="color:var(--muted); font-size:1.05rem;"></p>
+    <button class="replay" onclick="location.reload()">Play Again</button>
+  </div>
+
+  <footer>Original sentence set · Unit 4 grammar focus: Should/Shouldn't + First Conditional</footer>
+
+<script>
+const items = [
+  { text: "You should ask for advice before making a big decision.", answer: "smart", ex: "Asking for advice before deciding is a smart choice." },
+  { text: "If you don't check your work, you will make mistakes.", answer: "risky", ex: "Not checking your work leads to a risky result." },
+  { text: "If she studies carefully, she will pass the exam.", answer: "smart", ex: "Careful studying leads to a good result — smart choice." },
+  { text: "You shouldn't ignore your teacher's warnings.", answer: "smart", ex: "Following the advice (not ignoring warnings) is the smart choice." },
+  { text: "If they don't wear seatbelts, they won't be safe.", answer: "risky", ex: "Not wearing seatbelts is a risky choice with a negative result." },
+  { text: "You should think about the consequences first.", answer: "smart", ex: "Thinking ahead about consequences is smart advice." },
+  { text: "If he takes an unnecessary risk, he will get hurt.", answer: "risky", ex: "Taking an unnecessary risk leads to a negative result." },
+  { text: "You shouldn't make decisions without enough information.", answer: "smart", ex: "This is good, smart advice to follow." },
+];
+let deck = [...items].sort(()=>Math.random()-0.5);
+let idx = 0;
+let score = 0;
+let sortedCount = 0;
+
+function loadCard(){
+  if (idx >= deck.length) { finishGame(); return; }
+  document.getElementById('card').textContent = deck[idx].text;
+  document.getElementById('explain').style.display = 'none';
+  document.getElementById('smartBtn').disabled = false;
+  document.getElementById('riskyBtn').disabled = false;
+}
+
+function sort(choice){
+  const item = deck[idx];
+  const explainDiv = document.getElementById('explain');
+  document.getElementById('smartBtn').disabled = true;
+  document.getElementById('riskyBtn').disabled = true;
+  if (choice === item.answer) {
+    score += 12;
+    explainDiv.textContent = '✅ Correct! ' + item.ex;
+  } else {
+    explainDiv.textContent = '❌ Not quite. ' + item.ex;
+  }
+  explainDiv.style.display = 'block';
+  document.getElementById('score').textContent = score;
+  sortedCount++;
+  document.getElementById('sortedCount').textContent = sortedCount;
+  document.getElementById('prog').style.width = `${(sortedCount/deck.length)*100}%`;
+  setTimeout(() => { idx++; loadCard(); }, 1300);
+}
+
+document.getElementById('smartBtn').addEventListener('click', () => sort('smart'));
+document.getElementById('riskyBtn').addEventListener('click', () => sort('risky'));
+
+function finishGame(){
+  document.getElementById('card').style.display = 'none';
+  document.querySelector('.bins').style.display = 'none';
+  document.querySelector('.bin-buttons').style.display = 'none';
+  document.getElementById('explain').style.display = 'none';
+  const end = document.getElementById('endscreen');
+  end.style.display = 'block';
+  let title = '🎉 All Sorted!';
+  if (score >= 80) title = '🏆 Smart Sorter!';
+  document.getElementById('endTitle').textContent = title;
+  document.getElementById('endMsg').textContent = `Final score: ${score} points across ${deck.length} sentences.`;
+}
+
+loadCard();
+</script>
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Learning to Learn — Crossword</title>
+<style>
+  :root{
+    --navy:#0B1E33; --navy2:#112B47; --card:#16324F; --cyan:#35D0C9;
+    --green:#8CE99A; --amber:#FFC168; --red:#FF8080; --light:#D7E3EC; --muted:#8FA6BC;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; min-height:100vh; background:radial-gradient(circle at 85% 15%, var(--navy2), var(--navy) 60%);
+    font-family:'Segoe UI',Calibri,Arial,sans-serif; color:var(--light); display:flex; flex-direction:column; align-items:center; padding:24px;
+  }
+  h1{color:#fff; font-size:1.7rem; margin:6px 0 2px; text-align:center;}
+  .sub{color:var(--cyan); font-weight:700; letter-spacing:2px; font-size:.8rem; text-transform:uppercase; margin-bottom:14px;}
+  .hud{display:flex; gap:14px; margin-bottom:16px; flex-wrap:wrap; justify-content:center;}
+  .pill{background:var(--card); border:1px solid #1E4568; border-radius:999px; padding:8px 18px; font-size:.9rem;}
+  .pill b{color:var(--green);}
+  .layout{ display:flex; gap:24px; flex-wrap:wrap; justify-content:center; max-width:960px; }
+  #grid{ display:grid; gap:2px; background:var(--navy); }
+  .cell{ width:34px; height:34px; position:relative; }
+  .cell.block{ background:transparent; }
+  .cell.active{ background:var(--card); border-radius:3px; }
+  .cell input{
+    width:100%; height:100%; border:2px solid #1E4568; border-radius:3px; background:var(--card); color:#fff;
+    text-align:center; font-size:1.1rem; font-weight:700; text-transform:uppercase; outline:none; box-sizing:border-box;
+  }
+  .cell input:focus{ border-color:var(--cyan); }
+  .cell.correct input{ border-color:var(--green); background:rgba(140,233,154,.15); color:var(--green); }
+  .cell.wrong input{ border-color:var(--red); }
+  .num{ position:absolute; top:1px; left:3px; font-size:.55rem; color:var(--amber); font-weight:800; z-index:2; pointer-events:none; }
+  .clues{ background:var(--card); border:1px solid #1E4568; border-radius:14px; padding:18px 20px; min-width:260px; max-width:320px; }
+  .clues h3{ margin:14px 0 8px; color:var(--amber); font-size:.9rem; text-transform:uppercase; letter-spacing:1px; }
+  .clues h3:first-child{ margin-top:0; }
+  .clues li{ font-size:.9rem; margin-bottom:8px; color:var(--light); }
+  .clues li.solved{ color:var(--green); text-decoration:line-through; }
+  .clues ol{ padding-left:20px; margin:0; }
+  button{ font-family:inherit; font-weight:700; font-size:1rem; border:none; border-radius:12px; padding:13px 28px;
+    cursor:pointer; color:var(--navy); background:linear-gradient(135deg, var(--cyan), var(--green)); margin-top:20px;
+    box-shadow:0 8px 20px rgba(53,208,201,.3); }
+  #checkBtn{ background:var(--amber); margin-right:10px; }
+  #endscreen{ display:none; text-align:center; margin-top:26px; }
+  #endscreen h2{ font-size:2rem; color:#fff; }
+  .toast{ position:fixed; top:20px; left:50%; transform:translateX(-50%); background:var(--green); color:var(--navy);
+    padding:10px 22px; border-radius:999px; font-weight:800; opacity:0; transition:opacity .3s; z-index:200;}
+  .toast.show{ opacity:1; }
+  footer{ margin-top:24px; color:var(--muted); font-size:.75rem; text-align:center;}
+</style>
+</head>
+<body>
+  <div class="sub">Unit 2 · Learning to Learn</div>
+  <h1>✏️ Crossword: Learning to Learn</h1>
+  <div class="hud">
+    <div class="pill">Solved: <b id="solvedCount">0</b> / <b id="totalCount">0</b></div>
+  </div>
+
+  <div class="layout">
+    <div id="grid"></div>
+    <div class="clues">
+      <h3>Across</h3>
+      <ol id="acrossList"></ol>
+      <h3>Down</h3>
+      <ol id="downList"></ol>
+    </div>
+  </div>
+
+  <div>
+    <button id="checkBtn">Check Answers</button>
+    <button id="restartBtn">New Puzzle</button>
+  </div>
+
+  <div id="endscreen">
+    <h2 id="endTitle"></h2>
+    <p id="endMsg" style="color:var(--muted); font-size:1.05rem;"></p>
+    <button onclick="location.reload()">Play Again</button>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <footer>Original clue set · Unit 2 topic: learning styles &amp; study skills</footer>
+
+<script>
+// Grid coordinates are [row, col], 0-indexed. Words placed manually to interlock.
+const words = [
+  { num:1, dir:'down',   row:0, col:2, answer:'FOCUS',   clue:"Giving full attention to one task." },
+  { num:2, dir:'across', row:2, col:2, answer:'CAN',     clue:"The modal verb used for ability." },
+  { num:3, dir:'across', row:6, col:0, answer:'VISUAL',  clue:"A learner who learns best by seeing." },
+  { num:4, dir:'down',   row:6, col:2, answer:'STUDY',   clue:"To spend time learning about a subject." },
+  { num:5, dir:'across', row:8, col:3, answer:'REVISE',  clue:"To go over lessons again to remember them." },
+  { num:6, dir:'across', row:12, col:0, answer:'MINDMAP', clue:"A diagram used to organize ideas visually." },
+];
+
+// Determine grid size
+let maxRow = 0, maxCol = 0;
+words.forEach(w => {
+  if (w.dir === 'across') { maxRow = Math.max(maxRow, w.row); maxCol = Math.max(maxCol, w.col + w.answer.length - 1); }
+  else { maxRow = Math.max(maxRow, w.row + w.answer.length - 1); maxCol = Math.max(maxCol, w.col); }
+});
+const ROWS = maxRow + 1, COLS = maxCol + 1;
+
+const cellMap = {}; // "r_c" -> {letter, nums:[], inputEl}
+function key(r,c){ return r+'_'+c; }
+
+words.forEach(w => {
+  for (let i = 0; i < w.answer.length; i++) {
+    const r = w.dir === 'across' ? w.row : w.row + i;
+    const c = w.dir === 'across' ? w.col + i : w.col;
+    const k = key(r,c);
+    if (!cellMap[k]) cellMap[k] = { letter: w.answer[i], nums: [] };
+    if (i === 0) cellMap[k].nums.push(w.num);
+  }
+});
+
+const gridEl = document.getElementById('grid');
+gridEl.style.gridTemplateColumns = `repeat(${COLS}, 34px)`;
+gridEl.style.gridTemplateRows = `repeat(${ROWS}, 34px)`;
+
+for (let r = 0; r < ROWS; r++) {
+  for (let c = 0; c < COLS; c++) {
+    const k = key(r,c);
+    const cellDiv = document.createElement('div');
+    if (cellMap[k]) {
+      cellDiv.className = 'cell active';
+      const input = document.createElement('input');
+      input.maxLength = 1;
+      input.dataset.r = r; input.dataset.c = c;
+      input.addEventListener('input', (e) => {
+        e.target.value = e.target.value.toUpperCase().replace(/[^A-Z]/g,'');
+        if (e.target.value) focusNext(r, c);
+      });
+      cellDiv.appendChild(input);
+      if (cellMap[k].nums.length) {
+        const numSpan = document.createElement('div');
+        numSpan.className = 'num';
+        numSpan.textContent = cellMap[k].nums.join(',');
+        cellDiv.appendChild(numSpan);
+      }
+      cellMap[k].inputEl = input;
+    } else {
+      cellDiv.className = 'cell block';
+    }
+    gridEl.appendChild(cellDiv);
+  }
+}
+
+function focusNext(r, c){
+  // try moving right first, then down
+  const rightKey = key(r, c+1);
+  const downKey = key(r+1, c);
+  if (cellMap[rightKey] && cellMap[rightKey].inputEl) { cellMap[rightKey].inputEl.focus(); return; }
+  if (cellMap[downKey] && cellMap[downKey].inputEl) { cellMap[downKey].inputEl.focus(); return; }
+}
+
+// Render clue lists
+const acrossList = document.getElementById('acrossList');
+const downList = document.getElementById('downList');
+words.filter(w => w.dir === 'across').sort((a,b)=>a.num-b.num).forEach(w => {
+  const li = document.createElement('li');
+  li.textContent = `${w.num}. ${w.clue}`;
+  li.id = 'clue-' + w.num + '-across';
+  acrossList.appendChild(li);
+});
+words.filter(w => w.dir === 'down').sort((a,b)=>a.num-b.num).forEach(w => {
+  const li = document.createElement('li');
+  li.textContent = `${w.num}. ${w.clue}`;
+  li.id = 'clue-' + w.num + '-down';
+  downList.appendChild(li);
+});
+document.getElementById('totalCount').textContent = words.length;
+
+let solvedCount = 0;
+const solvedWords = new Set();
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 1300);
+}
+
+document.getElementById('checkBtn').addEventListener('click', () => {
+  let anyNewSolve = false;
+  words.forEach(w => {
+    const wordKey = w.num + '-' + w.dir;
+    if (solvedWords.has(wordKey)) return;
+    let current = '';
+    let complete = true;
+    const cellsForWord = [];
+    for (let i = 0; i < w.answer.length; i++) {
+      const r = w.dir === 'across' ? w.row : w.row + i;
+      const c = w.dir === 'across' ? w.col + i : w.col;
+      const cell = cellMap[key(r,c)];
+      cellsForWord.push(cell);
+      const val = cell.inputEl.value || '';
+      current += val;
+      if (!val) complete = false;
+    }
+    if (!complete) return;
+    if (current === w.answer) {
+      solvedWords.add(wordKey);
+      solvedCount++;
+      anyNewSolve = true;
+      cellsForWord.forEach(cell => {
+        cell.inputEl.parentElement.classList.remove('wrong');
+        cell.inputEl.parentElement.classList.add('correct');
+        cell.inputEl.disabled = true;
+      });
+      const clueLi = document.getElementById('clue-' + w.num + '-' + w.dir);
+      if (clueLi) clueLi.classList.add('solved');
+    } else {
+      cellsForWord.forEach(cell => cell.inputEl.parentElement.classList.add('wrong'));
+    }
+  });
+  document.getElementById('solvedCount').textContent = solvedCount;
+  if (anyNewSolve) showToast('Nice! A word is correct ✅');
+  else showToast('Keep trying — check the highlighted cells');
+
+  if (solvedCount === words.length) finishGame();
+});
+
+document.getElementById('restartBtn').addEventListener('click', () => location.reload());
+
+function finishGame(){
+  document.querySelector('.layout').style.display = 'none';
+  document.querySelectorAll('button').forEach(b => b.style.display = 'none');
+  const end = document.getElementById('endscreen');
+  end.style.display = 'block';
+  document.getElementById('endTitle').textContent = '🎉 Crossword Complete!';
+  document.getElementById('endMsg').textContent = `You solved all ${words.length} words correctly.`;
+}
+</script>
+</body>
+</html>

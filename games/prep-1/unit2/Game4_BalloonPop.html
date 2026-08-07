@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Learning to Learn — Balloon Pop</title>
+<style>
+  :root{
+    --navy:#0B1E33; --navy2:#112B47; --card:#16324F; --cyan:#35D0C9;
+    --green:#8CE99A; --amber:#FFC168; --red:#FF8080; --light:#D7E3EC; --muted:#8FA6BC;
+  }
+  *{box-sizing:border-box; -webkit-user-select:none; user-select:none;}
+  body{
+    margin:0; min-height:100vh; background:linear-gradient(180deg, #0d2438, var(--navy) 70%);
+    font-family:'Segoe UI',Calibri,Arial,sans-serif; color:var(--light); display:flex; flex-direction:column; align-items:center; padding:24px;
+    overflow-x:hidden;
+  }
+  h1{color:#fff; font-size:1.7rem; margin:6px 0 2px; text-align:center;}
+  .sub{color:var(--cyan); font-weight:700; letter-spacing:2px; font-size:.8rem; text-transform:uppercase; margin-bottom:10px; text-align:center;}
+  .hud{display:flex; gap:14px; margin-bottom:14px; flex-wrap:wrap; justify-content:center;}
+  .pill{background:var(--card); border:1px solid #1E4568; border-radius:999px; padding:8px 18px; font-size:.9rem;}
+  .pill b{color:var(--green);}
+  .pill.time b{ color:var(--amber); }
+  #promptBox{
+    max-width:640px; text-align:center; background:var(--card); border:1px solid #1E4568; border-radius:14px; padding:14px 22px; margin-bottom:14px;
+    font-size:1.15rem; font-weight:700; color:#fff;
+  }
+  #sky{
+    position:relative; width:100%; max-width:700px; height:420px; background:radial-gradient(circle at 50% 0%, #123049, #081420);
+    border-radius:18px; border:1px solid #1E4568; overflow:hidden;
+  }
+  .balloon{
+    position:absolute; width:80px; height:96px; border-radius:50% 50% 50% 50% / 55% 55% 45% 45%; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; text-align:center; font-weight:800; font-size:.85rem; color:var(--navy);
+    padding:6px; box-shadow:inset 0 -10px 20px rgba(0,0,0,.15), 0 6px 14px rgba(0,0,0,.3);
+    transition:transform .1s;
+  }
+  .balloon:hover{ transform:scale(1.06); }
+  .balloon::after{
+    content:''; position:absolute; bottom:-14px; left:50%; width:2px; height:14px; background:rgba(255,255,255,.4); transform:translateX(-50%);
+  }
+  .balloon.pop{ animation:pop .25s ease forwards; }
+  @keyframes pop{ to{ transform:scale(1.6); opacity:0; } }
+  button{
+    font-family:inherit; font-weight:700; font-size:1rem; border:none; border-radius:12px; padding:13px 28px;
+    cursor:pointer; color:var(--navy); background:linear-gradient(135deg, var(--cyan), var(--green)); margin-top:20px;
+    box-shadow:0 8px 20px rgba(53,208,201,.3);
+  }
+  #endscreen{ display:none; text-align:center; margin-top:26px; }
+  #endscreen h2{ font-size:2rem; color:#fff; }
+  .toast{ position:fixed; top:20px; left:50%; transform:translateX(-50%); background:var(--green); color:var(--navy);
+    padding:10px 22px; border-radius:999px; font-weight:800; opacity:0; transition:opacity .3s; z-index:200;}
+  .toast.show{ opacity:1; }
+  .toast.bad{ background:var(--red); }
+  footer{ margin-top:24px; color:var(--muted); font-size:.75rem; text-align:center;}
+</style>
+</head>
+<body>
+  <div class="sub">Unit 2 · Learning to Learn</div>
+  <h1>🎈 Balloon Pop: Grammar Round-Up</h1>
+  <div class="hud">
+    <div class="pill">Score: <b id="score">0</b></div>
+    <div class="pill">Round: <b id="roundNum">1</b> / 8</div>
+    <div class="pill time">Time: <b id="timer">10</b>s</div>
+  </div>
+  <div id="promptBox">Loading round…</div>
+  <div id="sky"></div>
+  <button id="startBtn">Start Game</button>
+
+  <div id="endscreen">
+    <h2 id="endTitle"></h2>
+    <p id="endMsg" style="color:var(--muted); font-size:1.05rem;"></p>
+    <button onclick="location.reload()">Play Again</button>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <footer>Original prompts · Unit 2 grammar focus: Present Continuous + Can/Can't</footer>
+
+<script>
+const rounds = [
+  { prompt:"Pop the balloon with the CORRECT verb form: 'I ___ (revise) my lessons now.'", correct:"am revising", wrong:["revises","revise","is revising"] },
+  { prompt:"Pop the balloon with the CORRECT verb form: 'She ___ (organize) her notes well.' (ability)", correct:"can organize", wrong:["cans organize","can organizes","could organizing"] },
+  { prompt:"Pop the balloon that completes: 'We ___ (not / focus) in a noisy room.' (ability)", correct:"can't focus", wrong:["doesn't focus","not can focus","can't focuses"] },
+  { prompt:"Pop the balloon with the CORRECT question: '___ you doing your homework now?'", correct:"Are", wrong:["Do","Is","Does"] },
+  { prompt:"Pop the balloon that means 'a learner who learns best by seeing':", correct:"Visual learner", wrong:["Auditory learner","Kinesthetic learner","Careless learner"] },
+  { prompt:"Pop the balloon with the CORRECT verb form: 'He ___ (fix) computers very well.' (ability)", correct:"can fix", wrong:["can fixes","cans fix","could fixes"] },
+  { prompt:"Pop the balloon with the CORRECT verb form: 'Look! They ___ (do) an experiment.'", correct:"are doing", wrong:["do","does","is doing"] },
+  { prompt:"Pop the balloon that means 'a tool to organize ideas visually':", correct:"Mind map", wrong:["Word search","Time table","Report card"] },
+];
+
+let roundIdx = 0;
+let score = 0;
+let timeLeft = 10;
+let timerInterval = null;
+let roundActive = false;
+
+const sky = document.getElementById('sky');
+const balloonColors = ["#35D0C9","#8CE99A","#FFC168","#B79CFF","#7FD8E8"];
+
+function showToast(msg, bad){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (bad ? ' bad' : '');
+  setTimeout(()=>{ t.className = 'toast'; }, 1100);
+}
+
+function loadRound(){
+  if (roundIdx >= rounds.length) { finishGame(true); return; }
+  document.getElementById('roundNum').textContent = roundIdx + 1;
+  const r = rounds[roundIdx];
+  document.getElementById('promptBox').textContent = r.prompt;
+  sky.innerHTML = '';
+
+  const options = [r.correct, ...r.wrong].sort(()=>Math.random()-0.5);
+  const skyRect = { w: sky.clientWidth || 700, h: sky.clientHeight || 420 };
+  const positions = [];
+  options.forEach((opt, i) => {
+    let x, y, tries = 0;
+    do {
+      x = 20 + Math.random() * (skyRect.w - 100);
+      y = 20 + Math.random() * (skyRect.h - 200);
+      tries++;
+    } while (positions.some(p => Math.abs(p.x-x) < 90 && Math.abs(p.y-y) < 110) && tries < 30);
+    positions.push({x,y});
+
+    const b = document.createElement('div');
+    b.className = 'balloon';
+    b.textContent = opt;
+    b.style.left = x + 'px';
+    b.style.top = y + 'px';
+    b.style.background = balloonColors[i % balloonColors.length];
+    b.dataset.correct = (opt === r.correct) ? "1" : "0";
+    b.style.animation = `float${i % 3} ${3 + Math.random()*2}s ease-in-out infinite`;
+    b.addEventListener('click', () => onBalloonClick(b, opt, r.correct));
+    sky.appendChild(b);
+  });
+
+  timeLeft = 10;
+  document.getElementById('timer').textContent = timeLeft;
+  roundActive = true;
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    document.getElementById('timer').textContent = timeLeft;
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      if (roundActive) {
+        roundActive = false;
+        showToast("Time's up! Moving on...", true);
+        setTimeout(nextRound, 900);
+      }
+    }
+  }, 1000);
+}
+
+function onBalloonClick(el, opt, correctAnswer){
+  if (!roundActive) return;
+  if (opt === correctAnswer) {
+    el.classList.add('pop');
+    roundActive = false;
+    clearInterval(timerInterval);
+    const gained = 10 + timeLeft;
+    score += gained;
+    document.getElementById('score').textContent = score;
+    showToast(`Correct! +${gained} 🎉`);
+    setTimeout(nextRound, 700);
+  } else {
+    el.style.filter = 'grayscale(1)';
+    el.style.pointerEvents = 'none';
+    showToast('Not that one — try again!', true);
+  }
+}
+
+function nextRound(){
+  roundIdx++;
+  loadRound();
+}
+
+document.getElementById('startBtn').addEventListener('click', () => {
+  document.getElementById('startBtn').style.display = 'none';
+  loadRound();
+});
+
+function finishGame(){
+  clearInterval(timerInterval);
+  document.getElementById('sky').style.display = 'none';
+  document.getElementById('promptBox').style.display = 'none';
+  const end = document.getElementById('endscreen');
+  end.style.display = 'block';
+  let title = '🎉 Great Popping!';
+  if (score >= 140) title = '🏆 Balloon Master!';
+  else if (score >= 90) title = '👍 Nice Work!';
+  document.getElementById('endTitle').textContent = title;
+  document.getElementById('endMsg').textContent = `Final score: ${score} points across ${rounds.length} rounds.`;
+}
+
+// simple floating keyframes injected dynamically
+const styleSheet = document.createElement('style');
+styleSheet.textContent = `
+  @keyframes float0 { 0%,100%{ transform:translateY(0px); } 50%{ transform:translateY(-14px); } }
+  @keyframes float1 { 0%,100%{ transform:translateY(0px) translateX(0px); } 50%{ transform:translateY(-10px) translateX(6px); } }
+  @keyframes float2 { 0%,100%{ transform:translateY(0px) translateX(0px); } 50%{ transform:translateY(-16px) translateX(-6px); } }
+`;
+document.head.appendChild(styleSheet);
+</script>
+</body>
+</html>

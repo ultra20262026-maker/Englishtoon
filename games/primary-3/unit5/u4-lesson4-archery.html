@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>Unit 4 · Lessons 4-5 — A Blog & Numbers — جيم ٤</title>
+<style>
+:root{--ink:#FFF4E2;--deep:#1B2A1F;--deep2:#28402D;--sun:#FFC145;--leaf:#8BD450;--berry:#FF5D6C}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;color:var(--ink);
+ background:var(--deep);min-height:100vh;padding:10px;overflow:hidden}
+.wrap{max-width:620px;margin:0 auto}
+.card{background:rgba(255,244,226,.06);border:1px solid rgba(255,244,226,.15);border-radius:16px;padding:16px}
+h1{font-size:1.25rem;color:var(--sun);line-height:1.4}h2{font-size:1.1rem;color:var(--sun)}
+p.lead{line-height:1.9;font-size:.95rem;margin-top:8px}
+.btn{font-size:1.05rem;font-weight:700;font-family:inherit;background:var(--sun);color:#37280a;border:0;
+ border-radius:12px;padding:13px 20px;cursor:pointer;box-shadow:0 4px 0 #c79400;width:100%;margin-top:10px}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 #c79400}
+.btn.ghost{background:transparent;color:var(--ink);border:2px solid rgba(255,244,226,.3);box-shadow:none}
+.hud{display:flex;justify-content:space-between;align-items:center;background:var(--deep2);
+ border:1px solid rgba(255,244,226,.18);border-radius:12px;padding:8px 12px;font-weight:700;font-size:.88rem}
+.qbox{background:var(--deep2);border:1px solid rgba(255,244,226,.18);border-radius:12px;padding:10px;
+ text-align:center;margin-top:8px;min-height:60px;display:flex;flex-direction:column;justify-content:center}
+.q{font-size:1.05rem;font-weight:700;direction:ltr;line-height:1.5}
+.qsub{font-size:.78rem;opacity:.8;margin-top:3px}
+#stage{width:100%;height:60vh;min-height:340px;margin-top:8px;border-radius:14px;display:block;touch-action:none;
+ background:linear-gradient(180deg,#8FC1E3 0 55%,#6FA063 55%,#4E7A46);border:1px solid rgba(255,244,226,.15)}
+section{margin-top:12px}.trophy{font-size:4rem;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+<section id="home"><div class="card">
+  <h1>🏹 القوس والسهم</h1>
+  <p class="lead">الوحدة الرابعة — رحلة لجبل سانت كاترين والأعداد الكبيرة + صوت /p/ و /b/.<br>دوس على اللوحة اللي عليها الإجابة الصح والسهم هيطير لوحده.</p>
+  <button class="btn" onclick="start()">ابدأ الرماية</button>
+</div></section>
+
+<section id="play" hidden>
+  <div class="hud"><span id="lives">❤❤❤</span>
+    <span style="font-size:.72rem;opacity:.85">Unit 4 · Lessons 4-5 — A Blog & Numbers</span>
+    <span>⭐ <span id="score">0</span> <span id="combo" style="color:var(--sun)"></span></span></div>
+  <div class="qbox"><div class="q" id="q"></div><div class="qsub" id="qsub"></div></div>
+  <canvas id="stage"></canvas>
+  <button class="btn ghost" onclick="location.reload()">من الأول</button>
+</section>
+
+<section id="over" hidden><div class="card" style="text-align:center">
+  <div class="trophy" id="ic">🏹</div><h2 id="tt"></h2><p class="lead" id="tx"></p>
+  <button class="btn" onclick="location.reload()">العب تاني</button>
+</div></section>
+</div>
+
+<script>
+const QS=[
+ {q:"A thousand million is one ___ .",opts:["billion","hundred","dozen","million"],ans:0},
+ {q:"The number 1,000 is one ___ .",opts:["thousand","million","billion","hundred"],ans:0},
+ {q:"Many tourists climb St. Catherine Mountain in South ___ .",opts:["Sinai","Cairo","Aswan","Luxor"],ans:0},
+ {q:"It's hard to ___ St. Catherine Mountain.",opts:["make","play","go","climb"],ans:3},
+ {q:"The word 'adventure' means ___ .",opts:["a fun and exciting trip","a bad trip","a boring trip","a short trip"],ans:0},
+ {q:"On the mountain you can see beautiful colorful ___ .",opts:["rocks","cages","stores","letters"],ans:0},
+ {q:"Which word starts with the /p/ sound?",opts:["pond","bond","bat","band"],ans:0},
+ {q:"Which word starts with the /b/ sound?",opts:["pat","bat","pen","pear"],ans:1},
+ {q:"The ducks swim in the ___ .",opts:["pond","pears","beak","bat"],ans:0},
+ {q:"The bird drinks water with its small ___ .",opts:["beak","pond","pear","rock"],ans:0}
+];
+/* ===== أصوات اللعبة (WebAudio — من غير ملفات خارجية) ===== */
+const SFX=(()=>{
+ let ac=null,noise=null;
+ const ctxA=()=>{ if(!ac){try{ac=new (window.AudioContext||window.webkitAudioContext)()}catch(e){return null}}
+   if(ac.state==="suspended")ac.resume(); return ac; };
+ function nbuf(a,dur){
+  if(noise&&noise.duration>=dur)return noise;
+  const len=Math.ceil(a.sampleRate*dur),b=a.createBuffer(1,len,a.sampleRate),d=b.getChannelData(0);
+  for(let i=0;i<len;i++)d[i]=Math.random()*2-1;
+  noise=b;return b;
+ }
+ function tone(f1,f2,dur,type,vol){
+  const a=ctxA();if(!a)return;
+  const o=a.createOscillator(),g=a.createGain();
+  o.type=type||"sine";o.frequency.setValueAtTime(f1,a.currentTime);
+  if(f2)o.frequency.exponentialRampToValueAtTime(f2,a.currentTime+dur);
+  g.gain.setValueAtTime(vol||.12,a.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0008,a.currentTime+dur);
+  o.connect(g);g.connect(a.destination);o.start();o.stop(a.currentTime+dur+.02);
+ }
+ function noiseHit(dur,f,q,vol,sweepTo){
+  const a=ctxA();if(!a)return;
+  const s=a.createBufferSource();s.buffer=nbuf(a,1.4);
+  const bp=a.createBiquadFilter();bp.type="bandpass";bp.frequency.setValueAtTime(f,a.currentTime);
+  if(sweepTo)bp.frequency.exponentialRampToValueAtTime(sweepTo,a.currentTime+dur);
+  bp.Q.value=q||1;
+  const g=a.createGain();g.gain.setValueAtTime(vol||.25,a.currentTime);
+  g.gain.exponentialRampToValueAtTime(.001,a.currentTime+dur);
+  s.connect(bp);bp.connect(g);g.connect(a.destination);s.start();s.stop(a.currentTime+dur+.02);
+ }
+ return {
+  unlock(){ctxA();},
+  whoosh(){noiseHit(.35,400,1.2,.18,2200);},
+  splash(){noiseHit(.3,900,.8,.3,220);tone(320,120,.18,"sine",.1);},
+  pop(){tone(900,180,.12,"triangle",.18);noiseHit(.08,1800,1,.16);},
+  thunk(){tone(160,60,.18,"triangle",.22);noiseHit(.12,700,1.4,.18);},
+  launch(){tone(180,760,.25,"sawtooth",.1);noiseHit(.3,600,1,.14,2400);},
+  boom(){noiseHit(.45,300,.7,.32,90);tone(120,40,.35,"triangle",.18);},
+  ding(){tone(880,1320,.16,"sine",.15);setTimeout(()=>tone(1320,1760,.2,"sine",.12),90);},
+  wrong(){tone(240,90,.3,"square",.14);},
+  /* تصفيق: نبضات ضوضاء عشوائية زي الأيادي */
+  clap(){
+   const a=ctxA();if(!a)return;
+   const t0=a.currentTime;
+   for(let i=0;i<26;i++){
+    const t=t0+i*0.045+Math.random()*0.03;
+    const s=a.createBufferSource();s.buffer=nbuf(a,1.4);
+    const bp=a.createBiquadFilter();bp.type="bandpass";
+    bp.frequency.value=1100+Math.random()*1800;bp.Q.value=.9;
+    const g=a.createGain();
+    const v=.10+Math.random()*.09;
+    g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+.004);
+    g.gain.exponentialRampToValueAtTime(.001,t+.09);
+    s.connect(bp);bp.connect(g);g.connect(a.destination);
+    s.start(t);s.stop(t+.12);
+   }
+   // هتاف خفيف
+   const o=a.createOscillator(),g2=a.createGain(),f=a.createBiquadFilter();
+   f.type="lowpass";f.frequency.value=900;o.type="sawtooth";o.frequency.setValueAtTime(300,t0);
+   o.frequency.linearRampToValueAtTime(420,t0+.5);
+   g2.gain.setValueAtTime(.0001,t0);g2.gain.linearRampToValueAtTime(.05,t0+.15);
+   g2.gain.exponentialRampToValueAtTime(.0006,t0+1.1);
+   o.connect(f);f.connect(g2);g2.connect(a.destination);o.start(t0);o.stop(t0+1.2);
+  }
+ };
+})();
+
+const $=i=>document.getElementById(i);
+const shuffle=a=>a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(v=>v[1]);
+const cv=$("stage"),ctx=cv.getContext("2d");
+const G={pull:0,lastAng:-.6,W:0,H:0,qi:0,lives:3,score:0,combo:0,right:0,boards:[],arrow:null,stuck:[],parts:[],
+ bow:{x:46,y:0},aim:null,busy:false,t:0,last:0,raf:null,msg:"",msgT:0,wind:0};
+const GRAV=760,POW=1250;
+
+function resize(){const r=cv.getBoundingClientRect(),dpr=Math.min(2,devicePixelRatio||1);
+ cv.width=r.width*dpr;cv.height=r.height*dpr;G.W=r.width;G.H=r.height;
+ ctx.setTransform(dpr,0,0,dpr,0,0);G.bow.y=G.H*.72;}
+addEventListener("resize",resize);
+function beep(ok){ if(ok){SFX.ding();SFX.clap();} else SFX.wrong(); }
+function say(t){try{const u=new SpeechSynthesisUtterance(t);u.lang="en-US";u.rate=.9;
+ speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}}
+function msg(t){G.msg=t;G.msgT=1.7;}
+function start(){SFX.unlock();$("home").hidden=true;$("play").hidden=false;
+ requestAnimationFrame(()=>{resize();newQ();G.last=performance.now();G.raf=requestAnimationFrame(loop)});}
+function hud(){$("lives").textContent="❤".repeat(Math.max(0,G.lives))+"🖤".repeat(3-Math.max(0,G.lives));
+ $("score").textContent=G.score;$("combo").textContent=G.combo>1?"x"+Math.min(5,G.combo):"";}
+
+function newQ(){
+ if(G.qi>=QS.length)return over(true);
+ const q=QS[G.qi];
+ $("q").textContent=q.q;$("qsub").textContent="دوس على اللوحة اللي فيها الإجابة الصح والسهم هيطير لوحده";
+ ctx.font="700 13px system-ui,Arial";
+ const opts=shuffle(q.opts.map((o,i)=>({t:o,ok:i===q.ans})));
+ G.wind=(Math.random()-.5)*130;
+ const x0=G.W*.42,span=G.W*.52;
+ G.boards=opts.map((o,i)=>{
+  const w=Math.max(58,ctx.measureText(o.t).width+18);
+  return {text:o.t,ok:o.ok,w,h:30,
+   x:x0+((i%2)*span/2)+Math.random()*18,
+   baseY:G.H*.18+i*(G.H*.13),y:0,
+   amp:i%2?12+Math.random()*14:0, ph:Math.random()*6.3, sp:.7+Math.random()*.5, dead:false};
+ });
+ G.boards.forEach(b=>b.y=b.baseY);
+ G.arrow=null;G.stuck=[];G.aim=null;G.busy=false;hud();
+}
+/* التصويب التلقائي: دوس على اللوحة والسهم يتحسب لوحده (بالجاذبية والهوا) */
+function pt(e){const r=cv.getBoundingClientRect(),p=e.touches?e.changedTouches[0]:e;
+ return {x:p.clientX-r.left,y:p.clientY-r.top};}
+
+/* مسار مضمون: منحنى من نقطة الانطلاق للهدف اللي الطالب دوس عليه */
+function bez(p0,p1,p2,t){const u=1-t;return u*u*p0+2*u*t*p1+t*t*p2;}
+function nearest(list,p){
+ let best=null,bd=1e9;
+ for(const o of list){ if(o.dead||o.gone)continue;
+  const cx=o.x+o.w/2, cy=o.y+(o.h||26)/2, d=Math.hypot(p.x-cx,p.y-cy);
+  if(d<bd){bd=d;best=o;} }
+ return bd<130?best:null;
+}
+function tap(e){
+ if(G.busy||G.arrow)return;e.preventDefault();
+ const p=pt(e);
+ const pick=nearest(G.boards,p);
+ if(!pick){msg("دوس على اللوحة اللي عليها الإجابة");return;}
+ const b=G.bow;
+ const tx=pick.x+pick.w/2, ty=pick.y+pick.h/2;
+ G.arrow={x:b.x,y:b.y,px:b.x,py:b.y,vx:1,vy:0,fx:b.x,fy:b.y,
+  cx:(b.x+tx)/2, cy:Math.min(b.y,ty)-Math.max(70,Math.abs(tx-b.x)*.35),
+  t:0,dur:.85,lock:pick,trail:[]};
+ G.pull=1;
+ SFX.whoosh();
+}
+cv.addEventListener("mousedown",tap);
+cv.addEventListener("touchstart",tap,{passive:false});
+
+function burst(x,y,c,n){for(let i=0;i<n;i++){const a=Math.random()*6.3,s=50+Math.random()*220;
+ G.parts.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-60,life:.5+Math.random()*.5,color:c})}}
+function loop(t){const dt=Math.min(.033,(t-G.last)/1000);G.last=t;G.t+=dt;step(dt);draw();G.raf=requestAnimationFrame(loop);}
+function step(dt){
+ if(G.msgT>0)G.msgT-=dt;else G.msg="";
+ G.boards.forEach(b=>{if(b.amp)b.y=b.baseY+Math.sin(G.t*b.sp+b.ph)*b.amp;});
+ G.parts.forEach(p=>{p.vy+=700*dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.life-=dt});
+ G.parts=G.parts.filter(p=>p.life>0);
+ const a=G.arrow;if(!a)return;
+ const L=a.lock;
+ a.t+=dt/a.dur;
+ const t=Math.min(1,a.t);
+ const tx=L?L.x+L.w/2:a.cx, ty=L?L.y+L.h/2:a.cy;
+ a.px=a.x;a.py=a.y;
+ a.x=bez(a.fx,a.cx,tx,t);
+ a.y=bez(a.fy,a.cy,ty,t);
+ a.vx=a.x-a.px;a.vy=a.y-a.py;
+ a.trail.push({x:a.x,y:a.y});if(a.trail.length>18)a.trail.shift();
+ if(t>=1){SFX.thunk();hit(L,a);return;}
+}
+function hit(b,a){
+ const q=QS[G.qi];G.arrow=null;
+ G.stuck.push({x:a.x,y:a.y,ang:Math.atan2(a.vy,a.vx)});
+ if(b.ok){
+  b.dead=true;burst(b.x+b.w/2,b.y+15,"#8BD450",24);beep(true);say(b.text);
+  G.combo++;const p=10*Math.min(5,G.combo);G.score+=p;G.right++;msg("في القلب! +"+p);hud();
+  G.busy=true;G.qi++;setTimeout(newQ,900);
+ }else{
+  burst(b.x+b.w/2,b.y+15,"#FF5D6C",14);beep(false);G.combo=0;G.lives--;hud();
+  msg("مش دي — الصح: "+q.opts[q.ans]);
+  G.busy=true;
+  if(G.lives<=0)setTimeout(()=>over(false),900);
+  else{G.qi++;setTimeout(newQ,1400);}
+ }
+}
+function drawArrow(x,y,ang,scale){
+ ctx.save();ctx.translate(x,y);ctx.rotate(ang);ctx.scale(scale||1,scale||1);
+ ctx.strokeStyle="#6B4B2A";ctx.lineWidth=2.6;
+ ctx.beginPath();ctx.moveTo(-24,0);ctx.lineTo(10,0);ctx.stroke();
+ ctx.fillStyle="#D9D9D9";ctx.beginPath();ctx.moveTo(18,0);ctx.lineTo(8,-4.5);ctx.lineTo(8,4.5);ctx.closePath();ctx.fill();
+ ctx.fillStyle="#FF5D6C";ctx.beginPath();ctx.moveTo(-24,0);ctx.lineTo(-32,-5);ctx.lineTo(-26,0);ctx.lineTo(-32,5);ctx.closePath();ctx.fill();
+ ctx.restore();
+}
+function draw(){
+ ctx.clearRect(0,0,G.W,G.H);
+ // شمس وسحاب
+ ctx.fillStyle="rgba(255,255,255,.5)";
+ for(let i=0;i<3;i++){const cx=(i*150+G.t*6)%(G.W+140)-70;
+  ctx.beginPath();ctx.ellipse(cx,40+i*36,44,15,0,0,6.3);ctx.fill();}
+ // علم الهوا
+ const fx=G.W-34,fy=18;
+ ctx.strokeStyle="#5A4632";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(fx,fy);ctx.lineTo(fx,fy+34);ctx.stroke();
+ const dir=Math.sign(G.wind)||1,len=10+Math.abs(G.wind)/6;
+ ctx.fillStyle="#FF5D6C";ctx.beginPath();ctx.moveTo(fx,fy);
+ ctx.lineTo(fx+dir*len,fy+7+Math.sin(G.t*6)*2);ctx.lineTo(fx,fy+14);ctx.closePath();ctx.fill();
+ ctx.fillStyle="rgba(255,255,255,.8)";ctx.font="700 11px system-ui,Arial";ctx.textAlign="right";
+ ctx.fillText("الهوا",fx-6,fy+12);
+ // لوحات
+ ctx.textAlign="center";ctx.textBaseline="middle";
+ G.boards.forEach(b=>{
+  if(b.dead)return;
+  ctx.fillStyle="#8B5E34";ctx.fillRect(b.x+b.w/2-3,b.y+b.h,6,G.H-(b.y+b.h)-8);
+  ctx.fillStyle="#F2E3C6";ctx.strokeStyle="#8B5E34";ctx.lineWidth=3;
+  ctx.fillRect(b.x,b.y,b.w,b.h);ctx.strokeRect(b.x,b.y,b.w,b.h);
+  ctx.fillStyle="#3A2A12";ctx.font="700 13px system-ui,Arial";
+  ctx.fillText(b.text,b.x+b.w/2,b.y+b.h/2);
+ });
+ // القوس
+ const bw=G.bow;
+ let pull=G.pull||0,ang=-.6;
+ if(G.arrow)ang=Math.atan2(G.arrow.vy,G.arrow.vx);
+ else if(G.lastAng!==undefined)ang=G.lastAng;
+ if(G.pull>0)G.pull=Math.max(0,G.pull-.06);
+ ctx.save();ctx.translate(bw.x,bw.y);ctx.rotate(ang);
+ ctx.strokeStyle="#6B4B2A";ctx.lineWidth=4;
+ ctx.beginPath();ctx.arc(0,0,26,-1.15,1.15);ctx.stroke();
+ ctx.strokeStyle="rgba(255,255,255,.85)";ctx.lineWidth=1.6;
+ const bx=Math.cos(-1.15)*26,by=Math.sin(-1.15)*26;
+ ctx.beginPath();ctx.moveTo(bx,by);ctx.lineTo(-14*pull,0);ctx.lineTo(bx,-by);ctx.stroke();
+ if(pull>0)drawArrow(-10*pull,0,0,.9);
+ ctx.restore();
+ 
+ // سهام مغروزة
+ G.stuck.forEach(s=>drawArrow(s.x,s.y,s.ang,.85));
+ // السهم الطاير
+ const a=G.arrow;
+ if(a){
+  a.trail.forEach((t,i)=>{ctx.fillStyle=`rgba(255,255,255,${i/a.trail.length*.35})`;
+   ctx.beginPath();ctx.arc(t.x,t.y,1.8,0,6.3);ctx.fill();});
+  drawArrow(a.x,a.y,Math.atan2(a.vy,a.vx),1);
+ }
+ G.parts.forEach(p=>{ctx.globalAlpha=Math.max(0,p.life);ctx.fillStyle=p.color;ctx.fillRect(p.x,p.y,4,4)});
+ ctx.globalAlpha=1;
+ if(G.msg){ctx.fillStyle="#3A2A12";ctx.font="700 15px system-ui,Arial";ctx.textAlign="center";
+  ctx.fillText(G.msg,G.W/2,G.H-16);}
+}
+function over(done){
+ if(G.raf)cancelAnimationFrame(G.raf);G.raf=null;
+ $("play").hidden=true;$("over").hidden=false;
+ const st=G.right>=QS.length?3:G.right>=7?2:G.right>=4?1:0;
+ $("ic").textContent=done?(st===3?"🏆":"🏹"):"💥";
+ $("tt").textContent=done?"خلصت الرماية!":"القلوب خلصت";
+ $("tx").innerHTML=`إصابات صح: <b>${G.right}</b> من ${QS.length} — النقاط: <b>${G.score}</b><br>${"⭐".repeat(st)}${"☆".repeat(3-st)}`;
+}
+document.addEventListener("visibilitychange",()=>{if(document.hidden&&G.raf){cancelAnimationFrame(G.raf);G.raf=null;}
+ else if(!$("play").hidden&&!G.raf){G.last=performance.now();G.raf=requestAnimationFrame(loop);}});
+</script>
+</body>
+</html>

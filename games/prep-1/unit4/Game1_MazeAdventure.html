@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Choices — Maze Adventure</title>
+<style>
+  :root{ --navy:#0B1E33; --navy2:#112B47; --card:#16324F; --cyan:#35D0C9; --green:#8CE99A; --amber:#FFC168; --red:#FF8080; --light:#D7E3EC; --muted:#8FA6BC; }
+  *{box-sizing:border-box;}
+  body{ margin:0; min-height:100vh; background:radial-gradient(circle at 50% 100%, var(--navy2), var(--navy) 65%);
+    font-family:'Segoe UI',Calibri,Arial,sans-serif; color:var(--light); display:flex; flex-direction:column; align-items:center; padding:24px; }
+  h1{color:#fff; font-size:1.7rem; margin:6px 0 2px; text-align:center;}
+  .sub{color:var(--cyan); font-weight:700; letter-spacing:2px; font-size:.8rem; text-transform:uppercase; margin-bottom:14px; text-align:center;}
+  .hud{display:flex; gap:14px; margin-bottom:16px; flex-wrap:wrap; justify-content:center;}
+  .pill{background:var(--card); border:1px solid #1E4568; border-radius:999px; padding:8px 18px; font-size:.9rem;}
+  .pill b{color:var(--green);}
+  #maze{ display:grid; grid-template-columns:repeat(6, 52px); grid-template-rows:repeat(6, 52px); gap:4px; margin-bottom:16px; }
+  .tile{ background:var(--card); border:1px solid #1E4568; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:1.3rem; }
+  .tile.wall{ background:#0a1622; border-color:#0a1622; }
+  .tile.path.visited{ background:rgba(140,233,154,.15); border-color:var(--green); }
+  .tile.player{ background:linear-gradient(135deg, var(--cyan), var(--green)); }
+  .tile.goal{ background:linear-gradient(135deg, var(--amber), #d99a3d); }
+  .controls{ display:grid; grid-template-columns:56px 56px 56px; grid-template-rows:56px 56px; gap:6px; margin-bottom:10px; }
+  .ctrl-btn{ background:var(--card); border:1px solid #1E4568; border-radius:10px; font-size:1.4rem; color:var(--cyan); cursor:pointer; }
+  .ctrl-btn:hover{ border-color:var(--cyan); }
+  #qmodal{ display:none; position:fixed; inset:0; background:rgba(4,10,18,.88); z-index:100; align-items:center; justify-content:center; padding:20px; }
+  #qcardbox{ background:var(--card); border:1px solid #1E4568; border-radius:18px; padding:28px; max-width:600px; width:100%; }
+  #qtext{ color:#fff; font-size:1.2rem; font-weight:700; margin-bottom:18px; line-height:1.4; }
+  .opt{ display:block; width:100%; text-align:left; background:var(--navy2); color:var(--light); border:1px solid #1E4568;
+    border-radius:10px; padding:13px 16px; margin-bottom:10px; font-size:1rem; cursor:pointer; }
+  .opt:hover{ border-color:var(--cyan); background:#183a5c; }
+  .opt.correct{ background:rgba(140,233,154,.18); border-color:var(--green); color:var(--green); font-weight:700; }
+  .opt.wrong{ background:rgba(255,128,128,.18); border-color:var(--red); color:var(--red); font-weight:700; }
+  .explain{ margin-top:12px; padding:12px 14px; background:var(--navy2); border-radius:10px; font-size:.9rem; color:var(--muted); display:none;}
+  .btn-close{ margin-top:16px; display:none; font-family:inherit; font-weight:700; font-size:1rem; border:none; border-radius:10px;
+    padding:12px 24px; cursor:pointer; color:var(--navy); background:linear-gradient(135deg, var(--cyan), var(--green)); }
+  #endscreen{ display:none; text-align:center; margin-top:26px; }
+  #endscreen h2{ font-size:2rem; color:#fff; }
+  button.replay{ font-family:inherit; font-weight:700; font-size:1rem; border:none; border-radius:12px; padding:13px 28px;
+    cursor:pointer; color:var(--navy); background:linear-gradient(135deg, var(--cyan), var(--green)); margin-top:16px; }
+  footer{ margin-top:20px; color:var(--muted); font-size:.75rem; text-align:center;}
+</style>
+</head>
+<body>
+  <div class="sub">Unit 4 · Smart Choices</div>
+  <h1>🧭 Maze Adventure: Find the Smart Path</h1>
+  <div class="hud">
+    <div class="pill">Score: <b id="score">0</b></div>
+    <div class="pill">Moves: <b id="moves">0</b></div>
+  </div>
+
+  <div id="maze"></div>
+  <div class="controls">
+    <div></div><button class="ctrl-btn" data-dir="up">↑</button><div></div>
+    <button class="ctrl-btn" data-dir="left">←</button><button class="ctrl-btn" data-dir="down">↓</button><button class="ctrl-btn" data-dir="right">→</button>
+  </div>
+
+  <div id="qmodal">
+    <div id="qcardbox">
+      <div id="qtext"></div>
+      <div id="options"></div>
+      <div class="explain" id="explain"></div>
+      <button class="btn-close" id="closeBtn">Continue →</button>
+    </div>
+  </div>
+
+  <div id="endscreen">
+    <h2 id="endTitle"></h2>
+    <p id="endMsg" style="color:var(--muted); font-size:1.05rem;"></p>
+    <button class="replay" onclick="location.reload()">Play Again</button>
+  </div>
+
+  <footer>Original questions · Unit 4 grammar focus: Should/Shouldn't + First Conditional</footer>
+
+<script>
+// 0 = wall, 1 = path, 2 = question tile, 3 = goal
+const layout = [
+  [1,1,0,1,1,1],
+  [0,1,0,1,0,1],
+  [1,1,1,1,0,1],
+  [1,0,0,2,0,1],
+  [1,2,1,1,1,1],
+  [1,0,0,0,0,3],
+];
+const ROWS = layout.length, COLS = layout[0].length;
+let player = {r:0, c:0};
+let score = 0, moves = 0;
+const visitedQuestions = new Set();
+
+const questions = [
+  {q:"You ___________ (should) think before choosing.", opts:["should thinks","should think","shoulds think","should to think"], a:1, ex:"'Should' + base verb."},
+  {q:"If you plan carefully, you ___________ (avoid) mistakes.", opts:["avoid","will avoid","avoids","avoided"], a:1, ex:"Result clause: will + base verb."},
+];
+
+function render(){
+  const maze = document.getElementById('maze');
+  maze.innerHTML = '';
+  for (let r=0;r<ROWS;r++){
+    for (let c=0;c<COLS;c++){
+      const val = layout[r][c];
+      const div = document.createElement('div');
+      div.className = 'tile';
+      if (val === 0) div.classList.add('wall');
+      else {
+        div.classList.add('path');
+        if (val === 3) { div.classList.add('goal'); div.textContent = '🏆'; }
+        else if (val === 2 && !visitedQuestions.has(r+'_'+c)) { div.textContent = '❓'; }
+      }
+      if (r === player.r && c === player.c) { div.classList.add('player'); div.textContent = '🚶'; }
+      maze.appendChild(div);
+    }
+  }
+}
+render();
+
+function tryMove(dr, dc){
+  const nr = player.r + dr, nc = player.c + dc;
+  if (nr < 0 || nr >= ROWS || nc < 0 || nc >= COLS) return;
+  if (layout[nr][nc] === 0) return;
+  player = {r:nr, c:nc};
+  moves++;
+  document.getElementById('moves').textContent = moves;
+
+  const val = layout[nr][nc];
+  if (val === 2 && !visitedQuestions.has(nr+'_'+nc)) {
+    render();
+    openQuestion(nr, nc);
+    return;
+  }
+  render();
+  if (val === 3) finishGame();
+}
+
+document.querySelectorAll('.ctrl-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const dir = btn.dataset.dir;
+    if (dir === 'up') tryMove(-1,0);
+    if (dir === 'down') tryMove(1,0);
+    if (dir === 'left') tryMove(0,-1);
+    if (dir === 'right') tryMove(0,1);
+  });
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowUp') tryMove(-1,0);
+  if (e.key === 'ArrowDown') tryMove(1,0);
+  if (e.key === 'ArrowLeft') tryMove(0,-1);
+  if (e.key === 'ArrowRight') tryMove(0,1);
+});
+
+function openQuestion(r, c){
+  const q = questions[visitedQuestions.size % questions.length];
+  document.getElementById('qtext').textContent = q.q;
+  const optsDiv = document.getElementById('options');
+  optsDiv.innerHTML = '';
+  const explainDiv = document.getElementById('explain');
+  explainDiv.style.display = 'none';
+  const closeBtn = document.getElementById('closeBtn');
+  closeBtn.style.display = 'none';
+
+  q.opts.forEach((opt, i) => {
+    const b = document.createElement('button');
+    b.className = 'opt';
+    b.textContent = opt;
+    b.onclick = () => {
+      document.querySelectorAll('.opt').forEach(o => o.onclick = null);
+      visitedQuestions.add(r+'_'+c);
+      if (i === q.a) {
+        b.classList.add('correct');
+        score += 20;
+      } else {
+        b.classList.add('wrong');
+        document.querySelectorAll('.opt')[q.a].classList.add('correct');
+      }
+      document.getElementById('score').textContent = score;
+      explainDiv.textContent = 'Why: ' + q.ex;
+      explainDiv.style.display = 'block';
+      closeBtn.style.display = 'inline-block';
+    };
+    optsDiv.appendChild(b);
+  });
+  document.getElementById('qmodal').style.display = 'flex';
+}
+
+document.getElementById('closeBtn').addEventListener('click', () => {
+  document.getElementById('qmodal').style.display = 'none';
+  render();
+  if (player.r === ROWS-1 && player.c === COLS-1) finishGame();
+});
+
+function finishGame(){
+  document.getElementById('maze').style.display = 'none';
+  document.querySelector('.controls').style.display = 'none';
+  const end = document.getElementById('endscreen');
+  end.style.display = 'block';
+  document.getElementById('endTitle').textContent = '🏆 You Reached the Goal!';
+  document.getElementById('endMsg').textContent = `You escaped the maze in ${moves} moves with a score of ${score}.`;
+}
+</script>
+</body>
+</html>

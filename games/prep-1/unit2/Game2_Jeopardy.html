@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Learning to Learn — Jeopardy</title>
+<style>
+  :root{
+    --navy:#0B1E33; --navy2:#112B47; --card:#16324F; --cyan:#35D0C9;
+    --green:#8CE99A; --amber:#FFC168; --red:#FF8080; --light:#D7E3EC; --muted:#8FA6BC;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; min-height:100vh; background:linear-gradient(160deg, #08131f, var(--navy) 55%, #08131f);
+    font-family:'Segoe UI',Calibri,Arial,sans-serif; color:var(--light); display:flex; flex-direction:column; align-items:center; padding:24px;
+  }
+  h1{color:#fff; font-size:1.7rem; margin:6px 0 2px; text-align:center;}
+  .sub{color:var(--cyan); font-weight:700; letter-spacing:2px; font-size:.8rem; text-transform:uppercase; margin-bottom:14px;}
+  .hud{display:flex; gap:14px; margin-bottom:16px; flex-wrap:wrap; justify-content:center;}
+  .pill{background:var(--card); border:1px solid #1E4568; border-radius:999px; padding:8px 18px; font-size:.9rem;}
+  .pill b{color:var(--green);}
+  #board{ display:grid; grid-template-columns:repeat(4, 1fr); gap:8px; max-width:900px; width:100%; }
+  .cat-header{ background:var(--navy2); border:1px solid #1E4568; border-radius:8px; padding:12px 6px; text-align:center;
+    font-weight:800; font-size:.85rem; color:var(--amber); text-transform:uppercase; letter-spacing:.5px; }
+  .cell{ background:var(--card); border:1px solid #1E4568; border-radius:8px; padding:16px 6px; text-align:center;
+    font-weight:800; font-size:1.3rem; color:var(--cyan); cursor:pointer; transition:.15s; }
+  .cell:hover{ background:#1a3a5c; transform:translateY(-2px); }
+  .cell.used{ background:#0e1f33; color:var(--muted); cursor:default; }
+  .cell.used:hover{ transform:none; }
+  #qmodal{
+    display:none; position:fixed; inset:0; background:rgba(4,10,18,.88); z-index:100; align-items:center; justify-content:center; padding:20px;
+  }
+  #qcardbox{
+    background:var(--card); border:1px solid #1E4568; border-radius:18px; padding:30px; max-width:640px; width:100%; animation:pop .3s ease;
+  }
+  @keyframes pop{ from{opacity:0; transform:scale(.92);} to{opacity:1; transform:scale(1);} }
+  #qcat{ color:var(--amber); font-weight:800; font-size:.8rem; letter-spacing:2px; text-transform:uppercase; margin-bottom:10px;}
+  #qtext{ color:#fff; font-size:1.3rem; font-weight:700; margin-bottom:20px; line-height:1.4; }
+  .opt{ display:block; width:100%; text-align:left; background:var(--navy2); color:var(--light); border:1px solid #1E4568;
+    border-radius:10px; padding:13px 16px; margin-bottom:10px; font-size:1rem; cursor:pointer; transition:.15s; }
+  .opt:hover{ border-color:var(--cyan); background:#183a5c; }
+  .opt.correct{ background:rgba(140,233,154,.18); border-color:var(--green); color:var(--green); font-weight:700; }
+  .opt.wrong{ background:rgba(255,128,128,.18); border-color:var(--red); color:var(--red); font-weight:700; }
+  .explain{ margin-top:12px; padding:12px 14px; background:var(--navy2); border-radius:10px; font-size:.9rem; color:var(--muted); display:none;}
+  .btn-close{ margin-top:16px; background:linear-gradient(135deg, var(--cyan), var(--green)); color:var(--navy); border:none; border-radius:10px;
+    padding:12px 24px; font-weight:700; cursor:pointer; display:none; }
+  #endscreen{ display:none; text-align:center; margin-top:26px; }
+  #endscreen h2{ font-size:2rem; color:#fff; }
+  button.replay{ font-family:inherit; font-weight:700; font-size:1rem; border:none; border-radius:12px; padding:13px 28px;
+    cursor:pointer; color:var(--navy); background:linear-gradient(135deg, var(--cyan), var(--green)); margin-top:16px; }
+  footer{ margin-top:26px; color:var(--muted); font-size:.75rem; text-align:center;}
+</style>
+</head>
+<body>
+  <div class="sub">Unit 2 · Learning to Learn</div>
+  <h1>🏆 Learning to Learn: Jeopardy</h1>
+  <div class="hud">
+    <div class="pill">Score: <b id="score">0</b></div>
+    <div class="pill">Answered: <b id="answered">0</b> / 12</div>
+  </div>
+
+  <div id="board"></div>
+
+  <div id="qmodal">
+    <div id="qcardbox">
+      <div id="qcat"></div>
+      <div id="qtext"></div>
+      <div id="options"></div>
+      <div class="explain" id="explain"></div>
+      <button class="btn-close" id="closeBtn">Back to Board →</button>
+    </div>
+  </div>
+
+  <div id="endscreen">
+    <h2 id="endTitle"></h2>
+    <p id="endMsg" style="color:var(--muted); font-size:1.05rem;"></p>
+    <button class="replay" onclick="location.reload()">Play Again</button>
+  </div>
+
+  <footer>Original questions · Unit 2 grammar focus: Present Continuous + Can/Can't</footer>
+
+<script>
+const categories = ["Present Continuous", "Can / Can't", "Learning Words", "Mixed Challenge"];
+const points = [100, 200, 300];
+
+const data = {
+  "Present Continuous": [
+    {q:"I ___________ (revise) my lessons right now.", opts:["revise","am revising","revising","is revise"], a:1, ex:"'I' + am + verb-ing: 'am revising'."},
+    {q:"She ___________ (not / listen) to the lecture at the moment.", opts:["isn't listening","doesn't listening","not listening","isn't listen"], a:0, ex:"'She' + isn't + verb-ing: 'isn't listening'."},
+    {q:"___________ you ___________ (do) your project now?", opts:["Do...doing","Are...doing","Is...doing","Does...do"], a:1, ex:"'You' + Are + verb-ing: 'Are you doing'."},
+  ],
+  "Can / Can't": [
+    {q:"She ___________ (organize) her notes using mind maps.", opts:["can organizes","can organize","cans organize","can organizing"], a:1, ex:"'Can' never takes -s, always + base verb: 'can organize'."},
+    {q:"He ___________ (not / focus) without a quiet place.", opts:["can't focuses","cannot focused","can't focus","don't can focus"], a:2, ex:"'Can't' + base verb: 'can't focus'."},
+    {q:"___________ you speak two languages fluently?", opts:["Do","Can","Are","Does"], a:1, ex:"Ability questions use 'Can' + subject + base verb."},
+  ],
+  "Learning Words": [
+    {q:"A person who learns best by seeing charts and pictures is a ___________ learner.", opts:["auditory","visual","kinesthetic","careless"], a:1, ex:"'Visual' relates to sight and seeing."},
+    {q:"A diagram used to organize ideas visually is called a ___________.", opts:["mind map","word search","time table","report"], a:0, ex:"A 'mind map' is a visual tool for organizing information."},
+    {q:"Working well together toward a shared goal is called ___________.", opts:["competition","cooperation","confusion","correction"], a:1, ex:"'Cooperation' means working together effectively."},
+  ],
+  "Mixed Challenge": [
+    {q:"Choose the correctly formed sentence.", opts:["We is doing experiments now.","We are doing experiments now.","We are do experiments now.","We doing experiments now."], a:1, ex:"'We' + are + verb-ing: 'are doing'."},
+    {q:"Choose the correctly formed sentence.", opts:["My brother can fixes computers.","My brother can fixing computers.","My brother can fix computers.","My brother cans fix computers."], a:2, ex:"'Can' + base verb, no -s: 'can fix'."},
+    {q:"Choose the sentence with the correct question form.", opts:["Is she study right now?","Does she studying right now?","Is she studying right now?","Can she studying right now?"], a:2, ex:"'Is' + subject + verb-ing?: 'Is she studying'."},
+  ],
+};
+
+let score = 0;
+let answered = 0;
+const usedCells = new Set();
+
+function buildBoard(){
+  const board = document.getElementById('board');
+  board.innerHTML = '';
+  categories.forEach(cat => {
+    const h = document.createElement('div');
+    h.className = 'cat-header';
+    h.textContent = cat;
+    board.appendChild(h);
+  });
+  // Build rows of points across categories
+  points.forEach((pt, pi) => {
+    categories.forEach((cat, ci) => {
+      const cell = document.createElement('div');
+      cell.className = 'cell';
+      cell.textContent = '$' + pt;
+      cell.dataset.cat = cat;
+      cell.dataset.idx = pi;
+      cell.addEventListener('click', () => openQuestion(cat, pi, cell, pt));
+      board.appendChild(cell);
+    });
+  });
+}
+buildBoard();
+
+function openQuestion(cat, idx, cellEl, points){
+  if (cellEl.classList.contains('used')) return;
+  const qdata = data[cat][idx];
+  document.getElementById('qcat').textContent = `${cat} — $${points}`;
+  document.getElementById('qtext').textContent = qdata.q;
+  const optsDiv = document.getElementById('options');
+  optsDiv.innerHTML = '';
+  const explainDiv = document.getElementById('explain');
+  explainDiv.style.display = 'none';
+  const closeBtn = document.getElementById('closeBtn');
+  closeBtn.style.display = 'none';
+
+  qdata.opts.forEach((opt, i) => {
+    const b = document.createElement('button');
+    b.className = 'opt';
+    b.textContent = opt;
+    b.onclick = () => {
+      document.querySelectorAll('.opt').forEach(o => o.onclick = null);
+      if (i === qdata.a) {
+        b.classList.add('correct');
+        score += points;
+        document.getElementById('score').textContent = score;
+      } else {
+        b.classList.add('wrong');
+        document.querySelectorAll('.opt')[qdata.a].classList.add('correct');
+      }
+      explainDiv.textContent = 'Why: ' + qdata.ex;
+      explainDiv.style.display = 'block';
+      closeBtn.style.display = 'inline-block';
+      cellEl.classList.add('used');
+      cellEl.textContent = '✓';
+      answered++;
+      document.getElementById('answered').textContent = answered;
+    };
+    optsDiv.appendChild(b);
+  });
+
+  document.getElementById('qmodal').style.display = 'flex';
+}
+
+document.getElementById('closeBtn').addEventListener('click', () => {
+  document.getElementById('qmodal').style.display = 'none';
+  if (answered >= 12) finishGame();
+});
+
+function finishGame(){
+  document.getElementById('board').style.display = 'none';
+  const end = document.getElementById('endscreen');
+  end.style.display = 'block';
+  let title = '🎉 Board Complete!';
+  if (score >= 2400) title = '🏆 Jeopardy Champion!';
+  else if (score >= 1500) title = '👍 Strong Performance!';
+  document.getElementById('endTitle').textContent = title;
+  document.getElementById('endMsg').textContent = `Final score: $${score} across all 12 questions.`;
+}
+</script>
+</body>
+</html>

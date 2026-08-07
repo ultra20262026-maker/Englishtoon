@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Future Dreams — Boss Battle Quiz</title>
+<style>
+  :root{ --navy:#0B1E33; --navy2:#112B47; --card:#16324F; --cyan:#35D0C9; --green:#8CE99A; --amber:#FFC168; --red:#FF8080; --light:#D7E3EC; --muted:#8FA6BC; }
+  *{box-sizing:border-box;}
+  body{ margin:0; min-height:100vh; background:radial-gradient(circle at 50% 0%, #2a1830, var(--navy) 60%);
+    font-family:'Segoe UI',Calibri,Arial,sans-serif; color:var(--light); display:flex; flex-direction:column; align-items:center; padding:24px; }
+  h1{color:#fff; font-size:1.7rem; margin:6px 0 2px; text-align:center;}
+  .sub{color:var(--cyan); font-weight:700; letter-spacing:2px; font-size:.8rem; text-transform:uppercase; margin-bottom:14px; text-align:center;}
+  .hud{display:flex; gap:14px; margin-bottom:16px; flex-wrap:wrap; justify-content:center;}
+  .pill{background:var(--card); border:1px solid #1E4568; border-radius:999px; padding:8px 18px; font-size:.9rem;}
+  .pill b{color:var(--green);}
+  #bossArea{ text-align:center; margin-bottom:20px; }
+  #bossEmoji{ font-size:5rem; transition:transform .2s; }
+  #bossEmoji.hit{ transform:scale(1.2) rotate(-8deg); filter:brightness(1.5); }
+  #bossBarWrap{ width:100%; max-width:400px; height:22px; background:var(--card); border-radius:12px; overflow:hidden; margin:10px auto; border:2px solid #1E4568;}
+  #bossBar{ height:100%; background:linear-gradient(90deg, var(--red), var(--amber)); width:100%; transition:width .4s; }
+  #lifeText{ color:var(--muted); font-size:.85rem; }
+  #qbox{ background:var(--card); border:1px solid #1E4568; border-radius:18px; padding:26px; max-width:600px; width:100%; }
+  #qtext{ color:#fff; font-size:1.2rem; font-weight:700; margin-bottom:18px; line-height:1.4; }
+  .opt{ display:block; width:100%; text-align:left; background:var(--navy2); color:var(--light); border:1px solid #1E4568;
+    border-radius:10px; padding:13px 16px; margin-bottom:10px; font-size:1rem; cursor:pointer; }
+  .opt:hover{ border-color:var(--cyan); background:#183a5c; }
+  .opt.correct{ background:rgba(140,233,154,.18); border-color:var(--green); color:var(--green); font-weight:700; }
+  .opt.wrong{ background:rgba(255,128,128,.18); border-color:var(--red); color:var(--red); font-weight:700; }
+  .explain{ margin-top:12px; padding:12px 14px; background:var(--navy2); border-radius:10px; font-size:.9rem; color:var(--muted); display:none;}
+  button.next{ margin-top:16px; display:none; font-family:inherit; font-weight:700; font-size:1rem; border:none; border-radius:10px;
+    padding:12px 24px; cursor:pointer; color:var(--navy); background:linear-gradient(135deg, var(--cyan), var(--green)); }
+  #endscreen{ display:none; text-align:center; margin-top:26px; }
+  #endscreen h2{ font-size:2rem; color:#fff; }
+  button.replay{ font-family:inherit; font-weight:700; font-size:1rem; border:none; border-radius:12px; padding:13px 28px;
+    cursor:pointer; color:var(--navy); background:linear-gradient(135deg, var(--cyan), var(--green)); margin-top:16px; }
+  footer{ margin-top:20px; color:var(--muted); font-size:.75rem; text-align:center;}
+</style>
+</head>
+<body>
+  <div class="sub">Unit 5 · Future Dreams</div>
+  <h1>⚔️ Boss Battle: Defeat "Doubt Monster"</h1>
+  <div class="hud">
+    <div class="pill">Score: <b id="score">0</b></div>
+    <div class="pill">Lives: <b id="lives">❤️❤️❤️</b></div>
+  </div>
+
+  <div id="bossArea">
+    <div id="bossEmoji">👹</div>
+    <div id="bossBarWrap"><div id="bossBar"></div></div>
+    <div id="lifeText">Doubt Monster HP: <span id="bossHpText">100</span> / 100</div>
+  </div>
+
+  <div id="qbox">
+    <div id="qtext"></div>
+    <div id="options"></div>
+    <div class="explain" id="explain"></div>
+    <button class="next" id="nextBtn">Attack Again →</button>
+  </div>
+
+  <div id="endscreen">
+    <h2 id="endTitle"></h2>
+    <p id="endMsg" style="color:var(--muted); font-size:1.05rem;"></p>
+    <button class="replay" onclick="location.reload()">Play Again</button>
+  </div>
+
+  <footer>Original questions · Unit 5 grammar focus: Be Going To + Will</footer>
+
+<script>
+const bank = [
+  {q:"I ___________ (achieve) my goals if I work hard. (prediction)", opts:["am going to achieve","will achieve","achieves","achieving"], a:1, ex:"A prediction/result uses 'will'."},
+  {q:"She ___________ (study) engineering next year. (decided plan)", opts:["is going to study","will studies","study","studying"], a:0, ex:"A decided plan uses 'be going to'."},
+  {q:"Don't give up — you ___________ (succeed)! (encouragement/prediction)", opts:["are going to succeed","will succeed","succeeds","succeeding"], a:1, ex:"Encouragement/prediction uses 'will'."},
+  {q:"They ___________ (launch) their project next month. (announced plan)", opts:["are going to launch","will launches","launch","launching"], a:0, ex:"An announced plan uses 'be going to'."},
+  {q:"I promise I ___________ (never / stop) trying. (promise)", opts:["am never going to stop","will never stop","never stops","never stopping"], a:1, ex:"A promise uses 'will'."},
+  {q:"___________ you ___________ (follow) your dream? (plan question)", opts:["Do...follow","Are...going to follow","Will...following","Is...follow"], a:1, ex:"Asking about a plan uses 'Are...going to'."},
+  {q:"Maybe technology ___________ (help) us reach space faster. (guess)", opts:["is going to helps","will help","helps","helping"], a:1, ex:"A guess/prediction uses 'will'."},
+  {q:"We ___________ (celebrate) when we finish the project. (plan)", opts:["are going to celebrate","will celebrates","celebrate","celebrating"], a:0, ex:"A decided plan uses 'be going to'."},
+];
+let pool = [...bank].sort(()=>Math.random()-0.5);
+let qIdx = 0;
+let score = 0;
+let lives = 3;
+let bossHp = 100;
+const damagePerHit = 20;
+
+function loadQuestion(){
+  if (qIdx >= pool.length) qIdx = 0;
+  const q = pool[qIdx];
+  document.getElementById('qtext').textContent = q.q;
+  const optsDiv = document.getElementById('options');
+  optsDiv.innerHTML = '';
+  const explainDiv = document.getElementById('explain');
+  explainDiv.style.display = 'none';
+  document.getElementById('nextBtn').style.display = 'none';
+
+  q.opts.forEach((opt, i) => {
+    const b = document.createElement('button');
+    b.className = 'opt';
+    b.textContent = opt;
+    b.onclick = () => {
+      document.querySelectorAll('.opt').forEach(o => o.onclick = null);
+      if (i === q.a) {
+        b.classList.add('correct');
+        score += 10;
+        bossHp = Math.max(0, bossHp - damagePerHit);
+        document.getElementById('bossEmoji').classList.add('hit');
+        setTimeout(() => document.getElementById('bossEmoji').classList.remove('hit'), 200);
+      } else {
+        b.classList.add('wrong');
+        document.querySelectorAll('.opt')[q.a].classList.add('correct');
+        lives--;
+        document.getElementById('lives').textContent = '❤️'.repeat(Math.max(lives,0)) + '🖤'.repeat(3-Math.max(lives,0));
+      }
+      document.getElementById('score').textContent = score;
+      document.getElementById('bossBar').style.width = bossHp + '%';
+      document.getElementById('bossHpText').textContent = bossHp;
+      explainDiv.textContent = 'Why: ' + q.ex;
+      explainDiv.style.display = 'block';
+
+      if (bossHp <= 0) {
+        setTimeout(() => finishGame(true), 900);
+        return;
+      }
+      if (lives <= 0) {
+        setTimeout(() => finishGame(false), 900);
+        return;
+      }
+      document.getElementById('nextBtn').style.display = 'inline-block';
+    };
+    optsDiv.appendChild(b);
+  });
+}
+
+document.getElementById('nextBtn').addEventListener('click', () => {
+  qIdx++;
+  loadQuestion();
+});
+
+function finishGame(won){
+  document.getElementById('qbox').style.display = 'none';
+  document.getElementById('bossArea').style.display = 'none';
+  const end = document.getElementById('endscreen');
+  end.style.display = 'block';
+  if (won) {
+    document.getElementById('endTitle').textContent = '🏆 Doubt Monster Defeated!';
+    document.getElementById('endMsg').textContent = `You won with a score of ${score} and ${Math.max(lives,0)} lives remaining!`;
+  } else {
+    document.getElementById('endTitle').textContent = '💥 Out of Lives!';
+    document.getElementById('endMsg').textContent = `You dealt good damage and scored ${score} points. Try again to finish off the boss!`;
+  }
+}
+
+loadQuestion();
+</script>
+</body>
+</html>
