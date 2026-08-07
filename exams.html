@@ -189,7 +189,7 @@
         </div>
     </main>
 
-    <script src="js/data.js?v=4"></script>
+    <script src="js/data.js?v=10"></script>
     <script src="js/auth.js?v=20260807"></script>
     
     <script>
@@ -225,7 +225,7 @@
                 let cardHtml = '';
                 if (gradeHasExams) {
                     cardHtml = `
-                        <a href="exams-grade.html?id=${grade.id}" class="exam-card block p-0 group">
+                        <a href="exams-grades-view.html?id=${grade.id}" class="exam-card block p-0 group">
                             <img class="w-full h-40 object-cover border-b-2 border-white/50" src="${grade.image}" alt="${grade.name}" onerror="this.src='images/prep_card.jpg'">
                             <div class="p-5 flex items-center justify-between bg-white/80">
                                 <span class="text-xl font-black text-slate-800">${grade.name}</span>
@@ -291,5 +291,6 @@
     </script>
 </body>
 </html>
+
 
 
