@@ -286,6 +286,7 @@
 
             // Render Grammar Modal
             const grammarGrid = document.getElementById('grammar-modal-grid');
+            grammarGrid.innerHTML = '';
             if (grammarGames && grammarGames.length > 0) {
                 grammarGames.forEach((game) => {
                     const visual = getGameVisual(game.name);
