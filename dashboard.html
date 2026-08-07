@@ -6,7 +6,8 @@
     <style>
         body { font-family: sans-serif; background: #f8fafc; color: #1e293b; text-align: center; padding: 50px; }
         h1 { color: #0ea5e9; }
-        .btn { display: inline-block; padding: 10px 20px; background: #f43f5e; color: white; text-decoration: none; border-radius: 8px; margin-top: 20px; }
+        .btn { display: inline-block; padding: 10px 20px; background: #0ea5e9; color: white; text-decoration: none; border-radius: 8px; margin: 10px; font-weight: bold; cursor: pointer; border: none; font-size: 16px;}
+        .btn-logout { background: #f43f5e; }
     </style>
 </head>
 <body>
@@ -14,5 +15,16 @@
     <p>الموقع الآن تحت الصيانة وإعادة البناء بالكامل لتوفير تجربة أفضل.</p>
     <br>
     <a href="admin.html" class="btn">الذهاب للوحة الإدارة</a>
+    <button onclick="logout()" class="btn btn-logout">تسجيل الخروج لرؤية واجهة الدخول</button>
+
+    <script>
+        function logout() {
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('allowedGrade');
+            localStorage.removeItem('allowedUnits');
+            window.location.replace('index.html');
+        }
+    </script>
 </body>
 </html>
