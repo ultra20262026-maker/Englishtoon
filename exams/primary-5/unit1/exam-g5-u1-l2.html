@@ -95,8 +95,11 @@ input:focus{outline:none;border-color:var(--brand)}
 
   <div class="card">
     <p style="font-weight:800">إرسال النتيجة للمعلم</p>
-    <label>رقم واتساب المعلم (بكود الدولة)</label>
-    <input id="tPhone" placeholder="مثال: 201234567890" inputmode="numeric">
+    <label>رقم واتساب المعلم</label>
+    <div style="display:flex;align-items:center;gap:8px;direction:ltr">
+      <span style="background:#25D366;color:#fff;font-weight:800;padding:12px 14px;border-radius:12px;font-size:1rem;white-space:nowrap;flex-shrink:0">🇪🇬 +20</span>
+      <input id="tPhone" placeholder="مثال: 1012345678" inputmode="numeric" style="flex:1">
+    </div>
     <button class="btn g" onclick="sendWA()">إرسال النتيجة للمعلم</button>
     <button class="btn gray" onclick="copyRes()">نسخ النتيجة</button>
     <p class="note" id="sent"></p>
@@ -221,8 +224,10 @@ function needTeacher(){
 }
 function sendWA(){
  if(!needTeacher())return;
- const ph=$("tPhone").value.replace(/[^0-9]/g,"");
- const url=(ph?"https://wa.me/"+ph+"?text=":"https://wa.me/?text=")+encodeURIComponent(resultText());
+ let ph=$("tPhone").value.replace(/[^0-9]/g,"");
+ if(ph.startsWith("0"))ph=ph.slice(1);
+ const fullPh="20"+ph;
+ const url="https://wa.me/"+fullPh+"?text="+encodeURIComponent(resultText());
  window.open(url,"_blank");$("sent").textContent="اتفتح الواتساب — دوس إرسال ✅";
 }
 
