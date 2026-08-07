@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>Unit 5 · Grammar — Superlative Adjectives — جيم ٤</title>
+<style>
+:root{--ink:#E9E6FF;--deep:#080618;--deep2:#171436;--sun:#FBBF24;--leaf:#34D399;--berry:#FB7185;--cy:#22D3EE}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;color:var(--ink);
+ background:var(--deep);min-height:100vh;padding:10px;overflow:hidden}
+.wrap{max-width:620px;margin:0 auto}
+.card{background:rgba(233,230,255,.06);border:1px solid rgba(233,230,255,.15);border-radius:16px;padding:16px}
+h1{font-size:1.25rem;color:var(--cy);line-height:1.4}h2{font-size:1.1rem;color:var(--cy)}
+p.lead{line-height:1.9;font-size:.95rem;margin-top:8px}
+.btn{font-size:1.05rem;font-weight:700;font-family:inherit;background:#8B5CF6;color:#fff;border:0;
+ border-radius:12px;padding:13px 20px;cursor:pointer;box-shadow:0 4px 0 #5b32bd;width:100%;margin-top:10px}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 #5b32bd}
+.btn.ghost{background:transparent;color:var(--ink);border:2px solid rgba(233,230,255,.3);box-shadow:none}
+.hud{display:flex;justify-content:space-between;align-items:center;background:var(--deep2);
+ border:1px solid rgba(233,230,255,.18);border-radius:12px;padding:8px 12px;font-weight:700;font-size:.88rem}
+.qbox{background:var(--deep2);border:1px solid rgba(233,230,255,.18);border-radius:12px;padding:10px;
+ text-align:center;margin-top:8px;min-height:60px;display:flex;flex-direction:column;justify-content:center}
+.q{font-size:1.05rem;font-weight:700;direction:ltr;line-height:1.5}
+.qsub{font-size:.78rem;opacity:.8;margin-top:3px}
+#stage{width:100%;height:60vh;min-height:340px;margin-top:8px;border-radius:14px;display:block;touch-action:none;
+ background:radial-gradient(circle at 70% 20%,#1b1747,#080618 70%);border:1px solid rgba(233,230,255,.15)}
+section{margin-top:12px}.trophy{font-size:4rem;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+<section id="home"><div class="card">
+  <h1>🪐 قاذف الكواكب</h1>
+  <p class="lead">الوحدة الخامسة — صفات التفضيل (the + est).<br>دوس على الصخرة اللي عليها الإجابة والصاروخ هيلف حوالين الكواكب لوحده.</p>
+  <button class="btn" onclick="start()">إطلاق</button>
+</div></section>
+
+<section id="play" hidden>
+  <div class="hud"><span id="lives">❤❤❤</span>
+    <span style="font-size:.72rem;opacity:.85">Unit 5 · Grammar — Superlative Adjectives</span>
+    <span>⭐ <span id="score">0</span> <span id="combo" style="color:var(--sun)"></span></span></div>
+  <div class="qbox"><div class="q" id="q"></div><div class="qsub" id="qsub"></div></div>
+  <canvas id="stage"></canvas>
+  <button class="btn ghost" onclick="location.reload()">من الأول</button>
+</section>
+
+<section id="over" hidden><div class="card" style="text-align:center">
+  <div class="trophy" id="ic">🚀</div><h2 id="tt"></h2><p class="lead" id="tx"></p>
+  <button class="btn" onclick="location.reload()">العب تاني</button>
+</div></section>
+</div>
+
+<script>
+const QS=[
+ {q:"Sara is the ___ girl in the class.",opts:["smart","smartest","smarter","the smartest"],ans:3},
+ {q:"This is the ___ pencil in my pencil case.",opts:["short","shorter","a short","shortest"],ans:3},
+ {q:"The turtle is the ___ pet.",opts:["slowly","slow","slowest","slower"],ans:2},
+ {q:"The giraffe has ___ longest neck.",opts:["the","then","they","them"],ans:0},
+ {q:"I saw the ___ star in the sky.",opts:["bright","brighter","brightest","a brighter"],ans:2},
+ {q:"It is the ___ (heavy) bag in the class.",opts:["heavyest","heaviest","more heavy","heavier"],ans:1},
+ {q:"Youssef is the ___ (clever) boy in the school.",opts:["cleverest","cleverer","more clever","clever"],ans:0},
+ {q:"This is the ___ (easy) exercise in the book.",opts:["easyest","easiest","easier","more easy"],ans:1},
+ {q:"The elephant is the ___ animal.",opts:["bigest","biggest","bigger","big"],ans:1},
+ {q:"Summer is the ___ season.",opts:["hotest","hottest","hotter","hot"],ans:1}
+];
+/* ===== أصوات اللعبة (WebAudio — من غير ملفات خارجية) ===== */
+const SFX=(()=>{
+ let ac=null,noise=null;
+ const ctxA=()=>{ if(!ac){try{ac=new (window.AudioContext||window.webkitAudioContext)()}catch(e){return null}}
+   if(ac.state==="suspended")ac.resume(); return ac; };
+ function nbuf(a,dur){
+  if(noise&&noise.duration>=dur)return noise;
+  const len=Math.ceil(a.sampleRate*dur),b=a.createBuffer(1,len,a.sampleRate),d=b.getChannelData(0);
+  for(let i=0;i<len;i++)d[i]=Math.random()*2-1;
+  noise=b;return b;
+ }
+ function tone(f1,f2,dur,type,vol){
+  const a=ctxA();if(!a)return;
+  const o=a.createOscillator(),g=a.createGain();
+  o.type=type||"sine";o.frequency.setValueAtTime(f1,a.currentTime);
+  if(f2)o.frequency.exponentialRampToValueAtTime(f2,a.currentTime+dur);
+  g.gain.setValueAtTime(vol||.12,a.currentTime);
+  g.gain.exponentialRampToValueAtTime(.0008,a.currentTime+dur);
+  o.connect(g);g.connect(a.destination);o.start();o.stop(a.currentTime+dur+.02);
+ }
+ function noiseHit(dur,f,q,vol,sweepTo){
+  const a=ctxA();if(!a)return;
+  const s=a.createBufferSource();s.buffer=nbuf(a,1.4);
+  const bp=a.createBiquadFilter();bp.type="bandpass";bp.frequency.setValueAtTime(f,a.currentTime);
+  if(sweepTo)bp.frequency.exponentialRampToValueAtTime(sweepTo,a.currentTime+dur);
+  bp.Q.value=q||1;
+  const g=a.createGain();g.gain.setValueAtTime(vol||.25,a.currentTime);
+  g.gain.exponentialRampToValueAtTime(.001,a.currentTime+dur);
+  s.connect(bp);bp.connect(g);g.connect(a.destination);s.start();s.stop(a.currentTime+dur+.02);
+ }
+ return {
+  unlock(){ctxA();},
+  whoosh(){noiseHit(.35,400,1.2,.18,2200);},
+  splash(){noiseHit(.3,900,.8,.3,220);tone(320,120,.18,"sine",.1);},
+  pop(){tone(900,180,.12,"triangle",.18);noiseHit(.08,1800,1,.16);},
+  thunk(){tone(160,60,.18,"triangle",.22);noiseHit(.12,700,1.4,.18);},
+  launch(){tone(180,760,.25,"sawtooth",.1);noiseHit(.3,600,1,.14,2400);},
+  boom(){noiseHit(.45,300,.7,.32,90);tone(120,40,.35,"triangle",.18);},
+  ding(){tone(880,1320,.16,"sine",.15);setTimeout(()=>tone(1320,1760,.2,"sine",.12),90);},
+  wrong(){tone(240,90,.3,"square",.14);},
+  /* تصفيق: نبضات ضوضاء عشوائية زي الأيادي */
+  clap(){
+   const a=ctxA();if(!a)return;
+   const t0=a.currentTime;
+   for(let i=0;i<26;i++){
+    const t=t0+i*0.045+Math.random()*0.03;
+    const s=a.createBufferSource();s.buffer=nbuf(a,1.4);
+    const bp=a.createBiquadFilter();bp.type="bandpass";
+    bp.frequency.value=1100+Math.random()*1800;bp.Q.value=.9;
+    const g=a.createGain();
+    const v=.10+Math.random()*.09;
+    g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+.004);
+    g.gain.exponentialRampToValueAtTime(.001,t+.09);
+    s.connect(bp);bp.connect(g);g.connect(a.destination);
+    s.start(t);s.stop(t+.12);
+   }
+   // هتاف خفيف
+   const o=a.createOscillator(),g2=a.createGain(),f=a.createBiquadFilter();
+   f.type="lowpass";f.frequency.value=900;o.type="sawtooth";o.frequency.setValueAtTime(300,t0);
+   o.frequency.linearRampToValueAtTime(420,t0+.5);
+   g2.gain.setValueAtTime(.0001,t0);g2.gain.linearRampToValueAtTime(.05,t0+.15);
+   g2.gain.exponentialRampToValueAtTime(.0006,t0+1.1);
+   o.connect(f);f.connect(g2);g2.connect(a.destination);o.start(t0);o.stop(t0+1.2);
+  }
+ };
+})();
+
+const $=i=>document.getElementById(i);
+const shuffle=a=>a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(v=>v[1]);
+const cv=$("stage"),ctx=cv.getContext("2d");
+const G={W:0,H:0,qi:0,lives:3,score:0,combo:0,right:0,rocks:[],planets:[],stars:[],parts:[],
+ ship:null,aim:null,cannon:{x:44,y:0,a:-Math.PI/4},busy:false,t:0,last:0,raf:null,msg:"",msgT:0};
+const POW=520, SOFT=900, DRAGP=null;
+
+function resize(){const r=cv.getBoundingClientRect(),dpr=Math.min(2,devicePixelRatio||1);
+ cv.width=r.width*dpr;cv.height=r.height*dpr;G.W=r.width;G.H=r.height;
+ ctx.setTransform(dpr,0,0,dpr,0,0);G.cannon.y=G.H-40;
+ G.stars=Array.from({length:70},()=>({x:Math.random()*G.W,y:Math.random()*G.H,r:Math.random()*1.4+.3,tw:Math.random()*6}));}
+addEventListener("resize",resize);
+function beep(ok){ if(ok){SFX.ding();SFX.clap();} else SFX.wrong(); }
+function say(t){try{const u=new SpeechSynthesisUtterance(t);u.lang="en-US";u.rate=.9;
+ speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}}
+function msg(t){G.msg=t;G.msgT=1.8;}
+function start(){SFX.unlock();$("home").hidden=true;$("play").hidden=false;
+ requestAnimationFrame(()=>{resize();newQ();G.last=performance.now();G.raf=requestAnimationFrame(loop)});}
+function hud(){$("lives").textContent="❤".repeat(Math.max(0,G.lives))+"🖤".repeat(3-Math.max(0,G.lives));
+ $("score").textContent=G.score;$("combo").textContent=G.combo>1?"x"+Math.min(5,G.combo):"";}
+
+function newQ(){
+ if(G.qi>=QS.length)return over(true);
+ const q=QS[G.qi];
+ $("q").textContent=q.q;$("qsub").textContent="دوس على الصخرة اللي فيها الإجابة والصاروخ هيلف حوالين الكواكب لوحده";
+ // كواكب
+ const n=1+(G.qi%2);
+ G.planets=[];
+ for(let i=0;i<n;i++){
+   G.planets.push({x:G.W*(.42+.28*i)+ (Math.random()*20-10), y:G.H*(.62-.28*i), r:22+Math.random()*10,
+     m:120000+Math.random()*40000, hue:[280,190,45][i%3]});
+ }
+ // صخور الإجابات
+ ctx.font="700 13px system-ui,Arial";
+ const opts=shuffle(q.opts.map((o,i)=>({t:o,ok:i===q.ans})));
+ G.rocks=opts.map((o,i)=>{
+   const w=ctx.measureText(o.t).width+22;
+   const orbit=Math.random()<.5&&G.planets.length>0;
+   const p=G.planets[i%G.planets.length];
+   return orbit
+    ? {text:o.t,ok:o.ok,w,h:24,orbit:p,ang:Math.random()*6.3,rad:p.r+52+Math.random()*26,
+       av:(Math.random()<.5?-1:1)*(.5+Math.random()*.35),x:0,y:0,dead:false}
+    : {text:o.t,ok:o.ok,w,h:24,x:G.W*(.35+Math.random()*.55),y:20+Math.random()*(G.H*.5),
+       vx:(Math.random()-.5)*26,vy:(Math.random()-.5)*20,dead:false};
+ });
+ G.ship=null;G.aim=null;G.busy=false;hud();
+}
+/* التصويب التلقائي: الطالب يدوس على الإجابة والصاروخ يلاقي طريقه */
+function pt(e){const r=cv.getBoundingClientRect(),p=e.touches?e.changedTouches[0]:e;
+ return {x:p.clientX-r.left,y:p.clientY-r.top};}
+
+/* مسار مضمون: منحنى من نقطة الانطلاق للهدف اللي الطالب دوس عليه */
+function bez(p0,p1,p2,t){const u=1-t;return u*u*p0+2*u*t*p1+t*t*p2;}
+function nearest(list,p){
+ let best=null,bd=1e9;
+ for(const o of list){ if(o.dead||o.gone)continue;
+  const cx=o.x+o.w/2, cy=o.y+(o.h||26)/2, d=Math.hypot(p.x-cx,p.y-cy);
+  if(d<bd){bd=d;best=o;} }
+ return bd<130?best:null;
+}
+function solveShot_unused(tg){
+ const c=G.cannon,cx=tg.x+tg.w/2,cy=tg.y+tg.h/2;
+ let best=null;
+ for(let ai=0;ai<48;ai++){
+  const ang=-Math.PI*0.98+ (Math.PI*0.96)*(ai/47);   // من فوق-شمال لفوق-يمين
+  for(let pi=0;pi<9;pi++){
+   const pw=POW*(0.45+0.075*pi);
+   let x=c.x,y=c.y,vx=Math.cos(ang)*pw,vy=Math.sin(ang)*pw,md=1e9,blocked=false;
+   for(let i=0;i<220;i++){
+    const [ax,ay]=grav(x,y);vx+=ax*.016;vy+=ay*.016;x+=vx*.016;y+=vy*.016;
+    for(const pl of G.planets)if(Math.hypot(pl.x-x,pl.y-y)<pl.r+5){blocked=true;break;}
+    if(blocked)break;
+    md=Math.min(md,Math.hypot(cx-x,cy-y));
+    if(md<12)break;
+    if(x<-80||x>G.W+80||y>G.H+80||y<-320)break;
+   }
+   if(blocked)continue;
+   if(!best||md<best.d)best={d:md,vx:Math.cos(ang)*pw,vy:Math.sin(ang)*pw};
+  }
+ }
+ return best;
+}
+function tap(e){
+ if(G.busy||G.ship)return;e.preventDefault();
+ const p=pt(e);
+ const pick=nearest(G.rocks,p);
+ if(!pick){msg("دوس على الصخرة اللي عليها الإجابة");return;}
+ const c=G.cannon;
+ const tx=pick.x+pick.w/2, ty=pick.y+pick.h/2;
+ const side=(Math.random()<.5?-1:1);
+ G.ship={x:c.x,y:c.y,px:c.x,py:c.y,vx:1,vy:0,fx:c.x,fy:c.y,
+  cx:(c.x+tx)/2+side*Math.min(120,Math.abs(tx-c.x)*.5+40),
+  cy:Math.min(c.y,ty)-110,
+  t:0,dur:1.05,lock:pick,trail:[]};
+ SFX.launch();
+}
+cv.addEventListener("mousedown",tap);
+cv.addEventListener("touchstart",tap,{passive:false});
+
+function grav(x,y){ // تسارع الجاذبية عند نقطة
+ let ax=0,ay=0;
+ for(const p of G.planets){
+   const dx=p.x-x,dy=p.y-y,d2=dx*dx+dy*dy+SOFT,d=Math.sqrt(d2);
+   const a=p.m/d2;ax+=a*dx/d;ay+=a*dy/d;
+ }
+ return [ax,ay];
+}
+function loop(t){const dt=Math.min(.033,(t-G.last)/1000);G.last=t;G.t+=dt;step(dt);draw();G.raf=requestAnimationFrame(loop);}
+function step(dt){
+ if(G.msgT>0)G.msgT-=dt;else G.msg="";
+ // حركة الصخور
+ G.rocks.forEach(r=>{
+  if(r.dead)return;
+  if(r.orbit){r.ang+=r.av*dt;r.x=r.orbit.x+Math.cos(r.ang)*r.rad-r.w/2;r.y=r.orbit.y+Math.sin(r.ang)*r.rad-r.h/2;}
+  else{r.x+=r.vx*dt;r.y+=r.vy*dt;
+   if(r.x<G.W*.3||r.x+r.w>G.W-6)r.vx*=-1;
+   if(r.y<6||r.y+r.h>G.H-60)r.vy*=-1;}
+ });
+ G.parts.forEach(p=>{p.x+=p.vx*dt;p.y+=p.vy*dt;p.life-=dt});
+ G.parts=G.parts.filter(p=>p.life>0);
+ const s=G.ship;if(!s)return;
+ const L=s.lock;
+ s.t+=dt/s.dur;
+ const t=Math.min(1,s.t);
+ const tx=L?L.x+L.w/2:s.cx, ty=L?L.y+L.h/2:s.cy;
+ s.px=s.x;s.py=s.y;
+ s.x=bez(s.fx,s.cx,tx,t);
+ s.y=bez(s.fy,s.cy,ty,t);
+ s.vx=s.x-s.px;s.vy=s.y-s.py;
+ s.trail.push({x:s.x,y:s.y});if(s.trail.length>60)s.trail.shift();
+ if(t>=1){hit(L);return;}
+}
+function burst(x,y,c,n){for(let i=0;i<n;i++){const a=Math.random()*6.3,sp=40+Math.random()*220;
+ G.parts.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,life:.5+Math.random()*.5,color:c})}}
+function hit(r){
+ const q=QS[G.qi];G.ship=null;
+ if(r.ok){
+  r.dead=true;burst(r.x+r.w/2,r.y+12,"#34D399",26);beep(true);say(r.text);
+  G.combo++;const p=10*Math.min(5,G.combo);G.score+=p;G.right++;msg("صح! +"+p);hud();
+  G.busy=true;G.qi++;setTimeout(newQ,900);
+ }else{
+  burst(r.x+r.w/2,r.y+12,"#FB7185",16);beep(false);G.combo=0;G.lives--;hud();
+  msg("مش دي — الصح: "+q.opts[q.ans]);
+  G.busy=true;
+  if(G.lives<=0)setTimeout(()=>over(false),900);
+  else {G.qi++;setTimeout(newQ,1400);}
+ }
+}
+function draw(){
+ ctx.clearRect(0,0,G.W,G.H);
+ // نجوم
+ G.stars.forEach(s=>{const a=.35+Math.abs(Math.sin(G.t+s.tw))*.5;
+  ctx.fillStyle=`rgba(255,255,255,${a})`;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,6.3);ctx.fill();});
+ // كواكب + هالة جاذبية
+ G.planets.forEach(p=>{
+  const g=ctx.createRadialGradient(p.x,p.y,p.r*.3,p.x,p.y,p.r*3.4);
+  g.addColorStop(0,`hsla(${p.hue},80%,60%,.28)`);g.addColorStop(1,"transparent");
+  ctx.fillStyle=g;ctx.beginPath();ctx.arc(p.x,p.y,p.r*3.4,0,6.3);ctx.fill();
+  const g2=ctx.createRadialGradient(p.x-p.r*.4,p.y-p.r*.4,2,p.x,p.y,p.r);
+  g2.addColorStop(0,`hsl(${p.hue},85%,72%)`);g2.addColorStop(1,`hsl(${p.hue},70%,38%)`);
+  ctx.fillStyle=g2;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,6.3);ctx.fill();
+ });
+ // صخور
+ ctx.font="700 13px system-ui,Arial";ctx.textAlign="center";ctx.textBaseline="middle";
+ G.rocks.forEach(r=>{
+  if(r.dead)return;
+  ctx.fillStyle="#6B7280";ctx.strokeStyle="rgba(255,255,255,.35)";ctx.lineWidth=1.4;
+  round(r.x,r.y,r.w,r.h,9);ctx.fill();ctx.stroke();
+  ctx.fillStyle="#F9FAFB";ctx.fillText(r.text,r.x+r.w/2,r.y+r.h/2);
+ });
+ // مدفع
+ const c=G.cannon;
+ ctx.fillStyle="#8B5CF6";ctx.beginPath();ctx.arc(c.x,c.y,17,0,6.3);ctx.fill();
+ ctx.fillStyle="rgba(0,0,0,.3)";ctx.beginPath();ctx.arc(c.x,c.y+3,11,0,6.3);ctx.fill();
+ 
+ // الصاروخ
+ const s=G.ship;
+ if(s){
+  s.trail.forEach((t,i)=>{ctx.fillStyle=`rgba(34,211,238,${i/s.trail.length*.5})`;
+   ctx.beginPath();ctx.arc(t.x,t.y,2.2,0,6.3);ctx.fill();});
+  const ang=Math.atan2(s.vy,s.vx);
+  ctx.save();ctx.translate(s.x,s.y);ctx.rotate(ang);
+  ctx.fillStyle="#FBBF24";ctx.beginPath();ctx.moveTo(9,0);ctx.lineTo(-6,-5);ctx.lineTo(-6,5);ctx.closePath();ctx.fill();
+  ctx.restore();
+ }
+ G.parts.forEach(p=>{ctx.globalAlpha=Math.max(0,p.life);ctx.fillStyle=p.color;ctx.fillRect(p.x,p.y,3,3)});
+ ctx.globalAlpha=1;
+ if(G.msg){ctx.fillStyle="#FBBF24";ctx.font="700 15px system-ui,Arial";ctx.textAlign="center";
+  ctx.fillText(G.msg,G.W/2,24);}
+}
+function round(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);
+ ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}
+function over(done){
+ if(G.raf)cancelAnimationFrame(G.raf);G.raf=null;
+ $("play").hidden=true;$("over").hidden=false;
+ const st=G.right>=QS.length?3:G.right>=7?2:G.right>=4?1:0;
+ $("ic").textContent=done?(st===3?"🏆":"🚀"):"💥";
+ $("tt").textContent=done?"خلصت المهمة!":"القلوب خلصت";
+ $("tx").innerHTML=`إصابات صح: <b>${G.right}</b> من ${QS.length} — النقاط: <b>${G.score}</b><br>${"⭐".repeat(st)}${"☆".repeat(3-st)}`;
+}
+document.addEventListener("visibilitychange",()=>{if(document.hidden&&G.raf){cancelAnimationFrame(G.raf);G.raf=null;}
+ else if(!$("play").hidden&&!G.raf){G.last=performance.now();G.raf=requestAnimationFrame(loop);}});
+</script>
+</body>
+</html>

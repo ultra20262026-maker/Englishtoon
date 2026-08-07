@@ -221,34 +221,32 @@
 
             container.innerHTML = '';
 
-            // Grammar Games Folder
-            if (grammarGames.length > 0) {
-                const grammarTile = document.createElement('a');
-                grammarTile.href = "#";
-                grammarTile.className = 'game-tile border-accent';
-                grammarTile.onclick = (e) => {
-                    e.preventDefault();
-                    openGrammarModal();
-                    return false;
-                };
+            // New Games Folder (Always show)
+            const grammarTile = document.createElement('a');
+            grammarTile.href = "#";
+            grammarTile.className = 'game-tile border-accent';
+            grammarTile.onclick = (e) => {
+                e.preventDefault();
+                openGrammarModal();
+                return false;
+            };
 
-                grammarTile.innerHTML = `
-                    <div class="game-thumb-container bg-gradient-to-br from-orange-400 to-amber-500">
-                        <span class="game-emoji-badge">📂</span>
-                        <div class="game-play-hover-overlay">
-                            <div class="play-action-circle text-accent"><i class="fa-solid fa-folder-open"></i></div>
-                        </div>
+            grammarTile.innerHTML = `
+                <div class="game-thumb-container bg-gradient-to-br from-orange-400 to-amber-500">
+                    <span class="game-emoji-badge">📂</span>
+                    <div class="game-play-hover-overlay">
+                        <div class="play-action-circle text-accent"><i class="fa-solid fa-folder-open"></i></div>
                     </div>
-                    <div class="game-info-box">
-                        <h3 class="text-xl font-black text-slate-800 mb-2 font-ar">ألعاب جديدة</h3>
-                        <div class="flex items-center justify-between">
-                            <span class="text-accent font-bold text-sm">🎮 ألعاب إضافية</span>
-                            <span class="bg-accent text-white text-xs font-bold px-2 py-1 rounded">جديد</span>
-                        </div>
+                </div>
+                <div class="game-info-box">
+                    <h3 class="text-xl font-black text-slate-800 mb-2 font-ar">ألعاب جديدة</h3>
+                    <div class="flex items-center justify-between">
+                        <span class="text-accent font-bold text-sm">🎮 ألعاب إضافية</span>
+                        <span class="bg-accent text-white text-xs font-bold px-2 py-1 rounded">جديد</span>
                     </div>
-                `;
-                container.appendChild(grammarTile);
-            }
+                </div>
+            `;
+            container.appendChild(grammarTile);
 
             // Normal Games
             if (unitGames.length === 0 && grammarGames.length === 0) {
@@ -288,9 +286,7 @@
 
             // Render Grammar Modal
             const grammarGrid = document.getElementById('grammar-modal-grid');
-            if (grammarGames.length > 0) {
-                // GAMES REMOVED AS PER REQUEST - LEAVING MODAL EMPTY
-                /*
+            if (grammarGames && grammarGames.length > 0) {
                 grammarGames.forEach((game) => {
                     const visual = getGameVisual(game.name);
                     const gamePath = `games/${gradeId}/unit${unitId}/${game.file}`;
@@ -306,13 +302,14 @@
                             </div>
                         </div>
                         <div class="game-info-box p-4">
-                            <h3 class="text-md font-black text-slate-800 mb-2">${game.name}</h3>
-                            <span class="text-accent font-bold text-xs bg-orange-50 px-2 py-1 rounded">📝 جرامر</span>
+                            <h3 class="text-base font-black text-slate-800 mb-2">${game.name}</h3>
+                            <div class="flex items-center justify-between">
+                                <span class="text-accent font-bold text-xs">🎮 لعبة إضافية</span>
+                            </div>
                         </div>
                     `;
                     grammarGrid.appendChild(tile);
                 });
-                */
             }
         });
 
