@@ -198,9 +198,13 @@
                     if (!hasAccess) continue;
                 }
 
-                const tile = document.createElement('a');
-                tile.className = 'unit-tile';
-                tile.href = `exams-unit.html?grade=${gradeId}&unit=${i}`;
+                let unitHasExams = false;
+                if (typeof EXAMS_MAP !== 'undefined' && EXAMS_MAP[gradeId] && EXAMS_MAP[gradeId][i] && EXAMS_MAP[gradeId][i].length > 0) {
+                    unitHasExams = true;
+                }
+                const tile = document.createElement(unitHasExams ? 'a' : 'div');
+                tile.className = unitHasExams ? 'unit-tile' : 'unit-tile opacity-75 grayscale cursor-not-allowed';
+                if (unitHasExams) { tile.href = `exams-unit.html?grade=${gradeId}&unit=${i}`; } else { tile.onclick = () => alert('امتحانات هذه الوحدة قريباً إن شاء الله!'); }
                 tile.style.backgroundImage = `linear-gradient(180deg, rgba(7,10,18,0.35), rgba(7,10,18,0.92)), url('images/unit_${i}.png')`;
 
                 tile.innerHTML = `
@@ -212,6 +216,7 @@
                         <span class="font-en text-white/80 font-bold block">Unit ${i}</span>
                     </div>
                     <div class="unit-tile-hover-bar">
+                        ${!unitHasExams ? '<span class="text-yellow-300 font-bold ml-2">قريباً ⏳</span>' : ''}
                         <span>دخول الامتحانات</span><i class="fa-solid fa-arrow-left"></i>
                     </div>
                 `;
