@@ -210,20 +210,50 @@
             // Render all grades from GRADES_DATA
             GRADES_DATA.forEach(grade => {
                 const isPrimary = grade.id.startsWith('primary');
-                const html = `
-                    <a href="exams-grade.html?id=${grade.id}" class="exam-card block p-0 group">
-                        <img class="w-full h-40 object-cover border-b-2 border-white/50" src="${grade.image}" alt="${grade.name}" onerror="this.src='images/prep_card.jpg'">
-                        <div class="p-5 flex items-center justify-between bg-white/80">
-                            <span class="text-xl font-black text-slate-800">${grade.name}</span>
-                            <span class="bg-gradient-to-r from-success to-emerald-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-sm">امتحانات <i class="fa-solid fa-file-pen ml-1"></i></span>
+                
+                // Check if grade has exams
+                let gradeHasExams = false;
+                if (typeof EXAMS_MAP !== 'undefined' && EXAMS_MAP[grade.id]) {
+                    for (const unit in EXAMS_MAP[grade.id]) {
+                        if (EXAMS_MAP[grade.id][unit] && EXAMS_MAP[grade.id][unit].length > 0) {
+                            gradeHasExams = true;
+                            break;
+                        }
+                    }
+                }
+
+                let cardHtml = '';
+                if (gradeHasExams) {
+                    cardHtml = `
+                        <a href="exams-grade.html?id=${grade.id}" class="exam-card block p-0 group">
+                            <img class="w-full h-40 object-cover border-b-2 border-white/50" src="${grade.image}" alt="${grade.name}" onerror="this.src='images/prep_card.jpg'">
+                            <div class="p-5 flex items-center justify-between bg-white/80">
+                                <span class="text-xl font-black text-slate-800">${grade.name}</span>
+                                <span class="bg-gradient-to-r from-success to-emerald-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-sm">امتحانات <i class="fa-solid fa-file-pen ml-1"></i></span>
+                            </div>
+                        </a>
+                    `;
+                } else {
+                    cardHtml = `
+                        <div onclick="alert('امتحانات هذا الصف قريباً إن شاء الله!')" class="exam-card block p-0 group cursor-pointer opacity-80 grayscale-[20%]">
+                            <div class="relative">
+                                <img class="w-full h-40 object-cover border-b-2 border-white/50" src="${grade.image}" alt="${grade.name}" onerror="this.src='images/prep_card.jpg'">
+                                <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+                                    <span class="bg-yellow-400 text-slate-800 px-4 py-2 rounded-full font-black text-sm shadow-lg transform -rotate-12 border-2 border-white">قريباً ⏳</span>
+                                </div>
+                            </div>
+                            <div class="p-5 flex items-center justify-between bg-white/80">
+                                <span class="text-xl font-black text-slate-800">${grade.name}</span>
+                                <span class="bg-slate-300 text-slate-500 px-3 py-1 rounded-full text-xs font-bold">غير متوفر</span>
+                            </div>
                         </div>
-                    </a>
-                `;
+                    `;
+                }
                 
                 if (isPrimary) {
-                    primaryGrid.innerHTML += html;
+                    primaryGrid.innerHTML += cardHtml;
                 } else {
-                    prepGrid.innerHTML += html;
+                    prepGrid.innerHTML += cardHtml;
                 }
             });
         });

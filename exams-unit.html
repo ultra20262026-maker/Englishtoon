@@ -206,19 +206,59 @@
     }
 
     const container = document.getElementById('games-container');
-    document.getElementById('exams-count-badge').textContent =   امتحان متاح;
+    const exams = EXAMS_MAP[gradeId] ? EXAMS_MAP[gradeId][unitId] || [] : [];
+    
+    document.getElementById('exams-count-badge').textContent = exams.length + ' امتحانات';
 
-    container.innerHTML = 
-        <div class="col-span-1 md:col-span-2 lg:col-span-3 xl:col-span-4 bg-white/60 backdrop-blur-sm rounded-3xl p-12 text-center border-2 border-dashed border-slate-300">
-            <div class="w-24 h-24 mx-auto bg-slate-100 rounded-full flex items-center justify-center text-slate-400 text-4xl mb-6">
-                <i class="fa-solid fa-file-excel"></i>
+    if (exams.length === 0) {
+        container.innerHTML = 
+            <div class="col-span-1 md:col-span-2 lg:col-span-3 xl:col-span-4 bg-white/60 backdrop-blur-sm rounded-3xl p-12 text-center border-2 border-dashed border-slate-300">
+                <div class="w-24 h-24 mx-auto bg-slate-100 rounded-full flex items-center justify-center text-slate-400 text-4xl mb-6">
+                    <i class="fa-solid fa-file-excel"></i>
+                </div>
+                <h4 class="text-2xl font-black text-slate-600 mb-2">لا توجد امتحانات حالياً</h4>
+                <p class="text-slate-500 font-bold">جاري تجهيز الامتحانات لهذه الوحدة، عد لاحقاً!</p>
             </div>
-            <h4 class="text-2xl font-black text-slate-600 mb-2">لا توجد امتحانات حالياً</h4>
-            <p class="text-slate-500 font-bold">جاري تجهيز الامتحانات لهذه الوحدة، عد لاحقاً!</p>
-        </div>
-    ;
+        ;
+        return;
+    }
+
+    // Render exams
+    container.innerHTML = '';
+    exams.forEach((exam, index) => {
+        const delay = (index % 4) + 1;
+        
+        let iconHtml = '<i class="fa-solid fa-file-circle-check"></i>';
+        let colorClass = 'text-success bg-emerald-100';
+        if (exam.name.includes('مراجعة')) {
+            iconHtml = '<i class="fa-solid fa-medal"></i>';
+            colorClass = 'text-accent bg-orange-100';
+        }
+
+        const html = 
+            <a href="exams//unit/" class="game-card bg-white rounded-3xl p-6 flex flex-col h-full animate-fade-in-up group relative overflow-hidden" style="animation-delay: 0.s">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-slate-50 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2 group-hover:bg-success/10 transition-colors duration-500"></div>
+                
+                <div class="flex items-center justify-between mb-6 relative z-10">
+                    <div class="w-14 h-14 rounded-2xl  flex items-center justify-center text-2xl shadow-inner group-hover:scale-110 transition-transform duration-300">
+                        
+                    </div>
+                    <div class="bg-slate-100 text-slate-500 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1 group-hover:bg-success group-hover:text-white transition-colors">
+                        ابدأ الامتحان <i class="fa-solid fa-arrow-left text-[10px]"></i>
+                    </div>
+                </div>
+                
+                <h4 class="text-xl font-black text-slate-800 mb-2 relative z-10 group-hover:text-success transition-colors"></h4>
+                <p class="text-slate-500 text-sm font-semibold relative z-10 flex-grow">
+                    اختبر مستواك في هذا الدرس.
+                </p>
+            </a>
+        ;
+        container.innerHTML += html;
+    });
 });
     </script>
 </body>
 </html>
+
 
