@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>امتحان إلكتروني | Lesson 2: A Dream Comes True</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;900&family=Poppins:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --lapis:#0F1C3D; --lapis2:#182b57; --gold:#D4AF37; --gold-dim:#8a742a; --turq:#2E8B8B; --sand:#C89F65; --papyrus:#F4EBD9; --red:#C0392B; --green:#3FA34D; --wa:#25D366; }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;height:100%;}
+  body{
+    background: radial-gradient(circle at 50% 0%, #1c2f5e 0%, var(--lapis) 55%, #060c1c 100%);
+    font-family:'Tajawal',sans-serif; color:var(--papyrus); min-height:100vh;
+    display:flex; align-items:center; justify-content:center; overflow-x:hidden; padding:16px;
+  }
+  .stars{position:fixed; inset:0; z-index:0; pointer-events:none;}
+  .star{position:absolute; width:2px; height:2px; background:var(--gold); border-radius:50%; opacity:.6; animation:twinkle 3s infinite ease-in-out;}
+  @keyframes twinkle{0%,100%{opacity:.15}50%{opacity:.9}}
+  .wrap{position:relative; z-index:1; width:100%; max-width:720px;}
+  .card{ background:linear-gradient(160deg, var(--lapis2), #0c1735 80%); border:2px solid var(--gold-dim); border-radius:18px; box-shadow:0 20px 60px rgba(0,0,0,.5); padding:26px 24px; position:relative; overflow:hidden; }
+  .card::before{ content:""; position:absolute; inset:8px; border:1px solid rgba(212,175,55,.25); border-radius:12px; pointer-events:none; }
+  h1{ font-weight:900; color:var(--gold); font-size:clamp(19px,4.5vw,26px); margin:0 0 2px; text-align:center; text-shadow:0 0 18px rgba(212,175,55,.35); }
+  .sub{ text-align:center; color:var(--sand); font-size:14px; margin-bottom:16px; font-family:'Poppins',sans-serif; }
+  .hud{ display:flex; justify-content:space-between; gap:8px; margin-bottom:14px; flex-wrap:wrap; direction:ltr; }
+  .pill{ font-family:'Space Mono',monospace; background:rgba(0,0,0,.3); border:1px solid var(--gold-dim); border-radius:10px; padding:7px 12px; font-size:13px; }
+  .progressbar{ height:8px; background:rgba(0,0,0,.35); border-radius:6px; overflow:hidden; margin-bottom:18px; }
+  .progressfill{ height:100%; background:linear-gradient(90deg,var(--gold),var(--sand)); transition:width .4s; }
+  .qtype{ display:inline-block; background:var(--turq); color:var(--papyrus); font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px; margin-bottom:10px; font-family:'Poppins',sans-serif; letter-spacing:.5px; direction:ltr; }
+  .qbox{ background:rgba(0,0,0,.28); border-right:5px solid var(--gold); border-radius:14px; padding:18px; margin-bottom:16px; font-size:clamp(16px,3.6vw,19px); font-weight:700; line-height:1.6; direction:ltr; text-align:left; font-family:'Poppins',sans-serif; }
+  .choices{ display:grid; gap:10px; }
+  .choice{ font-family:'Poppins',sans-serif; font-size:15px; text-align:left; direction:ltr; padding:13px 16px; border-radius:10px; background:rgba(244,235,217,.06); border:1.5px solid rgba(244,235,217,.25); color:var(--papyrus); cursor:pointer; transition:all .18s ease; }
+  .choice:hover:not(:disabled){ background:rgba(212,175,55,.15); border-color:var(--gold); transform:translateX(4px); }
+  .choice:disabled{ cursor:default; }
+  .choice.correct{ background:rgba(63,163,77,.28); border-color:var(--green); animation:pop .4s; }
+  .choice.wrong{ background:rgba(192,57,43,.28); border-color:var(--red); animation:shake .4s; }
+  .tf-row{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .tf-btn{ font-family:'Tajawal',sans-serif; font-size:18px; font-weight:900; padding:18px; border-radius:12px; cursor:pointer; border:2px solid rgba(244,235,217,.3); transition:all .18s ease; }
+  .tf-true{ background:rgba(63,163,77,.12); color:var(--papyrus); }
+  .tf-false{ background:rgba(192,57,43,.12); color:var(--papyrus); }
+  .tf-btn:hover:not(:disabled){ transform:translateY(-2px); }
+  .tf-btn.correct{ background:var(--green); color:#08210c; border-color:var(--gold); animation:pop .4s; }
+  .tf-btn.wrong{ background:var(--red); color:#2a0a06; border-color:var(--gold); animation:shake .4s; }
+  .tf-btn:disabled{ cursor:default; }
+  @keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.04)}100%{transform:scale(1)}}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+  .feedback{ text-align:center; font-weight:700; margin-top:12px; min-height:22px; font-size:14px; font-family:'Poppins',sans-serif; direction:ltr; }
+  .feedback.good{ color:var(--green); } .feedback.bad{ color:#ff8b7a; }
+  .btn{ font-family:'Tajawal',sans-serif; font-weight:700; border:none; border-radius:10px; padding:13px 22px; font-size:15px; cursor:pointer; transition:transform .15s; }
+  .btn:hover{ transform:translateY(-2px); }
+  .btn-gold{ background:linear-gradient(160deg,var(--gold),#a3852a); color:#1a1400; box-shadow:0 6px 16px rgba(212,175,55,.35); }
+  .btn-wa{ background:var(--wa); color:#062b12; width:100%; margin-bottom:10px; box-shadow:0 6px 16px rgba(37,211,102,.35); }
+  .btn-email{ background:rgba(244,235,217,.1); color:var(--papyrus); border:1.5px solid var(--sand); width:100%; }
+  .center{ display:flex; justify-content:center; margin-top:16px; }
+  .endscreen{ text-align:center; }
+  .endscreen .big{ font-size:clamp(24px,6vw,34px); font-weight:900; color:var(--gold); text-shadow:0 0 20px rgba(212,175,55,.6); margin-bottom:6px; }
+  .stat{ font-family:'Space Mono',monospace; font-size:18px; margin:8px 0; direction:ltr; }
+  .grademsg{ font-family:'Poppins',sans-serif; margin-bottom:18px; }
+  .formbox{ background:rgba(0,0,0,.25); border-radius:14px; padding:18px; text-align:right; margin-top:14px; }
+  .formbox label{ display:block; font-size:14px; margin-bottom:6px; color:var(--sand); font-weight:700; }
+  .formbox input, .formbox select{
+    width:100%; padding:12px 14px; border-radius:8px; border:1.5px solid var(--gold-dim); background:rgba(244,235,217,.08);
+    color:var(--papyrus); font-family:'Tajawal',sans-serif; font-size:15px; margin-bottom:14px;
+  }
+  .formbox input::placeholder{ color:rgba(244,235,217,.5); }
+  .confetti{ position:fixed; top:-10px; z-index:5; font-size:20px; animation:fall linear forwards; }
+  @keyframes fall{ to{ transform:translateY(110vh) rotate(360deg); opacity:0; } }
+  .sentbox{ text-align:center; background:rgba(63,163,77,.15); border:1.5px solid var(--green); border-radius:12px; padding:16px; margin-top:12px; font-family:'Poppins',sans-serif; font-size:14px; }
+  .warnbox{ text-align:center; font-size:12px; color:var(--sand); margin-top:10px; font-family:'Poppins',sans-serif; }
+</style>
+</head>
+<body>
+<div class="stars" id="stars"></div>
+<div class="wrap">
+  <div class="card">
+    <h1>&#x1F4DD; امتحان إلكتروني</h1>
+    <div class="sub">Unit 5 · Lesson 2: A Dream Comes True</div>
+    <div class="hud">
+      <div class="pill">&#x2B50; <span id="score">0</span> / <span id="totalQ">10</span></div>
+      <div class="pill" id="qCounter">Question 1 / 10</div>
+    </div>
+    <div class="progressbar"><div class="progressfill" id="progressFill" style="width:0%"></div></div>
+    <div id="gameArea"></div>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   TEACHER CONFIG — عدّل هنا اسم المدرس ورقم واتساب وبريده
+   لو عندك أكثر من مدرس، أضف عناصر جديدة في المصفوفة TEACHERS
+   ملحوظة: رقم واتساب بصيغة دولية بدون + وبدون صفر بالبداية
+   مثال مصر: 201012345678
+========================================================= */
+const TEACHERS = [
+  { name: "أ / اكتب اسم المدرس هنا", whatsapp: "201000000000", email: "teacher@example.com" }
+];
+const LESSON_NAME = "Unit 5 - Lesson 2: A Dream Comes True";
+/* ========================================================= */
+
+const questions = [
+  { type:"tf", q:"They painted their house yesterday.", answer:true },
+  { type:"mcq", q:"Ali ___ at school yesterday. (not be)", choices:["isn't", "wasn't", "weren't", "don't"], answer:1 },
+  { type:"tf", q:"Alexandria is located on the Mediterranean Sea.", answer:true },
+  { type:"mcq", q:"The ___ car is one of the main attractions in Al Galala City.", choices:["cable", "transportation", "vision", "special"], answer:0 },
+  { type:"tf", q:"Aswan is described as a special place in Egypt.", answer:true },
+  { type:"mcq", q:"I ___ dinner an hour ago. (have)", choices:["have", "haved", "had", "has"], answer:2 },
+  { type:"tf", q:"Egypt's vision for smart, sustainable cities is achievable.", answer:true },
+  { type:"tf", q:"It's not important to enjoy a peaceful environment.", answer:false, correction:"It IS important to enjoy a peaceful environment." },
+  { type:"mcq", q:"The government plans to build more homes, parks, and ___ links.", choices:["cable", "transportation", "vision", "special"], answer:1 },
+  { type:"tf", q:"Al Galala City is a modern place in Egypt.", answer:true },
+];
+
+let qi = 0, score = 0, locked = false;
+
+function buildStars(){ const s=document.getElementById('stars'); for(let i=0;i<50;i++){ const d=document.createElement('div'); d.className='star'; d.style.left=Math.random()*100+'%'; d.style.top=Math.random()*100+'%'; d.style.animationDelay=(Math.random()*3)+'s'; s.appendChild(d); } }
+buildStars();
+
+function beep(freq, dur, type='sine', vol=0.15){
+  try{
+    const ctx = window._actx || (window._actx = new (window.AudioContext||window.webkitAudioContext)());
+    const o = ctx.createOscillator(); const g = ctx.createGain();
+    o.type=type; o.frequency.value=freq; g.gain.value=vol;
+    o.connect(g); g.connect(ctx.destination); o.start();
+    g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime+dur);
+    o.stop(ctx.currentTime+dur);
+  }catch(e){}
+}
+function sfxCorrect(){ beep(700,.12); setTimeout(()=>beep(950,.18),100); }
+function sfxWrong(){ beep(170,.22,'sawtooth',0.1); }
+function sfxWin(){ [523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,.22),i*140)); }
+
+function confettiBurst(){
+  const emojis = ['\u2728','\u{1F3C6}','\u2B50','\u{1F4DD}'];
+  for(let i=0;i<18;i++){
+    const c = document.createElement('div');
+    c.className='confetti'; c.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    c.style.left = Math.random()*100+'vw'; c.style.animationDuration=(2+Math.random()*1.5)+'s';
+    document.body.appendChild(c); setTimeout(()=>c.remove(),4000);
+  }
+}
+
+function updateHud(){
+  document.getElementById('qCounter').textContent = `Question ${qi+1} / ${questions.length}`;
+  document.getElementById('totalQ').textContent = questions.length;
+  document.getElementById('progressFill').style.width = (qi/questions.length*100)+'%';
+}
+
+function renderQuestion(){
+  locked = false;
+  updateHud();
+  const item = questions[qi];
+  const area = document.getElementById('gameArea');
+  if (item.type === 'tf') {
+    area.innerHTML = `
+      <div class="qtype">TRUE OR FALSE</div>
+      <div class="qbox">${item.q}</div>
+      <div class="tf-row" id="tfRow">
+        <button class="tf-btn tf-true" onclick="answerTF(true, this)">&#10003; True</button>
+        <button class="tf-btn tf-false" onclick="answerTF(false, this)">&#10007; False</button>
+      </div>
+      <div class="feedback" id="feedback"></div>
+    `;
+  } else {
+    area.innerHTML = `
+      <div class="qtype">MULTIPLE CHOICE</div>
+      <div class="qbox">${item.q}</div>
+      <div class="choices" id="choicesBox"></div>
+      <div class="feedback" id="feedback"></div>
+    `;
+    const box = document.getElementById('choicesBox');
+    item.choices.forEach((c,i)=>{
+      const b = document.createElement('button');
+      b.className='choice'; b.textContent=c;
+      b.onclick = ()=>answerMCQ(i,b);
+      box.appendChild(b);
+    });
+  }
+}
+
+function answerTF(val, btnEl){
+  if (locked) return;
+  locked = true;
+  const item = questions[qi];
+  const buttons = document.querySelectorAll('.tf-btn');
+  buttons.forEach(b=>b.disabled=true);
+  const fb = document.getElementById('feedback');
+  const isCorrect = (val === item.answer);
+  if (isCorrect) {
+    btnEl.classList.add('correct');
+    score++;
+    document.getElementById('score').textContent = score;
+    fb.textContent = '\u2705 Correct!';
+    fb.className = 'feedback good';
+    sfxCorrect(); confettiBurst();
+  } else {
+    btnEl.classList.add('wrong');
+    buttons.forEach(b=>{ if ((b.classList.contains('tf-true') && item.answer===true) || (b.classList.contains('tf-false') && item.answer===false)) b.classList.add('correct'); });
+    fb.textContent = '\u274C Wrong. ' + (item.correction || ('The correct answer is: ' + (item.answer ? 'True' : 'False') + '.'));
+    fb.className = 'feedback bad';
+    sfxWrong();
+  }
+  setTimeout(nextQuestion, 1500);
+}
+
+function answerMCQ(i, btnEl){
+  if (locked) return;
+  locked = true;
+  const item = questions[qi];
+  const buttons = document.querySelectorAll('.choice');
+  buttons.forEach(b=>b.disabled=true);
+  const fb = document.getElementById('feedback');
+  if (i === item.answer) {
+    btnEl.classList.add('correct');
+    score++;
+    document.getElementById('score').textContent = score;
+    fb.textContent = '\u2705 Correct!';
+    fb.className = 'feedback good';
+    sfxCorrect(); confettiBurst();
+  } else {
+    btnEl.classList.add('wrong');
+    buttons[item.answer].classList.add('correct');
+    fb.textContent = '\u274C Wrong. The correct answer is: ' + item.choices[item.answer];
+    fb.className = 'feedback bad';
+    sfxWrong();
+  }
+  setTimeout(nextQuestion, 1500);
+}
+
+function nextQuestion(){
+  qi++;
+  if (qi >= questions.length) {
+    showResults();
+  } else {
+    renderQuestion();
+  }
+}
+
+function showResults(){
+  document.getElementById('progressFill').style.width = '100%';
+  document.getElementById('qCounter').textContent = `Question ${questions.length} / ${questions.length}`;
+  sfxWin(); confettiBurst();
+  const pct = Math.round((score/questions.length)*100);
+  let msg = "استمر في المحاولة، المذاكرة أكتر شوية هتفرق!";
+  if (pct >= 90) msg = "ممتاز! مستوى رائع جدًا!";
+  else if (pct >= 70) msg = "أحسنت! أداء جيد جدًا.";
+  else if (pct >= 50) msg = "لا بأس، لكن يُفضّل مراجعة الدرس مرة أخرى.";
+
+  const teacherOptionsHtml = TEACHERS.length > 1
+    ? `<select id="teacherSelect">${TEACHERS.map((t,i)=>`<option value="${i}">${t.name}</option>`).join('')}</select>`
+    : `<input type="text" id="teacherSelect" value="${TEACHERS[0].name}" disabled style="opacity:.8;">`;
+
+  document.getElementById('gameArea').innerHTML = `
+    <div class="endscreen">
+      <div class="big">&#x1F3C6; انتهى الامتحان!</div>
+      <div class="stat">النتيجة: ${score} / ${questions.length} (${pct}%)</div>
+      <div class="grademsg">${msg}</div>
+      <div class="formbox">
+        <label>اسم الطالب:</label>
+        <input type="text" id="studentName" placeholder="اكتب اسمك بالكامل">
+        <label>اسم المدرس:</label>
+        ${teacherOptionsHtml}
+        <button class="btn btn-wa" onclick="sendWhatsApp()">&#x1F4F1; إرسال النتيجة للمدرس عبر واتساب</button>
+        <button class="btn btn-email" onclick="sendEmail()">&#x2709; إرسال النتيجة بالبريد الإلكتروني</button>
+        <div class="warnbox">لازم تكتب اسمك أولًا قبل الإرسال.</div>
+        <div id="sentMsg"></div>
+      </div>
+      <div class="center"><button class="btn btn-gold" onclick="restart()">إعادة الامتحان</button></div>
+    </div>`;
+}
+
+function getTeacher(){
+  if (TEACHERS.length > 1) {
+    const idx = parseInt(document.getElementById('teacherSelect').value, 10);
+    return TEACHERS[idx];
+  }
+  return TEACHERS[0];
+}
+
+function buildMessage(){
+  const name = document.getElementById('studentName').value.trim();
+  const pct = Math.round((score/questions.length)*100);
+  const now = new Date().toLocaleString('ar-EG');
+  return { name, text:
+`نتيجة امتحان إلكتروني
+الدرس: ${LESSON_NAME}
+اسم الطالب: ${name}
+الدرجة: ${score} / ${questions.length} (${pct}%)
+التاريخ: ${now}`
+  };
+}
+
+function sendWhatsApp(){
+  const { name, text } = buildMessage();
+  if (!name) { alert('من فضلك اكتب اسم الطالب أولًا.'); return; }
+  const teacher = getTeacher();
+  const url = `https://wa.me/${teacher.whatsapp}?text=${encodeURIComponent(text)}`;
+  window.open(url, '_blank');
+  document.getElementById('sentMsg').innerHTML = `<div class="sentbox">&#x2705; تم فتح واتساب لإرسال النتيجة إلى ${teacher.name}. اضغط "إرسال" في واتساب لإتمام العملية.</div>`;
+}
+
+function sendEmail(){
+  const { name, text } = buildMessage();
+  if (!name) { alert('من فضلك اكتب اسم الطالب أولًا.'); return; }
+  const teacher = getTeacher();
+  const subject = encodeURIComponent('نتيجة امتحان: ' + LESSON_NAME);
+  const body = encodeURIComponent(text);
+  window.location.href = `mailto:${teacher.email}?subject=${subject}&body=${body}`;
+  document.getElementById('sentMsg').innerHTML = `<div class="sentbox">&#x2705; تم فتح برنامج البريد لإرسال النتيجة إلى ${teacher.name}.</div>`;
+}
+
+function restart(){
+  qi = 0; score = 0; locked = false;
+  document.getElementById('score').textContent = 0;
+  renderQuestion();
+}
+
+restart();
+</script>
+</body>
+</html>

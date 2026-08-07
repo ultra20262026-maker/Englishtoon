@@ -787,6 +787,50 @@
                         { file: 'وحدة ثانية/U2_L5_Lessons56DigitalDetectives.html', name: 'L5-6: Digital Detectives' }
                     ]
                 }
+            },
+            'prep-3': { name: 'الصف الثالث الإعدادي', emoji: '🌟', color: 'linear-gradient(135deg, #14b8a6, #0f766e)', examCount: 0, structure: 'none', basePath: '', units: {} },
+            'sec-1': { name: 'الصف الأول الثانوي', emoji: '✨', color: 'linear-gradient(135deg, #a855f7, #7e22ce)', examCount: 0, structure: 'none', basePath: '', units: {} },
+            'sec-2': { name: 'الصف الثاني الثانوي', emoji: '⚡', color: 'linear-gradient(135deg, #ef4444, #b91c1c)', examCount: 0, structure: 'none', basePath: '', units: {} },
+            'sec-3': { name: 'الصف الثالث الثانوي', emoji: '🔥', color: 'linear-gradient(135deg, #f59e0b, #b45309)', examCount: 0, structure: 'none', basePath: '', units: {} },
+            'primary-6': {
+                name: 'الصف السادس الابتدائي',
+                emoji: '🏆',
+                color: 'linear-gradient(135deg, #f43f5e, #e11d48)',
+                examCount: 20,
+                structure: 'nested',
+                basePath: 'exams/primary-6',
+                units: {
+                    'الوحدة الأولى': [
+                        { file: 'unit1/exam_lesson1_a_day_in_egypt.html', name: 'L1: A Day in Egypt' },
+                        { file: 'unit1/exam_lesson2_ras_mohamed.html', name: 'L2: Ras Mohamed' },
+                        { file: 'unit1/exam_lesson3_around_egypt.html', name: 'L3: Around Egypt' },
+                        { file: 'unit1/exam_lesson4and5_a_day_in_my_school.html', name: 'L4-5: A Day in My School' }
+                    ],
+                    'الوحدة الثانية': [
+                        { file: 'unit2/exam_lesson1_caring_for_plants.html', name: 'L1: Caring for Plants' },
+                        { file: 'unit2/exam_lesson2_weather.html', name: 'L2: Weather' },
+                        { file: 'unit2/exam_lesson3_nile_river.html', name: 'L3: Nile River' },
+                        { file: 'unit2/exam_lesson4and5_wadi_el_rayan.html', name: 'L4-5: Wadi El Rayan' }
+                    ],
+                    'الوحدة الثالثة': [
+                        { file: 'unit3/exam_lesson1_jobs.html', name: 'L1: Jobs' },
+                        { file: 'unit3/exam_lesson2_help_community.html', name: 'L2: Help Community' },
+                        { file: 'unit3/exam_lesson3_proud_rose.html', name: 'L3: Proud Rose' },
+                        { file: 'unit3/exam_lesson4and5_egyptian_hero.html', name: 'L4-5: Egyptian Hero' }
+                    ],
+                    'الوحدة الرابعة': [
+                        { file: 'unit4/exam_lesson1_past_present.html', name: 'L1: Past Present' },
+                        { file: 'unit4/exam_lesson2_energy_wisely.html', name: 'L2: Energy Wisely' },
+                        { file: 'unit4/exam_lesson3_gifts_under_ground.html', name: 'L3: Gifts Under Ground' },
+                        { file: 'unit4/exam_lesson4and5_man_made_resources.html', name: 'L4-5: Man Made Resources' }
+                    ],
+                    'الوحدة الخامسة': [
+                        { file: 'unit5/exam_lesson1_trip_through_time.html', name: 'L1: Trip Through Time' },
+                        { file: 'unit5/exam_lesson2_dream_comes_true.html', name: 'L2: Dream Comes True' },
+                        { file: 'unit5/exam_lesson3_bundle_of_sticks.html', name: 'L3: Bundle of Sticks' },
+                        { file: 'unit5/exam_lesson4and5_egypt_goes_green.html', name: 'L4-5: Egypt Goes Green' }
+                    ]
+                }
             }
         };
 
@@ -801,22 +845,38 @@
                 const card = document.createElement('div');
                 card.className = `exam-grade-card grade-card-item`;
                 card.dataset.grade = gradeId;
-                card.dataset.section = gradeId.startsWith('prep') ? 'prep' : 'primary';
-                card.onclick = () => openExamModal(gradeId);
+                card.dataset.section = gradeId.startsWith('prep') || gradeId.startsWith('sec') ? 'prep' : 'primary';
+                
+                if (data.examCount === 0) {
+                    card.style.opacity = '0.6';
+                    card.style.pointerEvents = 'none';
+                    card.style.filter = 'grayscale(0.5)';
+                    card.innerHTML = `
+                        <div class="exam-card-header" style="background: ${data.color};">
+                            <span class="exam-card-emoji">${data.emoji}</span>
+                            <span class="exam-card-count-badge" style="background: rgba(239,68,68,0.8); color: white;">⏳ قريباً</span>
+                        </div>
+                        <div class="exam-card-body">
+                            <div class="exam-card-grade-name">${data.name}</div>
+                            <div class="exam-card-desc">يتم تجهيز الامتحانات الإلكترونية لهذا الصف حالياً...</div>
+                        </div>
+                    `;
+                } else {
+                    card.onclick = () => openExamModal(gradeId);
+                    card.innerHTML = `
+                        <div class="exam-card-header" style="background: ${data.color};">
+                            <span class="exam-card-emoji">${data.emoji}</span>
+                            <span class="exam-card-count-badge">📝 ${data.examCount} امتحان</span>
+                        </div>
+                        <div class="exam-card-body">
+                            <div class="exam-card-grade-name">${data.name}</div>
+                            <div class="exam-card-desc">امتحانات تفاعلية على جميع وحدات ودروس الصف بنظام تصحيح فوري</div>
+                            <div class="exam-card-cta">📝 ابدأ الامتحان الآن ←</div>
+                        </div>
+                    `;
+                }
 
-                card.innerHTML = `
-                    <div class="exam-card-header" style="background: ${data.color};">
-                        <span class="exam-card-emoji">${data.emoji}</span>
-                        <span class="exam-card-count-badge">📝 ${data.examCount} امتحان</span>
-                    </div>
-                    <div class="exam-card-body">
-                        <div class="exam-card-grade-name">${data.name}</div>
-                        <div class="exam-card-desc">امتحانات تفاعلية على جميع وحدات ودروس الصف بنظام تصحيح فوري</div>
-                        <div class="exam-card-cta">📝 ابدأ الامتحان الآن ←</div>
-                    </div>
-                `;
-
-                if (gradeId.startsWith('prep')) {
+                if (gradeId.startsWith('prep') || gradeId.startsWith('sec')) {
                     prepGrid.appendChild(card);
                 } else {
                     primaryGrid.appendChild(card);
