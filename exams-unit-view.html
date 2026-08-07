@@ -184,7 +184,7 @@
     <script src="js/auth.js?v=20260807"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-try { try {
+try {
     if (localStorage.getItem('isLoggedIn') !== 'true') {
         window.location.replace('index.html');
         return;
@@ -199,7 +199,7 @@ try { try {
         return;
     }
 
-    document.getElementById('back-to-grade-btn').href = 'exams-grade.html?id=' + gradeId;
+    document.getElementById('back-to-grade-btn').href = 'exams-grades-view.html?id=' + gradeId;
     
     const grade = GRADES_DATA.find(g => g.id === gradeId);
     if(grade) {
@@ -261,6 +261,7 @@ try { try {
 });
     </script>
 </body>
+
 
 
 
