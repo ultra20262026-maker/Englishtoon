@@ -1,4 +1,4 @@
-const CACHE_NAME = 'english-toon-v20260729_V1000_FORCE_CLEAN';
+const CACHE_NAME = 'english-toon-v20260807_V2000';
 const urlsToCache = [
     "/",
     "/p2-books.html",
