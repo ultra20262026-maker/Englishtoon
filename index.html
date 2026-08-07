@@ -18,16 +18,16 @@
                     fontFamily: {
                         sans: ['Cairo', 'sans-serif'],
                         en: ['Outfit', 'sans-serif'],
-                    },
+                    // },
                     colors: {
                         primary: '#0ea5e9', // Sky Blue
                         secondary: '#f43f5e', // Coral Pink
                         surface: '#ffffff',
                         background: '#f8fafc',
-                    }
-                }
-            }
-        }
+                    // }
+                // }
+            // }
+        // }
     </script>
     <style>
         body {
@@ -38,7 +38,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-        }
+        // }
         
         .glass-card {
             background: rgba(255, 255, 255, 0.85);
@@ -46,40 +46,40 @@
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.5);
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0,0,0,0.05);
-        }
+        // }
 
         .input-field {
             transition: all 0.3s ease;
-        }
+        // }
         
         .input-field:focus {
             transform: translateY(-2px);
             box-shadow: 0 4px 15px rgba(14, 165, 233, 0.2);
-        }
+        // }
 
         .btn-3d {
             transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
             box-shadow: 0 6px 0 rgba(14, 165, 233, 0.4);
-        }
+        // }
         
         .btn-3d:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 0 rgba(14, 165, 233, 0.4);
-        }
+        // }
         
         .btn-3d:active {
             transform: translateY(4px);
             box-shadow: 0 2px 0 rgba(14, 165, 233, 0.4);
-        }
+        // }
 
         .loading-spinner {
             animation: spin 1s linear infinite;
-        }
+        // }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+            0% { transform: rotate(0deg); // }
+            100% { transform: rotate(360deg); // }
+        // }
     </style>
 </head>
 <body class="relative overflow-hidden">
@@ -148,15 +148,15 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Check if already logged in
-            if (localStorage.getItem('isLoggedIn') === 'true') {
-                const currentUser = localStorage.getItem('currentUser');
-                if (currentUser === 'admin') {
-                    window.location.replace('admin.html');
-                } else {
-                    window.location.replace('dashboard.html');
-                }
-                return;
-            }
+            // if (localStorage.getItem('isLoggedIn') === 'true') {
+                // const currentUser = localStorage.getItem('currentUser');
+                // if (currentUser === 'admin') {
+                    // window.location.replace('admin.html');
+                // // } else {
+                    // window.location.replace('dashboard.html');
+                // }
+                // return;
+            // }
 
             const loginForm = document.getElementById('loginForm');
             const errorMsg = document.getElementById('error-message');
@@ -170,8 +170,8 @@
 
                 if (!username || !password) {
                     showError('يرجى إدخال كود الطالب وكلمة المرور.');
-                    return;
-                }
+                    // return;
+                // }
 
                 // Loading State
                 loginBtn.innerHTML = '<i class="fa-solid fa-spinner loading-spinner"></i> جاري الدخول...';
@@ -188,21 +188,21 @@
                         
                         setTimeout(() => {
                             if (username.toLowerCase() === 'admin' || username === '01208609509' || username === 'mm01208609509') {
-                                window.location.replace('admin.html');
-                            } else {
-                                window.location.replace('dashboard.html');
-                            }
-                        }, 800);
-                    } else {
+                                // window.location.replace('admin.html');
+                            // // } else {
+                                // window.location.replace('dashboard.html');
+                            // }
+                        // }, 800);
+                    // // } else {
                         showError(result.message || 'بيانات الدخول غير صحيحة.');
                         resetBtn();
-                    }
-                } catch (error) {
+                    // }
+                // } catch (error) {
                     console.error("Login Error:", error);
                     showError('حدث خطأ في الاتصال بالخادم. يرجى التأكد من اتصالك بالإنترنت.');
                     resetBtn();
-                }
-            });
+                // }
+            // });
 
             function showError(msg) {
                 errorText.textContent = msg;
@@ -210,13 +210,14 @@
                 // Shake effect
                 loginForm.classList.add('animate-pulse');
                 setTimeout(() => loginForm.classList.remove('animate-pulse'), 500);
-            }
+            // }
 
             function resetBtn() {
                 loginBtn.innerHTML = '<span>تسجيل الدخول</span> <i class="fa-solid fa-arrow-right-to-bracket text-white/80"></i>';
                 loginBtn.classList.remove('opacity-80', 'cursor-not-allowed');
-            }
-        });
+            // }
+        // });
     </script>
 </body>
 </html>
+
