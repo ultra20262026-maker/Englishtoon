@@ -7,7 +7,43 @@ document.addEventListener('DOMContentLoaded', () => {
     injectMissingElementPolyfill();
     disableLegacyBGM();
     injectReadabilityCSS();
+    injectGlobalDimensions();
 });
+
+function injectGlobalDimensions() {
+    // Avoid re-injecting
+    if (document.getElementById('global-game-dimensions')) return;
+    
+    const style = document.createElement('style');
+    style.id = 'global-game-dimensions';
+    style.innerHTML = `
+        /* Override dimensions for all games to match responsive full-screen behavior */
+        html, body {
+            width: 100vw !important;
+            height: 100vh !important;
+            min-height: 100vh !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow: hidden !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+        canvas {
+            width: 100vw !important;
+            height: 100vh !important;
+            max-width: 100% !important;
+            max-height: 100% !important;
+            object-fit: contain !important; /* Keep aspect ratio while filling screen */
+            border: none !important;
+            border-radius: 0 !important;
+            margin: 0 !important;
+            box-sizing: border-box !important;
+        }
+    `;
+    document.head.appendChild(style);
+}
 
 function createBackButton() {
     // Smart Detection: If it's a modern game (e.g. primary-2) it already has a back button or a question zone.
