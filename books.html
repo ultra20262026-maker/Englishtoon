@@ -71,7 +71,7 @@
         <div id="books-grid">
             <h3 class="text-2xl font-black text-slate-800 mb-6 flex items-center gap-3"><i class="fa-solid fa-book-open text-primary"></i> مكتبة الكتب</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="book-card rounded-[2rem] p-6 flex flex-col items-center text-center gap-4" onclick="openBook('books/English_Language_Primary_1_First_Term.epub','الصف الأول الابتدائي - الترم الأول')">
+                <div class="book-card rounded-[2rem] p-6 flex flex-col items-center text-center gap-4 cursor-default">
                     <div class="w-32 h-32 bg-gradient-to-br from-blue-100 to-indigo-200 rounded-2xl flex items-center justify-center text-6xl shadow-inner">📗</div>
                     <div>
                         <span class="text-xs font-black text-primary bg-primary/10 px-3 py-1 rounded-full">Primary 1</span>
@@ -79,7 +79,10 @@
                         <p class="text-slate-500 text-sm font-semibold mt-1">الصف الأول الابتدائي · الترم الأول</p>
                         <p class="text-xs text-slate-400 mt-1">English Language — Assessment Book</p>
                     </div>
-                    <div class="flex items-center gap-2 text-primary font-bold text-sm mt-auto">افتح الكتاب <i class="fa-solid fa-arrow-left"></i></div>
+                    <div class="grid grid-cols-1 w-full gap-2 mt-auto">
+                        <a href="p1-interactive-book.html" class="flex items-center justify-center gap-2 bg-primary text-white rounded-xl px-4 py-3 font-black text-sm shadow-md shadow-blue-200 hover:bg-blue-700 transition-colors"><i class="fa-solid fa-pen-to-square"></i> ابدأ الحل التفاعلي</a>
+                        <button type="button" onclick="openBook('books/English_Language_Primary_1_First_Term.epub','الصف الأول الابتدائي - الترم الأول')" class="flex items-center justify-center gap-2 rounded-xl border border-primary/20 bg-primary/5 px-4 py-2.5 text-primary font-bold text-sm hover:bg-primary hover:text-white transition-colors"><i class="fa-solid fa-book-open"></i> تصفح الكتاب فقط</button>
+                    </div>
                 </div>
                 <div class="book-card rounded-[2rem] p-6 flex flex-col items-center text-center gap-4 opacity-60 cursor-not-allowed" onclick="alert('قريباً ⏳')">
                     <div class="w-32 h-32 bg-gradient-to-br from-emerald-100 to-teal-200 rounded-2xl flex items-center justify-center text-6xl shadow-inner">📘</div>
