@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>حل كتاب التقييمات — Primary 4 | English Toon</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <style>
+    :root { --blue:#2563eb; --blue-dark:#1d4ed8; --sky:#eff6ff; --green:#16a34a; --red:#dc2626; --ink:#172554; --muted:#64748b; --line:#dbeafe; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; color:#0f172a; font-family:"Cairo",sans-serif; background:radial-gradient(circle at 10% 10%,#dbeafe 0,transparent 34%),radial-gradient(circle at 90% 0,#e0e7ff 0,transparent 32%),#f8fbff; }
+    button, input, select { font:inherit; }
+    .topbar { position:sticky; top:0; z-index:30; border-bottom:1px solid rgba(191,219,254,.9); background:rgba(255,255,255,.88); backdrop-filter:blur(14px); }
+    .topbar-inner { max-width:1240px; margin:auto; min-height:72px; padding:12px 20px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+    .brand { display:flex; align-items:center; gap:12px; min-width:0; }
+    .brand-badge { flex:0 0 auto; width:42px; height:42px; display:grid; place-items:center; color:#fff; border-radius:14px; background:linear-gradient(135deg,#3b82f6,#4f46e5); box-shadow:0 8px 18px rgba(37,99,235,.28); }
+    .brand h1 { margin:0; color:var(--ink); font-size:clamp(15px,2.5vw,21px); font-weight:900; line-height:1.25; }
+    .brand p { margin:2px 0 0; color:var(--muted); font-size:11px; font-weight:700; }
+    .back-link { display:inline-flex; align-items:center; gap:8px; padding:9px 14px; text-decoration:none; border:1px solid #bfdbfe; border-radius:12px; color:var(--blue-dark); background:#fff; font-weight:800; font-size:13px; transition:.18s ease; }
+    .back-link:hover { border-color:var(--blue); background:#eff6ff; transform:translateY(-1px); }
+    main { max-width:1240px; margin:0 auto; padding:24px 20px 44px; }
+    .dashboard { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:18px; align-items:center; padding:18px 20px; background:#fff; border:1px solid var(--line); border-radius:22px; box-shadow:0 10px 30px rgba(30,64,175,.08); }
+    .page-control { display:flex; align-items:center; gap:12px; min-width:0; }
+    .page-number { display:flex; flex-direction:column; gap:2px; color:var(--muted); font-size:12px; font-weight:800; white-space:nowrap; }
+    #pageSelect { min-width:220px; max-width:100%; padding:10px 38px 10px 12px; color:#172554; border:1px solid #bfdbfe; border-radius:12px; background:#f8fbff; font-weight:800; outline:none; }
+    .book-progress { min-width:230px; }
+    .book-progress .label { display:flex; justify-content:space-between; gap:12px; margin-bottom:7px; color:#475569; font-size:12px; font-weight:800; }
+    .progress-track { height:9px; overflow:hidden; border-radius:999px; background:#e2e8f0; }
+    .progress-fill { width:0; height:100%; border-radius:inherit; background:linear-gradient(90deg,#22c55e,#14b8a6); transition:width .28s ease; }
+    .page-strip { display:flex; gap:7px; overflow:auto; margin:18px 0; padding:4px 2px 9px; scrollbar-width:thin; }
+    .page-chip { flex:0 0 auto; width:38px; height:38px; border:1px solid #cbd5e1; border-radius:11px; color:#475569; background:#fff; cursor:pointer; font-family:Outfit,sans-serif; font-weight:800; transition:.18s ease; }
+    .page-chip:hover { border-color:#60a5fa; color:var(--blue); background:#eff6ff; }
+    .page-chip.active { color:#fff; border-color:var(--blue); background:var(--blue); box-shadow:0 5px 13px rgba(37,99,235,.25); }
+    .page-chip.complete:not(.active) { color:#047857; border-color:#86efac; background:#f0fdf4; }
+    .workspace { display:grid; grid-template-columns:minmax(0,1fr) 280px; gap:20px; align-items:start; }
+    .reader-card, .tools-card { background:#fff; border:1px solid var(--line); border-radius:24px; box-shadow:0 14px 36px rgba(30,64,175,.09); }
+    .reader-head { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:15px 18px; border-bottom:1px solid #eff6ff; }
+    .reader-head h2 { margin:0; color:var(--ink); font-size:15px; font-weight:900; }
+    .reader-head span { color:var(--muted); font-size:11px; font-weight:800; }
+    .page-stage { position:relative; width:100%; overflow:hidden; background:#f8fafc; border-radius:0 0 23px 23px; line-height:0; }
+    #bookPage { display:block; width:100%; height:auto; user-select:none; -webkit-user-drag:none; }
+    #overlay { position:absolute; inset:0; pointer-events:none; }
+    .answer-input { position:absolute; z-index:2; padding:0 4px; color:#0f172a; border:1.5px solid rgba(37,99,235,.46); border-radius:4px; outline:none; background:rgba(255,255,255,.88); box-shadow:0 1px 3px rgba(15,23,42,.12); text-align:center; font-family:Outfit,"Cairo",sans-serif; font-size:clamp(8px,1.7vw,18px); font-weight:800; line-height:1.05; pointer-events:auto; transition:border-color .16s ease,background .16s ease,box-shadow .16s ease; }
+    .answer-input:focus { z-index:4; border-color:var(--blue); background:#fff; box-shadow:0 0 0 3px rgba(59,130,246,.16); }
+    .answer-input::placeholder { color:#94a3b8; font-weight:700; }
+    .answer-input.is-correct { color:#14532d; border-color:#22c55e; background:rgba(220,252,231,.94); }
+    .answer-input.is-wrong { color:#7f1d1d; border-color:#ef4444; background:rgba(254,226,226,.94); }
+    .answer-input.is-free { border-style:dashed; border-color:#f59e0b; background:rgba(255,251,235,.92); }
+    .tools-card { position:sticky; top:94px; padding:18px; }
+    .tools-card h3 { margin:0 0 7px; color:var(--ink); font-size:16px; font-weight:900; }
+    .tools-card p { margin:0 0 15px; color:var(--muted); font-size:12px; line-height:1.8; font-weight:600; }
+    .score-box { margin-bottom:14px; padding:13px; border:1px solid #bae6fd; border-radius:16px; background:linear-gradient(135deg,#f0f9ff,#eff6ff); }
+    .score-box .score-title { color:#475569; font-size:11px; font-weight:800; }
+    .score-box strong { display:block; margin-top:2px; color:var(--blue-dark); font-family:Outfit,"Cairo",sans-serif; font-size:25px; font-weight:800; direction:ltr; text-align:right; }
+    .score-status { margin-top:6px; color:#64748b; font-size:11px; font-weight:700; line-height:1.55; }
+    .action { width:100%; display:flex; align-items:center; justify-content:center; gap:8px; margin-top:9px; padding:11px 12px; border:1px solid transparent; border-radius:13px; cursor:pointer; font-size:13px; font-weight:900; transition:.18s ease; }
+    .action:hover { transform:translateY(-1px); }
+    .action.primary { color:#fff; background:linear-gradient(135deg,#2563eb,#4f46e5); box-shadow:0 8px 16px rgba(37,99,235,.22); }
+    .action.answer { color:#0369a1; border-color:#bae6fd; background:#f0f9ff; }
+    .action.reset { color:#b91c1c; border-color:#fecaca; background:#fff7f7; }
+    .nav-row { display:flex; gap:9px; margin-top:14px; }
+    .nav-row button { flex:1; }
+    .nav-button { padding:11px 10px; border:1px solid #cbd5e1; border-radius:13px; color:#334155; background:#fff; cursor:pointer; font-size:12px; font-weight:900; transition:.18s ease; }
+    .nav-button:hover:not(:disabled) { color:var(--blue); border-color:#93c5fd; background:#eff6ff; }
+    .nav-button:disabled { opacity:.45; cursor:not-allowed; }
+    .notice { display:flex; align-items:flex-start; gap:9px; margin-top:15px; padding:11px; color:#92400e; border-radius:13px; background:#fffbeb; font-size:11px; line-height:1.7; font-weight:700; }
+    .toast { position:fixed; left:50%; bottom:22px; z-index:80; max-width:calc(100% - 34px); padding:12px 17px; border-radius:14px; color:#fff; background:#172554; box-shadow:0 12px 30px rgba(15,23,42,.28); font-size:13px; font-weight:800; opacity:0; pointer-events:none; transform:translate(-50%,18px); transition:.22s ease; }
+    .toast.show { opacity:1; transform:translate(-50%,0); }
+    .toast.success { background:#166534; }
+    .empty-state { padding:48px 22px; text-align:center; color:#64748b; font-weight:700; line-height:1.8; }
+    @media (max-width:900px) { .workspace { grid-template-columns:1fr; } .tools-card { position:static; } .tools-card > p { margin-bottom:10px; } .actions-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; } .action { margin-top:0; font-size:11px; padding:10px 7px; } .nav-row { margin-top:10px; } }
+    @media (max-width:620px) { .topbar-inner { min-height:64px; padding:10px 14px; } main { padding:16px 12px 32px; } .brand p { display:none; } .back-link span { display:none; } .dashboard { grid-template-columns:1fr; gap:12px; padding:14px; border-radius:18px; } .page-control { justify-content:space-between; } #pageSelect { min-width:0; width:100%; } .book-progress { min-width:0; } .reader-card, .tools-card { border-radius:18px; } .reader-head { padding:12px 14px; } .page-stage { border-radius:0 0 17px 17px; } .page-chip { width:35px; height:35px; border-radius:10px; } .actions-grid { grid-template-columns:1fr; } .action { font-size:12px; } }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="brand-badge"><i class="fa-solid fa-pen-to-square"></i></div>
+        <div>
+          <h1>حل كتاب التقييمات التفاعلي</h1>
+          <p>Primary 4 · الترم الأول · اكتب ثم صحّح إجابتك فورًا</p>
+        </div>
+      </div>
+      <a class="back-link" href="books.html"><i class="fa-solid fa-arrow-right"></i><span>العودة للكتب</span></a>
+    </div>
+  </header>
+
+  <main>
+    <section class="dashboard" aria-label="التنقل وتقدم الطالب">
+      <div class="page-control">
+        <div class="page-number"><span>اختر صفحة</span><strong id="pageCounter">1 / 64</strong></div>
+        <select id="pageSelect" aria-label="اختر صفحة الكتاب"></select>
+      </div>
+      <div class="book-progress">
+        <div class="label"><span>تقدم الحل الصحيح</span><span id="progressText">0 / 0</span></div>
+        <div class="progress-track"><div id="progressFill" class="progress-fill"></div></div>
+      </div>
+    </section>
+
+    <nav id="pageStrip" class="page-strip" aria-label="صفحات الكتاب"></nav>
+
+    <section class="workspace">
+      <article class="reader-card">
+        <div class="reader-head"><h2 id="pageTitle">جاري تحميل الصفحة...</h2><span id="questionCount"></span></div>
+        <div id="pageStage" class="page-stage">
+          <img id="bookPage" alt="صفحة من كتاب التقييمات للصف الرابع الابتدائي">
+          <div id="overlay"></div>
+        </div>
+      </article>
+
+      <aside class="tools-card">
+        <h3>لوحة التصحيح</h3>
+        <p>اكتب الإجابات في المربعات على الصفحة؛ سيظهر التصحيح تلقائيًا بعد التوقف عن الكتابة قليلًا. ويمكنك استخدام «صحّح الصفحة» لمراجعة كل الإجابات دفعة واحدة.</p>
+        <div class="score-box">
+          <span class="score-title">نتيجة الصفحة الحالية</span>
+          <strong id="pageScore">—</strong>
+          <div id="scoreStatus" class="score-status">لم يتم التصحيح بعد.</div>
+        </div>
+        <div class="actions-grid">
+          <button id="checkBtn" class="action primary" type="button"><i class="fa-solid fa-circle-check"></i> صحّح الصفحة</button>
+          <button id="showBtn" class="action answer" type="button"><i class="fa-solid fa-lightbulb"></i> أظهر الحل</button>
+          <button id="resetBtn" class="action reset" type="button"><i class="fa-solid fa-rotate-left"></i> امسح الحل</button>
+        </div>
+        <div class="nav-row">
+          <button id="prevBtn" class="nav-button" type="button"><i class="fa-solid fa-chevron-right"></i> السابقة</button>
+          <button id="nextBtn" class="nav-button" type="button">التالية <i class="fa-solid fa-chevron-left"></i></button>
+        </div>
+        <div class="notice"><i class="fa-solid fa-floppy-disk"></i><span>يُحفظ الحل تلقائيًا على هذا الجهاز وباسم الطالب الحالي.</span></div>
+      </aside>
+    </section>
+  </main>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    if (localStorage.getItem('isLoggedIn') !== 'true') window.location.replace('index.html');
+  </script>
+  <script src="js/p4_book_data.js?v=20260814_p4v1"></script>
+  <script>
+    (() => {
+      const DB = window.P4_OVERLAY_DATABASE || {};
+      const pageNumbers = Object.keys(DB).map(Number).sort((a, b) => a - b);
+      const currentUser = (localStorage.getItem('currentUser') || localStorage.getItem('device_id') || 'student').trim();
+      const storageKey = `englishtoon_p4_interactive_${currentUser}`;
+      const requestedPage = Number(new URLSearchParams(window.location.search).get('page'));
+      let currentPage = pageNumbers.includes(requestedPage) ? requestedPage : (pageNumbers[0] || 1);
+      let state = loadState();
+      let toastTimer;
+
+      const el = {
+        select: document.getElementById('pageSelect'), counter: document.getElementById('pageCounter'), strip: document.getElementById('pageStrip'),
+        title: document.getElementById('pageTitle'), count: document.getElementById('questionCount'), image: document.getElementById('bookPage'), overlay: document.getElementById('overlay'),
+        pageScore: document.getElementById('pageScore'), scoreStatus: document.getElementById('scoreStatus'), progressText: document.getElementById('progressText'), progressFill: document.getElementById('progressFill'),
+        check: document.getElementById('checkBtn'), show: document.getElementById('showBtn'), reset: document.getElementById('resetBtn'), prev: document.getElementById('prevBtn'), next: document.getElementById('nextBtn'), toast: document.getElementById('toast')
+      };
+
+      function loadState() {
+        try { return JSON.parse(localStorage.getItem(storageKey)) || { answers: {}, grades: {} }; }
+        catch (_) { return { answers: {}, grades: {} }; }
+      }
+      function saveState() { localStorage.setItem(storageKey, JSON.stringify(state)); updateProgress(); }
+      function normalise(value) {
+        return String(value || '').toLowerCase().trim().replace(/[’‘]/g, "'").replace(/[.,!?؛،]/g, '').replace(/\s+/g, ' ');
+      }
+      function isFree(input) { return input.answer === '__free__' || !String(input.answer || '').trim(); }
+      function acceptedAnswers(input) { return String(input.answer || '').split('|').map(normalise).filter(Boolean); }
+      function isCorrect(input, value) { return !isFree(input) && acceptedAnswers(input).includes(normalise(value)); }
+      function getGradable(page) { return (DB[page]?.inputs || []).filter(input => !isFree(input)); }
+      function getInputs(page) { return DB[page]?.inputs || []; }
+      function showToast(text, success = false) {
+        el.toast.textContent = text; el.toast.className = `toast show${success ? ' success' : ''}`;
+        clearTimeout(toastTimer); toastTimer = setTimeout(() => { el.toast.className = 'toast'; }, 2600);
+      }
+      function pageIsComplete(page) {
+        const items = getGradable(page);
+        return items.length > 0 && items.every(input => isCorrect(input, state.answers[input.id]));
+      }
+      function updateProgress() {
+        const gradable = pageNumbers.flatMap(getGradable);
+        const correct = gradable.filter(input => isCorrect(input, state.answers[input.id])).length;
+        const completedPages = pageNumbers.filter(pageIsComplete).length;
+        el.progressText.textContent = `${correct} / ${gradable.length} إجابة صحيحة`;
+        el.progressFill.style.width = `${gradable.length ? Math.round((correct / gradable.length) * 100) : 0}%`;
+        Array.from(el.strip.children).forEach(chip => chip.classList.toggle('complete', pageIsComplete(Number(chip.dataset.page))));
+      }
+      function buildNavigation() {
+        el.select.innerHTML = pageNumbers.map(page => `<option value="${page}">صفحة ${page} — ${DB[page].title || ''}</option>`).join('');
+        el.strip.innerHTML = pageNumbers.map(page => `<button class="page-chip" data-page="${page}" type="button" aria-label="الذهاب إلى الصفحة ${page}">${page}</button>`).join('');
+        el.select.addEventListener('change', () => renderPage(Number(el.select.value)));
+        el.strip.addEventListener('click', event => { const button = event.target.closest('[data-page]'); if (button) renderPage(Number(button.dataset.page)); });
+      }
+      function updatePageResult() {
+        const items = getGradable(currentPage);
+        if (!items.length) {
+          el.pageScore.textContent = '—'; el.scoreStatus.textContent = 'لا توجد أسئلة قابلة للتصحيح في هذه الصفحة.'; return;
+        }
+        const correct = items.filter(input => isCorrect(input, state.answers[input.id])).length;
+        const wasChecked = state.grades[currentPage]?.checked;
+        el.pageScore.textContent = wasChecked ? `${correct} / ${items.length}` : '—';
+        el.scoreStatus.textContent = wasChecked ? (correct === items.length ? 'ممتاز! جميع الإجابات صحيحة.' : `صحّح الإجابات الحمراء ثم حاول مرة أخرى.`) : 'لم يتم التصحيح بعد.';
+      }
+      function positionInput(input) {
+        const field = document.createElement('input');
+        field.type = 'text'; field.id = input.id; field.className = `answer-input${isFree(input) ? ' is-free' : ''}`;
+        field.style.top = input.top; field.style.left = input.left; field.style.width = input.width; field.style.height = input.height;
+        field.placeholder = input.placeholder || '...'; field.value = state.answers[input.id] || ''; field.autocomplete = 'off';
+        field.dir = 'ltr'; field.setAttribute('aria-label', `إجابة ${input.id}`);
+        let validationTimer;
+        field.addEventListener('input', () => {
+          state.answers[input.id] = field.value;
+          field.classList.remove('is-correct', 'is-wrong');
+          delete state.grades[currentPage];
+          saveState(); updatePageResult();
+          if (!isFree(input)) {
+            clearTimeout(validationTimer);
+            validationTimer = setTimeout(() => {
+              const value = field.value;
+              const hasAnswer = Boolean(normalise(value));
+              const passed = isCorrect(input, value);
+              field.classList.toggle('is-correct', passed);
+              field.classList.toggle('is-wrong', hasAnswer && !passed);
+            }, 450);
+          }
+        });
+        el.overlay.appendChild(field);
+      }
+      function renderPage(page) {
+        if (!DB[page]) return;
+        currentPage = page;
+        const data = DB[page];
+        el.select.value = String(page);
+        el.counter.textContent = `${page} / ${pageNumbers.length}`;
+        el.title.textContent = data.title || `صفحة ${page}`;
+        const gradableCount = getGradable(page).length;
+        el.count.textContent = gradableCount ? `${gradableCount} سؤال قابل للتصحيح` : 'صفحة قراءة أو بيانات';
+        el.image.src = data.pageImg;
+        el.image.alt = `صفحة ${page}: ${data.title || 'كتاب التقييمات'}`;
+        el.overlay.innerHTML = '';
+        getInputs(page).forEach(positionInput);
+        Array.from(el.strip.children).forEach(chip => chip.classList.toggle('active', Number(chip.dataset.page) === page));
+        const index = pageNumbers.indexOf(page);
+        el.prev.disabled = index === 0; el.next.disabled = index === pageNumbers.length - 1;
+        updatePageResult(); updateProgress();
+        requestAnimationFrame(() => document.querySelector(`.page-chip[data-page="${page}"]`)?.scrollIntoView({ block:'nearest', inline:'center', behavior:'smooth' }));
+      }
+      function checkPage() {
+        const items = getGradable(currentPage);
+        if (!items.length) { showToast('لا توجد أسئلة للتصحيح في هذه الصفحة.'); return; }
+        let completed = 0; let correct = 0;
+        items.forEach(input => {
+          const field = document.getElementById(input.id);
+          const value = field?.value || '';
+          if (normalise(value)) completed++;
+          const passed = isCorrect(input, value);
+          if (passed) correct++;
+          field?.classList.toggle('is-correct', passed);
+          field?.classList.toggle('is-wrong', Boolean(normalise(value)) && !passed);
+        });
+        state.grades[currentPage] = { checked:true, at:Date.now(), correct, total:items.length };
+        saveState(); updatePageResult();
+        showToast(completed < items.length ? `أكمل الإجابات الفارغة أولًا. نتيجتك الحالية: ${correct} من ${items.length}` : `نتيجتك: ${correct} من ${items.length}`, correct === items.length);
+      }
+      function showAnswers() {
+        const items = getGradable(currentPage);
+        if (!items.length) { showToast('لا توجد إجابات نموذجية لهذه الصفحة.'); return; }
+        if (!confirm('هل تريد إظهار الإجابات النموذجية لهذه الصفحة؟')) return;
+        items.forEach(input => { state.answers[input.id] = String(input.answer).split('|')[0]; });
+        state.grades[currentPage] = { checked:true, at:Date.now(), correct:items.length, total:items.length, revealed:true };
+        saveState(); renderPage(currentPage); checkPage(); showToast('تم عرض الإجابات النموذجية.', true);
+      }
+      function resetPage() {
+        const inputs = getInputs(currentPage);
+        if (!inputs.length) { showToast('لا توجد خانات في هذه الصفحة لمسحها.'); return; }
+        if (!confirm('هل تريد مسح جميع إجابات هذه الصفحة؟')) return;
+        inputs.forEach(input => delete state.answers[input.id]);
+        delete state.grades[currentPage]; saveState(); renderPage(currentPage); showToast('تم مسح إجابات الصفحة.');
+      }
+      function shiftPage(delta) { const index = pageNumbers.indexOf(currentPage); renderPage(pageNumbers[index + delta]); }
+
+      buildNavigation();
+      el.check.addEventListener('click', checkPage); el.show.addEventListener('click', showAnswers); el.reset.addEventListener('click', resetPage);
+      el.prev.addEventListener('click', () => shiftPage(-1)); el.next.addEventListener('click', () => shiftPage(1));
+      document.addEventListener('keydown', event => {
+        if (event.target.matches('input,select,textarea')) return;
+        if (event.key === 'ArrowRight') shiftPage(-1);
+        if (event.key === 'ArrowLeft') shiftPage(1);
+      });
+      renderPage(currentPage);
+    })();
+  </script>
+</body>
+</html>
