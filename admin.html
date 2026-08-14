@@ -1,115 +1,62 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة التحكم الإدارية | Englishtoon</title>
-    <!-- Use FontAwesome for icons -->
+    <title>English Toon - لوحة الإدارة</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0f172a',
+                        secondary: '#1e293b',
+                        accent: '#38bdf8',
+                        gold: '#d4af37',
+                    },
+                    fontFamily: {
+                        sans: ['Cairo', 'Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Cairo', sans-serif;
-        }
-
         body {
-            background: linear-gradient(135deg, #0f172a, #1e1b4b);
+            font-family: 'Cairo', sans-serif;
+            background-color: #0f172a;
             color: #f8fafc;
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+                radial-gradient(at 50% 0%, hsla(225,39%,30%,0.2) 0, transparent 50%), 
+                radial-gradient(at 100% 0%, hsla(339,49%,30%,0.2) 0, transparent 50%);
+            background-attachment: fixed;
             min-height: 100vh;
-            display: flex;
-            overflow-x: hidden;
+        }
+        
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
-        /* Sidebar Styling */
-        .sidebar {
-            width: 280px;
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(20px);
-            border-left: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            flex-direction: column;
-            padding: 30px 20px;
-            box-shadow: -5px 0 25px rgba(0, 0, 0, 0.5);
-            z-index: 100;
-        }
-
-        .sidebar-logo {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .sidebar-logo h2 {
-            font-size: 1.8rem;
-            font-weight: 800;
-            background: linear-gradient(to right, #38bdf8, #818cf8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 4px 10px rgba(56, 189, 248, 0.2);
-        }
-
-        .nav-link {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px 20px;
-            margin-bottom: 15px;
-            border-radius: 12px;
-            color: #94a3b8;
-            text-decoration: none;
-            font-size: 1.1rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            background: transparent;
-            border: 1px solid transparent;
-        }
-
-        .nav-link:hover, .nav-link.active {
-            background: rgba(56, 189, 248, 0.1);
+        .nav-link.active {
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.2), rgba(37, 99, 235, 0.2));
+            border-right: 4px solid #38bdf8;
             color: #38bdf8;
-            border-color: rgba(56, 189, 248, 0.3);
-            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.15);
-        }
-
-        .nav-link i {
-            font-size: 1.3rem;
-            width: 25px;
-        }
-
-        .back-btn {
-            margin-top: auto;
-            background: linear-gradient(135deg, #ef4444, #b91c1c);
-            color: white;
-            text-align: center;
-            padding: 15px;
-            border-radius: 12px;
-            font-weight: 700;
-            cursor: pointer;
-            border: none;
-            transition: transform 0.2s;
-        }
-
-        .back-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(239, 68, 68, 0.3);
-        }
-
-        /* Main Content */
-        .main-content {
-            flex: 1;
-            padding: 40px;
-            height: 100vh;
-            overflow-y: auto;
         }
 
         .section {
             display: none;
-            animation: fadeIn 0.4s ease forwards;
+            animation: fadeIn 0.4s ease-out;
         }
-
         .section.active {
             display: block;
         }
@@ -119,347 +66,219 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Cards and Form Styling */
-        .glass-card {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
-            padding: 35px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            font-size: 1.8rem;
-            margin-bottom: 25px;
-            color: #f1f5f9;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 15px;
-        }
-
-        .input-group {
-            margin-bottom: 20px;
-        }
-
-        .input-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #cbd5e1;
-        }
-
-        .input-group input, .input-group select {
-            width: 100%;
-            padding: 14px;
-            background: rgba(15, 23, 42, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            color: white;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-        }
-
-        .input-group input:focus, .input-group select:focus {
-            outline: none;
-            border-color: #38bdf8;
-            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
-        }
-
-        /* Checkbox styling */
-        .checkbox-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        .checkbox-container:hover {
-            background: rgba(0, 0, 0, 0.4);
-        }
-        .checkbox-container input {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-        }
-
-        /* Action Buttons */
-        .action-btn {
-            width: 100%;
-            padding: 16px;
-            border: none;
-            border-radius: 12px;
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #0ea5e9, #2563eb);
-            box-shadow: 0 5px 20px rgba(14, 165, 233, 0.3);
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(14, 165, 233, 0.4);
-        }
-
-        .btn-success {
-            background: linear-gradient(135deg, #10b981, #059669);
-            box-shadow: 0 5px 20px rgba(16, 185, 129, 0.3);
-        }
-        .btn-success:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
-        }
-
-        /* Alerts */
-        .alert {
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            display: none;
-            font-weight: 600;
-            text-align: center;
-        }
-        .alert-success {
-            background: rgba(16, 185, 129, 0.2);
-            border: 1px solid #10b981;
-            color: #34d399;
-        }
-        .alert-error {
-            background: rgba(239, 68, 68, 0.2);
-            border: 1px solid #ef4444;
-            color: #f87171;
-        }
-
-        /* Table */
-        .table-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 15px;
-            text-align: right;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        th {
-            color: #94a3b8;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        tr:hover {
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        .badge {
-            padding: 5px 10px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            font-weight: 700;
-        }
-
-        .badge-green { background: rgba(16, 185, 129, 0.2); color: #34d399; }
-        .badge-red { background: rgba(239, 68, 68, 0.2); color: #f87171; }
-        .badge-blue { background: rgba(56, 189, 248, 0.2); color: #38bdf8; }
-
-        .btn-small {
-            padding: 8px 12px;
-            border-radius: 6px;
-            border: none;
-            color: white;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.9rem;
-            margin-right: 5px;
-        }
-
-        .btn-reset { background: #d97706; }
-        .btn-delete { background: #dc2626; }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
     </style>
 </head>
-<body>
+<body class="flex flex-col md:flex-row min-h-screen">
 
-    <!-- Sidebar Navigation -->
-    <div class="sidebar">
-        <div class="sidebar-logo">
-            <h2>الإدارة <i class="fa-solid fa-gear"></i></h2>
+    <!-- Sidebar / Bottom Bar -->
+    <nav class="md:w-64 glass-card flex-shrink-0 md:h-screen md:sticky top-0 z-50 flex md:flex-col border-b md:border-b-0 md:border-l border-white/10">
+        <div class="p-6 hidden md:flex items-center gap-3 border-b border-white/10">
+            <div class="w-10 h-10 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
+                <i class="fa-solid fa-shield-halved text-white text-xl"></i>
+            </div>
+            <h1 class="text-xl font-black bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500">الإدارة</h1>
         </div>
         
-        <a class="nav-link active" onclick="switchTab('single-add', this)">
-            <i class="fa-solid fa-user-plus"></i> إضافة طالب
-        </a>
-        <a class="nav-link" onclick="switchTab('bulk-add', this)">
-            <i class="fa-solid fa-users-viewfinder"></i> التوليد المجمع
-        </a>
-        <a class="nav-link" onclick="switchTab('manage-users', this)">
-            <i class="fa-solid fa-table-list"></i> إدارة الحسابات
-        </a>
+        <div class="flex md:flex-col overflow-x-auto md:overflow-visible w-full py-2 md:py-6 gap-1 md:gap-2 px-2 md:px-4">
+            <button onclick="switchTab('single-add', this)" class="nav-link active flex-shrink-0 flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 transition-all font-semibold text-sm md:text-base">
+                <i class="fa-solid fa-user-plus w-5 text-center"></i> إضافة طالب
+            </button>
+            <button onclick="switchTab('bulk-add', this)" class="nav-link flex-shrink-0 flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 transition-all font-semibold text-sm md:text-base">
+                <i class="fa-solid fa-users-viewfinder w-5 text-center"></i> توليد مجمع
+            </button>
+            <button onclick="switchTab('manage-users', this)" class="nav-link flex-shrink-0 flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 transition-all font-semibold text-sm md:text-base">
+                <i class="fa-solid fa-table-list w-5 text-center"></i> إدارة الحسابات
+            </button>
+        </div>
 
-        <button class="back-btn" onclick="window.location.href='dashboard.html'">
-            <i class="fa-solid fa-arrow-right-from-bracket"></i> العودة للموقع
-        </button>
-    </div>
+        <div class="mt-auto p-4 hidden md:block">
+            <button onclick="window.location.href='dashboard.html'" class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white transition-all font-semibold border border-white/10">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> العودة للموقع
+            </button>
+        </div>
+    </nav>
 
-    <!-- Main Content Area -->
-    <div class="main-content">
+    <!-- Main Content -->
+    <main class="flex-1 p-4 md:p-8 overflow-y-auto w-full max-w-6xl mx-auto">
         
-        <!-- SECTION 1: Single User Addition -->
+        <!-- SECTION 1: Single Add -->
         <div id="single-add" class="section active">
-            <div class="glass-card">
-                <h2 class="section-title"><i class="fa-solid fa-user-plus"></i> إضافة حساب طالب جديد</h2>
-                <div id="single-alert" class="alert"></div>
+            <div class="glass-card rounded-2xl p-6 md:p-8">
+                <h2 class="text-2xl font-black mb-6 text-white flex items-center gap-3">
+                    <div class="bg-cyan-500/20 p-2 rounded-lg text-cyan-400"><i class="fa-solid fa-user-plus"></i></div>
+                    إضافة حساب طالب جديد
+                </h2>
                 
-                <form id="create-user-form">
-                    <div class="input-group">
-                        <label for="new-username">اسم المستخدم للطالب</label>
-                        <input type="text" id="new-username" required placeholder="مثال: ahmed123">
-                    </div>
-                    <div class="input-group">
-                        <label for="new-password">كلمة المرور</label>
-                        <input type="text" id="new-password" required placeholder="مثال: 0000">
-                    </div>
+                <div id="single-alert" class="hidden p-4 rounded-xl mb-6 font-bold text-center"></div>
 
-                    <div class="input-group">
-                        <label for="grade-select">تخصيص الصف:</label>
-                        <select id="grade-select">
-                            <option value="all">كل الصفوف (صلاحية كاملة لجميع الألعاب)</option>
-                            <option value="primary-1">الصف الأول الابتدائي</option>
-                            <option value="primary-2">الصف الثاني الابتدائي</option>
-                            <option value="primary-3">الصف الثالث الابتدائي</option>
-                            <option value="primary-4">الصف الرابع الابتدائي</option>
-                            <option value="primary-5">الصف الخامس الابتدائي</option>
-                            <option value="primary-6">الصف السادس الابتدائي</option>
-                            <option value="prep-1">الصف الأول الإعدادي</option>
-                            <option value="prep-2">الصف الثاني الإعدادي</option>
-                            <option value="prep-3">الصف الثالث الإعدادي</option>
-                        </select>
+                <form id="create-user-form" class="space-y-5">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div class="space-y-2">
+                            <label class="text-sm font-bold text-slate-300">اسم المستخدم (يجب أن يكون فريداً)</label>
+                            <input type="text" id="new-username" required placeholder="مثال: ahmed123" class="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 transition-all">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-sm font-bold text-slate-300">كلمة المرور</label>
+                            <input type="text" id="new-password" required placeholder="مثال: 0000" class="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 transition-all">
+                        </div>
                     </div>
 
-                    <label class="checkbox-container">
-                        <input type="checkbox" id="multi-user-checkbox">
-                        <span>يوزر متعدد (السماح لأكثر من جهاز بالدخول في نفس الوقت)</span>
-                    </label>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div class="space-y-2">
+                            <label class="text-sm font-bold text-slate-300">تخصيص الصف الدراسي</label>
+                            <select id="grade-select" class="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 transition-all [&>option]:bg-slate-800">
+                                <option value="all">كل الصفوف (صلاحية كاملة)</option>
+                                <option value="primary-1">الصف الأول الابتدائي</option>
+                                <option value="primary-2">الصف الثاني الابتدائي</option>
+                                <option value="primary-3">الصف الثالث الابتدائي</option>
+                                <option value="primary-4">الصف الرابع الابتدائي</option>
+                                <option value="primary-5">الصف الخامس الابتدائي</option>
+                                <option value="primary-6">الصف السادس الابتدائي</option>
+                                <option value="prep-1">الصف الأول الإعدادي</option>
+                                <option value="prep-2">الصف الثاني الإعدادي</option>
+                                <option value="prep-3">الصف الثالث الإعدادي</option>
+                            </select>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-sm font-bold text-slate-300">الحد الأقصى للأجهزة المسموح بها</label>
+                            <input type="number" id="max-devices" min="1" max="30" value="1" required class="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 transition-all">
+                            <p class="text-xs text-slate-500 mt-1">يحدد كم جهاز مختلف (موبايل/لابتوب) يمكن للطالب الدخول منه.</p>
+                        </div>
+                    </div>
 
-                    <label class="checkbox-container" style="margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 10px;">
-                        <input type="checkbox" id="trial-user-checkbox">
-                        <span style="color: #f59e0b; font-weight: bold;">⏱️ حساب تجريبي (مؤقت 24 ساعة - يفصل تلقائياً بعد يوم)</span>
-                    </label>
+                    <div class="bg-amber-500/10 border border-amber-500/20 rounded-xl p-4 cursor-pointer hover:bg-amber-500/20 transition-all" onclick="document.getElementById('trial-user-checkbox').click()">
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" id="trial-user-checkbox" class="w-5 h-5 rounded text-amber-500 focus:ring-amber-500 bg-slate-800 border-slate-600">
+                            <div>
+                                <span class="font-bold text-amber-400">حساب تجريبي مؤقت ⏱️</span>
+                                <p class="text-xs text-amber-200/60 mt-1">سيتم إغلاق الحساب تلقائياً بعد 24 ساعة من أول تسجيل دخول.</p>
+                            </div>
+                        </label>
+                    </div>
 
-                    <button type="submit" class="action-btn btn-primary">
-                        <i class="fa-solid fa-floppy-disk"></i> حفظ وإضافة الطالب
+                    <button type="submit" class="w-full py-4 rounded-xl font-bold text-lg text-white bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 shadow-lg shadow-cyan-500/25 transition-all transform hover:-translate-y-1">
+                        <i class="fa-solid fa-floppy-disk mr-2"></i> حفظ وإضافة الطالب
                     </button>
                 </form>
             </div>
         </div>
 
-        <!-- SECTION 2: Bulk User Generation -->
+        <!-- SECTION 2: Bulk Add -->
         <div id="bulk-add" class="section">
-            <div class="glass-card">
-                <h2 class="section-title"><i class="fa-solid fa-bolt"></i> المولد السريع للحسابات المجمعة</h2>
-                <p style="color: #94a3b8; margin-bottom: 25px; line-height: 1.6;">
-                    تتيح لك هذه الميزة توليد عشرات أو مئات الحسابات بضغطة واحدة وتنزيلها في ملف TXT جاهز للطباعة أو الإرسال للمعلمين عبر الواتساب. سيتم توليد اسم مستخدم ورقم سري عشوائي (4 أرقام) لكل طالب تلقائياً لمنع التكرار.
-                </p>
+            <div class="glass-card rounded-2xl p-6 md:p-8">
+                <h2 class="text-2xl font-black mb-2 text-white flex items-center gap-3">
+                    <div class="bg-purple-500/20 p-2 rounded-lg text-purple-400"><i class="fa-solid fa-bolt"></i></div>
+                    المولد السريع للحسابات المجمعة
+                </h2>
+                <p class="text-slate-400 text-sm mb-6">توليد مئات الحسابات بضغطة واحدة وتنزيلها في ملف جاهز للطباعة.</p>
+                
+                <div id="bulk-alert" class="hidden p-4 rounded-xl mb-6 font-bold text-center"></div>
 
-                <div id="bulk-alert" class="alert"></div>
-
-                <form id="bulk-user-form">
-                    <div class="input-group">
-                        <label for="bulk-count">العدد المطلوب من الحسابات</label>
-                        <input type="number" id="bulk-count" required min="1" max="500" placeholder="مثال: 50">
+                <form id="bulk-user-form" class="space-y-5">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                        <div class="space-y-2">
+                            <label class="text-sm font-bold text-slate-300">عدد الحسابات (1-500)</label>
+                            <input type="number" id="bulk-count" required min="1" max="500" placeholder="مثال: 50" class="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-sm font-bold text-slate-300">الحد الأقصى للأجهزة لكل طالب</label>
+                            <input type="number" id="bulk-max-devices" min="1" max="30" value="1" required class="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-sm font-bold text-slate-300">اختيار الصف للمجموعة</label>
+                            <select id="bulk-grade-select" class="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all [&>option]:bg-slate-800">
+                                <option value="all">كل الصفوف (صلاحية كاملة)</option>
+                                <option value="primary-1">الصف الأول الابتدائي</option>
+                                <option value="primary-2">الصف الثاني الابتدائي</option>
+                                <option value="primary-3">الصف الثالث الابتدائي</option>
+                                <option value="primary-4">الصف الرابع الابتدائي</option>
+                                <option value="primary-5">الصف الخامس الابتدائي</option>
+                                <option value="primary-6">الصف السادس الابتدائي</option>
+                                <option value="prep-1">الصف الأول الإعدادي</option>
+                                <option value="prep-2">الصف الثاني الإعدادي</option>
+                                <option value="prep-3">الصف الثالث الإعدادي</option>
+                            </select>
+                        </div>
                     </div>
-                    
-                    <div class="input-group">
-                        <label for="bulk-grade-select">اختيار الصف للمجموعة:</label>
-                        <select id="bulk-grade-select">
-                            <option value="all">كل الصفوف (صلاحية كاملة)</option>
-                            <option value="primary-1">الصف الأول الابتدائي</option>
-                            <option value="primary-2">الصف الثاني الابتدائي</option>
-                            <option value="primary-3">الصف الثالث الابتدائي</option>
-                            <option value="primary-4">الصف الرابع الابتدائي</option>
-                            <option value="primary-5">الصف الخامس الابتدائي</option>
-                            <option value="primary-6">الصف السادس الابتدائي</option>
-                            <option value="prep-1">الصف الأول الإعدادي</option>
-                            <option value="prep-2">الصف الثاني الإعدادي</option>
-                            <option value="prep-3">الصف الثالث الإعدادي</option>
-                        </select>
+
+                    <div class="bg-amber-500/10 border border-amber-500/20 rounded-xl p-4 cursor-pointer hover:bg-amber-500/20 transition-all" onclick="document.getElementById('bulk-trial-checkbox').click()">
+                        <label class="flex items-center gap-3 cursor-pointer">
+                            <input type="checkbox" id="bulk-trial-checkbox" class="w-5 h-5 rounded text-amber-500 focus:ring-amber-500 bg-slate-800 border-slate-600">
+                            <div>
+                                <span class="font-bold text-amber-400">توليد مجموعة حسابات تجريبية مؤقتة ⏱️</span>
+                                <p class="text-xs text-amber-200/60 mt-1">صالحة لمدة 24 ساعة فقط لكل حساب بعد تسجيل الدخول الأول.</p>
+                            </div>
+                        </label>
                     </div>
 
-                    <label class="checkbox-container" style="margin-bottom: 20px;">
-                        <input type="checkbox" id="bulk-trial-checkbox">
-                        <span style="color: #f59e0b; font-weight: bold;">⏱️ توليد مجموعة حسابات تجريبية مؤقتة (24 ساعة)</span>
-                    </label>
-
-                    <button type="submit" class="action-btn btn-success">
-                        <i class="fa-solid fa-file-arrow-down"></i> توليد الحسابات وتنزيل الملف
+                    <button type="submit" class="w-full py-4 rounded-xl font-bold text-lg text-white bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 shadow-lg shadow-purple-500/25 transition-all transform hover:-translate-y-1">
+                        <i class="fa-solid fa-file-arrow-down mr-2"></i> توليد الحسابات وتنزيل الملف
                     </button>
                 </form>
             </div>
         </div>
 
-        <!-- SECTION 3: Users Table -->
+        <!-- SECTION 3: Manage Users -->
         <div id="manage-users" class="section">
-            <div class="table-container">
-                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid rgba(255,255,255,0.1); padding-bottom: 15px; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
-                    <h2 style="font-size: 1.8rem; color: #f1f5f9;"><i class="fa-solid fa-address-book"></i> سجل الطلاب المضافين</h2>
-                    <div style="display: flex; gap: 10px;">
-                        <button class="btn-small btn-primary" onclick="resetAllUsersDevices()" style="padding: 10px 16px; background: linear-gradient(135deg, #f59e0b, #d97706);"><i class="fa-solid fa-unlock-keyhole"></i> تصفير جميع الأجهزة</button>
-                        <button class="btn-small btn-primary" onclick="loadUsers()" style="padding: 10px 16px;"><i class="fa-solid fa-rotate-right"></i> تحديث الجدول</button>
+            <div class="glass-card rounded-2xl p-6 md:p-8">
+                
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 pb-6 border-b border-white/10">
+                    <h2 class="text-2xl font-black text-white flex items-center gap-3">
+                        <div class="bg-emerald-500/20 p-2 rounded-lg text-emerald-400"><i class="fa-solid fa-address-book"></i></div>
+                        سجل الطلاب
+                    </h2>
+                    
+                    <div class="flex flex-wrap items-center gap-2 w-full md:w-auto">
+                        <div class="relative w-full md:w-64">
+                            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-slate-400">
+                                <i class="fa-solid fa-search"></i>
+                            </div>
+                            <input type="text" id="user-search" onkeyup="filterTable()" placeholder="ابحث عن اسم، باسوورد، صف..." class="w-full bg-slate-900/50 border border-slate-700 rounded-xl py-2 pr-10 pl-4 text-white text-sm focus:outline-none focus:border-emerald-500 transition-all">
+                        </div>
+                        <button onclick="resetAllUsersDevices()" class="flex-1 md:flex-none px-4 py-2 rounded-xl text-sm font-bold bg-amber-500/10 text-amber-500 border border-amber-500/20 hover:bg-amber-500 hover:text-white transition-all">
+                            <i class="fa-solid fa-unlock-keyhole mr-1"></i> تصفير الكل
+                        </button>
+                        <button onclick="loadUsers()" class="flex-1 md:flex-none px-4 py-2 rounded-xl text-sm font-bold bg-slate-700 text-white hover:bg-slate-600 transition-all">
+                            <i class="fa-solid fa-rotate-right mr-1"></i> تحديث
+                        </button>
                     </div>
                 </div>
                 
-                <table>
-                    <thead>
-                        <tr>
-                            <th>اسم المستخدم</th>
-                            <th>الباسورد</th>
-                            <th>صلاحية الدخول</th>
-                            <th>حالة الاستخدام</th>
-                            <th>نوع الحساب</th>
-                            <th>الإجراءات</th>
-                        </tr>
-                    </thead>
-                    <tbody id="users-tbody">
-                        <tr><td colspan="6" style="text-align: center; color: #94a3b8;"><i class="fa-solid fa-spinner fa-spin"></i> جاري جلب البيانات...</td></tr>
-                    </tbody>
-                </table>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-right border-collapse">
+                        <thead>
+                            <tr class="bg-slate-900/50 text-slate-300 text-sm border-b border-slate-700">
+                                <th class="p-4 font-bold whitespace-nowrap rounded-tr-xl">اسم المستخدم</th>
+                                <th class="p-4 font-bold whitespace-nowrap">كلمة المرور</th>
+                                <th class="p-4 font-bold whitespace-nowrap">صلاحية الدخول</th>
+                                <th class="p-4 font-bold whitespace-nowrap">الحد الأقصى</th>
+                                <th class="p-4 font-bold whitespace-nowrap">حالة الاستخدام</th>
+                                <th class="p-4 font-bold whitespace-nowrap">نوع الحساب</th>
+                                <th class="p-4 font-bold whitespace-nowrap rounded-tl-xl text-center">الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-tbody" class="text-sm divide-y divide-slate-800">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
         </div>
 
-    </div>
+    </main>
 
     <!-- Firebase Compat SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     
     <script src="js/data.js"></script>
-    <script src="js/auth.js?v=20260729_V1000"></script>
+    <script src="js/auth.js?v=20260815_V900"></script>
     <script>
         // Check Authentication - Strictly Admin Only
         checkAuth();
@@ -481,50 +300,55 @@
             if(tabId === 'manage-users') loadUsers();
         }
 
+        // Display Alerts
+        function showAlert(elementId, isSuccess, message) {
+            const el = document.getElementById(elementId);
+            el.innerHTML = message;
+            el.className = `p-4 rounded-xl mb-6 font-bold text-center ${isSuccess ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-red-500/20 text-red-400 border border-red-500/30'}`;
+            el.classList.remove('hidden');
+            setTimeout(() => el.classList.add('hidden'), 5000);
+        }
+
         // --- SINGLE USER ADDITION ---
         document.getElementById('create-user-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             const user = document.getElementById('new-username').value.trim();
             const pass = document.getElementById('new-password').value.trim();
-            const isMultiUser = document.getElementById('multi-user-checkbox').checked;
+            const maxDevices = parseInt(document.getElementById('max-devices').value, 10) || 1;
             const isTrial = document.getElementById('trial-user-checkbox').checked;
             const gradeSelect = document.getElementById('grade-select').value;
             
             const btn = document.querySelector('#create-user-form button');
-            const alertBox = document.getElementById('single-alert');
-            
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري الإضافة...';
+            const originalBtnHtml = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> جاري الإضافة...';
             btn.disabled = true;
 
             try {
                 const userData = {
                     password: pass,
                     used: false,
-                    isMultiUser: isMultiUser,
+                    maxDevices: maxDevices,
+                    isMultiUser: maxDevices > 1, // Legacy fallback
                     isTrial: isTrial,
                     allowedGrade: gradeSelect,
-                    allowedUnits: 'all'
+                    allowedUnits: 'all',
+                    deviceIds: []
                 };
 
                 await db.collection("codes").doc(user).set(userData);
 
-                alertBox.className = 'alert alert-success';
-                alertBox.innerHTML = '<i class="fa-solid fa-circle-check"></i> تم حفظ بيانات الطالب بنجاح!' + (isTrial ? ' ⏱️ (حساب تجريبي 24 ساعة)' : '');
-                alertBox.style.display = 'block';
+                showAlert('single-alert', true, '<i class="fa-solid fa-circle-check ml-2"></i> تم حفظ بيانات الطالب بنجاح!');
                 
                 document.getElementById('new-username').value = '';
                 document.getElementById('new-password').value = '';
-                document.getElementById('multi-user-checkbox').checked = false;
+                document.getElementById('max-devices').value = '1';
                 document.getElementById('trial-user-checkbox').checked = false;
                 
-                setTimeout(() => alertBox.style.display = 'none', 4000);
             } catch (error) {
-                alertBox.className = 'alert alert-error';
-                alertBox.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> خطأ: ' + error.message;
-                alertBox.style.display = 'block';
+                showAlert('single-alert', false, '<i class="fa-solid fa-circle-exclamation ml-2"></i> خطأ: تأكد من صلاحيات Firebase (Rules). Error: ' + error.message);
             }
 
-            btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> حفظ وإضافة الطالب';
+            btn.innerHTML = originalBtnHtml;
             btn.disabled = false;
         });
 
@@ -532,8 +356,10 @@
         document.getElementById('bulk-user-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             const count = parseInt(document.getElementById('bulk-count').value, 10);
+            const maxDevices = parseInt(document.getElementById('bulk-max-devices').value, 10) || 1;
             const gradeSelect = document.getElementById('bulk-grade-select').value;
             const isTrial = document.getElementById('bulk-trial-checkbox').checked;
+            
             const btn = document.querySelector('#bulk-user-form button');
             const alertBox = document.getElementById('bulk-alert');
             
@@ -542,17 +368,18 @@
                 return;
             }
 
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري توليد الحسابات...';
+            const originalBtnHtml = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> جاري التوليد...';
             btn.disabled = true;
 
             try {
                 const batch = db.batch();
                 
-                // BOM ensures Notepad reads Arabic correctly
-                let txtContent = "\uFEFFبسم الله الرحمن الرحيم\nقائمة الحسابات المجمعة لطلاب مدرسة إنجلش تون" + (isTrial ? " (فترة تجريبية 24 ساعة)" : "") + "\n";
+                let txtContent = "\uFEFFبسم الله الرحمن الرحيم\nقائمة الحسابات المجمعة لطلاب مدرسة إنجلش تون\n";
+                if(isTrial) txtContent += "** ملاحظة: الحسابات تجريبية (24 ساعة من أول استخدام) **\n";
                 txtContent += "=================================================\n\n";
                 
-                let prefix = isTrial ? 'trial_' : (gradeSelect === 'all' ? 'user_' : gradeSelect + '_');
+                let prefix = isTrial ? 'trial_' : (gradeSelect === 'all' ? 'user_' : gradeSelect.substring(0,4) + '_');
 
                 for (let i = 0; i < count; i++) {
                     const randomNum = Math.floor(1000 + Math.random() * 9000); 
@@ -564,31 +391,30 @@
                     batch.set(docRef, {
                         password: password,
                         used: false,
-                        isMultiUser: false,
+                        maxDevices: maxDevices,
+                        isMultiUser: maxDevices > 1,
                         isTrial: isTrial,
                         allowedGrade: gradeSelect,
-                        allowedUnits: 'all'
+                        allowedUnits: 'all',
+                        deviceIds: []
                     });
 
                     txtContent += `اسم المستخدم: ${username}\n`;
                     txtContent += `الرقم السري:  ${password}\n`;
-                    txtContent += `نوع الحساب:   ${isTrial ? 'مؤقت (24 ساعة)' : 'دائم'}\n`;
+                    txtContent += `الأجهزة المسموحة: ${maxDevices}\n`;
+                    if(isTrial) txtContent += `النوع: مؤقت تجريبي\n`;
                     txtContent += `------------------------\n`;
                 }
 
                 await batch.commit();
 
-                alertBox.className = 'alert alert-success';
-                alertBox.innerHTML = `<i class="fa-solid fa-circle-check"></i> تم توليد وحفظ ${count} حساب بنجاح. جاري التنزيل!`;
-                alertBox.style.display = 'block';
-                setTimeout(() => alertBox.style.display = 'none', 5000);
+                showAlert('bulk-alert', true, `<i class="fa-solid fa-circle-check ml-2"></i> تم توليد وحفظ ${count} حساب بنجاح. جاري التنزيل!`);
 
-                // Export TXT logic
                 const blob = new Blob([txtContent], { type: 'text/plain;charset=utf-8' });
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = `Student_Accounts_${isTrial ? 'Trial_' : ''}${count}_${new Date().getTime()}.txt`;
+                a.download = `Students_${count}_${new Date().getTime()}.txt`;
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
@@ -597,60 +423,110 @@
                 document.getElementById('bulk-count').value = '';
 
             } catch (error) {
-                alertBox.className = 'alert alert-error';
-                alertBox.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> فشل التوليد: ' + error.message;
-                alertBox.style.display = 'block';
+                showAlert('bulk-alert', false, '<i class="fa-solid fa-circle-exclamation ml-2"></i> فشل التوليد: ' + error.message);
             }
 
-            btn.innerHTML = '<i class="fa-solid fa-file-arrow-down"></i> توليد الحسابات وتنزيل الملف';
+            btn.innerHTML = originalBtnHtml;
             btn.disabled = false;
         });
 
         // --- LOAD USERS TABLE ---
+        window.allUsersRows = [];
         async function loadUsers() {
             const tbody = document.getElementById('users-tbody');
-            tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #94a3b8;"><i class="fa-solid fa-spinner fa-spin"></i> جاري جلب البيانات...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="7" class="p-8 text-center text-slate-400"><i class="fa-solid fa-spinner fa-spin text-2xl mb-2"></i><br>جاري جلب البيانات... تأكد من صلاحيات Firebase</td></tr>';
             
             try {
                 const snapshot = await db.collection("codes").get();
-                tbody.innerHTML = '';
+                window.allUsersRows = [];
                 
                 if (snapshot.empty) {
-                    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">لا يوجد طلاب مسجلين بعد.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="7" class="p-8 text-center text-slate-400">لا يوجد طلاب مسجلين بعد.</td></tr>';
                     return;
                 }
 
                 snapshot.forEach(doc => {
                     const data = doc.data();
                     const username = doc.id;
-                    const usedBadge = data.used ? '<span class="badge badge-red">تم الدخول 🔴</span>' : '<span class="badge badge-green">غير مستخدم 🟢</span>';
-                    let typeBadge = data.isMultiUser ? '<span class="badge badge-blue">دخول متعدد 👥</span>' : '<span class="badge" style="background: rgba(255,255,255,0.1);">فردي 👤</span>';
+                    
+                    let devicesCount = (data.deviceIds && data.deviceIds.length) ? data.deviceIds.length : (data.deviceId ? 1 : 0);
+                    let maxDev = data.maxDevices ? data.maxDevices : (data.isMultiUser ? 'غير محدود' : 1);
+                    
+                    const usedBadge = data.used 
+                        ? `<span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2 py-1 rounded text-xs font-bold whitespace-nowrap"><i class="fa-solid fa-check mr-1"></i> مُفعل (${devicesCount})</span>` 
+                        : `<span class="bg-slate-700 text-slate-300 px-2 py-1 rounded text-xs font-bold whitespace-nowrap">لم يُستخدم</span>`;
+                    
+                    let typeBadge = '';
                     if (data.isTrial || data.isTrial24h) {
-                        typeBadge += ' <span class="badge" style="background: rgba(245, 158, 11, 0.25); color: #fbbf24; border: 1px solid #f59e0b;">⏱️ تجريبي (24س)</span>';
+                        typeBadge += '<span class="bg-amber-500/20 text-amber-400 border border-amber-500/30 px-2 py-1 rounded text-xs font-bold whitespace-nowrap"><i class="fa-solid fa-clock mr-1"></i> تجريبي 24س</span>';
+                    } else {
+                        typeBadge += '<span class="bg-blue-500/20 text-blue-400 border border-blue-500/30 px-2 py-1 rounded text-xs font-bold whitespace-nowrap">دائم</span>';
                     }
 
                     let gradeText = 'صلاحية كاملة';
-                    if (data.allowedGrade && data.allowedGrade !== 'all') {
-                        gradeText = data.allowedGrade;
-                    }
+                    if (data.allowedGrade && data.allowedGrade !== 'all') gradeText = data.allowedGrade;
 
                     const tr = document.createElement('tr');
+                    tr.className = "hover:bg-white/5 transition-colors group";
                     tr.innerHTML = `
-                        <td style="font-weight: bold; color: #f8fafc;">${username}</td>
-                        <td style="letter-spacing: 2px;">${data.password}</td>
-                        <td style="color: #fbbf24; font-size: 0.9rem;">${gradeText}</td>
-                        <td>${usedBadge}</td>
-                        <td>${typeBadge}</td>
-                        <td>
-                            <button class="btn-small btn-reset" onclick="resetUser('${username}')" title="تصفير الجهاز المربوط"><i class="fa-solid fa-unlock-keyhole"></i></button>
-                            <button class="btn-small btn-delete" onclick="deleteUser('${username}')" title="حذف نهائي"><i class="fa-solid fa-trash"></i></button>
+                        <td class="p-4 font-bold text-white">${username}</td>
+                        <td class="p-4 tracking-wider text-cyan-300 font-mono">${data.password}</td>
+                        <td class="p-4 text-slate-400 text-xs">${gradeText}</td>
+                        <td class="p-4 font-bold text-slate-300">${maxDev} جهاز</td>
+                        <td class="p-4">${usedBadge}</td>
+                        <td class="p-4">${typeBadge}</td>
+                        <td class="p-4 text-center">
+                            <div class="flex items-center justify-center gap-2 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
+                                <button onclick="resetUser('${username}')" class="bg-amber-500/10 text-amber-500 hover:bg-amber-500 hover:text-white p-2 rounded-lg transition-colors" title="تصفير الأجهزة المربوطة لتسجيل دخول جديد">
+                                    <i class="fa-solid fa-unlock-keyhole"></i>
+                                </button>
+                                <button onclick="deleteUser('${username}')" class="bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white p-2 rounded-lg transition-colors" title="حذف الطالب نهائياً">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
                         </td>
                     `;
-                    tbody.appendChild(tr);
+                    window.allUsersRows.push({ el: tr, searchStr: (username + " " + data.password + " " + gradeText).toLowerCase() });
                 });
+
+                renderUsers();
+
             } catch (error) {
                 console.error("Error loading users:", error);
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #f87171;">حدث خطأ في جلب البيانات من الخادم</td></tr>';
+                tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-red-400">حدث خطأ في جلب البيانات من الخادم. تأكد من إعدادات الـ Rules في Firebase. (${error.message})</td></tr>`;
+            }
+        }
+
+        function renderUsers() {
+            const tbody = document.getElementById('users-tbody');
+            tbody.innerHTML = '';
+            window.allUsersRows.forEach(row => tbody.appendChild(row.el));
+            filterTable();
+        }
+
+        function filterTable() {
+            const term = document.getElementById('user-search').value.toLowerCase();
+            let visibleCount = 0;
+            window.allUsersRows.forEach(row => {
+                if (row.searchStr.includes(term)) {
+                    row.el.style.display = '';
+                    visibleCount++;
+                } else {
+                    row.el.style.display = 'none';
+                }
+            });
+            
+            const tbody = document.getElementById('users-tbody');
+            if (visibleCount === 0 && window.allUsersRows.length > 0) {
+                if (!document.getElementById('no-results-row')) {
+                    const tr = document.createElement('tr');
+                    tr.id = 'no-results-row';
+                    tr.innerHTML = '<td colspan="7" class="p-8 text-center text-slate-500">لا يوجد نتائج تطابق بحثك.</td>';
+                    tbody.appendChild(tr);
+                }
+            } else {
+                const noRes = document.getElementById('no-results-row');
+                if (noRes) noRes.remove();
             }
         }
 
@@ -668,11 +544,12 @@
 
         // Reset Single User Device
         window.resetUser = async function(username) {
-            if(confirm(`هل أنت متأكد أنك تريد تصفير المحاولات للطالب "${username}"؟ سيسمح له بالدخول من جهاز جديد.`)) {
+            if(confirm(`هل أنت متأكد أنك تريد تصفير الأجهزة للطالب "${username}"؟ سيتم مسح الأجهزة المربوطة حالياً وسيتمكن من الدخول بأجهزة جديدة.`)) {
                 try {
                     await db.collection("codes").doc(username).update({
                         used: false,
-                        deviceId: firebase.firestore.FieldValue.delete()
+                        deviceId: firebase.firestore.FieldValue.delete(),
+                        deviceIds: []
                     });
                     loadUsers();
                 } catch (error) {
@@ -683,18 +560,19 @@
 
         // Reset ALL Users Devices Global
         window.resetAllUsersDevices = async function() {
-            if(confirm('هل أنت متأكد من تصفير محاولات الأجهزة لجميع الطلاب المضافين؟ سيتمكن جميع الطلاب من الدخول مجدداً من أي جهاز جديد.')) {
+            if(confirm('تحذير! هل أنت متأكد من تصفير محاولات الأجهزة لجميع الطلاب المضافين؟ سيتمكن جميع الطلاب من الدخول مجدداً من أي أجهزة جديدة.')) {
                 try {
                     const snapshot = await db.collection("codes").get();
                     const batch = db.batch();
                     snapshot.forEach(doc => {
                         batch.update(doc.ref, {
                             used: false,
-                            deviceId: firebase.firestore.FieldValue.delete()
+                            deviceId: firebase.firestore.FieldValue.delete(),
+                            deviceIds: []
                         });
                     });
                     await batch.commit();
-                    alert('تم تصفير محاولات جميع الطلاب بنجاح!');
+                    alert('تم تصفير أجهزة جميع الطلاب بنجاح!');
                     loadUsers();
                 } catch (error) {
                     alert('حدث خطأ أثناء تصفير الحسابات: ' + error.message);
@@ -705,4 +583,3 @@
     </script>
 </body>
 </html>
-

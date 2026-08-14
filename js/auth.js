@@ -27,7 +27,7 @@ if (localStorage.getItem('app_ver') !== CURRENT_APP_VERSION) {
     }
 }
 
-const FORCE_LOGOUT_VERSION = "2026_07_29_ADMIN_FIX_V800";
+const FORCE_LOGOUT_VERSION = "2026_08_15_FORCE_LOGOUT_V900";
 
 async function login(username, password) {
     try {
@@ -80,16 +80,6 @@ async function login(username, password) {
                 localStorage.removeItem('trialExpiresAt');
             }
 
-            // If it's a multi-user account, let them in without device checking
-            if (data.isMultiUser === true) {
-                localStorage.setItem('isLoggedIn', 'true');
-                localStorage.setItem('currentUser', username);
-                localStorage.setItem('allowedGrade', data.allowedGrade || 'all');
-                localStorage.setItem('allowedUnits', JSON.stringify(data.allowedUnits || 'all'));
-                localStorage.setItem('auth_session_version', FORCE_LOGOUT_VERSION);
-                return { success: true };
-            }
-
             // Get or create Device ID for this browser
             let localDeviceId = localStorage.getItem('device_id');
             if (!localDeviceId) {
@@ -97,10 +87,33 @@ async function login(username, password) {
                 localStorage.setItem('device_id', localDeviceId);
             }
 
-            if (data.used === true) {
-                // It was used. Is it the same device?
-                if (data.deviceId === localDeviceId) {
-                    // Same device! Let them in.
+            // Determine max devices
+            let maxDevices = data.maxDevices ? parseInt(data.maxDevices, 10) : (data.isMultiUser ? 999 : 1);
+            
+            // Migrate legacy single deviceId to array if needed
+            let currentDevices = data.deviceIds || [];
+            if (data.deviceId && !currentDevices.includes(data.deviceId)) {
+                currentDevices.push(data.deviceId);
+            }
+
+            if (currentDevices.includes(localDeviceId)) {
+                // Device already registered! Let them in.
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('currentUser', username);
+                localStorage.setItem('allowedGrade', data.allowedGrade || 'all');
+                localStorage.setItem('allowedUnits', JSON.stringify(data.allowedUnits || 'all'));
+                localStorage.setItem('auth_session_version', FORCE_LOGOUT_VERSION);
+                return { success: true };
+            } else {
+                // New device! Check if we have room
+                if (currentDevices.length < maxDevices) {
+                    // Add this device
+                    currentDevices.push(localDeviceId);
+                    await userRef.update({ 
+                        used: true,
+                        deviceIds: currentDevices
+                    });
+                    
                     localStorage.setItem('isLoggedIn', 'true');
                     localStorage.setItem('currentUser', username);
                     localStorage.setItem('allowedGrade', data.allowedGrade || 'all');
@@ -108,24 +121,10 @@ async function login(username, password) {
                     localStorage.setItem('auth_session_version', FORCE_LOGOUT_VERSION);
                     return { success: true };
                 } else {
-                    // Different device! Block them.
-                    return { success: false, message: 'عذراً، لا يمكنك الدخول من جهاز جديد. لقد تم تفعيل هذا الحساب على جهاز آخر.' };
+                    // Block them. Limit reached.
+                    return { success: false, message: `عذراً، لا يمكنك الدخول من هذا الجهاز. لقد استنفدت الحد الأقصى للأجهزة المسموح بها (${maxDevices}).` };
                 }
             }
-
-            // First time login ever: Mark as used and save this device ID
-            await userRef.update({ 
-                used: true,
-                deviceId: localDeviceId
-            });
-
-            localStorage.setItem('isLoggedIn', 'true');
-            localStorage.setItem('currentUser', username);
-            localStorage.setItem('allowedGrade', data.allowedGrade || 'all');
-            localStorage.setItem('allowedUnits', JSON.stringify(data.allowedUnits || 'all'));
-            localStorage.setItem('auth_session_version', FORCE_LOGOUT_VERSION);
-            
-            return { success: true };
         } else {
             return { success: false, message: 'بيانات الدخول غير صحيحة أو غير موجودة.' };
         }
@@ -136,14 +135,17 @@ async function login(username, password) {
 }
 
 function checkAuth() {
-    // Update SW registration and version without destroying active login session
+    // Update SW registration and version - DESTROY active login session on version mismatch
     if (localStorage.getItem('auth_session_version') !== FORCE_LOGOUT_VERSION) {
+        localStorage.clear();
         localStorage.setItem('auth_session_version', FORCE_LOGOUT_VERSION);
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.getRegistrations().then(regs => {
                 for (let r of regs) r.unregister();
             }).catch(() => {});
         }
+        window.location.href = 'index.html';
+        return;
     }
 
     if (localStorage.getItem('isLoggedIn') !== 'true') {
