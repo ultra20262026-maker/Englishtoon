@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 2: Communication with Family and Friends - Lesson 4 - Story Time</title>
+<style>
+  :root{
+    --primary:#2b6cb0;
+    --primary-dark:#1a4971;
+    --accent:#e67e22;
+    --bg:#f4f7fb;
+    --card:#ffffff;
+    --good:#27ae60;
+    --bad:#e74c3c;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:'Segoe UI', Tahoma, Arial, sans-serif;
+    background:linear-gradient(135deg,#eef3fa,#dbe8f5);
+    margin:0; padding:20px; min-height:100vh; color:#222;
+  }
+  .wrap{max-width:820px; margin:0 auto;}
+  .card{
+    background:var(--card); border-radius:16px; box-shadow:0 8px 24px rgba(0,0,0,.12);
+    padding:26px 24px; margin-bottom:20px;
+  }
+  header.top{
+    background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+    color:#fff; border-radius:16px; padding:22px 24px; margin-bottom:20px;
+    text-align:center; box-shadow:0 8px 24px rgba(0,0,0,.15);
+  }
+  header.top h1{margin:0 0 6px; font-size:22px;}
+  header.top p{margin:2px 0; opacity:.95; font-size:15px;}
+  .badge{
+    display:inline-block; background:rgba(255,255,255,.18); border-radius:20px;
+    padding:4px 14px; font-size:13px; margin-top:8px;
+  }
+  label{display:block; font-weight:700; margin-bottom:8px; font-size:16px;}
+  input[type=text]{
+    width:100%; padding:12px 14px; border-radius:10px; border:2px solid #cfd8e3;
+    font-size:16px; outline:none; transition:.2s;
+  }
+  input[type=text]:focus{border-color:var(--primary);}
+  button{
+    cursor:pointer; border:none; border-radius:10px; padding:13px 22px;
+    font-size:16px; font-weight:700; color:#fff; background:var(--primary);
+    transition:.15s; margin-top:14px;
+  }
+  button:hover{background:var(--primary-dark); transform:translateY(-1px);}
+  button.secondary{background:var(--accent);}
+  button.secondary:hover{background:#c8660f;}
+  .q-block{
+    border:1px solid #e3e9f2; border-radius:12px; padding:16px 18px; margin-bottom:14px;
+    background:#fbfcfe;
+  }
+  .q-num{
+    display:inline-block; background:var(--primary); color:#fff; border-radius:50%;
+    width:28px; height:28px; text-align:center; line-height:28px; font-size:13px;
+    margin-inline-end:8px; font-weight:700;
+  }
+  .q-text{font-size:17px; font-weight:600; margin-bottom:10px; direction:ltr; text-align:left; display:inline;}
+  .options{margin-top:10px;}
+  .opt{
+    display:flex; align-items:center; gap:10px; padding:9px 12px; border-radius:8px;
+    border:1px solid #e0e6ee; margin-bottom:8px; cursor:pointer; direction:ltr; text-align:left;
+    background:#fff; transition:.15s;
+  }
+  .opt:hover{background:#eef4fc;}
+  .opt input{margin:0;}
+  .opt.correct{background:#e9f9ef; border-color:var(--good);}
+  .opt.wrong{background:#fdecec; border-color:var(--bad);}
+  #hidden{display:none;}
+  .progress-wrap{background:#e3e9f2; border-radius:20px; height:10px; overflow:hidden; margin:14px 0;}
+  .progress-bar{height:100%; width:0%; background:var(--primary); transition:.3s;}
+  .result-score{font-size:46px; font-weight:800; text-align:center; margin:10px 0; color:var(--primary-dark);}
+  .result-name{text-align:center; font-size:19px; margin-bottom:4px;}
+  .result-msg{text-align:center; font-size:16px; color:#555; margin-bottom:14px;}
+  .review-item{margin-bottom:10px; padding:10px 14px; border-radius:8px; border:1px solid #e0e6ee; direction:ltr; text-align:left;}
+  .review-item.ok{background:#e9f9ef;}
+  .review-item.no{background:#fdecec;}
+  .footer-contact{
+    text-align:center; font-size:14px; color:#555; margin-top:16px; padding-top:14px;
+    border-top:1px dashed #cfd8e3;
+  }
+  .footer-contact b{color:var(--primary-dark);}
+  .required-msg{color:var(--bad); font-size:14px; margin-top:8px; display:none;}
+  .center{text-align:center;}
+  .small{font-size:13px; color:#777;}
+  .phone-box{
+    background:linear-gradient(135deg,#fff7ec,#ffe9cf);
+    border:2px dashed var(--accent); border-radius:14px;
+    padding:16px 18px; margin:18px 0; text-align:center;
+  }
+  .phone-box-title{font-size:15px; font-weight:700; color:#7a4a12; margin-bottom:10px;}
+  .phone-input-row{
+    display:flex; align-items:center; gap:8px; direction:ltr; justify-content:center;
+    flex-wrap:wrap;
+  }
+  .country-code{
+    background:#fff; border:2px solid var(--accent); border-radius:8px;
+    padding:11px 12px; font-weight:800; color:#c8660f; font-size:16px;
+  }
+  #teacherPhoneInput{
+    flex:1; min-width:200px; padding:11px 12px; border-radius:8px; border:2px solid #f0c48a;
+    font-size:16px; direction:ltr; text-align:left;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <h1>اختبار إلكتروني - English Language</h1>
+    <p>Unit 2: Communication with Family and Friends</p>
+    <p>Lesson 4 - Story Time</p>
+    <span class="badge">10 أسئلة اختيار من متعدد</span>
+  </header>
+
+  <!-- STEP 1: Student name -->
+  <div class="card" id="startCard">
+    <label for="studentName">اسم الطالب / الطالبة</label>
+    <input type="text" id="studentName" placeholder="اكتب اسمك هنا...">
+    <div class="required-msg" id="nameError">من فضلك اكتب اسمك أولاً لبدء الاختبار.</div>
+    <button onclick="startQuiz()">ابدأ الاختبار</button>
+  </div>
+
+  <!-- STEP 2: Quiz -->
+  <div class="card" id="quizCard" style="display:none;">
+    <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+    <form id="quizForm"></form>
+    <button onclick="submitQuiz()">إنهاء الاختبار وإظهار النتيجة</button>
+  </div>
+
+  <!-- STEP 3: Result -->
+  <div class="card" id="resultCard" style="display:none;">
+    <div class="result-name" id="resultName"></div>
+    <div class="result-score" id="resultScore"></div>
+    <div class="result-msg" id="resultMsg"></div>
+
+    <div class="phone-box">
+      <div class="phone-box-title">📞 إرسال النتيجة إلى المدرس عبر واتساب</div>
+      <div class="phone-input-row">
+        <span class="country-code">+20</span>
+        <input type="text" id="teacherPhoneInput" placeholder="اكتب رقم المدرس هنا (بدون صفر أو كود الدولة)" inputmode="numeric">
+      </div>
+      <div class="required-msg" id="phoneError">من فضلك اكتب رقم صحيح لإرسال النتيجة.</div>
+      <button class="secondary" onclick="sendResult()">إرسال النتيجة 📤</button>
+    </div>
+
+    <div id="reviewList"></div>
+    <div class="center">
+      <button class="secondary" onclick="location.reload()">إعادة الاختبار</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const QUESTIONS = [{"q": "Zeina prepared to share her idea by ......", "options": ["practicing and thinking it through", "ignoring it", "forgetting about it", "laughing at it"], "answer": 0}, {"q": "At the student council meeting, some students ......", "options": ["laughed at her", "clapped for her", "ignored her", "left the room"], "answer": 0}, {"q": "When students laughed at her, Zeina reacted by ......", "options": ["staying calm and confident", "crying and leaving", "shouting back", "giving up completely"], "answer": 0}, {"q": "Ms. Hoda's role in the story was ......", "options": ["a supportive teacher", "a strict principal", "a classmate", "a stranger"], "answer": 0}, {"q": "Other students brought skills such as ......", "options": ["teamwork and creativity", "laziness", "carelessness", "dishonesty"], "answer": 0}, {"q": "What made Zeina brave when she spoke was likely ......", "options": ["her belief in her idea", "fear", "anger", "boredom"], "answer": 0}, {"q": "A suitable reply to 'When did you last read stories?' is ......", "options": ["A few days ago.", "In the library.", "Because I like it.", "Yes, I did."], "answer": 0}, {"q": "A polite reply to 'Can I borrow it when you finish reading?' is ......", "options": ["Sure, no problem.", "No way!", "I don't know you.", "Never!"], "answer": 0}, {"q": "The story that Ziad read was about ......", "options": ["space", "sports", "cooking", "history"], "answer": 0}, {"q": "Zeina's idea will likely succeed because ......", "options": ["she showed determination and got support", "she gave up quickly", "no one listened", "she never tried"], "answer": 0}];
+const LESSON_LABEL = "Lesson 4 - Story Time";
+const COUNTRY_CODE_JS = "+20";
+window.lastScore = 0;
+
+function startQuiz(){
+  const name = document.getElementById('studentName').value.trim();
+  if(name === ""){
+    document.getElementById('nameError').style.display = "block";
+    return;
+  }
+  document.getElementById('nameError').style.display = "none";
+  window.studentName = name;
+  document.getElementById('startCard').style.display = "none";
+  document.getElementById('quizCard').style.display = "block";
+  renderQuestions();
+}
+
+function renderQuestions(){
+  const form = document.getElementById('quizForm');
+  let html = "";
+  QUESTIONS.forEach((q, qi) => {
+    html += `<div class="q-block">
+      <div class="q-text"><span class="q-num">${qi+1}</span>${q.q}</div>
+      <div class="options">`;
+    q.options.forEach((opt, oi) => {
+      html += `<label class="opt">
+        <input type="radio" name="q${qi}" value="${oi}" onclick="updateProgress()">
+        <span>${String.fromCharCode(97+oi)}) ${opt}</span>
+      </label>`;
+    });
+    html += `</div></div>`;
+  });
+  form.innerHTML = html;
+}
+
+function updateProgress(){
+  let answered = 0;
+  QUESTIONS.forEach((q, qi) => {
+    if(document.querySelector('input[name="q'+qi+'"]:checked')) answered++;
+  });
+  const pct = Math.round((answered / QUESTIONS.length) * 100);
+  document.getElementById('progressBar').style.width = pct + "%";
+}
+
+function submitQuiz(){
+  let score = 0;
+  let reviewHtml = "";
+  QUESTIONS.forEach((q, qi) => {
+    const chosen = document.querySelector('input[name="q'+qi+'"]:checked');
+    const chosenVal = chosen ? parseInt(chosen.value) : -1;
+    const isCorrect = chosenVal === q.answer;
+    if(isCorrect) score++;
+    reviewHtml += `<div class="review-item ${isCorrect ? 'ok':'no'}">
+      <b>${qi+1}) ${q.q}</b><br>
+      إجابتك: ${chosenVal >= 0 ? (String.fromCharCode(97+chosenVal) + ') ' + q.options[chosenVal]) : 'لم تتم الإجابة'}<br>
+      ${isCorrect ? '✔ إجابة صحيحة' : ('✘ الإجابة الصحيحة: ' + String.fromCharCode(97+q.answer) + ') ' + q.options[q.answer])}
+    </div>`;
+  });
+
+  window.lastScore = score;
+
+  document.getElementById('quizCard').style.display = "none";
+  document.getElementById('resultCard').style.display = "block";
+  document.getElementById('resultName').innerText = "الطالب/ة: " + window.studentName;
+  document.getElementById('resultScore').innerText = score + " / " + QUESTIONS.length;
+
+  let msg = "";
+  const pct = (score / QUESTIONS.length) * 100;
+  if(pct >= 90) msg = "ممتاز! أداء رائع 🌟";
+  else if(pct >= 70) msg = "جيد جدًا، استمر في المذاكرة 👍";
+  else if(pct >= 50) msg = "جيد، تحتاج إلى مزيد من المراجعة 📘";
+  else msg = "يجب مراجعة الدرس مرة أخرى 💪";
+  document.getElementById('resultMsg').innerText = msg;
+  document.getElementById('reviewList').innerHTML = reviewHtml;
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function sendResult(){
+  const phoneRaw = document.getElementById('teacherPhoneInput').value.trim();
+  const digitsOnly = phoneRaw.replace(/[^0-9]/g, "");
+  if(digitsOnly.length < 8){
+    document.getElementById('phoneError').style.display = "block";
+    return;
+  }
+  document.getElementById('phoneError').style.display = "none";
+
+  let fullNumber = COUNTRY_CODE_JS.replace("+","") + digitsOnly.replace(/^0+/, "");
+
+  const message =
+    "نتيجة اختبار English Language" + "\n" +
+    "الدرس: " + LESSON_LABEL + "\n" +
+    "اسم الطالب/ة: " + window.studentName + "\n" +
+    "النتيجة: " + window.lastScore + " / " + QUESTIONS.length;
+
+  const waLink = "https://wa.me/" + fullNumber + "?text=" + encodeURIComponent(message);
+  window.open(waLink, "_blank");
+}
+</script>
+</body>
+</html>
