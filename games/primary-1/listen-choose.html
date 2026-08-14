@@ -28,7 +28,7 @@
 </main>
 <script src="../../js/primary1-vocab-data.js"></script>
 <script>
-const vocab=Array.isArray(window.PRIMARY1_VOCABULARY)?window.PRIMARY1_VOCABULARY:[];
+const vocab=typeof PRIMARY1_VOCABULARY!=='undefined'&&Array.isArray(PRIMARY1_VOCABULARY)?PRIMARY1_VOCABULARY:[];
 const TOTAL_ROUNDS=5, BEST_KEY='englishtoon_listen_choose_best';
 const $=id=>document.getElementById(id);
 let round=0,score=0,streak=0,best=Number(localStorage.getItem(BEST_KEY)||0),target=null,answered=false;
