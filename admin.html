@@ -11,10 +11,10 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#0f172a',
-                        secondary: '#1e293b',
-                        accent: '#38bdf8',
-                        gold: '#d4af37',
+                        primary: '#3b82f6',
+                        secondary: '#ec4899',
+                        accent: '#f59e0b',
+                        success: '#10b981',
                     },
                     fontFamily: {
                         sans: ['Cairo', 'Inter', 'sans-serif'],
@@ -29,28 +29,28 @@
     <style>
         body {
             font-family: 'Cairo', sans-serif;
-            background-color: #0f172a;
-            color: #f8fafc;
-            background-image: 
-                radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
-                radial-gradient(at 50% 0%, hsla(225,39%,30%,0.2) 0, transparent 50%), 
-                radial-gradient(at 100% 0%, hsla(339,49%,30%,0.2) 0, transparent 50%);
-            background-attachment: fixed;
+            background-color: #e0f2fe;
+            background-image: url('images/admin_bg.jpg');
+            background-size: cover;
+            background-position: center;
             min-height: 100vh;
+            background-attachment: fixed;
+            color: #1e293b;
         }
         
         .glass-card {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 2px solid rgba(255, 255, 255, 1);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
         }
 
         .nav-link.active {
-            background: linear-gradient(135deg, rgba(14, 165, 233, 0.2), rgba(37, 99, 235, 0.2));
-            border-right: 4px solid #38bdf8;
-            color: #38bdf8;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(14, 165, 233, 0.1));
+            border-right: 4px solid #3b82f6;
+            color: #2563eb;
+            font-weight: 800;
         }
 
         .section {
@@ -68,36 +68,46 @@
 
         /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: #0f172a; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+        ::-webkit-scrollbar-track { background: rgba(255,255,255,0.5); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+        
+        .table-row-hover:hover td {
+            background-color: rgba(59, 130, 246, 0.05);
+        }
     </style>
 </head>
 <body class="flex flex-col md:flex-row min-h-screen">
 
     <!-- Sidebar / Bottom Bar -->
-    <nav class="md:w-64 glass-card flex-shrink-0 md:h-screen md:sticky top-0 z-50 flex md:flex-col border-b md:border-b-0 md:border-l border-white/10">
-        <div class="p-6 hidden md:flex items-center gap-3 border-b border-white/10">
-            <div class="w-10 h-10 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
-                <i class="fa-solid fa-shield-halved text-white text-xl"></i>
+    <nav class="md:w-72 glass-card flex-shrink-0 md:h-screen md:sticky top-0 z-50 flex md:flex-col border-b md:border-b-0 md:border-l border-white/40">
+        <div class="p-6 hidden md:flex items-center gap-3 border-b border-slate-200">
+            <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30 border-2 border-white">
+                <i class="fa-solid fa-crown text-white text-2xl"></i>
             </div>
-            <h1 class="text-xl font-black bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500">الإدارة</h1>
+            <div>
+                <h1 class="text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-500 leading-tight">لوحة الإدارة</h1>
+                <p class="text-xs font-bold text-slate-500">English Toon</p>
+            </div>
         </div>
         
         <div class="flex md:flex-col overflow-x-auto md:overflow-visible w-full py-2 md:py-6 gap-1 md:gap-2 px-2 md:px-4">
-            <button onclick="switchTab('single-add', this)" class="nav-link active flex-shrink-0 flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 transition-all font-semibold text-sm md:text-base">
-                <i class="fa-solid fa-user-plus w-5 text-center"></i> إضافة طالب
+            <button onclick="switchTab('single-add', this)" class="nav-link active flex-shrink-0 flex items-center gap-3 px-4 py-3.5 rounded-xl text-slate-600 hover:text-blue-600 hover:bg-blue-50/50 transition-all font-bold text-sm md:text-base">
+                <div class="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center text-blue-500"><i class="fa-solid fa-user-plus"></i></div>
+                إضافة طالب
             </button>
-            <button onclick="switchTab('bulk-add', this)" class="nav-link flex-shrink-0 flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 transition-all font-semibold text-sm md:text-base">
-                <i class="fa-solid fa-users-viewfinder w-5 text-center"></i> توليد مجمع
+            <button onclick="switchTab('bulk-add', this)" class="nav-link flex-shrink-0 flex items-center gap-3 px-4 py-3.5 rounded-xl text-slate-600 hover:text-pink-600 hover:bg-pink-50/50 transition-all font-bold text-sm md:text-base">
+                <div class="w-8 h-8 rounded-lg bg-pink-100 flex items-center justify-center text-pink-500"><i class="fa-solid fa-users-viewfinder"></i></div>
+                توليد مجمع
             </button>
-            <button onclick="switchTab('manage-users', this)" class="nav-link flex-shrink-0 flex items-center gap-3 px-4 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 transition-all font-semibold text-sm md:text-base">
-                <i class="fa-solid fa-table-list w-5 text-center"></i> إدارة الحسابات
+            <button onclick="switchTab('manage-users', this)" class="nav-link flex-shrink-0 flex items-center gap-3 px-4 py-3.5 rounded-xl text-slate-600 hover:text-emerald-600 hover:bg-emerald-50/50 transition-all font-bold text-sm md:text-base">
+                <div class="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center text-emerald-500"><i class="fa-solid fa-table-list"></i></div>
+                سجل الطلاب
             </button>
         </div>
 
-        <div class="mt-auto p-4 hidden md:block">
-            <button onclick="window.location.href='dashboard.html'" class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white transition-all font-semibold border border-white/10">
+        <div class="mt-auto p-6 hidden md:block border-t border-slate-200">
+            <button onclick="window.location.href='dashboard.html'" class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-white text-slate-700 hover:bg-slate-50 hover:text-blue-600 transition-all font-bold border-2 border-slate-200 shadow-sm">
                 <i class="fa-solid fa-arrow-right-from-bracket"></i> العودة للموقع
             </button>
         </div>
@@ -108,30 +118,35 @@
         
         <!-- SECTION 1: Single Add -->
         <div id="single-add" class="section active">
-            <div class="glass-card rounded-2xl p-6 md:p-8">
-                <h2 class="text-2xl font-black mb-6 text-white flex items-center gap-3">
-                    <div class="bg-cyan-500/20 p-2 rounded-lg text-cyan-400"><i class="fa-solid fa-user-plus"></i></div>
-                    إضافة حساب طالب جديد
-                </h2>
+            <div class="glass-card rounded-3xl p-6 md:p-10 border-2 border-white">
+                <div class="flex items-center gap-4 mb-8">
+                    <div class="bg-gradient-to-br from-blue-400 to-blue-600 w-14 h-14 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-500/30 border-2 border-white">
+                        <i class="fa-solid fa-user-plus text-2xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-3xl font-black text-slate-800">إضافة طالب جديد</h2>
+                        <p class="text-slate-500 font-semibold mt-1">قم بتسجيل طالب وتحديد صلاحياته وأجهزته.</p>
+                    </div>
+                </div>
                 
-                <div id="single-alert" class="hidden p-4 rounded-xl mb-6 font-bold text-center"></div>
+                <div id="single-alert" class="hidden p-4 rounded-2xl mb-6 font-bold text-center border-2"></div>
 
-                <form id="create-user-form" class="space-y-5">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <form id="create-user-form" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="space-y-2">
-                            <label class="text-sm font-bold text-slate-300">اسم المستخدم (يجب أن يكون فريداً)</label>
-                            <input type="text" id="new-username" required placeholder="مثال: ahmed123" class="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 transition-all">
+                            <label class="text-sm font-bold text-slate-700">اسم المستخدم <span class="text-red-500">*</span></label>
+                            <input type="text" id="new-username" required placeholder="مثال: ahmed123" class="w-full bg-white/70 border-2 border-slate-200 rounded-xl px-4 py-3.5 text-slate-800 font-bold focus:outline-none focus:border-blue-500 focus:bg-white transition-all shadow-sm">
                         </div>
                         <div class="space-y-2">
-                            <label class="text-sm font-bold text-slate-300">كلمة المرور</label>
-                            <input type="text" id="new-password" required placeholder="مثال: 0000" class="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 transition-all">
+                            <label class="text-sm font-bold text-slate-700">كلمة المرور <span class="text-red-500">*</span></label>
+                            <input type="text" id="new-password" required placeholder="مثال: 0000" class="w-full bg-white/70 border-2 border-slate-200 rounded-xl px-4 py-3.5 text-slate-800 font-bold focus:outline-none focus:border-blue-500 focus:bg-white transition-all shadow-sm">
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="space-y-2">
-                            <label class="text-sm font-bold text-slate-300">تخصيص الصف الدراسي</label>
-                            <select id="grade-select" class="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 transition-all [&>option]:bg-slate-800">
+                            <label class="text-sm font-bold text-slate-700">تخصيص الصف الدراسي</label>
+                            <select id="grade-select" class="w-full bg-white/70 border-2 border-slate-200 rounded-xl px-4 py-3.5 text-slate-800 font-bold focus:outline-none focus:border-blue-500 focus:bg-white transition-all shadow-sm">
                                 <option value="all">كل الصفوف (صلاحية كاملة)</option>
                                 <option value="primary-1">الصف الأول الابتدائي</option>
                                 <option value="primary-2">الصف الثاني الابتدائي</option>
@@ -145,24 +160,26 @@
                             </select>
                         </div>
                         <div class="space-y-2">
-                            <label class="text-sm font-bold text-slate-300">الحد الأقصى للأجهزة المسموح بها</label>
-                            <input type="number" id="max-devices" min="1" max="30" value="1" required class="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 transition-all">
-                            <p class="text-xs text-slate-500 mt-1">يحدد كم جهاز مختلف (موبايل/لابتوب) يمكن للطالب الدخول منه.</p>
+                            <label class="text-sm font-bold text-slate-700">الحد الأقصى للأجهزة <span class="text-red-500">*</span></label>
+                            <input type="number" id="max-devices" min="1" max="30" value="1" required class="w-full bg-white/70 border-2 border-slate-200 rounded-xl px-4 py-3.5 text-slate-800 font-bold focus:outline-none focus:border-blue-500 focus:bg-white transition-all shadow-sm">
                         </div>
                     </div>
 
-                    <div class="bg-amber-500/10 border border-amber-500/20 rounded-xl p-4 cursor-pointer hover:bg-amber-500/20 transition-all" onclick="document.getElementById('trial-user-checkbox').click()">
-                        <label class="flex items-center gap-3 cursor-pointer">
-                            <input type="checkbox" id="trial-user-checkbox" class="w-5 h-5 rounded text-amber-500 focus:ring-amber-500 bg-slate-800 border-slate-600">
-                            <div>
-                                <span class="font-bold text-amber-400">حساب تجريبي مؤقت ⏱️</span>
-                                <p class="text-xs text-amber-200/60 mt-1">سيتم إغلاق الحساب تلقائياً بعد 24 ساعة من أول تسجيل دخول.</p>
+                    <div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-4 cursor-pointer hover:bg-amber-100 transition-all shadow-sm" onclick="document.getElementById('trial-user-checkbox').click()">
+                        <label class="flex items-center gap-4 cursor-pointer w-full">
+                            <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-500 flex items-center justify-center border border-amber-200 flex-shrink-0">
+                                <i class="fa-solid fa-stopwatch text-xl"></i>
                             </div>
+                            <div class="flex-1">
+                                <span class="font-black text-amber-700 block">حساب تجريبي مؤقت</span>
+                                <p class="text-sm text-amber-600/80 mt-0.5 font-semibold">سيتم إغلاق الحساب تلقائياً بعد 24 ساعة من أول تسجيل دخول.</p>
+                            </div>
+                            <input type="checkbox" id="trial-user-checkbox" class="w-6 h-6 rounded text-amber-500 focus:ring-amber-500 border-2 border-amber-300">
                         </label>
                     </div>
 
-                    <button type="submit" class="w-full py-4 rounded-xl font-bold text-lg text-white bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 shadow-lg shadow-cyan-500/25 transition-all transform hover:-translate-y-1">
-                        <i class="fa-solid fa-floppy-disk mr-2"></i> حفظ وإضافة الطالب
+                    <button type="submit" class="w-full py-4 rounded-2xl font-black text-xl text-white bg-gradient-to-r from-blue-500 to-cyan-400 hover:from-blue-600 hover:to-cyan-500 shadow-xl shadow-blue-500/30 transition-all transform hover:-translate-y-1 border-2 border-white">
+                        <i class="fa-solid fa-floppy-disk mr-2"></i> حفظ بيانات الطالب
                     </button>
                 </form>
             </div>
@@ -170,28 +187,32 @@
 
         <!-- SECTION 2: Bulk Add -->
         <div id="bulk-add" class="section">
-            <div class="glass-card rounded-2xl p-6 md:p-8">
-                <h2 class="text-2xl font-black mb-2 text-white flex items-center gap-3">
-                    <div class="bg-purple-500/20 p-2 rounded-lg text-purple-400"><i class="fa-solid fa-bolt"></i></div>
-                    المولد السريع للحسابات المجمعة
-                </h2>
-                <p class="text-slate-400 text-sm mb-6">توليد مئات الحسابات بضغطة واحدة وتنزيلها في ملف جاهز للطباعة.</p>
+            <div class="glass-card rounded-3xl p-6 md:p-10 border-2 border-white">
+                <div class="flex items-center gap-4 mb-8">
+                    <div class="bg-gradient-to-br from-pink-400 to-rose-500 w-14 h-14 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-pink-500/30 border-2 border-white">
+                        <i class="fa-solid fa-bolt text-2xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-3xl font-black text-slate-800">التوليد السريع للحسابات</h2>
+                        <p class="text-slate-500 font-semibold mt-1">توليد مئات الحسابات وتصديرها كملف نصي.</p>
+                    </div>
+                </div>
                 
-                <div id="bulk-alert" class="hidden p-4 rounded-xl mb-6 font-bold text-center"></div>
+                <div id="bulk-alert" class="hidden p-4 rounded-2xl mb-6 font-bold text-center border-2"></div>
 
-                <form id="bulk-user-form" class="space-y-5">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                <form id="bulk-user-form" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div class="space-y-2">
-                            <label class="text-sm font-bold text-slate-300">عدد الحسابات (1-500)</label>
-                            <input type="number" id="bulk-count" required min="1" max="500" placeholder="مثال: 50" class="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all">
+                            <label class="text-sm font-bold text-slate-700">عدد الحسابات (1-500) <span class="text-red-500">*</span></label>
+                            <input type="number" id="bulk-count" required min="1" max="500" placeholder="مثال: 50" class="w-full bg-white/70 border-2 border-slate-200 rounded-xl px-4 py-3.5 text-slate-800 font-bold focus:outline-none focus:border-pink-500 focus:bg-white transition-all shadow-sm">
                         </div>
                         <div class="space-y-2">
-                            <label class="text-sm font-bold text-slate-300">الحد الأقصى للأجهزة لكل طالب</label>
-                            <input type="number" id="bulk-max-devices" min="1" max="30" value="1" required class="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all">
+                            <label class="text-sm font-bold text-slate-700">الحد الأقصى للأجهزة <span class="text-red-500">*</span></label>
+                            <input type="number" id="bulk-max-devices" min="1" max="30" value="1" required class="w-full bg-white/70 border-2 border-slate-200 rounded-xl px-4 py-3.5 text-slate-800 font-bold focus:outline-none focus:border-pink-500 focus:bg-white transition-all shadow-sm">
                         </div>
                         <div class="space-y-2">
-                            <label class="text-sm font-bold text-slate-300">اختيار الصف للمجموعة</label>
-                            <select id="bulk-grade-select" class="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all [&>option]:bg-slate-800">
+                            <label class="text-sm font-bold text-slate-700">اختيار الصف</label>
+                            <select id="bulk-grade-select" class="w-full bg-white/70 border-2 border-slate-200 rounded-xl px-4 py-3.5 text-slate-800 font-bold focus:outline-none focus:border-pink-500 focus:bg-white transition-all shadow-sm">
                                 <option value="all">كل الصفوف (صلاحية كاملة)</option>
                                 <option value="primary-1">الصف الأول الابتدائي</option>
                                 <option value="primary-2">الصف الثاني الابتدائي</option>
@@ -206,18 +227,21 @@
                         </div>
                     </div>
 
-                    <div class="bg-amber-500/10 border border-amber-500/20 rounded-xl p-4 cursor-pointer hover:bg-amber-500/20 transition-all" onclick="document.getElementById('bulk-trial-checkbox').click()">
-                        <label class="flex items-center gap-3 cursor-pointer">
-                            <input type="checkbox" id="bulk-trial-checkbox" class="w-5 h-5 rounded text-amber-500 focus:ring-amber-500 bg-slate-800 border-slate-600">
-                            <div>
-                                <span class="font-bold text-amber-400">توليد مجموعة حسابات تجريبية مؤقتة ⏱️</span>
-                                <p class="text-xs text-amber-200/60 mt-1">صالحة لمدة 24 ساعة فقط لكل حساب بعد تسجيل الدخول الأول.</p>
+                    <div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-4 cursor-pointer hover:bg-amber-100 transition-all shadow-sm" onclick="document.getElementById('bulk-trial-checkbox').click()">
+                        <label class="flex items-center gap-4 cursor-pointer w-full">
+                            <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-500 flex items-center justify-center border border-amber-200 flex-shrink-0">
+                                <i class="fa-solid fa-stopwatch text-xl"></i>
                             </div>
+                            <div class="flex-1">
+                                <span class="font-black text-amber-700 block">توليد حسابات تجريبية مؤقتة</span>
+                                <p class="text-sm text-amber-600/80 mt-0.5 font-semibold">صالحة لمدة 24 ساعة فقط لكل حساب بعد تسجيل الدخول.</p>
+                            </div>
+                            <input type="checkbox" id="bulk-trial-checkbox" class="w-6 h-6 rounded text-amber-500 focus:ring-amber-500 border-2 border-amber-300">
                         </label>
                     </div>
 
-                    <button type="submit" class="w-full py-4 rounded-xl font-bold text-lg text-white bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 shadow-lg shadow-purple-500/25 transition-all transform hover:-translate-y-1">
-                        <i class="fa-solid fa-file-arrow-down mr-2"></i> توليد الحسابات وتنزيل الملف
+                    <button type="submit" class="w-full py-4 rounded-2xl font-black text-xl text-white bg-gradient-to-r from-pink-500 to-rose-400 hover:from-pink-600 hover:to-rose-500 shadow-xl shadow-pink-500/30 transition-all transform hover:-translate-y-1 border-2 border-white">
+                        <i class="fa-solid fa-file-arrow-down mr-2"></i> توليد وتنزيل الملف
                     </button>
                 </form>
             </div>
@@ -225,44 +249,49 @@
 
         <!-- SECTION 3: Manage Users -->
         <div id="manage-users" class="section">
-            <div class="glass-card rounded-2xl p-6 md:p-8">
+            <div class="glass-card rounded-3xl p-6 md:p-10 border-2 border-white">
                 
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 pb-6 border-b border-white/10">
-                    <h2 class="text-2xl font-black text-white flex items-center gap-3">
-                        <div class="bg-emerald-500/20 p-2 rounded-lg text-emerald-400"><i class="fa-solid fa-address-book"></i></div>
-                        سجل الطلاب
-                    </h2>
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 pb-6 border-b-2 border-slate-100">
+                    <div class="flex items-center gap-4">
+                        <div class="bg-gradient-to-br from-emerald-400 to-teal-500 w-14 h-14 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-emerald-500/30 border-2 border-white">
+                            <i class="fa-solid fa-address-book text-2xl"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-3xl font-black text-slate-800">سجل الطلاب</h2>
+                            <p class="text-slate-500 font-semibold mt-1">البحث وتعديل وحذف الحسابات.</p>
+                        </div>
+                    </div>
                     
-                    <div class="flex flex-wrap items-center gap-2 w-full md:w-auto">
-                        <div class="relative w-full md:w-64">
-                            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-slate-400">
+                    <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+                        <div class="relative w-full md:w-72">
+                            <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-slate-400">
                                 <i class="fa-solid fa-search"></i>
                             </div>
-                            <input type="text" id="user-search" onkeyup="filterTable()" placeholder="ابحث عن اسم، باسوورد، صف..." class="w-full bg-slate-900/50 border border-slate-700 rounded-xl py-2 pr-10 pl-4 text-white text-sm focus:outline-none focus:border-emerald-500 transition-all">
+                            <input type="text" id="user-search" onkeyup="filterTable()" placeholder="ابحث بالاسم، باسوورد، صف..." class="w-full bg-white/90 border-2 border-slate-200 rounded-xl py-3 pr-12 pl-4 text-slate-800 font-bold text-sm focus:outline-none focus:border-emerald-500 transition-all shadow-sm">
                         </div>
-                        <button onclick="resetAllUsersDevices()" class="flex-1 md:flex-none px-4 py-2 rounded-xl text-sm font-bold bg-amber-500/10 text-amber-500 border border-amber-500/20 hover:bg-amber-500 hover:text-white transition-all">
-                            <i class="fa-solid fa-unlock-keyhole mr-1"></i> تصفير الكل
+                        <button onclick="resetAllUsersDevices()" class="flex-1 md:flex-none px-5 py-3 rounded-xl text-sm font-black bg-amber-100 text-amber-600 border-2 border-amber-200 hover:bg-amber-500 hover:text-white hover:border-amber-500 transition-all shadow-sm">
+                            <i class="fa-solid fa-unlock-keyhole mr-1"></i> تصفير الجميع
                         </button>
-                        <button onclick="loadUsers()" class="flex-1 md:flex-none px-4 py-2 rounded-xl text-sm font-bold bg-slate-700 text-white hover:bg-slate-600 transition-all">
+                        <button onclick="loadUsers()" class="flex-1 md:flex-none px-5 py-3 rounded-xl text-sm font-black bg-slate-100 text-slate-600 border-2 border-slate-200 hover:bg-slate-700 hover:text-white hover:border-slate-700 transition-all shadow-sm">
                             <i class="fa-solid fa-rotate-right mr-1"></i> تحديث
                         </button>
                     </div>
                 </div>
                 
-                <div class="overflow-x-auto">
+                <div class="overflow-x-auto bg-white/50 rounded-2xl border border-slate-100 shadow-inner">
                     <table class="w-full text-right border-collapse">
                         <thead>
-                            <tr class="bg-slate-900/50 text-slate-300 text-sm border-b border-slate-700">
-                                <th class="p-4 font-bold whitespace-nowrap rounded-tr-xl">اسم المستخدم</th>
-                                <th class="p-4 font-bold whitespace-nowrap">كلمة المرور</th>
-                                <th class="p-4 font-bold whitespace-nowrap">صلاحية الدخول</th>
-                                <th class="p-4 font-bold whitespace-nowrap">الحد الأقصى</th>
-                                <th class="p-4 font-bold whitespace-nowrap">حالة الاستخدام</th>
-                                <th class="p-4 font-bold whitespace-nowrap">نوع الحساب</th>
-                                <th class="p-4 font-bold whitespace-nowrap rounded-tl-xl text-center">الإجراءات</th>
+                            <tr class="bg-slate-100 text-slate-600 text-sm border-b-2 border-slate-200">
+                                <th class="p-4 font-black whitespace-nowrap rounded-tr-2xl">اسم المستخدم</th>
+                                <th class="p-4 font-black whitespace-nowrap">كلمة المرور</th>
+                                <th class="p-4 font-black whitespace-nowrap">الصف الدراسي</th>
+                                <th class="p-4 font-black whitespace-nowrap">الأجهزة المسموحة</th>
+                                <th class="p-4 font-black whitespace-nowrap">حالة الاستخدام</th>
+                                <th class="p-4 font-black whitespace-nowrap">نوع الحساب</th>
+                                <th class="p-4 font-black whitespace-nowrap rounded-tl-2xl text-center">الإجراءات</th>
                             </tr>
                         </thead>
-                        <tbody id="users-tbody" class="text-sm divide-y divide-slate-800">
+                        <tbody id="users-tbody" class="text-sm divide-y divide-slate-100 bg-white/70 font-semibold text-slate-700">
                             <!-- Populated by JS -->
                         </tbody>
                     </table>
@@ -304,7 +333,7 @@
         function showAlert(elementId, isSuccess, message) {
             const el = document.getElementById(elementId);
             el.innerHTML = message;
-            el.className = `p-4 rounded-xl mb-6 font-bold text-center ${isSuccess ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-red-500/20 text-red-400 border border-red-500/30'}`;
+            el.className = `p-4 rounded-2xl mb-6 font-bold text-center border-2 ${isSuccess ? 'bg-emerald-50 text-emerald-600 border-emerald-200' : 'bg-red-50 text-red-600 border-red-200'}`;
             el.classList.remove('hidden');
             setTimeout(() => el.classList.add('hidden'), 5000);
         }
@@ -337,7 +366,7 @@
 
                 await db.collection("codes").doc(user).set(userData);
 
-                showAlert('single-alert', true, '<i class="fa-solid fa-circle-check ml-2"></i> تم حفظ بيانات الطالب بنجاح!');
+                showAlert('single-alert', true, '<i class="fa-solid fa-circle-check ml-2"></i> تم إضافة الطالب بنجاح!');
                 
                 document.getElementById('new-username').value = '';
                 document.getElementById('new-password').value = '';
@@ -434,14 +463,14 @@
         window.allUsersRows = [];
         async function loadUsers() {
             const tbody = document.getElementById('users-tbody');
-            tbody.innerHTML = '<tr><td colspan="7" class="p-8 text-center text-slate-400"><i class="fa-solid fa-spinner fa-spin text-2xl mb-2"></i><br>جاري جلب البيانات... تأكد من صلاحيات Firebase</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="7" class="p-8 text-center text-slate-400 font-bold"><i class="fa-solid fa-spinner fa-spin text-3xl mb-3 text-blue-500"></i><br>جاري جلب البيانات... تأكد من صلاحيات Firebase</td></tr>';
             
             try {
                 const snapshot = await db.collection("codes").get();
                 window.allUsersRows = [];
                 
                 if (snapshot.empty) {
-                    tbody.innerHTML = '<tr><td colspan="7" class="p-8 text-center text-slate-400">لا يوجد طلاب مسجلين بعد.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="7" class="p-8 text-center text-slate-500 font-bold">لا يوجد طلاب مسجلين بعد.</td></tr>';
                     return;
                 }
 
@@ -453,34 +482,34 @@
                     let maxDev = data.maxDevices ? data.maxDevices : (data.isMultiUser ? 'غير محدود' : 1);
                     
                     const usedBadge = data.used 
-                        ? `<span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2 py-1 rounded text-xs font-bold whitespace-nowrap"><i class="fa-solid fa-check mr-1"></i> مُفعل (${devicesCount})</span>` 
-                        : `<span class="bg-slate-700 text-slate-300 px-2 py-1 rounded text-xs font-bold whitespace-nowrap">لم يُستخدم</span>`;
+                        ? `<span class="bg-emerald-100 text-emerald-600 border border-emerald-200 px-3 py-1 rounded-lg text-xs font-black whitespace-nowrap"><i class="fa-solid fa-check mr-1"></i> مُفعل (${devicesCount})</span>` 
+                        : `<span class="bg-slate-200 text-slate-500 px-3 py-1 rounded-lg text-xs font-black whitespace-nowrap">لم يُستخدم</span>`;
                     
                     let typeBadge = '';
                     if (data.isTrial || data.isTrial24h) {
-                        typeBadge += '<span class="bg-amber-500/20 text-amber-400 border border-amber-500/30 px-2 py-1 rounded text-xs font-bold whitespace-nowrap"><i class="fa-solid fa-clock mr-1"></i> تجريبي 24س</span>';
+                        typeBadge += '<span class="bg-amber-100 text-amber-600 border border-amber-200 px-3 py-1 rounded-lg text-xs font-black whitespace-nowrap"><i class="fa-solid fa-clock mr-1"></i> تجريبي 24س</span>';
                     } else {
-                        typeBadge += '<span class="bg-blue-500/20 text-blue-400 border border-blue-500/30 px-2 py-1 rounded text-xs font-bold whitespace-nowrap">دائم</span>';
+                        typeBadge += '<span class="bg-blue-100 text-blue-600 border border-blue-200 px-3 py-1 rounded-lg text-xs font-black whitespace-nowrap">دائم</span>';
                     }
 
                     let gradeText = 'صلاحية كاملة';
                     if (data.allowedGrade && data.allowedGrade !== 'all') gradeText = data.allowedGrade;
 
                     const tr = document.createElement('tr');
-                    tr.className = "hover:bg-white/5 transition-colors group";
+                    tr.className = "table-row-hover transition-colors group";
                     tr.innerHTML = `
-                        <td class="p-4 font-bold text-white">${username}</td>
-                        <td class="p-4 tracking-wider text-cyan-300 font-mono">${data.password}</td>
-                        <td class="p-4 text-slate-400 text-xs">${gradeText}</td>
-                        <td class="p-4 font-bold text-slate-300">${maxDev} جهاز</td>
+                        <td class="p-4 font-black text-slate-800">${username}</td>
+                        <td class="p-4 tracking-widest text-blue-600 font-mono font-bold">${data.password}</td>
+                        <td class="p-4 text-slate-500 text-sm font-bold">${gradeText}</td>
+                        <td class="p-4 font-black text-slate-700">${maxDev} جهاز</td>
                         <td class="p-4">${usedBadge}</td>
                         <td class="p-4">${typeBadge}</td>
                         <td class="p-4 text-center">
-                            <div class="flex items-center justify-center gap-2 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
-                                <button onclick="resetUser('${username}')" class="bg-amber-500/10 text-amber-500 hover:bg-amber-500 hover:text-white p-2 rounded-lg transition-colors" title="تصفير الأجهزة المربوطة لتسجيل دخول جديد">
+                            <div class="flex items-center justify-center gap-2 md:opacity-0 group-hover:opacity-100 transition-opacity">
+                                <button onclick="resetUser('${username}')" class="bg-amber-100 text-amber-500 hover:bg-amber-500 hover:text-white p-2.5 rounded-xl transition-colors border border-amber-200" title="تصفير الأجهزة لتسجيل دخول جديد">
                                     <i class="fa-solid fa-unlock-keyhole"></i>
                                 </button>
-                                <button onclick="deleteUser('${username}')" class="bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white p-2 rounded-lg transition-colors" title="حذف الطالب نهائياً">
+                                <button onclick="deleteUser('${username}')" class="bg-red-100 text-red-500 hover:bg-red-500 hover:text-white p-2.5 rounded-xl transition-colors border border-red-200" title="حذف الطالب">
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
                             </div>
@@ -493,7 +522,7 @@
 
             } catch (error) {
                 console.error("Error loading users:", error);
-                tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-red-400">حدث خطأ في جلب البيانات من الخادم. تأكد من إعدادات الـ Rules في Firebase. (${error.message})</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-red-500 font-bold">حدث خطأ في الاتصال بقاعدة البيانات. (${error.message})</td></tr>`;
             }
         }
 
@@ -521,7 +550,7 @@
                 if (!document.getElementById('no-results-row')) {
                     const tr = document.createElement('tr');
                     tr.id = 'no-results-row';
-                    tr.innerHTML = '<td colspan="7" class="p-8 text-center text-slate-500">لا يوجد نتائج تطابق بحثك.</td>';
+                    tr.innerHTML = '<td colspan="7" class="p-8 text-center text-slate-500 font-bold border-t border-slate-200">لا يوجد نتائج تطابق بحثك.</td>';
                     tbody.appendChild(tr);
                 }
             } else {
@@ -544,7 +573,7 @@
 
         // Reset Single User Device
         window.resetUser = async function(username) {
-            if(confirm(`هل أنت متأكد أنك تريد تصفير الأجهزة للطالب "${username}"؟ سيتم مسح الأجهزة المربوطة حالياً وسيتمكن من الدخول بأجهزة جديدة.`)) {
+            if(confirm(`هل أنت متأكد أنك تريد تصفير الأجهزة للطالب "${username}"؟ سيتمكن من الدخول بأجهزة جديدة.`)) {
                 try {
                     await db.collection("codes").doc(username).update({
                         used: false,
@@ -560,7 +589,7 @@
 
         // Reset ALL Users Devices Global
         window.resetAllUsersDevices = async function() {
-            if(confirm('تحذير! هل أنت متأكد من تصفير محاولات الأجهزة لجميع الطلاب المضافين؟ سيتمكن جميع الطلاب من الدخول مجدداً من أي أجهزة جديدة.')) {
+            if(confirm('تحذير خطير! هل أنت متأكد من تصفير الأجهزة لجميع الطلاب؟')) {
                 try {
                     const snapshot = await db.collection("codes").get();
                     const batch = db.batch();
@@ -575,7 +604,7 @@
                     alert('تم تصفير أجهزة جميع الطلاب بنجاح!');
                     loadUsers();
                 } catch (error) {
-                    alert('حدث خطأ أثناء تصفير الحسابات: ' + error.message);
+                    alert('حدث خطأ: ' + error.message);
                 }
             }
         }
