@@ -5,15 +5,15 @@
 ];
 
 const GRADES_DATA = [
-    { id: 'primary-1', name: 'الصف الأول الابتدائي', image: 'images/primary_1.png' },
-    { id: 'primary-2', name: 'الصف الثاني الابتدائي', image: 'images/primary_2.png' },
-    { id: 'primary-3', name: 'الصف الثالث الابتدائي', image: 'images/primary_3.png' },
-    { id: 'primary-4', name: 'الصف الرابع الابتدائي', image: 'images/primary_4.png' },
-    { id: 'primary-5', name: 'الصف الخامس الابتدائي', image: 'images/primary_5.png' },
-    { id: 'primary-6', name: 'الصف السادس الابتدائي', image: 'images/primary_6.png' },
-    { id: 'prep-1', name: 'الصف الأول الإعدادي', image: 'images/prep_1.png' },
-    { id: 'prep-2', name: 'الصف الثاني الإعدادي', image: 'images/prep_2.png' },
-    { id: 'prep-3', name: 'الصف الثالث الإعدادي', image: 'images/prep_3.png' }
+    { id: 'primary-1', name: 'الصف الأول الابتدائي', image: 'images/3d-icons/englishtoon-grade-primary-1-3d.jpg' },
+    { id: 'primary-2', name: 'الصف الثاني الابتدائي', image: 'images/3d-icons/englishtoon-grade-primary-2-3d.jpg' },
+    { id: 'primary-3', name: 'الصف الثالث الابتدائي', image: 'images/3d-icons/englishtoon-grade-primary-3-3d.jpg' },
+    { id: 'primary-4', name: 'الصف الرابع الابتدائي', image: 'images/3d-icons/englishtoon-grade-primary-4-3d.jpg' },
+    { id: 'primary-5', name: 'الصف الخامس الابتدائي', image: 'images/3d-icons/englishtoon-grade-primary-5-3d.jpg' },
+    { id: 'primary-6', name: 'الصف السادس الابتدائي', image: 'images/3d-icons/englishtoon-grade-primary-6-3d.jpg' },
+    { id: 'prep-1', name: 'الصف الأول الإعدادي', image: 'images/3d-icons/englishtoon-grade-prep-1-3d.jpg' },
+    { id: 'prep-2', name: 'الصف الثاني الإعدادي', image: 'images/3d-icons/englishtoon-grade-prep-2-3d.jpg' },
+    { id: 'prep-3', name: 'الصف الثالث الإعدادي', image: 'images/3d-icons/englishtoon-grade-prep-3-3d.jpg' }
 ];
 
 const UNITS_PER_GRADE = 6;
