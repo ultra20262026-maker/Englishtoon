@@ -1,0 +1,44 @@
+/* English Toon visual refresh: original family-friendly 3D animated learning worlds. */
+:root {
+    --toon-overlay-light: linear-gradient(135deg, rgba(248, 253, 255, 0.76), rgba(238, 249, 255, 0.42) 48%, rgba(255, 250, 237, 0.58));
+    --toon-overlay-soft: linear-gradient(180deg, rgba(246, 252, 255, 0.64), rgba(235, 247, 255, 0.46));
+}
+
+body[class*="toon-scene-"] {
+    background-color: #eaf7ff;
+    background-image: var(--toon-overlay-light), var(--toon-scene-image);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
+body.toon-scene-login { --toon-scene-image: url('../images/3d-backgrounds/login-learning-library.jpg'); }
+body.toon-scene-dashboard { --toon-scene-image: url('../images/3d-backgrounds/dashboard-learning-campus.jpg'); }
+body.toon-scene-grades { --toon-scene-image: url('../images/3d-backgrounds/grades-school-town.jpg'); }
+body.toon-scene-units { --toon-scene-image: url('../images/3d-backgrounds/units-discovery-workshop.jpg'); }
+body.toon-scene-games { --toon-scene-image: url('../images/3d-backgrounds/games-adventure-park.jpg'); }
+body.toon-scene-books { --toon-scene-image: url('../images/3d-backgrounds/books-reading-nook.jpg'); }
+body.toon-scene-exams { --toon-scene-image: url('../images/3d-backgrounds/exams-study-studio.jpg'); }
+body.toon-scene-exam-units { --toon-scene-image: url('../images/3d-backgrounds/exam-units-discovery-hall.jpg'); }
+body.toon-scene-exam-list { --toon-scene-image: url('../images/3d-backgrounds/exam-list-study-desk.jpg'); }
+
+/* The login page already uses a pseudo-element, so keep it translucent instead of obscuring its new illustration. */
+body.toon-scene-login::before {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.36), rgba(231, 246, 255, 0.18)) !important;
+    backdrop-filter: blur(2px) !important;
+    -webkit-backdrop-filter: blur(2px) !important;
+}
+
+/* Preserve readable content over the bright illustration on smaller screens. */
+@media (max-width: 768px) {
+    body[class*="toon-scene-"] {
+        background-attachment: scroll;
+        background-position: center top;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body[class*="toon-scene-"] { background-attachment: scroll; }
+}
