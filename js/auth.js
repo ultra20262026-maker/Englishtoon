@@ -164,6 +164,20 @@ function checkAuth() {
         }
     }
 
+    // Background validation: Kick out users if they were deleted by admin
+    const currentUser = localStorage.getItem('currentUser');
+    if (currentUser && currentUser !== 'admin' && typeof db !== 'undefined') {
+        db.collection('codes').doc(currentUser).get().then(doc => {
+            if (!doc.exists) {
+                // User was deleted!
+                localStorage.clear();
+                window.location.href = 'index.html';
+            }
+        }).catch(err => {
+            // Ignore network errors so students can still play downloaded games offline
+        });
+    }
+
     // Auto-setup Admin Panel Button in Navigation Header & Floating Badge across ALL pages
     if (document.readyState === 'loading') {
         window.addEventListener('DOMContentLoaded', setupAdminHeader);
