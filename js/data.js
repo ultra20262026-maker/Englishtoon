@@ -605,3 +605,277 @@ const EXAMS_MAP = {
 };
 
 
+
+
+EXAMS_MAP['primary-6'] = {
+    "1": [
+        {
+            "name": "Unit1 Lesson1 Quiz",
+            "file": "Unit1_Lesson1_Quiz.html"
+        },
+        {
+            "name": "Unit1 Lesson2 Quiz",
+            "file": "Unit1_Lesson2_Quiz.html"
+        },
+        {
+            "name": "Unit1 Lesson3 Quiz",
+            "file": "Unit1_Lesson3_Quiz.html"
+        },
+        {
+            "name": "Unit1 Lesson4and5 Quiz",
+            "file": "Unit1_Lesson4and5_Quiz.html"
+        }
+    ],
+    "2": [
+        {
+            "name": "Unit2 Lesson1 Quiz",
+            "file": "Unit2_Lesson1_Quiz.html"
+        },
+        {
+            "name": "Unit2 Lesson2 Quiz",
+            "file": "Unit2_Lesson2_Quiz.html"
+        },
+        {
+            "name": "Unit2 Lesson3 Quiz",
+            "file": "Unit2_Lesson3_Quiz.html"
+        },
+        {
+            "name": "Unit2 Lesson4and5 Quiz",
+            "file": "Unit2_Lesson4and5_Quiz.html"
+        }
+    ],
+    "3": [
+        {
+            "name": "Unit3 Lesson1 Quiz",
+            "file": "Unit3_Lesson1_Quiz.html"
+        },
+        {
+            "name": "Unit3 Lesson2 Quiz",
+            "file": "Unit3_Lesson2_Quiz.html"
+        },
+        {
+            "name": "Unit3 Lesson3 Quiz",
+            "file": "Unit3_Lesson3_Quiz.html"
+        },
+        {
+            "name": "Unit3 Lesson4and5 Quiz",
+            "file": "Unit3_Lesson4and5_Quiz.html"
+        }
+    ],
+    "4": [
+        {
+            "name": "Unit4 Lesson1 Quiz",
+            "file": "Unit4_Lesson1_Quiz.html"
+        },
+        {
+            "name": "Unit4 Lesson2 Quiz",
+            "file": "Unit4_Lesson2_Quiz.html"
+        },
+        {
+            "name": "Unit4 Lesson3 Quiz",
+            "file": "Unit4_Lesson3_Quiz.html"
+        },
+        {
+            "name": "Unit4 Lesson4and5 Quiz",
+            "file": "Unit4_Lesson4and5_Quiz.html"
+        }
+    ],
+    "5": [
+        {
+            "name": "Unit5 Lesson1 Quiz",
+            "file": "Unit5_Lesson1_Quiz.html"
+        },
+        {
+            "name": "Unit5 Lesson2 Quiz",
+            "file": "Unit5_Lesson2_Quiz.html"
+        },
+        {
+            "name": "Unit5 Lesson3 Quiz",
+            "file": "Unit5_Lesson3_Quiz.html"
+        },
+        {
+            "name": "Unit5 Lesson4and5 Quiz",
+            "file": "Unit5_Lesson4and5_Quiz.html"
+        }
+    ],
+    "6": [
+        {
+            "name": "Unit6 Part1 Quiz",
+            "file": "Unit6_Part1_Quiz.html"
+        },
+        {
+            "name": "Unit6 Part2 Quiz",
+            "file": "Unit6_Part2_Quiz.html"
+        }
+    ]
+};
+EXAMS_MAP['prep-3'] = {
+    "1": [
+        {
+            "name": "Lesson 1 - Beyond My Looks",
+            "file": "Lesson_1_-_Beyond_My_Looks.html"
+        },
+        {
+            "name": "Lesson 2 - Self Discovery",
+            "file": "Lesson_2_-_Self_Discovery.html"
+        },
+        {
+            "name": "Lesson 3 - The Mirror Moment",
+            "file": "Lesson_3_-_The_Mirror_Moment.html"
+        },
+        {
+            "name": "Lesson 4 - Story Time",
+            "file": "Lesson_4_-_Story_Time.html"
+        },
+        {
+            "name": "Lesson 56 - Lets Talk This Is Me",
+            "file": "Lesson_56_-_Lets_Talk_This_Is_Me.html"
+        },
+        {
+            "name": "Unit 1 Review",
+            "file": "Unit_1_Review.html"
+        }
+    ],
+    "2": [
+        {
+            "name": "Lesson 1 - Stay Connected",
+            "file": "Lesson_1_-_Stay_Connected.html"
+        },
+        {
+            "name": "Lesson 2 - Communication Challenges and Solutions",
+            "file": "Lesson_2_-_Communication_Challenges_and_Solutions.html"
+        },
+        {
+            "name": "Lesson 3 - The Silent Dinner",
+            "file": "Lesson_3_-_The_Silent_Dinner.html"
+        },
+        {
+            "name": "Lesson 4 - Story Time",
+            "file": "Lesson_4_-_Story_Time.html"
+        },
+        {
+            "name": "Lesson 56 - Lets Talk Staying close",
+            "file": "Lesson_56_-_Lets_Talk_Staying_close.html"
+        },
+        {
+            "name": "Unit 2 Review",
+            "file": "Unit_2_Review.html"
+        }
+    ],
+    "3": [
+        {
+            "name": "Lesson 1 - Artificial Intelligence",
+            "file": "Lesson_1_-_Artificial_Intelligence.html"
+        },
+        {
+            "name": "Lesson 2 - A I Technology",
+            "file": "Lesson_2_-_A_I_Technology.html"
+        },
+        {
+            "name": "Lesson 3 - Robot Teacher",
+            "file": "Lesson_3_-_Robot_Teacher.html"
+        },
+        {
+            "name": "Lesson 4 - Story Time",
+            "file": "Lesson_4_-_Story_Time.html"
+        },
+        {
+            "name": "Lesson 56 - Lets Talk Smart Robots",
+            "file": "Lesson_56_-_Lets_Talk_Smart_Robots.html"
+        },
+        {
+            "name": "Unit 3 Review",
+            "file": "Unit_3_Review.html"
+        }
+    ],
+    "4": [
+        {
+            "name": "Lesson 1 - Screen Time",
+            "file": "Lesson_1_-_Screen_Time.html"
+        },
+        {
+            "name": "Lesson 2 - Egypts Smart Future",
+            "file": "Lesson_2_-_Egypts_Smart_Future.html"
+        },
+        {
+            "name": "Lesson 3 - Balancing Screen Time",
+            "file": "Lesson_3_-_Balancing_Screen_Time.html"
+        },
+        {
+            "name": "Lesson 4 - Story Time",
+            "file": "Lesson_4_-_Story_Time.html"
+        },
+        {
+            "name": "Lesson 5 - Lets Talk",
+            "file": "Lesson_5_-_Lets_Talk.html"
+        },
+        {
+            "name": "Lesson 6 - Small Change",
+            "file": "Lesson_6_-_Small_Change.html"
+        },
+        {
+            "name": "Unit 4 Review",
+            "file": "Unit_4_Review.html"
+        }
+    ],
+    "5": [
+        {
+            "name": "Lesson 1 - Think like a Designer",
+            "file": "Lesson_1_-_Think_like_a_Designer.html"
+        },
+        {
+            "name": "Lesson 2 - Dream It Build It",
+            "file": "Lesson_2_-_Dream_It_Build_It.html"
+        },
+        {
+            "name": "Lesson 3 - See through Their Eyes",
+            "file": "Lesson_3_-_See_through_Their_Eyes.html"
+        },
+        {
+            "name": "Lesson 4 - Story Time",
+            "file": "Lesson_4_-_Story_Time.html"
+        },
+        {
+            "name": "Lesson 5 - Lets Talk",
+            "file": "Lesson_5_-_Lets_Talk.html"
+        },
+        {
+            "name": "Lesson 6 - Try Learn and Improve",
+            "file": "Lesson_6_-_Try_Learn_and_Improve.html"
+        },
+        {
+            "name": "Unit 5 Review",
+            "file": "Unit_5_Review.html"
+        }
+    ],
+    "6": [
+        {
+            "name": "Lesson 1 - The Power of Stories",
+            "file": "Lesson_1_-_The_Power_of_Stories.html"
+        },
+        {
+            "name": "Lesson 2 - The Story That Helped Me",
+            "file": "Lesson_2_-_The_Story_That_Helped_Me.html"
+        },
+        {
+            "name": "Lesson 3 - Elements of a Story",
+            "file": "Lesson_3_-_Elements_of_a_Story.html"
+        },
+        {
+            "name": "Lesson 4 - Story Time",
+            "file": "Lesson_4_-_Story_Time.html"
+        },
+        {
+            "name": "Lesson 5 - Lets Talk",
+            "file": "Lesson_5_-_Lets_Talk.html"
+        },
+        {
+            "name": "Lesson 6 - My Own Story",
+            "file": "Lesson_6_-_My_Own_Story.html"
+        },
+        {
+            "name": "Unit 6 Review",
+            "file": "Unit_6_Review.html"
+        }
+    ]
+};

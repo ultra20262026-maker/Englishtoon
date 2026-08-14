@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>امتحان إلكتروني - Lesson 1: Caring For Plants</title>
+<style>
+  :root {
+    --gold: #c9a227;
+    --dark-blue: #0b3d5c;
+    --light: #f7f3e9;
+    --green: #1e7a4c;
+    --red: #b23b3b;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Tahoma', 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(160deg, #fdf6e3 0%, #eef3f7 100%);
+    color: #24344d;
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 24px 12px 60px;
+  }
+  .card {
+    background: #fff;
+    max-width: 720px;
+    width: 100%;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(11,61,92,0.15);
+    overflow: hidden;
+    border: 1px solid #e7e0c9;
+  }
+  header.top {
+    background: linear-gradient(120deg, var(--dark-blue), #124f78);
+    color: #fff;
+    padding: 22px 24px;
+    text-align: center;
+    position: relative;
+  }
+  header.top h1 {
+    margin: 0 0 6px;
+    font-size: 21px;
+  }
+  header.top .sub {
+    color: var(--gold);
+    font-weight: bold;
+    font-size: 15px;
+  }
+  header.top .sub2 {
+    color: #dce8f2;
+    font-size: 13px;
+    margin-top: 4px;
+  }
+  .stripe {
+    height: 6px;
+    background: repeating-linear-gradient(45deg, var(--gold), var(--gold) 10px, #e7c766 10px, #e7c766 20px);
+  }
+  .content {
+    padding: 26px 24px 30px;
+  }
+  .field {
+    margin-bottom: 18px;
+  }
+  label {
+    display:block;
+    font-weight:bold;
+    margin-bottom:6px;
+    color: var(--dark-blue);
+  }
+  input[type=text] {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 2px solid #dfe6ee;
+    font-size: 15px;
+    font-family: inherit;
+  }
+  input[type=text]:focus {
+    outline: none;
+    border-color: var(--gold);
+  }
+  .btn {
+    display: inline-block;
+    background: var(--dark-blue);
+    color: #fff;
+    border: none;
+    padding: 13px 26px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform .15s, background .2s;
+  }
+  .btn:hover { background: #0e5580; transform: translateY(-1px); }
+  .btn.gold { background: var(--gold); color: #22303f; }
+  .btn.gold:hover { background: #b8931e; }
+  .btn.green { background: var(--green); }
+  .btn.green:hover { background: #166138; }
+  .question {
+    background: #fbf9f2;
+    border: 1px solid #eee0bd;
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin-bottom: 14px;
+  }
+  .question p.qtext {
+    font-weight: bold;
+    margin: 0 0 10px;
+    color: #1c2a3d;
+    font-size: 16px;
+  }
+  .qnum {
+    display:inline-block;
+    background: var(--dark-blue);
+    color:#fff;
+    border-radius:50%;
+    width:26px;height:26px;
+    text-align:center;
+    line-height:26px;
+    font-size:13px;
+    margin-left:8px;
+  }
+  .options label {
+    display:block;
+    font-weight: normal;
+    background:#fff;
+    border:1px solid #e2e2e2;
+    border-radius:8px;
+    padding:9px 12px;
+    margin-bottom:8px;
+    cursor:pointer;
+    transition: .15s;
+  }
+  .options label:hover { background:#f1f6fb; border-color:#bcd4e8; }
+  .options input { margin-left:8px; }
+  .options label.correct { background:#e5f6ea; border-color: var(--green); }
+  .options label.wrong { background:#fbe8e8; border-color: var(--red); }
+  .footer-nav { text-align:center; margin-top: 22px; }
+  .hidden { display:none !important; }
+  .result-box {
+    text-align:center;
+    padding: 20px 10px 6px;
+  }
+  .score-circle {
+    width:140px;height:140px;
+    border-radius:50%;
+    background: conic-gradient(var(--gold) calc(var(--pct,0)*1%), #eee 0);
+    display:flex; align-items:center; justify-content:center;
+    margin: 0 auto 16px;
+    position:relative;
+  }
+  .score-circle::before {
+    content:"";
+    position:absolute; width:108px; height:108px; border-radius:50%; background:#fff;
+  }
+  .score-circle span {
+    position:relative; font-size: 26px; font-weight:bold; color: var(--dark-blue);
+  }
+  .msg { font-size:17px; margin: 10px 0 20px; font-weight:bold; }
+  .review-item { text-align:right; font-size:14px; margin-bottom:10px; padding:10px; border-radius:8px; }
+  .review-item.ok { background:#e5f6ea; }
+  .review-item.bad { background:#fbe8e8; }
+  .whatsapp-btn {
+    background:#25D366; color:#fff; display:inline-flex; align-items:center; gap:8px;
+    padding: 13px 24px; border-radius:30px; text-decoration:none; font-weight:bold; margin-top:10px;
+  }
+  .whatsapp-btn:hover { background:#1ebe5b; }
+  footer.note {
+    text-align:center; color:#8a8f98; font-size:12px; padding: 14px 10px 22px;
+  }
+  .progress-wrap { margin-bottom:18px; }
+  .progress-bar { height:8px; background:#eee; border-radius:6px; overflow:hidden; }
+  .progress-fill { height:100%; background: var(--gold); width:0%; transition:width .2s; }
+</style>
+</head>
+<body>
+<div class="card">
+  <header class="top">
+    <h1>&#127959;&#65039; امتحان إلكتروني - اللغة الإنجليزية</h1>
+    <div class="sub">Lesson 1: Caring For Plants</div>
+    <div class="sub2">الوحدة الثانية - طبيعتنا</div>
+  </header>
+  <div class="stripe"></div>
+  <div class="content">
+
+    <!-- SCREEN 1: START -->
+    <div id="screen-start">
+      <div class="field">
+        <label for="studentName">اسم الطالب / الطالبة</label>
+        <input type="text" id="studentName" placeholder="اكتب اسمك هنا">
+      </div>
+      <div class="footer-nav">
+        <button class="btn gold" onclick="startQuiz()">ابدأ الامتحان</button>
+      </div>
+    </div>
+
+    <!-- SCREEN 2: QUIZ -->
+    <div id="screen-quiz" class="hidden">
+      <div class="progress-wrap">
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      </div>
+      <div id="questionsContainer"></div>
+      <div class="footer-nav">
+        <button class="btn green" onclick="submitQuiz()">تسليم الإجابات</button>
+      </div>
+    </div>
+
+    <!-- SCREEN 3: RESULT -->
+    <div id="screen-result" class="hidden">
+      <div class="result-box">
+        <div class="score-circle" id="scoreCircle"><span id="scoreText">0/10</span></div>
+        <div class="msg" id="resultMsg"></div>
+        <a id="waLink" class="whatsapp-btn hidden" href="#" target="_blank" rel="noopener">
+          &#128241; إرسال النتيجة إلى المعلم
+        </a>
+      </div>
+      <div id="reviewContainer"></div>
+      <div class="footer-nav">
+        <button class="btn" onclick="location.reload()">إعادة الامتحان</button>
+      </div>
+    </div>
+
+  </div>
+  <footer class="note">وزارة التربية والتعليم - اللغة الإنجليزية - الصف السادس الابتدائي - الفصل الدراسي الأول</footer>
+</div>
+
+<script>
+/* =========================================================
+   إعدادات المعلم - Teacher Settings
+   المعلم فقط هو من يعدّل السطرين التاليين:
+   1) كود الدولة ثابت (مصر +20) - لا يقوم الطالب بتغييره
+   2) رقم هاتف المعلم على واتساب بدون الصفر وبدون كود الدولة
+      مثال: لو رقم المعلم 01012345678 يكتب هنا 1012345678
+   ========================================================= */
+const TEACHER_COUNTRY_CODE = "20";           // كود الدولة (ثابت - مصر)
+const TEACHER_PHONE_NUMBER = "1000000000";   // <-- ضع رقم هاتف المعلم هنا بدون صفر وبدون كود الدولة
+
+/* =========================================================
+   بيانات الامتحان - Quiz Data (auto-generated)
+   ========================================================= */
+const LESSON_TITLE = "Lesson 1: Caring For Plants";
+const UNIT_TITLE = "الوحدة الثانية - طبيعتنا | Our Nature";
+const QUESTIONS = [{"text": "Tourism gives ______ to local people.", "options": ["jobs", "plants", "pollution", "rain"], "correct": 0}, {"text": "Tourism can ______ the environment.", "options": ["protect", "damage", "clean", "water"], "correct": 1}, {"text": "The word \"damage\" means ______.", "options": ["save", "keep", "create", "destroy"], "correct": 3}, {"text": "People should try ______ which looks after wildlife, monuments and local people.", "options": ["fast food", "eco-tourism", "shopping", "racing"], "correct": 1}, {"text": "I ______ out the weeds from the garden every morning.", "options": ["pull", "check", "do", "eat"], "correct": 0}, {"text": "We help my grandpa ______ for the plants in his garden.", "options": ["care", "grow", "take", "have"], "correct": 0}, {"text": "Every morning, I ______ for insects on the plants.", "options": ["make", "take", "look", "pay"], "correct": 2}, {"text": "Grandpa ______ care of his plants every day.", "options": ["does", "has", "takes", "sells"], "correct": 2}, {"text": "What is hibiscus used ______ in the family?", "options": ["from", "for", "off", "of"], "correct": 1}, {"text": "Plane journeys create too much ______.", "options": ["fresh air", "carbon dioxide", "music", "light"], "correct": 1}];
+
+let currentAnswers = new Array(QUESTIONS.length).fill(null);
+
+function startQuiz() {
+  const name = document.getElementById('studentName').value.trim();
+  if (!name) {
+    alert('من فضلك اكتب اسمك أولاً');
+    return;
+  }
+  renderQuestions();
+  document.getElementById('screen-start').classList.add('hidden');
+  document.getElementById('screen-quiz').classList.remove('hidden');
+}
+
+function renderQuestions() {
+  const container = document.getElementById('questionsContainer');
+  container.innerHTML = '';
+  QUESTIONS.forEach((q, qi) => {
+    const div = document.createElement('div');
+    div.className = 'question';
+    let optionsHtml = '';
+    q.options.forEach((opt, oi) => {
+      optionsHtml += `
+        <label id="opt-${qi}-${oi}">
+          <input type="radio" name="q${qi}" value="${oi}" onchange="selectAnswer(${qi}, ${oi})">
+          ${opt}
+        </label>`;
+    });
+    div.innerHTML = `<p class="qtext"><span class="qnum">${qi+1}</span>${q.text}</p><div class="options">${optionsHtml}</div>`;
+    container.appendChild(div);
+  });
+  updateProgress();
+}
+
+function selectAnswer(qi, oi) {
+  currentAnswers[qi] = oi;
+  updateProgress();
+}
+
+function updateProgress() {
+  const total = currentAnswers.length;
+  const answered = currentAnswers.filter(a => a !== null).length;
+  const pct = total ? Math.round((answered/total)*100) : 0;
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+function submitQuiz() {
+  const unanswered = currentAnswers.some(a => a === null);
+  if (unanswered) {
+    if (!confirm('لم تجب على كل الأسئلة، هل تريد التسليم الآن؟')) return;
+  }
+  let score = 0;
+  const reviewContainer = document.getElementById('reviewContainer');
+  reviewContainer.innerHTML = '';
+
+  QUESTIONS.forEach((q, qi) => {
+    const given = currentAnswers[qi];
+    const isCorrect = given === q.correct;
+    if (isCorrect) score++;
+
+    q.options.forEach((opt, oi) => {
+      const label = document.getElementById(`opt-${qi}-${oi}`);
+      if (!label) return;
+      if (oi === q.correct) label.classList.add('correct');
+      else if (oi === given) label.classList.add('wrong');
+    });
+
+    const revDiv = document.createElement('div');
+    revDiv.className = 'review-item ' + (isCorrect ? 'ok' : 'bad');
+    const givenText = given === null ? '(لم تتم الإجابة)' : q.options[given];
+    revDiv.innerHTML = `<strong>${qi+1}. ${q.text}</strong><br>
+      إجابتك: ${givenText} ${isCorrect ? '&#10004;&#65039;' : '&#10060;'}<br>
+      ${isCorrect ? '' : 'الإجابة الصحيحة: ' + q.options[q.correct]}`;
+    reviewContainer.appendChild(revDiv);
+  });
+
+  const total = QUESTIONS.length;
+  const pct = Math.round((score/total)*100);
+  document.getElementById('scoreCircle').style.setProperty('--pct', pct);
+  document.getElementById('scoreText').textContent = score + '/' + total;
+
+  let msg = '';
+  if (pct >= 90) msg = 'ممتاز! أداء رائع &#127881;';
+  else if (pct >= 70) msg = 'جيد جدًا، واصل التقدم &#128077;';
+  else if (pct >= 50) msg = 'جيد، تحتاج لمزيد من المراجعة &#128218;';
+  else msg = 'راجع الدرس جيدًا وحاول مرة أخرى &#128170;';
+  document.getElementById('resultMsg').textContent = msg;
+
+  const name = document.getElementById('studentName').value.trim();
+  const reportText =
+    "تقرير امتحان إلكتروني\n" +
+    "الوحدة: " + UNIT_TITLE + "\n" +
+    "الدرس: " + LESSON_TITLE + "\n" +
+    "اسم الطالب: " + name + "\n" +
+    "النتيجة: " + score + " من " + total + " (" + pct + "%)";
+
+  const waLink = document.getElementById('waLink');
+  if (TEACHER_PHONE_NUMBER && TEACHER_PHONE_NUMBER !== "1000000000") {
+    const fullNumber = TEACHER_COUNTRY_CODE + TEACHER_PHONE_NUMBER;
+    waLink.href = "https://wa.me/" + fullNumber + "?text=" + encodeURIComponent(reportText);
+    waLink.classList.remove('hidden');
+  } else {
+    waLink.classList.add('hidden');
+  }
+
+  document.getElementById('screen-quiz').classList.add('hidden');
+  document.getElementById('screen-result').classList.remove('hidden');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+</script>
+</body>
+</html>
