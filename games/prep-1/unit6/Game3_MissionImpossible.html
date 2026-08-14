@@ -29,6 +29,10 @@
   #endscreen{ display:none; text-align:center; margin-top:26px; }
   #endscreen h2{ font-size:2rem; color:#fff; }
   footer{ margin-top:20px; color:var(--muted); font-size:.75rem; text-align:center;}
+
+/* Timer elements hidden */
+#timerBar, .timer-bar, .time-bar, .timer-container { display: none !important; }
+#bigTimer, .big-timer { display: none !important; }
 </style>
 </head>
 <body>
@@ -38,7 +42,7 @@
     <div class="pill">Mission: <b id="missionNum">0</b> / 6</div>
     <div class="pill">Score: <b id="score">0</b></div>
   </div>
-  <div id="countdown">01:30</div>
+  <div id="countdown" style="display:none!important"></div>
 
   <div id="missionBox">
     <div id="missionLabel">Briefing</div>
@@ -67,7 +71,7 @@ const missions = [
 
 let missionIdx = 0;
 let score = 0;
-let timeLeft = 90;
+let timeLeft = 999999;
 let timerInterval = null;
 let running = false;
 

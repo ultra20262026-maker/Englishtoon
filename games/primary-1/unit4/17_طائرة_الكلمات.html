@@ -28,7 +28,11 @@
         .plane { position: absolute; background: white; color: #2980b9; padding: 10px 20px; border-radius: 50px; font-family: 'Fredoka One'; font-size: 2rem; cursor: pointer; display: flex; align-items: center; gap: 10px; box-shadow: 0 5px 0 #bdc3c7;}
         .plane::before { content: '✈️'; font-size: 2.5rem; }
         .plane:active { transform: scale(0.9); box-shadow: 0 0 0; }
-    </style>
+    
+/* Timer elements hidden */
+#timerBar, .timer-bar, .time-bar, .timer-container { display: none !important; }
+#bigTimer, .big-timer { display: none !important; }
+</style>
 </head>
 <body>
     <div class="game-container" id="game-container">

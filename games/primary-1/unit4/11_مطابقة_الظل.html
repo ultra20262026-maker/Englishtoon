@@ -28,7 +28,11 @@
         .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; width: 90%; max-width: 500px;}
         .opt-box { background: #34495e; color: white; border-radius: 15px; padding: 15px; font-family: 'Fredoka One'; font-size: 2rem; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.2s;}
         .opt-box:active { transform: scale(0.9); }
-    </style>
+    
+/* Timer elements hidden */
+#timerBar, .timer-bar, .time-bar, .timer-container { display: none !important; }
+#bigTimer, .big-timer { display: none !important; }
+</style>
 </head>
 <body>
     <div class="game-container" id="game-container">

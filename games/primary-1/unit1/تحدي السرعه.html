@@ -29,7 +29,11 @@
         @keyframes correctPop { 0% { transform: scale(1); } 50% { transform: scale(1.2); background: #2ecc71; border-color: #27ae60;} 100% { transform: scale(1); } }
         @keyframes wrongShake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); background: #c0392b;} 75% { transform: translateX(5px); background: #c0392b;} }
         @media (max-width: 500px) { #center-zone { width: 140px; height: 140px; } #center-image { width: 90px; height: 90px; } .option-btn { font-size: 1.5rem; padding: 10px 20px; } .score-display { font-size: 2rem; } }
-    </style>
+    
+/* Timer elements hidden */
+#timerBar, .timer-bar, .time-bar, .timer-container { display: none !important; }
+#bigTimer, .big-timer { display: none !important; }
+</style>
 </head>
 <body>
     <div id="start-screen" class="screen"><h1 style="font-size: 3.5rem; margin-bottom: 20px; color: #f1c40f;">تحدي السرعة</h1><button class="start-btn" onpointerdown="startGame()">إبدأ التحدي</button></div>

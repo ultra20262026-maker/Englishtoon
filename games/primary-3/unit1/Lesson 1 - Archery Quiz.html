@@ -285,6 +285,10 @@ html, body {
 
 
 
+
+/* Timer elements hidden */
+#timerBar, .timer-bar, .time-bar, .timer-container { display: none !important; }
+#bigTimer, .big-timer { display: none !important; }
 </style>
 <style>
 #game-wrap { overflow: hidden; }
@@ -347,7 +351,7 @@ canvas { position:absolute; inset:0; z-index:1; display:block; width:100%; heigh
     <div id="fill-wrap"></div>
   </div>
 
-  <div id="countdown" class="hidden">3</div>
+  <div id="countdown" class="hidden" style="display:none!important"></div>
 
   <div id="screen-intro" class="screen">
     <div class="game-logo">&#127988;</div>
@@ -7711,7 +7715,7 @@ const GameBase = (() => {
 
   // ── State ────────────────────────────────────────────────────
   let _questions = [], _qIndex = 0, _score = 0, _lives = 3;
-  let _timeLeft = 60, _totalTime = 60;
+  let _timeLeft = 999999, _totalTime = 999999;
   let _timerInterval = null, _selectedLevel = 1;
   let _gameActive = false;
   let _callbacks = {};
@@ -7764,7 +7768,7 @@ const GameBase = (() => {
     _timerInterval = setInterval(() => {
       _timeLeft -= 0.1;
       if (barEl) barEl.style.width = Math.max(0, (_timeLeft/_totalTime)*100) + '%';
-      if (_timeLeft <= 8) SoundEngine.play('tick');
+      if (_timeLeft <= 8) /* tick disabled */
       if (_timeLeft <= 0) { stopTimer(); endGame(); }
     }, 100);
   }
@@ -7971,11 +7975,11 @@ const GameBase = (() => {
     el.classList.remove('hidden');
     let n = 3;
     el.textContent = n;
-    SoundEngine.play('tick');
+    /* tick disabled */
     const iv = setInterval(() => {
       n--;
       if (n <= 0) { clearInterval(iv); el.classList.add('hidden'); onDone(); }
-      else { el.textContent = n; SoundEngine.play('tick'); }
+      else { el.textContent = n; /* tick disabled */ }
     }, 900);
   }
 

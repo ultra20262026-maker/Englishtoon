@@ -29,7 +29,11 @@
         .animals-container { display: flex; gap: 30px; position: absolute; bottom: 50px; justify-content: center; width: 100%;}
         .animal { width: 80px; height: 80px; background: rgba(255,255,255,0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 50px; cursor: pointer; box-shadow: 0 5px 10px rgba(0,0,0,0.2); transition: transform 0.2s;}
         .animal:active { transform: scale(0.9); }
-    </style>
+    
+/* Timer elements hidden */
+#timerBar, .timer-bar, .time-bar, .timer-container { display: none !important; }
+#bigTimer, .big-timer { display: none !important; }
+</style>
 </head>
 <body>
     <div class="game-container" id="game-container">

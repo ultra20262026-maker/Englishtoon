@@ -53,6 +53,10 @@
   .hint{text-align:center; font-size:13px; color:var(--sand); margin-top:2px;}
   .confetti{position:fixed; top:-10px; z-index:5; font-size:20px; animation:fall linear forwards;}
   @keyframes fall{to{transform:translateY(110vh) rotate(360deg); opacity:0;}}
+
+/* Timer elements hidden */
+#timerBar, .timer-bar, .time-bar, .timer-container { display: none !important; }
+#bigTimer, .big-timer { display: none !important; }
 </style>
 </head>
 <body>
@@ -213,7 +217,7 @@ function loseGame(){
 
 function restart(){
   window.doneSet = new Set();
-  opened=0; score=0; timeLeft=100; ended=false;
+  opened=0; score=0; timeLeft = 999999; ended=false;
   document.getElementById('score').textContent=0;
   document.getElementById('found').textContent=0;
   document.getElementById('timeLeft').textContent=100;

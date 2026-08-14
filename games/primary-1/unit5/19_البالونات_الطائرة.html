@@ -27,7 +27,11 @@
         .balloon::before { content: ''; position: absolute; bottom: -10px; border-left: 5px solid transparent; border-right: 5px solid transparent; border-bottom: 10px solid #e74c3c; }
         .balloon::after { content: ''; position: absolute; bottom: -40px; width: 2px; height: 30px; background: rgba(255,255,255,0.5); }
         .balloon:active { transform: scale(0.9); }
-    </style>
+    
+/* Timer elements hidden */
+#timerBar, .timer-bar, .time-bar, .timer-container { display: none !important; }
+#bigTimer, .big-timer { display: none !important; }
+</style>
 </head>
 <body>
     <div class="game-container" id="game-container">

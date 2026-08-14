@@ -27,7 +27,11 @@
         .bubble::after { content: ''; position: absolute; top: 10%; left: 15%; width: 20%; height: 20%; background: white; border-radius: 50%; filter: blur(2px); opacity: 0.8;}
         
         @keyframes floatUp { from { transform: translateY(100vh); } to { transform: translateY(-20vh); } }
-    </style>
+    
+/* Timer elements hidden */
+#timerBar, .timer-bar, .time-bar, .timer-container { display: none !important; }
+#bigTimer, .big-timer { display: none !important; }
+</style>
 </head>
 <body>
     <div class="game-container" id="game-container">

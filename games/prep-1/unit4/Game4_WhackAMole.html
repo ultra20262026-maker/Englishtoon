@@ -29,6 +29,10 @@
   #endscreen{ display:none; text-align:center; margin-top:26px; }
   #endscreen h2{ font-size:2rem; color:#fff; }
   footer{ margin-top:20px; color:var(--muted); font-size:.75rem; text-align:center;}
+
+/* Timer elements hidden */
+#timerBar, .timer-bar, .time-bar, .timer-container { display: none !important; }
+#bigTimer, .big-timer { display: none !important; }
 </style>
 </head>
 <body>
@@ -65,7 +69,7 @@ const rounds = [
 
 let roundIdx = 0;
 let score = 0;
-let timeLeft = 30;
+let timeLeft = 999999;
 let timerInterval = null;
 let popInterval = null;
 let running = false;
@@ -121,7 +125,7 @@ document.getElementById('startBtn').addEventListener('click', () => {
   popRound();
   timerInterval = setInterval(() => {
     timeLeft--;
-    document.getElementById('timer').textContent = timeLeft;
+    // timer display disabled
     if (timeLeft <= 0) {
       clearInterval(timerInterval);
       finishGame();

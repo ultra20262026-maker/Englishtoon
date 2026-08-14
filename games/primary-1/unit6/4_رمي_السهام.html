@@ -29,7 +29,11 @@
         .balloon { width: 80px; height: 100px; background: #3498db; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; display: flex; align-items: center; justify-content: center; font-size: 40px; cursor: pointer; position: relative; box-shadow: inset -10px -10px 20px rgba(0,0,0,0.2);}
         .balloon::after { content: ''; position: absolute; bottom: -10px; border-left: 5px solid transparent; border-right: 5px solid transparent; border-bottom: 10px solid inherit; border-bottom-color: inherit;}
         .balloon.popped { transform: scale(1.5); opacity: 0; transition: all 0.2s;}
-    </style>
+    
+/* Timer elements hidden */
+#timerBar, .timer-bar, .time-bar, .timer-container { display: none !important; }
+#bigTimer, .big-timer { display: none !important; }
+</style>
 </head>
 <body>
     <div class="game-container" id="game-container">

@@ -30,6 +30,10 @@
   #endscreen{ display:none; text-align:center; margin-top:26px; }
   #endscreen h2{ font-size:2rem; color:#fff; }
   footer{ margin-top:24px; color:var(--muted); font-size:.75rem; text-align:center;}
+
+/* Timer elements hidden */
+#timerBar, .timer-bar, .time-bar, .timer-container { display: none !important; }
+#bigTimer, .big-timer { display: none !important; }
 </style>
 </head>
 <body>
@@ -40,7 +44,7 @@
     <div class="pill">Question: <b id="qNum">0</b> / 10</div>
   </div>
   <div id="bigTimer">60</div>
-  <div id="timerBarWrap"><div id="timerBar"></div></div>
+  <div id="timerBarWrap"><div id="timerBar" style="display:none"></div></div>
 
   <div id="qbox">
     <div id="qtext">Answer as many questions as you can before time runs out!</div>
@@ -73,7 +77,7 @@ const bank = [
 let pool = [...bank].sort(()=>Math.random()-0.5);
 let qIdx = 0;
 let score = 0;
-let timeLeft = 60;
+let timeLeft = 999999;
 let timerInterval = null;
 let running = false;
 
@@ -111,7 +115,7 @@ document.getElementById('startBtn').addEventListener('click', () => {
   loadQuestion();
   timerInterval = setInterval(() => {
     timeLeft--;
-    document.getElementById('bigTimer').textContent = timeLeft;
+    // timer display disabled
     document.getElementById('timerBar').style.width = (timeLeft/60*100) + '%';
     if (timeLeft <= 0) {
       clearInterval(timerInterval);

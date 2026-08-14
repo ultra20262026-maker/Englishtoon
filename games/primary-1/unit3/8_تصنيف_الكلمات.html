@@ -25,7 +25,11 @@
         .bin { width: 150px; height: 150px; background: rgba(255,255,255,0.2); border: 5px dashed #fff; border-radius: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: 'Cairo'; font-size: 1.5rem; color: white; cursor: pointer; transition: background 0.3s;}
         .draggable-word { padding: 15px 30px; background: #fff; color: #333; font-family: 'Fredoka One'; font-size: 2.5rem; border-radius: 20px; cursor: pointer; user-select: none; box-shadow: 0 5px 0 #bdc3c7; }
         .draggable-word:active { transform: translateY(5px); box-shadow: 0 0 0;}
-    </style>
+    
+/* Timer elements hidden */
+#timerBar, .timer-bar, .time-bar, .timer-container { display: none !important; }
+#bigTimer, .big-timer { display: none !important; }
+</style>
 </head>
 <body>
     <div class="game-container" id="game-container">

@@ -42,6 +42,10 @@
   .win .big{color:var(--gold);} .lose .big{color:#ff6b6b;}
   .confetti{position:fixed; top:-10px; z-index:5; font-size:20px; animation:fall linear forwards;}
   @keyframes fall{to{transform:translateY(110vh) rotate(360deg); opacity:0;}}
+
+/* Timer elements hidden */
+#timerBar, .timer-bar, .time-bar, .timer-container { display: none !important; }
+#bigTimer, .big-timer { display: none !important; }
 </style>
 </head>
 <body>
@@ -202,7 +206,7 @@ function loseGame(){
 }
 
 function restart(){
-  score=0; moves=0; matchedPairs=0; timeLeft=90; ended=false; firstPick=null; secondPick=null; locked=false;
+  score=0; moves=0; matchedPairs=0; timeLeft = 999999; ended=false; firstPick=null; secondPick=null; locked=false;
   document.getElementById('score').textContent=0;
   document.getElementById('moves').textContent=0;
   document.getElementById('pairs').textContent=0;

@@ -96,7 +96,11 @@
             .mole-img { width: 70px; height: 70px; }
             .speaker-btn { width: 60px; height: 60px; font-size: 2rem; }
         }
-    </style>
+    
+/* Timer elements hidden */
+#timerBar, .timer-bar, .time-bar, .timer-container { display: none !important; }
+#bigTimer, .big-timer { display: none !important; }
+</style>
 </head>
 <body>
     <div id="ui">
@@ -141,7 +145,7 @@
         ];
 
         let score = 0;
-        let timeLeft = 30;
+        let timeLeft = 999999;
         let currentTarget = null;
         let gameTimer, moleTimer;
         const synth = window.speechSynthesis;
@@ -224,7 +228,7 @@
             document.getElementById('start-screen').classList.add('hidden');
             document.getElementById('end-screen').classList.add('hidden');
             score = 0;
-            timeLeft = 30;
+            timeLeft = 999999;
             scoreEl.textContent = score;
             timeEl.textContent = timeLeft;
             moles.forEach(m => m.classList.remove('up'));

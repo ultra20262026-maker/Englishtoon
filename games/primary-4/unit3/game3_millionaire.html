@@ -49,6 +49,10 @@
   .rung.passed{color:var(--papyrus);}
   .confetti{position:fixed; top:-10px; z-index:5; font-size:20px; animation:fall linear forwards;}
   @keyframes fall{to{transform:translateY(110vh) rotate(360deg); opacity:0;}}
+
+/* Timer elements hidden */
+#timerBar, .timer-bar, .time-bar, .timer-container { display: none !important; }
+#bigTimer, .big-timer { display: none !important; }
 </style>
 </head>
 <body>
@@ -145,7 +149,7 @@ function renderQuestion(){
     box.appendChild(b);
   });
   document.getElementById('feedback').textContent='';
-  timeLeft=20;
+  timeLeft = 999999;
   document.getElementById('timeLeft').textContent=timeLeft;
   document.getElementById('timerPill').classList.remove('warn');
   clearInterval(timerId);

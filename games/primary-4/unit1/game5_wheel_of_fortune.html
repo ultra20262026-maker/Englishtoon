@@ -46,6 +46,10 @@
   .confetti{position:fixed; top:-10px; z-index:5; font-size:20px; animation:fall linear forwards;}
   @keyframes fall{to{transform:translateY(110vh) rotate(360deg); opacity:0;}}
   .segLabel{font-family:'Space Mono',monospace; color:var(--sand); font-size:12px; text-align:center; margin-top:4px;}
+
+/* Timer elements hidden */
+#timerBar, .timer-bar, .time-bar, .timer-container { display: none !important; }
+#bigTimer, .big-timer { display: none !important; }
 </style>
 </head>
 <body>
@@ -261,7 +265,7 @@ function loseGame(){
 
 function restart(){
   order = shuffle(questions.map((_,i)=>i));
-  qi=0; score=0; rounds=0; timeLeft=120; ended=false; spinning=false;
+  qi=0; score=0; rounds=0; timeLeft = 999999; ended=false; spinning=false;
   document.getElementById('score').textContent=0;
   document.getElementById('qcount').textContent=0;
   document.getElementById('timeLeft').textContent=120;

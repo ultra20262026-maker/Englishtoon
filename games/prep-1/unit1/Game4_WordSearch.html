@@ -46,6 +46,10 @@
   #endscreen{ display:none; text-align:center; margin-top:26px; }
   #endscreen h2{ font-size:2rem; color:#fff; }
   footer{ margin-top:24px; color:var(--muted); font-size:.75rem; text-align:center;}
+
+/* Timer elements hidden */
+#timerBar, .timer-bar, .time-bar, .timer-container { display: none !important; }
+#bigTimer, .big-timer { display: none !important; }
 </style>
 </head>
 <body>
@@ -53,7 +57,7 @@
   <h1>🔎 Word Search: Technology &amp; Digital Life</h1>
   <div class="hud">
     <div class="pill">Found: <b id="foundCount">0</b> / <b id="totalCount">0</b></div>
-    <div class="pill">Time: <b id="timer">00:00</b></div>
+    <!-- timer removed -->
   </div>
 
   <div class="layout">

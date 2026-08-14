@@ -59,6 +59,10 @@
   }
   .life{ font-size:1.1rem; }
   footer{ margin-top:24px; color:var(--muted); font-size:.75rem; text-align:center;}
+
+/* Timer elements hidden */
+#timerBar, .timer-bar, .time-bar, .timer-container { display: none !important; }
+#bigTimer, .big-timer { display: none !important; }
 </style>
 </head>
 <body>
@@ -71,7 +75,7 @@
   <div class="hud">
     <div class="pill">Door <b id="doorNum">1</b> / 5</div>
     <div class="pill life">Lives: <b id="lives">❤️❤️❤️</b></div>
-    <div class="pill time">Time: <b id="timer">02:30</b></div>
+    <!-- timer removed -->
   </div>
 
   <div class="doors" id="doors"></div>

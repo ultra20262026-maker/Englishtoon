@@ -27,7 +27,11 @@
         .duck { position: absolute; width: 100px; height: 50px; background: #f1c40f; border-radius: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.1s; font-family: 'Fredoka One'; font-size: 1.2rem; color: #333; border: 3px solid #d4ac0d; }
         .duck:active { transform: scale(0.9); }
         .duck::after { content: '🦆'; font-size: 2rem; margin-left: 5px; }
-    </style>
+    
+/* Timer elements hidden */
+#timerBar, .timer-bar, .time-bar, .timer-container { display: none !important; }
+#bigTimer, .big-timer { display: none !important; }
+</style>
 </head>
 <body>
     <div class="game-container" id="game-container">

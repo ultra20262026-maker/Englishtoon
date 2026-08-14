@@ -27,7 +27,11 @@
         .word-bank { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; direction: ltr; }
         .word-piece { padding: 10px 20px; background: #f39c12; color: white; font-family: 'Fredoka One'; font-size: 2rem; border-radius: 10px; cursor: pointer; box-shadow: 0 5px 0 #d35400; transition: transform 0.1s; }
         .word-piece:active { transform: translateY(5px); box-shadow: 0 0 0; }
-    </style>
+    
+/* Timer elements hidden */
+#timerBar, .timer-bar, .time-bar, .timer-container { display: none !important; }
+#bigTimer, .big-timer { display: none !important; }
+</style>
 </head>
 <body>
     <div class="game-container" id="game-container">

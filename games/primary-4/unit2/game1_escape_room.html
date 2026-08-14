@@ -50,6 +50,10 @@
   .confetti{position:fixed; top:-10px; z-index:5; font-size:20px; animation:fall linear forwards;}
   @keyframes fall{to{transform:translateY(110vh) rotate(360deg); opacity:0;}}
   .progress-label{text-align:center; font-size:12px; color:var(--sand); margin-bottom:10px; font-family:'Space Mono',monospace;}
+
+/* Timer elements hidden */
+#timerBar, .timer-bar, .time-bar, .timer-container { display: none !important; }
+#bigTimer, .big-timer { display: none !important; }
 </style>
 </head>
 <body>
@@ -137,7 +141,7 @@ function loseGame(){ ended=true; clearInterval(timerId); sfxLose();
 }
 
 function restart(){
-  current=0; score=0; lives=3; timeLeft=90; ended=false;
+  current=0; score=0; lives=3; timeLeft = 999999; ended=false;
   document.getElementById('score').textContent=0; document.getElementById('timeLeft').textContent=90;
   document.getElementById('timerPill').classList.remove('warn'); updateTorches(); renderQuestion();
   clearInterval(timerId); timerId=setInterval(tick,1000);

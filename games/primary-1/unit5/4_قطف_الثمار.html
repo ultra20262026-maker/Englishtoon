@@ -29,7 +29,11 @@
         .fruit { position: absolute; width: 60px; height: 60px; background: #e74c3c; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-family: 'Fredoka One'; font-size: 1rem; cursor: pointer; z-index: 15; box-shadow: inset -5px -5px 10px rgba(0,0,0,0.2); transition: transform 0.2s;}
         .fruit::before { content: ''; position: absolute; top: -5px; width: 10px; height: 10px; background: #27ae60; border-radius: 5px; }
         .fruit:active { transform: scale(0.9); }
-    </style>
+    
+/* Timer elements hidden */
+#timerBar, .timer-bar, .time-bar, .timer-container { display: none !important; }
+#bigTimer, .big-timer { display: none !important; }
+</style>
 </head>
 <body>
     <div class="game-container" id="game-container">

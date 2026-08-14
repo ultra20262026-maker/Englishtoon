@@ -28,7 +28,11 @@
         .fish { position: absolute; background: white; border-radius: 50px; border: 3px solid #f1c40f; padding: 10px; display: flex; align-items: center; justify-content: center; font-family: 'Fredoka One'; font-size: 1.5rem; cursor: pointer; color: #333; transition: transform 0.1s;}
         .fish:active { transform: scale(0.9); }
         .fish::before { content: '🐟'; font-size: 2rem; margin-left: 10px; }
-    </style>
+    
+/* Timer elements hidden */
+#timerBar, .timer-bar, .time-bar, .timer-container { display: none !important; }
+#bigTimer, .big-timer { display: none !important; }
+</style>
 </head>
 <body>
     <div class="game-container" id="game-container">

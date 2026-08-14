@@ -28,7 +28,11 @@
         .raindrop { position: absolute; width: 60px; height: 60px; background: rgba(255,255,255,0.9); border-radius: 0 50% 50% 50%; transform: rotate(45deg); display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: inset -5px -5px 10px rgba(0,0,0,0.1); border: 2px solid #3498db;}
         .raindrop span { transform: rotate(-45deg); font-family: 'Fredoka One'; font-size: 1.2rem; color: #2980b9;}
         .raindrop:active { transform: scale(0.9) rotate(45deg); }
-    </style>
+    
+/* Timer elements hidden */
+#timerBar, .timer-bar, .time-bar, .timer-container { display: none !important; }
+#bigTimer, .big-timer { display: none !important; }
+</style>
 </head>
 <body>
     <div class="game-container" id="game-container">

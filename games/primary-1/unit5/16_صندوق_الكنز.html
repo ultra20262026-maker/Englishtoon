@@ -30,7 +30,11 @@
         .chest-content { font-size: 50px; opacity: 0; transition: opacity 0.3s; z-index: 5;}
         .chest.open .chest-content { opacity: 1; }
         .chest:active { transform: translateY(5px); box-shadow: 0 5px 0 #732d91; }
-    </style>
+    
+/* Timer elements hidden */
+#timerBar, .timer-bar, .time-bar, .timer-container { display: none !important; }
+#bigTimer, .big-timer { display: none !important; }
+</style>
 </head>
 <body>
     <div class="game-container" id="game-container">
