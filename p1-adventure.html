@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>رحلة الكأس الذهبي — Primary 1 | English Toon</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        ar: ['Cairo', 'sans-serif'],
+                        en: ['Outfit', 'sans-serif']
+                    },
+                    colors: {
+                        brand: '#3b82f6',
+                        gold: '#f59e0b',
+                        emerald: '#10b981',
+                        rose: '#f43f5e'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: #0f172a;
+            color: #f8fafc;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .font-en { font-family: 'Outfit', sans-serif; }
+
+        .world-card {
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .world-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(59, 130, 246, 0.4);
+        }
+
+        .gold-glow {
+            filter: drop-shadow(0 0 20px rgba(245, 158, 11, 0.6));
+            animation: floatGold 3s ease-in-out infinite;
+        }
+        @keyframes floatGold {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .key-slot {
+            transition: all 0.3s ease;
+        }
+        .key-slot.unlocked {
+            filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.8));
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen antialiased bg-slate-950">
+
+    <!-- Top Navigation -->
+    <header class="w-full max-w-7xl mx-auto px-4 py-4 flex items-center justify-between z-20 border-b border-slate-800/80">
+        <a href="dashboard.html" class="flex items-center gap-2 bg-slate-900/90 hover:bg-slate-800 text-slate-200 px-4 py-2.5 rounded-2xl font-bold border border-slate-700 shadow-md transition-all hover:-translate-x-1">
+            <i class="fa-solid fa-arrow-right text-blue-400"></i>
+            <span>لوحة التحكم</span>
+        </a>
+
+        <!-- Player Stats Bar -->
+        <div class="flex items-center gap-3">
+            <div class="flex items-center gap-1.5 bg-slate-900/90 px-3.5 py-2 rounded-2xl border border-amber-500/30 text-amber-400 font-en font-black text-sm shadow-md">
+                <i class="fa-solid fa-coins text-amber-400"></i>
+                <span id="playerXp">0</span> <span class="text-xs text-amber-200/70 font-ar">XP</span>
+            </div>
+            <div class="flex items-center gap-1.5 bg-slate-900/90 px-3.5 py-2 rounded-2xl border border-yellow-500/30 text-yellow-400 font-en font-black text-sm shadow-md">
+                <i class="fa-solid fa-star text-yellow-400"></i>
+                <span id="playerStars">0</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Master Hero: Road to the Grand Trophy -->
+    <section class="relative w-full max-w-7xl mx-auto px-4 pt-8 pb-4 text-center">
+        
+        <!-- Trophy Showcase -->
+        <div class="relative inline-block mb-4">
+            <div class="w-36 h-36 md:w-44 md:h-44 mx-auto rounded-full bg-gradient-to-tr from-amber-500/20 via-yellow-400/30 to-amber-600/20 p-3 backdrop-blur-xl border border-amber-400/40 shadow-2xl flex items-center justify-center gold-glow">
+                <img src="images/worlds/grand_trophy.jpg" alt="Grand Trophy" class="w-full h-full object-cover rounded-full">
+            </div>
+            <span class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-amber-500 to-yellow-400 text-slate-950 font-black text-xs md:text-sm px-4 py-1 rounded-full shadow-lg font-ar whitespace-nowrap">
+                🏆 الكأس الذهبي للأبطال
+            </span>
+        </div>
+
+        <h1 class="text-3xl md:text-5xl font-black text-white mb-2 font-ar mt-4">
+            مغامرة الصف الأول الابتدائي الكبرى
+        </h1>
+        <p class="text-slate-400 text-sm md:text-base max-w-2xl mx-auto font-bold mb-6">
+            أكمل تحديات العوالم الستة واجمع المفاتيح السحرية لفتح قلعة الأبطال والتتويج بالكأس الذهبي!
+        </p>
+
+        <!-- 6 Keys Progress Bar -->
+        <div class="bg-slate-900/90 rounded-3xl p-4 md:p-6 max-w-3xl mx-auto border border-slate-800 flex flex-wrap items-center justify-around gap-3 shadow-xl">
+            <div class="text-center font-ar">
+                <span class="text-xs text-slate-400 block font-bold mb-1">المفاتيح المجمعة</span>
+                <span id="keysCount" class="text-lg font-black text-amber-400 font-en">0 / 6 🗝️</span>
+            </div>
+            <div class="flex items-center gap-3" id="keysBar">
+                <!-- 6 Keys injected via JS -->
+            </div>
+        </div>
+
+    </section>
+
+    <!-- 6 Worlds Grid -->
+    <main class="max-w-7xl w-full mx-auto px-4 py-8 flex-1">
+        <h2 class="text-2xl font-black text-white mb-6 font-ar flex items-center gap-2">
+            <i class="fa-solid fa-earth-americas text-blue-400"></i> العوالم والمراحل التعليمية
+        </h2>
+
+        <div id="worldsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Rendered via JS -->
+        </div>
+    </main>
+
+    <!-- World Games Modal (Popup when clicking a World) -->
+    <div id="worldGamesModal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md hidden items-center justify-center p-4">
+        <div class="bg-slate-900 rounded-[2.5rem] p-6 md:p-8 max-w-2xl w-full text-slate-100 shadow-2xl border border-slate-700 relative max-h-[90vh] overflow-y-auto">
+            
+            <button onclick="closeWorldModal()" class="absolute top-4 left-4 w-10 h-10 bg-slate-800 hover:bg-slate-700 rounded-full flex items-center justify-center text-slate-300 transition-colors">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="text-center mb-6">
+                <span id="modalWorldTag" class="text-xs font-black text-blue-400 bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/20 font-en">WORLD 1</span>
+                <h3 id="modalWorldTitle" class="text-2xl font-black text-white mt-2 font-ar">العالم الأول</h3>
+                <p id="modalWorldSub" class="text-slate-400 text-xs font-bold mt-1">اختر اللعبة وابدأ المغامرة</p>
+            </div>
+
+            <!-- Games List -->
+            <div id="modalGamesList" class="flex flex-col gap-3">
+                <!-- Injected via JS -->
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/p1_adventure_data.js"></script>
+    <script>
+        const currentUser = localStorage.getItem('currentUser') || 'student';
+        const progressKey = `englishtoon_p1_progress_${currentUser}`;
+        let progress = JSON.parse(localStorage.getItem(progressKey)) || {
+            completedGames: [],
+            stars: 0,
+            xp: 0,
+            unlockedWorld: 1,
+            keys: []
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderPlayerStats();
+            renderKeysBar();
+            renderWorlds();
+        });
+
+        function renderPlayerStats() {
+            document.getElementById('playerXp').textContent = progress.xp || 0;
+            document.getElementById('playerStars').textContent = progress.stars || 0;
+            document.getElementById('keysCount').textContent = `${(progress.keys || []).length} / 6 🗝️`;
+        }
+
+        function renderKeysBar() {
+            const bar = document.getElementById('keysBar');
+            bar.innerHTML = '';
+            const keyIcons = ['🗝️', '🗝️', '🗝️', '🗝️', '🗝️', '🗝️'];
+            for (let i = 1; i <= 6; i++) {
+                const unlocked = (progress.keys || []).includes(i);
+                bar.innerHTML += `
+                    <div class="key-slot w-10 h-10 rounded-2xl flex items-center justify-center text-lg ${unlocked ? 'bg-amber-500/20 border border-amber-400/50 text-amber-300 unlocked' : 'bg-slate-800/80 border border-slate-700/50 text-slate-600 opacity-40'}">
+                        ${keyIcons[i-1]}
+                    </div>
+                `;
+            }
+        }
+
+        function renderWorlds() {
+            const container = document.getElementById('worldsGrid');
+            container.innerHTML = '';
+
+            const DB = window.P1_ADVENTURE_DATABASE || { worlds: [] };
+
+            DB.worlds.forEach((w) => {
+                const isUnlocked = true; // All practice open
+                const isCompleted = (progress.keys || []).includes(w.id);
+
+                const card = document.createElement('div');
+                card.className = `world-card rounded-3xl bg-slate-900 border ${isCompleted ? 'border-amber-500/50' : 'border-slate-800'} p-5 flex flex-col justify-between cursor-pointer shadow-xl`;
+                card.onclick = () => openWorldModal(w);
+
+                card.innerHTML = `
+                    <div class="relative w-full h-44 rounded-2xl overflow-hidden mb-4 border border-slate-800">
+                        <img src="${w.banner}" alt="${w.name}" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
+                        <span class="absolute top-3 right-3 bg-blue-600/90 text-white font-en font-black text-xs px-3 py-1 rounded-xl shadow-md">
+                            Unit ${w.id}
+                        </span>
+                        ${isCompleted ? '<span class="absolute top-3 left-3 bg-amber-500 text-slate-950 font-ar font-black text-xs px-2.5 py-1 rounded-xl shadow-md">⭐ مكتمل</span>' : ''}
+                    </div>
+
+                    <div>
+                        <span class="text-xs text-blue-400 font-bold block mb-1 font-en">${w.title}</span>
+                        <h3 class="text-xl font-black text-white font-ar mb-3">${w.name}</h3>
+                    </div>
+
+                    <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                        <span class="text-xs font-bold text-slate-400 font-ar">
+                            <i class="fa-solid fa-gamepad text-blue-400"></i> ${w.lessons[0].games.length} ألعاب تفاعلية
+                        </span>
+                        <button class="bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs px-4 py-2 rounded-xl transition-colors font-ar flex items-center gap-1">
+                            <span>دخول</span>
+                            <i class="fa-solid fa-arrow-left"></i>
+                        </button>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        function openWorldModal(world) {
+            document.getElementById('worldGamesModal').classList.remove('hidden');
+            document.getElementById('worldGamesModal').classList.add('flex');
+
+            document.getElementById('modalWorldTag').textContent = `UNIT ${world.id}`;
+            document.getElementById('modalWorldTitle').textContent = world.name;
+            document.getElementById('modalWorldSub').textContent = world.title;
+
+            const list = document.getElementById('modalGamesList');
+            list.innerHTML = '';
+
+            world.lessons[0].games.forEach((game, gIdx) => {
+                const isGameDone = (progress.completedGames || []).includes(game.id);
+
+                const item = document.createElement('a');
+                item.href = `p1-game-player.html?game=${game.id}`;
+                item.className = 'flex items-center justify-between p-4 rounded-2xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 transition-all hover:scale-[1.02] hover:border-blue-500/50';
+
+                item.innerHTML = `
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 rounded-2xl p-2 bg-slate-900 border border-slate-700 flex items-center justify-center flex-shrink-0">
+                            <img src="${game.icon}" alt="${game.name}" class="w-full h-full object-contain">
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs font-black text-amber-400 font-en">GAME 0${gIdx+1}</span>
+                                ${isGameDone ? '<span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-md font-bold">⭐ فوز</span>' : ''}
+                            </div>
+                            <h4 class="text-base font-black text-white font-ar mt-0.5">${game.name}</h4>
+                            <span class="text-xs text-slate-400 font-en">15 3D Questions • +150 XP</span>
+                        </div>
+                    </div>
+
+                    <div class="w-10 h-10 rounded-full bg-blue-600/20 text-blue-400 flex items-center justify-center flex-shrink-0 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-play text-sm"></i>
+                    </div>
+                `;
+
+                list.appendChild(item);
+            });
+        }
+
+        function closeWorldModal() {
+            document.getElementById('worldGamesModal').classList.add('hidden');
+            document.getElementById('worldGamesModal').classList.remove('flex');
+        }
+    </script>
+</body>
+</html>

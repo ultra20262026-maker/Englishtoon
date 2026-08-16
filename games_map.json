@@ -328,12 +328,90 @@
     ]
   },
   "primary-1": {
-    "1": [],
-    "2": [],
-    "3": [],
-    "4": [],
-    "5": [],
-    "6": []
+    "1": [
+      {
+        "name": "صائد الشخصيات والتحيات",
+        "file": "../../p1-game-player.html?game=u1_l1_g1"
+      },
+      {
+        "name": "قطار الحروف والتهجئة الذكية",
+        "file": "../../p1-game-player.html?game=u1_l1_g2"
+      },
+      {
+        "name": "مبارزة المحادثة والقواعد",
+        "file": "../../p1-game-player.html?game=u1_l1_g3"
+      }
+    ],
+    "2": [
+      {
+        "name": "صائد كائنات الحديقة والألوان",
+        "file": "../../p1-game-player.html?game=u2_l1_g1"
+      },
+      {
+        "name": "مدفع فرقعة الأشكال الهندسية",
+        "file": "../../p1-game-player.html?game=u2_l1_g2"
+      },
+      {
+        "name": "تحدي نينجا صوتيات S و A",
+        "file": "../../p1-game-player.html?game=u2_l1_g3"
+      }
+    ],
+    "3": [
+      {
+        "name": "صائد أفراد العائلة السعيدة",
+        "file": "../../p1-game-player.html?game=u3_l1_g1"
+      },
+      {
+        "name": "سباق عد الأرقام من 1 إلى 5",
+        "file": "../../p1-game-player.html?game=u3_l1_g2"
+      },
+      {
+        "name": "فرقعة صوتيات N, P, H, D",
+        "file": "../../p1-game-player.html?game=u3_l1_g3"
+      }
+    ],
+    "4": [
+      {
+        "name": "صائد أجزاء الجسم والنظافة",
+        "file": "../../p1-game-player.html?game=u4_l1_g1"
+      },
+      {
+        "name": "كعكة عيد الميلاد والأرقام 6-10",
+        "file": "../../p1-game-player.html?game=u4_l1_g2"
+      },
+      {
+        "name": "فرقعة صوتيات C, O, E, L",
+        "file": "../../p1-game-player.html?game=u4_l1_g3"
+      }
+    ],
+    "5": [
+      {
+        "name": "صائد حيوانات المزرعة اللطيفة",
+        "file": "../../p1-game-player.html?game=u5_l1_g1"
+      },
+      {
+        "name": "مطبخ الملك والأطعمة الصحية",
+        "file": "../../p1-game-player.html?game=u5_l1_g2"
+      },
+      {
+        "name": "فرقعة صوتيات F, M, G, R",
+        "file": "../../p1-game-player.html?game=u5_l1_g3"
+      }
+    ],
+    "6": [
+      {
+        "name": "سفاري الحيوانات والآلات الموسيقية",
+        "file": "../../p1-game-player.html?game=u6_l1_g1"
+      },
+      {
+        "name": "فرقعة صوتيات W, Y, Z",
+        "file": "../../p1-game-player.html?game=u6_l1_g2"
+      },
+      {
+        "name": "تحدي الأبطال النهائي والكأس الذهبي 🏆",
+        "file": "../../p1-game-player.html?game=u6_l1_g3"
+      }
+    ]
   },
   "primary-6": {
     "3": [

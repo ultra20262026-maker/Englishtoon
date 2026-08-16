@@ -181,7 +181,7 @@
         </div>
     </div>
 
-    <script src="js/data.js?v=950"></script>
+    <script src="js/data.js?v=960"></script>
     <script src="js/auth.js?v=902"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -262,7 +262,12 @@
             } else {
                 unitGames.forEach((game, idx) => {
                     const visual = getGameVisual(game.name);
-                    const gamePath = `games/${gradeId}/unit${unitId}/${game.file}`;
+                    let gamePath = game.file;
+                    if (gamePath.startsWith('../../')) {
+                        gamePath = gamePath.replace('../../', '');
+                    } else if (!gamePath.includes('/') && !gamePath.startsWith('http')) {
+                        gamePath = `games/${gradeId}/unit${unitId}/${game.file}`;
+                    }
 
                     const tile = document.createElement('a');
                     tile.href = gamePath;

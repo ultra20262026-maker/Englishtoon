@@ -16,7 +16,7 @@ for root, dirs, files in os.walk('.'):
                 
                 def replacer(match):
                     path = match.group(1)
-                    return f'src="{path}?v=950"'
+                    return f'src="{path}?v=960"'
                     
                 new_content = pattern.sub(replacer, content)
                 
@@ -27,4 +27,4 @@ for root, dirs, files in os.walk('.'):
             except Exception as e:
                 pass
 
-print(f"Updated {count} HTML files with data.js?v=950")
+print(f"Updated {count} HTML files with data.js?v=960")
