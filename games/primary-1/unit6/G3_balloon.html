@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>فرقعة البالونات السريعة 🎈 - Primary 1 Unit 6</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-tap-highlight-color: transparent; }
+  body { background: #0c1427; color: #fff; font-family: 'Cairo', 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
+  .font-en { font-family: 'Outfit', sans-serif; }
+  
+  .g-hud { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: rgba(12,20,39,0.85); backdrop-filter: blur(12px); border-bottom: 2px solid #ec4899; z-index: 10; height: 55px; }
+  .g-title { font-size: 1.15rem; font-weight: 900; color: #ec4899; text-shadow: 0 0 12px rgba(236,72,153,0.4); display: flex; align-items: center; gap: 8px; }
+  .g-qnum { font-size: 1rem; color: #f8fafc; background: rgba(255,255,255,0.1); padding: 4px 14px; border-radius: 20px; font-weight: 700; font-family: 'Outfit', sans-serif; }
+  .g-score { font-size: 1.15rem; font-weight: 900; color: #10b981; font-family: 'Outfit', sans-serif; }
+  
+  .g-qpanel { background: rgba(12,20,39,0.92); padding: 12px 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); z-index: 10; min-height: 85px; display: flex; align-items: center; justify-content: center; gap: 16px; }
+  .q-img { width: 65px; height: 65px; object-fit: contain; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5)); border-radius: 12px; background: rgba(255,255,255,0.08); padding: 4px; border: 1px solid rgba(255,255,255,0.15); }
+  #qt { font-size: 1.35rem !important; color: #ffffff !important; font-weight: 800 !important; line-height: 1.35 !important; font-family: 'Outfit', sans-serif; }
+  
+  .g-targets { position: absolute; inset: 0; z-index: 8; pointer-events: none; }
+  .tbtn { position: absolute; pointer-events: auto; background: radial-gradient(circle at 30% 30%, rgba(244,63,94,0.85), rgba(190,18,60,0.9)); border: 2px solid rgba(255,255,255,0.4); color: #fff; padding: 16px 26px !important; font-size: 1.25rem !important; font-weight: 900 !important; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; cursor: pointer; transition: transform 0.15s; box-shadow: 0 10px 25px rgba(244,63,94,0.4); text-align: center; min-width: 130px; font-family: 'Outfit', sans-serif; }
+  .tbtn:hover { transform: scale(1.1); box-shadow: 0 14px 35px rgba(244,63,94,0.7); }
+  .tbtn.correct { background: radial-gradient(circle at 30% 30%, #34d399, #059669) !important; border-color: #a7f3d0 !important; transform: scale(1.2); box-shadow: 0 0 35px #10b981; }
+  .tbtn.wrong { background: radial-gradient(circle at 30% 30%, #64748b, #334155) !important; opacity: 0.5; transform: scale(0.9); }
+
+  .g-canvas { flex: 1; width: 100%; height: 100%; position: absolute; top: 0; left: 0; z-index: 1; }
+  .g-pbar { height: 5px; background: #ec4899; width: 0%; transition: width 0.3s ease; position: absolute; bottom: 0; left: 0; z-index: 10; box-shadow: 0 0 10px #ec4899; }
+
+  .g-end { display: none; position: fixed; inset: 0; background: rgba(12,20,39,0.95); backdrop-filter: blur(20px); z-index: 100; flex-direction: column; align-items: center; justify-content: center; gap: 16px; text-align: center; padding: 20px; }
+  .g-end h1 { font-size: 2.8rem; color: #ec4899; text-shadow: 0 0 25px rgba(236,72,153,0.6); }
+  .g-end p { font-size: 1.8rem; color: #10b981; font-weight: 800; font-family: 'Outfit', sans-serif; }
+  .g-end button { padding: 14px 36px; font-size: 1.25rem; font-weight: 900; background: #ec4899; border: none; color: #fff; border-radius: 30px; cursor: pointer; transition: 0.2s; box-shadow: 0 8px 25px rgba(236,72,153,0.4); }
+  .g-end button:hover { transform: scale(1.06); box-shadow: 0 0 35px #ec4899; }
+</style>
+</head>
+<body>
+
+<div class="g-hud" id="hud">
+  <div class="g-title">🎈 فرقعة البالونات السريعة 🎈</div>
+  <div id="qn" class="g-qnum">1 / 15</div>
+  <div class="g-score">Score: <span id="sc">0</span></div>
+</div>
+
+<div class="g-qpanel">
+  <img id="qImg" src="../../images/games/p1/trophy_cup.png" alt="Icon" class="q-img">
+  <div id="qt">Loading...</div>
+</div>
+<div id="tg" class="g-targets"></div>
+<canvas id="cv" class="g-canvas"></canvas>
+<div id="pb" class="g-pbar"></div>
+
+<div id="end" class="g-end">
+  <h1 id="eh">Awesome! 🎉</h1>
+  <p id="es">Score: 0</p>
+  <button onclick="location.reload()">Play Again 🔄</button>
+</div>
+
+<script>
+const QS = [{"q": "Look at the shiny gold winner medal. What is it?", "choices": ["Winner Medal", "Book", "Pencil"], "answer": 0, "img": "images/games/p1/medal.png"}, {"q": "Look at the open treasure chest with gems. What is it?", "choices": ["Treasure Chest", "Desk", "Chair"], "answer": 0, "img": "images/games/p1/treasure_chest.png"}, {"q": "Look at the grand golden trophy cup. What is it?", "choices": ["Grand Trophy", "Bag", "Bus"], "answer": 0, "img": "images/games/p1/trophy_cup.png"}, {"q": "Who is the super champion student of English Toon?", "choices": ["You (The Super Student!)", "Nobody", "Lazy Student"], "answer": 0, "img": "images/games/p1/trophy_cup.png"}, {"q": "We finished all 6 worlds! We win the _______.", "choices": ["Golden Cup 🏆", "Nothing", "Old book"], "answer": 0, "img": "images/games/p1/trophy_cup.png"}, {"q": "'Hello' means: [تحية اللقاء] ->", "choices": ["مرحباً / أهلاً", "وداعاً", "شكراً"], "answer": 0, "img": "images/games/p1/handshake.png"}, {"q": "'Goodbye' means: [تحية الوداع] ->", "choices": ["مع السلامة / وداعاً", "أهلاً", "نعم"], "answer": 0, "img": "images/games/p1/hand.png"}, {"q": "1, 2, 3, 4, 5, 6, 7, 8, 9, _______.", "choices": ["10 (Ten)", "11", "0"], "answer": 0, "img": "images/games/p1/num10.png"}, {"q": "Red, Blue, Yellow, Green are _______.", "choices": ["Colors", "Animals", "Toys"], "answer": 0, "img": "images/games/p1/palette.png"}, {"q": "Father, Mother, Brother, Sister are my _______.", "choices": ["Family", "Classroom", "Zoo"], "answer": 0, "img": "images/games/p1/father.png"}, {"q": "Eye, Ear, Nose, Mouth are parts of our _______.", "choices": ["Body", "House", "Car"], "answer": 0, "img": "images/games/p1/face.png"}, {"q": "Cow, Sheep, Horse, Duck live on the _______.", "choices": ["Farm", "Sky", "Bed"], "answer": 0, "img": "images/games/p1/cow.png"}, {"q": "Lion, Giraffe, Elephant, Zebra live in the _______.", "choices": ["Zoo / Jungle", "Desk", "Bag"], "answer": 0, "img": "images/games/p1/lion.png"}, {"q": "Guitar, Piano, Drum, Flute make lovely _______.", "choices": ["Music", "Food", "Drink"], "answer": 0, "img": "images/games/p1/guitar.png"}, {"q": "Congratulations Champion! Claim your Certificate and _______!", "choices": ["Golden Cup 🏆", "Go to sleep", "Cry"], "answer": 0, "img": "images/games/p1/trophy_cup.png"}];
+let qi=0, score=0, locked=false, animId=null, time=0;
+let cv, ctx, W, H, AC;
+let balloons = [];
+
+window.addEventListener('load', () => {
+  cv = document.getElementById('cv'); ctx = cv.getContext('2d');
+  resize(); window.addEventListener('resize', resize);
+  AC = new (window.AudioContext || window.webkitAudioContext)();
+  loadQ(); loop();
+});
+
+function resize() { W = cv.width = window.innerWidth; H = cv.height = window.innerHeight; }
+
+function tone(f,d,t,v) {
+  if(!AC) return; if(AC.state==='suspended') AC.resume();
+  try {
+    const o=AC.createOscillator(), gn=AC.createGain(); o.connect(gn); gn.connect(AC.destination);
+    o.type=t||'sine'; o.frequency.value=f; gn.gain.setValueAtTime(v||0.3, AC.currentTime);
+    gn.gain.exponentialRampToValueAtTime(0.001, AC.currentTime+d); o.start(); o.stop(AC.currentTime+d);
+  } catch(e) {}
+}
+
+function playApplauseSnd() {
+  if(!AC) return; if(AC.state==='suspended') AC.resume();
+  tone(523.25, 0.1, 'sine', 0.4);
+  setTimeout(()=> tone(659.25, 0.1, 'sine', 0.4), 90);
+  setTimeout(()=> tone(783.99, 0.12, 'sine', 0.4), 180);
+  setTimeout(()=> tone(1046.50, 0.35, 'triangle', 0.5), 270);
+}
+
+function loadQ() {
+  if(qi >= QS.length) { endG(); return; }
+  locked = false;
+  const q = QS[qi];
+  document.getElementById('qn').innerText = `${qi+1} / ${QS.length}`;
+  document.getElementById('qt').innerText = q.q;
+  document.getElementById('qImg').src = q.img ? ('../../' + q.img) : '../../images/games/p1/trophy_cup.png';
+  document.getElementById('pb').style.width = `${(qi/QS.length)*100}%`;
+  
+  const tg = document.getElementById('tg'); tg.innerHTML = '';
+  balloons = [];
+  
+  const bColors = [
+    'radial-gradient(circle at 30% 30%, #f43f5e, #be123c)',
+    'radial-gradient(circle at 30% 30%, #3b82f6, #1d4ed8)',
+    'radial-gradient(circle at 30% 30%, #10b981, #047857)',
+    'radial-gradient(circle at 30% 30%, #f59e0b, #d97706)'
+  ];
+  
+  q.choices.forEach((c, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'tbtn';
+    btn.style.background = bColors[idx % bColors.length];
+    btn.innerText = c;
+    btn.onclick = () => popBalloon(idx, btn);
+    tg.appendChild(btn);
+    
+    balloons.push({
+      el: btn,
+      x: W * 0.15 + (idx * (W * 0.28)),
+      y: H * 0.45 + (idx % 2 === 0 ? 0 : 60),
+      offset: idx * 1.5
+    });
+  });
+}
+
+function popBalloon(idx, btn) {
+  if(locked) return; locked = true;
+  const q = QS[qi];
+  const isCorrect = (idx === q.answer);
+  
+  if(isCorrect) {
+    btn.classList.add('correct');
+    score += 10;
+    document.getElementById('sc').innerText = score;
+    tone(600, 0.1, 'sine', 0.4);
+    playApplauseSnd();
+  } else {
+    btn.classList.add('wrong');
+    tone(130, 0.25, 'sawtooth', 0.4);
+  }
+  
+  setTimeout(() => {
+    qi++; loadQ();
+  }, 1100);
+}
+
+function loop() {
+  time += 0.04;
+  ctx.clearRect(0, 0, W, H);
+  
+  balloons.forEach(b => {
+    const curY = b.y + Math.sin(time + b.offset) * 18;
+    b.el.style.left = `${b.x}px`;
+    b.el.style.top = `${curY}px`;
+    
+    // Draw balloon string
+    ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(b.x + 65, curY + 60);
+    ctx.bezierCurveTo(b.x + 65 + Math.sin(time)*10, curY + 90, b.x + 65 - Math.sin(time)*10, curY + 110, b.x + 65, curY + 130);
+    ctx.stroke();
+  });
+  
+  animId = requestAnimationFrame(loop);
+}
+
+function endG() {
+  document.getElementById('end').style.display = 'flex';
+  document.getElementById('es').innerText = `Score: ${score} / ${QS.length * 10}`;
+  playApplauseSnd();
+}
+</script>
+</body>
+</html>

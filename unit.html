@@ -163,7 +163,7 @@
 
     </main>
 
-    <script src="js/data.js?v=970"></script>
+    <script src="js/data.js?v=980"></script>
     <script src="js/auth.js?v=902"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -249,11 +249,12 @@
         function getGameVisual(gameName) {
             const name = (gameName || '').toLowerCase();
             
+            if (name.includes('cannon') || name.includes('مدفع')) return { emoji: '💣', bg: 'linear-gradient(135deg, #f59e0b, #d97706)' };
             if (name.includes('archery') || name.includes('سهام') || name.includes('رمي')) return { emoji: '🎯', bg: 'linear-gradient(135deg, #FF416C, #FF4B2B)' };
-            if (name.includes('space') || name.includes('فضاء') || name.includes('صاروخ')) return { emoji: '🚀', bg: 'linear-gradient(135deg, #654ea3, #eaafc8)' };
+            if (name.includes('space') || name.includes('فضاء') || name.includes('صاروخ') || name.includes('سفينة')) return { emoji: '🚀', bg: 'linear-gradient(135deg, #654ea3, #eaafc8)' };
             if (name.includes('bubble') || name.includes('فقاعات')) return { emoji: '🫧', bg: 'linear-gradient(135deg, #00c6ff, #0072ff)' };
-            if (name.includes('snake') || name.includes('ثعبان')) return { emoji: '🐍', bg: 'linear-gradient(135deg, #11998e, #38ef7d)' };
-            if (name.includes('صيد') || name.includes('سمك')) return { emoji: '🎣', bg: 'linear-gradient(135deg, #2193b0, #6dd5ed)' };
+            if (name.includes('balloon') || name.includes('بالون') || name.includes('فرقعة')) return { emoji: '🎈', bg: 'linear-gradient(135deg, #FF4E50, #F9D423)' };
+            if (name.includes('صيد') || name.includes('سمك') || name.includes('fishing')) return { emoji: '🎣', bg: 'linear-gradient(135deg, #2193b0, #6dd5ed)' };
             if (name.includes('بناء') || name.includes('برج')) return { emoji: '🏗️', bg: 'linear-gradient(135deg, #FF8008, #FFC837)' };
             if (name.includes('بالون')) return { emoji: '🎈', bg: 'linear-gradient(135deg, #FF4E50, #F9D423)' };
             if (name.includes('سيارات') || name.includes('سباق')) return { emoji: '🏎️', bg: 'linear-gradient(135deg, #F00000, #DC281E)' };

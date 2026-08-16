@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>رمي السهام والنيشان 🏹 - Primary 1 Unit 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-tap-highlight-color: transparent; }
+  body { background: #061a14; color: #fff; font-family: 'Cairo', 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
+  .font-en { font-family: 'Outfit', sans-serif; }
+  
+  .g-hud { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: rgba(6,26,20,0.85); backdrop-filter: blur(12px); border-bottom: 2px solid #10b981; z-index: 10; height: 55px; }
+  .g-title { font-size: 1.15rem; font-weight: 900; color: #10b981; text-shadow: 0 0 12px rgba(16,185,129,0.4); display: flex; align-items: center; gap: 8px; }
+  .g-qnum { font-size: 1rem; color: #f8fafc; background: rgba(255,255,255,0.1); padding: 4px 14px; border-radius: 20px; font-weight: 700; font-family: 'Outfit', sans-serif; }
+  .g-score { font-size: 1.15rem; font-weight: 900; color: #10b981; font-family: 'Outfit', sans-serif; }
+  
+  .g-qpanel { background: rgba(6,26,20,0.92); padding: 12px 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); z-index: 10; min-height: 85px; display: flex; align-items: center; justify-content: center; gap: 16px; }
+  .q-img { width: 65px; height: 65px; object-fit: contain; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5)); border-radius: 12px; background: rgba(255,255,255,0.08); padding: 4px; border: 1px solid rgba(255,255,255,0.15); }
+  #qt { font-size: 1.35rem !important; color: #ffffff !important; font-weight: 800 !important; line-height: 1.35 !important; font-family: 'Outfit', sans-serif; }
+  
+  .g-targets { position: absolute; width: 100%; top: 34%; display: flex; justify-content: space-around; padding: 0 16px; z-index: 8; pointer-events: none; }
+  .tbtn { pointer-events: auto; background: linear-gradient(135deg, rgba(16,185,129,0.25), rgba(16,185,129,0.08)); border: 2.5px solid #10b981; color: #fff; padding: 14px 24px !important; font-size: 1.25rem !important; font-weight: 900 !important; border-radius: 20px; cursor: pointer; transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); backdrop-filter: blur(12px); box-shadow: 0 8px 24px rgba(0,0,0,0.6); min-width: 130px; text-align: center; font-family: 'Outfit', sans-serif; }
+  .tbtn:hover { transform: translateY(-4px) scale(1.05); background: #10b981; color: #061a14; box-shadow: 0 12px 30px rgba(16,185,129,0.6); }
+  .tbtn.correct { background: #10b981 !important; border-color: #059669 !important; color: #fff !important; transform: scale(1.12); box-shadow: 0 0 30px #10b981; }
+  .tbtn.wrong { background: #f43f5e !important; border-color: #e11d48 !important; color: #fff !important; opacity: 0.55; transform: scale(0.94); }
+
+  .g-canvas { flex: 1; width: 100%; height: 100%; position: absolute; top: 0; left: 0; z-index: 1; }
+  .g-pbar { height: 5px; background: #10b981; width: 0%; transition: width 0.3s ease; position: absolute; bottom: 0; left: 0; z-index: 10; box-shadow: 0 0 10px #10b981; }
+
+  .g-end { display: none; position: fixed; inset: 0; background: rgba(6,26,20,0.95); backdrop-filter: blur(20px); z-index: 100; flex-direction: column; align-items: center; justify-content: center; gap: 16px; text-align: center; padding: 20px; }
+  .g-end h1 { font-size: 2.8rem; color: #10b981; text-shadow: 0 0 25px rgba(16,185,129,0.6); }
+  .g-end p { font-size: 1.8rem; color: #10b981; font-weight: 800; font-family: 'Outfit', sans-serif; }
+  .g-end button { padding: 14px 36px; font-size: 1.25rem; font-weight: 900; background: #10b981; border: none; color: #061a14; border-radius: 30px; cursor: pointer; transition: 0.2s; box-shadow: 0 8px 25px rgba(16,185,129,0.4); }
+  .g-end button:hover { transform: scale(1.06); box-shadow: 0 0 35px #10b981; }
+</style>
+</head>
+<body>
+
+<div class="g-hud" id="hud">
+  <div class="g-title">🏹 رمي السهام والنيشان 🏹</div>
+  <div id="qn" class="g-qnum">1 / 15</div>
+  <div class="g-score">Score: <span id="sc">0</span></div>
+</div>
+
+<div class="g-qpanel">
+  <img id="qImg" src="../../images/games/p1/trophy_cup.png" alt="Icon" class="q-img">
+  <div id="qt">Loading...</div>
+</div>
+<div id="tg" class="g-targets"></div>
+<canvas id="cv" class="g-canvas"></canvas>
+<div id="pb" class="g-pbar"></div>
+
+<div id="end" class="g-end">
+  <h1 id="eh">Awesome! 🎉</h1>
+  <p id="es">Score: 0</p>
+  <button onclick="location.reload()">Play Again 🔄</button>
+</div>
+
+<script>
+const QS = [{"q": "Complete the word: B_sy Bee (نحلة نشيطة)", "choices": ["u", "a", "e"], "answer": 0, "img": "images/games/p1/busy_bee.png"}, {"q": "Unscramble: [o - l - l - e - H]", "choices": ["Hello", "Holle", "Hlelo"], "answer": 0, "img": "images/games/p1/handshake.png"}, {"q": "Unscramble: [y - a - l - P]", "choices": ["Play", "Paly", "Pyal"], "answer": 0, "img": "images/games/p1/play_ball.png"}, {"q": "Unscramble: [e - e - B]", "choices": ["Bee", "Ebe", "Eeb"], "answer": 0, "img": "images/games/p1/bee.png"}, {"q": "Choose the correct spelling:", "choices": ["Friends", "Freinds", "Frinds"], "answer": 0, "img": "images/games/p1/youssef.png"}, {"q": "Choose the correct spelling:", "choices": ["Teacher", "Teecher", "Techer"], "answer": 0, "img": "images/games/p1/miss_mona.png"}, {"q": "Choose the correct spelling:", "choices": ["Goodbye", "Goodby", "Godbye"], "answer": 0, "img": "images/games/p1/hand.png"}, {"q": "The first letter of 'Hello' is:", "choices": ["H", "E", "L"], "answer": 0, "img": "images/games/p1/handshake.png"}, {"q": "The last letter of 'Play' is:", "choices": ["Y", "A", "L"], "answer": 0, "img": "images/games/p1/play_ball.png"}, {"q": "How many letters in 'Friends'?", "choices": ["7", "6", "8"], "answer": 0, "img": "images/games/p1/amira.png"}, {"q": "What's your name? -> _______.", "choices": ["I'm Hany", "I'm 6", "I'm fine"], "answer": 0, "img": "images/games/p1/hany.png"}, {"q": "Hello, I'm Miss Mona. -> _______, Miss Mona.", "choices": ["Hello", "Goodbye", "Thanks"], "answer": 0, "img": "images/games/p1/miss_mona.png"}, {"q": "_______ is your name?", "choices": ["What", "Where", "Who"], "answer": 0, "img": "images/games/p1/hana.png"}, {"q": "My name _______ Hana.", "choices": ["is", "am", "are"], "answer": 0, "img": "images/games/p1/hana.png"}, {"q": "I _______ Youssef.", "choices": ["am", "is", "are"], "answer": 0, "img": "images/games/p1/youssef.png"}];
+let qi=0, score=0, locked=false, arrows=[], animId=null;
+let cv, ctx, W, H, AC;
+
+window.addEventListener('load', () => {
+  cv = document.getElementById('cv'); ctx = cv.getContext('2d');
+  resize(); window.addEventListener('resize', resize);
+  AC = new (window.AudioContext || window.webkitAudioContext)();
+  loadQ(); loop();
+});
+
+function resize() { W = cv.width = window.innerWidth; H = cv.height = window.innerHeight; }
+
+function tone(f,d,t,v) {
+  if(!AC) return; if(AC.state==='suspended') AC.resume();
+  try {
+    const o=AC.createOscillator(), gn=AC.createGain(); o.connect(gn); gn.connect(AC.destination);
+    o.type=t||'sine'; o.frequency.value=f; gn.gain.setValueAtTime(v||0.3, AC.currentTime);
+    gn.gain.exponentialRampToValueAtTime(0.001, AC.currentTime+d); o.start(); o.stop(AC.currentTime+d);
+  } catch(e) {}
+}
+
+function playApplauseSnd() {
+  if(!AC) return; if(AC.state==='suspended') AC.resume();
+  tone(523.25, 0.1, 'sine', 0.4);
+  setTimeout(()=> tone(659.25, 0.1, 'sine', 0.4), 90);
+  setTimeout(()=> tone(783.99, 0.12, 'sine', 0.4), 180);
+  setTimeout(()=> tone(1046.50, 0.35, 'triangle', 0.5), 270);
+}
+
+function loadQ() {
+  if(qi >= QS.length) { endG(); return; }
+  locked = false;
+  const q = QS[qi];
+  document.getElementById('qn').innerText = `${qi+1} / ${QS.length}`;
+  document.getElementById('qt').innerText = q.q;
+  document.getElementById('qImg').src = q.img ? ('../../' + q.img) : '../../images/games/p1/trophy_cup.png';
+  document.getElementById('pb').style.width = `${(qi/QS.length)*100}%`;
+  
+  const tg = document.getElementById('tg'); tg.innerHTML = '';
+  q.choices.forEach((c, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'tbtn';
+    btn.innerText = c;
+    btn.onclick = () => shootArrow(idx, btn);
+    tg.appendChild(btn);
+  });
+}
+
+function shootArrow(idx, btn) {
+  if(locked) return; locked = true;
+  const q = QS[qi];
+  const isCorrect = (idx === q.answer);
+  
+  const rect = btn.getBoundingClientRect();
+  const tx = rect.left + rect.width/2;
+  const ty = rect.top + rect.height/2;
+  
+  arrows.push({
+    x: W/2, y: H - 60, tx: tx, ty: ty,
+    vx: (tx - W/2)/12, vy: (ty - (H-60))/12,
+    isCorrect: isCorrect, btn: btn
+  });
+  
+  tone(440, 0.12, 'triangle', 0.3);
+}
+
+function loop() {
+  ctx.clearRect(0, 0, W, H);
+  
+  // Bow at bottom
+  ctx.strokeStyle = '#10b981';
+  ctx.lineWidth = 4;
+  ctx.beginPath();
+  ctx.arc(W/2, H - 35, 45, Math.PI*1.1, Math.PI*1.9);
+  ctx.stroke();
+  
+  for(let i=arrows.length-1; i>=0; i--) {
+    const a = arrows[i];
+    a.x += a.vx; a.y += a.vy;
+    
+    ctx.strokeStyle = '#f59e0b';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(a.x, a.y);
+    ctx.lineTo(a.x - a.vx*1.5, a.y - a.vy*1.5);
+    ctx.stroke();
+    
+    const dist = Math.hypot(a.x - a.tx, a.y - a.ty);
+    if(dist < 20 || a.y <= a.ty) {
+      hitArrow(a);
+      arrows.splice(i, 1);
+    }
+  }
+  
+  animId = requestAnimationFrame(loop);
+}
+
+function hitArrow(a) {
+  if(a.isCorrect) {
+    a.btn.classList.add('correct');
+    score += 10;
+    document.getElementById('sc').innerText = score;
+    playApplauseSnd();
+  } else {
+    a.btn.classList.add('wrong');
+    tone(130, 0.25, 'sawtooth', 0.4);
+  }
+  
+  setTimeout(() => {
+    qi++; loadQ();
+  }, 1100);
+}
+
+function endG() {
+  document.getElementById('end').style.display = 'flex';
+  document.getElementById('es').innerText = `Score: ${score} / ${QS.length * 10}`;
+  playApplauseSnd();
+}
+</script>
+</body>
+</html>
