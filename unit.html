@@ -222,40 +222,42 @@
 
             container.innerHTML = '';
 
-            // New Games Folder (Always show)
-            const grammarTile = document.createElement('a');
-            grammarTile.href = "#";
-            grammarTile.className = 'game-tile border-accent';
-            grammarTile.onclick = (e) => {
-                e.preventDefault();
-                openGrammarModal();
-                return false;
-            };
+            // New Games Folder (Only show if there are grammar games)
+            if (grammarGames && grammarGames.length > 0) {
+                const grammarTile = document.createElement('a');
+                grammarTile.href = "#";
+                grammarTile.className = 'game-tile border-accent';
+                grammarTile.onclick = (e) => {
+                    e.preventDefault();
+                    openGrammarModal();
+                    return false;
+                };
 
-            grammarTile.innerHTML = `
-                <div class="game-thumb-container bg-gradient-to-br from-orange-400 to-amber-500">
-                    <span class="game-emoji-badge">📂</span>
-                    <div class="game-play-hover-overlay">
-                        <div class="play-action-circle text-accent"><i class="fa-solid fa-folder-open"></i></div>
+                grammarTile.innerHTML = `
+                    <div class="game-thumb-container bg-gradient-to-br from-orange-400 to-amber-500">
+                        <span class="game-emoji-badge">📂</span>
+                        <div class="game-play-hover-overlay">
+                            <div class="play-action-circle text-accent"><i class="fa-solid fa-folder-open"></i></div>
+                        </div>
                     </div>
-                </div>
-                <div class="game-info-box">
-                    <h3 class="text-xl font-black text-slate-800 mb-2 font-ar">ألعاب جديدة</h3>
-                    <div class="flex items-center justify-between">
-                        <span class="text-accent font-bold text-sm">🎮 ألعاب إضافية</span>
-                        <span class="bg-accent text-white text-xs font-bold px-2 py-1 rounded">جديد</span>
+                    <div class="game-info-box">
+                        <h3 class="text-xl font-black text-slate-800 mb-2 font-ar">ألعاب جديدة</h3>
+                        <div class="flex items-center justify-between">
+                            <span class="text-accent font-bold text-sm">🎮 ألعاب إضافية</span>
+                            <span class="bg-accent text-white text-xs font-bold px-2 py-1 rounded">جديد</span>
+                        </div>
                     </div>
-                </div>
-            `;
-            container.appendChild(grammarTile);
+                `;
+                container.appendChild(grammarTile);
+            }
 
             // Normal Games
             if (unitGames.length === 0 && grammarGames.length === 0) {
                 container.innerHTML = `
-                    <div class="col-span-full text-center py-20">
-                        <div class="text-6xl mb-4">🚀</div>
-                        <h3 class="text-2xl font-black text-slate-800 mb-2">قريباً جداً!</h3>
-                        <p class="text-slate-500 font-bold">جاري تصميم وإضافة ألعاب تفاعلية جديدة لهذه الوحدة.</p>
+                    <div class="col-span-full text-center py-20 bg-white/60 backdrop-blur-md rounded-3xl border border-slate-200 shadow-sm p-8">
+                        <div class="text-6xl mb-4">✨</div>
+                        <h3 class="text-2xl font-black text-slate-800 mb-2 font-ar">الألعاب الجديدة قادمة!</h3>
+                        <p class="text-slate-500 font-bold">تم إفراغ الألعاب القديمة بالكامل، وجاري رفع الألعاب التفاعلية الجديدة ثلاثية الأبعاد 3D.</p>
                     </div>`;
             } else {
                 unitGames.forEach((game, idx) => {
