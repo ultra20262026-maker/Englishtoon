@@ -1,0 +1,280 @@
+import json
+
+def get_complete_p1_data():
+    return {
+        "unit1": {
+            "title": "Welcome to My School",
+            "lessons": {
+                "lesson1": {
+                    "title": "Greetings & Introductions (التحيات والتعارف)",
+                    "game1": {
+                        "name": "صائد الشخصيات (Character Hunter)",
+                        "type": "التعرف على الشخصيات والمعنى",
+                        "questions": [
+                            {"q": "Look at the teacher with glasses. Who is this?", "opts": ["Miss Mona", "Hana", "Amira"], "a": "Miss Mona", "asset": "friendly teacher with glasses"},
+                            {"q": "Look at the boy with curly black hair. Who is this?", "opts": ["Hany", "Youssef", "Miss Mona"], "a": "Hany", "asset": "boy with curly hair"},
+                            {"q": "Look at the boy with round glasses. Who is this?", "opts": ["Youssef", "Hany", "Amira"], "a": "Youssef", "asset": "boy with round glasses"},
+                            {"q": "Look at the girl with the pink headband. Who is this?", "opts": ["Hana", "Miss Mona", "Hany"], "a": "Hana", "asset": "girl with pink headband"},
+                            {"q": "Look at the girl with twin braids. Who is this?", "opts": ["Amira", "Hana", "Miss Mona"], "a": "Amira", "asset": "girl with twin braids"},
+                            {"q": "Look at the cheerful yellow mascot. Who is this?", "opts": ["Busy Bee", "Miss Mona", "Hany"], "a": "Busy Bee", "asset": "cute 3d cartoon bee"},
+                            {"q": "When we meet someone in the morning, we say:", "opts": ["Hello", "Goodbye", "Play"], "a": "Hello", "asset": "kid waving hello"},
+                            {"q": "When we finish school and leave, we say:", "opts": ["Goodbye", "Hello", "Friends"], "a": "Goodbye", "asset": "kid waving goodbye"},
+                            {"q": "When kids have fun with toys in the yard, they:", "opts": ["Play", "Sleep", "Cry"], "a": "Play", "asset": "kids playing with ball"},
+                            {"q": "Hany and Youssef like to study together; they are _______.", "opts": ["Friends", "Teachers", "Books"], "a": "Friends", "asset": "two kid friends hugging"},
+                            {"q": "Shaking hands with a classmate is a way to say _______.", "opts": ["Hello", "Goodbye", "Run"], "a": "Hello", "asset": "cartoon handshake"},
+                            {"q": "What is our smart mascot friend's name?", "opts": ["Busy Bee", "Lazy Bee", "Super Bee"], "a": "Busy Bee", "asset": "bee wearing tiny crown"},
+                            {"q": "Miss Mona teaches English; she is our _______.", "opts": ["Teacher", "Friend", "Sister"], "a": "Teacher", "asset": "teacher writing on board"},
+                            {"q": "Saying 'Bye-bye' is another way to say _______.", "opts": ["Goodbye", "Hello", "Welcome"], "a": "Goodbye", "asset": "kid walking with backpack"},
+                            {"q": "When introducing yourself to a newcomer, start with:", "opts": ["Hello", "Goodbye", "Sit down"], "a": "Hello", "asset": "kids smiling in class"}
+                        ]
+                    },
+                    "game2": {
+                        "name": "قطار الحروف والتهجئة (Spelling Express)",
+                        "type": "التهجئة وإكمال الحروف",
+                        "questions": [
+                            {"q": "Complete the word: H_ll_ (تحية)", "opts": ["e, o", "a, u", "i, e"], "a": "e, o"},
+                            {"q": "Complete the word: G__dbye (وداعاً)", "opts": ["oo", "ee", "aa"], "a": "oo"},
+                            {"q": "Complete the word: Pl_y (يلعب)", "opts": ["a", "e", "u"], "a": "a"},
+                            {"q": "Complete the word: Fr__nds (أصدقاء)", "opts": ["ie", "ea", "ee"], "a": "ie"},
+                            {"q": "Complete the word: T__cher (معلمة)", "opts": ["ea", "ee", "ai"], "a": "ea"},
+                            {"q": "Complete the word: B_sy Bee (نحلة نشيطة)", "opts": ["u", "a", "e"], "a": "u"},
+                            {"q": "Unscramble: [o - l - l - e - H]", "opts": ["Hello", "Holle", "Hlelo"], "a": "Hello"},
+                            {"q": "Unscramble: [y - a - l - P]", "opts": ["Play", "Paly", "Pyal"], "a": "Play"},
+                            {"q": "Unscramble: [e - e - B]", "opts": ["Bee", "Ebe", "Eeb"], "a": "Bee"},
+                            {"q": "Choose the correct spelling:", "opts": ["Friends", "Freinds", "Frinds"], "a": "Friends"},
+                            {"q": "Choose the correct spelling:", "opts": ["Teacher", "Teecher", "Techer"], "a": "Teacher"},
+                            {"q": "Choose the correct spelling:", "opts": ["Goodbye", "Goodby", "Godbye"], "a": "Goodbye"},
+                            {"q": "The first letter of 'Hello' is:", "opts": ["H", "E", "L"], "a": "H"},
+                            {"q": "The last letter of 'Play' is:", "opts": ["Y", "A", "L"], "a": "Y"},
+                            {"q": "How many letters in the word 'Friends'?", "opts": ["7", "6", "8"], "a": "7"}
+                        ]
+                    },
+                    "game3": {
+                        "name": "مبارزة المحادثة (Dialogue Duel)",
+                        "type": "تراكيب الجمل والمحادثة",
+                        "questions": [
+                            {"q": "What's your name? -> _______.", "opts": ["I'm Hany", "I'm 6", "I'm fine"], "a": "I'm Hany"},
+                            {"q": "Hello, I'm Miss Mona. -> _______, Miss Mona.", "opts": ["Hello", "Goodbye", "Thanks"], "a": "Hello"},
+                            {"q": "_______ is your name?", "opts": ["What", "Where", "Who"], "a": "What"},
+                            {"q": "My name _______ Hana.", "opts": ["is", "am", "are"], "a": "is"},
+                            {"q": "I _______ Youssef.", "opts": ["am", "is", "are"], "a": "am"},
+                            {"q": "Reorder: [your - What's - name - ?]", "opts": ["What's your name?", "Your name What's?", "Name your What's?"], "a": "What's your name?"},
+                            {"q": "Reorder: [Hany - I'm - Hello, - .]", "opts": ["Hello, I'm Hany.", "I'm Hello, Hany.", "Hany, I'm Hello."], "a": "Hello, I'm Hany."},
+                            {"q": "Reorder: [is - My - Amira - name - .]", "opts": ["My name is Amira.", "My is name Amira.", "Amira is My name."], "a": "My name is Amira."},
+                            {"q": "Reorder: [together - play - Let's - !]", "opts": ["Let's play together!", "Play let's together!", "Together let's play!"], "a": "Let's play together!"},
+                            {"q": "When someone asks 'What's your name?', answer with:", "opts": ["Your Name", "Your Age", "Your Color"], "a": "Your Name"},
+                            {"q": "'I'm' is the short form of:", "opts": ["I am", "I is", "I are"], "a": "I am"},
+                            {"q": "'What's' is the short form of:", "opts": ["What is", "What are", "What has"], "a": "What is"},
+                            {"q": "Polite greeting to a friend:", "opts": ["Hello, nice to meet you.", "Go away.", "No."], "a": "Hello, nice to meet you."},
+                            {"q": "At the end of a question, we place a:", "opts": ["Question mark (?)", "Full stop (.)", "Comma (,)"], "a": "Question mark (?)"},
+                            {"q": "The name of a person always starts with a:", "opts": ["Capital letter", "Small letter", "Number"], "a": "Capital letter"}
+                        ]
+                    }
+                },
+                "lesson2": {
+                    "title": "Phonics (Letter T /t/ & Letter B /b/)",
+                    "game1": {
+                        "name": "مدفع فرقعة الأصوات (Phonics Cannon)",
+                        "type": "التعرف على الصوت الأولي والصور",
+                        "questions": [
+                            {"q": "Look at the green plant. Choose: ___ree", "opts": ["t", "b", "s"], "a": "t", "asset": "green oak tree"},
+                            {"q": "Look at the striped animal. Choose: ___iger", "opts": ["t", "b", "p"], "a": "t", "asset": "cute cartoon tiger"},
+                            {"q": "Look at the school backpack. Choose: ___ag", "opts": ["b", "t", "m"], "a": "b", "asset": "blue school backpack"},
+                            {"q": "Look at the reading material. Choose: ___ook", "opts": ["b", "t", "d"], "a": "b", "asset": "open storybook"},
+                            {"q": "Look at the red juicy vegetable. Choose: ___omato", "opts": ["t", "b", "k"], "a": "t", "asset": "red shiny tomato"},
+                            {"q": "Look at the flying honey insect. Choose: ___ee", "opts": ["b", "t", "f"], "a": "b", "asset": "buzzing yellow bee"},
+                            {"q": "Look at the wooden furniture. Choose: ___able", "opts": ["t", "b", "l"], "a": "t", "asset": "wooden classroom table"},
+                            {"q": "Look at the yellow school vehicle. Choose: ___us", "opts": ["b", "t", "n"], "a": "b", "asset": "yellow school bus"},
+                            {"q": "Look at the smiling lady with chalk. Choose: ___eacher", "opts": ["t", "b", "h"], "a": "t", "asset": "cute cartoon teacher"},
+                            {"q": "Look at the sky color swatch. Choose: ___lue", "opts": ["b", "t", "r"], "a": "b", "asset": "blue paint splash"},
+                            {"q": "Which word starts with the /t/ sound?", "opts": ["Tiger", "Book", "Bee"], "a": "Tiger"},
+                            {"q": "Which word starts with the /b/ sound?", "opts": ["Bag", "Tree", "Tomato"], "a": "Bag"},
+                            {"q": "Which word starts with the /t/ sound?", "opts": ["Table", "Blue", "Bus"], "a": "Table"},
+                            {"q": "Which word starts with the /b/ sound?", "opts": ["Bus", "Teacher", "Tiger"], "a": "Bus"},
+                            {"q": "Which word starts with the /t/ sound?", "opts": ["Tomato", "Bag", "Book"], "a": "Tomato"}
+                        ]
+                    },
+                    "game2": {
+                        "name": "مفرزة السلال الصوتية (Sound Sorting Baskets)",
+                        "type": "تصنيف الكلمات حسب الصوت (T vs B)",
+                        "questions": [
+                            {"q": "Sort into Basket: 'Teacher' belongs to:", "opts": ["Letter T basket", "Letter B basket"], "a": "Letter T basket"},
+                            {"q": "Sort into Basket: 'Book' belongs to:", "opts": ["Letter B basket", "Letter T basket"], "a": "Letter B basket"},
+                            {"q": "Sort into Basket: 'Tiger' belongs to:", "opts": ["Letter T basket", "Letter B basket"], "a": "Letter T basket"},
+                            {"q": "Sort into Basket: 'Bag' belongs to:", "opts": ["Letter B basket", "Letter T basket"], "a": "Letter B basket"},
+                            {"q": "Sort into Basket: 'Tomato' belongs to:", "opts": ["Letter T basket", "Letter B basket"], "a": "Letter T basket"},
+                            {"q": "Sort into Basket: 'Bus' belongs to:", "opts": ["Letter B basket", "Letter T basket"], "a": "Letter B basket"},
+                            {"q": "Sort into Basket: 'Tree' belongs to:", "opts": ["Letter T basket", "Letter B basket"], "a": "Letter T basket"},
+                            {"q": "Sort into Basket: 'Bee' belongs to:", "opts": ["Letter B basket", "Letter T basket"], "a": "Letter B basket"},
+                            {"q": "Sort into Basket: 'Table' belongs to:", "opts": ["Letter T basket", "Letter B basket"], "a": "Letter T basket"},
+                            {"q": "Sort into Basket: 'Blue' belongs to:", "opts": ["Letter B basket", "Letter T basket"], "a": "Letter B basket"},
+                            {"q": "Odd one out: [Tree - Tiger - Bag - Table]", "opts": ["Bag", "Tree", "Tiger"], "a": "Bag"},
+                            {"q": "Odd one out: [Book - Bus - Bee - Tomato]", "opts": ["Tomato", "Book", "Bus"], "a": "Tomato"},
+                            {"q": "Odd one out: [Teacher - Table - Blue - Tree]", "opts": ["Blue", "Teacher", "Table"], "a": "Blue"},
+                            {"q": "Odd one out: [Bag - Tiger - Book - Bus]", "opts": ["Tiger", "Bag", "Book"], "a": "Tiger"},
+                            {"q": "Odd one out: [Tomato - Tree - Teacher - Bee]", "opts": ["Bee", "Tomato", "Tree"], "a": "Bee"}
+                        ]
+                    },
+                    "game3": {
+                        "name": "تحدي النينجا لتهجئة الكلمات (Ninja Speller)",
+                        "type": "التهجئة وتكوين الكلمات",
+                        "questions": [
+                            {"q": "Spell: [t - r - e - e] ->", "opts": ["Tree", "Tere", "Teer"], "a": "Tree"},
+                            {"q": "Spell: [b - o - o - k] ->", "opts": ["Book", "Boko", "Bkoo"], "a": "Book"},
+                            {"q": "Spell: [b - a - g] ->", "opts": ["Bag", "Bga", "Abg"], "a": "Bag"},
+                            {"q": "Spell: [t - i - g - e - r] ->", "opts": ["Tiger", "Tigre", "Tgeir"], "a": "Tiger"},
+                            {"q": "Spell: [t - a - b - l - e] ->", "opts": ["Table", "Tabel", "Tblae"], "a": "Table"},
+                            {"q": "Spell: [b - u - s] ->", "opts": ["Bus", "Bsu", "Ubs"], "a": "Bus"},
+                            {"q": "Spell: [b - e - e] ->", "opts": ["Bee", "Ebe", "Eeb"], "a": "Bee"},
+                            {"q": "Spell: [b - l - u - e] ->", "opts": ["Blue", "Bleu", "Bule"], "a": "Blue"},
+                            {"q": "Missing letter: T__ger", "opts": ["i", "e", "a"], "a": "i"},
+                            {"q": "Missing letter: T_m_to", "opts": ["o, a", "a, o", "e, o"], "a": "o, a"},
+                            {"q": "Missing letter: T__ble", "opts": ["a", "e", "i"], "a": "a"},
+                            {"q": "Missing letter: B__k", "opts": ["oo", "ee", "aa"], "a": "oo"},
+                            {"q": "Missing letter: B__", "opts": ["ee", "oo", "aa"], "a": "ee"},
+                            {"q": "Missing letter: Tr__", "opts": ["ee", "oo", "ea"], "a": "ee"},
+                            {"q": "Missing letter: T__cher", "opts": ["ea", "ee", "ai"], "a": "ea"}
+                        ]
+                    }
+                },
+                "lesson3": {
+                    "title": "Around My Classroom (الأدوات المدرسية والأوامر)",
+                    "game1": {
+                        "name": "كشاف الغرفة السحرية (Magic Spotlight)",
+                        "type": "التعرف على الأدوات المدرسية بالصور",
+                        "questions": [
+                            {"q": "Look at the writing tool with graphite. What is it?", "opts": ["Pencil", "Bag", "Ruler"], "a": "Pencil", "asset": "yellow wooden pencil"},
+                            {"q": "Look at the object full of stories and pages. What is it?", "opts": ["Book", "Pen", "Chair"], "a": "Book", "asset": "open storybook"},
+                            {"q": "Look at the bag we carry on our back. What is it?", "opts": ["Bag", "Desk", "Board"], "a": "Bag", "asset": "blue backpack"},
+                            {"q": "Look at the straight tool for measuring lines. What is it?", "opts": ["Ruler", "Pencil", "Book"], "a": "Ruler", "asset": "yellow measuring ruler"},
+                            {"q": "Look at the wooden seat with four legs. What is it?", "opts": ["Chair", "Table", "Board"], "a": "Chair", "asset": "wooden classroom chair"},
+                            {"q": "Look at the large green surface for writing chalk. What is it?", "opts": ["Board", "Bag", "Desk"], "a": "Board", "asset": "green classroom chalkboard"},
+                            {"q": "Look at the student table with a storage slot. What is it?", "opts": ["Desk", "Chair", "Pen"], "a": "Desk", "asset": "wooden school desk"},
+                            {"q": "Look at the blue ink writing tool. What is it?", "opts": ["Pen", "Pencil", "Ruler"], "a": "Pen", "asset": "blue ballpoint pen"},
+                            {"q": "Look at the boy rising on his feet. What is he doing?", "opts": ["Stand up", "Sit down", "Open"], "a": "Stand up", "asset": "boy standing up"},
+                            {"q": "Look at the boy taking a seat on the chair. What is he doing?", "opts": ["Sit down", "Stand up", "Close"], "a": "Sit down", "asset": "boy sitting down"},
+                            {"q": "Look at the hands opening a backpack zipper. What is the action?", "opts": ["Open your bag", "Close your bag", "Sit down"], "a": "Open your bag", "asset": "hands unzipping backpack"},
+                            {"q": "Look at the hands closing the book cover. What is the action?", "opts": ["Close your book", "Open your book", "Stand up"], "a": "Close your book", "asset": "hands closing book"},
+                            {"q": "Look at the hands opening the book pages. What is the action?", "opts": ["Open your book", "Close your book", "Play"], "a": "Open your book", "asset": "hands opening book"},
+                            {"q": "Look at the hands zipping up the backpack. What is the action?", "opts": ["Close your bag", "Open your bag", "Sit down"], "a": "Close your bag", "asset": "hands zipping backpack"},
+                            {"q": "We sit on a _______ in the classroom.", "opts": ["Chair", "Board", "Pencil"], "a": "Chair", "asset": "classroom chair"}
+                        ]
+                    },
+                    "game2": {
+                        "name": "سرعة الاستجابة للأوامر (Classroom Commander)",
+                        "type": "الاستجابة للأوامر والتراكيب",
+                        "questions": [
+                            {"q": "Teacher says: 'Stand up!' -> You should:", "opts": ["Rise to your feet", "Take a seat", "Sleep"], "a": "Rise to your feet"},
+                            {"q": "Teacher says: 'Sit down!' -> You should:", "opts": ["Take a seat on the chair", "Jump up", "Run"], "a": "Take a seat on the chair"},
+                            {"q": "Teacher says: 'Open your book!' -> You should:", "opts": ["Open the pages", "Shut the book", "Put it in bag"], "a": "Open the pages"},
+                            {"q": "Teacher says: 'Close your book!' -> You should:", "opts": ["Shut the cover", "Read aloud", "Tear page"], "a": "Shut the cover"},
+                            {"q": "Teacher says: 'Open your bag!' -> You should:", "opts": ["Unzip the backpack", "Zip it closed", "Throw it"], "a": "Unzip the backpack"},
+                            {"q": "Teacher says: 'Close your bag!' -> You should:", "opts": ["Zip the backpack closed", "Open it", "Leave it"], "a": "Zip the backpack closed"},
+                            {"q": "Opposite of 'Stand up' is:", "opts": ["Sit down", "Open", "Play"], "a": "Sit down"},
+                            {"q": "Opposite of 'Open' is:", "opts": ["Close", "Stand", "Sit"], "a": "Close"},
+                            {"q": "Opposite of 'Close' is:", "opts": ["Open", "Down", "Up"], "a": "Open"},
+                            {"q": "We write with a _______ or a pen.", "opts": ["Pencil", "Chair", "Desk"], "a": "Pencil"},
+                            {"q": "We draw straight lines using a _______.", "opts": ["Ruler", "Bag", "Board"], "a": "Ruler"},
+                            {"q": "The teacher writes words on the _______.", "opts": ["Board", "Chair", "Bag"], "a": "Board"},
+                            {"q": "We pack our books inside our _______.", "opts": ["Bag", "Ruler", "Board"], "a": "Bag"},
+                            {"q": "We read interesting stories from a _______.", "opts": ["Book", "Desk", "Chair"], "a": "Book"},
+                            {"q": "We place our books on top of the _______.", "opts": ["Desk", "Pencil", "Pen"], "a": "Desk"}
+                        ]
+                    },
+                    "game3": {
+                        "name": "متاهة المطابقة البصرية (Classroom Match Maze)",
+                        "type": "المطابقة والتهجئة",
+                        "questions": [
+                            {"q": "Match: P - E - N - C - I - L ->", "opts": ["Pencil", "Pencl", "Pencile"], "a": "Pencil"},
+                            {"q": "Match: R - U - L - E - R ->", "opts": ["Ruler", "Rulerz", "Rulerx"], "a": "Ruler"},
+                            {"q": "Match: B - O - A - R - D ->", "opts": ["Board", "Bord", "Bored"], "a": "Board"},
+                            {"q": "Match: C - H - A - I - R ->", "opts": ["Chair", "Chare", "Chiar"], "a": "Chair"},
+                            {"q": "Match: D - E - S - K ->", "opts": ["Desk", "Deks", "Desck"], "a": "Desk"},
+                            {"q": "Missing letter: P_nc_l", "opts": ["e, i", "a, e", "i, e"], "a": "e, i"},
+                            {"q": "Missing letter: R_l_r", "opts": ["u, e", "e, u", "a, e"], "a": "u, e"},
+                            {"q": "Missing letter: B__rd", "opts": ["oa", "ao", "oo"], "a": "oa"},
+                            {"q": "Missing letter: Ch__r", "opts": ["ai", "ia", "ee"], "a": "ai"},
+                            {"q": "Missing letter: D_sk", "opts": ["e", "a", "i"], "a": "e"},
+                            {"q": "How many letters in 'Pencil'?", "opts": ["6", "5", "7"], "a": "6"},
+                            {"q": "How many letters in 'Ruler'?", "opts": ["5", "6", "4"], "a": "5"},
+                            {"q": "How many letters in 'Board'?", "opts": ["5", "6", "4"], "a": "5"},
+                            {"q": "How many letters in 'Chair'?", "opts": ["5", "6", "4"], "a": "5"},
+                            {"q": "How many letters in 'Desk'?", "opts": ["4", "5", "3"], "a": "4"}
+                        ]
+                    }
+                },
+                "lesson4": {
+                    "title": "Phonics (Letter I /ɪ/ - صوت حرف I)",
+                    "game1": {
+                        "name": "فرقعة فقاعات الحبر (Ink Bubble Pop)",
+                        "type": "التعرف على كلمات صوت حرف I",
+                        "questions": [
+                            {"q": "Look at the dark writing liquid. Choose: ___nk", "opts": ["i", "e", "a"], "a": "i", "asset": "bottle of blue ink"},
+                            {"q": "Look at the tiny crawling creature. Choose: ___nsect", "opts": ["i", "e", "o"], "a": "i", "asset": "cute cartoon beetle insect"},
+                            {"q": "Look at the boy in bed with fever. Choose: ___ll", "opts": ["i", "e", "u"], "a": "i", "asset": "kid in bed feeling sick with thermometer"},
+                            {"q": "Look at the cat INSIDE the box. Choose: ___n", "opts": ["i", "e", "a"], "a": "i", "asset": "cat inside a cardboard box"},
+                            {"q": "Look at the green reptile. Choose: ___guana", "opts": ["i", "e", "a"], "a": "i", "asset": "cute cartoon green iguana"},
+                            {"q": "Which word starts with the /ɪ/ sound?", "opts": ["Ink", "Tree", "Tiger"], "a": "Ink"},
+                            {"q": "Which word starts with the /ɪ/ sound?", "opts": ["Insect", "Bag", "Book"], "a": "Insect"},
+                            {"q": "Which word starts with the /ɪ/ sound?", "opts": ["Ill", "Table", "Bus"], "a": "Ill"},
+                            {"q": "Which word starts with the /ɪ/ sound?", "opts": ["In", "Tomato", "Bee"], "a": "In"},
+                            {"q": "The sound of letter 'I' in 'ink' is short _______.", "opts": ["/ɪ/", "/iː/", "/aɪ/"], "a": "/ɪ/"},
+                            {"q": "Odd one out: [Ink - Insect - Ill - Tree]", "opts": ["Tree", "Ink", "Ill"], "a": "Tree"},
+                            {"q": "Odd one out: [In - Insect - Bag - Ink]", "opts": ["Bag", "In", "Ink"], "a": "Bag"},
+                            {"q": "Odd one out: [Ill - Tomato - Ink - In]", "opts": ["Tomato", "Ill", "In"], "a": "Tomato"},
+                            {"q": "Odd one out: [Insect - Book - Ill - Ink]", "opts": ["Book", "Insect", "Ill"], "a": "Book"},
+                            {"q": "Odd one out: [Ink - In - Tiger - Ill]", "opts": ["Tiger", "Ink", "In"], "a": "Tiger"}
+                        ]
+                    },
+                    "game2": {
+                        "name": "مفرزة الحروف الذكية (Phonics Sorter)",
+                        "type": "التمييز بين أصوات (T, B, I)",
+                        "questions": [
+                            {"q": "'Ink' starts with sound:", "opts": ["/i/", "/t/", "/b/"], "a": "/i/"},
+                            {"q": "'Tiger' starts with sound:", "opts": ["/t/", "/i/", "/b/"], "a": "/t/"},
+                            {"q": "'Bag' starts with sound:", "opts": ["/b/", "/i/", "/t/"], "a": "/b/"},
+                            {"q": "'Insect' starts with sound:", "opts": ["/i/", "/t/", "/b/"], "a": "/i/"},
+                            {"q": "'Table' starts with sound:", "opts": ["/t/", "/b/", "/i/"], "a": "/t/"},
+                            {"q": "'Book' starts with sound:", "opts": ["/b/", "/t/", "/i/"], "a": "/b/"},
+                            {"q": "'Ill' starts with sound:", "opts": ["/i/", "/t/", "/b/"], "a": "/i/"},
+                            {"q": "'Tree' starts with sound:", "opts": ["/t/", "/b/", "/i/"], "a": "/t/"},
+                            {"q": "'Bee' starts with sound:", "opts": ["/b/", "/i/", "/t/"], "a": "/b/"},
+                            {"q": "'In' starts with sound:", "opts": ["/i/", "/t/", "/b/"], "a": "/i/"},
+                            {"q": "'Tomato' starts with sound:", "opts": ["/t/", "/b/", "/i/"], "a": "/t/"},
+                            {"q": "'Bus' starts with sound:", "opts": ["/b/", "/t/", "/i/"], "a": "/b/"},
+                            {"q": "'Teacher' starts with sound:", "opts": ["/t/", "/b/", "/i/"], "a": "/t/"},
+                            {"q": "'Blue' starts with sound:", "opts": ["/b/", "/t/", "/i/"], "a": "/b/"},
+                            {"q": "'Play' starts with sound:", "opts": ["/p/", "/b/", "/t/"], "a": "/p/"}
+                        ]
+                    },
+                    "game3": {
+                        "name": "تحدي التهجئة والسرعة (Speed Speller I)",
+                        "type": "التهجئة والكلمات",
+                        "questions": [
+                            {"q": "Spell: [i - n - k] ->", "opts": ["Ink", "Kin", "Nik"], "a": "Ink"},
+                            {"q": "Spell: [i - l - l] ->", "opts": ["Ill", "Lil", "Lli"], "a": "Ill"},
+                            {"q": "Spell: [i - n] ->", "opts": ["In", "Ni", "Inn"], "a": "In"},
+                            {"q": "Spell: [i - n - s - e - c - t] ->", "opts": ["Insect", "Incect", "Inscet"], "a": "Insect"},
+                            {"q": "Missing letter: _nk", "opts": ["I", "E", "A"], "a": "I"},
+                            {"q": "Missing letter: _ll", "opts": ["I", "E", "O"], "a": "I"},
+                            {"q": "Missing letter: _n", "opts": ["I", "A", "U"], "a": "I"},
+                            {"q": "Missing letter: _nsect", "opts": ["I", "E", "O"], "a": "I"},
+                            {"q": "Missing letter: Ins_ct", "opts": ["e", "a", "i"], "a": "e"},
+                            {"q": "Missing letter: Inse_t", "opts": ["c", "k", "s"], "a": "c"},
+                            {"q": "How many letters in 'Ink'?", "opts": ["3", "4", "2"], "a": "3"},
+                            {"q": "How many letters in 'Ill'?", "opts": ["3", "4", "2"], "a": "3"},
+                            {"q": "How many letters in 'In'?", "opts": ["2", "3", "1"], "a": "2"},
+                            {"q": "How many letters in 'Insect'?", "opts": ["6", "5", "7"], "a": "6"},
+                            {"q": "First letter of 'Insect' is:", "opts": ["I", "N", "S"], "a": "I"}
+                        ]
+                    }
+                }
+            }
+        }
+    }
+
+data = get_complete_p1_data()
+with open(r'C:\Users\Mr Mahmoud Elziadi\Documents\GitHub\Englishtoon\js\p1_unit1_detailed_bank.json', 'w', encoding='utf-8') as f:
+    json.dump(data, f, ensure_ascii=False, indent=4)
+
+print("Saved Unit 1 database with 12 games and 180 questions successfully!")
