@@ -168,8 +168,8 @@
 
     </main>
 
-    <script src="js/data.js?v=999"></script>
-    <script src="js/auth.js?v=999"></script>
+    <script src="js/data.js?v=10000"></script>
+    <script src="js/auth.js?v=10000"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             if (localStorage.getItem('isLoggedIn') !== 'true') {
@@ -189,29 +189,7 @@
             document.getElementById('grade-title').textContent = grade.name;
             const container = document.getElementById('units-container');
 
-            if (gradeId === 'primary-1') {
-                const advBanner = document.createElement('div');
-                advBanner.className = 'col-span-full mb-4';
-                advBanner.innerHTML = `
-                    <a href="p1-adventure.html" class="flex flex-col md:flex-row items-center justify-between p-6 rounded-3xl bg-gradient-to-r from-amber-500 via-orange-500 to-yellow-500 text-white shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-1 border-2 border-yellow-200">
-                        <div class="flex items-center gap-5 text-right">
-                            <div class="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-4xl shadow-inner flex-shrink-0">
-                                🏆
-                            </div>
-                            <div>
-                                <span class="bg-white/20 text-white text-xs font-black px-3 py-1 rounded-full font-ar">نظام المغامرة الشامل</span>
-                                <h3 class="text-2xl font-black mt-1 font-ar">خريطة رحلة الكأس الذهبي والمفاتيح السحرية</h3>
-                                <p class="text-white/90 text-sm font-bold mt-0.5">العب جميع مراحل المنهج الـ 6 كمغامرة متصلة واربح الكأس وشهادة التقدير!</p>
-                            </div>
-                        </div>
-                        <div class="mt-4 md:mt-0 flex-shrink-0 bg-slate-900 text-amber-400 px-6 py-3 rounded-2xl font-black text-sm shadow-lg flex items-center gap-2 hover:bg-slate-800 transition-colors">
-                            <span>ابدأ الرحلة الآن</span>
-                            <i class="fa-solid fa-arrow-left"></i>
-                        </div>
-                    </a>
-                `;
-                container.appendChild(advBanner);
-            }
+            
             const allowedUnitsStr = localStorage.getItem('allowedUnits');
             let allowedUnits = 'all';
             try { 

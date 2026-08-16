@@ -12,7 +12,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-const CURRENT_APP_VERSION = "20260816_V9999_FORCE_PURGE_ALL_P1";
+const CURRENT_APP_VERSION = "20260816_V10000_EMPTY_P1";
 if (localStorage.getItem('app_ver') !== CURRENT_APP_VERSION) {
     localStorage.setItem('app_ver', CURRENT_APP_VERSION);
     if ('serviceWorker' in navigator) {

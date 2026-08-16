@@ -163,8 +163,8 @@
 
     </main>
 
-    <script src="js/data.js?v=999"></script>
-    <script src="js/auth.js?v=999"></script>
+    <script src="js/data.js?v=10000"></script>
+    <script src="js/auth.js?v=10000"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             if (localStorage.getItem('isLoggedIn') !== 'true') {
@@ -206,11 +206,18 @@
             container.innerHTML = '';
 
             if (allGames.length === 0) {
-                container.innerHTML = `
-                    <div class="col-span-full text-center py-20 bg-white/60 backdrop-blur-md rounded-3xl border border-slate-200 shadow-sm p-8">
-                        <div class="text-6xl mb-4">✨</div>
-                        <h3 class="text-2xl font-black text-slate-800 mb-2 font-ar">الألعاب قريباً!</h3>
-                        <p class="text-slate-500 font-bold">جاري تجهيز وإضافة الألعاب التفاعلية لهذه الوحدة.</p>
+                    container.innerHTML = `
+                    <div class="col-span-full text-center py-24 bg-white/70 backdrop-blur-xl rounded-[2.5rem] border-2 border-dashed border-blue-300 shadow-xl p-8 max-w-2xl mx-auto my-8">
+                        <div class="w-24 h-24 mx-auto mb-6 bg-gradient-to-tr from-blue-500 to-indigo-600 rounded-3xl flex items-center justify-center text-5xl shadow-lg shadow-blue-500/30 animate-bounce">
+                            🚀
+                        </div>
+                        <h3 class="text-3xl font-black text-slate-800 mb-3 font-ar">جاري الإضافة قريباً!</h3>
+                        <p class="text-slate-600 font-bold text-lg leading-relaxed mb-6 font-ar">
+                            يتم حالياً تجهيز وإضافة الألعاب التفاعلية الجديدة لهذه الوحدة. ترقبوا التحديث القادم!
+                        </p>
+                        <span class="inline-block bg-blue-100 text-blue-700 font-black px-5 py-2 rounded-full text-sm font-ar border border-blue-200">
+                            ✨ قريباً جداً
+                        </span>
                     </div>`;
             } else {
                 allGames.forEach((game, idx) => {
