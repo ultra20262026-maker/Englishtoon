@@ -137,14 +137,11 @@
                 <img id="questionImage" src="images/games/p1/miss_mona.png" alt="Question Image" class="w-full h-full object-contain drop-shadow-2xl float-anim relative z-10 transition-transform duration-300">
             </div>
 
-            <!-- Question Text & Audio Button -->
-            <div class="flex items-center justify-center gap-3 mb-6 max-w-xl">
+            <!-- Question Text -->
+            <div class="flex items-center justify-center mb-6 max-w-xl">
                 <h2 id="questionText" class="text-xl md:text-2xl font-black text-slate-800 font-en leading-relaxed">
                     Loading Question...
                 </h2>
-                <button onclick="speakQuestion()" class="flex-shrink-0 w-11 h-11 rounded-2xl bg-blue-100 hover:bg-blue-200 text-blue-600 flex items-center justify-center text-lg transition-transform hover:scale-110 active:scale-95 shadow-sm" title="استمع للسؤال">
-                    <i class="fa-solid fa-volume-high"></i>
-                </button>
             </div>
 
             <!-- Options Grid -->
@@ -283,18 +280,6 @@
             }
         });
 
-        function speakQuestion() {
-            if (!currentGame || !currentGame.questions[currentIndex]) return;
-            const q = currentGame.questions[currentIndex];
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-                const utter = new SpeechSynthesisUtterance(q.q);
-                utter.lang = 'en-US';
-                utter.rate = 0.85;
-                window.speechSynthesis.speak(utter);
-            }
-        }
-
         function loadQuestion(idx) {
             currentIndex = idx;
             const q = currentGame.questions[idx];
@@ -327,9 +312,6 @@
                 btn.onclick = () => checkAnswer(opt, btn);
                 grid.appendChild(btn);
             });
-
-            // Speak question automatically
-            setTimeout(speakQuestion, 300);
         }
 
         function checkAnswer(selected, btnEl) {
