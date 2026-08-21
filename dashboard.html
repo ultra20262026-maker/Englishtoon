@@ -149,7 +149,7 @@
                     أهلاً بك في عالم الألعاب<br>English Toon
                 </h2>
                 <p class="text-white/90 font-bold text-lg max-w-md mt-2">
-                    ألعاب تعليمية لكل الصفوف، قاموس ناطق، وتحديات تفاعلية ممتعة.
+                    ألعاب إملاء جديدة، تحديات تفاعلية، ومغامرات تعليمية ممتعة.
                 </p>
             </div>
         </div>
@@ -162,36 +162,19 @@
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8" id="features-grid">
                 
-                <!-- Unified All Grades Games Card -->
-                <div onclick="window.location.href='games.html'" class="category-card rounded-[2.5rem] p-6 flex flex-col md:flex-row items-center gap-6 opacity-0 animate-fade-in-up delay-2 group" style="--hover-color: #ec4899;">
+                <!-- Games Card (Re-enabled) -->
+                <div onclick="window.location.href='grade.html'" class="category-card rounded-[2.5rem] p-6 flex flex-col md:flex-row items-center gap-6 opacity-0 animate-fade-in-up delay-2 group" style="--hover-color: #ec4899;">
                     <div class="icon-container w-32 h-32 md:w-40 md:h-40 shrink-0">
                         <img src="images/icon_games_dashboard.jpg" alt="Games" class="w-full h-full object-cover">
                     </div>
                     <div class="text-center md:text-right flex-1">
-                        <span class="text-xs font-black text-secondary uppercase tracking-wider bg-secondary/10 px-3 py-1 rounded-full mb-3 inline-block">Play & Learn</span>
-                        <h4 class="text-3xl font-black text-slate-800 mb-2">الألعاب</h4>
+                        <span class="text-xs font-black text-secondary uppercase tracking-wider bg-secondary/10 px-3 py-1 rounded-full mb-3 inline-block">New Games Added</span>
+                        <h4 class="text-3xl font-black text-slate-800 mb-2">عالم الألعاب</h4>
                         <p class="text-slate-500 font-bold text-sm md:text-base leading-relaxed mb-4">
-                            مدخل واحد يضم ألعاب كل الصفوف. اختر صفك الدراسي، ثم افتح الوحدات والدروس والأنشطة المناسبة لك.
+                            استمتع بألعاب الإملاء الجديدة وتحديات ترتيب الكلمات لكل الدروس والصفوف.
                         </p>
                         <div class="inline-flex items-center gap-2 text-secondary font-bold group-hover:translate-x-[-5px] transition-transform">
-                            اختر الصف والعب الآن <i class="fa-solid fa-arrow-left"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Dictionary Match Card -->
-                <div onclick="window.location.href='games/primary-1/dictionary-match.html'" class="category-card rounded-[2.5rem] p-6 flex flex-col md:flex-row items-center gap-6 opacity-0 animate-fade-in-up delay-3 group" style="--hover-color: #8b5cf6;">
-                    <div class="icon-container w-32 h-32 md:w-40 md:h-40 shrink-0 bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center">
-                        <i class="fa-solid fa-puzzle-piece text-white text-6xl drop-shadow-lg"></i>
-                    </div>
-                    <div class="text-center md:text-right flex-1">
-                        <span class="text-xs font-black text-violet-600 uppercase tracking-wider bg-violet-100 px-3 py-1 rounded-full mb-3 inline-block">Listen & Match</span>
-                        <h4 class="text-3xl font-black text-slate-800 mb-2">قاموس كلمات الصف الأول</h4>
-                        <p class="text-slate-500 font-bold text-sm md:text-base leading-relaxed mb-4">
-                            172 كلمة من منهج الصف الأول مرتبة حسب الوحدات، مع نطق صوتي ولعبة توصيل الكلمة بالصورة.
-                        </p>
-                        <div class="inline-flex items-center gap-2 text-violet-600 font-bold group-hover:translate-x-[-5px] transition-transform">
-                            افتح القاموس <i class="fa-solid fa-arrow-left"></i>
+                            ابدأ اللعب الآن <i class="fa-solid fa-arrow-left"></i>
                         </div>
                     </div>
                 </div>
@@ -265,12 +248,9 @@
                             </div>
                             <div class="text-center md:text-right flex-1">
                                 <span class="text-xs font-black text-success uppercase tracking-wider bg-success/10 px-3 py-1 rounded-full mb-3 inline-block">Control Panel</span>
-                                <h4 class="text-3xl font-black text-slate-800 mb-2">لوحة الإدارة</h4>
-                                <p class="text-slate-500 font-bold text-sm md:text-base leading-relaxed mb-4">
-                                    هذا القسم يظهر لك فقط. يمكنك من هنا إدارة الطلاب، وتفعيل الاشتراكات، والتحكم بالمنصة.
-                                </p>
+                                <h4 class="text-3xl font-black text-slate-800 mb-2">لوحة التحكم</h4>
                                 <div class="inline-flex items-center gap-2 text-success font-bold group-hover:translate-x-[-5px] transition-transform">
-                                    الدخول للإدارة <i class="fa-solid fa-shield-halved"></i>
+                                    إدارة المنصة <i class="fa-solid fa-arrow-left"></i>
                                 </div>
                             </div>
                         </div>
@@ -283,8 +263,6 @@
         function logout() {
             localStorage.removeItem('isLoggedIn');
             localStorage.removeItem('currentUser');
-            localStorage.removeItem('allowedGrade');
-            localStorage.removeItem('allowedUnits');
             window.location.replace('index.html');
         }
     </script>
