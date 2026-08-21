@@ -4,12 +4,8 @@
     "2": {},
     "3": {},
     "4": {},
-    "5": {
-      "1": "games/primary-1/unit 5/index.html"
-    },
-    "6": {
-      "1": "games/primary-1/unit 6/index.html"
-    }
+    "5": {},
+    "6": {}
   },
   "primary-2": {
     "1": {},
@@ -223,12 +219,12 @@
   },
   "prep-2": {
     "1": {
-      "1": "games/prep-2/Prep2_ActionGames_Unit1/Unit6/Lesson1_CannonBlast.html",
-      "2": "games/prep-2/Prep2_ActionGames_Unit1/Unit6/Lesson2_BowArrow.html",
-      "3": "games/prep-2/Prep2_ActionGames_Unit1/Unit6/Lesson3_SpaceShooter.html",
-      "4": "games/prep-2/Prep2_ActionGames_Unit1/Unit6/Lesson4_Fishing.html",
-      "5": "games/prep-2/Prep2_ActionGames_Unit1/Unit6/Lesson5_BubblePopper.html",
-      "6": "games/prep-2/Prep2_ActionGames_Unit1/Unit6/Lesson6_WhackMole.html"
+      "1": "games/prep-2/Prep2_ActionGames_Unit1/Unit1/Lesson1_CannonBlast.html",
+      "2": "games/prep-2/Prep2_ActionGames_Unit1/Unit1/Lesson2_BowArrow.html",
+      "3": "games/prep-2/Prep2_ActionGames_Unit1/Unit1/Lesson3_SpaceShooter.html",
+      "4": "games/prep-2/Prep2_ActionGames_Unit1/Unit1/Lesson4_Fishing.html",
+      "5": "games/prep-2/Prep2_ActionGames_Unit1/Unit1/Lesson5_BubblePopper.html",
+      "6": "games/prep-2/Prep2_ActionGames_Unit1/Unit1/Lesson6_WhackMole.html"
     },
     "2": {
       "1": "games/prep-2/Prep2_ActionGames_Unit2/Lesson1_NinjaSlash.html",
