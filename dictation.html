@@ -201,9 +201,9 @@
             localStorage.setItem(progressKey, JSON.stringify(progress));
 
             try {
-                const userName = localStorage.getItem('currentUser') || 'طالب متميز';
+                const userName = localStorage.getItem('et_student_name') || 'بطل التوون';
                 const gameKey = `${gradeId}_U${unit}_L${lesson}`;
-                const badges = JSON.parse(localStorage.getItem('et_badges') || '[]');
+                const badges = JSON.parse(localStorage.getItem('et_badges') || '{}');
                 
                 await db.collection('leaderboard').doc(`${deviceId}_total`).set({
                     name: userName,

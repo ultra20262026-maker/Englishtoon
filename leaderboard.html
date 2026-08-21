@@ -163,19 +163,16 @@
             document.getElementById('cloudStatus').innerHTML = '<i class="fa-solid fa-sync fa-spin"></i><span>جاري التحميل...</span>';
             document.getElementById('lbSubtitle').textContent = `الترتيب العام - ${GRADE_LABELS[currentGrade]}`;
             
+            // استخدام onSnapshot مباشرة للحصول على تحديثات فورية
             db.collection('leaderboard')
                 .where('grade', '==', currentGrade)
                 .orderBy('score', 'desc')
                 .limit(20)
-                .get() // استخدام get أولاً للسرعة
-                .then(snapshot => {
-                    processSnapshot(snapshot, true);
-                    // ثم الاستماع للتحديثات الحية
-                    db.collection('leaderboard')
-                        .where('grade', '==', currentGrade)
-                        .orderBy('score', 'desc')
-                        .limit(20)
-                        .onSnapshot(snap => processSnapshot(snap, true));
+                .onSnapshot(snap => {
+                    processSnapshot(snap, true);
+                }, err => {
+                    console.error("Leaderboard error:", err);
+                    document.getElementById('cloudStatus').innerHTML = '<i class="fa-solid fa-exclamation-triangle"></i><span>خطأ في المزامنة</span>';
                 });
         }
 
@@ -185,14 +182,10 @@
                 .where('gameId', '==', gameId)
                 .orderBy('score', 'desc')
                 .limit(20)
-                .get()
-                .then(snapshot => {
-                    processSnapshot(snapshot, false);
-                    db.collection('game_scores')
-                        .where('gameId', '==', gameId)
-                        .orderBy('score', 'desc')
-                        .limit(20)
-                        .onSnapshot(snap => processSnapshot(snap, false));
+                .onSnapshot(snap => {
+                    processSnapshot(snap, false);
+                }, err => {
+                    console.error("Game scores error:", err);
                 });
         }
 
