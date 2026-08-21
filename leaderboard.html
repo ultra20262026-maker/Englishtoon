@@ -172,7 +172,18 @@
                     processSnapshot(snap, true);
                 }, err => {
                     console.error("Leaderboard error:", err);
-                    document.getElementById('cloudStatus').innerHTML = '<i class="fa-solid fa-exclamation-triangle"></i><span>خطأ في المزامنة</span>';
+                    // إذا فشل الترتيب بسبب نقص الفهرس (Index)، سنقوم بجلب البيانات وترتيبها محلياً
+                    db.collection('leaderboard')
+                        .where('grade', '==', currentGrade)
+                        .get()
+                        .then(snap => {
+                            let docs = [];
+                            snap.forEach(d => docs.push(d.data()));
+                            docs.sort((a,b) => b.score - a.score);
+                            cloudPlayers = docs.slice(0, 20);
+                            updateUI(true);
+                            document.getElementById('cloudStatus').innerHTML = '<i class="fa-solid fa-check-circle"></i><span>تم التحديث (محلي)</span>';
+                        });
                 });
         }
 
