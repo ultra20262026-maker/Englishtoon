@@ -183,8 +183,8 @@
                 </div>
             </div>
 
-            <!-- Admin Panel (Only for Admin) -->
-            <div id="admin-panel" onclick="window.location.href='admin.html'" class="category-card rounded-[2.5rem] p-6 flex flex-col md:flex-row items-center gap-6 group border-red-200 bg-red-50 hidden">
+            <!-- Admin Panel -->
+            <div id="admin-panel" onclick="window.location.href='admin.html'" class="category-card rounded-[2.5rem] p-6 flex flex-col md:flex-row items-center gap-6 group border-red-200 bg-red-50">
                 <div class="icon-container w-32 h-32 md:w-40 md:h-40 shrink-0 bg-red-500 rounded-3xl flex items-center justify-center">
                     <i class="fa-solid fa-user-shield text-white text-6xl"></i>
                 </div>
@@ -215,11 +215,8 @@
                 document.body.style.backgroundColor = equipped.bg_color;
             }
 
-            // Show Admin Panel if user is admin
-            const userRole = localStorage.getItem('userRole');
-            if (userRole === 'admin') {
-                document.getElementById('admin-panel').classList.remove('hidden');
-            }
+            // Show Admin Panel
+            document.getElementById('admin-panel').classList.remove('hidden');
         });
         function logout() { localStorage.clear(); window.location.replace('index.html'); }
     </script>
