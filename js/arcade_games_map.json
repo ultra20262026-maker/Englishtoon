@@ -382,6 +382,14 @@
     }
   },
   "prep-2": {
+    "1": {
+      "1": "games/prep-2/unit1/Lesson1_CannonBlast.html",
+      "2": "games/prep-2/unit1/Lesson2_BowArrow.html",
+      "3": "games/prep-2/unit1/Lesson3_SpaceShooter.html",
+      "4": "games/prep-2/unit1/Lesson4_Fishing.html",
+      "5": "games/prep-2/unit1/Lesson5_BubblePopper.html",
+      "6": "games/prep-2/unit1/Lesson6_WhackMole.html"
+    },
     "2": {
       "1": "games/prep-2/unit2/Lesson1_NinjaSlash.html",
       "2": "games/prep-2/unit2/Lesson2_ZombieDefense.html",
@@ -421,19 +429,16 @@
       "4": "games/prep-2/unit6/Lesson4_Volcano.html",
       "5": "games/prep-2/unit6/Lesson5_Boomerang.html",
       "6": "games/prep-2/unit6/Lesson6_Lightning.html"
-    },
-    "1": {
-      "1": "games/prep-2/unit1/Lesson1_CannonBlast.html",
-      "2": "games/prep-2/unit1/Lesson2_BowArrow.html",
-      "3": "games/prep-2/unit1/Lesson3_SpaceShooter.html",
-      "4": "games/prep-2/unit1/Lesson4_Fishing.html",
-      "5": "games/prep-2/unit1/Lesson5_BubblePopper.html",
-      "6": "games/prep-2/unit1/Lesson6_WhackMole.html"
     }
   },
   "prep-3": {
     "1": {
-      "1": "games/prep-3/unit1/Lesson1.html"
+      "1": "games/prep-3/unit1/L1_cannon_Beyond_My_Looks.html",
+      "2": "games/prep-3/unit1/L2_arrow_Self_Discovery.html",
+      "3": "games/prep-3/unit1/L3_fishing_The_Mirror_Moment.html",
+      "4": "games/prep-3/unit1/L4_spaceship_Practice__Skills.html",
+      "5": "games/prep-3/unit1/L5_shuriken_Lets_Talk.html",
+      "6": "games/prep-3/unit1/L6_bowling_Practice__Skills.html"
     },
     "2": {
       "1": "games/prep-3/unit2/Lesson1.html"
