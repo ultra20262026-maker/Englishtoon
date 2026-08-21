@@ -37,16 +37,16 @@ a { color:#ffba08; font-weight:700; }
   const grade = p.get('id') || p.get('grade');
   if (!grade) { location.href = 'dashboard.html'; return; }
   
-  // إذا كان هناك خريطة لهذا الصف، نفتحها، وإلا نفتح صفحة عرض الوحدات
-  const mapSupported = ['primary-1', 'primary-2', 'primary-3', 'primary-4', 'primary-5', 'primary-6', 'prep-1', 'prep-2'];
+  // نستخدم الخريطة map.html للصفوف التي تم بناء خرائط لها
+  // وباقي الصفوف نستخدم unit.html التقليدية
+  const mapSupported = ['primary-1', 'primary-2', 'primary-3', 'primary-4', 'primary-5', 'primary-6', 'prep-1', 'prep-2', 'prep-3'];
   let url = '';
   
-  if (mapSupported.includes(grade)) {
-      url = 'map.html?id=' + encodeURIComponent(grade);
-  } else {
-      // التوجه لصفحة الوحدات التقليدية (في حال عدم وجود خريطة)
-      url = 'unit.html?id=' + encodeURIComponent(grade);
-  }
+  // التأكد من أن التوجيه يتم بشكل صحيح
+  url = 'map.html?id=' + encodeURIComponent(grade);
+  
+  // في حال فشل تحميل الخريطة أو لم تكن موجودة، يمكن للمستخدم العودة لصفحة الوحدات
+  // لكننا سنعتمد map.html كواجهة أساسية الآن
   
   document.getElementById('manual').href = url;
   location.href = url;
