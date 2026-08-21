@@ -21,20 +21,6 @@
                         secondary: '#ec4899',
                         accent: '#f59e0b',
                         success: '#10b981',
-                    },
-                    animation: {
-                        'fade-in-up': 'fadeInUp 0.6s ease-out forwards',
-                        'float': 'float 6s ease-in-out infinite',
-                    },
-                    keyframes: {
-                        fadeInUp: {
-                            '0%': { opacity: '0', transform: 'translateY(30px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
-                        },
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-10px)' },
-                        }
                     }
                 }
             }
@@ -43,183 +29,138 @@
     <style>
         body {
             background-color: #e0f2fe;
-            background-image: 
-                radial-gradient(circle at 15% 50%, rgba(255, 255, 255, 0.6) 0%, transparent 50%),
-                linear-gradient(135deg, #e0f2fe 0%, #bae6fd 40%, #7dd3fc 100%);
             min-height: 100vh;
             background-attachment: fixed;
-            overflow-x: hidden;
-        }
-
-        .glass-header {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
         }
 
         .grade-card {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(20px);
-            border: 2px solid rgba(255, 255, 255, 1);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+            background: white;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
             border-radius: 2rem;
-            overflow: hidden;
-            display: block;
+            cursor: pointer;
         }
         .grade-card:hover {
-            transform: translateY(-8px);
+            transform: translateY(-5px);
             border-color: #3b82f6;
-            box-shadow: 0 20px 30px -10px rgba(59, 130, 246, 0.3);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.1);
         }
 
-        /* Story Intro Overlay */
+        /* Direct Overlay Fix */
         #story-overlay {
-            position: fixed; inset: 0; background: rgba(15, 23, 42, 0.95);
-            z-index: 1000; display: flex; align-items: center; justify-content: center;
-            padding: 20px; backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
         .story-content {
-            max-width: 500px; background: white; border-radius: 3rem;
-            padding: 40px; text-align: center; border: 4px solid #3b82f6;
-            box-shadow: 0 0 50px rgba(59, 130, 246, 0.3);
-            position: relative;
+            background: white;
+            border-radius: 2rem;
+            padding: 30px;
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
         }
-        .story-step { display: none; color: #1e293b; }
-        .story-step.active { display: block; animation: fadeInUp 0.5s forwards; }
+        .story-step { display: none; }
+        .story-step.active { display: block; }
     </style>
 </head>
 <body class="text-slate-800 pb-20">
 
     <!-- Story Overlay -->
-    <div id="story-overlay" class="hidden">
+    <div id="story-overlay">
         <div class="story-content">
             <div class="story-step active" id="step-1">
-                <div class="text-6xl mb-6">👋</div>
-                <h2 class="text-3xl font-black mb-4 text-blue-600">أهلاً بك يا بطل!</h2>
-                <p class="text-lg text-slate-600 leading-relaxed font-bold mb-6">
-                    أنت الآن في "عالم ألعاب EnglishToon". مهمتك هي خوض المغامرة في كل درس لجمع النقاط والمفاتيح.
-                </p>
-                <div class="bg-blue-50 p-6 rounded-2xl border-2 border-blue-100 mb-6">
-                    <label class="block text-blue-600 font-black mb-2 text-right">سجل اسمك لتبدأ التنافس:</label>
-                    <input type="text" id="student-name-input" placeholder="اكتب اسمك هنا..." class="w-full p-4 rounded-xl border-2 border-blue-200 focus:border-blue-500 outline-none text-center font-bold text-lg">
-                </div>
-                <button onclick="saveNameAndNext(2)" class="px-10 py-4 bg-blue-600 text-white rounded-2xl font-black text-xl hover:bg-blue-500 transition-all shadow-lg w-full">التالي ➔</button>
+                <div class="text-5xl mb-4">👋</div>
+                <h2 class="text-2xl font-black mb-4 text-blue-600">أهلاً بك يا بطل!</h2>
+                <p class="text-slate-600 font-bold mb-6">سجل اسمك لتبدأ المغامرة وتظهر في لوحة الصدارة:</p>
+                <input type="text" id="student-name-input" placeholder="اكتب اسمك هنا..." class="w-full p-4 rounded-xl border-2 border-blue-100 focus:border-blue-500 outline-none text-center font-bold mb-6">
+                <button onclick="saveNameAndNext(2)" class="w-full py-4 bg-blue-600 text-white rounded-xl font-black text-lg hover:bg-blue-700 transition-all">التالي ➔</button>
             </div>
             
             <div class="story-step" id="step-2">
-                <div class="text-6xl mb-6">🗺️</div>
-                <h2 class="text-3xl font-black mb-4 text-amber-500">خريطة الكنز</h2>
-                <p class="text-lg text-slate-600 leading-relaxed font-bold">
-                    كل صف دراسي عبارة عن خريطة. يجب عليك إنهاء الدروس بالترتيب لفتح الطريق نحو الكأس الكبير! 🏆
-                </p>
-                <button onclick="nextStep(3)" class="mt-8 px-10 py-4 bg-blue-600 text-white rounded-2xl font-black text-xl hover:bg-blue-500 transition-all shadow-lg">فهمت ➔</button>
-            </div>
-
-            <div class="story-step" id="step-3">
-                <div class="text-6xl mb-6">🪙</div>
-                <h2 class="text-3xl font-black mb-4 text-emerald-600">اجمع واشترِ</h2>
-                <p class="text-lg text-slate-600 leading-relaxed font-bold">
-                    النقاط التي تجمعها يمكنك استخدامها في "المتجر" لشراء شخصيات جديدة وخلفيات رائعة لملفك الشخصي.
-                </p>
-                <button onclick="closeStory()" class="mt-8 px-10 py-4 bg-emerald-600 text-white rounded-2xl font-black text-xl hover:bg-emerald-500 transition-all shadow-lg">يلا نبدأ! 🚀</button>
+                <div class="text-5xl mb-4">🗺️</div>
+                <h2 class="text-2xl font-black mb-4 text-amber-500">خريطة الكنز</h2>
+                <p class="text-slate-600 font-bold mb-6">كل صف دراسي هو خريطة كنز. اجمع النقاط لتشتري أفاتارات رائعة من المتجر!</p>
+                <button onclick="closeStoryNow()" class="w-full py-4 bg-emerald-600 text-white rounded-xl font-black text-lg hover:bg-emerald-700 transition-all">يلا نبدأ! 🚀</button>
             </div>
         </div>
     </div>
 
     <!-- Header -->
-    <header class="glass-header sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
-            <div class="flex items-center gap-4">
-                <a href="dashboard.html" class="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm border border-slate-200 text-slate-500 hover:text-primary transition-all">
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <a href="dashboard.html" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500">
                     <i class="fa-solid fa-arrow-right"></i>
                 </a>
-                <div>
-                    <h2 class="text-xl font-black text-slate-800">عالم الألعاب</h2>
-                    <p id="player-name-top" class="text-[10px] font-bold text-primary">بطل التوون</p>
-                </div>
+                <h2 class="font-black text-slate-800">عالم الألعاب</h2>
             </div>
-            <div class="flex items-center gap-2 bg-amber-100 px-4 py-2 rounded-full border border-amber-200">
-                <span id="totalCoins" class="font-black text-amber-600">0</span>
-                <i class="fa-solid fa-coins text-amber-500"></i>
+            <div class="flex items-center gap-2 bg-amber-50 px-3 py-1 rounded-full border border-amber-100">
+                <span id="totalCoins" class="font-black text-amber-600 text-sm">0</span>
+                <i class="fa-solid fa-coins text-amber-500 text-xs"></i>
             </div>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-4 mt-8">
-        <div class="bg-gradient-to-r from-primary to-blue-400 rounded-[2rem] p-8 text-white shadow-xl mb-8 animate-fade-in-up">
-            <h1 class="text-3xl font-black mb-2">اختر صفك الدراسي وابدأ المغامرة!</h1>
-            <p class="text-blue-50 text-lg font-semibold">افتح الخريطة واجمع النجوم.</p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="grades-grid">
+    <main class="max-w-6xl mx-auto px-4 mt-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="grades-grid">
             <!-- Rendered via JS -->
         </div>
     </main>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const savedName = localStorage.getItem('et_student_name');
-            if (!savedName || !localStorage.getItem('et_story_seen')) {
-                document.getElementById('story-overlay').classList.remove('hidden');
-                if(savedName) document.getElementById('student-name-input').value = savedName;
+            // Check if story seen
+            if (localStorage.getItem('et_story_seen') === 'true') {
+                document.getElementById('story-overlay').style.display = 'none';
             }
-            
-            updateTopName();
-            
-            const coins = localStorage.getItem('englishtoon_total_score') || '0';
-            document.getElementById('totalCoins').textContent = coins;
 
+            // Load Coins
+            document.getElementById('totalCoins').textContent = localStorage.getItem('englishtoon_total_score') || '0';
+
+            // Render Grades
             const grid = document.getElementById('grades-grid');
             const grades = [
-                { id: 'primary-1', name: 'الأول الابتدائي', en: 'Primary 1', icon: '❶' },
-                { id: 'primary-2', name: 'الثاني الابتدائي', en: 'Primary 2', icon: '❷' },
-                { id: 'primary-3', name: 'الثالث الابتدائي', en: 'Primary 3', icon: '❸' },
-                { id: 'primary-4', name: 'الرابع الابتدائي', en: 'Primary 4', icon: '❹' },
-                { id: 'primary-5', name: 'الخامس الابتدائي', en: 'Primary 5', icon: '❺' },
-                { id: 'primary-6', name: 'السادس الابتدائي', en: 'Primary 6', icon: '❻' },
-                { id: 'prep-1', name: 'الأول الإعدادي', en: 'Prep 1', icon: '⓵' },
-                { id: 'prep-2', name: 'الثاني الإعدادي', en: 'Prep 2', icon: '⓶' },
-                { id: 'prep-3', name: 'الثالث الإعدادي', en: 'Prep 3', icon: '⓷' }
+                { id: 'primary-1', name: 'الأول الابتدائي', icon: '❶' },
+                { id: 'primary-2', name: 'الثاني الابتدائي', icon: '❷' },
+                { id: 'primary-3', name: 'الثالث الابتدائي', icon: '❸' },
+                { id: 'primary-4', name: 'الرابع الابتدائي', icon: '❹' },
+                { id: 'primary-5', name: 'الخامس الابتدائي', icon: '❺' },
+                { id: 'primary-6', name: 'السادس الابتدائي', icon: '❻' },
+                { id: 'prep-1', name: 'الأول الإعدادي', icon: '⓵' },
+                { id: 'prep-2', name: 'الثاني الإعدادي', icon: '⓶' },
+                { id: 'prep-3', name: 'الثالث الإعدادي', icon: '⓷' }
             ];
 
             grades.forEach(g => {
                 grid.innerHTML += `
-                    <a href="grade.html?id=${g.id}" class="grade-card p-8 text-center animate-fade-in-up">
-                        <div class="text-6xl mb-4 text-primary">${g.icon}</div>
-                        <h3 class="text-2xl font-black text-slate-800">${g.name}</h3>
-                        <p class="text-slate-400 font-bold mt-1">${g.en}</p>
-                    </a>
+                    <div onclick="window.location.href='grade.html?id=${g.id}'" class="grade-card p-6 text-center">
+                        <div class="text-5xl mb-3 text-blue-600">${g.icon}</div>
+                        <h3 class="text-xl font-black text-slate-800">${g.name}</h3>
+                    </div>
                 `;
             });
         });
 
-        function updateTopName() {
-            const name = localStorage.getItem('et_student_name') || 'بطل التوون';
-            document.getElementById('player-name-top').textContent = name;
-        }
-
         function saveNameAndNext(step) {
-            const nameInput = document.getElementById('student-name-input').value.trim();
-            if (!nameInput) {
-                alert('من فضلك اكتب اسمك أولاً يا بطل!');
+            const name = document.getElementById('student-name-input').value.trim();
+            if (!name) {
+                alert('من فضلك اكتب اسمك يا بطل!');
                 return;
             }
-            localStorage.setItem('et_student_name', nameInput);
-            updateTopName();
-            nextStep(step);
+            localStorage.setItem('et_student_name', name);
+            document.getElementById('step-1').classList.remove('active');
+            document.getElementById('step-2').classList.add('active');
         }
 
-        function nextStep(step) {
-            document.querySelectorAll('.story-step').forEach(s => s.classList.remove('active'));
-            document.getElementById('step-' + step).classList.add('active');
-        }
-
-        function closeStory() {
+        function closeStoryNow() {
             localStorage.setItem('et_story_seen', 'true');
-            document.getElementById('story-overlay').classList.add('hidden');
+            document.getElementById('story-overlay').style.display = 'none';
         }
     </script>
 </body>
