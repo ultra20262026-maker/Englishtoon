@@ -15,13 +15,15 @@
             backdrop-filter: blur(10px);
             border: 2px solid rgba(255,255,255,0.05);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
         }
         .shop-card:hover { transform: translateY(-5px); border-color: #3b82f6; box-shadow: 0 10px 20px rgba(59, 130, 246, 0.2); }
-        .item-img { width: 100%; height: 120px; object-fit: contain; padding: 10px; transition: transform 0.3s; }
-        .shop-card:hover .item-img { transform: scale(1.1) rotate(5deg); }
+        .item-img-container { width: 100%; height: 180px; overflow: hidden; background: rgba(0,0,0,0.2); position: relative; }
+        .item-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+        .shop-card:hover .item-img { transform: scale(1.1); }
         
-        .tab-btn { padding: 10px 25px; border-radius: 15px; font-weight: 900; transition: 0.3s; cursor: pointer; }
-        .tab-btn.active { background: #3b82f6; color: white; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4); }
+        .tab-btn { padding: 10px 25px; border-radius: 15px; font-weight: 900; transition: 0.3s; cursor: pointer; opacity: 0.6; }
+        .tab-btn.active { background: #3b82f6; color: white; opacity: 1; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4); }
         
         .price-tag { background: rgba(245, 158, 11, 0.1); color: #f59e0b; padding: 4px 12px; border-radius: 10px; font-weight: bold; border: 1px solid rgba(245, 158, 11, 0.2); }
         
@@ -32,6 +34,19 @@
             background-image: radial-gradient(#1e293b 2px, transparent 2px);
             background-size: 30px 30px;
         }
+
+        .category-tag {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 2px 8px;
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: bold;
+            z-index: 10;
+        }
+        .tag-boys { background: #3b82f6; color: white; }
+        .tag-girls { background: #ec4899; color: white; }
     </style>
 </head>
 <body class="bg-pattern pb-20">
@@ -54,7 +69,8 @@
     <main class="max-w-6xl mx-auto p-6">
         <!-- Tabs -->
         <div class="flex justify-center gap-4 mb-10">
-            <div class="tab-btn active" onclick="switchTab('avatars', this)">الأفاتارات 🎭</div>
+            <div class="tab-btn active" onclick="switchTab('boys', this)">أفاتارات الأولاد ⚽</div>
+            <div class="tab-btn" onclick="switchTab('girls', this)">أفاتارات البنات ✨</div>
             <div class="tab-btn" onclick="switchTab('backgrounds', this)">الخلفيات 🖼️</div>
         </div>
 
@@ -66,13 +82,17 @@
 
     <script>
         const SHOP_ITEMS = {
-            avatars: [
-                { id: 'av_1', name: 'البطل الصغير', price: 0, img: 'https://cdn-icons-png.flaticon.com/512/4333/4333609.png' },
-                { id: 'av_2', name: 'القط الذكي', price: 200, img: 'https://cdn-icons-png.flaticon.com/512/6858/6858504.png' },
-                { id: 'av_3', name: 'الروبوت التعليمي', price: 500, img: 'https://cdn-icons-png.flaticon.com/512/4712/4712035.png' },
-                { id: 'av_4', name: 'التنين المثقف', price: 1000, img: 'https://cdn-icons-png.flaticon.com/512/606/606653.png' },
-                { id: 'av_5', name: 'رائد الفضاء', price: 1500, img: 'https://cdn-icons-png.flaticon.com/512/2026/2026526.png' },
-                { id: 'av_6', name: 'الأسد الشجاع', price: 2000, img: 'https://cdn-icons-png.flaticon.com/512/1998/1998713.png' }
+            boys: [
+                { id: 'av_messi', name: 'ميسي الساحر', price: 500, img: 'assets/avatars/messi_pixar.png', type: 'boys' },
+                { id: 'av_ronaldo', name: 'رونالدو الدون', price: 500, img: 'assets/avatars/ronaldo_pixar.png', type: 'boys' },
+                { id: 'av_salah', name: 'فخر العرب صلاح', price: 500, img: 'assets/avatars/salah_pixar.png', type: 'boys' },
+                { id: 'av_1', name: 'البطل الصغير', price: 0, img: 'https://cdn-icons-png.flaticon.com/512/4333/4333609.png', type: 'boys' }
+            ],
+            girls: [
+                { id: 'av_princess', name: 'الأميرة ريم', price: 500, img: 'assets/avatars/princess_pixar.png', type: 'girls' },
+                { id: 'av_supergirl', name: 'البطلة الخارقة', price: 500, img: 'assets/avatars/supergirl_pixar.png', type: 'girls' },
+                { id: 'av_scientist', name: 'العالمة الذكية', price: 500, img: 'assets/avatars/scientist_girl_pixar.png', type: 'girls' },
+                { id: 'av_fashion', name: 'نجمة الموضة', price: 500, img: 'assets/avatars/fashion_girl_pixar.png', type: 'girls' }
             ],
             backgrounds: [
                 { id: 'bg_default', name: 'الفضاء الأزرق', price: 0, color: '#0f172a' },
@@ -84,7 +104,7 @@
             ]
         };
 
-        let currentTab = 'avatars';
+        let currentTab = 'boys';
         let inventory = JSON.parse(localStorage.getItem('et_inventory') || '["av_1", "bg_default"]');
         let equipped = JSON.parse(localStorage.getItem('et_equipped') || '{"avatar": "av_1", "bg": "bg_default"}');
         let coins = parseInt(localStorage.getItem('englishtoon_total_score') || '0');
@@ -107,33 +127,46 @@
             
             SHOP_ITEMS[currentTab].forEach(item => {
                 const isOwned = inventory.includes(item.id);
-                const isEquipped = (currentTab === 'avatars' && equipped.avatar === item.id) || 
+                const isEquipped = (['boys', 'girls'].includes(currentTab) && equipped.avatar === item.id) || 
                                    (currentTab === 'backgrounds' && equipped.bg === item.id);
                 
                 const card = document.createElement('div');
-                card.className = 'shop-card p-5 rounded-[2rem] text-center flex flex-col items-center gap-4';
+                card.className = 'shop-card rounded-[2rem] text-center flex flex-col items-center pb-5';
                 
                 let visual = '';
-                if (currentTab === 'avatars') {
-                    visual = `<img src="${item.img}" class="item-img" alt="${item.name}">`;
+                if (['boys', 'girls'].includes(currentTab)) {
+                    visual = `
+                        <div class="item-img-container">
+                            <span class="category-tag ${item.type === 'boys' ? 'tag-boys' : 'tag-girls'}">
+                                ${item.type === 'boys' ? 'للأولاد' : 'للبنات'}
+                            </span>
+                            <img src="${item.img}" class="item-img" alt="${item.name}">
+                        </div>
+                    `;
                 } else {
-                    visual = `<div class="w-full h-[120px] rounded-2xl mb-2" style="background: ${item.color}; border: 4px solid rgba(255,255,255,0.1)"></div>`;
+                    visual = `
+                        <div class="w-full h-[180px] flex items-center justify-center p-4">
+                            <div class="w-full h-full rounded-2xl" style="background: ${item.color}; border: 4px solid rgba(255,255,255,0.1)"></div>
+                        </div>
+                    `;
                 }
 
                 card.innerHTML = `
                     ${visual}
-                    <h3 class="font-black text-lg">${item.name}</h3>
-                    <div class="flex flex-col gap-3 w-full">
-                        ${isEquipped ? 
-                            `<span class="equipped-badge"><i class="fa-solid fa-check-double ml-1"></i> مجهز حالياً</span>` : 
-                            (isOwned ? 
-                                `<button onclick="equipItem('${item.id}')" class="w-full py-2 bg-slate-700 hover:bg-slate-600 rounded-xl font-bold transition-all">تجهيز الاستخدام</button>` :
-                                `<button onclick="buyItem('${item.id}', ${item.price})" class="w-full py-2 bg-blue-600 hover:bg-blue-500 rounded-xl font-black transition-all flex items-center justify-center gap-2">
-                                    <span>${item.price}</span>
-                                    <span class="text-sm">🪙</span>
-                                    <span class="mr-2">شراء</span>
-                                </button>`)
-                        }
+                    <div class="px-5 w-full mt-4">
+                        <h3 class="font-black text-lg mb-4">${item.name}</h3>
+                        <div class="flex flex-col gap-3 w-full">
+                            ${isEquipped ? 
+                                `<span class="equipped-badge"><i class="fa-solid fa-check-double ml-1"></i> مجهز حالياً</span>` : 
+                                (isOwned ? 
+                                    `<button onclick="equipItem('${item.id}')" class="w-full py-2 bg-slate-700 hover:bg-slate-600 rounded-xl font-bold transition-all">تجهيز الاستخدام</button>` :
+                                    `<button onclick="buyItem('${item.id}', ${item.price})" class="w-full py-2 bg-blue-600 hover:bg-blue-500 rounded-xl font-black transition-all flex items-center justify-center gap-2">
+                                        <span>${item.price}</span>
+                                        <span class="text-sm">🪙</span>
+                                        <span class="mr-2">شراء</span>
+                                    </button>`)
+                            }
+                        </div>
                     </div>
                 `;
                 grid.appendChild(card);
@@ -146,7 +179,8 @@
                 return;
             }
 
-            if (confirm(`هل تريد شراء "${SHOP_ITEMS[currentTab].find(i => i.id === id).name}" مقابل ${price} نقطة؟`)) {
+            const item = SHOP_ITEMS[currentTab].find(i => i.id === id);
+            if (confirm(`هل تريد شراء "${item.name}" مقابل ${price} نقطة؟`)) {
                 coins -= price;
                 inventory.push(id);
                 localStorage.setItem('englishtoon_total_score', coins);
@@ -155,22 +189,15 @@
                 
                 confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
                 updateUI();
-                syncWithFirebase();
             }
         }
 
         function equipItem(id) {
-            if (currentTab === 'avatars') equipped.avatar = id;
+            if (['boys', 'girls'].includes(currentTab)) equipped.avatar = id;
             else equipped.bg = id;
             
             localStorage.setItem('et_equipped', JSON.stringify(equipped));
             renderItems();
-            syncWithFirebase();
-        }
-
-        async function syncWithFirebase() {
-            // This will be linked to auth.js logic to sync inventory across devices
-            console.log("Syncing inventory with cloud...");
         }
 
         updateUI();
