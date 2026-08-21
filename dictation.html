@@ -31,6 +31,15 @@
         }
         .answer-slot.filled { border-style: solid; border-color: #3b82f6; background: rgba(59, 130, 246, 0.15); color: #60a5fa; box-shadow: 0 0 15px rgba(59, 130, 246, 0.3); }
         
+        /* Fix Letter Direction for English words (Left to Right) */
+        #answer-area {
+            direction: ltr !important;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 12px;
+        }
+
         .success-anim { animation: success 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         @keyframes success {
             0% { transform: scale(1); }
@@ -93,7 +102,7 @@
             </div>
         </div>
 
-        <!-- Answer Area -->
+        <!-- Answer Area (Forced LTR) -->
         <div id="answer-area" class="flex flex-wrap justify-center gap-3 min-h-[70px] w-full max-w-2xl">
             <!-- Slots will be here -->
         </div>
@@ -151,14 +160,12 @@
         const deviceId = localStorage.getItem('device_id') || ('et-' + Math.random().toString(36).slice(2, 9));
         localStorage.setItem('device_id', deviceId);
 
-        // Persistent Data Logic
         async function saveProgress() {
-            // Total Score
             let currentTotal = parseInt(localStorage.getItem('englishtoon_total_score') || '0');
             const newTotal = currentTotal + 20;
             localStorage.setItem('englishtoon_total_score', newTotal);
+            localStorage.setItem('et_total_coins', newTotal);
 
-            // Lesson Progress
             const progressKey = `englishtoon_progress_${gradeId}_${unit}_${lesson}`;
             let progress = JSON.parse(localStorage.getItem(progressKey) || '{"stars": 0, "completed": false}');
             
@@ -170,16 +177,13 @@
             } else {
                 progress.stars = Math.max(progress.stars, 1);
             }
-            
             localStorage.setItem(progressKey, JSON.stringify(progress));
 
-            // Sync to Cloud for Leaderboard (Total + Specific Game + Badges)
             try {
                 const userName = localStorage.getItem('currentUser') || 'طالب متميز';
                 const gameKey = `${gradeId}_U${unit}_L${lesson}`;
-                const badges = JSON.parse(localStorage.getItem('et_badges') || '{}');
+                const badges = JSON.parse(localStorage.getItem('et_badges') || '[]');
                 
-                // Update Total Score with Badges
                 await db.collection('leaderboard').doc(`${deviceId}_total`).set({
                     name: userName,
                     score: newTotal,
@@ -189,40 +193,20 @@
                     lastUpdate: firebase.firestore.FieldValue.serverTimestamp()
                 }, { merge: true });
 
-                // Update Specific Game High Score
                 const gameRef = db.collection('game_scores').doc(`${deviceId}_${gameKey}`);
-                const doc = await gameRef.get();
-                const currentBest = doc.exists ? doc.data().score : 0;
                 const sessionGameScore = (currentWordIndex + 1) * 20;
-                
-                if (sessionGameScore > currentBest) {
-                    await gameRef.set({
-                        name: userName,
-                        score: sessionGameScore,
-                        grade: gradeId,
-                        unit: unit,
-                        lesson: lesson,
-                        gameId: gameKey,
-                        deviceId: deviceId,
-                        badges: badges,
-                        lastUpdate: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-
-                    // Check if player is now #1 for King Badge
-                    const topPlayer = await db.collection('game_scores')
-                        .where('gameId', '==', gameKey)
-                        .orderBy('score', 'desc')
-                        .limit(1)
-                        .get();
-                    
-                    if (!topPlayer.empty && topPlayer.docs[0].data().deviceId === deviceId) {
-                        badges.king = true;
-                        localStorage.setItem('et_badges', JSON.stringify(badges));
-                    }
-                }
-            } catch (e) {
-                console.error("Cloud sync failed", e);
-            }
+                await gameRef.set({
+                    name: userName,
+                    score: sessionGameScore,
+                    grade: gradeId,
+                    unit: unit,
+                    lesson: lesson,
+                    gameId: gameKey,
+                    deviceId: deviceId,
+                    badges: badges,
+                    lastUpdate: firebase.firestore.FieldValue.serverTimestamp()
+                });
+            } catch (e) { console.error("Cloud sync failed", e); }
         }
 
         function loadTotalScore() {
@@ -240,15 +224,10 @@
                 const gradeVocab = data[gradeId] || {};
                 const key = `U${unit}L${lesson}`;
                 words = gradeVocab[key] || [];
-                
-                if (words.length === 0) {
-                    words = ['hello', 'teacher', 'school', 'student', 'book'];
-                }
-                
+                if (words.length === 0) words = ['hello', 'teacher', 'school'];
                 words.sort(() => Math.random() - 0.5);
                 initGame();
             } catch (e) {
-                console.error("Failed to load vocab", e);
                 words = ['apple', 'orange', 'banana'];
                 initGame();
             }
@@ -259,13 +238,10 @@
                 showVictory();
                 return;
             }
-
             currentWord = words[currentWordIndex].toLowerCase().trim();
             userTyped = "";
-            
             const progress = (currentWordIndex / words.length) * 100;
             document.getElementById('progress').style.width = `${progress}%`;
-            
             renderSlots();
             renderLetters();
             setTimeout(speakWord, 500);
@@ -286,7 +262,6 @@
             area.innerHTML = '';
             let letters = currentWord.split('');
             letters.sort(() => Math.random() - 0.5);
-            
             letters.forEach((char, idx) => {
                 const tile = document.createElement('div');
                 tile.className = 'letter-tile';
@@ -301,7 +276,6 @@
                 userTyped += char;
                 tile.classList.add('used');
                 updateSlots();
-                
                 if (userTyped.length === currentWord.length) {
                     setTimeout(checkAnswer, 300);
                 }
@@ -328,65 +302,43 @@
         }
 
         function checkAnswer() {
-            if (userTyped === currentWord) {
-                saveProgress(); 
-                document.getElementById('score').textContent = loadTotalScore();
-                
-                const slots = document.querySelectorAll('.answer-slot');
-                slots.forEach(s => s.classList.add('success-anim'));
-                
-                confetti({
-                    particleCount: 40,
-                    spread: 70,
-                    origin: { y: 0.6 },
-                    colors: ['#3b82f6', '#60a5fa', '#ffffff']
-                });
-
+            if (userTyped.toLowerCase() === currentWord.toLowerCase()) {
+                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+                document.getElementById('answer-area').classList.add('success-anim');
+                saveProgress();
                 setTimeout(() => {
+                    document.getElementById('answer-area').classList.remove('success-anim');
                     currentWordIndex++;
+                    document.getElementById('score').textContent = loadTotalScore();
                     initGame();
-                }, 1200);
+                }, 1000);
             } else {
+                document.getElementById('answer-area').classList.add('wrong-anim');
                 lives--;
-                document.getElementById('lives').textContent = '❤️'.repeat(lives) + '🖤'.repeat(3-lives);
-                
-                const area = document.getElementById('answer-area');
-                area.classList.add('wrong-anim');
-                
-                if (lives <= 0) {
-                    alert('انتهت المحاولات! حاول مرة أخرى');
-                    location.reload();
-                } else {
-                    setTimeout(() => {
-                        area.classList.remove('wrong-anim');
-                        clearAnswer();
-                    }, 400);
-                }
+                updateLives();
+                setTimeout(() => {
+                    document.getElementById('answer-area').classList.remove('wrong-anim');
+                    clearAnswer();
+                    if (lives <= 0) location.reload();
+                }, 500);
             }
+        }
+
+        function updateLives() {
+            let h = "";
+            for(let i=0; i<3; i++) h += i < lives ? "❤️" : "🖤";
+            document.getElementById('lives').innerHTML = h;
         }
 
         function speakWord() {
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-                const msg = new SpeechSynthesisUtterance(currentWord);
-                msg.lang = 'en-US';
-                msg.rate = 0.8;
-                window.speechSynthesis.speak(msg);
-            }
+            const msg = new SpeechSynthesisUtterance(currentWord);
+            msg.lang = 'en-US';
+            msg.rate = 0.8;
+            window.speechSynthesis.speak(msg);
         }
 
         function showVictory() {
-            document.getElementById('progress').style.width = `100%`;
             document.getElementById('overlay').classList.remove('hidden');
-            
-            var duration = 3 * 1000;
-            var end = Date.now() + duration;
-
-            (function frame() {
-              confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#3b82f6', '#fbbf24'] });
-              confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#3b82f6', '#fbbf24'] });
-              if (Date.now() < end) requestAnimationFrame(frame);
-            }());
         }
 
         loadVocab();
