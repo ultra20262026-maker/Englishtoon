@@ -1,23 +1,232 @@
-// ULTIMATE PURE AUTH - NO REDIRECTS - NO LOOPS
-console.log("EnglishToon Security System: Redirects disabled for stability.");
+const firebaseConfig = {
+    apiKey: "AIzaSyA1_kx4HmDWZF_T_EnZDKgq5yssYlOMaWM",
+    authDomain: "english-toon-14072.firebaseapp.com",
+    projectId: "english-toon-14072",
+    storageBucket: "english-toon-14072.firebasestorage.app",
+    messagingSenderId: "276063917807",
+    appId: "1:276063917807:web:c794621a4df054fdaaad1a",
+    measurementId: "G-NH1DKSJ2W4"
+};
 
-// Disable any potential redirect loops
-window.onbeforeunload = null;
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+const CURRENT_APP_VERSION = "20260816_V10000_EMPTY_P1";
+if (localStorage.getItem('app_ver') !== CURRENT_APP_VERSION) {
+    localStorage.setItem('app_ver', CURRENT_APP_VERSION);
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(regs => {
+            for (let r of regs) r.unregister();
+        });
+    }
+    if ('caches' in window) {
+        caches.keys().then(names => {
+            for (let name of names) caches.delete(name);
+        });
+    }
+}
+
+const FORCE_LOGOUT_VERSION = "2026_08_15_FORCE_LOGOUT_V900";
+
+async function login(username, password) {
+    try {
+        const cleanUser = (username || '').trim().toLowerCase();
+        const cleanPass = (password || '').trim();
+
+        // Hardcoded secure admin check (bypasses database)
+        if (cleanUser === 'admin' || cleanUser === 'mm01208609509' || cleanUser === '01208609509') {
+            if (cleanPass === 'Mm01208609509' || cleanPass === 'mm01208609509' || cleanPass === '01208609509' || cleanPass === 'admin') {
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('currentUser', 'admin');
+                localStorage.setItem('auth_session_version', FORCE_LOGOUT_VERSION);
+                return { success: true };
+            } else {
+                return { success: false, message: 'كلمة مرور الإدارة غير صحيحة.' };
+            }
+        }
+        let userRef = db.collection("codes").doc(username);
+        let userSnap = await userRef.get();
+
+        // Fallback for the accidental space in collection name
+        if (!userSnap.exists) {
+            userRef = db.collection("codes ").doc(username);
+            userSnap = await userRef.get();
+        }
+
+        if (userSnap.exists) {
+            const data = userSnap.data();
+            
+            if (data.password !== password) {
+                return { success: false, message: 'كلمة المرور غير صحيحة.' };
+            }
+
+            // 24-Hour Trial Account Expiration Logic
+            if (data.isTrial === true || data.isTrial24h === true) {
+                let trialExpiresAt = data.trialExpiresAt;
+                if (!trialExpiresAt) {
+                    trialExpiresAt = Date.now() + (24 * 60 * 60 * 1000); // 24 hours from first login
+                    await userRef.update({ trialExpiresAt: trialExpiresAt });
+                }
+
+                if (Date.now() > trialExpiresAt) {
+                    return { success: false, message: 'عذراً، انتهت الفترة التجريبية لهذا الحساب (24 ساعة). يرجى التواصل مع الإدارة للتفعيل الكامل.' };
+                }
+
+                localStorage.setItem('isTrial', 'true');
+                localStorage.setItem('trialExpiresAt', trialExpiresAt.toString());
+            } else {
+                localStorage.removeItem('isTrial');
+                localStorage.removeItem('trialExpiresAt');
+            }
+
+            // Get or create Device ID for this browser
+            let localDeviceId = localStorage.getItem('device_id');
+            if (!localDeviceId) {
+                localDeviceId = 'dev_' + Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
+                localStorage.setItem('device_id', localDeviceId);
+            }
+
+            // Determine max devices
+            let maxDevices = data.maxDevices ? parseInt(data.maxDevices, 10) : (data.isMultiUser ? 999 : 1);
+            
+            // Migrate legacy single deviceId to array if needed
+            let currentDevices = data.deviceIds || [];
+            if (data.deviceId && !currentDevices.includes(data.deviceId)) {
+                currentDevices.push(data.deviceId);
+            }
+
+            if (currentDevices.includes(localDeviceId)) {
+                // Device already registered! Let them in.
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('currentUser', username);
+                localStorage.setItem('allowedGrade', data.allowedGrade || 'all');
+                localStorage.setItem('allowedUnits', JSON.stringify(data.allowedUnits || 'all'));
+                localStorage.setItem('auth_session_version', FORCE_LOGOUT_VERSION);
+                return { success: true };
+            } else {
+                // New device! Check if we have room
+                if (currentDevices.length < maxDevices) {
+                    // Add this device
+                    currentDevices.push(localDeviceId);
+                    await userRef.update({ 
+                        used: true,
+                        deviceIds: currentDevices
+                    });
+                    
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('currentUser', username);
+                    localStorage.setItem('allowedGrade', data.allowedGrade || 'all');
+                    localStorage.setItem('allowedUnits', JSON.stringify(data.allowedUnits || 'all'));
+                    localStorage.setItem('auth_session_version', FORCE_LOGOUT_VERSION);
+                    return { success: true };
+                } else {
+                    // Block them. Limit reached.
+                    return { success: false, message: `عذراً، لا يمكنك الدخول من هذا الجهاز. لقد استنفدت الحد الأقصى للأجهزة المسموح بها (${maxDevices}).` };
+                }
+            }
+        } else {
+            return { success: false, message: 'بيانات الدخول غير صحيحة أو غير موجودة.' };
+        }
+    } catch (error) {
+        console.error("Error logging in:", error);
+        return { success: false, message: 'حدث خطأ في الاتصال. حاول مرة أخرى. ' + error.message };
+    }
+}
 
 function checkAuth() {
-    console.log("Auth Check: OK");
-    return true; 
+    // Update SW registration and version - DESTROY active login session on version mismatch
+    if (localStorage.getItem('auth_session_version') !== FORCE_LOGOUT_VERSION) {
+        localStorage.clear();
+        localStorage.setItem('auth_session_version', FORCE_LOGOUT_VERSION);
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(regs => {
+                for (let r of regs) r.unregister();
+            }).catch(() => {});
+        }
+        window.location.href = 'index.html';
+        return;
+    }
+
+    if (localStorage.getItem('isLoggedIn') !== 'true') {
+        window.location.href = 'index.html';
+        return;
+    }
+
+    // Check 24-Hour Trial Account Expiry
+    if (localStorage.getItem('isTrial') === 'true') {
+        const expiresAt = parseInt(localStorage.getItem('trialExpiresAt') || '0', 10);
+        if (expiresAt > 0 && Date.now() > expiresAt) {
+            localStorage.clear();
+            alert('عذراً، انتهت الفترة التجريبية لحسابك (24 ساعة). تم تسجيل الخروج تلقائياً.');
+            window.location.href = 'index.html';
+            return;
+        }
+    }
+
+    // Background validation: Kick out users if they were deleted by admin
+    const currentUser = localStorage.getItem('currentUser');
+    if (currentUser && currentUser !== 'admin' && typeof db !== 'undefined') {
+        db.collection('codes').doc(currentUser).get().then(doc => {
+            if (!doc.exists) {
+                // User was deleted!
+                localStorage.clear();
+                window.location.href = 'index.html';
+            }
+        }).catch(err => {
+            // Ignore network errors so students can still play downloaded games offline
+        });
+    }
+
+    // Auto-setup Admin Panel Button in Navigation Header & Floating Badge across ALL pages
+    if (document.readyState === 'loading') {
+        window.addEventListener('DOMContentLoaded', setupAdminHeader);
+    } else {
+        setupAdminHeader();
+    }
+}
+
+function setupAdminHeader() {
+    const currUser = (localStorage.getItem('currentUser') || '').trim().toLowerCase();
+    const isAdmin = (currUser === 'admin' || currUser === '01208609509' || currUser === 'mm01208609509');
+
+    const userDisplay = document.getElementById('user-display');
+    if (userDisplay) {
+        userDisplay.textContent = isAdmin ? 'admin (المدير)' : (localStorage.getItem('currentUser') || 'طالب');
+    }
+
+    const adminBtn = document.getElementById('admin-btn-link');
+    if (adminBtn) {
+        if (isAdmin) {
+            adminBtn.style.cssText = 'display: inline-flex !important; visibility: visible !important; opacity: 1 !important; background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; border-radius: 20px; font-weight: bold; border: 1px solid #f59e0b; padding: 8px 18px; margin-left: 8px; text-decoration: none;';
+        } else {
+            adminBtn.style.cssText = 'display: none !important; visibility: hidden !important; opacity: 0 !important;';
+        }
+    }
+
+    const heroBtn = document.getElementById('admin-hero-btn');
+    if (heroBtn) {
+        heroBtn.style.display = isAdmin ? 'inline-flex' : 'none';
+    }
+
+    const existingFloat = document.getElementById('global-floating-admin-btn');
+    if (isAdmin) {
+        if (!existingFloat) {
+            const floatBtn = document.createElement('a');
+            floatBtn.id = 'global-floating-admin-btn';
+            floatBtn.href = 'admin.html';
+            floatBtn.style.cssText = 'position: fixed; bottom: 85px; right: 20px; z-index: 99999; background: linear-gradient(135deg, #f59e0b, #d97706); color: #ffffff !important; text-decoration: none; padding: 12px 22px; border-radius: 50px; font-weight: 900; font-size: 1.05rem; box-shadow: 0 10px 30px rgba(245, 158, 11, 0.7), 0 0 15px rgba(255, 255, 255, 0.4); border: 2px solid #ffffff; display: flex; align-items: center; gap: 8px; backdrop-filter: blur(10px);';
+            floatBtn.innerHTML = '⚙️ لوحة الإدارة';
+            document.body.appendChild(floatBtn);
+        }
+    } else {
+        if (existingFloat) {
+            existingFloat.remove();
+        }
+    }
 }
 
 function logout() {
-    console.log("Logout initiated");
     localStorage.clear();
-    sessionStorage.clear();
-    window.location.href = 'index.html?logout=' + Date.now();
+    window.location.href = 'index.html?logout=true';
 }
-
-// Block any other script from redirecting
-// Object.defineProperty(window, 'location', {
-//     writable: false,
-//     configurable: false
-// });

@@ -3,42 +3,301 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تسجيل الدخول | EnglishToon</title>
+    <title>تسجيل الدخول | English Toon</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Cairo', sans-serif; background: #0f172a; color: white; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
-        .login-card { background: rgba(30, 41, 59, 0.7); backdrop-blur: 20px; border: 1px solid rgba(255,255,255,0.1); border-radius: 2.5rem; padding: 3rem; width: 100%; max-width: 450px; }
-    </style>
-</head>
-<body>
-    <div class="login-card">
-        <div class="text-center mb-10">
-            <h1 class="text-4xl font-black mb-2">EnglishToon</h1>
-            <p class="text-slate-400 font-bold">عالم الألعاب الممتع</p>
-        </div>
-
-        <form id="loginForm" class="space-y-6">
-            <input type="text" id="username" required class="w-full bg-slate-900/50 border border-slate-700 rounded-2xl px-6 py-4 text-white font-bold text-lg" placeholder="اكتب اسمك هنا...">
-            <button type="submit" class="w-full bg-blue-600 text-white font-black py-5 rounded-2xl text-xl">
-                ابدأ المغامرة! 🎮
-            </button>
-        </form>
-    </div>
-
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Outfit:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <script>
-        document.getElementById('loginForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            localStorage.setItem('currentUser', document.getElementById('username').value);
-            localStorage.setItem('isLoggedIn', 'true');
-            window.location.href = 'dashboard.html';
-        });
-        
-        // Anti-Cache Reset
-        if (window.location.search.includes('reset')) {
-            localStorage.clear();
-            sessionStorage.clear();
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Cairo', 'sans-serif'],
+                        en: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#ec4899',
+                        accent: '#f59e0b',
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
         }
     </script>
+    <style>
+        body {
+            background-color: #f0fdf4;
+            background-image: url('images/englishtoon_login_bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Dark overlay for better text contrast */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            z-index: 0;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15), 
+                        inset 0 0 0 1px rgba(255,255,255,0.6);
+            z-index: 10;
+        }
+
+        .input-elegant {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid rgba(0,0,0,0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+        }
+        
+        .input-elegant:focus {
+            background: #ffffff;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15), inset 0 2px 4px rgba(0,0,0,0.01);
+            transform: translateY(-1px);
+        }
+
+        .btn-premium {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px -10px rgba(37, 99, 235, 0.6), 0 4px 0 #1d4ed8;
+        }
+        
+        .btn-premium:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px -10px rgba(37, 99, 235, 0.7), 0 6px 0 #1d4ed8;
+        }
+        
+        .btn-premium:active {
+            transform: translateY(4px);
+            box-shadow: 0 0px 0px rgba(37, 99, 235, 0.5), 0 0px 0 #1d4ed8;
+        }
+
+        .btn-premium::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(to bottom right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
+            transform: rotate(45deg);
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+
+        .btn-premium:hover::after {
+            animation: shine 1.5s infinite;
+            opacity: 1;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .anim-delay-1 { animation-delay: 0.1s; }
+        .anim-delay-2 { animation-delay: 0.2s; }
+        .anim-delay-3 { animation-delay: 0.3s; }
+    </style>
+    <link rel="stylesheet" href="css/englishtoon-3d-backgrounds.css?v=1">
+</head>
+<body class="toon-scene-login">
+
+    <div class="w-full max-w-md px-6 z-10 relative">
+        
+        <!-- Animated Login Card -->
+        <div class="glass-panel rounded-[2.5rem] p-8 md:p-10 relative overflow-hidden">
+            
+            <!-- Glowing Accent Line -->
+            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-primary via-secondary to-accent"></div>
+
+            <!-- Logo Section -->
+            <div class="text-center mb-8 opacity-0 animate-fade-in-up">
+                <div class="inline-flex items-center justify-center w-24 h-24 rounded-[1.5rem] bg-white shadow-2xl shadow-primary/20 border-2 border-white mb-5 relative group overflow-hidden">
+                    <img src="images/englishtoon_logo_new.jpg" alt="Logo" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                </div>
+                <h1 class="text-4xl font-black text-slate-800 font-en tracking-tight">
+                    English<span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Toon</span>
+                </h1>
+                <p class="text-slate-600 font-bold mt-2 text-sm bg-white/50 inline-block px-3 py-1 rounded-full border border-slate-200 backdrop-blur-sm">منصة التعليم التفاعلي الأذكى 🚀</p>
+            </div>
+
+            <!-- Login Form -->
+            <div id="auth-container">
+                <form id="loginForm" class="space-y-5">
+                    <div class="opacity-0 animate-fade-in-up anim-delay-1">
+                        <label class="block text-slate-800 text-sm font-extrabold mb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-user-graduate text-primary"></i> كود الطالب
+                        </label>
+                        <input type="text" id="username" class="input-elegant w-full px-5 py-4 rounded-2xl text-slate-800 font-bold outline-none placeholder-slate-400" placeholder="أدخل كود المرور الخاص بك" required autocomplete="username">
+                    </div>
+
+                    <div class="opacity-0 animate-fade-in-up anim-delay-2">
+                        <label class="block text-slate-800 text-sm font-extrabold mb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-lock text-secondary"></i> كلمة المرور
+                        </label>
+                        <input type="password" id="password" class="input-elegant w-full px-5 py-4 rounded-2xl text-slate-800 font-bold outline-none placeholder-slate-400" placeholder="••••••••" required autocomplete="current-password">
+                    </div>
+
+                    <div id="error-message" class="hidden opacity-0 animate-fade-in-up bg-red-50/90 border border-red-200 text-red-600 px-4 py-3 rounded-2xl text-sm font-bold flex items-center gap-3 backdrop-blur-md shadow-sm">
+                        <i class="fa-solid fa-circle-exclamation text-lg"></i>
+                        <span id="error-text"></span>
+                    </div>
+
+                    <div class="pt-2 opacity-0 animate-fade-in-up anim-delay-3">
+                        <button type="submit" id="loginBtn" class="btn-premium w-full text-white font-black text-lg py-4 rounded-2xl flex items-center justify-center gap-3">
+                            <span>ابدأ التعلم الآن</span>
+                            <i class="fa-solid fa-arrow-right-to-bracket text-white/90 text-xl"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+        <div class="text-center mt-6 text-slate-600/90 text-sm font-bold opacity-0 animate-fade-in-up anim-delay-3 drop-shadow-sm">
+            <p>&copy; 2026 English Toon. جميع الحقوق محفوظة.</p>
+        </div>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="js/auth.js?v=10000"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const authContainer = document.getElementById('auth-container');
+            const loginForm = document.getElementById('loginForm');
+            const errorMsg = document.getElementById('error-message');
+            const errorText = document.getElementById('error-text');
+            const loginBtn = document.getElementById('loginBtn');
+
+            // Handle Already Logged In State gracefully
+            if (localStorage.getItem('isLoggedIn') === 'true') {
+                const currentUser = localStorage.getItem('currentUser') || 'طالبنا المتميز';
+                const dest = currentUser === 'admin' ? 'admin.html' : 'dashboard.html';
+                
+                authContainer.innerHTML = `
+                    <div class="text-center space-y-4 opacity-0 animate-fade-in-up anim-delay-1">
+                        <div class="bg-emerald-50 text-emerald-600 rounded-2xl p-4 font-bold border border-emerald-100 flex items-center justify-center gap-3 mb-6 shadow-sm">
+                            <i class="fa-solid fa-face-smile text-2xl"></i>
+                            أهلاً بعودتك يا 
+                        </div>
+                        <button onclick="window.location.replace('dashboard.html?t=' + new Date().getTime())" class="btn-premium w-full text-white font-black text-lg py-4 rounded-2xl flex items-center justify-center gap-3 bg-gradient-to-r from-emerald-500 to-teal-500 shadow-emerald-500/50" style="box-shadow: 0 10px 20px -10px rgba(16,185,129, 0.5), 0 4px 0 #047857;">
+                            <span>متابعة التعلم</span>
+                            <i class="fa-solid fa-play"></i>
+                        </button>
+                        <button onclick="logout()" class="w-full text-slate-500 font-bold text-sm py-3 mt-2 hover:text-red-500 transition-colors bg-white/50 rounded-xl backdrop-blur-sm border border-slate-200">
+                            تسجيل الدخول بحساب آخر
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            // Normal Login Logic
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const username = document.getElementById('username').value.trim();
+                const password = document.getElementById('password').value.trim();
+
+                if (!username || !password) {
+                    showError('يرجى إدخال كود الطالب وكلمة المرور.');
+                    return;
+                }
+
+                loginBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> جاري الدخول...';
+                loginBtn.classList.add('opacity-90', 'pointer-events-none');
+                errorMsg.classList.add('hidden');
+                errorMsg.classList.remove('opacity-100');
+
+                try {
+                    const result = await login(username, password);
+                    
+                    if (result.success) {
+                        loginBtn.innerHTML = '<i class="fa-solid fa-check"></i> تم بنجاح!';
+                        loginBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+                        loginBtn.style.boxShadow = '0 10px 20px -10px rgba(16, 185, 129, 0.5), 0 4px 0 #047857';
+                        
+                        setTimeout(() => {
+                            window.location.replace('dashboard.html?t=' + new Date().getTime());
+                        }, 800);
+                    } else {
+                        showError(result.message || 'بيانات الدخول غير صحيحة.');
+                        resetBtn();
+                    }
+                } catch (error) {
+                    console.error("Login Error:", error); alert("Error: " + error.message);
+                    showError('حدث خطأ في الاتصال بالخادم. يرجى التأكد من اتصالك بالإنترنت.');
+                    resetBtn();
+                }
+            });
+
+            function showError(msg) {
+                errorText.textContent = msg;
+                errorMsg.classList.remove('hidden');
+                // Force reflow to restart animation
+                void errorMsg.offsetWidth;
+                errorMsg.classList.add('opacity-100');
+                
+                // Shake effect
+                authContainer.style.transform = 'translateX(-10px)';
+                setTimeout(() => authContainer.style.transform = 'translateX(10px)', 100);
+                setTimeout(() => authContainer.style.transform = 'translateX(-10px)', 200);
+                setTimeout(() => authContainer.style.transform = 'translateX(10px)', 300);
+                setTimeout(() => authContainer.style.transform = 'translateX(0)', 400);
+            }
+
+            function resetBtn() {
+                loginBtn.innerHTML = '<span>ابدأ التعلم الآن</span> <i class="fa-solid fa-arrow-right-to-bracket text-white/90 text-xl"></i>';
+                loginBtn.classList.remove('opacity-90', 'pointer-events-none');
+            }
+        });
+
+        // Global logout for the welcome back screen
+        window.logout = function() {
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('allowedGrade');
+            localStorage.removeItem('allowedUnits');
+            window.location.reload();
+        }
+    
+</script>
 </body>
 </html>
+
+
+
+
+
