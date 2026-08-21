@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>الألعاب | EnglishToon</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Cairo', sans-serif; background: #0f172a; color: #f8fafc; }
+        .lesson-badge { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(5px); }
+        .bg-pattern {
+            background-image: radial-gradient(#1e293b 2px, transparent 2px);
+            background-size: 30px 30px;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-slate-950 bg-pattern">
+    <header class="p-6 flex items-center justify-between bg-slate-900/80 backdrop-blur-xl border-b border-slate-800 sticky top-0 z-50">
+        <div class="flex items-center gap-4">
+            <a id="backBtn" href="#" class="w-12 h-12 rounded-2xl bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-slate-300 transition-all active:scale-90">
+                <i class="fa-solid fa-chevron-right text-xl"></i>
+            </a>
+            <div>
+                <h1 id="unitTitle" class="text-xl font-black text-blue-400">الوحدة 1</h1>
+                <p id="gradeName" class="text-xs text-slate-500 font-bold tracking-widest uppercase">الصف الدراسي</p>
+            </div>
+        </div>
+        <div class="w-12 h-12 rounded-2xl bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center text-yellow-500 text-2xl shadow-lg shadow-yellow-900/20">
+            <i class="fa-solid fa-star"></i>
+        </div>
+    </header>
+
+    <main class="max-w-2xl mx-auto px-6 py-8">
+        <div id="gamesList" class="space-y-8">
+            <!-- Lessons and Games will be injected here -->
+        </div>
+    </main>
+
+    <script src="js/data.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const gradeId = params.get('id');
+            const unitNum = params.get('unit') || '1';
+            
+            if (!gradeId) { window.location.href = 'dashboard.html'; return; }
+
+            const gradeInfo = GRADES_DATA.find(g => g.id === gradeId);
+            document.getElementById('gradeName').textContent = gradeInfo ? gradeInfo.name : '';
+            document.getElementById('unitTitle').textContent = `الوحدة ${unitNum}`;
+            document.getElementById('backBtn').href = `grade.html?id=${gradeId}`;
+
+            const container = document.getElementById('gamesList');
+            container.innerHTML = '';
+
+            const getLink = (u, l) => {
+                if (['primary-3', 'primary-4', 'primary-5', 'primary-6', 'prep-1'].includes(gradeId)) {
+                    const pMap = {1: 'Archery Quiz.html', 2: 'Space Blaster.html', 3: 'Bubble Pop.html', 4: 'Word Snake.html', 5: 'Jigsaw Puzzle.html', 6: 'Court Judge.html'};
+                    return `${gradeId}/Unit ${u}/Lesson ${l} - ${pMap[l] || pMap[1]}`;
+                }
+                if (gradeId === 'primary-2') {
+                    const arMap = {1: 'الدرس الاول - لعبة رمي السهام.html', 2: 'الدرس الثاني - لعبة سفن الفضاء.html', 3: 'الدرس الثالث - لعبة فرقعة الفقاعات.html', 4: 'الدرس الرابع - لعبة الثعبان.html'};
+                    if (u == 2) {
+                        const u2Map = {1: 'الدرس الاول - لعبة البالونات.html', 2: 'الدرس الثاني - لعبة صيد الاسماك.html', 3: 'الدرس الثالث - لعبة ضرب الخلد.html', 4: 'الدرس الرابع - لعبة سباق السيارات.html'};
+                        return `primary-2/Unit 2/${u2Map[l] || u2Map[1]}`;
+                    }
+                    return `primary-2/Unit ${u}/${arMap[l] || arMap[1]}`;
+                }
+                if (gradeId === 'primary-1') {
+                    const pMap = {1: 'Archery Quiz.html', 2: 'Space Blaster.html', 3: 'Bubble Pop.html', 4: 'Word Snake.html'};
+                    return `games/primary-1/unit${u}/Lesson ${l} - ${pMap[l] || pMap[1]}`;
+                }
+                if (gradeId === 'prep-2') {
+                    const prep2Games = {1: 'Lesson1_CannonBlast.html', 2: 'Lesson2_BowArrow.html', 3: 'Lesson3_SpaceShooter.html', 4: 'Lesson4_Fishing.html', 5: 'Lesson5_BubblePopper.html', 6: 'Lesson6_WhackMole.html'};
+                    return `games/prep-2/unit${u}/${prep2Games[l] || prep2Games[1]}`;
+                }
+                return '#';
+            };
+
+            const getGameName = (u, l) => {
+                if (gradeId === 'primary-2') {
+                    const arMap = {1: 'لعبة رمي السهام', 2: 'لعبة سفن الفضاء', 3: 'لعبة فرقعة الفقاعات', 4: 'لعبة الثعبان'};
+                    if (u == 2) {
+                        const u2Map = {1: 'لعبة البالونات', 2: 'لعبة صيد الأسماك', 3: 'لعبة ضرب الخلد', 4: 'لعبة سباق السيارات'};
+                        return u2Map[l] || 'لعبة جديدة';
+                    }
+                    return arMap[l] || 'لعبة جديدة';
+                }
+                const enMap = {1: 'Archery Quiz', 2: 'Space Blaster', 3: 'Bubble Pop', 4: 'Word Snake', 5: 'Jigsaw Puzzle', 6: 'Court Judge'};
+                return enMap[l] || 'New Game';
+            };
+
+            const lessonsCount = (gradeId.startsWith('prep')) ? 6 : 4;
+
+            for (let l = 1; l <= lessonsCount; l++) {
+                const gameLink = getLink(unitNum, l);
+                const gameName = getGameName(unitNum, l);
+                
+                const lessonContainer = document.createElement('div');
+                lessonContainer.className = 'bg-slate-900/50 border border-slate-800 p-6 rounded-[2rem] flex flex-col gap-6 shadow-2xl backdrop-blur-sm';
+                
+                lessonContainer.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span class="lesson-badge px-5 py-1.5 rounded-full text-xs font-black text-blue-400 border border-blue-500/20">الدرس ${l}</span>
+                        <div class="flex gap-1 text-yellow-500 text-sm">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 gap-4">
+                        <!-- Dictation Game -->
+                        <a href="dictation.html?id=${gradeId}&unit=${unitNum}&lesson=${l}" class="flex items-center justify-between bg-indigo-600/10 border border-indigo-500/20 p-5 rounded-3xl group hover:bg-indigo-600/20 transition-all active:scale-95">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-2xl bg-indigo-600 flex items-center justify-center text-white shadow-lg shadow-indigo-900/40 group-hover:rotate-6 transition-transform">
+                                    <i class="fa-solid fa-spell-check text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-black text-indigo-100 text-lg">تحدي الإملاء</h4>
+                                    <p class="text-[10px] text-indigo-400 font-bold uppercase tracking-widest">Dictation Challenge</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-chevron-left text-indigo-500 group-hover:translate-x-[-5px] transition-transform"></i>
+                        </a>
+
+                        <!-- Arcade Game -->
+                        <a href="${gameLink}" class="flex items-center justify-between bg-blue-600/10 border border-blue-500/20 p-5 rounded-3xl group hover:bg-blue-600/20 transition-all active:scale-95">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-2xl bg-blue-600 flex items-center justify-center text-white shadow-lg shadow-blue-900/40 group-hover:rotate-6 transition-transform">
+                                    <i class="fa-solid fa-gamepad text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-black text-blue-100 text-lg">${gameName}</h4>
+                                    <p class="text-[10px] text-blue-400 font-bold uppercase tracking-widest">Arcade Adventure</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-play text-blue-500 group-hover:scale-125 transition-transform"></i>
+                        </a>
+                    </div>
+                `;
+                container.appendChild(lessonContainer);
+            }
+        });
+    </script>
+</body>
+</html>
