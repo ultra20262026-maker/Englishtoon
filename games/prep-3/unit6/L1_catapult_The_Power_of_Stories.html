@@ -70,6 +70,161 @@ body{background:#2b1e17;color:white;font-family:'Nunito',sans-serif;overflow:hid
         line-height: 1.2 !important;
     }
     
+
+    .target-btn { 
+        width: auto !important; 
+        min-width: 140px; 
+        height: auto !important; 
+        min-height: 80px; 
+        padding: 15px 20px !important; 
+        white-space: normal !important; 
+        word-wrap: break-word !important;
+        line-height: 1.2 !important;
+    }
+    
+
+    /* التحسينات الشاملة لواجهة الألعاب */
+    .target-btn, .choice-btn, .option-btn { 
+        width: 90% !important;
+        max-width: 400px !important;
+        height: auto !important; 
+        min-height: 60px !important; 
+        margin: 8px auto !important;
+        padding: 12px 15px !important; 
+        white-space: normal !important; 
+        word-wrap: break-word !important;
+        line-height: 1.4 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        font-size: 1.1rem !important;
+        border-radius: 15px !important;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
+        transition: all 0.2s ease !important;
+    }
+    .target-btn:active, .choice-btn:active { transform: scale(0.98); }
+    #game-container { padding-bottom: 50px !important; }
+    #question-text { font-size: 1.3rem !important; line-height: 1.5 !important; margin-bottom: 20px !important; padding: 0 10px !important; }
+    
+
+/* Timer elements hidden */
+#timerBar, .timer-bar, .time-bar, .timer-container { display: none !important; }
+#bigTimer, .big-timer { display: none !important; }
+
+    /* التحسينات النهائية لواجهة الألعاب */
+    .target-btn, .choice-btn, .option-btn { 
+        width: 90% !important;
+        max-width: 500px !important;
+        height: auto !important; 
+        min-height: 70px !important; 
+        margin: 10px auto !important;
+        padding: 15px 20px !important; 
+        white-space: normal !important; 
+        word-wrap: break-word !important;
+        line-height: 1.4 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        font-size: 1.2rem !important;
+        border-radius: 15px !important;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
+        background-color: #ffffff !important;
+        color: #333 !important;
+        border: 2px solid #eee !important;
+    }
+    .target-btn:hover, .choice-btn:hover { background-color: #f8f9fa !important; border-color: #ddd !important; }
+    #game-container { padding-bottom: 60px !important; display: flex !important; flex-direction: column !important; align-items: center !important; }
+    #question-text { font-size: 1.4rem !important; line-height: 1.6 !important; margin-bottom: 25px !important; padding: 0 15px !important; text-align: center !important; font-weight: bold !important; }
+    .timer-container, #timer, .time-bar, #timerBar { display: none !important; } /* Hide timers */
+    
+
+    /* التحسينات النهائية لواجهة الألعاب - 2027 */
+    .target-btn, .choice-btn, .option-btn, .word-btn { 
+        width: 90% !important;
+        max-width: 500px !important;
+        height: auto !important; 
+        min-height: 70px !important; 
+        margin: 10px auto !important;
+        padding: 15px 20px !important; 
+        white-space: normal !important; 
+        word-wrap: break-word !important;
+        line-height: 1.4 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        font-size: 1.2rem !important;
+        border-radius: 15px !important;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
+        background-color: #ffffff !important;
+        color: #333 !important;
+        border: 2px solid #eee !important;
+        text-indent: 0 !important;
+        overflow: visible !important;
+        position: relative !important;
+        transform: none !important;
+        left: auto !important;
+        top: auto !important;
+    }
+    .target-btn:hover, .choice-btn:hover, .option-btn:hover { background-color: #f8f9fa !important; border-color: #ddd !important; }
+    
+    /* Ensure choice containers don't overlap */
+    #targets, #choices, #options-container {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        position: relative !important;
+        margin-top: 140px !important;
+        height: auto !important;
+        min-height: 300px !important;
+        pointer-events: auto !important;
+        z-index: 100 !important;
+    }
+    
+    #q-panel, #question-container { 
+        position: relative !important; 
+        top: 20px !important; 
+        z-index: 150 !important;
+        pointer-events: none !important;
+    }
+    
+    #question-text, #q-text { 
+        font-size: 1.4rem !important; 
+        line-height: 1.6 !important; 
+        margin-bottom: 25px !important; 
+        padding: 15px !important; 
+        text-align: center !important; 
+        font-weight: bold !important; 
+        background: rgba(255,255,255,0.9) !important;
+        color: #000 !important;
+        border-radius: 15px !important;
+        max-width: 90% !important;
+        margin: 0 auto !important;
+    }
+
+    .timer-container, #timer, .time-bar, #timerBar, .big-timer { display: none !important; } /* Hide timers */
+    
+    /* Ensure gift/lock boxes show text */
+    .gift-box, .lock-box, .mystery-box {
+        position: relative !important;
+        overflow: visible !important;
+    }
+    .gift-box::after, .lock-box::after, .mystery-box::after {
+        content: attr(data-text) !important;
+        position: absolute !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        color: #000 !important;
+        font-weight: bold !important;
+        z-index: 10 !important;
+        font-size: 1.2rem !important;
+        width: 100% !important;
+        text-align: center !important;
+    }
+    
 </style>
 
 
@@ -177,5 +332,61 @@ window.onresize = function(){
   if(cv){W=cv.width=window.innerWidth;H=cv.height=window.innerHeight;}
 };
 </script>
+
+<!-- Firebase Leaderboard Integration -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+<script>
+    const fbConfig = {
+        apiKey: "AIzaSyA1_kx4HmDWZF_T_EnZDKgq5yssYlOMaWM",
+        authDomain: "english-toon-14072.firebaseapp.com",
+        projectId: "english-toon-14072",
+        storageBucket: "english-toon-14072.firebasestorage.app",
+        messagingSenderId: "276063917807",
+        appId: "1:276063917807:web:c794621a4df054fdaaad1a"
+    };
+    if (!firebase.apps.length) firebase.initializeApp(fbConfig);
+    const db = firebase.firestore();
+    const deviceId = localStorage.getItem('device_id') || ('et-' + Math.random().toString(36).slice(2, 9));
+    localStorage.setItem('device_id', deviceId);
+
+    async function saveScoreToFirebase(finalScore) {
+        const studentName = localStorage.getItem('et_student_name') || localStorage.getItem('currentUser') || 'بطل التوون';
+        const urlParams = new URLSearchParams(window.location.search);
+        const gradeId = urlParams.get('id') || window.location.pathname.split('/').slice(-3, -2)[0] || 'primary-1';
+        const unit = urlParams.get('unit') || window.location.pathname.split('/').slice(-2, -1)[0].replace('unit', '') || '1';
+        const lesson = urlParams.get('lesson') || '1';
+        const gameKey = `${gradeId}_U${unit}_L${lesson}`;
+        
+        const badges = JSON.parse(localStorage.getItem('et_badges') || '{}');
+        const currentTotal = parseInt(localStorage.getItem('englishtoon_total_score') || '0');
+        const newTotal = currentTotal + (finalScore > 0 ? 50 : 0);
+        localStorage.setItem('englishtoon_total_score', newTotal);
+
+        try {
+            await db.collection('leaderboard').doc(`${deviceId}_total`).set({
+                name: studentName,
+                score: newTotal,
+                grade: gradeId,
+                deviceId: deviceId,
+                badges: badges,
+                lastUpdate: firebase.firestore.FieldValue.serverTimestamp()
+            }, { merge: true });
+
+            await db.collection('game_scores').doc(`${deviceId}_${gameKey}`).set({
+                name: studentName,
+                score: finalScore,
+                grade: gradeId,
+                unit: unit,
+                lesson: lesson,
+                gameId: gameKey,
+                deviceId: deviceId,
+                badges: badges,
+                lastUpdate: firebase.firestore.FieldValue.serverTimestamp()
+            });
+        } catch (e) { console.error("Firebase save failed", e); }
+    }
+</script>
+
 </body>
 </html>
