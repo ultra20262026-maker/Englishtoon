@@ -108,6 +108,30 @@
             align-items: center;
             justify-content: space-between;
         }
+
+        /* Badge Styles */
+        .badge-mini {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            background: rgba(255,255,255,0.5);
+            color: #94a3b8;
+            filter: grayscale(1);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        .badge-mini.active {
+            filter: grayscale(0);
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .badge-king.active { color: #f59e0b; }
+        .badge-star.active { color: #3b82f6; }
+        .badge-persistent.active { color: #ef4444; }
+        .badge-hero.active { color: #8b5cf6; }
     </style>
     <link rel="stylesheet" href="css/englishtoon-3d-backgrounds.css?v=1">
 </head>
@@ -126,6 +150,22 @@
                         <p class="text-xs font-bold text-primary">العب، استمتع، وتعلم!</p>
                     </div>
                 </div>
+
+                <!-- Points & Badges Summary (Only in Games Section) -->
+                <div class="flex items-center gap-3">
+                    <!-- Badges -->
+                    <div class="hidden sm:flex gap-1 bg-white/40 p-1 rounded-full border border-white/60">
+                        <div id="badge-king" class="badge-mini badge-king" title="ملك الإملاء"><i class="fa-solid fa-crown"></i></div>
+                        <div id="badge-star" class="badge-mini badge-star" title="النجم الساطع"><i class="fa-solid fa-star"></i></div>
+                        <div id="badge-persistent" class="badge-mini badge-persistent" title="المثابر"><i class="fa-solid fa-fire"></i></div>
+                        <div id="badge-hero" class="badge-mini badge-hero" title="بطل EnglishToon"><i class="fa-solid fa-trophy"></i></div>
+                    </div>
+                    <!-- Points -->
+                    <div class="flex items-center gap-2 bg-amber-100 px-4 py-2 rounded-full border border-amber-200 shadow-sm">
+                        <span id="totalCoins" class="font-black text-amber-600">0</span>
+                        <i class="fa-solid fa-coins text-amber-500"></i>
+                    </div>
+                </div>
             </div>
         </div>
     </header>
@@ -137,6 +177,7 @@
         <div class="bg-gradient-to-r from-primary to-blue-400 rounded-[2rem] p-8 text-white shadow-xl shadow-primary/20 mb-8 relative overflow-hidden animate-fade-in-up">
             <h1 class="text-3xl md:text-4xl font-black mb-2">اختر صفك الدراسي وابدأ اللعب!</h1>
             <p class="text-blue-50 text-lg font-semibold">تصفح الألعاب التفاعلية لجميع الصفوف.</p>
+            <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
         </div>
 
         <!-- Grade Filter Pills -->
@@ -175,14 +216,26 @@
 
     </main>
 
-    <script src="js/data.js?v=202701"></script>
-    <script src="js/auth.js?v=202701"></script>
+    <script src="js/data.js?v=10000"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="js/auth.js?v=10001"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             if (localStorage.getItem('isLoggedIn') !== 'true') {
                 window.location.replace('index.html');
                 return;
             }
+
+            // Load Score & Badges
+            const coins = localStorage.getItem('et_total_coins') || '0';
+            document.getElementById('totalCoins').textContent = coins;
+            
+            const badges = JSON.parse(localStorage.getItem('et_badges') || '[]');
+            badges.forEach(b => {
+                const el = document.getElementById(`badge-${b}`);
+                if (el) el.classList.add('active');
+            });
 
             const primaryGrid = document.getElementById('primary-grid');
             const prepGrid = document.getElementById('prep-grid');
