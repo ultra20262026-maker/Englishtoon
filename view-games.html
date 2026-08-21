@@ -89,9 +89,16 @@
         function renderGames(gradeId, unitNum, arcadeMap) {
             const container = document.getElementById('gamesList');
             container.innerHTML = '';
-            const lessonsCount = (gradeId.startsWith('prep')) ? 6 : 4;
+            // Get all units from arcadeMap for this grade
+            const units = arcadeMap[gradeId] || {};
+            const unitData = units[unitNum] || {};
+            
+            // We still want to show at least 4/6 lessons even if arcade games are missing
+            const baseLessonsCount = (gradeId.startsWith('prep')) ? 6 : 4;
+            const arcadeLessons = Object.keys(unitData).map(Number);
+            const maxLesson = Math.max(baseLessonsCount, ...arcadeLessons, 0);
 
-            for (let l = 1; l <= lessonsCount; l++) {
+            for (let l = 1; l <= maxLesson; l++) {
                 const progressKey = `englishtoon_progress_${gradeId}_${unitNum}_${l}`;
                 const progress = JSON.parse(localStorage.getItem(progressKey)) || { stars: 0, completed: false };
                 const gameId = `${gradeId}_U${unitNum}_L${l}`;
@@ -99,11 +106,17 @@
                 let arcadeLink = '#';
                 let arcadeName = 'لعبة جديدة';
                 
-                if (arcadeMap[gradeId] && arcadeMap[gradeId][unitNum] && arcadeMap[gradeId][unitNum][l]) {
-                    arcadeLink = arcadeMap[gradeId][unitNum][l];
-                    const filename = arcadeLink.split('/').pop().replace('.html', '');
-                    arcadeName = filename.split(' - ').pop().split('_').pop();
-                    if (arcadeName.startsWith('Lesson')) arcadeName = 'لعبة الأركيد';
+                if (unitData[l]) {
+                    arcadeLink = unitData[l];
+                    const filename = decodeURIComponent(arcadeLink.split('/').pop().replace('.html', ''));
+                    // Try to get a clean name from the filename
+                    arcadeName = filename;
+                    if (filename.includes(' - ')) arcadeName = filename.split(' - ').pop();
+                    else if (filename.includes('_')) arcadeName = filename.split('_').pop();
+                    
+                    if (arcadeName.match(/^\d+$/) || arcadeName.toLowerCase().startsWith('lesson')) {
+                         arcadeName = 'لعبة الأركيد';
+                    }
                 }
 
                 const lessonContainer = document.createElement('div');
