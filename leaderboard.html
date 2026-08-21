@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة الأبطال | EnglishToon</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Fredoka+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Cairo', sans-serif; background: #0f172a; color: #f8fafc; }
+        .bg-pattern {
+            background-image: radial-gradient(#1e293b 2px, transparent 2px);
+            background-size: 30px 30px;
+        }
+        .podium-1 { background: linear-gradient(to bottom, #fbbf24, #b45309); }
+        .podium-2 { background: linear-gradient(to bottom, #94a3b8, #475569); }
+        .podium-3 { background: linear-gradient(to bottom, #d97706, #78350f); }
+        
+        .rank-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .rank-card:hover { transform: scale(1.02); }
+        
+        .crown {
+            filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.5));
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0) rotate(0); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+        }
+        
+        .tabs-scroll::-webkit-scrollbar { display: none; }
+        .tabs-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .tab-active { background: #3b82f6; color: white; border-color: #3b82f6; }
+        .tab-inactive { background: rgba(255,255,255,0.05); color: #94a3b8; border-color: rgba(255,255,255,0.1); }
+
+        .mini-badge {
+            width: 20px; height: 20px;
+            border-radius: 6px;
+            display: inline-flex; align-items: center; justify-content: center;
+            font-size: 10px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-slate-950 bg-pattern pb-10">
+    <header class="p-6 flex items-center justify-between bg-slate-900/80 backdrop-blur-xl border-b border-slate-800 sticky top-0 z-50">
+        <div class="flex items-center gap-4">
+            <a id="backBtn" href="dashboard.html" class="w-12 h-12 rounded-2xl bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-slate-300 transition-all active:scale-90">
+                <i class="fa-solid fa-chevron-right text-xl"></i>
+            </a>
+            <div>
+                <h1 class="text-xl font-black text-white" id="lbTitle">لوحة الأبطال</h1>
+                <p class="text-[10px] text-blue-400 font-bold uppercase tracking-widest" id="lbSubtitle">الترتيب العام</p>
+            </div>
+        </div>
+        <div id="cloudStatus" class="px-4 py-2 bg-blue-500/10 border border-blue-500/20 rounded-2xl text-blue-400 font-bold flex items-center gap-2 text-xs">
+            <i class="fa-solid fa-cloud"></i>
+            <span>جاري المزامنة...</span>
+        </div>
+    </header>
+
+    <main class="max-w-2xl mx-auto px-6 mt-6">
+        <!-- Grade Tabs -->
+        <div class="tabs-scroll flex gap-2 overflow-x-auto pb-6" id="gradeTabs">
+            <!-- Tabs injected here -->
+        </div>
+
+        <!-- Top 3 Podium -->
+        <div id="podium" class="flex items-end justify-center gap-2 mb-12 h-64">
+            <!-- Podium items will be injected here -->
+        </div>
+
+        <!-- Leaderboard List -->
+        <div id="leaderboardList" class="space-y-3">
+            <!-- List items will be injected here -->
+        </div>
+
+        <!-- User Current Rank -->
+        <div id="userRankCard" class="mt-10 p-6 rounded-[2rem] bg-indigo-600/20 border-2 border-indigo-500/30 flex items-center justify-between hidden">
+            <div class="flex items-center gap-4">
+                <div id="userRankNum" class="w-14 h-14 rounded-2xl bg-indigo-600 flex items-center justify-center text-white text-2xl font-black">
+                    #?
+                </div>
+                <div>
+                    <h3 class="font-black text-white text-lg">ترتيبك الحالي</h3>
+                    <div id="userBadges" class="flex gap-1 mt-1">
+                        <!-- User badges here -->
+                    </div>
+                </div>
+            </div>
+            <div class="text-right">
+                <span id="userPoints" class="text-2xl font-black text-white">0</span>
+                <p class="text-[10px] text-indigo-400 font-black uppercase">Coin</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    
+    <script>
+        const fbConfig = {
+            apiKey: "AIzaSyA1_kx4HmDWZF_T_EnZDKgq5yssYlOMaWM",
+            authDomain: "english-toon-14072.firebaseapp.com",
+            projectId: "english-toon-14072",
+            storageBucket: "english-toon-14072.firebasestorage.app",
+            messagingSenderId: "276063917807",
+            appId: "1:276063917807:web:c794621a4df054fdaaad1a"
+        };
+        
+        if (!firebase.apps.length) firebase.initializeApp(fbConfig);
+        const db = firebase.firestore();
+        const deviceId = localStorage.getItem('device_id');
+
+        const params = new URLSearchParams(window.location.search);
+        const gameId = params.get('gameId');
+        let currentGrade = params.get('grade') || localStorage.getItem('et_leaderboard_grade') || 'primary-1';
+        
+        const GRADE_LABELS = {
+            'primary-1':'1ب','primary-2':'2ب','primary-3':'3ب',
+            'primary-4':'4ب','primary-5':'5ب','primary-6':'6ب',
+            'prep-1':'1ع','prep-2':'2ع','prep-3':'3ع'
+        };
+
+        let cloudPlayers = [];
+
+        function init() {
+            if (gameId) {
+                document.getElementById('gradeTabs').classList.add('hidden');
+                const [grade, u, l] = gameId.split('_');
+                document.getElementById('lbTitle').textContent = `أبطال ${GRADE_LABELS[grade]}`;
+                document.getElementById('lbSubtitle').textContent = `${u.replace('U', 'الوحدة ')} - ${l.replace('L', 'الدرس ')}`;
+                document.getElementById('backBtn').href = `view-games.html?id=${grade}&unit=${u.replace('U', '')}`;
+                listenToGameLeaderboard();
+            } else {
+                renderTabs();
+                listenToGeneralLeaderboard();
+            }
+        }
+
+        function renderTabs() {
+            const container = document.getElementById('gradeTabs');
+            container.innerHTML = '';
+            Object.keys(GRADE_LABELS).forEach(grade => {
+                const btn = document.createElement('button');
+                btn.className = `px-6 py-2 rounded-full border-2 font-black text-sm transition-all whitespace-nowrap ${grade === currentGrade ? 'tab-active' : 'tab-inactive'}`;
+                btn.textContent = GRADE_LABELS[grade];
+                btn.onclick = () => {
+                    currentGrade = grade;
+                    localStorage.setItem('et_leaderboard_grade', grade);
+                    renderTabs();
+                    listenToGeneralLeaderboard();
+                };
+                container.appendChild(btn);
+            });
+        }
+
+        function listenToGeneralLeaderboard() {
+            db.collection('leaderboard')
+                .where('grade', '==', currentGrade)
+                .orderBy('score', 'desc')
+                .limit(20)
+                .onSnapshot(snapshot => {
+                    cloudPlayers = [];
+                    snapshot.forEach(doc => cloudPlayers.push(doc.data()));
+                    updateUI(true);
+                });
+        }
+
+        function listenToGameLeaderboard() {
+            db.collection('game_scores')
+                .where('gameId', '==', gameId)
+                .orderBy('score', 'desc')
+                .limit(20)
+                .onSnapshot(snapshot => {
+                    cloudPlayers = [];
+                    snapshot.forEach(doc => cloudPlayers.push(doc.data()));
+                    updateUI(false);
+                });
+        }
+
+        function getBadgesHtml(player) {
+            let html = '';
+            if (player.badges) {
+                if (player.badges.king) html += '<span class="mini-badge" title="ملك الإملاء">👑</span>';
+                if (player.badges.star) html += '<span class="mini-badge" title="النجم الساطع">⭐</span>';
+                if (player.badges.fire) html += '<span class="mini-badge" title="المثابر">🔥</span>';
+                if (player.badges.hero) html += '<span class="mini-badge" title="بطل EnglishToon">🏆</span>';
+            }
+            return html;
+        }
+
+        function updateUI(isGeneral) {
+            const top3 = cloudPlayers.slice(0, 3);
+            renderPodium(top3);
+            renderList(cloudPlayers);
+            
+            const myRank = cloudPlayers.findIndex(p => p.deviceId === deviceId) + 1;
+            if (myRank > 0) {
+                document.getElementById('userRankCard').classList.remove('hidden');
+                document.getElementById('userRankNum').textContent = `#${myRank}`;
+                document.getElementById('userPoints').textContent = isGeneral ? (localStorage.getItem('englishtoon_total_score') || '0') : cloudPlayers[myRank-1].score;
+                
+                const myBadges = JSON.parse(localStorage.getItem('et_badges') || '{}');
+                document.getElementById('userBadges').innerHTML = getBadgesHtml({badges: myBadges});
+            }
+        }
+
+        function renderPodium(top3) {
+            const podium = document.getElementById('podium');
+            podium.innerHTML = '';
+            const orders = [1, 0, 2]; 
+            orders.forEach(idx => {
+                const player = top3[idx];
+                if (!player) return;
+                const height = idx === 0 ? 'h-40' : idx === 1 ? 'h-32' : 'h-24';
+                const color = idx === 0 ? 'podium-1' : idx === 1 ? 'podium-2' : 'podium-3';
+                const trophy = idx === 0 ? '👑' : idx === 1 ? '🥈' : '🥉';
+                
+                const item = document.createElement('div');
+                item.className = `flex flex-col items-center flex-1 max-w-[100px] animate-fade-in-up`;
+                item.innerHTML = `
+                    <div class="text-3xl mb-1 ${idx === 0 ? 'crown' : ''}">${trophy}</div>
+                    <div class="w-12 h-12 rounded-full bg-slate-800 border-2 border-slate-700 flex items-center justify-center text-xl mb-1 shadow-xl">
+                        ${player.deviceId === deviceId ? '🌟' : '👤'}
+                    </div>
+                    <div class="text-center mb-1 w-full px-1">
+                        <p class="font-black text-[10px] truncate">${player.name}</p>
+                        <div class="flex justify-center gap-0.5 mb-1">${getBadgesHtml(player)}</div>
+                        <p class="text-[9px] text-blue-400 font-bold">${player.score} 🪙</p>
+                    </div>
+                    <div class="${height} w-full ${color} rounded-t-2xl shadow-2xl flex items-center justify-center text-white font-black text-2xl">
+                        ${idx + 1}
+                    </div>
+                `;
+                podium.appendChild(item);
+            });
+        }
+
+        function renderList(players) {
+            const list = document.getElementById('leaderboardList');
+            list.innerHTML = '';
+            players.forEach((player, index) => {
+                if (index < 3) return;
+                const isMe = player.deviceId === deviceId;
+                const card = document.createElement('div');
+                card.className = `rank-card p-4 rounded-3xl bg-slate-900/50 border border-slate-800 flex items-center justify-between ${isMe ? 'border-indigo-500/50 bg-indigo-500/10' : ''}`;
+                card.innerHTML = `
+                    <div class="flex items-center gap-4">
+                        <div class="w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-slate-400 font-black text-xs">
+                            ${index + 1}
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <h4 class="font-black text-white text-sm">${player.name}</h4>
+                                <div class="flex gap-0.5">${getBadgesHtml(player)}</div>
+                            </div>
+                            <p class="text-[9px] text-slate-500 font-bold uppercase tracking-widest">${isMe ? 'أنت البطل' : 'بطل EnglishToon'}</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-lg font-black text-yellow-500">${player.score}</span>
+                        <span class="text-[8px] text-slate-500 font-black block">🪙 COIN</span>
+                    </div>
+                `;
+                list.appendChild(card);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

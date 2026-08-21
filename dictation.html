@@ -121,6 +121,10 @@
         </div>
     </div>
 
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
     <script>
         const params = new URLSearchParams(window.location.search);
         const gradeId = params.get('id');
@@ -131,11 +135,103 @@
         let currentWordIndex = 0;
         let currentWord = "";
         let userTyped = "";
-        let score = 0;
         let lives = 3;
+
+        // Firebase Config
+        const fbConfig = {
+            apiKey: "AIzaSyA1_kx4HmDWZF_T_EnZDKgq5yssYlOMaWM",
+            authDomain: "english-toon-14072.firebaseapp.com",
+            projectId: "english-toon-14072",
+            storageBucket: "english-toon-14072.firebasestorage.app",
+            messagingSenderId: "276063917807",
+            appId: "1:276063917807:web:c794621a4df054fdaaad1a"
+        };
+        if (!firebase.apps.length) firebase.initializeApp(fbConfig);
+        const db = firebase.firestore();
+        const deviceId = localStorage.getItem('device_id') || ('et-' + Math.random().toString(36).slice(2, 9));
+        localStorage.setItem('device_id', deviceId);
+
+        // Persistent Data Logic
+        async function saveProgress() {
+            // Total Score
+            let currentTotal = parseInt(localStorage.getItem('englishtoon_total_score') || '0');
+            const newTotal = currentTotal + 20;
+            localStorage.setItem('englishtoon_total_score', newTotal);
+
+            // Lesson Progress
+            const progressKey = `englishtoon_progress_${gradeId}_${unit}_${lesson}`;
+            let progress = JSON.parse(localStorage.getItem(progressKey) || '{"stars": 0, "completed": false}');
+            
+            if (currentWordIndex >= words.length - 1) {
+                progress.completed = true;
+                progress.stars = 3;
+            } else if (currentWordIndex > words.length / 2) {
+                progress.stars = Math.max(progress.stars, 2);
+            } else {
+                progress.stars = Math.max(progress.stars, 1);
+            }
+            
+            localStorage.setItem(progressKey, JSON.stringify(progress));
+
+            // Sync to Cloud for Leaderboard (Total + Specific Game + Badges)
+            try {
+                const userName = localStorage.getItem('currentUser') || 'طالب متميز';
+                const gameKey = `${gradeId}_U${unit}_L${lesson}`;
+                const badges = JSON.parse(localStorage.getItem('et_badges') || '{}');
+                
+                // Update Total Score with Badges
+                await db.collection('leaderboard').doc(`${deviceId}_total`).set({
+                    name: userName,
+                    score: newTotal,
+                    grade: gradeId,
+                    deviceId: deviceId,
+                    badges: badges,
+                    lastUpdate: firebase.firestore.FieldValue.serverTimestamp()
+                }, { merge: true });
+
+                // Update Specific Game High Score
+                const gameRef = db.collection('game_scores').doc(`${deviceId}_${gameKey}`);
+                const doc = await gameRef.get();
+                const currentBest = doc.exists ? doc.data().score : 0;
+                const sessionGameScore = (currentWordIndex + 1) * 20;
+                
+                if (sessionGameScore > currentBest) {
+                    await gameRef.set({
+                        name: userName,
+                        score: sessionGameScore,
+                        grade: gradeId,
+                        unit: unit,
+                        lesson: lesson,
+                        gameId: gameKey,
+                        deviceId: deviceId,
+                        badges: badges,
+                        lastUpdate: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+
+                    // Check if player is now #1 for King Badge
+                    const topPlayer = await db.collection('game_scores')
+                        .where('gameId', '==', gameKey)
+                        .orderBy('score', 'desc')
+                        .limit(1)
+                        .get();
+                    
+                    if (!topPlayer.empty && topPlayer.docs[0].data().deviceId === deviceId) {
+                        badges.king = true;
+                        localStorage.setItem('et_badges', JSON.stringify(badges));
+                    }
+                }
+            } catch (e) {
+                console.error("Cloud sync failed", e);
+            }
+        }
+
+        function loadTotalScore() {
+            return parseInt(localStorage.getItem('englishtoon_total_score') || '0');
+        }
 
         document.getElementById('backBtn').href = `view-games.html?id=${gradeId}&unit=${unit}`;
         document.getElementById('lesson-info').textContent = `UNIT ${unit} • LESSON ${lesson}`;
+        document.getElementById('score').textContent = loadTotalScore();
 
         async function loadVocab() {
             try {
@@ -146,11 +242,9 @@
                 words = gradeVocab[key] || [];
                 
                 if (words.length === 0) {
-                    // Fallback to generic words if specific lesson not found
                     words = ['hello', 'teacher', 'school', 'student', 'book'];
                 }
                 
-                // Shuffle words for variety
                 words.sort(() => Math.random() - 0.5);
                 initGame();
             } catch (e) {
@@ -169,14 +263,11 @@
             currentWord = words[currentWordIndex].toLowerCase().trim();
             userTyped = "";
             
-            // Update Progress
             const progress = (currentWordIndex / words.length) * 100;
             document.getElementById('progress').style.width = `${progress}%`;
             
             renderSlots();
             renderLetters();
-            
-            // Delayed speak to let student prepare
             setTimeout(speakWord, 500);
         }
 
@@ -194,7 +285,6 @@
             const area = document.getElementById('letters-area');
             area.innerHTML = '';
             let letters = currentWord.split('');
-            // Shuffle
             letters.sort(() => Math.random() - 0.5);
             
             letters.forEach((char, idx) => {
@@ -239,14 +329,12 @@
 
         function checkAnswer() {
             if (userTyped === currentWord) {
-                // Correct!
-                score += 20;
-                document.getElementById('score').textContent = score;
+                saveProgress(); 
+                document.getElementById('score').textContent = loadTotalScore();
                 
                 const slots = document.querySelectorAll('.answer-slot');
                 slots.forEach(s => s.classList.add('success-anim'));
                 
-                // Confetti for each word!
                 confetti({
                     particleCount: 40,
                     spread: 70,
@@ -259,7 +347,6 @@
                     initGame();
                 }, 1200);
             } else {
-                // Wrong!
                 lives--;
                 document.getElementById('lives').textContent = '❤️'.repeat(lives) + '🖤'.repeat(3-lives);
                 
@@ -283,7 +370,7 @@
                 window.speechSynthesis.cancel();
                 const msg = new SpeechSynthesisUtterance(currentWord);
                 msg.lang = 'en-US';
-                msg.rate = 0.8; // Slightly slower for clarity
+                msg.rate = 0.8;
                 window.speechSynthesis.speak(msg);
             }
         }
@@ -292,33 +379,16 @@
             document.getElementById('progress').style.width = `100%`;
             document.getElementById('overlay').classList.remove('hidden');
             
-            // Grand Confetti
             var duration = 3 * 1000;
             var end = Date.now() + duration;
 
             (function frame() {
-              confetti({
-                particleCount: 3,
-                angle: 60,
-                spread: 55,
-                origin: { x: 0 },
-                colors: ['#3b82f6', '#fbbf24']
-              });
-              confetti({
-                particleCount: 3,
-                angle: 120,
-                spread: 55,
-                origin: { x: 1 },
-                colors: ['#3b82f6', '#fbbf24']
-              });
-
-              if (Date.now() < end) {
-                requestAnimationFrame(frame);
-              }
+              confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#3b82f6', '#fbbf24'] });
+              confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#3b82f6', '#fbbf24'] });
+              if (Date.now() < end) requestAnimationFrame(frame);
             }());
         }
 
-        // Start
         loadVocab();
     </script>
 </body>
