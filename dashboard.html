@@ -43,12 +43,9 @@
     <style>
         body {
             background-color: #f8fafc;
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.08) 0px, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(236, 72, 153, 0.08) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(245, 158, 11, 0.08) 0px, transparent 50%);
             min-height: 100vh;
             background-attachment: fixed;
+            transition: background-color 0.5s ease;
         }
 
         .glass-header {
@@ -75,39 +72,15 @@
             backdrop-filter: blur(10px);
             border: 2px solid rgba(255,255,255,1);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
             cursor: pointer;
         }
         
         .category-card:hover {
             transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 0 0 2px var(--hover-color, #3b82f6);
-        }
-        
-        .category-card:active {
-            transform: translateY(0) scale(0.98);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
         }
 
-        .icon-container {
-            position: relative;
-            overflow: hidden;
-            border-radius: 1.5rem;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-        }
-
-        .icon-container img {
-            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .category-card:hover .icon-container img {
-            transform: scale(1.15) rotate(3deg);
-        }
-
-        .delay-1 { animation-delay: 0.1s; }
-        .delay-2 { animation-delay: 0.2s; }
-        .delay-3 { animation-delay: 0.3s; }
-
-        /* Points and Badges Mini UI */
         .stat-badge {
             display: flex;
             align-items: center;
@@ -116,7 +89,6 @@
             padding: 6px 12px;
             border-radius: 999px;
             border: 1px solid rgba(0,0,0,0.05);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
         
         .badge-dot {
@@ -140,6 +112,13 @@
         .badge-star.active { color: #3b82f6; }
         .badge-persistent.active { color: #ef4444; }
         .badge-hero.active { color: #8b5cf6; }
+
+        #user-avatar-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: all 0.3s ease;
+        }
     </style>
 </head>
 <body class="text-slate-800 pb-20">
@@ -160,7 +139,12 @@
             </div>
 
             <div class="flex items-center gap-4">
-                <!-- Points and Badges (Integrated quietly) -->
+                <!-- Shop Link -->
+                <a href="shop.html" class="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-2xl font-black shadow-lg shadow-blue-500/30 hover:bg-blue-500 transition-all active:scale-95">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="hidden sm:inline">المتجر</span>
+                </a>
+
                 <div class="hidden sm:flex items-center gap-2">
                     <div class="flex gap-1 bg-slate-100/50 p-1 rounded-full border border-slate-200">
                         <div id="badge-king" class="badge-dot badge-king" title="ملك الإملاء"><i class="fa-solid fa-crown"></i></div>
@@ -178,6 +162,12 @@
                     <p class="text-[10px] text-slate-500 font-bold leading-none">مرحباً بك،</p>
                     <p id="userNameDisplay" class="font-bold text-primary text-sm">طالبنا المتميز</p>
                 </div>
+                
+                <!-- Avatar Display -->
+                <div class="w-10 h-10 rounded-full bg-white border-2 border-primary overflow-hidden shadow-sm">
+                    <img id="user-avatar-img" src="https://cdn-icons-png.flaticon.com/512/4333/4333609.png" alt="Avatar">
+                </div>
+
                 <button onclick="logout()" class="w-9 h-9 rounded-full bg-red-50 text-red-500 hover:bg-red-500 hover:text-white transition-colors flex items-center justify-center shadow-sm" title="تسجيل الخروج">
                     <i class="fa-solid fa-power-off text-sm"></i>
                 </button>
@@ -186,7 +176,6 @@
     </header>
 
     <main class="max-w-6xl mx-auto px-4 mt-8">
-        
         <!-- Hero Banner -->
         <div class="hero-banner w-full h-[250px] md:h-[350px] rounded-[2rem] md:rounded-[3rem] overflow-hidden opacity-0 animate-fade-in-up">
             <div class="hero-overlay w-full h-full flex flex-col justify-center px-8 md:px-16">
@@ -209,140 +198,130 @@
             </h3>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8" id="features-grid">
-                
-                <!-- Unified All Grades Games Card -->
-                <div onclick="window.location.href='games.html'" class="category-card rounded-[2.5rem] p-6 flex flex-col md:flex-row items-center gap-6 opacity-0 animate-fade-in-up delay-2 group" style="--hover-color: #ec4899;">
-                    <div class="icon-container w-32 h-32 md:w-40 md:h-40 shrink-0">
-                        <img src="images/icon_games_dashboard.jpg" alt="Games" class="w-full h-full object-cover">
+                <!-- Games -->
+                <div onclick="window.location.href='games.html'" class="category-card rounded-[2.5rem] p-6 flex flex-col md:flex-row items-center gap-6 opacity-0 animate-fade-in-up delay-2 group">
+                    <div class="icon-container w-32 h-32 md:w-40 md:h-40 shrink-0 overflow-hidden rounded-3xl">
+                        <img src="images/icon_games_dashboard.jpg" alt="Games" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                     </div>
                     <div class="text-center md:text-right flex-1">
-                        <span class="text-xs font-black text-secondary uppercase tracking-wider bg-secondary/10 px-3 py-1 rounded-full mb-3 inline-block">Play & Learn</span>
                         <h4 class="text-3xl font-black text-slate-800 mb-2">الألعاب</h4>
-                        <p class="text-slate-500 font-bold text-sm md:text-base leading-relaxed mb-4">
-                            مدخل واحد يضم ألعاب كل الصفوف. اختر صفك الدراسي، ثم افتح الوحدات والدروس والأنشطة المناسبة لك.
-                        </p>
-                        <div class="inline-flex items-center gap-2 text-secondary font-bold group-hover:translate-x-[-5px] transition-transform">
-                            اختر الصف والعب الآن <i class="fa-solid fa-arrow-left"></i>
-                        </div>
+                        <p class="text-slate-500 font-bold text-sm leading-relaxed mb-4">مدخل واحد يضم ألعاب كل الصفوف والوحدات.</p>
+                        <div class="text-secondary font-bold">العب الآن <i class="fa-solid fa-arrow-left"></i></div>
                     </div>
                 </div>
 
-                <!-- Dictionary Match Card -->
-                <div onclick="window.location.href='games/primary-1/dictionary-match.html'" class="category-card rounded-[2.5rem] p-6 flex flex-col md:flex-row items-center gap-6 opacity-0 animate-fade-in-up delay-3 group" style="--hover-color: #8b5cf6;">
-                    <div class="icon-container w-32 h-32 md:w-40 md:h-40 shrink-0 bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center">
-                        <i class="fa-solid fa-puzzle-piece text-white text-6xl drop-shadow-lg"></i>
+                <!-- Dictionary -->
+                <div onclick="window.location.href='games/primary-1/dictionary-match.html'" class="category-card rounded-[2.5rem] p-6 flex flex-col md:flex-row items-center gap-6 opacity-0 animate-fade-in-up delay-3 group">
+                    <div class="icon-container w-32 h-32 md:w-40 md:h-40 shrink-0 bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center rounded-3xl">
+                        <i class="fa-solid fa-puzzle-piece text-white text-6xl"></i>
                     </div>
                     <div class="text-center md:text-right flex-1">
-                        <span class="text-xs font-black text-violet-600 uppercase tracking-wider bg-violet-100 px-3 py-1 rounded-full mb-3 inline-block">Listen & Match</span>
-                        <h4 class="text-3xl font-black text-slate-800 mb-2">قاموس كلمات الصف الأول</h4>
-                        <p class="text-slate-500 font-bold text-sm md:text-base leading-relaxed mb-4">
-                            172 كلمة من منهج الصف الأول مرتبة حسب الوحدات، مع نطق صوتي ولعبة توصيل الكلمة بالصورة.
-                        </p>
-                        <div class="inline-flex items-center gap-2 text-violet-600 font-bold group-hover:translate-x-[-5px] transition-transform">
-                            افتح القاموس <i class="fa-solid fa-arrow-left"></i>
-                        </div>
+                        <h4 class="text-3xl font-black text-slate-800 mb-2">القاموس الناطق</h4>
+                        <p class="text-slate-500 font-bold text-sm leading-relaxed mb-4">كلمات منهج الصف الأول مع نطق صوتي وتوصيل.</p>
+                        <div class="text-violet-600 font-bold">افتح القاموس <i class="fa-solid fa-arrow-left"></i></div>
                     </div>
                 </div>
 
-                <!-- Exams Card -->
-                <div onclick="window.location.href='exams.html'" class="category-card rounded-[2.5rem] p-6 flex flex-col md:flex-row items-center gap-6 opacity-0 animate-fade-in-up delay-3 group" style="--hover-color: #f59e0b;">
-                    <div class="icon-container w-32 h-32 md:w-40 md:h-40 shrink-0">
-                        <img src="images/icon_exams_dashboard.jpg" alt="Exams" class="w-full h-full object-cover">
+                <!-- Exams -->
+                <div onclick="window.location.href='exams.html'" class="category-card rounded-[2.5rem] p-6 flex flex-col md:flex-row items-center gap-6 opacity-0 animate-fade-in-up delay-3 group">
+                    <div class="icon-container w-32 h-32 md:w-40 md:h-40 shrink-0 overflow-hidden rounded-3xl">
+                        <img src="images/icon_exams_dashboard.jpg" alt="Exams" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                     </div>
                     <div class="text-center md:text-right flex-1">
-                        <span class="text-xs font-black text-accent uppercase tracking-wider bg-accent/10 px-3 py-1 rounded-full mb-3 inline-block">Test Your Skills</span>
-                        <h4 class="text-3xl font-black text-slate-800 mb-2">الامتحانات الإلكترونية</h4>
-                        <p class="text-slate-500 font-bold text-sm md:text-base leading-relaxed mb-4">
-                            اختبر مستواك وتدرب على أسئلة المنهج من خلال امتحانات ذكية تقيم مستواك فوراً.
-                        </p>
-                        <div class="inline-flex items-center gap-2 text-accent font-bold group-hover:translate-x-[-5px] transition-transform">
-                            ابدأ الامتحان <i class="fa-solid fa-arrow-left"></i>
-                        </div>
+                        <h4 class="text-3xl font-black text-slate-800 mb-2">الامتحانات</h4>
+                        <p class="text-slate-500 font-bold text-sm leading-relaxed mb-4">اختبر مستواك وتدرب على أسئلة المنهج.</p>
+                        <div class="text-accent font-bold">ابدأ الامتحان <i class="fa-solid fa-arrow-left"></i></div>
                     </div>
                 </div>
 
-                <!-- Books Card -->
-                <div onclick="window.location.href='books.html'" class="category-card rounded-[2.5rem] p-6 flex flex-col md:flex-row items-center gap-6 opacity-0 animate-fade-in-up delay-3 group" style="--hover-color: #10b981;">
-                    <div class="icon-container w-32 h-32 md:w-40 md:h-40 shrink-0">
-                        <img src="images/icon_books_dashboard.jpg" alt="Books" class="w-full h-full object-cover rounded-2xl">
+                <!-- Books -->
+                <div onclick="window.location.href='books.html'" class="category-card rounded-[2.5rem] p-6 flex flex-col md:flex-row items-center gap-6 opacity-0 animate-fade-in-up delay-3 group">
+                    <div class="icon-container w-32 h-32 md:w-40 md:h-40 shrink-0 overflow-hidden rounded-3xl">
+                        <img src="images/icon_books_dashboard.jpg" alt="Books" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                     </div>
                     <div class="text-center md:text-right flex-1">
-                        <span class="text-xs font-black text-success uppercase tracking-wider bg-success/10 px-3 py-1 rounded-full mb-3 inline-block">Interactive Book</span>
-                        <h4 class="text-3xl font-black text-slate-800 mb-2">كتاب التقييمات التفاعلي</h4>
-                        <p class="text-slate-500 font-bold text-sm md:text-base leading-relaxed mb-4">
-                            تصفح كتاب التقييمات بشكل تفاعلي، تنقل بين الصفحات واستعرض الفهرس بكل سهولة.
-                        </p>
-                        <div class="inline-flex items-center gap-2 text-success font-bold group-hover:translate-x-[-5px] transition-transform">
-                            افتح الكتاب <i class="fa-solid fa-arrow-left"></i>
-                        </div>
+                        <h4 class="text-3xl font-black text-slate-800 mb-2">الكتاب التفاعلي</h4>
+                        <p class="text-slate-500 font-bold text-sm leading-relaxed mb-4">تصفح كتاب التقييمات بشكل تفاعلي وممتع.</p>
+                        <div class="text-success font-bold">افتح الكتاب <i class="fa-solid fa-arrow-left"></i></div>
                     </div>
                 </div>
 
+                <!-- AI Voice Checker -->
+                <div onclick="window.location.href='voice-checker.html'" class="category-card rounded-[2.5rem] p-6 flex flex-col md:flex-row items-center gap-6 opacity-0 animate-fade-in-up delay-3 group bg-gradient-to-br from-blue-600 to-indigo-700 border-none" style="--hover-color: #ffffff;">
+                    <div class="icon-container w-32 h-32 md:w-40 md:h-40 shrink-0 bg-white/20 backdrop-blur-md flex items-center justify-center rounded-3xl border border-white/30">
+                        <i class="fa-solid fa-robot text-white text-6xl drop-shadow-lg"></i>
+                    </div>
+                    <div class="text-center md:text-right flex-1">
+                        <span class="text-xs font-black text-white uppercase tracking-wider bg-white/20 px-3 py-1 rounded-full mb-3 inline-block border border-white/30">AI Powered</span>
+                        <h4 class="text-3xl font-black text-white mb-2">مدقق النطق الذكي</h4>
+                        <p class="text-white/80 font-bold text-sm leading-relaxed mb-4">
+                            تحدث مع الذكاء الاصطناعي، تعلم النطق الصحيح واحصل على تقييم فوري لمستواك.
+                        </p>
+                        <div class="text-white font-black flex items-center gap-2 justify-center md:justify-start">
+                            جرب الآن <i class="fa-solid fa-microphone-lines animate-pulse"></i>
+                        </div>
+                    </div>
+                </div>
             </div>
-            
-            <!-- Admin Section (Injected via JS if applicable) -->
-            <div id="admin-section" class="mt-8"></div>
-            
         </div>
-
     </main>
 
+    <script src="js/auth.js?v=10001"></script>
     <script>
-        // Check authentication
-        if (localStorage.getItem('isLoggedIn') !== 'true') {
-            window.location.replace('index.html');
-        }
-
         document.addEventListener('DOMContentLoaded', () => {
-            const currentUser = localStorage.getItem('currentUser');
+            if (localStorage.getItem('isLoggedIn') !== 'true') {
+                window.location.replace('index.html');
+                return;
+            }
+
+            // Load Customizations
+            const equipped = JSON.parse(localStorage.getItem('et_equipped') || '{"avatar": "av_1", "bg": "bg_default"}');
+            const avatars = {
+                'av_1': 'https://cdn-icons-png.flaticon.com/512/4333/4333609.png',
+                'av_2': 'https://cdn-icons-png.flaticon.com/512/6858/6858504.png',
+                'av_3': 'https://cdn-icons-png.flaticon.com/512/4712/4712035.png',
+                'av_4': 'https://cdn-icons-png.flaticon.com/512/606/606653.png',
+                'av_5': 'https://cdn-icons-png.flaticon.com/512/2026/2026526.png',
+                'av_6': 'https://cdn-icons-png.flaticon.com/512/1998/1998713.png'
+            };
+            const backgrounds = {
+                'bg_default': '#f8fafc',
+                'bg_forest': '#064e3b',
+                'bg_sunset': '#7c2d12',
+                'bg_ocean': '#1e3a8a',
+                'bg_royal': '#4c1d95',
+                'bg_galaxy': '#2d064e'
+            };
+
+            // Apply Avatar
+            document.getElementById('user-avatar-img').src = avatars[equipped.avatar] || avatars['av_1'];
             
-            if (currentUser) {
-                // Determine display name
-                let displayName = currentUser;
-                if (currentUser === 'admin' || currentUser === '01208609509') {
-                    displayName = 'المدير';
-                }
-                document.getElementById('userNameDisplay').textContent = displayName;
-
-                // Load Points & Badges (Quietly)
-                const coins = localStorage.getItem('et_total_coins') || '0';
-                document.getElementById('totalCoins').textContent = coins;
-                
-                const badges = JSON.parse(localStorage.getItem('et_badges') || '[]');
-                badges.forEach(b => {
-                    const el = document.getElementById(`badge-${b}`);
-                    if (el) el.classList.add('active');
-                });
-
-                // Inject Admin Card if user is Admin
-                if (currentUser === 'admin' || currentUser === '01208609509' || currentUser === 'mm01208609509') {
-                    const adminHtml = `
-                        <div onclick="window.location.href='admin.html'" class="category-card rounded-[2.5rem] p-6 flex flex-col md:flex-row items-center gap-6 opacity-0 animate-fade-in-up group mt-6" style="--hover-color: #10b981; animation-delay: 0.4s;">
-                            <div class="icon-container w-32 h-32 md:w-40 md:h-40 shrink-0 border-4 border-success/20">
-                                <img src="images/icon_admin_dashboard.jpg" alt="Admin" class="w-full h-full object-cover">
-                            </div>
-                            <div class="text-center md:text-right flex-1">
-                                <span class="text-xs font-black text-success uppercase tracking-wider bg-success/10 px-3 py-1 rounded-full mb-3 inline-block">Control Panel</span>
-                                <h4 class="text-3xl font-black text-slate-800 mb-2">لوحة الإدارة</h4>
-                                <p class="text-slate-500 font-bold text-sm md:text-base leading-relaxed mb-4">
-                                    هذا القسم يظهر لك فقط. يمكنك من هنا إدارة الطلاب، وتفعيل الاشتراكات، والتحكم بالمنصة.
-                                </p>
-                                <div class="inline-flex items-center gap-2 text-success font-bold group-hover:translate-x-[-5px] transition-transform">
-                                    الدخول للإدارة <i class="fa-solid fa-shield-halved"></i>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    document.getElementById('admin-section').innerHTML = adminHtml;
+            // Apply Background
+            if (equipped.bg !== 'bg_default') {
+                document.body.style.backgroundColor = backgrounds[equipped.bg];
+                document.body.classList.add('dark-mode'); // Optional: Add dark text for dark backgrounds
+                if (['bg_forest', 'bg_sunset', 'bg_ocean', 'bg_royal', 'bg_galaxy'].includes(equipped.bg)) {
+                    document.body.style.color = '#f8fafc';
+                    document.querySelectorAll('h3, h4').forEach(el => el.style.color = '#f8fafc');
                 }
             }
+
+            // Load Stats
+            const coins = localStorage.getItem('englishtoon_total_score') || '0';
+            document.getElementById('totalCoins').textContent = coins;
+            
+            const badges = JSON.parse(localStorage.getItem('et_badges') || '[]');
+            badges.forEach(b => {
+                const el = document.getElementById(`badge-${b}`);
+                if (el) el.classList.add('active');
+            });
+
+            const userName = localStorage.getItem('currentUser') || 'طالبنا المتميز';
+            document.getElementById('userNameDisplay').textContent = userName;
         });
 
         function logout() {
-            localStorage.removeItem('isLoggedIn');
-            localStorage.removeItem('currentUser');
-            localStorage.removeItem('allowedGrade');
-            localStorage.removeItem('allowedUnits');
+            localStorage.setItem('isLoggedIn', 'false');
             window.location.replace('index.html');
         }
     </script>
