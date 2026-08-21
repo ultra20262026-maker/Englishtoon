@@ -76,8 +76,6 @@
     <main class="max-w-6xl mx-auto px-4 mt-8">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             
-
-
             <!-- Games -->
             <div onclick="window.location.href='games.html?v=' + new Date().getTime()" class="category-card p-6 flex items-center gap-4">
                 <div class="w-16 h-16 rounded-2xl bg-blue-100 flex items-center justify-center text-blue-600 text-3xl">
@@ -89,8 +87,19 @@
                 </div>
             </div>
 
+            <!-- Leaderboard -->
+            <div onclick="window.location.href='leaderboard.html?v=' + new Date().getTime()" class="category-card p-6 border-amber-200 bg-amber-50 flex items-center gap-4">
+                <div class="w-16 h-16 rounded-2xl bg-amber-500 flex items-center justify-center text-white text-3xl">
+                    <i class="fa-solid fa-trophy"></i>
+                </div>
+                <div>
+                    <h4 class="text-xl font-black text-amber-600">لوحة الأبطال</h4>
+                    <p class="text-amber-400 font-bold text-xs">ترتيب الطلاب العام</p>
+                </div>
+            </div>
+
             <!-- Voice Checker -->
-            <div onclick="window.location.href='voice-checker.html'" class="category-card p-6 flex items-center gap-4 bg-blue-600 text-white border-none">
+            <div onclick="window.location.href='voice-checker.html?v=' + new Date().getTime()" class="category-card p-6 flex items-center gap-4 bg-blue-600 text-white border-none">
                 <div class="w-16 h-16 rounded-2xl bg-white/20 flex items-center justify-center text-white text-3xl">
                     <i class="fa-solid fa-robot"></i>
                 </div>
@@ -101,7 +110,7 @@
             </div>
 
             <!-- Dictionary -->
-            <div onclick="window.location.href='games/primary-1/dictionary-match.html'" class="category-card p-6 flex items-center gap-4">
+            <div onclick="window.location.href='dictionary-match.html?v=' + new Date().getTime()" class="category-card p-6 flex items-center gap-4">
                 <div class="w-16 h-16 rounded-2xl bg-violet-100 flex items-center justify-center text-violet-600 text-3xl">
                     <i class="fa-solid fa-puzzle-piece"></i>
                 </div>
