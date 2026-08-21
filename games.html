@@ -8,62 +8,30 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Outfit:wght@400;600;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Cairo', 'sans-serif'],
-                        en: ['Outfit', 'sans-serif'],
-                    },
-                    colors: {
-                        primary: '#3b82f6',
-                        secondary: '#ec4899',
-                        accent: '#f59e0b',
-                        success: '#10b981',
-                    }
-                }
-            }
-        }
-    </script>
     <style>
-        body {
-            background-color: #e0f2fe;
-            min-height: 100vh;
-            background-attachment: fixed;
-        }
-
-        .grade-card {
-            background: white;
-            border: 2px solid #e2e8f0;
-            transition: all 0.3s ease;
-            border-radius: 2rem;
-            cursor: pointer;
-        }
-        .grade-card:hover {
-            transform: translateY(-5px);
-            border-color: #3b82f6;
-            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.1);
-        }
-
-        /* Direct Overlay Fix */
+        body { background-color: #e0f2fe; min-height: 100vh; font-family: 'Cairo', sans-serif; }
+        .grade-card { background: white; border: 2px solid #e2e8f0; transition: all 0.3s ease; border-radius: 2rem; cursor: pointer; }
+        .grade-card:hover { transform: translateY(-5px); border-color: #3b82f6; box-shadow: 0 10px 20px rgba(59, 130, 246, 0.1); }
+        
+        /* Story Overlay - Strong Reset */
         #story-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+            position: fixed !important;
+            top: 0 !important; left: 0 !important;
+            width: 100% !important; height: 100% !important;
+            background: rgba(0, 0, 0, 0.95) !important;
+            z-index: 999999 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
         }
         .story-content {
-            background: white;
-            border-radius: 2rem;
-            padding: 30px;
-            max-width: 450px;
-            width: 100%;
-            text-align: center;
+            background: white !important;
+            border-radius: 2rem !important;
+            padding: 40px !important;
+            max-width: 500px !important;
+            width: 90% !important;
+            text-align: center !important;
+            box-shadow: 0 0 50px rgba(255,255,255,0.2) !important;
         }
         .story-step { display: none; }
         .story-step.active { display: block; }
@@ -74,94 +42,109 @@
     <!-- Story Overlay -->
     <div id="story-overlay">
         <div class="story-content">
+            <!-- Step 1: Name Input -->
             <div class="story-step active" id="step-1">
-                <div class="text-5xl mb-4">👋</div>
-                <h2 class="text-2xl font-black mb-4 text-blue-600">أهلاً بك يا بطل!</h2>
-                <p class="text-slate-600 font-bold mb-6">سجل اسمك لتبدأ المغامرة وتظهر في لوحة الصدارة:</p>
-                <input type="text" id="student-name-input" placeholder="اكتب اسمك هنا..." class="w-full p-4 rounded-xl border-2 border-blue-100 focus:border-blue-500 outline-none text-center font-bold mb-6">
-                <button onclick="saveNameAndNext(2)" class="w-full py-4 bg-blue-600 text-white rounded-xl font-black text-lg hover:bg-blue-700 transition-all">التالي ➔</button>
+                <div class="text-6xl mb-6">👋</div>
+                <h2 class="text-3xl font-black mb-4 text-blue-600">مرحباً بك يا بطل!</h2>
+                <p class="text-slate-600 font-bold mb-8 text-lg">قبل أن نبدأ المغامرة، أخبرنا ما هو اسمك؟</p>
+                <input type="text" id="student-name-input" placeholder="اكتب اسمك هنا..." 
+                    class="w-full p-5 rounded-2xl border-4 border-blue-50 focus:border-blue-500 outline-none text-center font-black text-2xl mb-8 shadow-inner">
+                <button onclick="saveNameAndGoNext()" 
+                    class="w-full py-5 bg-blue-600 text-white rounded-2xl font-black text-xl hover:bg-blue-700 active:scale-95 transition-all shadow-lg shadow-blue-200">
+                    التالي ➔
+                </button>
             </div>
             
+            <!-- Step 2: Story Info -->
             <div class="story-step" id="step-2">
-                <div class="text-5xl mb-4">🗺️</div>
-                <h2 class="text-2xl font-black mb-4 text-amber-500">خريطة الكنز</h2>
-                <p class="text-slate-600 font-bold mb-6">كل صف دراسي هو خريطة كنز. اجمع النقاط لتشتري أفاتارات رائعة من المتجر!</p>
-                <button onclick="closeStoryNow()" class="w-full py-4 bg-emerald-600 text-white rounded-xl font-black text-lg hover:bg-emerald-700 transition-all">يلا نبدأ! 🚀</button>
+                <div class="text-6xl mb-6">🏆</div>
+                <h2 class="text-3xl font-black mb-4 text-amber-500">كن أسطورة EnglishToon</h2>
+                <p class="text-slate-600 font-bold mb-8 text-lg">اجمع النقاط من الألعاب لتشتري شخصيات رائعة وتتصدر قائمة الأبطال!</p>
+                <button id="final-start-btn" onclick="destroyOverlay()" 
+                    class="w-full py-5 bg-emerald-600 text-white rounded-2xl font-black text-xl hover:bg-emerald-700 active:scale-95 transition-all shadow-lg shadow-emerald-200">
+                    يلا نبدأ المغامرة! 🚀
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- Header -->
-    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100 shadow-sm">
-        <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <a href="dashboard.html" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500">
-                    <i class="fa-solid fa-arrow-right"></i>
+    <!-- Main Content -->
+    <header class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <a href="dashboard.html" class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-slate-200 transition-all">
+                    <i class="fa-solid fa-arrow-right text-lg"></i>
                 </a>
-                <h2 class="font-black text-slate-800">عالم الألعاب</h2>
+                <h2 class="font-black text-xl text-slate-800">خريطة الصفوف</h2>
             </div>
-            <div class="flex items-center gap-2 bg-amber-50 px-3 py-1 rounded-full border border-amber-100">
-                <span id="totalCoins" class="font-black text-amber-600 text-sm">0</span>
-                <i class="fa-solid fa-coins text-amber-500 text-xs"></i>
+            <div class="flex items-center gap-3 bg-amber-50 px-4 py-2 rounded-2xl border-2 border-amber-100">
+                <span id="totalCoins" class="font-black text-amber-600 text-lg">0</span>
+                <i class="fa-solid fa-coins text-amber-500 text-sm"></i>
             </div>
         </div>
     </header>
 
-    <main class="max-w-6xl mx-auto px-4 mt-8">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="grades-grid">
-            <!-- Rendered via JS -->
+    <main class="max-w-6xl mx-auto px-4 mt-10">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" id="grades-grid">
+            <!-- Grades Rendered via JS -->
         </div>
     </main>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Check if story seen
-            if (localStorage.getItem('et_story_seen') === 'true') {
-                document.getElementById('story-overlay').style.display = 'none';
-            }
+        // Check if already seen
+        if (localStorage.getItem('et_story_seen') === 'true') {
+            const overlay = document.getElementById('story-overlay');
+            if (overlay) overlay.style.display = 'none';
+        }
 
-            // Load Coins
-            document.getElementById('totalCoins').textContent = localStorage.getItem('englishtoon_total_score') || '0';
-
-            // Render Grades
-            const grid = document.getElementById('grades-grid');
-            const grades = [
-                { id: 'primary-1', name: 'الأول الابتدائي', icon: '❶' },
-                { id: 'primary-2', name: 'الثاني الابتدائي', icon: '❷' },
-                { id: 'primary-3', name: 'الثالث الابتدائي', icon: '❸' },
-                { id: 'primary-4', name: 'الرابع الابتدائي', icon: '❹' },
-                { id: 'primary-5', name: 'الخامس الابتدائي', icon: '❺' },
-                { id: 'primary-6', name: 'السادس الابتدائي', icon: '❻' },
-                { id: 'prep-1', name: 'الأول الإعدادي', icon: '⓵' },
-                { id: 'prep-2', name: 'الثاني الإعدادي', icon: '⓶' },
-                { id: 'prep-3', name: 'الثالث الإعدادي', icon: '⓷' }
-            ];
-
-            grades.forEach(g => {
-                grid.innerHTML += `
-                    <div onclick="window.location.href='grade.html?id=${g.id}'" class="grade-card p-6 text-center">
-                        <div class="text-5xl mb-3 text-blue-600">${g.icon}</div>
-                        <h3 class="text-xl font-black text-slate-800">${g.name}</h3>
-                    </div>
-                `;
-            });
-        });
-
-        function saveNameAndNext(step) {
+        function saveNameAndGoNext() {
             const name = document.getElementById('student-name-input').value.trim();
             if (!name) {
-                alert('من فضلك اكتب اسمك يا بطل!');
+                alert('من فضلك اكتب اسمك يا بطل لتسجيل نقاطك!');
                 return;
             }
             localStorage.setItem('et_student_name', name);
-            document.getElementById('step-1').classList.remove('active');
-            document.getElementById('step-2').classList.add('active');
+            document.getElementById('step-1').style.display = 'none';
+            document.getElementById('step-2').style.display = 'block';
         }
 
-        function closeStoryNow() {
+        function destroyOverlay() {
+            console.log('Destroying overlay...');
             localStorage.setItem('et_story_seen', 'true');
-            document.getElementById('story-overlay').style.display = 'none';
+            const overlay = document.getElementById('story-overlay');
+            if (overlay) {
+                overlay.remove(); // Force remove from DOM
+            }
+            // Fallback: hide if remove fails
+            document.body.style.overflow = 'auto';
+            alert('انطلقت المغامرة! اختر صفك الدراسي الآن.');
         }
+
+        // Render Grades
+        const grades = [
+            { id: 'primary-1', name: 'الأول الابتدائي', icon: '❶' },
+            { id: 'primary-2', name: 'الثاني الابتدائي', icon: '❷' },
+            { id: 'primary-3', name: 'الثالث الابتدائي', icon: '❸' },
+            { id: 'primary-4', name: 'الرابع الابتدائي', icon: '❹' },
+            { id: 'primary-5', name: 'الخامس الابتدائي', icon: '❺' },
+            { id: 'primary-6', name: 'السادس الابتدائي', icon: '❻' },
+            { id: 'prep-1', name: 'الأول الإعدادي', icon: '⓵' },
+            { id: 'prep-2', name: 'الثاني الإعدادي', icon: '⓶' },
+            { id: 'prep-3', name: 'الثالث الإعدادي', icon: '⓷' }
+        ];
+
+        const grid = document.getElementById('grades-grid');
+        grades.forEach(g => {
+            grid.innerHTML += `
+                <div onclick="window.location.href='grade.html?id=${g.id}'" class="grade-card p-8 text-center shadow-sm">
+                    <div class="text-6xl mb-4 text-blue-600 font-black">${g.icon}</div>
+                    <h3 class="text-2xl font-black text-slate-800">${g.name}</h3>
+                    <p class="text-blue-400 font-bold mt-2 text-sm">اضغط لدخول الخريطة</p>
+                </div>
+            `;
+        });
+
+        document.getElementById('totalCoins').textContent = localStorage.getItem('englishtoon_total_score') || '0';
     </script>
 </body>
 </html>
