@@ -160,6 +160,9 @@
         }
 
         function listenToGeneralLeaderboard() {
+            // تحديث العنوان الفرعي ليظهر الصف المختار
+            document.getElementById('lbSubtitle').textContent = `الترتيب العام - ${GRADE_LABELS[currentGrade]}`;
+            
             db.collection('leaderboard')
                 .where('grade', '==', currentGrade)
                 .orderBy('score', 'desc')

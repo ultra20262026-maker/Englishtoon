@@ -99,10 +99,14 @@
             <div class="story-step active" id="step-1">
                 <div class="text-6xl mb-6">👋</div>
                 <h2 class="text-3xl font-black mb-4 text-blue-600">أهلاً بك يا بطل!</h2>
-                <p class="text-lg text-slate-600 leading-relaxed font-bold">
+                <p class="text-lg text-slate-600 leading-relaxed font-bold mb-6">
                     أنت الآن في "عالم ألعاب EnglishToon". مهمتك هي خوض المغامرة في كل درس لجمع النقاط والمفاتيح.
                 </p>
-                <button onclick="nextStep(2)" class="mt-8 px-10 py-4 bg-blue-600 text-white rounded-2xl font-black text-xl hover:bg-blue-500 transition-all shadow-lg">التالي ➔</button>
+                <div class="bg-blue-50 p-6 rounded-2xl border-2 border-blue-100 mb-6">
+                    <label class="block text-blue-600 font-black mb-2 text-right">سجل اسمك لتبدأ التنافس:</label>
+                    <input type="text" id="student-name-input" placeholder="اكتب اسمك هنا..." class="w-full p-4 rounded-xl border-2 border-blue-200 focus:border-blue-500 outline-none text-center font-bold text-lg">
+                </div>
+                <button onclick="saveNameAndNext(2)" class="px-10 py-4 bg-blue-600 text-white rounded-2xl font-black text-xl hover:bg-blue-500 transition-all shadow-lg w-full">التالي ➔</button>
             </div>
             
             <div class="story-step" id="step-2">
@@ -132,7 +136,10 @@
                 <a href="dashboard.html" class="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm border border-slate-200 text-slate-500 hover:text-primary transition-all">
                     <i class="fa-solid fa-arrow-right"></i>
                 </a>
-                <h2 class="text-xl font-black text-slate-800">عالم الألعاب</h2>
+                <div>
+                    <h2 class="text-xl font-black text-slate-800">عالم الألعاب</h2>
+                    <p id="player-name-top" class="text-[10px] font-bold text-primary">بطل التوون</p>
+                </div>
             </div>
             <div class="flex items-center gap-2 bg-amber-100 px-4 py-2 rounded-full border border-amber-200">
                 <span id="totalCoins" class="font-black text-amber-600">0</span>
@@ -152,12 +159,15 @@
         </div>
     </main>
 
-    <script src="js/data.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            if (!localStorage.getItem('et_story_seen')) {
+            const savedName = localStorage.getItem('et_student_name');
+            if (!savedName || !localStorage.getItem('et_story_seen')) {
                 document.getElementById('story-overlay').classList.remove('hidden');
+                if(savedName) document.getElementById('student-name-input').value = savedName;
             }
+            
+            updateTopName();
             
             const coins = localStorage.getItem('englishtoon_total_score') || '0';
             document.getElementById('totalCoins').textContent = coins;
@@ -185,6 +195,22 @@
                 `;
             });
         });
+
+        function updateTopName() {
+            const name = localStorage.getItem('et_student_name') || 'بطل التوون';
+            document.getElementById('player-name-top').textContent = name;
+        }
+
+        function saveNameAndNext(step) {
+            const nameInput = document.getElementById('student-name-input').value.trim();
+            if (!nameInput) {
+                alert('من فضلك اكتب اسمك أولاً يا بطل!');
+                return;
+            }
+            localStorage.setItem('et_student_name', nameInput);
+            updateTopName();
+            nextStep(step);
+        }
 
         function nextStep(step) {
             document.querySelectorAll('.story-step').forEach(s => s.classList.remove('active'));
