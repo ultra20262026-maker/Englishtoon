@@ -5,117 +5,138 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>عالم الألعاب | English Toon</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Outfit:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
-        body { background-color: #e0f2fe; min-height: 100vh; font-family: 'Cairo', sans-serif; }
-        .grade-card { background: white; border: 2px solid #e2e8f0; transition: all 0.3s ease; border-radius: 2rem; cursor: pointer; }
-        .grade-card:hover { transform: translateY(-5px); border-color: #3b82f6; box-shadow: 0 10px 20px rgba(59, 130, 246, 0.1); }
-        
-        #story-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.9); z-index: 9999;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .story-content {
-            background: white; border-radius: 2rem; padding: 30px;
-            max-width: 450px; width: 90%; text-align: center;
-        }
+        body { font-family: 'Cairo', sans-serif; background-color: #f0f9ff; }
         .story-step { display: none; }
-        .story-step.active { display: block; }
+        .story-step.active { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
     </style>
 </head>
-<body class="text-slate-800 pb-20">
+<body class="min-h-screen pb-10">
 
-    <div id="story-overlay">
-        <div class="story-content">
-            <div class="story-step active" id="step-1">
-                <div class="text-6xl mb-4">👋</div>
-                <h2 class="text-2xl font-black mb-2 text-blue-600">مرحباً بك يا بطل!</h2>
-                <p class="text-slate-600 font-bold mb-6">اكتب اسمك لتبدأ المغامرة</p>
-                <input type="text" id="student-name-input" placeholder="اكتب اسمك هنا..." 
-                    class="w-full p-4 rounded-xl border-2 border-blue-50 focus:border-blue-500 outline-none text-center font-black text-xl mb-6">
-                <button onclick="saveNameAndGoNext()" 
-                    class="w-full py-4 bg-blue-600 text-white rounded-xl font-black text-lg hover:bg-blue-700 active:scale-95 transition-all">
-                    التالي ➔
+    <!-- Story Overlay -->
+    <div id="story-overlay" class="fixed inset-0 z-[100] bg-blue-900/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-[2.5rem] max-w-md w-full p-8 shadow-2xl relative overflow-hidden text-center">
+            
+            <!-- Step 1: Register Name -->
+            <div id="step-1" class="story-step active">
+                <div class="w-20 h-20 bg-blue-100 rounded-3xl flex items-center justify-center text-blue-600 text-4xl mx-auto mb-6">
+                    <i class="fa-solid fa-user-tag"></i>
+                </div>
+                <h2 class="text-2xl font-black text-slate-800 mb-2">أهلاً بك يا بطل!</h2>
+                <p class="text-slate-500 font-bold mb-6">اكتب اسمك لتبدأ المغامرة وتظهر في لوحة الأبطال</p>
+                <input type="text" id="student-name-input" placeholder="اكتب اسمك هنا..." class="w-full px-6 py-4 rounded-2xl border-2 border-blue-100 focus:border-blue-500 outline-none text-center font-black text-lg mb-6">
+                <button onclick="saveNameAndGoNext()" class="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-black text-lg shadow-lg shadow-blue-200 transition-all active:scale-95">
+                    يلا نبدأ! 🚀
                 </button>
             </div>
-            
-            <div class="story-step" id="step-2">
-                <div class="text-6xl mb-4">🏆</div>
-                <h2 class="text-2xl font-black mb-2 text-amber-500">اجمع النقاط</h2>
-                <p class="text-slate-600 font-bold mb-6">حل التحديات واشترِ أغراضاً رائعة من المتجر!</p>
-                <button onclick="destroyOverlay()" 
-                    class="w-full py-4 bg-emerald-600 text-white rounded-xl font-black text-lg hover:bg-emerald-700 active:scale-95 transition-all">
-                    يلا نبدأ! 🚀
+
+            <!-- Step 2: The Mission -->
+            <div id="step-2" class="story-step">
+                <div class="w-20 h-20 bg-amber-100 rounded-3xl flex items-center justify-center text-amber-600 text-4xl mx-auto mb-6">
+                    <i class="fa-solid fa-map-location-dot"></i>
+                </div>
+                <h2 class="text-2xl font-black text-slate-800 mb-2">خريطة الكنز</h2>
+                <p class="text-slate-500 font-bold mb-6">كل صف له خريطة خاصة، اجمع النقاط لفتح الدروس الجديدة وشراء الأغراض من المتجر!</p>
+                <button onclick="destroyOverlay()" class="w-full py-4 bg-emerald-500 hover:bg-emerald-600 text-white rounded-2xl font-black text-lg shadow-lg shadow-emerald-200 transition-all active:scale-95">
+                    فهمت، هيا بنا! 🎮
                 </button>
             </div>
         </div>
     </div>
 
-    <header class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100 shadow-sm">
-        <div class="max-w-6xl mx-auto px-4 h-20 flex items-center justify-between">
+    <!-- Main Content -->
+    <header class="bg-white shadow-sm p-6 mb-8 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
             <div class="flex items-center gap-4">
                 <a href="dashboard.html" class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-500">
-                    <i class="fa-solid fa-arrow-right text-lg"></i>
+                    <i class="fa-solid fa-arrow-right"></i>
                 </a>
-                <h2 class="font-black text-xl text-slate-800">خريطة الصفوف</h2>
+                <h1 class="text-2xl font-black text-slate-800">عالم الألعاب</h1>
             </div>
-            <div class="flex items-center gap-3 bg-amber-50 px-4 py-2 rounded-2xl border-2 border-amber-100">
-                <span id="totalCoins" class="font-black text-amber-600 text-lg">0</span>
-                <i class="fa-solid fa-coins text-amber-500 text-sm"></i>
+            <div class="flex items-center gap-3 px-4 py-2 bg-amber-50 rounded-2xl border border-amber-100 text-amber-600 font-black">
+                <span id="display-name" class="text-sm">بطل التوون</span>
+                <i class="fa-solid fa-star"></i>
             </div>
         </div>
     </header>
 
-    <main class="max-w-6xl mx-auto px-4 mt-10">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" id="grades-grid"></div>
+    <main class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Grade Cards -->
+        <div onclick="window.location.href='grade.html?id=primary-1'" class="bg-white p-8 rounded-[2rem] border-4 border-blue-100 hover:border-blue-500 transition-all cursor-pointer text-center group">
+            <div class="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center text-blue-500 text-4xl mx-auto mb-6 group-hover:scale-110 transition-transform">
+                <i class="fa-solid fa-1"></i>
+            </div>
+            <h3 class="text-2xl font-black text-slate-800 mb-2">الصف الأول</h3>
+            <p class="text-slate-500 font-bold">Primary One</p>
+        </div>
+
+        <div onclick="window.location.href='grade.html?id=primary-2'" class="bg-white p-8 rounded-[2rem] border-4 border-emerald-100 hover:border-emerald-500 transition-all cursor-pointer text-center group">
+            <div class="w-24 h-24 bg-emerald-50 rounded-full flex items-center justify-center text-emerald-500 text-4xl mx-auto mb-6 group-hover:scale-110 transition-transform">
+                <i class="fa-solid fa-2"></i>
+            </div>
+            <h3 class="text-2xl font-black text-slate-800 mb-2">الصف الثاني</h3>
+            <p class="text-slate-500 font-bold">Primary Two</p>
+        </div>
+
+        <div onclick="window.location.href='grade.html?id=primary-3'" class="bg-white p-8 rounded-[2rem] border-4 border-amber-100 hover:border-amber-500 transition-all cursor-pointer text-center group">
+            <div class="w-24 h-24 bg-amber-50 rounded-full flex items-center justify-center text-amber-500 text-4xl mx-auto mb-6 group-hover:scale-110 transition-transform">
+                <i class="fa-solid fa-3"></i>
+            </div>
+            <h3 class="text-2xl font-black text-slate-800 mb-2">الصف الثالث</h3>
+            <p class="text-slate-500 font-bold">Primary Three</p>
+        </div>
+        
+        <!-- More grades... -->
     </main>
 
+    <!-- Firebase SDKs for Sync -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
     <script>
+        const fbConfig = {
+            apiKey: "AIzaSyA1_kx4HmDWZF_T_EnZDKgq5yssYlOMaWM",
+            projectId: "english-toon-14072",
+        };
+        if (!firebase.apps.length) firebase.initializeApp(fbConfig);
+        const db = firebase.firestore();
+
         if (localStorage.getItem('et_story_seen') === 'true') {
-            document.getElementById('story-overlay').style.display = 'none';
+            document.getElementById('story-overlay').remove();
+            document.getElementById('display-name').textContent = localStorage.getItem('et_student_name') || 'بطل التوون';
         }
 
         function saveNameAndGoNext() {
             const name = document.getElementById('student-name-input').value.trim();
-            if (!name) { alert('اكتب اسمك أولاً!'); return; }
+            if (!name) { alert('اكتب اسمك أولاً يا بطل!'); return; }
             localStorage.setItem('et_student_name', name);
+            
+            if (!localStorage.getItem('device_id')) {
+                localStorage.setItem('device_id', 'et_' + Math.random().toString(36).substr(2, 9));
+            }
+            
+            // Sync to Firebase Leaderboard immediately
+            const deviceId = localStorage.getItem('device_id');
+            db.collection('leaderboard').doc(deviceId + '_total').set({
+                name: name,
+                deviceId: deviceId,
+                score: Number(localStorage.getItem('englishtoon_total_score') || 0),
+                grade: localStorage.getItem('et_leaderboard_grade') || 'primary-1',
+                lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+            }, { merge: true });
+
             document.getElementById('step-1').classList.remove('active');
             document.getElementById('step-2').classList.add('active');
         }
 
         function destroyOverlay() {
             localStorage.setItem('et_story_seen', 'true');
-            document.getElementById('story-overlay').style.display = 'none';
             document.getElementById('story-overlay').remove();
+            document.getElementById('display-name').textContent = localStorage.getItem('et_student_name');
         }
-
-        const grades = [
-            { id: 'primary-1', name: 'الأول الابتدائي', icon: '❶' },
-            { id: 'primary-2', name: 'الثاني الابتدائي', icon: '❷' },
-            { id: 'primary-3', name: 'الثالث الابتدائي', icon: '❸' },
-            { id: 'primary-4', name: 'الرابع الابتدائي', icon: '❹' },
-            { id: 'primary-5', name: 'الخامس الابتدائي', icon: '❺' },
-            { id: 'primary-6', name: 'السادس الابتدائي', icon: '❻' },
-            { id: 'prep-1', name: 'الأول الإعدادي', icon: '⓵' },
-            { id: 'prep-2', name: 'الثاني الإعدادي', icon: '⓶' },
-            { id: 'prep-3', name: 'الثالث الإعدادي', icon: '⓷' }
-        ];
-
-        const grid = document.getElementById('grades-grid');
-        grades.forEach(g => {
-            grid.innerHTML += `
-                <div onclick="window.location.href='grade.html?id=${g.id}'" class="grade-card p-8 text-center shadow-sm">
-                    <div class="text-6xl mb-4 text-blue-600 font-black">${g.icon}</div>
-                    <h3 class="text-2xl font-black text-slate-800">${g.name}</h3>
-                    <p class="text-blue-400 font-bold mt-2 text-sm">اضغط لدخول الخريطة</p>
-                </div>
-            `;
-        });
-
-        document.getElementById('totalCoins').textContent = localStorage.getItem('englishtoon_total_score') || '0';
     </script>
 </body>
 </html>
