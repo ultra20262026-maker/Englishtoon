@@ -1,15 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <script id="guard-script">
-        if (localStorage.getItem('isLoggedIn') !== 'true') {
-            alert('عذراً، لا يمكنك الدخول لهذه اللعبة مباشرة. يرجى تسجيل الدخول أولاً.');
-            window.location.href = window.location.origin + (window.location.pathname.includes('/Englishtoon/') ? '/Englishtoon/' : '/');
-        }
-    </script>
-    <script src="../../../js/game-enhancements.js"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Bow & Arrow - Unit 1</title>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
 <style>
@@ -53,11 +46,26 @@ body { background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364); }
     text-shadow: 0 0 5px white, 0 0 5px white !important;
 }
 
-
-/* Timer elements hidden */
-#timerBar, .timer-bar, .time-bar, .timer-container { display: none !important; }
-#bigTimer, .big-timer { display: none !important; }
 </style>
+<!-- MOBILE-FIT-2027 -->
+<style id="mobile-fit-2027">
+html, body { touch-action: manipulation; -webkit-tap-highlight-color: transparent; overscroll-behavior: none; }
+button, .target-btn, a, [onclick] { touch-action: manipulation; }
+@media (max-width: 900px), (max-height: 520px) {
+  html { font-size: clamp(11px, 3.4vmin, 16px) !important; }
+}
+</style>
+<style id="mobile-fit-2027-2a">
+@media (max-width: 900px), (max-height: 520px) {
+  .target-btn { width: clamp(56px, 15vmin, 140px) !important; height: clamp(56px, 15vmin, 140px) !important; font-size: clamp(0.7rem, 3.2vmin, 1.4rem) !important; }
+  #q-text { font-size: clamp(0.85rem, 3.4vmin, 1.8rem) !important; padding: clamp(8px,2vmin,15px) clamp(14px,4vmin,40px) !important; max-width: 94% !important; }
+  #hud { font-size: clamp(0.8rem, 3vmin, 1.5rem) !important; padding: 10px 14px !important; }
+  #end-screen h1 { font-size: clamp(1.8rem, 8vmin, 4rem) !important; }
+  #end-screen p { font-size: clamp(1.1rem, 4.5vmin, 2rem) !important; }
+  #end-screen button { padding: clamp(10px,3vmin,15px) clamp(24px,8vmin,50px) !important; font-size: clamp(0.95rem, 3.6vmin, 1.5rem) !important; }
+}
+</style>
+<!-- /MOBILE-FIT-2027-head -->
 </head>
 <body>
 
@@ -167,7 +175,7 @@ function handleChoice(btn, isCorrect, index) {
             });
         }
         
-        setTimeout(() => {
+        clearTimeout(autoAdvanceTimer); autoAdvanceTimer = setTimeout(() => {
             qIdx++;
             loadQ();
         }, isCorrect ? 1000 : 1500);
@@ -300,5 +308,23 @@ function gameDrawForeground() {
 loadQ();
 mainLoop();
 </script>
+<!-- MOBILE-FIT-2027-body -->
+<script id="mobile-fit-2027-js">
+(function(){
+  try {
+    function fireResize(){ try { window.dispatchEvent(new Event('resize')); } catch(e){} }
+    window.addEventListener('orientationchange', function(){ setTimeout(fireResize,150); setTimeout(fireResize,450); setTimeout(fireResize,900); });
+    if (window.visualViewport) { window.visualViewport.addEventListener('resize', fireResize); }
+    document.addEventListener('gesturestart', function(e){ e.preventDefault(); });
+    var lastTouchEnd = 0;
+    document.addEventListener('touchend', function(e){
+      var now = Date.now();
+      if (now - lastTouchEnd <= 300) { e.preventDefault(); }
+      lastTouchEnd = now;
+    }, {passive:false});
+  } catch(err) {}
+})();
+</script>
+<!-- /MOBILE-FIT-2027-body -->
 </body>
 </html>

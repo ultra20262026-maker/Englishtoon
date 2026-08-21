@@ -1,15 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <script id="guard-script">
-        if (localStorage.getItem('isLoggedIn') !== 'true') {
-            alert('عذراً، لا يمكنك الدخول لهذه اللعبة مباشرة. يرجى تسجيل الدخول أولاً.');
-            window.location.href = window.location.origin + (window.location.pathname.includes('/Englishtoon/') ? '/Englishtoon/' : '/');
-        }
-    </script>
-    <script src="../../../js/game-enhancements.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Space Blaster 🚀</title>
 <style>
 /* ═══════════════════════════════════════════════════════════
@@ -285,10 +278,6 @@ html, body {
 
 
 
-
-/* Timer elements hidden */
-#timerBar, .timer-bar, .time-bar, .timer-container { display: none !important; }
-#bigTimer, .big-timer { display: none !important; }
 </style>
 <style>
 #game-wrap { overflow: hidden; }
@@ -316,6 +305,15 @@ canvas { position:absolute; inset:0; z-index:1; display:block; width:100%; heigh
   letter-spacing:.1em; text-transform:uppercase; display:block;
 }
 </style>
+<!-- MOBILE-FIT-2027 -->
+<style id="mobile-fit-2027">
+html, body { touch-action: manipulation; -webkit-tap-highlight-color: transparent; overscroll-behavior: none; }
+button, .target-btn, a, [onclick] { touch-action: manipulation; }
+@media (max-width: 900px), (max-height: 520px) {
+  html { font-size: clamp(11px, 3.4vmin, 16px) !important; }
+}
+</style>
+<!-- /MOBILE-FIT-2027-head -->
 </head>
 <body>
 <div id="game-wrap">
@@ -348,7 +346,7 @@ canvas { position:absolute; inset:0; z-index:1; display:block; width:100%; heigh
     <div id="fill-wrap"></div>
   </div>
 
-  <div id="countdown" class="hidden" style="display:none!important"></div>
+  <div id="countdown" class="hidden">3</div>
 
   <div id="screen-intro" class="screen">
     <div class="game-logo">&#128640;</div>
@@ -435,7 +433,25 @@ const SoundEngine = (() => {
   };
 
   // BG ambient loop
-  function startBg(type="space") { return; }
+  function startBg(type='space') {
+    if (muted) return;
+    stopBg();
+    try {
+      const c = getCtx();
+      bgGain = c.createGain();
+      bgGain.gain.value = 0.04;
+      bgGain.connect(c.destination);
+
+      // simple drone
+      const freqs = type==='space'?[55,110,165]:[65,130,195];
+      freqs.forEach(f => {
+        const o = c.createOscillator();
+        o.type = 'sine'; o.frequency.value = f;
+        o.connect(bgGain); o.start();
+        if (!bgNode) bgNode = []; bgNode.push(o);
+      });
+    } catch(e){}
+  }
   function stopBg() {
     try { if (bgNode) { (Array.isArray(bgNode)?bgNode:[bgNode]).forEach(n=>n.stop()); } } catch(e){}
     bgNode = null;
@@ -7660,7 +7676,7 @@ const GameBase = (() => {
 
   // ── State ────────────────────────────────────────────────────
   let _questions = [], _qIndex = 0, _score = 0, _lives = 3;
-  let _timeLeft = 999999, _totalTime = 999999;
+  let _timeLeft = 60, _totalTime = 60;
   let _timerInterval = null, _selectedLevel = 1;
   let _gameActive = false;
   let _callbacks = {};
@@ -7713,7 +7729,7 @@ const GameBase = (() => {
     _timerInterval = setInterval(() => {
       _timeLeft -= 0.1;
       if (barEl) barEl.style.width = Math.max(0, (_timeLeft/_totalTime)*100) + '%';
-      if (_timeLeft <= 8) /* tick disabled */
+      if (_timeLeft <= 8) SoundEngine.play('tick');
       if (_timeLeft <= 0) { stopTimer(); endGame(); }
     }, 100);
   }
@@ -7814,7 +7830,7 @@ const GameBase = (() => {
     } else {
       if (typeof GameBase_onWrong === 'function') GameBase_onWrong();
       // Advance to next question even if wrong, so they see all questions
-      setTimeout(() => {
+      clearTimeout(autoAdvanceTimer); autoAdvanceTimer = setTimeout(() => {
         advance();
       }, 1200);
     }
@@ -7889,7 +7905,7 @@ const GameBase = (() => {
       const el = document.getElementById(`rstar-${n}`);
       if (!el) return;
       el.classList.remove('lit');
-      if (i < stars) setTimeout(() => { el.classList.add('lit'); SoundEngine.play('stars'); }, 400+i*350);
+      if (i < stars) clearTimeout(autoAdvanceTimer); autoAdvanceTimer = setTimeout(() => { el.classList.add('lit'); SoundEngine.play('stars'); }, 400+i*350);
     });
     if (stars >= 2) setTimeout(() => SoundEngine.play('levelup'), 1400);
     else setTimeout(() => SoundEngine.play('gameover'), 300);
@@ -7920,11 +7936,11 @@ const GameBase = (() => {
     el.classList.remove('hidden');
     let n = 3;
     el.textContent = n;
-    /* tick disabled */
+    SoundEngine.play('tick');
     const iv = setInterval(() => {
       n--;
       if (n <= 0) { clearInterval(iv); el.classList.add('hidden'); onDone(); }
-      else { el.textContent = n; /* tick disabled */ }
+      else { el.textContent = n; SoundEngine.play('tick'); }
     }, 900);
   }
 
@@ -8067,7 +8083,7 @@ function draw() {
       if (!e.hit && Math.abs(b.x-e.x)<40 && Math.abs(b.y-e.y)<20) {
         e.hit = true; bullets.splice(idx,1);
         emitExplosion(e.x, e.y);
-        setTimeout(()=>{
+        clearTimeout(autoAdvanceTimer); autoAdvanceTimer = setTimeout(() => {
           GameBase.submitAnswer(e.index);
         }, 300);
       }
@@ -8128,5 +8144,23 @@ function showQuestion(q,idx,total){
   spawnEnemies(q.choices,q.answer);
 } 
 </script>
+<!-- MOBILE-FIT-2027-body -->
+<script id="mobile-fit-2027-js">
+(function(){
+  try {
+    function fireResize(){ try { window.dispatchEvent(new Event('resize')); } catch(e){} }
+    window.addEventListener('orientationchange', function(){ setTimeout(fireResize,150); setTimeout(fireResize,450); setTimeout(fireResize,900); });
+    if (window.visualViewport) { window.visualViewport.addEventListener('resize', fireResize); }
+    document.addEventListener('gesturestart', function(e){ e.preventDefault(); });
+    var lastTouchEnd = 0;
+    document.addEventListener('touchend', function(e){
+      var now = Date.now();
+      if (now - lastTouchEnd <= 300) { e.preventDefault(); }
+      lastTouchEnd = now;
+    }, {passive:false});
+  } catch(err) {}
+})();
+</script>
+<!-- /MOBILE-FIT-2027-body -->
 </body>
 </html>

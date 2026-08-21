@@ -1,0 +1,101 @@
+
+==========================================
+Processing Primary 1 (primary-1)...
+From: C:\Users\Mr Mahmoud Elziadi\.gemini\antigravity\scratch\GAMES 2027\grade 1 تم
+To: C:\Users\Mr Mahmoud Elziadi\Documents\GitHub\Englishtoon\games\primary-1
+Summary for Primary 1:
+  - Unit 1: 16 games
+  - Unit 2: 14 games
+  - Unit 3: 19 games
+  - Unit 4: 24 games
+  - Unit 5: 25 games
+  - Unit 6: 22 games
+
+==========================================
+Processing Primary 2 (primary-2)...
+From: C:\Users\Mr Mahmoud Elziadi\.gemini\antigravity\scratch\GAMES 2027\prim 2 تم
+To: C:\Users\Mr Mahmoud Elziadi\Documents\GitHub\Englishtoon\games\primary-2
+Summary for Primary 2:
+  - Unit 1: 4 games
+  - Unit 2: 5 games
+  - Unit 3: 6 games
+  - Unit 4: 5 games
+  - Unit 5: 7 games
+  - Unit 6: 5 games
+
+==========================================
+Processing Primary 3 (primary-3)...
+From: C:\Users\Mr Mahmoud Elziadi\.gemini\antigravity\scratch\GAMES 2027\prim 3 تم
+To: C:\Users\Mr Mahmoud Elziadi\Documents\GitHub\Englishtoon\games\primary-3
+Summary for Primary 3:
+  - Unit 1: 4 games
+  - Unit 2: 4 games
+  - Unit 3: 4 games
+  - Unit 4: 4 games
+  - Unit 5: 4 games
+  - Unit 6: 4 games
+
+==========================================
+Processing Primary 4 (primary-4)...
+From: C:\Users\Mr Mahmoud Elziadi\.gemini\antigravity\scratch\GAMES 2027\prim 4 Standalone تم
+To: C:\Users\Mr Mahmoud Elziadi\Documents\GitHub\Englishtoon\games\primary-4
+Summary for Primary 4:
+  - Unit 1: 4 games
+  - Unit 2: 4 games
+  - Unit 3: 4 games
+  - Unit 4: 4 games
+  - Unit 5: 4 games
+  - Unit 6: 4 games
+
+==========================================
+Processing Primary 5 (primary-5)...
+From: C:\Users\Mr Mahmoud Elziadi\.gemini\antigravity\scratch\GAMES 2027\prim 5 Standaloneتم
+To: C:\Users\Mr Mahmoud Elziadi\Documents\GitHub\Englishtoon\games\primary-5
+Summary for Primary 5:
+  - Unit 1: 4 games
+  - Unit 2: 4 games
+  - Unit 3: 4 games
+  - Unit 4: 4 games
+  - Unit 5: 4 games
+  - Unit 6: 4 games
+
+==========================================
+Processing Primary 6 (primary-6)...
+From: C:\Users\Mr Mahmoud Elziadi\.gemini\antigravity\scratch\GAMES 2027\prim 6 Standalone  تم
+To: C:\Users\Mr Mahmoud Elziadi\Documents\GitHub\Englishtoon\games\primary-6
+Summary for Primary 6:
+  - Unit 1: 4 games
+  - Unit 2: 4 games
+  - Unit 3: 4 games
+  - Unit 4: 4 games
+  - Unit 5: 4 games
+  - Unit 6: 4 games
+
+==========================================
+Processing Prep 1 (prep-1)...
+From: C:\Users\Mr Mahmoud Elziadi\.gemini\antigravity\scratch\GAMES 2027\Prep 1 تم
+To: C:\Users\Mr Mahmoud Elziadi\Documents\GitHub\Englishtoon\games\prep-1
+Summary for Prep 1:
+  - Unit 1: 6 games
+  - Unit 2: 6 games
+  - Unit 3: 6 games
+  - Unit 4: 6 games
+  - Unit 5: 6 games
+  - Unit 6: 6 games
+
+==========================================
+Processing Prep 2 (prep-2)...
+From: C:\Users\Mr Mahmoud Elziadi\.gemini\antigravity\scratch\GAMES 2027\2ع
+To: C:\Users\Mr Mahmoud Elziadi\Documents\GitHub\Englishtoon\games\prep-2
+Summary for Prep 2:
+  - Unit 1: 6 games
+  - Unit 2: 6 games
+  - Unit 3: 6 games
+  - Unit 4: 6 games
+  - Unit 5: 6 games
+  - Unit 6: 6 games
+
+Total files copied: 327
+Updated js/data.js successfully.
+Updated games_map.json successfully.
+Updated 12 HTML files with ?v=202701 cache busters.
