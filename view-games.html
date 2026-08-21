@@ -22,6 +22,11 @@
         }
         .game-card { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
         .game-card:active { transform: scale(0.95); }
+        .animate-fade-in-up { animation: fadeInUp 0.5s ease-out forwards; opacity: 0; }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body class="min-h-screen bg-slate-950 bg-pattern">
@@ -42,7 +47,6 @@
     </header>
 
     <main class="max-w-2xl mx-auto px-6 py-8">
-        <!-- Games will be injected here instantly -->
         <div id="gamesList" class="space-y-8">
             <!-- Content -->
         </div>
@@ -50,7 +54,6 @@
 
     <script src="js/data.js"></script>
     <script>
-        // Load data instantly
         const params = new URLSearchParams(window.location.search);
         const gradeId = params.get('id');
         const unitNum = params.get('unit') || '1';
@@ -65,7 +68,6 @@
             
             updateTotalStars(gradeId);
             
-            // Fetch arcade map and render immediately
             fetch('js/arcade_games_map.json')
                 .then(r => r.json())
                 .then(map => renderGames(gradeId, unitNum, map))
@@ -89,27 +91,25 @@
         function renderGames(gradeId, unitNum, arcadeMap) {
             const container = document.getElementById('gamesList');
             container.innerHTML = '';
-            // Get all units from arcadeMap for this grade
+            
             const units = arcadeMap[gradeId] || {};
             const unitData = units[unitNum] || {};
             
-            // We still want to show at least 4/6 lessons even if arcade games are missing
+            // We'll show all lessons that have at least one game (dictation or arcade)
+            const arcadeLessonNums = Object.keys(unitData).map(Number);
             const baseLessonsCount = (gradeId.startsWith('prep')) ? 6 : 4;
-            const arcadeLessons = Object.keys(unitData).map(Number);
-            const maxLesson = Math.max(baseLessonsCount, ...arcadeLessons, 0);
+            const maxLesson = Math.max(baseLessonsCount, ...arcadeLessonNums, 0);
 
             for (let l = 1; l <= maxLesson; l++) {
                 const progressKey = `englishtoon_progress_${gradeId}_${unitNum}_${l}`;
                 const progress = JSON.parse(localStorage.getItem(progressKey)) || { stars: 0, completed: false };
                 const gameId = `${gradeId}_U${unitNum}_L${l}`;
                 
-                let arcadeLink = '#';
+                let arcadeLink = unitData[l] || '#';
                 let arcadeName = 'لعبة جديدة';
                 
-                if (unitData[l]) {
-                    arcadeLink = unitData[l];
+                if (arcadeLink !== '#') {
                     const filename = decodeURIComponent(arcadeLink.split('/').pop().replace('.html', ''));
-                    // Try to get a clean name from the filename
                     arcadeName = filename;
                     if (filename.includes(' - ')) arcadeName = filename.split(' - ').pop();
                     else if (filename.includes('_')) arcadeName = filename.split('_').pop();
@@ -121,6 +121,7 @@
 
                 const lessonContainer = document.createElement('div');
                 lessonContainer.className = 'bg-slate-900/50 border border-slate-800 p-6 rounded-[2rem] flex flex-col gap-6 shadow-2xl backdrop-blur-sm relative overflow-hidden animate-fade-in-up';
+                lessonContainer.style.animationDelay = `${(l-1) * 0.1}s`;
                 
                 if (progress.completed) lessonContainer.classList.add('border-green-500/30');
 
@@ -142,6 +143,7 @@
                     </div>
                     
                     <div class="grid grid-cols-1 gap-4">
+                        <!-- Dictation Game -->
                         <a href="dictation.html?id=${gradeId}&unit=${unitNum}&lesson=${l}" class="game-card flex items-center justify-between bg-indigo-600/10 border border-indigo-500/20 p-5 rounded-3xl group hover:bg-indigo-600/20">
                             <div class="flex items-center gap-4">
                                 <div class="w-12 h-12 rounded-2xl bg-indigo-600 flex items-center justify-center text-white shadow-lg shadow-indigo-900/40">
@@ -155,6 +157,7 @@
                             <i class="fa-solid fa-chevron-left text-indigo-500 group-hover:translate-x-[-5px] transition-transform"></i>
                         </a>
 
+                        <!-- Arcade Game -->
                         <a href="${arcadeLink}" class="game-card flex items-center justify-between ${arcadeLink === '#' ? 'opacity-50 pointer-events-none' : 'bg-blue-600/10 border border-blue-500/20 p-5 rounded-3xl group hover:bg-blue-600/20'}">
                             <div class="flex items-center gap-4">
                                 <div class="w-12 h-12 rounded-2xl bg-blue-600 flex items-center justify-center text-white shadow-lg shadow-blue-900/40">
