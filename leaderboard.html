@@ -160,30 +160,48 @@
         }
 
         function listenToGeneralLeaderboard() {
-            // تحديث العنوان الفرعي ليظهر الصف المختار
+            document.getElementById('cloudStatus').innerHTML = '<i class="fa-solid fa-sync fa-spin"></i><span>جاري التحميل...</span>';
             document.getElementById('lbSubtitle').textContent = `الترتيب العام - ${GRADE_LABELS[currentGrade]}`;
             
             db.collection('leaderboard')
                 .where('grade', '==', currentGrade)
                 .orderBy('score', 'desc')
                 .limit(20)
-                .onSnapshot(snapshot => {
-                    cloudPlayers = [];
-                    snapshot.forEach(doc => cloudPlayers.push(doc.data()));
-                    updateUI(true);
+                .get() // استخدام get أولاً للسرعة
+                .then(snapshot => {
+                    processSnapshot(snapshot, true);
+                    // ثم الاستماع للتحديثات الحية
+                    db.collection('leaderboard')
+                        .where('grade', '==', currentGrade)
+                        .orderBy('score', 'desc')
+                        .limit(20)
+                        .onSnapshot(snap => processSnapshot(snap, true));
                 });
         }
 
         function listenToGameLeaderboard() {
+            document.getElementById('cloudStatus').innerHTML = '<i class="fa-solid fa-sync fa-spin"></i><span>جاري التحميل...</span>';
             db.collection('game_scores')
                 .where('gameId', '==', gameId)
                 .orderBy('score', 'desc')
                 .limit(20)
-                .onSnapshot(snapshot => {
-                    cloudPlayers = [];
-                    snapshot.forEach(doc => cloudPlayers.push(doc.data()));
-                    updateUI(false);
+                .get()
+                .then(snapshot => {
+                    processSnapshot(snapshot, false);
+                    db.collection('game_scores')
+                        .where('gameId', '==', gameId)
+                        .orderBy('score', 'desc')
+                        .limit(20)
+                        .onSnapshot(snap => processSnapshot(snap, false));
                 });
+        }
+
+        function processSnapshot(snapshot, isGeneral) {
+            cloudPlayers = [];
+            snapshot.forEach(doc => cloudPlayers.push(doc.data()));
+            updateUI(isGeneral);
+            document.getElementById('cloudStatus').innerHTML = '<i class="fa-solid fa-check-circle"></i><span>تم التحديث</span>';
+            document.getElementById('cloudStatus').classList.replace('text-blue-400', 'text-emerald-400');
         }
 
         function getBadgesHtml(player) {
