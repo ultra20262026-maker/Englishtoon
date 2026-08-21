@@ -12,9 +12,11 @@
         .story-step { display: none; }
         .story-step.active { display: block; animation: fadeIn 0.5s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        .grade-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .grade-card:hover { transform: translateY(-10px); }
     </style>
 </head>
-<body class="min-h-screen pb-10">
+<body class="min-h-screen pb-20">
 
     <!-- Story Overlay -->
     <div id="story-overlay" class="fixed inset-0 z-[100] bg-blue-900/80 backdrop-blur-sm flex items-center justify-center p-4">
@@ -63,34 +65,93 @@
         </div>
     </header>
 
-    <main class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Grade Cards -->
-        <div onclick="window.location.href='grade.html?id=primary-1'" class="bg-white p-8 rounded-[2rem] border-4 border-blue-100 hover:border-blue-500 transition-all cursor-pointer text-center group">
-            <div class="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center text-blue-500 text-4xl mx-auto mb-6 group-hover:scale-110 transition-transform">
-                <i class="fa-solid fa-1"></i>
+    <div class="max-w-6xl mx-auto px-6">
+        <!-- Primary Stage -->
+        <h2 class="text-xl font-black text-slate-400 mb-6 flex items-center gap-3">
+            <span class="w-8 h-1 bg-slate-200 rounded-full"></span>
+            المرحلة الابتدائية
+        </h2>
+        <main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            <!-- Grade 1 -->
+            <div onclick="window.location.href='grade.html?id=primary-1'" class="grade-card bg-white p-8 rounded-[2rem] border-4 border-blue-100 hover:border-blue-500 cursor-pointer text-center group shadow-sm">
+                <div class="w-20 h-20 bg-blue-50 rounded-3xl flex items-center justify-center text-blue-500 text-3xl mx-auto mb-4 group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-1"></i>
+                </div>
+                <h3 class="text-xl font-black text-slate-800">الصف الأول</h3>
+                <p class="text-slate-400 font-bold text-sm">Primary One</p>
             </div>
-            <h3 class="text-2xl font-black text-slate-800 mb-2">الصف الأول</h3>
-            <p class="text-slate-500 font-bold">Primary One</p>
-        </div>
 
-        <div onclick="window.location.href='grade.html?id=primary-2'" class="bg-white p-8 rounded-[2rem] border-4 border-emerald-100 hover:border-emerald-500 transition-all cursor-pointer text-center group">
-            <div class="w-24 h-24 bg-emerald-50 rounded-full flex items-center justify-center text-emerald-500 text-4xl mx-auto mb-6 group-hover:scale-110 transition-transform">
-                <i class="fa-solid fa-2"></i>
+            <!-- Grade 2 -->
+            <div onclick="window.location.href='grade.html?id=primary-2'" class="grade-card bg-white p-8 rounded-[2rem] border-4 border-emerald-100 hover:border-emerald-500 cursor-pointer text-center group shadow-sm">
+                <div class="w-20 h-20 bg-emerald-50 rounded-3xl flex items-center justify-center text-emerald-500 text-3xl mx-auto mb-4 group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-2"></i>
+                </div>
+                <h3 class="text-xl font-black text-slate-800">الصف الثاني</h3>
+                <p class="text-slate-400 font-bold text-sm">Primary Two</p>
             </div>
-            <h3 class="text-2xl font-black text-slate-800 mb-2">الصف الثاني</h3>
-            <p class="text-slate-500 font-bold">Primary Two</p>
-        </div>
 
-        <div onclick="window.location.href='grade.html?id=primary-3'" class="bg-white p-8 rounded-[2rem] border-4 border-amber-100 hover:border-amber-500 transition-all cursor-pointer text-center group">
-            <div class="w-24 h-24 bg-amber-50 rounded-full flex items-center justify-center text-amber-500 text-4xl mx-auto mb-6 group-hover:scale-110 transition-transform">
-                <i class="fa-solid fa-3"></i>
+            <!-- Grade 3 -->
+            <div onclick="window.location.href='grade.html?id=primary-3'" class="grade-card bg-white p-8 rounded-[2rem] border-4 border-amber-100 hover:border-amber-500 cursor-pointer text-center group shadow-sm">
+                <div class="w-20 h-20 bg-amber-50 rounded-3xl flex items-center justify-center text-amber-500 text-3xl mx-auto mb-4 group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-3"></i>
+                </div>
+                <h3 class="text-xl font-black text-slate-800">الصف الثالث</h3>
+                <p class="text-slate-400 font-bold text-sm">Primary Three</p>
             </div>
-            <h3 class="text-2xl font-black text-slate-800 mb-2">الصف الثالث</h3>
-            <p class="text-slate-500 font-bold">Primary Three</p>
-        </div>
-        
-        <!-- More grades... -->
-    </main>
+
+            <!-- Grade 4 -->
+            <div onclick="window.location.href='grade.html?id=primary-4'" class="grade-card bg-white p-8 rounded-[2rem] border-4 border-rose-100 hover:border-rose-500 cursor-pointer text-center group shadow-sm">
+                <div class="w-20 h-20 bg-rose-50 rounded-3xl flex items-center justify-center text-rose-500 text-3xl mx-auto mb-4 group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-4"></i>
+                </div>
+                <h3 class="text-xl font-black text-slate-800">الصف الرابع</h3>
+                <p class="text-slate-400 font-bold text-sm">Primary Four</p>
+            </div>
+
+            <!-- Grade 5 -->
+            <div onclick="window.location.href='grade.html?id=primary-5'" class="grade-card bg-white p-8 rounded-[2rem] border-4 border-indigo-100 hover:border-indigo-500 cursor-pointer text-center group shadow-sm">
+                <div class="w-20 h-20 bg-indigo-50 rounded-3xl flex items-center justify-center text-indigo-500 text-3xl mx-auto mb-4 group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-5"></i>
+                </div>
+                <h3 class="text-xl font-black text-slate-800">الصف الخامس</h3>
+                <p class="text-slate-400 font-bold text-sm">Primary Five</p>
+            </div>
+
+            <!-- Grade 6 -->
+            <div onclick="window.location.href='grade.html?id=primary-6'" class="grade-card bg-white p-8 rounded-[2rem] border-4 border-purple-100 hover:border-purple-500 cursor-pointer text-center group shadow-sm">
+                <div class="w-20 h-20 bg-purple-50 rounded-3xl flex items-center justify-center text-purple-500 text-3xl mx-auto mb-4 group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-6"></i>
+                </div>
+                <h3 class="text-xl font-black text-slate-800">الصف السادس</h3>
+                <p class="text-slate-400 font-bold text-sm">Primary Six</p>
+            </div>
+        </main>
+
+        <!-- Prep Stage -->
+        <h2 class="text-xl font-black text-slate-400 mb-6 flex items-center gap-3">
+            <span class="w-8 h-1 bg-slate-200 rounded-full"></span>
+            المرحلة الإعدادية
+        </h2>
+        <main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Prep 1 -->
+            <div onclick="window.location.href='grade.html?id=prep-1'" class="grade-card bg-white p-8 rounded-[2rem] border-4 border-cyan-100 hover:border-cyan-500 cursor-pointer text-center group shadow-sm">
+                <div class="w-20 h-20 bg-cyan-50 rounded-3xl flex items-center justify-center text-cyan-500 text-3xl mx-auto mb-4 group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <h3 class="text-xl font-black text-slate-800">الأول الإعدادي</h3>
+                <p class="text-slate-400 font-bold text-sm">Prep One</p>
+            </div>
+
+            <!-- Prep 2 -->
+            <div onclick="window.location.href='grade.html?id=prep-2'" class="grade-card bg-white p-8 rounded-[2rem] border-4 border-orange-100 hover:border-orange-500 cursor-pointer text-center group shadow-sm">
+                <div class="w-20 h-20 bg-orange-50 rounded-3xl flex items-center justify-center text-orange-500 text-3xl mx-auto mb-4 group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <h3 class="text-xl font-black text-slate-800">الثاني الإعدادي</h3>
+                <p class="text-slate-400 font-bold text-sm">Prep Two</p>
+            </div>
+        </main>
+    </div>
 
     <!-- Firebase SDKs for Sync -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
