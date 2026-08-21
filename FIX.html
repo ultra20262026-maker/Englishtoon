@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>إصلاح EnglishToon الشامل 🛠️</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding: 50px; background: #fff1f2; color: #9f1239; }
+        .box { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); max-width: 500px; margin: 0 auto; }
+        button { background: #e11d48; color: white; border: none; padding: 20px 40px; border-radius: 15px; font-size: 20px; cursor: pointer; font-weight: bold; margin-top: 20px; }
+        button:hover { background: #be123c; }
+        #status { margin-top: 20px; font-weight: bold; color: #15803d; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>أداة الإصلاح السريع 🚀</h1>
+        <p>إذا كان الموقع لا يفتح معك أو يعود للبداية، اضغط على الزر أدناه لتنظيف المتصفح نهائياً.</p>
+        <button onclick="fixEverything()">تنظيف وإصلاح الموقع الآن 🛠️</button>
+        <div id="status"></div>
+    </div>
+
+    <script>
+        async function fixEverything() {
+            const status = document.getElementById('status');
+            status.innerText = "جاري التنظيف... يرجى الانتظار ⏳";
+
+            try {
+                // 1. Clear LocalStorage & SessionStorage
+                localStorage.clear();
+                sessionStorage.clear();
+
+                // 2. Unregister all Service Workers
+                if ('serviceWorker' in navigator) {
+                    const registrations = await navigator.serviceWorker.getRegistrations();
+                    for (let registration of registrations) {
+                        await registration.unregister();
+                    }
+                }
+
+                // 3. Clear Caches
+                if ('caches' in window) {
+                    const cacheNames = await caches.keys();
+                    for (let name of cacheNames) {
+                        await caches.delete(name);
+                    }
+                }
+
+                status.innerText = "✅ تم التنظيف بنجاح! جاري تحويلك للنسخة الجديدة...";
+                
+                setTimeout(() => {
+                    window.location.href = 'index.html?v=' + Date.now();
+                }, 2000);
+
+            } catch (e) {
+                status.innerText = "❌ حدث خطأ، يرجى مسح بيانات المتصفح يدوياً.";
+                console.error(e);
+            }
+        }
+    </script>
+</body>
+</html>

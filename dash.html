@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة الأبطال | EnglishToon</title>
+    <style>
+        body { font-family: sans-serif; background: #0f172a; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; text-align: center; }
+        .box { background: #1e293b; padding: 40px; border-radius: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 2px solid #3b82f6; max-width: 90%; }
+        h1 { font-size: 32px; margin-bottom: 10px; color: #3b82f6; }
+        p { color: #94a3b8; margin-bottom: 30px; font-size: 18px; }
+        .btn { display: block; width: 250px; margin: 15px auto; padding: 20px; background: #2563eb; color: white; text-decoration: none; border-radius: 15px; font-weight: bold; font-size: 20px; transition: 0.3s; border: none; cursor: pointer; }
+        .btn:hover { background: #1d4ed8; transform: scale(1.05); }
+        .btn-alt { background: #db2777; }
+        .btn-alt:hover { background: #be185d; }
+        .fix-link { margin-top: 20px; font-size: 14px; color: #ef4444; text-decoration: underline; cursor: pointer; display: block; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>مرحباً بك يا بطل! 🚀</h1>
+        <p>اختر وجهتك الآن وابدأ المغامرة.</p>
+        
+        <!-- PURE HTML LINKS - NO JS -->
+        <a href="toon-games.html" class="btn">🎮 دخول عالم الألعاب</a>
+        <a href="leaderboard.html" class="btn btn-alt">🏆 لوحة المتصدرين</a>
+        
+        <a href="FIX.html" class="fix-link">⚠️ هل تواجه مشكلة؟ اضغط هنا للإصلاح</a>
+    </div>
+
+    <script>
+        // Emergency: If redirected here in a loop, stop it
+        if (window.location.hash === '#reset') {
+            localStorage.clear();
+        }
+    </script>
+</body>
+</html>
