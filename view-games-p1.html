@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ألعاب الصف الأول | EnglishToon</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Cairo', sans-serif; background: #0f172a; color: #f8fafc; }
+        .bg-pattern {
+            background-image: radial-gradient(#1e293b 2px, transparent 2px);
+            background-size: 30px 30px;
+        }
+        .game-card { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        .game-card:active { transform: scale(0.95); }
+        .animate-fade-in-up { animation: fadeInUp 0.5s ease-out forwards; opacity: 0; }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .gradient-border {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            padding: 2px;
+            border-radius: 2rem;
+        }
+        .card-inner {
+            background: #0f172a;
+            border-radius: calc(2rem - 2px);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-slate-950 bg-pattern">
+    <header class="p-6 flex items-center justify-between bg-slate-900/80 backdrop-blur-xl border-b border-slate-800 sticky top-0 z-50">
+        <div class="flex items-center gap-4">
+            <a href="dashboard.html" class="w-12 h-12 rounded-2xl bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-slate-300 transition-all active:scale-90">
+                <i class="fa-solid fa-house text-xl"></i>
+            </a>
+            <div>
+                <h1 id="unitTitle" class="text-xl font-black text-blue-400">ألعاب الصف الأول</h1>
+                <p id="unitSub" class="text-[10px] text-slate-500 font-bold tracking-widest uppercase">Unit 1 Adventure</p>
+            </div>
+        </div>
+        <div class="px-4 py-2 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center gap-2 text-blue-400 shadow-lg">
+            <span class="font-black text-xl">24</span>
+            <i class="fa-solid fa-gamepad text-xl"></i>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-6 py-8">
+        <div id="gamesGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Games will be injected here -->
+        </div>
+    </main>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const unitNum = params.get('unit') || '1';
+        
+        const GAME_NAMES = [
+            "Adventure Flashlight", "Bubble Pop", "Butterfly Catcher", "Family Tree Explorer",
+            "Firefighter Rescue", "Hot Air Balloon", "Hungry Fish", "Letter Maze",
+            "Magic Hat", "Magic Piano", "Meteor Hunter", "Penalty Kick",
+            "Robot Repair", "Shadow Match", "Sky Race", "Speech Bot",
+            "Super Cannon", "Super Jump", "Toon Bowling", "Word Bridge",
+            "Treasure Hunt", "Jungle Adventure", "Space Explorer", "Garden Matching"
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('unitTitle').textContent = `الوحدة ${unitNum}`;
+            document.getElementById('unitSub').textContent = `Unit ${unitNum} Adventure`;
+            renderGames();
+        });
+
+        function renderGames() {
+            const container = document.getElementById('gamesGrid');
+            container.innerHTML = '';
+            
+            for (let i = 1; i <= 24; i++) {
+                const gameName = GAME_NAMES[i-1];
+                const gameLink = `games/primary-1/unit${unitNum}/game_${i}.html`;
+                
+                const card = document.createElement('div');
+                card.className = 'gradient-border animate-fade-in-up';
+                card.style.animationDelay = `${(i-1) * 0.05}s`;
+                
+                card.innerHTML = `
+                    <a href="${gameLink}" class="game-card block card-inner p-5 group hover:bg-slate-900/40 transition-all">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-4">
+                                <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white shadow-xl group-hover:scale-110 transition-transform">
+                                    <span class="text-2xl font-black">${i}</span>
+                                </div>
+                                <div>
+                                    <h4 class="font-black text-slate-100 text-lg">${gameName}</h4>
+                                    <p class="text-[10px] text-blue-400 font-bold uppercase tracking-widest">Level ${i}</p>
+                                </div>
+                            </div>
+                            <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all">
+                                <i class="fa-solid fa-play"></i>
+                            </div>
+                        </div>
+                    </a>
+                `;
+                container.appendChild(card);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -193,8 +193,7 @@
       const lessonsPerUnit = 4;
 
       const getGameLink = (u, l) => {
-        // نستخدم view-games.html كواجهة موحدة لكل الدروس حالياً لتجنب 404
-        // حيث أن هذه الصفحة تقوم بتحميل اللعبتين (إملاء + أركيد) ديناميكياً
+        if (GRADE === 'primary-1') return `view-games-p1.html?unit=${u}`;
         return `view-games.html?id=${GRADE}&unit=${u}&lesson=${l}`;
       };
 
