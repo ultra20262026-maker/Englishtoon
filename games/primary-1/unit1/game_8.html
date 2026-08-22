@@ -3,97 +3,167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Balloon Pop - فرقعة البالونات</title>
+    <title>Planet Launcher - قاذف الكواكب</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="../game_engine.js?v=5.4"></script>
+    <script src="../../game_engine.js?v=5.5.0"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
-        body { font-family: 'Cairo', sans-serif; overflow: hidden; background: #ecfeff; touch-action: none; }
-        .balloon { position: absolute; cursor: pointer; transition: transform 0.1s; }
-        .balloon:active { transform: scale(0.9); }
+        body { font-family: 'Cairo', sans-serif; overflow: hidden; background: #0f172a; touch-action: none; }
+        canvas { display: block; width: 100vw; height: 100vh; }
     </style>
 </head>
 <body>
-    <div class="fixed top-20 left-1/2 -translate-x-1/2 text-center z-50 pointer-events-none">
-        <div class="bg-white/60 backdrop-blur-md p-4 rounded-3xl border border-cyan-200 shadow-xl">
-            <p class="text-cyan-600 text-xs font-bold uppercase mb-1">فرقع كلمة:</p>
-            <h2 id="target-word" class="text-slate-900 text-3xl font-black">APPLE</h2>
-            <button onclick="Engine.speak(document.getElementById('target-word').innerText)" class="pointer-events-auto mt-2 bg-cyan-500 p-2 rounded-full shadow-lg">
-                <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zM16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM3 9v6h4l5 5V4L7 9H3z"/></svg>
-            </button>
-        </div>
-    </div>
-
+    <canvas id="gameCanvas"></canvas>
     <script>
-        const vocab = ["Apple", "Ball", "Cat", "Dog", "Egg", "bag", "board", "book", "chair", "desk", "ill", "in", "ink", "insect", "open your books", "pencil", "sit down", "stand up"];
-        let currentTarget = "";
-        let balloons = [];
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const words = [{"word": "Apple", "image": "../../../assets/p1/apple.png"}, {"word": "Ball", "image": "../../../assets/p1/ball.png"}, {"word": "Cat", "image": "../../../assets/p1/cat.png"}, {"word": "Dog", "image": "../../../assets/p1/dog.png"}, {"word": "Egg", "image": "../../../assets/p1/egg.png"}, {"word": "bag", "image": "../../../assets/p1/bag.png"}, {"word": "board", "image": "../../../assets/p1/board.png"}, {"word": "book", "image": "../../../assets/p1/book.png"}, {"word": "chair", "image": "../../../assets/p1/chair.png"}, {"word": "desk", "image": "../../../assets/p1/desk.png"}, {"word": "ill", "image": "../../../assets/p1/ill.png"}, {"word": "in", "image": "../../../assets/p1/in.png"}, {"word": "ink", "image": "../../../assets/p1/ink.png"}, {"word": "insect", "image": "../../../assets/p1/insect.png"}, {"word": "open your books", "image": "../../../assets/p1/open_your_books.png"}, {"word": "pencil", "image": "../../../assets/p1/pencil.png"}, {"word": "sit down", "image": "../../../assets/p1/sit_down.png"}, {"word": "stand up", "image": "../../../assets/p1/stand_up.png"}];
+        let currentWordIndex = 0;
+        let targets = [];
+        let launcher = { x: 0, y: 0, angle: -Math.PI/2 };
+        let projectiles = [];
 
         function initGame() {
-            Engine.init();
-            nextLevel();
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            launcher.x = canvas.width / 2;
+            launcher.y = canvas.height - 100;
+            
+            Engine.init({
+                onListen: () => Engine.speak(words[currentWordIndex].word),
+                onContinue: nextLevel
+            });
+            
+            setupLevel();
             animate();
         }
 
-        function nextLevel() {
-            currentTarget = vocab[Math.floor(Math.random() * vocab.length)];
-            document.getElementById('target-word').innerText = currentTarget.toUpperCase();
+        function setupLevel() {
+            const current = words[currentWordIndex];
+            document.getElementById('engine-target-word').innerText = current.word.toUpperCase();
+            targets = [];
+            projectiles = [];
             
-            balloons.forEach(b => b.el.remove());
-            balloons = [];
-            
-            const choices = Engine.getWords(vocab, 3);
-            if (!choices.includes(currentTarget)) choices[0] = currentTarget;
-            
-            choices.forEach((text, i) => {
-                const el = document.createElement('div');
-                el.className = 'balloon flex flex-col items-center justify-center p-4 rounded-full shadow-lg border-4 border-white';
-                el.style.backgroundColor = ['#f87171', '#60a5fa', '#fbbf24'][i];
-                el.style.width = '120px';
-                el.style.height = '150px';
-                el.style.left = (i * 30 + 10) + '%';
-                el.style.top = '100%';
-                
-                el.innerHTML = `
-                    <img id="img-${i}" class="w-16 h-16 mb-2" src="">
-                    <span class="text-white font-black text-sm">${text.toUpperCase()}</span>
-                `;
-                
-                Engine.loadSprite(text, (img) => {
-                    el.querySelector('img').src = img.src;
+            const choices = Engine.getChoices(words, currentWordIndex, 3);
+            choices.forEach((c, i) => {
+                const img = new Image();
+                img.src = c.image;
+                targets.push({
+                    x: (i + 1) * (canvas.width / 4),
+                    y: 250,
+                    word: c.word,
+                    img: img,
+                    isCorrect: c.word === current.word,
+                    angle: Math.random() * Math.PI * 2,
+                    orbitRadius: 40 + Math.random() * 20,
+                    destroyed: false
                 });
-
-                el.onclick = () => {
-                    if (!Engine.gameActive) return;
-                    if (text === currentTarget) {
-                        Engine.addScore(100);
-                        Engine.showFeedback(true);
-                        el.style.transform = 'scale(2)';
-                        el.style.opacity = '0';
-                        setTimeout(() => Engine.showWinScreen(() => nextLevel()), 500);
-                    } else {
-                        Engine.addScore(-20);
-                        Engine.showFeedback(false);
-                        el.style.transform = 'translateY(20px)';
-                        setTimeout(() => el.style.transform = 'translateY(0)', 200);
-                    }
-                };
-
-                document.body.appendChild(el);
-                balloons.push({ el, text, y: window.innerHeight, speed: 1 + Math.random() });
             });
         }
 
+        function nextLevel() {
+            currentWordIndex = (currentWordIndex + 1) % words.length;
+            setupLevel();
+            Engine.hideWin();
+        }
+
         function animate() {
-            if (Engine.gameActive) {
-                balloons.forEach(b => {
-                    b.y -= b.speed * Engine.speed * 2;
-                    if (b.y < -200) b.y = window.innerHeight + 100;
-                    b.el.style.top = b.y + 'px';
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw Space Stars
+            ctx.fillStyle = 'white';
+            for(let i=0; i<50; i++) {
+                ctx.beginPath();
+                ctx.arc(Math.sin(i)*canvas.width, Math.cos(i)*canvas.height, 1, 0, Math.PI*2);
+                ctx.fill();
+            }
+            
+            if (!Engine.isPaused) {
+                // Update Projectiles
+                projectiles.forEach((p, pi) => {
+                    p.x += Math.cos(p.angle) * 12;
+                    p.y += Math.sin(p.angle) * 12;
+                    
+                    targets.forEach(t => {
+                        if (!t.destroyed && Math.abs(p.x - t.x) < 50 && Math.abs(p.y - t.y) < 50) {
+                            projectiles.splice(pi, 1);
+                            if (t.isCorrect) {
+                                t.destroyed = true;
+                                Engine.showWin();
+                            } else {
+                                Engine.shake();
+                            }
+                        }
+                    });
+
+                    if (p.x < 0 || p.x > canvas.width || p.y < 0) projectiles.splice(pi, 1);
+                });
+
+                // Update Targets Orbit
+                targets.forEach(t => {
+                    t.angle += 0.02;
+                    t.renderX = t.x + Math.cos(t.angle) * t.orbitRadius;
+                    t.renderY = t.y + Math.sin(t.angle) * t.orbitRadius;
                 });
             }
+
+            // Draw Launcher
+            ctx.save();
+            ctx.translate(launcher.x, launcher.y);
+            ctx.rotate(launcher.angle + Math.PI/2);
+            ctx.fillStyle = '#3b82f6';
+            ctx.beginPath();
+            ctx.moveTo(0, -40);
+            ctx.lineTo(20, 20);
+            ctx.lineTo(-20, 20);
+            ctx.closePath();
+            ctx.fill();
+            ctx.restore();
+
+            // Draw Targets
+            targets.forEach(t => {
+                if (!t.destroyed) {
+                    ctx.save();
+                    ctx.translate(t.renderX, t.renderY);
+                    
+                    // Orbit Circle
+                    ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+                    ctx.beginPath();
+                    ctx.arc(0, 0, 50, 0, Math.PI*2);
+                    ctx.stroke();
+
+                    if (t.img && t.img.complete) ctx.drawImage(t.img, -40, -40, 80, 80);
+                    ctx.fillStyle = 'white';
+                    ctx.font = 'bold 16px Cairo';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(t.word.toUpperCase(), 0, 55);
+                    ctx.restore();
+                }
+            });
+
+            // Draw Projectiles
+            ctx.fillStyle = '#f43f5e';
+            projectiles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, 10, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
             requestAnimationFrame(animate);
         }
+
+        window.addEventListener('pointermove', (e) => {
+            const dx = e.clientX - launcher.x;
+            const dy = e.clientY - launcher.y;
+            launcher.angle = Math.atan2(dy, dx);
+        });
+
+        window.addEventListener('pointerdown', (e) => {
+            if (e.target.closest('button')) return;
+            if (!Engine.isPaused) {
+                projectiles.push({ x: launcher.x, y: launcher.y, angle: launcher.angle });
+            }
+        });
 
         initGame();
     </script>
