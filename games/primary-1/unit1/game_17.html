@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Penalty Shootout - ركلات الترجيح</title>
+    <title>Fishing Game - صيد السمك</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="../game_engine.js?v=5.4"></script>
+    <script src="../../game_engine.js?v=5.4.4"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
-        body { font-family: 'Cairo', sans-serif; overflow: hidden; background: #166534; touch-action: none; }
+        body { font-family: 'Cairo', sans-serif; overflow: hidden; background: #0c4a6e; touch-action: none; }
         canvas { display: block; width: 100vw; height: 100vh; }
     </style>
 </head>
@@ -16,9 +16,9 @@
     <canvas id="gameCanvas"></canvas>
     <div class="fixed top-20 left-1/2 -translate-x-1/2 text-center z-50 pointer-events-none">
         <div class="bg-black/40 backdrop-blur-md p-4 rounded-3xl border border-white/20">
-            <p class="text-yellow-400 text-xs font-bold uppercase mb-1">سجل في هدف الكلمة:</p>
+            <p class="text-blue-400 text-xs font-bold uppercase mb-1">اصطد الكلمة:</p>
             <h2 id="target-word" class="text-white text-3xl font-black">APPLE</h2>
-            <button onclick="Engine.speak(document.getElementById('target-word').innerText)" class="pointer-events-auto mt-2 bg-yellow-600 p-2 rounded-full shadow-lg">
+            <button onclick="Engine.speak(document.getElementById('target-word').innerText)" class="pointer-events-auto mt-2 bg-indigo-600 p-2 rounded-full shadow-lg">
                 <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zM16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM3 9v6h4l5 5V4L7 9H3z"/></svg>
             </button>
         </div>
@@ -27,108 +27,146 @@
     <script>
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
-        const vocab = ["Apple", "Ball", "Cat", "Dog", "Egg", "bag", "board", "book", "chair", "desk", "ill", "in", "ink", "insect", "open your books", "pencil", "sit down", "stand up"];
-        let currentTarget = "";
-        let ball = { x: 0, y: 0, vx: 0, vy: 0, kicked: false };
-        let goals = [];
+        const words = ["Apple", "Ball", "Cat", "Dog", "Egg", "bag", "board", "book", "chair", "desk", "ill", "in", "ink", "insect", "open your books", "pencil", "sit down", "stand up"];
+        let currentWordIndex = 0;
+        let hook = { x: 0, y: 100, targetY: 100, isDropping: false, isReturning: false };
+        let fishes = [];
 
         function initGame() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            resetBall();
-            nextLevel();
-            Engine.init();
+            hook.x = canvas.width / 2;
+            
+            Engine.init({
+                onListen: () => Engine.speak(words[currentWordIndex].word),
+                onContinue: nextLevel
+            });
+            
+            setupLevel();
             animate();
         }
 
-        function resetBall() {
-            ball = { x: canvas.width / 2, y: canvas.height - 100, vx: 0, vy: 0, kicked: false };
-        }
-
-        function nextLevel() {
-            currentTarget = vocab[Math.floor(Math.random() * vocab.length)];
-            document.getElementById('target-word').innerText = currentTarget.toUpperCase();
-            goals = [];
-            const choices = Engine.getWords(vocab, 3);
-            if (!choices.includes(currentTarget)) choices[0] = currentTarget;
+        function setupLevel() {
+            const current = words[currentWordIndex];
+            document.getElementById('target-word').innerText = current.word.toUpperCase();
+            fishes = [];
+            hook.isDropping = false;
+            hook.isReturning = false;
+            hook.y = 100;
             
-            choices.forEach((text, i) => {
-                Engine.loadSprite(text, (img) => {
-                    goals.push({
-                        x: (i + 1) * (canvas.width / 4),
-                        y: 150,
-                        text: text,
-                        img: img
-                    });
+            const choices = Engine.getChoices(words, currentWordIndex, 3);
+            choices.forEach((c, i) => {
+                const img = new Image();
+                img.src = c.image;
+                fishes.push({
+                    x: (i + 1) * (canvas.width / 4),
+                    y: canvas.height - 200,
+                    word: c.word,
+                    img: img,
+                    isCorrect: c.word === current.word,
+                    w: 100,
+                    h: 60,
+                    dir: Math.random() > 0.5 ? 1 : -1
                 });
             });
         }
 
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            // Draw Pitch
-            ctx.strokeStyle = 'rgba(255,255,255,0.2)';
-            ctx.lineWidth = 5;
-            ctx.strokeRect(50, 50, canvas.width - 100, canvas.height - 100);
-            
-            if (Engine.gameActive) {
-                // Update Ball
-                if (ball.kicked) {
-                    ball.x += ball.vx;
-                    ball.y += ball.vy;
-                    ball.vy *= 0.98; ball.vx *= 0.98;
+        function nextLevel() {
+            currentWordIndex = (currentWordIndex + 1) % words.length;
+            setupLevel();
+            Engine.hideWin();
+        }
 
-                    // Collision with goals
-                    goals.forEach(g => {
-                        if (Math.abs(ball.x - g.x) < 60 && Math.abs(ball.y - g.y) < 60) {
-                            if (g.text === currentTarget) {
-                                Engine.addScore(100);
-                                Engine.showFeedback(true);
-                                Engine.showWinScreen(() => { resetBall(); nextLevel(); });
+        function animate() {
+            ctx.fillStyle = '#0c4a6e';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw Waves
+            ctx.fillStyle = '#075985';
+            ctx.fillRect(0, 0, canvas.width, 150);
+
+            if (!Engine.isPaused) {
+                // Hook Logic
+                if (hook.isDropping) {
+                    hook.y += 10;
+                    if (hook.y >= canvas.height - 150) hook.isReturning = true;
+                    
+                    // Collision
+                    fishes.forEach(f => {
+                        if (Math.abs(hook.x - f.x) < 50 && Math.abs(hook.y - f.y) < 30) {
+                            hook.isReturning = true;
+                            if (f.isCorrect) {
+                                Engine.showWin();
                             } else {
-                                Engine.addScore(-20);
-                                Engine.showFeedback(false);
-                                resetBall();
+                                Engine.shake();
                             }
                         }
                     });
-
-                    if (ball.y < 0 || ball.y > canvas.height || ball.x < 0 || ball.x > canvas.width) resetBall();
+                } else if (hook.isReturning) {
+                    hook.y -= 10;
+                    if (hook.y <= 100) {
+                        hook.isReturning = false;
+                        hook.isDropping = false;
+                    }
                 }
 
-                // Draw Goals
-                goals.forEach(g => {
-                    ctx.fillStyle = 'rgba(255,255,255,0.1)';
-                    ctx.fillRect(g.x - 50, g.y - 50, 100, 100);
-                    if(g.img) ctx.drawImage(g.img, g.x - 40, g.y - 40, 80, 80);
-                    ctx.fillStyle = 'white';
-                    ctx.font = 'bold 14px Cairo';
-                    ctx.textAlign = 'center';
-                    ctx.fillText(g.text.toUpperCase(), g.x, g.y + 55);
+                // Update Fishes
+                fishes.forEach(f => {
+                    f.x += f.dir * 2;
+                    if (f.x < 50 || f.x > canvas.width - 50) f.dir *= -1;
                 });
             }
 
-            // Draw Ball
-            ctx.fillStyle = 'white';
-            ctx.beginPath();
-            ctx.arc(ball.x, ball.y, 20, 0, Math.PI*2);
-            ctx.fill();
-            ctx.strokeStyle = 'black';
+            // Draw Hook Line
+            ctx.strokeStyle = '#fff';
             ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(hook.x, 0);
+            ctx.lineTo(hook.x, hook.y);
             ctx.stroke();
+
+            // Draw Hook
+            ctx.strokeStyle = '#94a3b8';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.arc(hook.x, hook.y, 10, 0, Math.PI);
+            ctx.stroke();
+
+            // Draw Fishes
+            fishes.forEach(f => {
+                ctx.save();
+                ctx.translate(f.x, f.y);
+                if (f.dir === -1) ctx.scale(-1, 1);
+                
+                ctx.fillStyle = '#38bdf8';
+                ctx.beginPath();
+                ctx.ellipse(0, 0, f.w/2, f.h/2, 0, 0, Math.PI*2);
+                ctx.fill();
+                
+                if (f.img && f.img.complete) {
+                    ctx.drawImage(f.img, -20, -25, 40, 40);
+                }
+                
+                ctx.fillStyle = 'white';
+                ctx.font = 'bold 14px Cairo';
+                ctx.textAlign = 'center';
+                ctx.scale(f.dir === -1 ? -1 : 1, 1);
+                ctx.fillText(f.word.toUpperCase(), 0, 45);
+                ctx.restore();
+            });
 
             requestAnimationFrame(animate);
         }
 
-        window.addEventListener('pointerdown', (e) => {
-            if (!Engine.gameActive || ball.kicked) return;
-            const dx = e.clientX - ball.x;
-            const dy = e.clientY - ball.y;
-            const dist = Math.sqrt(dx*dx + dy*dy);
-            ball.vx = (dx / dist) * 20;
-            ball.vy = (dy / dist) * 20;
-            ball.kicked = true;
+        window.addEventListener('pointermove', (e) => { 
+            if (Engine.isPaused || hook.isDropping || hook.isReturning) return;
+            hook.x = e.clientX; 
+        });
+        
+        window.addEventListener('pointerdown', (e) => { 
+            if (Engine.isPaused || hook.isDropping || hook.isReturning) return;
+            if (e.target.closest('button')) return;
+            hook.isDropping = true;
         });
 
         initGame();
