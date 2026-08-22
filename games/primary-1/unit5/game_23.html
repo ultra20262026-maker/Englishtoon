@@ -16,7 +16,7 @@
         .btn-action:active { transform: scale(0.95); }
     </style>
 
-    <title>Space Explorer</title>
+    <title>Balloon Pop</title>
 </head>
 <body class="bg-sky-100">
     
@@ -33,7 +33,7 @@
         </div>
         <div class="mt-4 flex flex-col items-center">
             <div class="bg-white/95 backdrop-blur rounded-3xl p-4 shadow-xl border-4 border-blue-400 w-full max-w-md text-center interactive">
-                <h2 class="text-blue-500 font-bold text-sm mb-1 uppercase tracking-widest">Explore the planet:</h2>
+                <h2 class="text-blue-500 font-bold text-sm mb-1 uppercase tracking-widest">Pop the correct balloon:</h2>
                 <div id="targetWord" class="text-3xl font-black text-slate-800 mb-2">...</div>
                 <button id="listenBtn" onclick="Engine.speak(currentWord)" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-xl font-bold shadow-lg flex items-center gap-2 mx-auto text-sm">
                     <i class="fa-solid fa-volume-high"></i> Listen
@@ -58,31 +58,49 @@
         resize();
 
         
-        let planets = [];
+        let balloons = [];
         function nextQuestion() {
             currentWord = vocab[Math.floor(Math.random() * vocab.length)];
             document.getElementById('targetWord').innerText = currentWord;
-            planets = [width/4, width/2, 3*width/4].map((x, i) => ({ x, y: 400, word: (i===1)?currentWord:vocab[Math.floor(Math.random()*vocab.length)] }));
         }
         function loop() {
             ctx.clearRect(0,0,width,height);
-            planets.forEach(p => {
-                ctx.fillStyle = 'purple'; ctx.beginPath(); ctx.arc(p.x, p.y, 70, 0, Math.PI*2); ctx.fill();
-                let img = new Image(); img.src = Engine.getAssetPath(p.word);
-                ctx.drawImage(img, p.x-40, p.y-40, 80, 80);
-            });
+            if(Math.random() < 0.02) {
+                let word = Math.random() < 0.3 ? currentWord : vocab[Math.floor(Math.random()*vocab.length)];
+                let b = { word, x: Math.random()*width, y: height+50, s: 2, c: `hsl(${Math.random()*360}, 70%, 60%)`, img: new Image() };
+                b.img.src = Engine.getAssetPath(word);
+                balloons.push(b);
+            }
+            for(let i=balloons.length-1; i>=0; i--) {
+                let b = balloons[i];
+                b.y -= b.s;
+                ctx.fillStyle = b.c; ctx.beginPath(); ctx.arc(b.x, b.y, 50, 0, Math.PI*2); ctx.fill();
+                if(b.img.complete) ctx.drawImage(b.img, b.x-30, b.y-30, 60, 60);
+                if(b.y < -100) balloons.splice(i, 1);
+            }
             requestAnimationFrame(loop);
         }
         canvas.addEventListener('mousedown', (e) => {
-            planets.forEach(p => {
-                if(Math.hypot(e.clientX-p.x, e.clientY-p.y) < 70) {
-                    if(p.word === currentWord) { Engine.addScore(10); Engine.showFeedback(true); nextQuestion(); }
+            for(let i=balloons.length-1; i>=0; i--) {
+                let b = balloons[i];
+                if(Math.hypot(e.clientX-b.x, e.clientY-b.y) < 60) {
+                    balloons.splice(i, 1);
+                    if(b.word === currentWord) { Engine.addScore(10); Engine.showFeedback(true); nextQuestion(); }
                     else Engine.showFeedback(false);
+                    break;
                 }
-            });
+            }
         });
-        nextQuestion(); loop();
     
+        
+        // Ensure Engine is ready before starting
+        window.onload = () => {
+            if (window.Engine) {
+                Engine.init();
+                if (typeof nextQuestion === 'function') nextQuestion();
+                if (typeof loop === 'function') loop();
+            }
+        };
     </script>
 </body>
 </html>
