@@ -1,121 +1,163 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>تحدي الإملاء - EnglishToon</title>
+    <title>Word Master - Dictation</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="../game_engine.js?v=5"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="../game_engine.js?v=5.2"></script>
     <style>
-        body { margin: 0; overflow: hidden; background: #020617; font-family: 'Cairo', sans-serif; }
-        canvas { display: block; touch-action: none; }
-        .game-ui { position: absolute; bottom: 12%; left: 50%; transform: translateX(-50%); width: 95%; max-width: 900px; display: flex; gap: 20px; justify-content: center; z-index: 50; }
-        .choice-btn { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(20px); border: 3px solid rgba(255,255,255,0.1); color: white; padding: 25px; border-radius: 32px; font-weight: 900; font-size: 1.8rem; cursor: pointer; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); flex: 1; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
-        .choice-btn:hover { background: rgba(59, 130, 246, 0.2); border-color: #3b82f6; transform: translateY(-8px) scale(1.02); }
-        .choice-btn:active { transform: scale(0.9); }
-        .listen-btn { position: absolute; top: 120px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #3b82f6, #6366f1); color: white; padding: 15px 50px; border-radius: 100px; font-weight: 900; font-size: 1.5rem; box-shadow: 0 15px 35px rgba(59, 130, 246, 0.4); z-index: 60; cursor: pointer; border: 3px solid rgba(255,255,255,0.3); transition: all 0.3s; }
-        .listen-btn:hover { transform: translateX(-50%) translateY(-3px); box-shadow: 0 20px 45px rgba(59, 130, 246, 0.5); }
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
+        body { font-family: 'Cairo', sans-serif; background: #0f172a; color: white; touch-action: manipulation; }
+        .tile { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        .tile:active { transform: scale(0.9); }
+        .slot { border: 2px dashed rgba(255,255,255,0.2); }
     </style>
 </head>
-<body>
-    <button class="listen-btn" onclick="Engine.speak(currentWord)">🔊 Listen / استمع</button>
-    <canvas id="gameCanvas"></canvas>
-    <div class="game-ui" id="choices"></div>
+<body class="min-h-screen flex flex-col items-center justify-center p-4">
+    
+    <div class="w-full max-w-md space-y-8 mt-16">
+        <!-- Manual Listen Button -->
+        <div class="flex flex-col items-center gap-4">
+            <button onclick="playTarget()" class="w-24 h-24 bg-blue-600 rounded-full shadow-[0_0_40px_rgba(37,99,235,0.4)] flex items-center justify-center hover:scale-105 active:scale-95 transition-all border-4 border-white/20">
+                <svg class="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zM16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM3 9v6h4l5 5V4L7 9H3z"/></svg>
+            </button>
+            <p class="text-blue-400 font-bold tracking-widest uppercase text-sm">اضغط للاستماع والترتيب</p>
+        </div>
+
+        <!-- Answer Slots -->
+        <div id="answer-container" class="flex flex-wrap justify-center gap-2 min-h-[60px]">
+            <!-- Slots will be injected here -->
+        </div>
+
+        <!-- Scrambled Tiles -->
+        <div id="tiles-container" class="flex flex-wrap justify-center gap-3 p-6 bg-white/5 backdrop-blur-xl rounded-[2rem] border border-white/10 shadow-2xl">
+            <!-- Tiles will be injected here -->
+        </div>
+
+        <!-- Actions -->
+        <div class="flex gap-4">
+            <button onclick="resetWord()" class="flex-1 py-4 rounded-2xl bg-slate-800 text-white font-bold border border-white/10 active:bg-slate-700">إعادة محاولة</button>
+            <button onclick="giveHint()" class="flex-1 py-4 rounded-2xl bg-indigo-600/20 text-indigo-400 font-bold border border-indigo-500/30 active:bg-indigo-600/30">تلميح ✨</button>
+        </div>
+    </div>
 
     <script>
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
+        const vocab = ["Apple", "Ball", "Cat", "Dog", "Egg", "bag", "board", "book", "chair", "desk", "ill", "in", "ink", "insect", "open your books", "pencil", "sit down", "stand up"];
         let currentWord = "";
-        let words = {"unit 1": ["Apple", "Ball", "Cat", "Dog", "Egg", "bag", "board", "book", "chair", "desk", "ill", "in", "ink", "insect", "open your books", "pencil", "sit down", "stand up"], "unit 2": ["ant", "apple", "arm", "arrow", "axe", "bird", "butterfly", "flower", "grass", "sky", "snake", "spider", "spoon", "star", "sun", "tree"], "unit 3": ["brother", "dog", "doll", "door", "drum", "duck", "father", "five", "flowers", "four", "grandfather", "grandmother", "hair", "hands", "hat", "horse", "house", "mother", "nail", "neck", "net", "nose", "nurse", "one", "panda", "parents", "parrot", "pencil", "pizza", "potato", "sister", "three", "two"], "unit 4": ["arm", "cake", "car", "carrot", "cat", "cup", "ear", "egg", "eggplant", "elbow", "elephant", "enter", "eye", "feet", "foot", "hand", "head", "hear", "key", "king", "kitchen", "kite", "leg", "mouth", "nose", "rabbit", "red", "ring", "robot", "rocket", "see", "smell", "taste", "toes", "tongue", "touch"], "unit 5": ["chicken", "cow", "duck", "fan", "fish", "fork", "fox", "frog", "girl", "gloves", "goat", "grapes", "guitar", "horse", "mango", "milk", "monkey", "moon", "mouse", "octopus", "olive", "ostrich"], "unit 6": ["ball", "banana", "bike", "bird", "boy", "cage", "cat", "chair", "couch", "dog", "elephant", "giraffe", "in", "jacket", "jam", "jar", "jeans", "jellyfish", "lamp", "leaf", "lemon", "lion", "lunch", "monkey", "on", "snake", "table", "tiger", "turtle", "umbrella", "under", "unlock", "up"]};
-        let unitWords = words["unit 1"] || [];
-        let frame = 0;
-        let sprite = null;
-        let gameObjects = [];
-        let score = 0;
+        let shuffledLetters = [];
+        let userSelection = [];
 
         function initGame() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
             Engine.init();
-            nextQuestion();
-            animate();
+            nextWord();
         }
 
-        function nextQuestion() {
-            if (unitWords.length === 0) return;
-            currentWord = unitWords[Math.floor(Math.random() * unitWords.length)];
+        function nextWord() {
+            currentWord = vocab[Math.floor(Math.random() * vocab.length)].toUpperCase();
+            userSelection = [];
+            renderUI();
+        }
+
+        function playTarget() {
+            Engine.speak(currentWord);
+        }
+
+        function renderUI() {
+            const answerContainer = document.getElementById('answer-container');
+            const tilesContainer = document.getElementById('tiles-container');
             
-            // Load Pixar sprite
-            Engine.loadSprite(currentWord, (img) => { sprite = img; });
-            
-            const others = unitWords.filter(w => w !== currentWord).sort(() => 0.5 - Math.random()).slice(0, 2);
-            const choices = [currentWord, ...others].sort(() => 0.5 - Math.random());
-            
-            const ui = document.getElementById('choices');
-            ui.innerHTML = '';
-            choices.forEach(choice => {
-                const btn = document.createElement('button');
-                btn.className = 'choice-btn';
-                btn.innerText = choice;
-                btn.onclick = () => checkAnswer(choice);
-                ui.appendChild(btn);
+            answerContainer.innerHTML = '';
+            tilesContainer.innerHTML = '';
+
+            // Render Slots
+            currentWord.split('').forEach((char, i) => {
+                const slot = document.createElement('div');
+                slot.className = `w-12 h-14 sm:w-14 sm:h-16 rounded-xl flex items-center justify-center text-2xl font-black border-2 transition-all ${userSelection[i] ? 'bg-blue-600 border-blue-400 shadow-lg' : 'bg-slate-900/50 border-dashed border-white/20'}`;
+                slot.innerText = userSelection[i] || (char === ' ' ? ' ' : '');
+                if (char === ' ') slot.className = "w-6 h-14"; // Space handling
+                answerContainer.appendChild(slot);
             });
+
+            // Scramble remaining letters
+            const usedIndices = [];
+            const remaining = [];
             
-            // Reset objects for mechanic
-            gameObjects = [];
-            setupMechanic();
+            // Simple scramble: get all chars except spaces
+            const chars = currentWord.replace(/ /g, '').split('');
+            const currentSelectionClean = userSelection.filter(c => c !== ' ');
+            
+            // This is a simple version: show all letters initially
+            if (userSelection.length === 0) {
+                shuffledLetters = chars.sort(() => Math.random() - 0.5);
+            }
+
+            shuffledLetters.forEach((char, i) => {
+                const tile = document.createElement('button');
+                tile.className = "tile w-12 h-14 sm:w-14 sm:h-16 bg-white text-slate-900 rounded-xl flex items-center justify-center text-2xl font-black shadow-xl hover:bg-blue-50";
+                tile.innerText = char;
+                tile.onclick = () => selectLetter(char, i, tile);
+                tilesContainer.appendChild(tile);
+            });
         }
 
-        function setupMechanic() {
-            gameObjects = [];
-        }
+        function selectLetter(char, index, element) {
+            // Find next empty non-space slot
+            let nextSlot = -1;
+            for(let i=0; i<currentWord.length; i++) {
+                if (currentWord[i] !== ' ' && !userSelection[i]) {
+                    nextSlot = i;
+                    break;
+                }
+            }
 
-        function checkAnswer(choice) {
-            if (choice === currentWord) {
-                Engine.addScore(100);
-                Engine.showWinScreen(() => nextQuestion());
-            } else {
-                Engine.addScore(-50);
-                Engine.showFeedback(false);
+            if (nextSlot !== -1) {
+                userSelection[nextSlot] = char;
+                element.style.opacity = "0.2";
+                element.style.pointerEvents = "none";
+                
+                // Auto-fill spaces if needed
+                checkSpaces();
+                renderUI();
+                checkWin();
             }
         }
 
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            // Professional Parallax Background
-            const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
-            grad.addColorStop(0, '#0f172a');
-            grad.addColorStop(1, '#1e293b');
-            ctx.fillStyle = grad;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            // Grid Effect
-            ctx.strokeStyle = 'rgba(59, 130, 246, 0.05)';
-            ctx.lineWidth = 1;
-            for(let x=0; x<canvas.width; x+=50) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,canvas.height); ctx.stroke(); }
-            for(let y=0; y<canvas.height; y+=50) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(canvas.width,y); ctx.stroke(); }
-
-            // Sprite Rendering with Bounce
-            if (sprite) {
-                const bounce = Math.sin(frame/15) * 10;
-                const size = 250;
-                ctx.save();
-                ctx.shadowBlur = 30; ctx.shadowColor = 'rgba(0,0,0,0.5)';
-                ctx.drawImage(sprite, canvas.width/2 - size/2, 250 + bounce, size, size);
-                ctx.restore();
+        function checkSpaces() {
+            for(let i=0; i<currentWord.length; i++) {
+                if (currentWord[i] === ' ') userSelection[i] = ' ';
             }
-
-            // Mechanic-specific rendering logic
-            ctx.fillStyle='rgba(255,255,255,0.05)'; ctx.font='30px Cairo'; ctx.textAlign='center'; ctx.fillText('Professional Arcade Mode Active', canvas.width/2, canvas.height/2);
-
-            frame++;
-            requestAnimationFrame(animate);
         }
 
-        window.onload = initGame;
-        window.onresize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
+        function resetWord() {
+            userSelection = [];
+            renderUI();
+        }
+
+        function giveHint() {
+            Engine.addScore(-50);
+            for(let i=0; i<currentWord.length; i++) {
+                if (!userSelection[i] && currentWord[i] !== ' ') {
+                    userSelection[i] = currentWord[i];
+                    break;
+                }
+            }
+            renderUI();
+            checkWin();
+        }
+
+        function checkWin() {
+            const result = userSelection.join('');
+            if (result === currentWord) {
+                Engine.addScore(200);
+                Engine.showFeedback(true);
+                setTimeout(() => {
+                    Engine.showWinScreen(() => nextWord());
+                }, 500);
+            }
+        }
+
+        initGame();
     </script>
 </body>
 </html>

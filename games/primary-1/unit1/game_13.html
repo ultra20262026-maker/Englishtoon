@@ -1,121 +1,226 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>بطل الإطفاء - EnglishToon</title>
+    <title>Turbo Racer - مصنع الروبوت - Unit 1</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="../game_engine.js?v=5"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="../game_engine.js?v=5.2"></script>
     <style>
-        body { margin: 0; overflow: hidden; background: #020617; font-family: 'Cairo', sans-serif; }
-        canvas { display: block; touch-action: none; }
-        .game-ui { position: absolute; bottom: 12%; left: 50%; transform: translateX(-50%); width: 95%; max-width: 900px; display: flex; gap: 20px; justify-content: center; z-index: 50; }
-        .choice-btn { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(20px); border: 3px solid rgba(255,255,255,0.1); color: white; padding: 25px; border-radius: 32px; font-weight: 900; font-size: 1.8rem; cursor: pointer; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); flex: 1; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
-        .choice-btn:hover { background: rgba(59, 130, 246, 0.2); border-color: #3b82f6; transform: translateY(-8px) scale(1.02); }
-        .choice-btn:active { transform: scale(0.9); }
-        .listen-btn { position: absolute; top: 120px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #3b82f6, #6366f1); color: white; padding: 15px 50px; border-radius: 100px; font-weight: 900; font-size: 1.5rem; box-shadow: 0 15px 35px rgba(59, 130, 246, 0.4); z-index: 60; cursor: pointer; border: 3px solid rgba(255,255,255,0.3); transition: all 0.3s; }
-        .listen-btn:hover { transform: translateX(-50%) translateY(-3px); box-shadow: 0 20px 45px rgba(59, 130, 246, 0.5); }
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
+        body { font-family: 'Cairo', sans-serif; overflow: hidden; background: #0f172a; touch-action: none; }
+        canvas { display: block; width: 100vw; height: 100vh; }
+        .game-ui { pointer-events: none; position: fixed; inset: 0; }
+        .interactive { pointer-events: auto; }
     </style>
 </head>
 <body>
-    <button class="listen-btn" onclick="Engine.speak(currentWord)">🔊 Listen / استمع</button>
     <canvas id="gameCanvas"></canvas>
-    <div class="game-ui" id="choices"></div>
+    
+    <div class="game-ui flex flex-col items-center justify-between py-12 px-4">
+        <!-- Target Display -->
+        <div class="bg-black/40 backdrop-blur-md p-4 rounded-3xl border border-white/20 text-center animate-bounce mt-16">
+            <p class="text-blue-400 text-xs font-bold uppercase tracking-widest mb-1">المطلوب جمع:</p>
+            <h2 id="target-word" class="text-white text-3xl font-black tracking-tighter">APPLE</h2>
+            <button onclick="Engine.speak(document.getElementById('target-word').innerText)" class="interactive mt-2 bg-blue-600 p-2 rounded-full shadow-lg active:scale-90 transition-transform">
+                <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zM16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM3 9v6h4l5 5V4L7 9H3z"/></svg>
+            </button>
+        </div>
+
+        <!-- Controls Hint -->
+        <div class="bg-white/5 backdrop-blur-sm px-6 py-2 rounded-full border border-white/10">
+            <p class="text-white/40 text-sm font-medium">اسحب لليمين واليسار للتحرك</p>
+        </div>
+    </div>
 
     <script>
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
-        let currentWord = "";
-        let words = {"unit 1": ["Apple", "Ball", "Cat", "Dog", "Egg", "bag", "board", "book", "chair", "desk", "ill", "in", "ink", "insect", "open your books", "pencil", "sit down", "stand up"], "unit 2": ["ant", "apple", "arm", "arrow", "axe", "bird", "butterfly", "flower", "grass", "sky", "snake", "spider", "spoon", "star", "sun", "tree"], "unit 3": ["brother", "dog", "doll", "door", "drum", "duck", "father", "five", "flowers", "four", "grandfather", "grandmother", "hair", "hands", "hat", "horse", "house", "mother", "nail", "neck", "net", "nose", "nurse", "one", "panda", "parents", "parrot", "pencil", "pizza", "potato", "sister", "three", "two"], "unit 4": ["arm", "cake", "car", "carrot", "cat", "cup", "ear", "egg", "eggplant", "elbow", "elephant", "enter", "eye", "feet", "foot", "hand", "head", "hear", "key", "king", "kitchen", "kite", "leg", "mouth", "nose", "rabbit", "red", "ring", "robot", "rocket", "see", "smell", "taste", "toes", "tongue", "touch"], "unit 5": ["chicken", "cow", "duck", "fan", "fish", "fork", "fox", "frog", "girl", "gloves", "goat", "grapes", "guitar", "horse", "mango", "milk", "monkey", "moon", "mouse", "octopus", "olive", "ostrich"], "unit 6": ["ball", "banana", "bike", "bird", "boy", "cage", "cat", "chair", "couch", "dog", "elephant", "giraffe", "in", "jacket", "jam", "jar", "jeans", "jellyfish", "lamp", "leaf", "lemon", "lion", "lunch", "monkey", "on", "snake", "table", "tiger", "turtle", "umbrella", "under", "unlock", "up"]};
-        let unitWords = words["unit 1"] || [];
+        const vocab = ["Apple", "Ball", "Cat", "Dog", "Egg", "bag", "board", "book", "chair", "desk", "ill", "in", "ink", "insect", "open your books", "pencil", "sit down", "stand up"];
+        let currentTarget = "";
+        let player = { x: 0, y: 0, w: 60, h: 100, targetX: 0 };
+        let obstacles = [];
+        let particles = [];
+        let roadOffset = 0;
         let frame = 0;
-        let sprite = null;
-        let gameObjects = [];
-        let score = 0;
 
         function initGame() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
+            player.x = canvas.width / 2;
+            player.targetX = player.x;
+            player.y = canvas.height - 150;
+            
+            nextLevel();
             Engine.init();
-            nextQuestion();
             animate();
         }
 
-        function nextQuestion() {
-            if (unitWords.length === 0) return;
-            currentWord = unitWords[Math.floor(Math.random() * unitWords.length)];
+        function nextLevel() {
+            currentTarget = vocab[Math.floor(Math.random() * vocab.length)];
+            document.getElementById('target-word').innerText = currentTarget.toUpperCase();
+            obstacles = [];
+            spawnInitialObstacles();
+        }
+
+        function spawnInitialObstacles() {
+            for(let i=0; i<3; i++) spawnObstacle(canvas.height * 0.2 - (i * 300));
+        }
+
+        function spawnObstacle(yPos = -100) {
+            const isTarget = Math.random() > 0.6 || !obstacles.some(o => o.text === currentTarget);
+            const text = isTarget ? currentTarget : vocab[Math.floor(Math.random() * vocab.length)];
             
-            // Load Pixar sprite
-            Engine.loadSprite(currentWord, (img) => { sprite = img; });
-            
-            const others = unitWords.filter(w => w !== currentWord).sort(() => 0.5 - Math.random()).slice(0, 2);
-            const choices = [currentWord, ...others].sort(() => 0.5 - Math.random());
-            
-            const ui = document.getElementById('choices');
-            ui.innerHTML = '';
-            choices.forEach(choice => {
-                const btn = document.createElement('button');
-                btn.className = 'choice-btn';
-                btn.innerText = choice;
-                btn.onclick = () => checkAnswer(choice);
-                ui.appendChild(btn);
+            Engine.loadSprite(text, (img) => {
+                obstacles.push({
+                    x: Math.random() * (canvas.width - 100) + 50,
+                    y: yPos,
+                    w: 80,
+                    h: 80,
+                    text: text,
+                    img: img,
+                    speed: (2 + Math.random() * 2) * Engine.speed
+                });
             });
+        }
+
+        function drawRoad() {
+            ctx.fillStyle = '#1e293b';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            // Reset objects for mechanic
-            gameObjects = [];
-            setupMechanic();
-        }
-
-        function setupMechanic() {
-            gameObjects = [];
-        }
-
-        function checkAnswer(choice) {
-            if (choice === currentWord) {
-                Engine.addScore(100);
-                Engine.showWinScreen(() => nextQuestion());
-            } else {
-                Engine.addScore(-50);
-                Engine.showFeedback(false);
+            ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+            ctx.setLineDash([40, 40]);
+            ctx.lineWidth = 4;
+            
+            const lanes = 4;
+            for(let i=1; i<lanes; i++) {
+                ctx.beginPath();
+                ctx.moveTo(i * (canvas.width/lanes), 0);
+                ctx.lineTo(i * (canvas.width/lanes), canvas.height);
+                ctx.lineDashOffset = -roadOffset;
+                ctx.stroke();
             }
+            roadOffset += 10 * Engine.speed;
+        }
+
+        function drawPlayer() {
+            // Smooth movement
+            player.x += (player.targetX - player.x) * 0.2;
+            
+            ctx.save();
+            ctx.translate(player.x, player.y);
+            
+            // Shadow
+            ctx.fillStyle = 'rgba(0,0,0,0.3)';
+            ctx.beginPath();
+            ctx.ellipse(0, 60, 30, 10, 0, 0, Math.PI*2);
+            ctx.fill();
+
+            // Car Body (Professional Neon Style)
+            const gradient = ctx.createLinearGradient(-30, 0, 30, 0);
+            gradient.addColorStop(0, '#3b82f6');
+            gradient.addColorStop(1, '#6366f1');
+            
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.roundRect(-30, -50, 60, 100, 15);
+            ctx.fill();
+            
+            // Cockpit
+            ctx.fillStyle = '#0f172a';
+            ctx.beginPath();
+            ctx.roundRect(-20, -20, 40, 40, 10);
+            ctx.fill();
+            
+            // Headlights
+            ctx.fillStyle = '#fff';
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = '#fff';
+            ctx.fillRect(-25, -55, 10, 5);
+            ctx.fillRect(15, -55, 10, 5);
+            
+            ctx.restore();
+        }
+
+        function update() {
+            obstacles.forEach((o, index) => {
+                o.y += o.speed * (5 * Engine.speed);
+                
+                // Collision Detection
+                const dx = o.x - player.x;
+                const dy = o.y - player.y;
+                const distance = Math.sqrt(dx*dx + dy*dy);
+                
+                if (distance < 60) {
+                    if (o.text === currentTarget) {
+                        Engine.addScore(100);
+                        Engine.showFeedback(true);
+                        Engine.showWinScreen(() => nextLevel());
+                    } else {
+                        Engine.addScore(-50);
+                        Engine.showFeedback(false);
+                        o.y = canvas.height + 100; // Remove
+                    }
+                }
+                
+                if (o.y > canvas.height + 100) {
+                    obstacles.splice(index, 1);
+                    spawnObstacle();
+                }
+            });
+        }
+
+        function drawObstacles() {
+            obstacles.forEach(o => {
+                ctx.save();
+                ctx.translate(o.x, o.y);
+                
+                // Glow
+                ctx.shadowBlur = 20;
+                ctx.shadowColor = o.text === currentTarget ? 'rgba(59, 130, 246, 0.5)' : 'rgba(255,255,255,0.2)';
+                
+                // Card Background
+                ctx.fillStyle = 'rgba(255,255,255,0.1)';
+                ctx.beginPath();
+                ctx.roundRect(-50, -50, 100, 100, 20);
+                ctx.fill();
+                ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+                ctx.stroke();
+
+                // Sprite
+                if(o.img) ctx.drawImage(o.img, -40, -45, 80, 80);
+                
+                // Text Label
+                ctx.fillStyle = 'white';
+                ctx.font = 'bold 14px Cairo';
+                ctx.textAlign = 'center';
+                ctx.fillText(o.text.toUpperCase(), 0, 45);
+                
+                ctx.restore();
+            });
         }
 
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            // Professional Parallax Background
-            const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
-            grad.addColorStop(0, '#0f172a');
-            grad.addColorStop(1, '#1e293b');
-            ctx.fillStyle = grad;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            // Grid Effect
-            ctx.strokeStyle = 'rgba(59, 130, 246, 0.05)';
-            ctx.lineWidth = 1;
-            for(let x=0; x<canvas.width; x+=50) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,canvas.height); ctx.stroke(); }
-            for(let y=0; y<canvas.height; y+=50) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(canvas.width,y); ctx.stroke(); }
-
-            // Sprite Rendering with Bounce
-            if (sprite) {
-                const bounce = Math.sin(frame/15) * 10;
-                const size = 250;
-                ctx.save();
-                ctx.shadowBlur = 30; ctx.shadowColor = 'rgba(0,0,0,0.5)';
-                ctx.drawImage(sprite, canvas.width/2 - size/2, 250 + bounce, size, size);
-                ctx.restore();
-            }
-
-            // Mechanic-specific rendering logic
-            ctx.fillStyle='rgba(255,255,255,0.05)'; ctx.font='30px Cairo'; ctx.textAlign='center'; ctx.fillText('Professional Arcade Mode Active', canvas.width/2, canvas.height/2);
-
-            frame++;
+            drawRoad();
+            update();
+            drawObstacles();
+            drawPlayer();
             requestAnimationFrame(animate);
         }
 
-        window.onload = initGame;
-        window.onresize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
+        // Touch/Mouse Controls
+        window.addEventListener('pointermove', (e) => {
+            player.targetX = e.clientX;
+        });
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            player.y = canvas.height - 150;
+        });
+
+        initGame();
     </script>
 </body>
 </html>
