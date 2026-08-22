@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>لعبة الصياد - Fisherman Game</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Cairo', sans-serif; overflow: hidden; background: #0c4a6e; touch-action: none; margin: 0; padding: 0; }
+        canvas { display: block; width: 100vw; height: 100vh; background: #075985; }
+        
+        #top-bar {
+            position: fixed; top: 0; left: 0; width: 100%; height: 45px;
+            background: rgba(15, 23, 42, 0.95); display: flex; align-items: center; 
+            justify-content: space-between; padding: 0 10px; z-index: 1000; border-bottom: 2px solid #3b82f6;
+        }
+        #target-word { color: #fbbf24; font-weight: 900; font-size: 1.2rem; margin: 0 10px; text-transform: uppercase; }
+        
+        #win-screen {
+            position: fixed; inset: 0; background: rgba(15, 23, 42, 0.9);
+            display: none; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 2000; text-align: center;
+        }
+        .win-box { background: #1e293b; padding: 20px; border-radius: 20px; border: 3px solid #22c55e; width: 85%; max-width: 350px; }
+        .btn { background: #2563eb; color: white; padding: 10px 25px; border-radius: 12px; font-weight: bold; cursor: pointer; border: none; margin-top: 15px; }
+        
+        .score-tag { background: #1e293b; color: white; padding: 2px 10px; border-radius: 8px; font-weight: bold; font-size: 0.9rem; border: 1px solid #334155; }
+    </style>
+</head>
+<body>
+    <div id="top-bar">
+        <div style="display: flex; align-items: center;">
+            <span style="color: #94a3b8; font-size: 0.7rem; font-weight: bold;">المطلوب:</span>
+            <span id="target-word">---</span>
+            <button onclick="handleListen()" style="background: #2563eb; color: white; width: 30px; height: 30px; border-radius: 50%; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zM16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM3 9v6h4l5 5V4L7 9H3z"/></svg>
+            </button>
+        </div>
+        <div class="score-tag">★ <span id="score">0</span></div>
+    </div>
+
+    <canvas id="gameCanvas"></canvas>
+
+    <div id="win-screen">
+        <div class="win-box">
+            <div style="font-size: 3rem; margin-bottom: 10px;">⭐</div>
+            <h2 style="color: white; font-size: 1.5rem; font-weight: 900;">ممتاز! إجابة صحيحة</h2>
+            <button class="btn" onclick="nextLevel()">متابعة اللعب</button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const rawVocab = ["Apple","Ball","Cat","Dog","Egg","bag","board","book","chair","desk","ill","in","ink","insect","open your books","pencil","sit down","stand up"];
+        const vocab = rawVocab.map(v => ({ word: v, image: v.toLowerCase().replace(/ /g, '_') + '.png' }));
+        
+        let currentTarget = null;
+        let score = 0;
+        let isPaused = false;
+        let fish = [];
+        let hook = { x: 0, y: 45, active: false, caught: null, speed: 10, returning: false, targetY: 0 };
+        const assets = {};
+
+        function initGame() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            vocab.forEach(item => {
+                const img = new Image();
+                img.src = `../../../assets/p1/${item.image}`;
+                assets[item.word] = img;
+            });
+
+            setupLevel();
+            requestAnimationFrame(animate);
+        }
+
+        function setupLevel() {
+            currentTarget = vocab[Math.floor(Math.random() * vocab.length)];
+            document.getElementById('target-word').innerText = currentTarget.word;
+            
+            fish = [];
+            hook.active = false;
+            hook.returning = false;
+            hook.y = 45;
+            hook.caught = null;
+            
+            let choices = [currentTarget];
+            let others = vocab.filter(v => v.word !== currentTarget.word);
+            others.sort(() => Math.random() - 0.5);
+            choices.push(others[0], others[1]);
+            choices.sort(() => Math.random() - 0.5);
+
+            choices.forEach((c, i) => {
+                fish.push({
+                    x: (i + 1) * (canvas.width / 4),
+                    y: canvas.height - 150 - (Math.random() * 100),
+                    word: c.word,
+                    image: c.image,
+                    isCorrect: c.word === currentTarget.word,
+                    speed: 1 + Math.random() * 0.5,
+                    dir: Math.random() > 0.5 ? 1 : -1,
+                    w: 70,
+                    h: 70
+                });
+            });
+        }
+
+        function handleListen() {
+            if (!currentTarget) return;
+            const utterance = new SpeechSynthesisUtterance(currentTarget.word);
+            utterance.lang = 'en-US';
+            speechSynthesis.cancel();
+            speechSynthesis.speak(utterance);
+        }
+
+        function nextLevel() {
+            document.getElementById('win-screen').style.display = 'none';
+            isPaused = false;
+            setupLevel();
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Water Gradient
+            const grad = ctx.createLinearGradient(0, 45, 0, canvas.height);
+            grad.addColorStop(0, '#0ea5e9');
+            grad.addColorStop(1, '#0c4a6e');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 45, canvas.width, canvas.height - 45);
+
+            if (!isPaused) {
+                // Move Fish
+                fish.forEach(f => {
+                    if (!f.caught) {
+                        f.x += f.speed * f.dir;
+                        if (f.x < 40 || f.x > canvas.width - 40) f.dir *= -1;
+                    }
+                });
+
+                // Move Hook
+                if (hook.active) {
+                    if (hook.caught) {
+                        hook.y -= hook.speed;
+                        hook.caught.x = hook.x;
+                        hook.caught.y = hook.y + 35;
+                        if (hook.y <= 45) {
+                            if (hook.caught.isCorrect) {
+                                score += 10;
+                                document.getElementById('score').innerText = score;
+                                isPaused = true;
+                                document.getElementById('win-screen').style.display = 'flex';
+                                const msg = new SpeechSynthesisUtterance("Great Job");
+                                speechSynthesis.speak(msg);
+                            } else {
+                                hook.caught.caught = false;
+                                hook.caught = null;
+                                hook.active = false;
+                            }
+                        }
+                    } else if (!hook.returning) {
+                        hook.y += hook.speed;
+                        if (hook.y >= hook.targetY) {
+                            hook.returning = true;
+                            fish.forEach(f => {
+                                if (Math.abs(hook.x - f.x) < 50 && Math.abs(hook.y - f.y) < 50) {
+                                    hook.caught = f;
+                                    f.caught = true;
+                                }
+                            });
+                        }
+                    } else {
+                        hook.y -= hook.speed;
+                        if (hook.y <= 45) {
+                            hook.active = false;
+                            hook.returning = false;
+                        }
+                    }
+                }
+            }
+
+            // Draw Line
+            ctx.strokeStyle = '#e2e8f0';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(hook.x, 0);
+            ctx.lineTo(hook.x, hook.y);
+            ctx.stroke();
+            
+            // Draw Hook
+            ctx.strokeStyle = '#f8fafc';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.arc(hook.x, hook.y, 10, 0, Math.PI);
+            ctx.stroke();
+
+            // Draw Fish
+            fish.forEach(f => {
+                ctx.save();
+                ctx.translate(f.x, f.y);
+                if (f.dir < 0) ctx.scale(-1, 1);
+                
+                const img = assets[f.word];
+                if (img && img.complete && img.naturalWidth !== 0) {
+                    ctx.drawImage(img, -35, -35, 70, 70);
+                } else {
+                    ctx.fillStyle = '#3b82f6';
+                    ctx.beginPath();
+                    ctx.ellipse(0, 0, 35, 20, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                ctx.restore();
+                
+                // Label
+                ctx.fillStyle = 'rgba(15, 23, 42, 0.7)';
+                ctx.fillRect(f.x - 35, f.y + 40, 70, 20);
+                ctx.fillStyle = 'white';
+                ctx.font = 'bold 12px Cairo';
+                ctx.textAlign = 'center';
+                ctx.fillText(f.word.toUpperCase(), f.x, f.y + 54);
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('pointerdown', (e) => {
+            if (e.target.closest('button') || e.target.closest('.win-box')) return;
+            if (!isPaused && !hook.active) {
+                hook.x = e.clientX;
+                hook.targetY = Math.max(150, e.clientY);
+                hook.active = true;
+                hook.returning = false;
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        initGame();
+    </script>
+</body>
+</html>
