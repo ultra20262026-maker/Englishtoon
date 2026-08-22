@@ -3,103 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Super Cannon - EnglishToon</title>
+    <title>Train Express - EnglishToon</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Fredoka One', cursive; touch-action: manipulation; overflow: hidden; }
-        .game-container { position: relative; width: 100vw; height: 100vh; background: linear-gradient(to bottom, #87CEEB, #E0F6FF); }
-        .cannon { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); width: 100px; z-index: 10; transition: left 0.1s ease-out; }
-        .target { position: absolute; top: -100px; width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; text-align: center; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
-        .ball { position: absolute; width: 20px; height: 20px; background: radial-gradient(circle at 30% 30%, #ff0000, #990000); border-radius: 50%; z-index: 5; }
-        .score-panel { position: absolute; top: 20px; left: 20px; z-index: 20; }
-        .vocab-image { width: 120px; height: 120px; border-radius: 20px; border: 4px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        #question-panel { position: absolute; top: 20px; right: 20px; z-index: 20; text-align: right; }
-        .btn-action { background: #FFD700; border: 4px solid #FFA500; border-radius: 15px; padding: 10px 20px; font-size: 20px; cursor: pointer; }
+        body { font-family: 'Fredoka One', cursive; margin: 0; overflow: hidden; background: #f0fdf4; }
+        .choice-card { 
+            background: white; border: 4px solid #22c55e; border-radius: 25px; 
+            padding: 15px; text-align: center; cursor: pointer; transition: all 0.3s;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .choice-card:active { transform: scale(0.95); }
     </style>
 </head>
-<body class="bg-blue-100">
-    <div class="game-container" id="gameArea">
-        <!-- Score & Info -->
-        <div class="score-panel">
-            <div class="bg-white/80 p-3 rounded-2xl shadow-lg">
-                <div class="text-blue-600">Score: <span id="score">0</span></div>
-                <div class="text-yellow-600">Stars: ⭐<span id="stars">0</span></div>
+<body>
+    <div id="gameArea" class="w-full h-full relative p-4 flex flex-col items-center justify-center">
+        <!-- HUD -->
+        <div class="absolute top-4 left-4 z-50 flex gap-4">
+            <div class="bg-white/90 p-2 rounded-xl shadow-md border-2 border-green-400">
+                Score: <span id="score">0</span> | ⭐ <span id="stars">0</span>
             </div>
         </div>
 
-        <!-- Question Panel -->
-        <div id="question-panel" class="hidden">
-            <img id="currentVocabImg" src="" class="vocab-image bg-white mb-2" alt="vocab">
-            <div class="bg-white/80 p-2 rounded-xl text-xl text-blue-800" id="currentWord">...</div>
-            <button onclick="speakWord()" class="mt-2 bg-blue-500 text-white p-2 rounded-full shadow-md">🔊</button>
+        <!-- Question Section -->
+        <div class="bg-white p-6 rounded-[40px] shadow-2xl border-8 border-green-500 text-center mb-8 max-w-sm w-full">
+            <p class="text-green-600 mb-2">Listen and find:</p>
+            <h2 id="targetWord" class="text-4xl text-blue-900 mb-4">...</h2>
+            <button onclick="Engine.speak(Engine.currentWord)" class="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-full text-xl shadow-lg active:scale-95 transition-all">🔊 Listen Again</button>
         </div>
 
-        <!-- Cannon -->
-        <div id="cannon" class="cannon">
-            <img src="../../assets/cannon_3d.png" alt="cannon" id="cannonImg">
+        <!-- Choices Grid -->
+        <div id="choicesGrid" class="grid grid-cols-2 gap-4 w-full max-w-md">
+            <!-- Injected by JS -->
         </div>
 
         <!-- Start Overlay -->
-        <div id="startOverlay" class="absolute inset-0 bg-black/50 z-50 flex items-center justify-center">
-            <div class="bg-white p-8 rounded-3xl text-center shadow-2xl">
-                <h1 class="text-4xl text-blue-600 mb-4">Super Cannon!</h1>
-                <p class="text-gray-600 mb-6">Shoot the correct target to win!</p>
-                <button onclick="startGame()" class="btn-action">Start Adventure</button>
+        <div id="startOverlay" class="absolute inset-0 bg-green-600/90 z-[100] flex items-center justify-center p-6 text-white">
+            <div class="bg-white p-8 rounded-[40px] text-center shadow-2xl border-8 border-green-400 text-green-600">
+                <h1 class="text-5xl mb-4">Train Express</h1>
+                <p class="text-xl text-gray-600 mb-8">Ready to play?</p>
+                <button onclick="startGame()" class="bg-green-500 hover:bg-green-600 text-white px-12 py-4 rounded-full text-3xl shadow-xl active:scale-95 transition-all">PLAY</button>
             </div>
         </div>
     </div>
 
     <script>
-        let score = 0;
-        let stars = 0;
-        let currentQuestion = null;
-        let gameActive = false;
+// EnglishToon Game Engine 2027
+const Engine = {
+    score: 0, stars: 0, currentWord: null, gameActive: false,
+    studentName: localStorage.getItem('et_student_name') || 'Guest Student',
+    init() { console.log("Engine Init"); this.updateUI(); },
+    speak(text) { if (!text) return; const msg = new SpeechSynthesisUtterance(text); msg.lang = 'en-US'; window.speechSynthesis.speak(msg); },
+    updateUI() {
+        const s = document.getElementById('score'), st = document.getElementById('stars');
+        if (s) s.innerText = this.score; if (st) st.innerText = this.stars;
+    },
+    addScore(p) { this.score += p; if (this.score % 50 === 0) this.stars++; this.updateUI(); },
+    getAssetPath(w) { return `../../../assets/p1/${w.toLowerCase().replace(/ /g, '_')}.png`; },
+    showFeedback(c) {
+        const f = document.createElement('div');
+        f.className = 'fixed inset-0 flex items-center justify-center z-[100] pointer-events-none';
+        f.innerHTML = c ? `<div class="bg-green-500 text-white p-10 rounded-full text-4xl animate-bounce">Excellent! 🌟</div>` :
+                          `<div class="bg-red-500 text-white p-10 rounded-full text-4xl animate-shake">Try Again! ❌</div>`;
+        document.body.appendChild(f); setTimeout(() => f.remove(), 1000);
+    }
+};
+window.Engine = Engine;
+Engine.init();
+</script>
+    <script>
         const wordsData = [{"word": "ant"}, {"word": "apple"}, {"word": "arm"}, {"word": "arrow"}, {"word": "axe"}, {"word": "bird"}, {"word": "butterfly"}, {"word": "flower"}, {"word": "grass"}, {"word": "sky"}, {"word": "snake"}, {"word": "spider"}, {"word": "spoon"}, {"word": "star"}, {"word": "sun"}, {"word": "tree"}];
-
+        
         function startGame() {
             document.getElementById('startOverlay').classList.add('hidden');
-            document.getElementById('question-panel').classList.remove('hidden');
-            gameActive = true;
+            Engine.gameActive = true;
             nextQuestion();
-            gameLoop();
         }
 
         function nextQuestion() {
-            currentQuestion = wordsData[Math.floor(Math.random() * wordsData.length)];
-            document.getElementById('currentVocabImg').src = "../../assets/p1/" + currentQuestion.word.toLowerCase().replace(/ /g, '_') + ".png";
-            document.getElementById('currentWord').innerText = "Find: " + currentQuestion.word;
-            spawnTargets();
+            Engine.currentWord = wordsData[Math.floor(Math.random() * wordsData.length)].word;
+            document.getElementById('targetWord').innerText = Engine.currentWord;
+            renderChoices();
         }
 
-        function spawnTargets() {
-            // Logic to spawn multiple targets at top
-        }
+        function renderChoices() {
+            const grid = document.getElementById('choicesGrid');
+            grid.innerHTML = '';
 
-        function gameLoop() {
-            if (!gameActive) return;
-            // Update positions, collisions, etc.
-            requestAnimationFrame(gameLoop);
-        }
-
-        function speakWord() {
-            if (currentQuestion) {
-                const msg = new SpeechSynthesisUtterance(currentQuestion.word);
-                msg.lang = 'en-US';
-                window.speechSynthesis.speak(msg);
+            let choices = [Engine.currentWord];
+            while(choices.length < 4) {
+                let w = wordsData[Math.floor(Math.random() * wordsData.length)].word;
+                if(!choices.includes(w)) choices.push(w);
             }
+            choices = choices.sort(() => Math.random() - 0.5);
+
+            choices.forEach(word => {
+                const card = document.createElement('div');
+                card.className = 'choice-card flex flex-col items-center';
+                
+                const img = document.createElement('img');
+                img.src = Engine.getAssetPath(word);
+                img.className = 'w-24 h-24 object-contain mb-2';
+                img.onerror = () => img.src = 'https://cdn-icons-png.flaticon.com/512/3081/3081840.png';
+                
+                const label = document.createElement('span');
+                label.innerText = word;
+                label.className = 'text-lg font-bold text-green-800';
+
+                card.appendChild(img);
+                card.appendChild(label);
+                card.onclick = () => checkAnswer(word, card);
+                grid.appendChild(card);
+            });
         }
 
-        // Mobile Control
-        window.addEventListener('touchstart', (e) => {
-            if (!gameActive) return;
-            const touchX = e.touches[0].clientX;
-            document.getElementById('cannon').style.left = touchX + 'px';
-            fireBall();
-        });
-
-        function fireBall() {
-            // Animation for firing
+        function checkAnswer(selected, element) {
+            if(!Engine.gameActive) return;
+            if(selected === Engine.currentWord) {
+                Engine.addScore(10);
+                Engine.showFeedback(true);
+                element.classList.add('bg-green-100', 'scale-105');
+                setTimeout(nextQuestion, 1000);
+            } else {
+                Engine.showFeedback(false);
+                element.classList.add('bg-red-100', 'animate-shake');
+                setTimeout(() => element.classList.remove('bg-red-100', 'animate-shake'), 500);
+            }
         }
     </script>
 </body>
