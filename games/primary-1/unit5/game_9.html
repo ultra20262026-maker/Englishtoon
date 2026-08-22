@@ -16,7 +16,7 @@
         .btn-action:active { transform: scale(0.95); }
     </style>
 
-    <title>Cannon Shooter</title>
+    <title>Meteor Hunter</title>
 </head>
 <body class="bg-sky-100">
     
@@ -33,7 +33,7 @@
         </div>
         <div class="mt-4 flex flex-col items-center">
             <div class="bg-white/95 backdrop-blur rounded-3xl p-4 shadow-xl border-4 border-blue-400 w-full max-w-md text-center interactive">
-                <h2 class="text-blue-500 font-bold text-sm mb-1 uppercase tracking-widest">Shoot the target:</h2>
+                <h2 class="text-blue-500 font-bold text-sm mb-1 uppercase tracking-widest">Tap the correct meteor:</h2>
                 <div id="targetWord" class="text-3xl font-black text-slate-800 mb-2">...</div>
                 <button id="listenBtn" onclick="Engine.speak(currentWord)" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-xl font-bold shadow-lg flex items-center gap-2 mx-auto text-sm">
                     <i class="fa-solid fa-volume-high"></i> Listen
@@ -58,52 +58,39 @@
         resize();
 
         
-        let cannon, targets = [], projectiles = [];
+        let meteors = [];
         function nextQuestion() {
             currentWord = vocab[Math.floor(Math.random() * vocab.length)];
             document.getElementById('targetWord').innerText = currentWord;
-            targets = []; spawnTargets();
-        }
-        function spawnTargets() {
-            for(let i=0; i<3; i++) {
-                let word = (i === 0) ? currentWord : vocab[Math.floor(Math.random()*vocab.length)];
-                let t = { word, isCorrect: word === currentWord, x: Math.random()*(width-100)+50, y: -50, speed: 1+Math.random()*2, r: 45, img: new Image() };
-                t.img.src = Engine.getAssetPath(word);
-                targets.push(t);
-            }
-            targets.sort(() => Math.random()-0.5);
         }
         function loop() {
             ctx.clearRect(0,0,width,height);
-            ctx.fillStyle = '#1e293b'; ctx.beginPath(); ctx.arc(width/2, height, 80, Math.PI, 0); ctx.fill();
-            for(let i=targets.length-1; i>=0; i--) {
-                let t = targets[i];
-                t.y += t.speed;
-                if(t.img.complete) ctx.drawImage(t.img, t.x-35, t.y-35, 70, 70);
-                else { ctx.fillStyle='gray'; ctx.beginPath(); ctx.arc(t.x, t.y, 35, 0, Math.PI*2); ctx.fill(); }
-                if(t.y > height) { targets.splice(i, 1); if(targets.length === 0) spawnTargets(); }
+            if(Math.random() < 0.015) {
+                let word = Math.random() < 0.5 ? currentWord : vocab[Math.floor(Math.random()*vocab.length)];
+                let m = { word, x: Math.random()*width, y: -50, s: 1.5, img: new Image() };
+                m.img.src = Engine.getAssetPath(word);
+                meteors.push(m);
             }
-            for(let i=projectiles.length-1; i>=0; i--) {
-                let p = projectiles[i];
-                p.x += p.vx; p.y += p.vy; ctx.fillStyle = 'red'; ctx.beginPath(); ctx.arc(p.x, p.y, 10, 0, Math.PI*2); ctx.fill();
-                targets.forEach((t, j) => {
-                    if(Math.hypot(p.x-t.x, p.y-t.y) < t.r) {
-                        projectiles.splice(i, 1);
-                        if(t.isCorrect) { Engine.addScore(10); Engine.showFeedback(true); nextQuestion(); }
-                        else { Engine.showFeedback(false); targets.splice(j, 1); }
-                    }
-                });
-                if(p.y < 0 || p.x < 0 || p.x > width) projectiles.splice(i, 1);
+            for(let i=meteors.length-1; i>=0; i--) {
+                let m = meteors[i];
+                m.y += m.s * Engine.speed;
+                if(m.img.complete) ctx.drawImage(m.img, m.x-40, m.y-40, 80, 80);
+                if(m.y > height) meteors.splice(i, 1);
             }
             requestAnimationFrame(loop);
         }
         canvas.addEventListener('mousedown', (e) => {
-            const angle = Math.atan2(e.clientY - height, e.clientX - width/2);
-            projectiles.push({ x: width/2, y: height, vx: Math.cos(angle)*15, vy: Math.sin(angle)*15 });
+            for(let i=meteors.length-1; i>=0; i--) {
+                let m = meteors[i];
+                if(Math.hypot(e.clientX-m.x, e.clientY-m.y) < 50) {
+                    meteors.splice(i, 1);
+                    if(m.word === currentWord) { Engine.addScore(10); Engine.showFeedback(true); nextQuestion(); }
+                    else Engine.showFeedback(false);
+                }
+            }
         });
     
         
-        // Ensure Engine is ready before starting
         window.onload = () => {
             if (window.Engine) {
                 Engine.init();
