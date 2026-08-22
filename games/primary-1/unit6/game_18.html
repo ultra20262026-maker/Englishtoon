@@ -1,74 +1,104 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Hot Air Balloon - EnglishToon</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Fredoka', sans-serif; background: #e0f2fe; overflow: hidden; }
-        .balloon { animation: float 3s infinite ease-in-out; cursor: pointer; }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+        body { font-family: 'Fredoka', sans-serif; overflow: hidden; touch-action: none; margin: 0; }
+        canvas { display: block; }
+        .game-ui { pointer-events: none; position: fixed; inset: 0; z-index: 50; padding: 1rem; }
+        .interactive { pointer-events: auto; }
+        .btn-action { background: #3b82f6; color: white; padding: 0.75rem 1.5rem; border-radius: 1rem; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .btn-action:active { transform: scale(0.95); }
     </style>
+
+    <title>Space Shooter</title>
 </head>
-<body>
-    <div class="fixed inset-0 z-10 flex flex-col p-4 pointer-events-none">
+<body class="bg-slate-900">
+    
+    <div class="game-ui">
         <div class="flex justify-between items-start">
-            <div class="bg-white/90 backdrop-blur rounded-2xl p-3 shadow-lg border-2 border-sky-200 flex items-center gap-4 pointer-events-auto">
-                <div class="text-sky-600"><span class="text-xs font-bold block uppercase">Height</span><span id="score" class="text-2xl font-black">0</span></div>
-                <div class="w-px h-8 bg-sky-100"></div>
+            <div class="bg-white/90 backdrop-blur rounded-2xl p-3 shadow-lg border-2 border-blue-200 flex items-center gap-4 interactive">
+                <div class="text-blue-600"><span class="text-xs font-bold block uppercase">Score</span><span id="score" class="text-2xl font-black">0</span></div>
+                <div class="w-px h-8 bg-blue-100"></div>
                 <div class="text-amber-500"><span class="text-xs font-bold block uppercase">Stars</span><span id="stars" class="text-2xl font-black">0</span></div>
             </div>
-            <button onclick="window.history.back()" class="pointer-events-auto w-12 h-12 rounded-2xl bg-white/90 backdrop-blur flex items-center justify-center text-slate-400 shadow-lg border-2 border-slate-100">
+            <button onclick="window.history.back()" class="interactive w-12 h-12 rounded-2xl bg-white/90 backdrop-blur flex items-center justify-center text-slate-400 shadow-lg border-2 border-slate-100">
                 <i class="fa-solid fa-xmark text-xl"></i>
             </button>
         </div>
-        <div class="mt-4 text-center pointer-events-auto">
-            <div class="bg-white/95 backdrop-blur rounded-3xl p-6 shadow-xl border-4 border-sky-400 w-full max-w-md mx-auto">
-                <h2 class="text-sky-500 font-bold text-lg mb-1 uppercase tracking-widest">Fly to the balloon:</h2>
-                <div id="targetWord" class="text-4xl font-black text-slate-800 mb-4">...</div>
-                <button id="listenBtn" class="bg-sky-500 hover:bg-sky-600 text-white px-8 py-3 rounded-2xl font-bold shadow-lg flex items-center gap-2 mx-auto">
+        <div class="mt-4 flex flex-col items-center">
+            <div class="bg-white/95 backdrop-blur rounded-3xl p-4 shadow-xl border-4 border-blue-400 w-full max-w-md text-center interactive">
+                <h2 class="text-blue-500 font-bold text-sm mb-1 uppercase tracking-widest">Defend Earth! Shoot:</h2>
+                <div id="targetWord" class="text-3xl font-black text-slate-800 mb-2">...</div>
+                <button id="listenBtn" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-xl font-bold shadow-lg flex items-center gap-2 mx-auto text-sm">
                     <i class="fa-solid fa-volume-high"></i> Listen
                 </button>
             </div>
         </div>
     </div>
-    <div class="h-screen flex items-center justify-center pt-40 px-4">
-        <div id="balloons" class="flex gap-10"></div>
-    </div>
+
+    <canvas id="gameCanvas"></canvas>
     <script src="../../game_engine.js"></script>
     <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
         const vocab = JSON.parse('["ball", "banana", "bike", "bird", "boy", "cage", "cat", "chair", "couch", "dog", "elephant", "giraffe", "in", "jacket", "jam", "jar", "jeans", "jellyfish", "lamp", "leaf", "lemon", "lion", "lunch", "monkey", "on", "snake", "table", "tiger", "turtle", "umbrella", "under", "unlock", "up"]');
-        let currentWord;
+        let width, height, currentWord, ship, enemies = [], lasers = [];
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            ship = { x: width/2, y: height - 100 };
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
         function nextQuestion() {
             currentWord = vocab[Math.floor(Math.random() * vocab.length)];
             document.getElementById('targetWord').innerText = currentWord;
-            Engine.speak(currentWord);
-            const container = document.getElementById('balloons');
-            container.innerHTML = '';
-            const choices = [currentWord];
-            while(choices.length < 3) {
-                let w = vocab[Math.floor(Math.random()*vocab.length)];
-                if(!choices.includes(w)) choices.push(w);
-            }
-            choices.sort(() => Math.random() - 0.5);
-            choices.forEach((w, i) => {
-                const div = document.createElement('div');
-                div.className = 'balloon flex flex-col items-center';
-                div.style.animationDelay = `${i * 0.5}s`;
-                div.innerHTML = `<div class="w-24 h-32 bg-red-400 rounded-full border-4 border-white shadow-xl flex items-center justify-center"><img src="${Engine.getAssetPath(w)}" class="w-16 h-16 object-contain"></div><div class="w-12 h-8 bg-amber-800 mt-2 rounded-lg border-2 border-amber-900"></div><div class="font-bold text-sky-800 mt-2">${w}</div>`;
-                div.onclick = () => {
-                    if(w === currentWord) { Engine.addScore(25); Engine.showFeedback(true); setTimeout(nextQuestion, 1000); }
-                    else { Engine.showFeedback(false); div.style.transform = 'scale(0.5)'; div.style.opacity = '0.5'; }
-                };
-                container.appendChild(div);
-            });
         }
+
+        function loop() {
+            ctx.clearRect(0,0,width,height);
+            // Ship
+            ctx.fillStyle = 'cyan'; ctx.beginPath(); ctx.moveTo(ship.x, ship.y-20); ctx.lineTo(ship.x-20, ship.y+20); ctx.lineTo(ship.x+20, ship.y+20); ctx.fill();
+            
+            if(Math.random() < 0.03) {
+                let word = Math.random() < 0.4 ? currentWord : vocab[Math.floor(Math.random()*vocab.length)];
+                enemies.push({ word, x: Math.random()*width, y: -50, s: 1+Math.random()*2, img: new Image() });
+                enemies[enemies.length-1].img.src = Engine.getAssetPath(word);
+            }
+
+            enemies.forEach((en, i) => {
+                en.y += en.s;
+                ctx.drawImage(en.img, en.x-35, en.y-35, 70, 70);
+                lasers.forEach((la, j) => {
+                    if(Math.hypot(la.x-en.x, la.y-en.y) < 40) {
+                        lasers.splice(j, 1); enemies.splice(i, 1);
+                        if(en.word === currentWord) { Engine.addScore(15); Engine.showFeedback(true); nextQuestion(); }
+                        else { Engine.showFeedback(false); }
+                    }
+                });
+                if(en.y > height) enemies.splice(i, 1);
+            });
+
+            lasers.forEach((la, i) => { la.y -= 10; ctx.fillStyle='red'; ctx.fillRect(la.x-2, la.y, 4, 15); if(la.y < 0) lasers.splice(i, 1); });
+            requestAnimationFrame(loop);
+        }
+
+        canvas.addEventListener('mousedown', (e) => {
+            ship.x = e.clientX;
+            lasers.push({ x: ship.x, y: ship.y });
+        });
+        canvas.addEventListener('touchmove', (e) => ship.x = e.touches[0].clientX);
         document.getElementById('listenBtn').onclick = () => Engine.speak(currentWord);
-        nextQuestion();
+        nextQuestion(); loop();
     </script>
 </body>
 </html>
