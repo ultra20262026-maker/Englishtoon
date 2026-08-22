@@ -7,7 +7,7 @@ const Engine = {
     currentWord: null,
     gameActive: false,
     isProcessingResult: false,
-    speed: parseFloat(localStorage.getItem('et_game_speed')) || 0.5,
+    speed: parseFloat(localStorage.getItem('et_game_speed')) || 0.7, // Default speed set to slow for kids
     studentName: localStorage.getItem('et_student_name') || 'البطل الصغير',
     assets: {},
     
