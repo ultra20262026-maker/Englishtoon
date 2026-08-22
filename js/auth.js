@@ -12,7 +12,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-const CURRENT_APP_VERSION = "202701_GAMES_ALL_GRADES_V1";
+const CURRENT_APP_VERSION = "20270822_V20000_P1_RENEWAL";
 if (localStorage.getItem('app_ver') !== CURRENT_APP_VERSION) {
     localStorage.setItem('app_ver', CURRENT_APP_VERSION);
     if ('serviceWorker' in navigator) {
