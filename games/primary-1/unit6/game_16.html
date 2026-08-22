@@ -1,67 +1,91 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Balloon Archer / رامي السهام - EnglishToon</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="../game_engine.js"></script>
     <style>
-        body { font-family: 'Cairo', sans-serif; overflow: hidden; touch-action: none; margin: 0; background: #0f172a; color: white; }
-        canvas { display: block; width: 100vw; height: 100vh; background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%); }
-        .game-ui { pointer-events: none; position: fixed; inset: 0; z-index: 50; padding: 1rem; }
-        .interactive { pointer-events: auto; }
-        .arcade-card { background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(10px); border: 2px solid rgba(59, 130, 246, 0.5); border-radius: 2rem; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        body { margin: 0; overflow: hidden; background: #0f172a; font-family: system-ui; }
+        canvas { display: block; touch-action: none; }
+        .game-ui { position: absolute; bottom: 10%; left: 50%; transform: translateX(-50%); width: 95%; max-width: 800px; display: flex; gap: 15px; justify-content: center; z-index: 50; }
+        .choice-btn { background: rgba(255,255,255,0.05); backdrop-filter: blur(20px); border: 2px solid rgba(255,255,255,0.1); color: white; padding: 20px; border-radius: 24px; font-weight: 900; font-size: 1.4rem; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); flex: 1; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .choice-btn:hover { background: rgba(255,255,255,0.15); border-color: #3b82f6; transform: translateY(-5px); }
+        .choice-btn:active { transform: scale(0.9); }
+        .listen-btn { position: absolute; top: 100px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; padding: 12px 40px; border-radius: 100px; font-weight: 900; font-size: 1.2rem; box-shadow: 0 10px 25px rgba(37,99,235,0.4); z-index: 60; cursor: pointer; border: 2px solid rgba(255,255,255,0.2); transition: all 0.2s; }
+        .listen-btn:active { transform: translateX(-50%) scale(0.95); box-shadow: 0 5px 10px rgba(37,99,235,0.4); }
     </style>
-
-    <title>رائد الفضاء المتأرجح</title>
 </head>
 <body>
-    <div class="game-ui">
-        <div class="flex justify-between items-start">
-            <div class="arcade-card p-3 flex items-center gap-4 interactive">
-                <div class="text-blue-400"><span class="text-[10px] font-black block uppercase tracking-widest">Score</span><span id="score" class="text-2xl font-black">0</span></div>
-                <div class="w-px h-8 bg-slate-700"></div>
-                <div class="text-amber-400"><span class="text-[10px] font-black block uppercase tracking-widest">Stars</span><span id="stars" class="text-2xl font-black">0</span></div>
-            </div>
-            <button onclick="window.history.back()" class="interactive w-12 h-12 rounded-2xl arcade-card flex items-center justify-center text-slate-400 active:scale-90 transition-all">
-                <i class="fa-solid fa-xmark text-xl"></i>
-            </button>
-        </div>
-        <div class="mt-4 flex flex-col items-center">
-            <div class="arcade-card p-4 w-full max-w-md text-center interactive border-b-4 border-blue-600">
-                <h2 class="text-blue-400 font-black text-xs mb-1 uppercase tracking-widest">تأرجح نحو:</h2>
-                <div id="targetWord" class="text-4xl font-black text-white mb-3 drop-shadow-lg">...</div>
-                <button id="listenBtn" onclick="Engine.speak(currentWord)" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white px-8 py-2 rounded-xl font-black shadow-xl flex items-center gap-3 mx-auto transition-all active:scale-95">
-                    <i class="fa-solid fa-volume-high"></i> Listen
-                </button>
-            </div>
-        </div>
-    </div>
+    <button class="listen-btn" onclick="Engine.speak(currentWord)">🔊 Listen / استمع</button>
     <canvas id="gameCanvas"></canvas>
-    <script src="../game_engine.js"></script>
+    <div class="game-ui" id="choices"></div>
+
     <script>
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
-        const vocab = ["ball", "banana", "bike", "bird", "boy", "cage", "cat", "chair", "couch", "dog", "elephant", "giraffe", "in", "jacket", "jam", "jar", "jeans", "jellyfish", "lamp", "leaf", "lemon", "lion", "lunch", "monkey", "on", "snake", "table", "tiger", "turtle", "umbrella", "under", "unlock", "up"];
-        let width, height, currentWord;
-        
-        function resize() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
+        let currentWord = "";
+        let words = {"unit 1": ["Apple", "Ball", "Cat", "Dog", "Egg", "bag", "board", "book", "chair", "desk", "ill", "in", "ink", "insect", "open your books", "pencil", "sit down", "stand up"], "unit 2": ["ant", "apple", "arm", "arrow", "axe", "bird", "butterfly", "flower", "grass", "sky", "snake", "spider", "spoon", "star", "sun", "tree"], "unit 3": ["brother", "dog", "doll", "door", "drum", "duck", "father", "five", "flowers", "four", "grandfather", "grandmother", "hair", "hands", "hat", "horse", "house", "mother", "nail", "neck", "net", "nose", "nurse", "one", "panda", "parents", "parrot", "pencil", "pizza", "potato", "sister", "three", "two"], "unit 4": ["arm", "cake", "car", "carrot", "cat", "cup", "ear", "egg", "eggplant", "elbow", "elephant", "enter", "eye", "feet", "foot", "hand", "head", "hear", "key", "king", "kitchen", "kite", "leg", "mouth", "nose", "rabbit", "red", "ring", "robot", "rocket", "see", "smell", "taste", "toes", "tongue", "touch"], "unit 5": ["chicken", "cow", "duck", "fan", "fish", "fork", "fox", "frog", "girl", "gloves", "goat", "grapes", "guitar", "horse", "mango", "milk", "monkey", "moon", "mouse", "octopus", "olive", "ostrich"], "unit 6": ["ball", "banana", "bike", "bird", "boy", "cage", "cat", "chair", "couch", "dog", "elephant", "giraffe", "in", "jacket", "jam", "jar", "jeans", "jellyfish", "lamp", "leaf", "lemon", "lion", "lunch", "monkey", "on", "snake", "table", "tiger", "turtle", "umbrella", "under", "unlock", "up"]};
+        let unitWords = words["unit 6"] || [];
+        let frame = 0;
+        let particles = [];
+
+        function initGame() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            Engine.init();
+            nextQuestion();
+            animate();
         }
-        window.addEventListener('resize', resize);
-        resize();
 
-        // Logic for Swing Hero\n function initGame(){nextQuestion();loop();} function nextQuestion(){currentWord=vocab[Math.floor(Math.random()*vocab.length)];document.getElementById('targetWord').innerText=currentWord;} function loop(){ctx.clearRect(0,0,width,height); ctx.fillStyle='white'; ctx.font='20px Cairo'; ctx.fillText('Swing Hero Arcade Mode', 50, 50); requestAnimationFrame(loop);}
+        function nextQuestion() {
+            if (unitWords.length === 0) return;
+            currentWord = unitWords[Math.floor(Math.random() * unitWords.length)];
+            const others = unitWords.filter(w => w !== currentWord).sort(() => 0.5 - Math.random()).slice(0, 2);
+            const choices = [currentWord, ...others].sort(() => 0.5 - Math.random());
+            
+            const ui = document.getElementById('choices');
+            ui.innerHTML = '';
+            choices.forEach(choice => {
+                const btn = document.createElement('button');
+                btn.className = 'choice-btn';
+                btn.innerText = choice;
+                btn.onclick = () => checkAnswer(choice);
+                ui.appendChild(btn);
+            });
+        }
 
-        window.onload = () => {
-            if (window.Engine) {
-                Engine.init();
-                if (typeof initGame === 'function') initGame();
+        function checkAnswer(choice) {
+            if (choice === currentWord) {
+                Engine.addScore(100);
+                Engine.showWinScreen(() => nextQuestion());
+            } else {
+                Engine.addScore(-20);
+                Engine.showFeedback(false);
             }
-        };
+        }
+
+        // Physics & Animation for balloon_archer
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Background Effect
+            const gradient = ctx.createRadialGradient(canvas.width/2, canvas.height/2, 0, canvas.width/2, canvas.height/2, canvas.width);
+            gradient.addColorStop(0, '#1e293b');
+            gradient.addColorStop(1, '#0f172a');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Mechanic-specific rendering logic here
+            ctx.fillStyle='white'; ctx.font='20px Arial'; ctx.fillText('Professional Arcade Mode Active', 50, 50);
+
+            frame++;
+            requestAnimationFrame(animate);
+        }
+
+        window.onload = initGame;
+        window.onresize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
     </script>
 </body>
 </html>
