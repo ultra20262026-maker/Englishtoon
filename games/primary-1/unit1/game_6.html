@@ -12,46 +12,54 @@
         canvas { display: block; width: 100vw; height: 100vh; background: #075985; }
         
         #top-bar {
-            position: fixed; top: 0; left: 0; width: 100%; height: 60px;
-            background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(10px);
+            position: fixed; top: 0; left: 0; width: 100%; height: 50px;
+            background: rgba(15, 23, 42, 0.98); backdrop-filter: blur(10px);
             display: flex; align-items: center; justify-content: space-between;
-            padding: 0 20px; z-index: 1000; border-bottom: 2px solid rgba(255,255,255,0.1);
+            padding: 0 15px; z-index: 1000; border-bottom: 2px solid #3b82f6;
         }
-        #target-word { color: #fbbf24; font-weight: 900; font-size: 1.5rem; }
+        #target-word { color: #fbbf24; font-weight: 900; font-size: 1.3rem; margin-right: 10px; }
         
         #win-screen {
-            position: fixed; inset: 0; background: rgba(15, 23, 42, 0.9);
+            position: fixed; inset: 0; background: rgba(15, 23, 42, 0.95);
             display: none; flex-direction: column; align-items: center; justify-content: center;
             z-index: 2000; text-align: center;
         }
-        .win-box { background: #1e293b; padding: 40px; border-radius: 40px; border: 4px solid #22c55e; }
-        .btn { background: #2563eb; color: white; padding: 10px 25px; border-radius: 15px; font-weight: bold; cursor: pointer; border: none; }
+        .win-box { background: #1e293b; padding: 30px; border-radius: 30px; border: 4px solid #22c55e; width: 80%; max-width: 400px; }
+        .btn { background: #2563eb; color: white; padding: 8px 20px; border-radius: 12px; font-weight: bold; cursor: pointer; border: none; }
+        
+        #controls-hint {
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            background: rgba(0,0,0,0.5); color: white; padding: 5px 15px; border-radius: 20px;
+            font-size: 0.9rem; pointer-events: none; z-index: 100;
+        }
     </style>
 </head>
 <body>
     <div id="top-bar">
-        <div class="flex items-center gap-4">
-            <span class="text-white/70 font-bold">المطلوب:</span>
+        <div class="flex items-center">
+            <span class="text-white/80 text-sm font-bold">المطلوب:</span>
             <span id="target-word">APPLE</span>
-        </div>
-        <div class="flex gap-3">
-            <button class="btn !p-2 w-10 h-10 flex items-center justify-center" onclick="handleListen()">
+            <button class="bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center text-xs" onclick="handleListen()">
                 <i class="fa-solid fa-volume-high"></i>
             </button>
-            <div class="bg-slate-800 px-4 py-1 rounded-xl text-white font-black flex items-center gap-2">
+        </div>
+        <div class="flex items-center gap-3">
+            <div class="bg-slate-800 px-3 py-0.5 rounded-lg text-white font-bold flex items-center gap-2 text-sm">
                 <span id="score">0</span>
                 <i class="fa-solid fa-star text-yellow-400"></i>
             </div>
         </div>
     </div>
 
+    <div id="controls-hint">اضغط على السمكة الصحيحة لإنزال الخطاف</div>
+
     <canvas id="gameCanvas"></canvas>
 
     <div id="win-screen">
         <div class="win-box">
-            <div class="text-6xl mb-4">⭐</div>
-            <h2 class="text-3xl font-black text-white mb-6">ممتاز! إجابة صحيحة</h2>
-            <button class="btn text-xl" onclick="nextLevel()">متابعة اللعب</button>
+            <div class="text-5xl mb-2">⭐</div>
+            <h2 class="text-2xl font-black text-white mb-4">ممتاز! إجابة صحيحة</h2>
+            <button class="btn text-lg" onclick="nextLevel()">متابعة اللعب</button>
         </div>
     </div>
 
@@ -63,14 +71,23 @@
         let score = 0;
         let isPaused = false;
         let fish = [];
-        let hook = { x: 0, y: 100, active: false, caught: null, speed: 8, returning: false };
+        let hook = { x: 0, y: 50, active: false, caught: null, speed: 12, returning: false, targetY: 0 };
+        
+        const assets = {};
+        function loadAssets() {
+            words.forEach(w => {
+                const img = new Image();
+                img.src = `../../../assets/p1/${w.word.toLowerCase().replace(/ /g, '_')}.png`;
+                assets[w.word] = img;
+            });
+        }
 
         function initGame() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            hook.x = canvas.width / 2;
+            loadAssets();
             setupLevel();
-            animate();
+            requestAnimationFrame(animate);
         }
 
         function setupLevel() {
@@ -80,7 +97,7 @@
             fish = [];
             hook.active = false;
             hook.returning = false;
-            hook.y = 100;
+            hook.y = 50;
             hook.caught = null;
             
             let choices = [current];
@@ -90,17 +107,16 @@
             choices.sort(() => Math.random() - 0.5);
 
             choices.forEach((c, i) => {
-                const img = new Image();
-                img.src = `../../../assets/p1/${c.word.toLowerCase().replace(/ /g, '_')}.png`;
                 fish.push({
                     x: (i + 1) * (canvas.width / 4),
-                    y: canvas.height - 200,
+                    y: canvas.height - 150 - (Math.random() * 100),
                     word: c.word,
-                    img: img,
                     isCorrect: c.word === current.word,
-                    speed: 1 + Math.random(),
+                    speed: 0.8 + Math.random() * 0.5,
                     dir: Math.random() > 0.5 ? 1 : -1,
-                    caught: false
+                    caught: false,
+                    w: 80,
+                    h: 80
                 });
             });
         }
@@ -122,13 +138,15 @@
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
-            const grad = ctx.createLinearGradient(0, 100, 0, canvas.height);
+            // Draw Water
+            const grad = ctx.createLinearGradient(0, 50, 0, canvas.height);
             grad.addColorStop(0, '#0ea5e9');
             grad.addColorStop(1, '#0c4a6e');
             ctx.fillStyle = grad;
-            ctx.fillRect(0, 100, canvas.width, canvas.height - 100);
+            ctx.fillRect(0, 50, canvas.width, canvas.height - 50);
 
             if (!isPaused) {
+                // Move Fish
                 fish.forEach(f => {
                     if (!f.caught) {
                         f.x += f.speed * f.dir;
@@ -136,38 +154,41 @@
                     }
                 });
 
+                // Move Hook
                 if (hook.active) {
                     if (hook.caught) {
                         hook.y -= hook.speed;
                         hook.caught.x = hook.x;
                         hook.caught.y = hook.y + 40;
-                        if (hook.y <= 100) {
+                        if (hook.y <= 50) {
                             if (hook.caught.isCorrect) {
                                 score += 10;
                                 document.getElementById('score').innerText = score;
                                 isPaused = true;
                                 document.getElementById('win-screen').style.display = 'flex';
-                                speechSynthesis.speak(new SpeechSynthesisUtterance("Excellent"));
+                                const msg = new SpeechSynthesisUtterance("Excellent");
+                                msg.rate = 0.8;
+                                speechSynthesis.speak(msg);
                             } else {
                                 hook.caught.caught = false;
                                 hook.caught = null;
                                 hook.active = false;
-                                hook.returning = false;
                             }
                         }
                     } else if (!hook.returning) {
                         hook.y += hook.speed;
-                        if (hook.y > canvas.height - 100) hook.returning = true;
-
-                        fish.forEach(f => {
-                            if (!f.caught && Math.abs(hook.x - f.x) < 50 && Math.abs(hook.y - f.y) < 50) {
-                                hook.caught = f;
-                                f.caught = true;
-                            }
-                        });
+                        if (hook.y >= hook.targetY) {
+                            hook.returning = true;
+                            fish.forEach(f => {
+                                if (!f.caught && Math.abs(hook.x - f.x) < 60 && Math.abs(hook.y - f.y) < 60) {
+                                    hook.caught = f;
+                                    f.caught = true;
+                                }
+                            });
+                        }
                     } else {
                         hook.y -= hook.speed;
-                        if (hook.y <= 100) {
+                        if (hook.y <= 50) {
                             hook.active = false;
                             hook.returning = false;
                         }
@@ -175,6 +196,7 @@
                 }
             }
 
+            // Draw Line
             ctx.strokeStyle = '#e2e8f0';
             ctx.lineWidth = 2;
             ctx.beginPath();
@@ -182,38 +204,50 @@
             ctx.lineTo(hook.x, hook.y);
             ctx.stroke();
             
+            // Draw Hook
             ctx.strokeStyle = '#f1f5f9';
             ctx.lineWidth = 4;
             ctx.beginPath();
-            ctx.arc(hook.x, hook.y, 15, 0, Math.PI);
+            ctx.arc(hook.x, hook.y, 12, 0, Math.PI);
             ctx.stroke();
 
+            // Draw Fish
             fish.forEach(f => {
                 ctx.save();
                 ctx.translate(f.x, f.y);
                 if (f.dir < 0) ctx.scale(-1, 1);
-                if (f.img && f.img.complete) ctx.drawImage(f.img, -50, -50, 100, 100);
+                const img = assets[f.word];
+                if (img && img.complete) {
+                    ctx.drawImage(img, -40, -40, 80, 80);
+                } else {
+                    ctx.fillStyle = '#3b82f6';
+                    ctx.beginPath();
+                    ctx.ellipse(0, 0, 40, 25, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                }
                 ctx.restore();
                 
-                ctx.fillStyle = 'rgba(15, 23, 42, 0.7)';
+                // Word Label
+                ctx.fillStyle = 'rgba(15, 23, 42, 0.8)';
                 ctx.beginPath();
-                ctx.roundRect(f.x - 50, f.y + 60, 100, 30, 10);
+                ctx.roundRect(f.x - 40, f.y + 45, 80, 24, 8);
                 ctx.fill();
                 
                 ctx.fillStyle = 'white';
-                ctx.font = 'bold 16px Cairo';
+                ctx.font = 'bold 14px Cairo';
                 ctx.textAlign = 'center';
-                ctx.fillText(f.word.toUpperCase(), f.x, f.y + 80);
+                ctx.fillText(f.word.toUpperCase(), f.x, f.y + 62);
             });
 
             requestAnimationFrame(animate);
         }
 
         window.addEventListener('pointerdown', (e) => {
-            if (e.target.closest('button')) return;
+            if (e.target.closest('button') || e.target.closest('.win-box')) return;
             if (!isPaused && !hook.active) {
                 hook.x = e.clientX;
-                hook.y = 100;
+                hook.targetY = e.clientY;
+                if (hook.targetY < 150) hook.targetY = 150;
                 hook.active = true;
                 hook.returning = false;
             }
