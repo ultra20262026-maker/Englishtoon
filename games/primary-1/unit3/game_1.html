@@ -8,18 +8,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Fredoka', sans-serif; overflow: hidden; touch-action: none; margin: 0; }
-        canvas { display: block; }
+        body { font-family: 'Fredoka', sans-serif; overflow: hidden; touch-action: none; margin: 0; background: #f0f9ff; }
+        canvas { display: block; width: 100vw; height: 100vh; }
         .game-ui { pointer-events: none; position: fixed; inset: 0; z-index: 50; padding: 1rem; }
         .interactive { pointer-events: auto; }
-        .btn-action { background: #3b82f6; color: white; padding: 0.75rem 1.5rem; border-radius: 1rem; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .btn-action:active { transform: scale(0.95); }
+        .speed-ctrl { position: fixed; bottom: 20px; right: 20px; z-index: 100; display: flex; gap: 5px; }
+        .speed-btn { width: 40px; height: 40px; border-radius: 50%; background: white; border: 2px solid #3b82f6; color: #3b82f6; font-weight: bold; font-size: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .speed-btn.active { background: #3b82f6; color: white; }
     </style>
 
-    <title>Cannon Shooter</title>
+    <title>Cannon Aim</title>
 </head>
-<body class="bg-sky-100">
-    
+<body class="bg-sky-50">
     <div class="game-ui">
         <div class="flex justify-between items-start">
             <div class="bg-white/90 backdrop-blur rounded-2xl p-3 shadow-lg border-2 border-blue-200 flex items-center gap-4 interactive">
@@ -41,6 +41,12 @@
             </div>
         </div>
     </div>
+    
+    <div class="speed-ctrl interactive">
+        <div onclick="Engine.setSpeed(0.5)" class="speed-btn" id="s05">0.5x</div>
+        <div onclick="Engine.setSpeed(1.0)" class="speed-btn active" id="s10">1x</div>
+        <div onclick="Engine.setSpeed(1.5)" class="speed-btn" id="s15">1.5x</div>
+    </div>
 
     <canvas id="gameCanvas"></canvas>
     <script src="../game_engine.js"></script>
@@ -58,56 +64,49 @@
         resize();
 
         
-        let cannon, targets = [], projectiles = [];
-        function nextQuestion() {
-            currentWord = vocab[Math.floor(Math.random() * vocab.length)];
-            document.getElementById('targetWord').innerText = currentWord;
-            targets = []; spawnTargets();
+    let targets = [], projectiles = [];
+    function initGame() { nextQuestion(); loop(); }
+    function nextQuestion() {
+        currentWord = vocab[Math.floor(Math.random()*vocab.length)];
+        document.getElementById('targetWord').innerText = currentWord;
+        targets = [];
+        for(let i=0; i<3; i++) {
+            let w = (i===0) ? currentWord : vocab[Math.floor(Math.random()*vocab.length)];
+            targets.push({word: w, x: Math.random()*(width-100)+50, y: -50, s: 0.5+Math.random(), img: new Image()});
+            targets[i].img.src = Engine.getAssetPath(w);
         }
-        function spawnTargets() {
-            for(let i=0; i<3; i++) {
-                let word = (i === 0) ? currentWord : vocab[Math.floor(Math.random()*vocab.length)];
-                let t = { word, isCorrect: word === currentWord, x: Math.random()*(width-100)+50, y: -50, speed: (0.5+Math.random()*1), r: 45, img: new Image() };
-                t.img.src = Engine.getAssetPath(word);
-                targets.push(t);
-            }
-            targets.sort(() => Math.random()-0.5);
-        }
-        function loop() {
-            ctx.clearRect(0,0,width,height);
-            ctx.fillStyle = '#1e293b'; ctx.beginPath(); ctx.arc(width/2, height, 80, Math.PI, 0); ctx.fill();
-            for(let i=targets.length-1; i>=0; i--) {
-                let t = targets[i];
-                t.y += t.speed * Engine.speed;
-                if(t.img.complete) ctx.drawImage(t.img, t.x-35, t.y-35, 70, 70);
-                else { ctx.fillStyle='gray'; ctx.beginPath(); ctx.arc(t.x, t.y, 35, 0, Math.PI*2); ctx.fill(); }
-                if(t.y > height) { targets.splice(i, 1); if(targets.length === 0) spawnTargets(); }
-            }
-            for(let i=projectiles.length-1; i>=0; i--) {
-                let p = projectiles[i];
-                p.x += p.vx; p.y += p.vy; ctx.fillStyle = 'red'; ctx.beginPath(); ctx.arc(p.x, p.y, 10, 0, Math.PI*2); ctx.fill();
-                targets.forEach((t, j) => {
-                    if(Math.hypot(p.x-t.x, p.y-t.y) < t.r) {
-                        projectiles.splice(i, 1);
-                        if(t.isCorrect) { Engine.addScore(10); Engine.showFeedback(true); nextQuestion(); }
-                        else { Engine.showFeedback(false); targets.splice(j, 1); }
-                    }
-                });
-                if(p.y < 0 || p.x < 0 || p.x > width) projectiles.splice(i, 1);
-            }
-            requestAnimationFrame(loop);
-        }
-        canvas.addEventListener('mousedown', (e) => {
-            const angle = Math.atan2(e.clientY - height, e.clientX - width/2);
-            projectiles.push({ x: width/2, y: height, vx: Math.cos(angle)*15, vy: Math.sin(angle)*15 });
+        targets.sort(() => Math.random()-0.5);
+    }
+    function loop() {
+        ctx.clearRect(0,0,width,height);
+        ctx.fillStyle='#334155'; ctx.beginPath(); ctx.arc(width/2, height, 60, Math.PI, 0); ctx.fill();
+        targets.forEach((t, i) => {
+            t.y += t.s * Engine.speed;
+            if(t.img.complete) ctx.drawImage(t.img, t.x-40, t.y-40, 80, 80);
+            if(t.y > height) { targets.splice(i, 1); if(targets.length===0) nextQuestion(); }
         });
+        projectiles.forEach((p, i) => {
+            p.x += p.vx; p.y += p.vy; ctx.fillStyle='red'; ctx.beginPath(); ctx.arc(p.x, p.y, 8, 0, Math.PI*2); ctx.fill();
+            targets.forEach((t, j) => {
+                if(Math.hypot(p.x-t.x, p.y-t.y) < 40) {
+                    projectiles.splice(i, 1);
+                    if(t.word === currentWord) { Engine.addScore(10); Engine.showFeedback(true); nextQuestion(); }
+                    else Engine.showFeedback(false);
+                }
+            });
+        });
+        requestAnimationFrame(loop);
+    }
+    canvas.addEventListener('mousedown', (e) => {
+        let a = Math.atan2(e.clientY-height, e.clientX-width/2);
+        projectiles.push({x: width/2, y: height, vx: Math.cos(a)*12, vy: Math.sin(a)*12});
+    });
     
-        
+
         window.onload = () => {
             if (window.Engine) {
                 Engine.init();
-                if (typeof nextQuestion === 'function') nextQuestion();
-                if (typeof loop === 'function') loop();
+                if (typeof initGame === 'function') initGame();
             }
         };
     </script>
