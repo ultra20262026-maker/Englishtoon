@@ -3,46 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Space Shooter - Game 2: Space Defender</title>
+    <title>Basket Catcher - EnglishToon</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Fredoka', sans-serif; overflow: hidden; touch-action: none; background: #0f172a; color: white; }
+        body { font-family: 'Fredoka', sans-serif; overflow: hidden; touch-action: none; background: #fff7ed; }
         #gameCanvas { width: 100%; height: 100vh; display: block; }
         .game-ui { pointer-events: none; }
         .interactive { pointer-events: auto; }
-        .star { position: absolute; background: white; border-radius: 50%; opacity: 0.5; animation: twinkle var(--d) infinite; }
-        @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.8; } }
     </style>
 </head>
-<body>
-    <div id="stars-container"></div>
-    
+<body class="bg-orange-50">
     <!-- UI Overlay -->
     <div class="game-ui fixed inset-0 z-10 flex flex-col p-4">
         <div class="flex justify-between items-start">
-            <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3 shadow-2xl border border-white/20 flex items-center gap-4">
-                <div class="text-blue-400">
+            <div class="bg-white/90 backdrop-blur rounded-2xl p-3 shadow-lg border-2 border-orange-200 flex items-center gap-4">
+                <div class="text-orange-600">
                     <span class="text-xs font-bold block uppercase tracking-wider">Score</span>
                     <span id="score" class="text-2xl font-black">0</span>
                 </div>
-                <div class="w-px h-8 bg-white/10"></div>
-                <div class="text-amber-400">
+                <div class="w-px h-8 bg-orange-100"></div>
+                <div class="text-amber-500">
                     <span class="text-xs font-bold block uppercase tracking-wider">Stars</span>
                     <span id="stars" class="text-2xl font-black">0</span>
                 </div>
             </div>
-            <button onclick="window.history.back()" class="interactive w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center text-white/50 shadow-2xl border border-white/20">
+            <button onclick="window.history.back()" class="interactive w-12 h-12 rounded-2xl bg-white/90 backdrop-blur flex items-center justify-center text-slate-400 shadow-lg border-2 border-slate-100">
                 <i class="fa-solid fa-xmark text-xl"></i>
             </button>
         </div>
 
         <div class="mt-4 flex flex-col items-center">
-            <div class="bg-white/10 backdrop-blur-lg rounded-3xl p-6 shadow-2xl border border-white/20 w-full max-w-md text-center">
-                <h2 class="text-blue-400 font-bold text-lg mb-1 uppercase tracking-widest">Blast the word:</h2>
-                <div id="targetWord" class="text-4xl font-black text-white mb-4">...</div>
-                <button id="listenBtn" class="interactive bg-blue-600 hover:bg-blue-500 text-white px-8 py-3 rounded-2xl font-bold shadow-lg shadow-blue-900/50 transition-all active:scale-95 flex items-center gap-2 mx-auto">
+            <div class="bg-white/95 backdrop-blur rounded-3xl p-6 shadow-xl border-4 border-orange-400 w-full max-w-md text-center">
+                <h2 class="text-orange-500 font-bold text-lg mb-1 uppercase tracking-widest">Catch the word:</h2>
+                <div id="targetWord" class="text-4xl font-black text-slate-800 mb-4">...</div>
+                <button id="listenBtn" class="interactive bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-2xl font-bold shadow-lg shadow-orange-200 transition-all active:scale-95 flex items-center gap-2 mx-auto">
                     <i class="fa-solid fa-volume-high"></i>
                     Listen
                 </button>
@@ -54,92 +50,64 @@
 
     <script src="../../game_engine.js"></script>
     <script>
-        // Star background
-        const container = document.getElementById('stars-container');
-        for(let i=0; i<50; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
-            star.style.width = star.style.height = Math.random() * 3 + 'px';
-            star.style.left = Math.random() * 100 + '%';
-            star.style.top = Math.random() * 100 + '%';
-            star.style.setProperty('--d', Math.random() * 3 + 2 + 's');
-            container.appendChild(star);
-        }
-
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
         const vocab = JSON.parse('["ball", "banana", "bike", "bird", "boy", "cage", "cat", "chair", "couch", "dog", "elephant", "giraffe", "in", "jacket", "jam", "jar", "jeans", "jellyfish", "lamp", "leaf", "lemon", "lion", "lunch", "monkey", "on", "snake", "table", "tiger", "turtle", "umbrella", "under", "unlock", "up"]');
         
         let width, height;
-        let shipX, shipY;
-        let enemies = [];
-        let lasers = [];
+        let basketX, basketY;
+        const basketWidth = 120;
+        const basketHeight = 60;
+        let items = [];
         let currentWord = null;
+        let lastTime = 0;
         let gameActive = true;
 
         function resize() {
             width = canvas.width = window.innerWidth;
             height = canvas.height = window.innerHeight;
-            shipX = width / 2;
-            shipY = height - 100;
+            basketX = width / 2 - basketWidth / 2;
+            basketY = height - 100;
         }
 
         window.addEventListener('resize', resize);
         resize();
 
-        class Enemy {
+        class FallingItem {
             constructor(word, isCorrect) {
                 this.word = word;
                 this.isCorrect = isCorrect;
-                this.x = Math.random() * (width - 100) + 50;
+                this.x = Math.random() * (width - 80) + 40;
                 this.y = -50;
-                this.speed = 1.2 + Math.random() * 1.5;
-                this.radius = 45;
+                this.speed = 2 + Math.random() * 2;
+                this.radius = 40;
                 this.img = new Image();
                 this.img.src = Engine.getAssetPath(word);
                 this.img.onerror = () => { this.img.src = 'https://cdn-icons-png.flaticon.com/512/3081/3081840.png'; };
             }
 
-            update() { this.y += this.speed; }
+            update() {
+                this.y += this.speed;
+            }
 
             draw() {
                 ctx.save();
-                // UFO shape
                 ctx.beginPath();
-                ctx.ellipse(this.x, this.y, this.radius, this.radius/2, 0, 0, Math.PI * 2);
-                ctx.fillStyle = this.isCorrect ? '#3b82f6' : '#334155';
-                ctx.fill();
-                ctx.strokeStyle = 'white';
-                ctx.lineWidth = 2;
-                ctx.stroke();
-
-                // Image in dome
-                ctx.beginPath();
-                ctx.arc(this.x, this.y - 10, 25, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(255,255,255,0.9)';
-                ctx.fill();
-                ctx.clip();
-                ctx.drawImage(this.img, this.x - 20, this.y - 30, 40, 40);
-                ctx.restore();
-                
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
                 ctx.fillStyle = 'white';
-                ctx.font = 'bold 14px Fredoka';
-                ctx.textAlign = 'center';
-                ctx.fillText(this.word, this.x, this.y + 40);
-            }
-        }
-
-        class Laser {
-            constructor(x, y) { this.x = x; this.y = y; this.speed = 12; }
-            update() { this.y -= this.speed; }
-            draw() {
-                ctx.beginPath();
-                ctx.moveTo(this.x, this.y);
-                ctx.lineTo(this.x, this.y - 20);
-                ctx.strokeStyle = '#60a5fa';
-                ctx.lineWidth = 4;
-                ctx.lineCap = 'round';
+                ctx.fill();
+                ctx.strokeStyle = this.isCorrect ? '#f97316' : '#e2e8f0';
+                ctx.lineWidth = 3;
                 ctx.stroke();
+
+                const imgSize = this.radius * 1.4;
+                ctx.drawImage(this.img, this.x - imgSize/2, this.y - imgSize/2, imgSize, imgSize);
+                
+                ctx.fillStyle = '#1e293b';
+                ctx.font = 'bold 12px Fredoka';
+                ctx.textAlign = 'center';
+                ctx.fillText(this.word, this.x, this.y + this.radius + 15);
+                ctx.restore();
             }
         }
 
@@ -147,89 +115,84 @@
             const correctIdx = Math.floor(Math.random() * vocab.length);
             currentWord = vocab[correctIdx];
             document.getElementById('targetWord').innerText = currentWord;
-            enemies = [];
-            spawnEnemies();
+            items = [];
+            spawnItem();
         }
 
-        function spawnEnemies() {
-            enemies.push(new Enemy(currentWord, true));
-            for(let i=0; i<2; i++) {
-                let wrongWord;
-                do { wrongWord = vocab[Math.floor(Math.random() * vocab.length)]; } while(wrongWord === currentWord);
-                enemies.push(new Enemy(wrongWord, false));
-            }
+        function spawnItem() {
+            // Spawn correct one
+            items.push(new FallingItem(currentWord, true));
+            // Spawn wrong ones periodically
+            setTimeout(() => {
+                if(gameActive) {
+                    let wrongWord;
+                    do {
+                        wrongWord = vocab[Math.floor(Math.random() * vocab.length)];
+                    } while(wrongWord === currentWord);
+                    items.push(new FallingItem(wrongWord, false));
+                }
+            }, 2000);
         }
 
-        function gameLoop() {
+        function gameLoop(timestamp) {
             ctx.clearRect(0, 0, width, height);
 
-            // Ship
-            ctx.fillStyle = '#60a5fa';
+            // Draw Basket
+            ctx.fillStyle = '#f97316';
             ctx.beginPath();
-            ctx.moveTo(shipX, shipY - 30);
-            ctx.lineTo(shipX - 25, shipY + 20);
-            ctx.lineTo(shipX + 25, shipY + 20);
-            ctx.closePath();
+            ctx.roundRect(basketX, basketY, basketWidth, basketHeight, 20);
             ctx.fill();
+            ctx.fillStyle = '#ea580c';
+            ctx.fillRect(basketX + 10, basketY, basketWidth - 20, 10);
 
-            // Lasers
-            for(let i = lasers.length - 1; i >= 0; i--) {
-                lasers[i].update();
-                lasers[i].draw();
-                if(lasers[i].y < 0) lasers.splice(i, 1);
-            }
+            // Update & Draw Items
+            for(let i = items.length - 1; i >= 0; i--) {
+                items[i].update();
+                items[i].draw();
 
-            // Enemies
-            for(let i = enemies.length - 1; i >= 0; i--) {
-                enemies[i].update();
-                enemies[i].draw();
-
-                // Collision
-                for(let j = lasers.length - 1; j >= 0; j--) {
-                    const dist = Math.hypot(lasers[j].x - enemies[i].x, lasers[j].y - enemies[i].y);
-                    if(dist < enemies[i].radius) {
-                        if(enemies[i].isCorrect) {
-                            Engine.addScore(10);
-                            Engine.showFeedback(true);
-                            lasers.splice(j, 1);
-                            setTimeout(nextQuestion, 500);
-                            return requestAnimationFrame(gameLoop);
-                        } else {
-                            Engine.showFeedback(false);
-                            lasers.splice(j, 1);
-                            enemies.splice(i, 1);
-                            break;
-                        }
+                // Collision with basket
+                if(items[i].y + items[i].radius > basketY && 
+                   items[i].x > basketX && items[i].x < basketX + basketWidth) {
+                    if(items[i].isCorrect) {
+                        Engine.addScore(10);
+                        Engine.showFeedback(true);
+                        items.splice(i, 1);
+                        setTimeout(nextQuestion, 500);
+                    } else {
+                        Engine.showFeedback(false);
+                        items.splice(i, 1);
                     }
+                    continue;
                 }
 
-                if(enemies[i] && enemies[i].y > height + 50) {
-                    if(enemies[i].isCorrect) enemies.push(new Enemy(currentWord, true));
-                    enemies.splice(i, 1);
+                if(items[i].y > height + 50) {
+                    const wasCorrect = items[i].isCorrect;
+                    items.splice(i, 1);
+                    if(wasCorrect) items.push(new FallingItem(currentWord, true));
                 }
             }
 
             requestAnimationFrame(gameLoop);
         }
 
-        function handleMove(clientX) { shipX = clientX; }
-        function shoot() { lasers.push(new Laser(shipX, shipY - 30)); }
+        function handleMove(clientX) {
+            basketX = clientX - basketWidth / 2;
+            if(basketX < 0) basketX = 0;
+            if(basketX > width - basketWidth) basketX = width - basketWidth;
+        }
 
         canvas.addEventListener('mousemove', (e) => handleMove(e.clientX));
-        canvas.addEventListener('mousedown', shoot);
         canvas.addEventListener('touchmove', (e) => {
             e.preventDefault();
             handleMove(e.touches[0].clientX);
         }, { passive: false });
-        canvas.addEventListener('touchstart', (e) => {
-            handleMove(e.touches[0].clientX);
-            shoot();
+
+        document.getElementById('listenBtn').addEventListener('click', () => {
+            Engine.speak(currentWord);
         });
 
-        document.getElementById('listenBtn').addEventListener('click', () => Engine.speak(currentWord));
-
         nextQuestion();
-        gameLoop();
+        requestAnimationFrame(gameLoop);
     </script>
 </body>
 </html>
