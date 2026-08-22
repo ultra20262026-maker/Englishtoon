@@ -1,235 +1,104 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Space Shooter - EnglishToon</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Fredoka', sans-serif; overflow: hidden; touch-action: none; background: #0f172a; color: white; }
-        #gameCanvas { width: 100%; height: 100vh; display: block; }
-        .game-ui { pointer-events: none; }
+        body { font-family: 'Fredoka', sans-serif; overflow: hidden; touch-action: none; margin: 0; }
+        canvas { display: block; }
+        .game-ui { pointer-events: none; position: fixed; inset: 0; z-index: 50; padding: 1rem; }
         .interactive { pointer-events: auto; }
-        .star { position: absolute; background: white; border-radius: 50%; opacity: 0.5; animation: twinkle var(--d) infinite; }
-        @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.8; } }
+        .btn-action { background: #3b82f6; color: white; padding: 0.75rem 1.5rem; border-radius: 1rem; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .btn-action:active { transform: scale(0.95); }
     </style>
+
+    <title>Space Shooter</title>
 </head>
-<body>
-    <div id="stars-container"></div>
+<body class="bg-slate-900">
     
-    <!-- UI Overlay -->
-    <div class="game-ui fixed inset-0 z-10 flex flex-col p-4">
+    <div class="game-ui">
         <div class="flex justify-between items-start">
-            <div class="bg-white/10 backdrop-blur-md rounded-2xl p-3 shadow-2xl border border-white/20 flex items-center gap-4">
-                <div class="text-blue-400">
-                    <span class="text-xs font-bold block uppercase tracking-wider">Score</span>
-                    <span id="score" class="text-2xl font-black">0</span>
-                </div>
-                <div class="w-px h-8 bg-white/10"></div>
-                <div class="text-amber-400">
-                    <span class="text-xs font-bold block uppercase tracking-wider">Stars</span>
-                    <span id="stars" class="text-2xl font-black">0</span>
-                </div>
+            <div class="bg-white/90 backdrop-blur rounded-2xl p-3 shadow-lg border-2 border-blue-200 flex items-center gap-4 interactive">
+                <div class="text-blue-600"><span class="text-xs font-bold block uppercase">Score</span><span id="score" class="text-2xl font-black">0</span></div>
+                <div class="w-px h-8 bg-blue-100"></div>
+                <div class="text-amber-500"><span class="text-xs font-bold block uppercase">Stars</span><span id="stars" class="text-2xl font-black">0</span></div>
             </div>
-            <button onclick="window.history.back()" class="interactive w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center text-white/50 shadow-2xl border border-white/20">
+            <button onclick="window.history.back()" class="interactive w-12 h-12 rounded-2xl bg-white/90 backdrop-blur flex items-center justify-center text-slate-400 shadow-lg border-2 border-slate-100">
                 <i class="fa-solid fa-xmark text-xl"></i>
             </button>
         </div>
-
         <div class="mt-4 flex flex-col items-center">
-            <div class="bg-white/10 backdrop-blur-lg rounded-3xl p-6 shadow-2xl border border-white/20 w-full max-w-md text-center">
-                <h2 class="text-blue-400 font-bold text-lg mb-1 uppercase tracking-widest">Blast the word:</h2>
-                <div id="targetWord" class="text-4xl font-black text-white mb-4">...</div>
-                <button id="listenBtn" class="interactive bg-blue-600 hover:bg-blue-500 text-white px-8 py-3 rounded-2xl font-bold shadow-lg shadow-blue-900/50 transition-all active:scale-95 flex items-center gap-2 mx-auto">
-                    <i class="fa-solid fa-volume-high"></i>
-                    Listen
+            <div class="bg-white/95 backdrop-blur rounded-3xl p-4 shadow-xl border-4 border-blue-400 w-full max-w-md text-center interactive">
+                <h2 class="text-blue-500 font-bold text-sm mb-1 uppercase tracking-widest">Defend Earth! Shoot:</h2>
+                <div id="targetWord" class="text-3xl font-black text-slate-800 mb-2">...</div>
+                <button id="listenBtn" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-xl font-bold shadow-lg flex items-center gap-2 mx-auto text-sm">
+                    <i class="fa-solid fa-volume-high"></i> Listen
                 </button>
             </div>
         </div>
     </div>
 
     <canvas id="gameCanvas"></canvas>
-
     <script src="../../game_engine.js"></script>
     <script>
-        // Star background
-        const container = document.getElementById('stars-container');
-        for(let i=0; i<50; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
-            star.style.width = star.style.height = Math.random() * 3 + 'px';
-            star.style.left = Math.random() * 100 + '%';
-            star.style.top = Math.random() * 100 + '%';
-            star.style.setProperty('--d', Math.random() * 3 + 2 + 's');
-            container.appendChild(star);
-        }
-
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
         const vocab = JSON.parse('["arm", "cake", "car", "carrot", "cat", "cup", "ear", "egg", "eggplant", "elbow", "elephant", "enter", "eye", "feet", "foot", "hand", "head", "hear", "key", "king", "kitchen", "kite", "leg", "mouth", "nose", "rabbit", "red", "ring", "robot", "rocket", "see", "smell", "taste", "toes", "tongue", "touch"]');
-        
-        let width, height;
-        let shipX, shipY;
-        let enemies = [];
-        let lasers = [];
-        let currentWord = null;
-        let gameActive = true;
+        let width, height, currentWord, ship, enemies = [], lasers = [];
 
         function resize() {
             width = canvas.width = window.innerWidth;
             height = canvas.height = window.innerHeight;
-            shipX = width / 2;
-            shipY = height - 100;
+            ship = { x: width/2, y: height - 100 };
         }
-
         window.addEventListener('resize', resize);
         resize();
 
-        class Enemy {
-            constructor(word, isCorrect) {
-                this.word = word;
-                this.isCorrect = isCorrect;
-                this.x = Math.random() * (width - 100) + 50;
-                this.y = -50;
-                this.speed = 1.2 + Math.random() * 1.5;
-                this.radius = 45;
-                this.img = new Image();
-                this.img.src = Engine.getAssetPath(word);
-                this.img.onerror = () => { this.img.src = 'https://cdn-icons-png.flaticon.com/512/3081/3081840.png'; };
-            }
-
-            update() { this.y += this.speed; }
-
-            draw() {
-                ctx.save();
-                // UFO shape
-                ctx.beginPath();
-                ctx.ellipse(this.x, this.y, this.radius, this.radius/2, 0, 0, Math.PI * 2);
-                ctx.fillStyle = this.isCorrect ? '#3b82f6' : '#334155';
-                ctx.fill();
-                ctx.strokeStyle = 'white';
-                ctx.lineWidth = 2;
-                ctx.stroke();
-
-                // Image in dome
-                ctx.beginPath();
-                ctx.arc(this.x, this.y - 10, 25, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(255,255,255,0.9)';
-                ctx.fill();
-                ctx.clip();
-                ctx.drawImage(this.img, this.x - 20, this.y - 30, 40, 40);
-                ctx.restore();
-                
-                ctx.fillStyle = 'white';
-                ctx.font = 'bold 14px Fredoka';
-                ctx.textAlign = 'center';
-                ctx.fillText(this.word, this.x, this.y + 40);
-            }
-        }
-
-        class Laser {
-            constructor(x, y) { this.x = x; this.y = y; this.speed = 12; }
-            update() { this.y -= this.speed; }
-            draw() {
-                ctx.beginPath();
-                ctx.moveTo(this.x, this.y);
-                ctx.lineTo(this.x, this.y - 20);
-                ctx.strokeStyle = '#60a5fa';
-                ctx.lineWidth = 4;
-                ctx.lineCap = 'round';
-                ctx.stroke();
-            }
-        }
-
         function nextQuestion() {
-            const correctIdx = Math.floor(Math.random() * vocab.length);
-            currentWord = vocab[correctIdx];
+            currentWord = vocab[Math.floor(Math.random() * vocab.length)];
             document.getElementById('targetWord').innerText = currentWord;
-            enemies = [];
-            spawnEnemies();
         }
 
-        function spawnEnemies() {
-            enemies.push(new Enemy(currentWord, true));
-            for(let i=0; i<2; i++) {
-                let wrongWord;
-                do { wrongWord = vocab[Math.floor(Math.random() * vocab.length)]; } while(wrongWord === currentWord);
-                enemies.push(new Enemy(wrongWord, false));
-            }
-        }
-
-        function gameLoop() {
-            ctx.clearRect(0, 0, width, height);
-
+        function loop() {
+            ctx.clearRect(0,0,width,height);
             // Ship
-            ctx.fillStyle = '#60a5fa';
-            ctx.beginPath();
-            ctx.moveTo(shipX, shipY - 30);
-            ctx.lineTo(shipX - 25, shipY + 20);
-            ctx.lineTo(shipX + 25, shipY + 20);
-            ctx.closePath();
-            ctx.fill();
-
-            // Lasers
-            for(let i = lasers.length - 1; i >= 0; i--) {
-                lasers[i].update();
-                lasers[i].draw();
-                if(lasers[i].y < 0) lasers.splice(i, 1);
+            ctx.fillStyle = 'cyan'; ctx.beginPath(); ctx.moveTo(ship.x, ship.y-20); ctx.lineTo(ship.x-20, ship.y+20); ctx.lineTo(ship.x+20, ship.y+20); ctx.fill();
+            
+            if(Math.random() < 0.03) {
+                let word = Math.random() < 0.4 ? currentWord : vocab[Math.floor(Math.random()*vocab.length)];
+                enemies.push({ word, x: Math.random()*width, y: -50, s: 1+Math.random()*2, img: new Image() });
+                enemies[enemies.length-1].img.src = Engine.getAssetPath(word);
             }
 
-            // Enemies
-            for(let i = enemies.length - 1; i >= 0; i--) {
-                enemies[i].update();
-                enemies[i].draw();
-
-                // Collision
-                for(let j = lasers.length - 1; j >= 0; j--) {
-                    const dist = Math.hypot(lasers[j].x - enemies[i].x, lasers[j].y - enemies[i].y);
-                    if(dist < enemies[i].radius) {
-                        if(enemies[i].isCorrect) {
-                            Engine.addScore(10);
-                            Engine.showFeedback(true);
-                            lasers.splice(j, 1);
-                            setTimeout(nextQuestion, 500);
-                            return requestAnimationFrame(gameLoop);
-                        } else {
-                            Engine.showFeedback(false);
-                            lasers.splice(j, 1);
-                            enemies.splice(i, 1);
-                            break;
-                        }
+            enemies.forEach((en, i) => {
+                en.y += en.s;
+                ctx.drawImage(en.img, en.x-35, en.y-35, 70, 70);
+                lasers.forEach((la, j) => {
+                    if(Math.hypot(la.x-en.x, la.y-en.y) < 40) {
+                        lasers.splice(j, 1); enemies.splice(i, 1);
+                        if(en.word === currentWord) { Engine.addScore(15); Engine.showFeedback(true); nextQuestion(); }
+                        else { Engine.showFeedback(false); }
                     }
-                }
+                });
+                if(en.y > height) enemies.splice(i, 1);
+            });
 
-                if(enemies[i] && enemies[i].y > height + 50) {
-                    if(enemies[i].isCorrect) enemies.push(new Enemy(currentWord, true));
-                    enemies.splice(i, 1);
-                }
-            }
-
-            requestAnimationFrame(gameLoop);
+            lasers.forEach((la, i) => { la.y -= 10; ctx.fillStyle='red'; ctx.fillRect(la.x-2, la.y, 4, 15); if(la.y < 0) lasers.splice(i, 1); });
+            requestAnimationFrame(loop);
         }
 
-        function handleMove(clientX) { shipX = clientX; }
-        function shoot() { lasers.push(new Laser(shipX, shipY - 30)); }
-
-        canvas.addEventListener('mousemove', (e) => handleMove(e.clientX));
-        canvas.addEventListener('mousedown', shoot);
-        canvas.addEventListener('touchmove', (e) => {
-            e.preventDefault();
-            handleMove(e.touches[0].clientX);
-        }, { passive: false });
-        canvas.addEventListener('touchstart', (e) => {
-            handleMove(e.touches[0].clientX);
-            shoot();
+        canvas.addEventListener('mousedown', (e) => {
+            ship.x = e.clientX;
+            lasers.push({ x: ship.x, y: ship.y });
         });
-
-        document.getElementById('listenBtn').addEventListener('click', () => Engine.speak(currentWord));
-
-        nextQuestion();
-        gameLoop();
+        canvas.addEventListener('touchmove', (e) => ship.x = e.touches[0].clientX);
+        document.getElementById('listenBtn').onclick = () => Engine.speak(currentWord);
+        nextQuestion(); loop();
     </script>
 </body>
 </html>
