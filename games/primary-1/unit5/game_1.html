@@ -1,237 +1,119 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Cannon Shooter - EnglishToon</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Fredoka', sans-serif; overflow: hidden; touch-action: none; background: #f0f9ff; }
-        #gameCanvas { width: 100%; height: 100vh; display: block; }
-        .game-ui { pointer-events: none; }
+        body { font-family: 'Fredoka', sans-serif; overflow: hidden; touch-action: none; margin: 0; }
+        canvas { display: block; }
+        .game-ui { pointer-events: none; position: fixed; inset: 0; z-index: 50; padding: 1rem; }
         .interactive { pointer-events: auto; }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-        .animate-bounce-slow { animation: bounce 2s infinite; }
+        .btn-action { background: #3b82f6; color: white; padding: 0.75rem 1.5rem; border-radius: 1rem; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .btn-action:active { transform: scale(0.95); }
     </style>
+
+    <title>Cannon Shooter</title>
 </head>
-<body class="bg-sky-50">
-    <!-- UI Overlay -->
-    <div class="game-ui fixed inset-0 z-10 flex flex-col p-4">
+<body class="bg-sky-100">
+    
+    <div class="game-ui">
         <div class="flex justify-between items-start">
-            <div class="bg-white/90 backdrop-blur rounded-2xl p-3 shadow-lg border-2 border-blue-200 flex items-center gap-4">
-                <div class="text-blue-600">
-                    <span class="text-xs font-bold block uppercase tracking-wider">Score</span>
-                    <span id="score" class="text-2xl font-black">0</span>
-                </div>
+            <div class="bg-white/90 backdrop-blur rounded-2xl p-3 shadow-lg border-2 border-blue-200 flex items-center gap-4 interactive">
+                <div class="text-blue-600"><span class="text-xs font-bold block uppercase">Score</span><span id="score" class="text-2xl font-black">0</span></div>
                 <div class="w-px h-8 bg-blue-100"></div>
-                <div class="text-amber-500">
-                    <span class="text-xs font-bold block uppercase tracking-wider">Stars</span>
-                    <span id="stars" class="text-2xl font-black">0</span>
-                </div>
+                <div class="text-amber-500"><span class="text-xs font-bold block uppercase">Stars</span><span id="stars" class="text-2xl font-black">0</span></div>
             </div>
             <button onclick="window.history.back()" class="interactive w-12 h-12 rounded-2xl bg-white/90 backdrop-blur flex items-center justify-center text-slate-400 shadow-lg border-2 border-slate-100">
                 <i class="fa-solid fa-xmark text-xl"></i>
             </button>
         </div>
-
         <div class="mt-4 flex flex-col items-center">
-            <div class="bg-white/95 backdrop-blur rounded-3xl p-6 shadow-xl border-4 border-blue-400 w-full max-w-md text-center">
-                <h2 class="text-blue-500 font-bold text-lg mb-1 uppercase tracking-widest">Shoot the target:</h2>
-                <div id="targetWord" class="text-4xl font-black text-slate-800 mb-4">...</div>
-                <button id="listenBtn" class="interactive bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 rounded-2xl font-bold shadow-lg shadow-blue-200 transition-all active:scale-95 flex items-center gap-2 mx-auto">
-                    <i class="fa-solid fa-volume-high"></i>
-                    Listen
+            <div class="bg-white/95 backdrop-blur rounded-3xl p-4 shadow-xl border-4 border-blue-400 w-full max-w-md text-center interactive">
+                <h2 class="text-blue-500 font-bold text-sm mb-1 uppercase tracking-widest">Shoot the target:</h2>
+                <div id="targetWord" class="text-3xl font-black text-slate-800 mb-2">...</div>
+                <button id="listenBtn" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-xl font-bold shadow-lg flex items-center gap-2 mx-auto text-sm">
+                    <i class="fa-solid fa-volume-high"></i> Listen
                 </button>
             </div>
         </div>
     </div>
 
     <canvas id="gameCanvas"></canvas>
-
     <script src="../../game_engine.js"></script>
     <script>
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
         const vocab = JSON.parse('["chicken", "cow", "duck", "fan", "fish", "fork", "fox", "frog", "girl", "gloves", "goat", "grapes", "guitar", "horse", "mango", "milk", "monkey", "moon", "mouse", "octopus", "olive", "ostrich"]');
-        
-        let width, height;
-        let cannonX, cannonY;
-        let targets = [];
-        let projectiles = [];
-        let currentWord = null;
-        let lastTime = 0;
-        let nextSpawn = 0;
-        let gameActive = true;
+        let width, height, currentWord, cannon, targets = [], projectiles = [];
 
         function resize() {
             width = canvas.width = window.innerWidth;
             height = canvas.height = window.innerHeight;
-            cannonX = width / 2;
-            cannonY = height - 80;
+            cannon = { x: width/2, y: height - 60, r: 40 };
         }
-
         window.addEventListener('resize', resize);
         resize();
 
-        class Target {
-            constructor(word, isCorrect) {
-                this.word = word;
-                this.isCorrect = isCorrect;
-                this.x = Math.random() * (width - 100) + 50;
-                this.y = -50;
-                this.speed = 1.5 + Math.random() * 1.5;
-                this.radius = 45;
-                this.img = new Image();
-                this.img.src = Engine.getAssetPath(word);
-                this.img.onerror = () => { this.img.src = 'https://cdn-icons-png.flaticon.com/512/3081/3081840.png'; };
-            }
-
-            update(dt) {
-                this.y += this.speed;
-            }
-
-            draw() {
-                ctx.save();
-                // Bubble effect
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
-                ctx.fill();
-                ctx.strokeStyle = this.isCorrect ? '#3b82f6' : '#e2e8f0';
-                ctx.lineWidth = 4;
-                ctx.stroke();
-
-                // Image
-                const imgSize = this.radius * 1.4;
-                ctx.drawImage(this.img, this.x - imgSize/2, this.y - imgSize/2, imgSize, imgSize);
-                
-                // Label
-                ctx.fillStyle = '#1e293b';
-                ctx.font = 'bold 14px Fredoka';
-                ctx.textAlign = 'center';
-                ctx.fillText(this.word, this.x, this.y + this.radius + 20);
-                ctx.restore();
-            }
-        }
-
-        class Projectile {
-            constructor(x, y, targetX, targetY) {
-                this.x = x;
-                this.y = y;
-                const angle = Math.atan2(targetY - y, targetX - x);
-                this.vx = Math.cos(angle) * 15;
-                this.vy = Math.sin(angle) * 15;
-                this.radius = 10;
-            }
-
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-            }
-
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = '#3b82f6';
-                ctx.fill();
-            }
-        }
-
         function nextQuestion() {
-            const correctIdx = Math.floor(Math.random() * vocab.length);
-            currentWord = vocab[correctIdx];
+            currentWord = vocab[Math.floor(Math.random() * vocab.length)];
             document.getElementById('targetWord').innerText = currentWord;
             targets = [];
-            spawnInitialTargets();
+            spawnTargets();
         }
 
-        function spawnInitialTargets() {
-            // Spawn the correct one
-            targets.push(new Target(currentWord, true));
-            // Spawn 2 wrong ones
-            for(let i=0; i<2; i++) {
-                let wrongWord;
-                do {
-                    wrongWord = vocab[Math.floor(Math.random() * vocab.length)];
-                } while(wrongWord === currentWord);
-                targets.push(new Target(wrongWord, false));
+        function spawnTargets() {
+            const count = 3;
+            for(let i=0; i<count; i++) {
+                let word = (i === 0) ? currentWord : vocab[Math.floor(Math.random()*vocab.length)];
+                targets.push({
+                    word, isCorrect: word === currentWord,
+                    x: Math.random() * (width - 100) + 50, y: -50,
+                    speed: 1 + Math.random() * 2, r: 45, img: new Image()
+                });
+                targets[i].img.src = Engine.getAssetPath(word);
             }
+            targets.sort(() => Math.random() - 0.5);
         }
 
-        function gameLoop(timestamp) {
-            const dt = timestamp - lastTime;
-            lastTime = timestamp;
-
-            ctx.clearRect(0, 0, width, height);
-
-            // Draw Cannon
+        function loop() {
+            ctx.clearRect(0,0,width,height);
+            // Cannon
             ctx.fillStyle = '#1e293b';
-            ctx.beginPath();
-            ctx.arc(cannonX, cannonY + 40, 60, Math.PI, 0);
-            ctx.fill();
+            ctx.beginPath(); ctx.arc(cannon.x, cannon.y + 30, 50, Math.PI, 0); ctx.fill();
             
-            // Update & Draw Targets
-            for(let i = targets.length - 1; i >= 0; i--) {
-                targets[i].update(dt);
-                targets[i].draw();
-                
-                if(targets[i].y > height + 100) {
-                    targets.splice(i, 1);
-                    if(targets.filter(t => t.isCorrect).length === 0) {
-                        targets.push(new Target(currentWord, true));
+            targets.forEach((t, i) => {
+                t.y += t.speed;
+                ctx.beginPath(); ctx.arc(t.x, t.y, t.r, 0, Math.PI*2);
+                ctx.fillStyle = 'white'; ctx.fill(); ctx.strokeStyle = '#3b82f6'; ctx.lineWidth = 3; ctx.stroke();
+                ctx.drawImage(t.img, t.x-30, t.y-30, 60, 60);
+                if(t.y > height + 50) { targets.splice(i, 1); if(targets.length === 0) spawnTargets(); }
+            });
+
+            projectiles.forEach((p, i) => {
+                p.x += p.vx; p.y += p.vy;
+                ctx.beginPath(); ctx.arc(p.x, p.y, 8, 0, Math.PI*2); ctx.fillStyle = '#ef4444'; ctx.fill();
+                targets.forEach((t, j) => {
+                    if(Math.hypot(p.x-t.x, p.y-t.y) < t.r) {
+                        projectiles.splice(i, 1);
+                        if(t.isCorrect) { Engine.addScore(10); Engine.showFeedback(true); nextQuestion(); }
+                        else { Engine.showFeedback(false); targets.splice(j, 1); }
                     }
-                }
-            }
-
-            // Update & Draw Projectiles
-            for(let i = projectiles.length - 1; i >= 0; i--) {
-                projectiles[i].update();
-                projectiles[i].draw();
-
-                // Collision check
-                for(let j = targets.length - 1; j >= 0; j--) {
-                    const dist = Math.hypot(projectiles[i].x - targets[j].x, projectiles[i].y - targets[j].y);
-                    if(dist < projectiles[i].radius + targets[j].radius) {
-                        if(targets[j].isCorrect) {
-                            Engine.addScore(10);
-                            Engine.showFeedback(true);
-                            projectiles.splice(i, 1);
-                            setTimeout(nextQuestion, 500);
-                            return requestAnimationFrame(gameLoop);
-                        } else {
-                            Engine.showFeedback(false);
-                            projectiles.splice(i, 1);
-                            targets.splice(j, 1);
-                            break;
-                        }
-                    }
-                }
-
-                if(projectiles[i] && (projectiles[i].x < 0 || projectiles[i].x > width || projectiles[i].y < 0)) {
-                    projectiles.splice(i, 1);
-                }
-            }
-
-            requestAnimationFrame(gameLoop);
+                });
+            });
+            requestAnimationFrame(loop);
         }
 
         canvas.addEventListener('mousedown', (e) => {
-            projectiles.push(new Projectile(cannonX, cannonY, e.clientX, e.clientY));
+            const angle = Math.atan2(e.clientY - cannon.y, e.clientX - cannon.x);
+            projectiles.push({ x: cannon.x, y: cannon.y, vx: Math.cos(angle)*12, vy: Math.sin(angle)*12 });
         });
-
-        canvas.addEventListener('touchstart', (e) => {
-            const touch = e.touches[0];
-            projectiles.push(new Projectile(cannonX, cannonY, touch.clientX, touch.clientY));
-        });
-
-        document.getElementById('listenBtn').addEventListener('click', () => {
-            Engine.speak(currentWord);
-        });
-
-        nextQuestion();
-        requestAnimationFrame(gameLoop);
+        document.getElementById('listenBtn').onclick = () => Engine.speak(currentWord);
+        nextQuestion(); loop();
     </script>
 </body>
 </html>
