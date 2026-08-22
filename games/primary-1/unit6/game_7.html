@@ -67,27 +67,40 @@
             ctx.clearRect(0,0,width,height);
             if(Math.random() < 0.02) {
                 let word = Math.random() < 0.3 ? currentWord : vocab[Math.floor(Math.random()*vocab.length)];
-                balloons.push({ word, x: Math.random()*width, y: height+50, s: 2, c: `hsl(${Math.random()*360}, 70%, 60%)`, img: new Image() });
-                balloons[balloons.length-1].img.src = Engine.getAssetPath(word);
+                let b = { word, x: Math.random()*width, y: height+50, s: 2, c: `hsl(${Math.random()*360}, 70%, 60%)`, img: new Image() };
+                b.img.src = Engine.getAssetPath(word);
+                balloons.push(b);
             }
-            balloons.forEach((b, i) => {
-                b.y -= b.s; ctx.fillStyle = b.c; ctx.beginPath(); ctx.arc(b.x, b.y, 50, 0, Math.PI*2); ctx.fill();
-                ctx.drawImage(b.img, b.x-30, b.y-30, 60, 60);
+            for(let i=balloons.length-1; i>=0; i--) {
+                let b = balloons[i];
+                b.y -= b.s;
+                ctx.fillStyle = b.c; ctx.beginPath(); ctx.arc(b.x, b.y, 50, 0, Math.PI*2); ctx.fill();
+                if(b.img.complete) ctx.drawImage(b.img, b.x-30, b.y-30, 60, 60);
                 if(b.y < -100) balloons.splice(i, 1);
-            });
+            }
             requestAnimationFrame(loop);
         }
         canvas.addEventListener('mousedown', (e) => {
-            balloons.forEach((b, i) => {
+            for(let i=balloons.length-1; i>=0; i--) {
+                let b = balloons[i];
                 if(Math.hypot(e.clientX-b.x, e.clientY-b.y) < 60) {
                     balloons.splice(i, 1);
                     if(b.word === currentWord) { Engine.addScore(10); Engine.showFeedback(true); nextQuestion(); }
                     else Engine.showFeedback(false);
+                    break;
                 }
-            });
+            }
         });
-        nextQuestion(); loop();
     
+        
+        // Ensure Engine is ready before starting
+        window.onload = () => {
+            if (window.Engine) {
+                Engine.init();
+                if (typeof nextQuestion === 'function') nextQuestion();
+                if (typeof loop === 'function') loop();
+            }
+        };
     </script>
 </body>
 </html>

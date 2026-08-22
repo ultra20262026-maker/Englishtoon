@@ -16,7 +16,7 @@
         .btn-action:active { transform: scale(0.95); }
     </style>
 
-    <title>Word Bridge</title>
+    <title>Bowling Striker</title>
 </head>
 <body class="bg-sky-100">
     
@@ -33,7 +33,7 @@
         </div>
         <div class="mt-4 flex flex-col items-center">
             <div class="bg-white/95 backdrop-blur rounded-3xl p-4 shadow-xl border-4 border-blue-400 w-full max-w-md text-center interactive">
-                <h2 class="text-blue-500 font-bold text-sm mb-1 uppercase tracking-widest">Build the bridge to:</h2>
+                <h2 class="text-blue-500 font-bold text-sm mb-1 uppercase tracking-widest">Strike the correct pin:</h2>
                 <div id="targetWord" class="text-3xl font-black text-slate-800 mb-2">...</div>
                 <button id="listenBtn" onclick="Engine.speak(currentWord)" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-xl font-bold shadow-lg flex items-center gap-2 mx-auto text-sm">
                     <i class="fa-solid fa-volume-high"></i> Listen
@@ -58,31 +58,45 @@
         resize();
 
         
-        let bricks = [];
+        let pins = [];
         function nextQuestion() {
             currentWord = vocab[Math.floor(Math.random() * vocab.length)];
             document.getElementById('targetWord').innerText = currentWord;
-            bricks = [0,1,2].map(i => ({ x: (i+1)*width/4, y: 500, word: (i===1)?currentWord:vocab[Math.floor(Math.random()*vocab.length)] }));
+            pins = [];
+            for(let i=0; i<3; i++) {
+                let word = (i===1) ? currentWord : vocab[Math.floor(Math.random()*vocab.length)];
+                let p = { word, x: (width/4)*(i+1), y: 200, img: new Image() };
+                p.img.src = Engine.getAssetPath(p.word);
+                pins.push(p);
+            }
         }
         function loop() {
             ctx.clearRect(0,0,width,height);
-            bricks.forEach(b => {
-                ctx.fillStyle = '#94a3b8'; ctx.fillRect(b.x-50, b.y, 100, 40);
-                let img = new Image(); img.src = Engine.getAssetPath(b.word);
-                ctx.drawImage(img, b.x-30, b.y-70, 60, 60);
+            ctx.fillStyle = '#cbd5e1'; ctx.fillRect(0, 200, width, height-200);
+            pins.forEach(p => {
+                ctx.fillStyle = 'white'; ctx.beginPath(); ctx.arc(p.x, p.y, 40, 0, Math.PI*2); ctx.fill();
+                if(p.img.complete) ctx.drawImage(p.img, p.x-30, p.y-30, 60, 60);
             });
             requestAnimationFrame(loop);
         }
         canvas.addEventListener('mousedown', (e) => {
-            bricks.forEach(b => {
-                if(Math.abs(e.clientX-b.x) < 50 && Math.abs(e.clientY-b.y) < 50) {
-                    if(b.word === currentWord) { Engine.addScore(10); Engine.showFeedback(true); nextQuestion(); }
+            pins.forEach(p => {
+                if(Math.hypot(e.clientX-p.x, e.clientY-p.y) < 50) {
+                    if(p.word === currentWord) { Engine.addScore(10); Engine.showFeedback(true); nextQuestion(); }
                     else Engine.showFeedback(false);
                 }
             });
         });
-        nextQuestion(); loop();
     
+        
+        // Ensure Engine is ready before starting
+        window.onload = () => {
+            if (window.Engine) {
+                Engine.init();
+                if (typeof nextQuestion === 'function') nextQuestion();
+                if (typeof loop === 'function') loop();
+            }
+        };
     </script>
 </body>
 </html>
