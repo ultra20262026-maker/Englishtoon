@@ -143,6 +143,8 @@
         }
 
         function update() {
+            if (!Engine.gameActive) return; // Stop update when game is paused
+            
             obstacles.forEach((o, index) => {
                 o.y += o.speed * (5 * Engine.speed);
                 
@@ -155,6 +157,7 @@
                     if (o.text === currentTarget) {
                         Engine.addScore(100);
                         Engine.showFeedback(true);
+                        obstacles = []; // Clear all to prevent double hits
                         Engine.showWinScreen(() => nextLevel());
                     } else {
                         Engine.addScore(-50);
