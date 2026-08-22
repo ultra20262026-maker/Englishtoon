@@ -16,7 +16,7 @@
         .btn-action:active { transform: scale(0.95); }
     </style>
 
-    <title>Memory Match</title>
+    <title>Basket Catcher</title>
 </head>
 <body class="bg-sky-100">
     
@@ -33,7 +33,7 @@
         </div>
         <div class="mt-4 flex flex-col items-center">
             <div class="bg-white/95 backdrop-blur rounded-3xl p-4 shadow-xl border-4 border-blue-400 w-full max-w-md text-center interactive">
-                <h2 class="text-blue-500 font-bold text-sm mb-1 uppercase tracking-widest">Find matching pairs:</h2>
+                <h2 class="text-blue-500 font-bold text-sm mb-1 uppercase tracking-widest">Catch the correct word:</h2>
                 <div id="targetWord" class="text-3xl font-black text-slate-800 mb-2">...</div>
                 <button id="listenBtn" onclick="Engine.speak(currentWord)" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-xl font-bold shadow-lg flex items-center gap-2 mx-auto text-sm">
                     <i class="fa-solid fa-volume-high"></i> Listen
@@ -58,43 +58,37 @@
         resize();
 
         
-        let cards = [], flipped = [];
+        let basket = { x: width/2, w: 100, h: 20 }, items = [];
         function nextQuestion() {
-            const words = [...vocab].sort(()=>0.5-Math.random()).slice(0, 4);
-            const deck = [...words, ...words].sort(()=>0.5-Math.random());
-            cards = deck.map((w, i) => {
-                let c = { word: w, x: (i%3)*110+width/2-160, y: Math.floor(i/3)*110+350, flipped: false, img: new Image() };
-                c.img.src = Engine.getAssetPath(c.word);
-                return c;
-            });
-            flipped = [];
+            currentWord = vocab[Math.floor(Math.random() * vocab.length)];
+            document.getElementById('targetWord').innerText = currentWord;
         }
         function loop() {
             ctx.clearRect(0,0,width,height);
-            cards.forEach(c => {
-                ctx.fillStyle = c.flipped ? 'white' : '#3b82f6';
-                ctx.fillRect(c.x, c.y, 100, 100);
-                if(c.flipped && c.img.complete) ctx.drawImage(c.img, c.x+10, c.y+10, 80, 80);
-            });
+            ctx.fillStyle = '#92400e'; ctx.fillRect(basket.x-50, height-50, 100, 30);
+            if(Math.random() < 0.015) {
+                let word = Math.random() < 0.3 ? currentWord : vocab[Math.floor(Math.random()*vocab.length)];
+                let it = { word, x: Math.random()*width, y: -50, s: 1.5, img: new Image() };
+                it.img.src = Engine.getAssetPath(word);
+                items.push(it);
+            }
+            for(let i=items.length-1; i>=0; i--) {
+                let it = items[i];
+                it.y += it.s * Engine.speed;
+                if(it.img.complete) ctx.drawImage(it.img, it.x-30, it.y-30, 60, 60);
+                if(it.y > height-60 && Math.abs(it.x-basket.x) < 50) {
+                    items.splice(i, 1);
+                    if(it.word === currentWord) { Engine.addScore(10); Engine.showFeedback(true); nextQuestion(); }
+                    else Engine.showFeedback(false);
+                }
+                else if(it.y > height) items.splice(i, 1);
+            }
             requestAnimationFrame(loop);
         }
-        canvas.addEventListener('mousedown', (e) => {
-            cards.forEach(c => {
-                if(e.clientX > c.x && e.clientX < c.x+100 && e.clientY > c.y && e.clientY < c.y+100) {
-                    if(!c.flipped && flipped.length < 2) {
-                        c.flipped = true; flipped.push(c);
-                        if(flipped.length === 2) {
-                            if(flipped[0].word === flipped[1].word) { Engine.addScore(20); flipped = []; }
-                            else setTimeout(() => { flipped[0].flipped = flipped[1].flipped = false; flipped = []; }, 1000);
-                        }
-                    }
-                }
-            });
-            if(cards.length > 0 && cards.every(c => c.flipped)) { Engine.showFeedback(true); setTimeout(nextQuestion, 2000); }
-        });
+        canvas.addEventListener('mousemove', (e) => basket.x = e.clientX);
+        canvas.addEventListener('touchmove', (e) => { e.preventDefault(); basket.x = e.touches[0].clientX; }, {passive:false});
     
         
-        // Ensure Engine is ready before starting
         window.onload = () => {
             if (window.Engine) {
                 Engine.init();

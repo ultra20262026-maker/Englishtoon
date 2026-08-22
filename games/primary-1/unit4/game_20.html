@@ -16,7 +16,7 @@
         .btn-action:active { transform: scale(0.95); }
     </style>
 
-    <title>Bowling Striker</title>
+    <title>Dictation</title>
 </head>
 <body class="bg-sky-100">
     
@@ -33,7 +33,7 @@
         </div>
         <div class="mt-4 flex flex-col items-center">
             <div class="bg-white/95 backdrop-blur rounded-3xl p-4 shadow-xl border-4 border-blue-400 w-full max-w-md text-center interactive">
-                <h2 class="text-blue-500 font-bold text-sm mb-1 uppercase tracking-widest">Strike the correct pin:</h2>
+                <h2 class="text-blue-500 font-bold text-sm mb-1 uppercase tracking-widest">Spell the word:</h2>
                 <div id="targetWord" class="text-3xl font-black text-slate-800 mb-2">...</div>
                 <button id="listenBtn" onclick="Engine.speak(currentWord)" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-xl font-bold shadow-lg flex items-center gap-2 mx-auto text-sm">
                     <i class="fa-solid fa-volume-high"></i> Listen
@@ -58,38 +58,61 @@
         resize();
 
         
-        let pins = [];
+        let letters = [], slots = [], targetLetters = [];
         function nextQuestion() {
             currentWord = vocab[Math.floor(Math.random() * vocab.length)];
-            document.getElementById('targetWord').innerText = currentWord;
-            pins = [];
-            for(let i=0; i<3; i++) {
-                let word = (i===1) ? currentWord : vocab[Math.floor(Math.random()*vocab.length)];
-                let p = { word, x: (width/4)*(i+1), y: 200, img: new Image() };
-                p.img.src = Engine.getAssetPath(p.word);
-                pins.push(p);
-            }
+            document.getElementById('targetWord').innerText = "???";
+            targetLetters = currentWord.toUpperCase().split('');
+            slots = targetLetters.map((l, i) => ({ x: width/2 - (targetLetters.length*30) + i*60, y: 300, w: 50, h: 50, letter: null }));
+            letters = targetLetters.map((l, i) => ({ 
+                l, 
+                x: Math.random()*(width-100)+50, 
+                y: 450 + Math.random()*150, 
+                origX: 0, origY: 0,
+                dragging: false 
+            })).sort(() => Math.random()-0.5);
         }
         function loop() {
             ctx.clearRect(0,0,width,height);
-            ctx.fillStyle = '#cbd5e1'; ctx.fillRect(0, 200, width, height-200);
-            pins.forEach(p => {
-                ctx.fillStyle = 'white'; ctx.beginPath(); ctx.arc(p.x, p.y, 40, 0, Math.PI*2); ctx.fill();
-                if(p.img.complete) ctx.drawImage(p.img, p.x-30, p.y-30, 60, 60);
+            slots.forEach(s => {
+                ctx.strokeStyle = '#94a3b8'; ctx.strokeRect(s.x, s.y, s.w, s.h);
+                if(s.letter) { ctx.fillStyle='#1e293b'; ctx.font='bold 30px Fredoka'; ctx.fillText(s.letter, s.x+15, s.y+35); }
             });
+            letters.forEach(l => {
+                if(!l.dragging) {
+                    ctx.fillStyle='#3b82f6'; ctx.fillRect(l.x-25, l.y-25, 50, 50);
+                    ctx.fillStyle='white'; ctx.font='bold 30px Fredoka'; ctx.fillText(l.l, l.x-10, l.y+10);
+                }
+            });
+            let dragging = letters.find(l => l.dragging);
+            if(dragging) {
+                ctx.fillStyle='#2563eb'; ctx.fillRect(dragging.x-30, dragging.y-30, 60, 60);
+                ctx.fillStyle='white'; ctx.font='bold 35px Fredoka'; ctx.fillText(dragging.l, dragging.x-12, dragging.y+12);
+            }
             requestAnimationFrame(loop);
         }
         canvas.addEventListener('mousedown', (e) => {
-            pins.forEach(p => {
-                if(Math.hypot(e.clientX-p.x, e.clientY-p.y) < 50) {
-                    if(p.word === currentWord) { Engine.addScore(10); Engine.showFeedback(true); nextQuestion(); }
-                    else Engine.showFeedback(false);
-                }
-            });
+            let l = letters.find(l => Math.hypot(e.clientX-l.x, e.clientY-l.y) < 30);
+            if(l) { l.dragging = true; l.origX = l.x; l.origY = l.y; }
+        });
+        canvas.addEventListener('mousemove', (e) => {
+            let l = letters.find(l => l.dragging);
+            if(l) { l.x = e.clientX; l.y = e.clientY; }
+        });
+        canvas.addEventListener('mouseup', (e) => {
+            let l = letters.find(l => l.dragging);
+            if(l) {
+                l.dragging = false;
+                let s = slots.find(s => !s.letter && e.clientX > s.x && e.clientX < s.x+s.w && e.clientY > s.y && e.clientY < s.y+s.h);
+                if(s && l.l === targetLetters[slots.indexOf(s)]) {
+                    s.letter = l.l;
+                    letters.splice(letters.indexOf(l), 1);
+                    if(letters.length === 0) { Engine.addScore(20); Engine.showFeedback(true); setTimeout(nextQuestion, 1500); }
+                } else { l.x = l.origX; l.y = l.origY; }
+            }
         });
     
         
-        // Ensure Engine is ready before starting
         window.onload = () => {
             if (window.Engine) {
                 Engine.init();

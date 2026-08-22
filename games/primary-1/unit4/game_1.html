@@ -67,7 +67,7 @@
         function spawnTargets() {
             for(let i=0; i<3; i++) {
                 let word = (i === 0) ? currentWord : vocab[Math.floor(Math.random()*vocab.length)];
-                let t = { word, isCorrect: word === currentWord, x: Math.random()*(width-100)+50, y: -50, speed: 1+Math.random()*2, r: 45, img: new Image() };
+                let t = { word, isCorrect: word === currentWord, x: Math.random()*(width-100)+50, y: -50, speed: (0.5+Math.random()*1), r: 45, img: new Image() };
                 t.img.src = Engine.getAssetPath(word);
                 targets.push(t);
             }
@@ -78,7 +78,7 @@
             ctx.fillStyle = '#1e293b'; ctx.beginPath(); ctx.arc(width/2, height, 80, Math.PI, 0); ctx.fill();
             for(let i=targets.length-1; i>=0; i--) {
                 let t = targets[i];
-                t.y += t.speed;
+                t.y += t.speed * Engine.speed;
                 if(t.img.complete) ctx.drawImage(t.img, t.x-35, t.y-35, 70, 70);
                 else { ctx.fillStyle='gray'; ctx.beginPath(); ctx.arc(t.x, t.y, 35, 0, Math.PI*2); ctx.fill(); }
                 if(t.y > height) { targets.splice(i, 1); if(targets.length === 0) spawnTargets(); }
@@ -103,7 +103,6 @@
         });
     
         
-        // Ensure Engine is ready before starting
         window.onload = () => {
             if (window.Engine) {
                 Engine.init();
