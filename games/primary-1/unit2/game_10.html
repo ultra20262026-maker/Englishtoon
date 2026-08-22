@@ -16,7 +16,7 @@
         .btn-action:active { transform: scale(0.95); }
     </style>
 
-    <title>Jumping Hero</title>
+    <title>Basket Catcher</title>
 </head>
 <body class="bg-sky-100">
     
@@ -33,7 +33,7 @@
         </div>
         <div class="mt-4 flex flex-col items-center">
             <div class="bg-white/95 backdrop-blur rounded-3xl p-4 shadow-xl border-4 border-blue-400 w-full max-w-md text-center interactive">
-                <h2 class="text-blue-500 font-bold text-sm mb-1 uppercase tracking-widest">Jump on the cloud with:</h2>
+                <h2 class="text-blue-500 font-bold text-sm mb-1 uppercase tracking-widest">Catch the correct word:</h2>
                 <div id="targetWord" class="text-3xl font-black text-slate-800 mb-2">...</div>
                 <button id="listenBtn" onclick="Engine.speak(currentWord)" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-xl font-bold shadow-lg flex items-center gap-2 mx-auto text-sm">
                     <i class="fa-solid fa-volume-high"></i> Listen
@@ -58,32 +58,45 @@
         resize();
 
         
-        let hero = { x: width/2, y: height-100 }, clouds = [];
+        let basket = { x: width/2, w: 100, h: 20 }, items = [];
         function nextQuestion() {
             currentWord = vocab[Math.floor(Math.random() * vocab.length)];
             document.getElementById('targetWord').innerText = currentWord;
-            clouds = [width/4, width/2, 3*width/4].map((x, i) => ({ x, y: 300, word: (i===1)?currentWord:vocab[Math.floor(Math.random()*vocab.length)] }));
         }
         function loop() {
             ctx.clearRect(0,0,width,height);
-            ctx.fillStyle = 'blue'; ctx.fillRect(hero.x-20, hero.y-40, 40, 40);
-            clouds.forEach(c => {
-                ctx.fillStyle = 'white'; ctx.beginPath(); ctx.ellipse(c.x, c.y, 60, 30, 0, 0, Math.PI*2); ctx.fill();
-                let img = new Image(); img.src = Engine.getAssetPath(c.word);
-                ctx.drawImage(img, c.x-30, c.y-60, 60, 60);
-            });
-            requestAnimationFrame(loop);
-        }
-        canvas.addEventListener('mousedown', (e) => {
-            clouds.forEach(c => {
-                if(Math.abs(e.clientX - c.x) < 60) {
-                    if(c.word === currentWord) { Engine.addScore(10); Engine.showFeedback(true); nextQuestion(); }
+            ctx.fillStyle = '#92400e'; ctx.fillRect(basket.x-50, height-50, 100, 30);
+            if(Math.random() < 0.02) {
+                let word = Math.random() < 0.3 ? currentWord : vocab[Math.floor(Math.random()*vocab.length)];
+                let it = { word, x: Math.random()*width, y: -50, s: 3, img: new Image() };
+                it.img.src = Engine.getAssetPath(word);
+                items.push(it);
+            }
+            for(let i=items.length-1; i>=0; i--) {
+                let it = items[i];
+                it.y += it.s;
+                if(it.img.complete) ctx.drawImage(it.img, it.x-30, it.y-30, 60, 60);
+                if(it.y > height-60 && Math.abs(it.x-basket.x) < 50) {
+                    items.splice(i, 1);
+                    if(it.word === currentWord) { Engine.addScore(10); Engine.showFeedback(true); nextQuestion(); }
                     else Engine.showFeedback(false);
                 }
-            });
-        });
-        nextQuestion(); loop();
+                else if(it.y > height) items.splice(i, 1);
+            }
+            requestAnimationFrame(loop);
+        }
+        canvas.addEventListener('mousemove', (e) => basket.x = e.clientX);
+        canvas.addEventListener('touchmove', (e) => { e.preventDefault(); basket.x = e.touches[0].clientX; }, {passive:false});
     
+        
+        // Ensure Engine is ready before starting
+        window.onload = () => {
+            if (window.Engine) {
+                Engine.init();
+                if (typeof nextQuestion === 'function') nextQuestion();
+                if (typeof loop === 'function') loop();
+            }
+        };
     </script>
 </body>
 </html>

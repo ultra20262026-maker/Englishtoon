@@ -62,15 +62,19 @@
         function nextQuestion() {
             const words = [...vocab].sort(()=>0.5-Math.random()).slice(0, 4);
             const deck = [...words, ...words].sort(()=>0.5-Math.random());
-            cards = deck.map((w, i) => ({ word: w, x: (i%3)*110+width/2-160, y: Math.floor(i/3)*110+350, flipped: false, img: new Image() }));
-            cards.forEach(c => c.img.src = Engine.getAssetPath(c.word));
+            cards = deck.map((w, i) => {
+                let c = { word: w, x: (i%3)*110+width/2-160, y: Math.floor(i/3)*110+350, flipped: false, img: new Image() };
+                c.img.src = Engine.getAssetPath(c.word);
+                return c;
+            });
+            flipped = [];
         }
         function loop() {
             ctx.clearRect(0,0,width,height);
             cards.forEach(c => {
                 ctx.fillStyle = c.flipped ? 'white' : '#3b82f6';
                 ctx.fillRect(c.x, c.y, 100, 100);
-                if(c.flipped) ctx.drawImage(c.img, c.x+10, c.y+10, 80, 80);
+                if(c.flipped && c.img.complete) ctx.drawImage(c.img, c.x+10, c.y+10, 80, 80);
             });
             requestAnimationFrame(loop);
         }
@@ -86,10 +90,18 @@
                     }
                 }
             });
-            if(cards.every(c => c.flipped)) { Engine.showFeedback(true); setTimeout(nextQuestion, 2000); }
+            if(cards.length > 0 && cards.every(c => c.flipped)) { Engine.showFeedback(true); setTimeout(nextQuestion, 2000); }
         });
-        nextQuestion(); loop();
     
+        
+        // Ensure Engine is ready before starting
+        window.onload = () => {
+            if (window.Engine) {
+                Engine.init();
+                if (typeof nextQuestion === 'function') nextQuestion();
+                if (typeof loop === 'function') loop();
+            }
+        };
     </script>
 </body>
 </html>

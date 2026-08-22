@@ -16,7 +16,7 @@
         .btn-action:active { transform: scale(0.95); }
     </style>
 
-    <title>Sky Race</title>
+    <title>Whack-a-Word</title>
 </head>
 <body class="bg-sky-100">
     
@@ -33,7 +33,7 @@
         </div>
         <div class="mt-4 flex flex-col items-center">
             <div class="bg-white/95 backdrop-blur rounded-3xl p-4 shadow-xl border-4 border-blue-400 w-full max-w-md text-center interactive">
-                <h2 class="text-blue-500 font-bold text-sm mb-1 uppercase tracking-widest">Fly to the cloud:</h2>
+                <h2 class="text-blue-500 font-bold text-sm mb-1 uppercase tracking-widest">Whack the word!</h2>
                 <div id="targetWord" class="text-3xl font-black text-slate-800 mb-2">...</div>
                 <button id="listenBtn" onclick="Engine.speak(currentWord)" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-xl font-bold shadow-lg flex items-center gap-2 mx-auto text-sm">
                     <i class="fa-solid fa-volume-high"></i> Listen
@@ -58,32 +58,47 @@
         resize();
 
         
-        let plane = { x: width/2, y: height-100 }, targets = [];
+        let holes = [], activeMole = null;
+        function resizeHoles() {
+            holes = [];
+            for(let i=0; i<6; i++) holes.push({ x: (i%3)*(width/4) + width/4, y: Math.floor(i/3)*150 + height/2 });
+        }
+        resizeHoles();
         function nextQuestion() {
             currentWord = vocab[Math.floor(Math.random() * vocab.length)];
             document.getElementById('targetWord').innerText = currentWord;
         }
+        function spawn() {
+            const h = holes[Math.floor(Math.random()*holes.length)];
+            const isCorrect = Math.random() < 0.4;
+            activeMole = { ...h, word: isCorrect ? currentWord : vocab[Math.floor(Math.random()*vocab.length)], img: new Image() };
+            activeMole.img.src = Engine.getAssetPath(activeMole.word);
+            setTimeout(() => { activeMole = null; if(Engine.gameActive) setTimeout(spawn, 800); }, 1500);
+        }
         function loop() {
             ctx.clearRect(0,0,width,height);
-            ctx.fillStyle = 'red'; ctx.fillRect(plane.x-20, plane.y, 40, 20);
-            if(Math.random() < 0.02) {
-                let word = Math.random() < 0.4 ? currentWord : vocab[Math.floor(Math.random()*vocab.length)];
-                targets.push({ word, x: Math.random()*width, y: -50, s: 3, img: new Image() });
-                targets[targets.length-1].img.src = Engine.getAssetPath(word);
-            }
-            targets.forEach((t, i) => {
-                t.y += t.s; ctx.drawImage(t.img, t.x-30, t.y-30, 60, 60);
-                if(Math.hypot(plane.x-t.x, plane.y-t.y) < 50) {
-                    targets.splice(i, 1);
-                    if(t.word === currentWord) { Engine.addScore(10); Engine.showFeedback(true); nextQuestion(); }
-                    else Engine.showFeedback(false);
-                }
-            });
+            holes.forEach(h => { ctx.fillStyle='#451a03'; ctx.beginPath(); ctx.ellipse(h.x, h.y, 50, 20, 0, 0, Math.PI*2); ctx.fill(); });
+            if(activeMole && activeMole.img.complete) ctx.drawImage(activeMole.img, activeMole.x-40, activeMole.y-60, 80, 80);
             requestAnimationFrame(loop);
         }
-        canvas.addEventListener('mousemove', (e) => plane.x = e.clientX);
-        nextQuestion(); loop();
+        canvas.addEventListener('mousedown', (e) => {
+            if(activeMole && Math.hypot(e.clientX-activeMole.x, e.clientY-(activeMole.y-20)) < 60) {
+                if(activeMole.word === currentWord) { Engine.addScore(10); Engine.showFeedback(true); nextQuestion(); }
+                else Engine.showFeedback(false);
+                activeMole = null;
+            }
+        });
+        spawn();
     
+        
+        // Ensure Engine is ready before starting
+        window.onload = () => {
+            if (window.Engine) {
+                Engine.init();
+                if (typeof nextQuestion === 'function') nextQuestion();
+                if (typeof loop === 'function') loop();
+            }
+        };
     </script>
 </body>
 </html>
