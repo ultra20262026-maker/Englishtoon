@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Cairo', sans-serif; overflow: hidden; touch-action: none; margin: 0; background: #0f172a; }
+        canvas { display: block; width: 100vw; height: 100vh; }
+        .game-ui { pointer-events: none; position: fixed; inset: 0; z-index: 50; padding: 1rem; }
+        .interactive { pointer-events: auto; }
+        .target-label {
+            position: absolute;
+            background: rgba(255,255,255,0.9);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 900;
+            font-size: 12px;
+            color: #1e293b;
+            pointer-events: none;
+            transform: translate(-50%, 40px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="game-ui">
+        <div class="flex justify-between items-start">
+            <div class="bg-slate-900/80 backdrop-blur-xl rounded-2xl p-3 shadow-2xl border border-slate-700 flex items-center gap-4 interactive">
+                <div class="text-blue-400"><span class="text-[10px] font-black block uppercase tracking-widest">النقاط</span><span id="score" class="text-2xl font-black">0</span></div>
+                <div class="w-px h-8 bg-slate-700"></div>
+                <div class="text-amber-400"><span class="text-[10px] font-black block uppercase tracking-widest">النجوم</span><span id="stars" class="text-2xl font-black">0</span></div>
+            </div>
+            <button onclick="window.history.back()" class="interactive w-12 h-12 rounded-2xl bg-slate-900/80 backdrop-blur-xl flex items-center justify-center text-slate-400 shadow-2xl border border-slate-700 active:scale-90 transition-all">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+        </div>
+        
+        <div class="mt-4 flex flex-col items-center">
+            <div class="bg-slate-900/90 backdrop-blur-xl rounded-3xl p-4 shadow-2xl border-2 border-blue-500/50 w-full max-w-md text-center interactive">
+                <h2 class="text-blue-400 font-black text-xs mb-1 uppercase tracking-widest">أطلق النار على:</h2>
+                <div id="targetWord" class="text-4xl font-black text-white mb-3 drop-shadow-lg">...</div>
+                <button id="listenBtn" onclick="Engine.speak(currentWord)" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white px-8 py-3 rounded-2xl font-black shadow-xl flex items-center gap-3 mx-auto transition-all active:scale-95">
+                    <i class="fa-solid fa-volume-high"></i> استمع للكلمة
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <canvas id="gameCanvas"></canvas>
+    
+    <script src="../game_engine.js"></script>
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Game Constants
+        const GRAVITY = 0.25;
+        const CANNON_X = window.innerWidth / 2;
+        const CANNON_Y = window.innerHeight - 80;
+        
+        let width, height;
+        let currentWord = "";
+        let targets = [];
+        let projectiles = [];
+        let particles = [];
+        let dragStart = null;
+        let dragEnd = null;
+        let vocab = ["Apple", "Ball", "Cat", "Dog", "Egg", "Bag", "Book", "Pen"];
+        
+        // Background Layers (Simulated Parallax)
+        const bgLayers = {
+            stars: [],
+            mountains: []
+        };
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            initBackground();
+        }
+
+        function initBackground() {
+            bgLayers.stars = [];
+            for(let i=0; i<50; i++) {
+                bgLayers.stars.push({x: Math.random()*width, y: Math.random()*height, s: Math.random()*2});
+            }
+        }
+
+        function initGame() {
+            resize();
+            window.addEventListener('resize', resize);
+            nextQuestion();
+            requestAnimationFrame(loop);
+        }
+
+        function nextQuestion() {
+            currentWord = vocab[Math.floor(Math.random() * vocab.length)];
+            document.getElementById('targetWord').innerText = currentWord;
+            
+            targets = [];
+            const count = 3;
+            const spacing = width / (count + 1);
+            
+            for(let i=0; i<count; i++) {
+                let word = (i === 0) ? currentWord : vocab[Math.floor(Math.random() * vocab.length)];
+                if (i > 0 && word === currentWord) word = vocab[(vocab.indexOf(word)+1)%vocab.length];
+                
+                targets.push({
+                    word: word,
+                    x: spacing * (i + 1),
+                    y: 150 + Math.random() * 100,
+                    radius: 45,
+                    vx: (Math.random() - 0.5) * 2,
+                    vy: (Math.random() - 0.5) * 1,
+                    img: new Image(),
+                    scale: 1,
+                    angle: 0
+                });
+                targets[i].img.src = Engine.getAssetPath(word);
+            }
+            targets.sort(() => Math.random() - 0.5);
+        }
+
+        function createExplosion(x, y, color) {
+            for(let i=0; i<15; i++) {
+                particles.push({
+                    x: x, y: y,
+                    vx: (Math.random()-0.5)*10,
+                    vy: (Math.random()-0.5)*10,
+                    life: 1.0,
+                    color: color || '#3b82f6'
+                });
+            }
+        }
+
+        function loop() {
+            ctx.clearRect(0, 0, width, height);
+            
+            // Draw Space Background
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(0, 0, width, height);
+            ctx.fillStyle = '#ffffff';
+            bgLayers.stars.forEach(s => {
+                ctx.globalAlpha = 0.5;
+                ctx.beginPath(); ctx.arc(s.x, s.y, s.s, 0, Math.PI*2); ctx.fill();
+            });
+            ctx.globalAlpha = 1.0;
+
+            // Update & Draw Particles
+            particles.forEach((p, i) => {
+                p.x += p.vx; p.y += p.vy; p.life -= 0.02;
+                if(p.life <= 0) particles.splice(i, 1);
+                else {
+                    ctx.globalAlpha = p.life;
+                    ctx.fillStyle = p.color;
+                    ctx.beginPath(); ctx.arc(p.x, p.y, 3, 0, Math.PI*2); ctx.fill();
+                }
+            });
+            ctx.globalAlpha = 1.0;
+
+            // Update & Draw Targets
+            targets.forEach((t, i) => {
+                t.x += t.vx * Engine.speed;
+                t.y += t.vy * Engine.speed;
+                t.angle += 0.02 * Engine.speed;
+                
+                // Bounce off walls
+                if(t.x < 50 || t.x > width-50) t.vx *= -1;
+                if(t.y < 100 || t.y > 400) t.vy *= -1;
+
+                ctx.save();
+                ctx.translate(t.x, t.y);
+                ctx.rotate(Math.sin(t.angle) * 0.1);
+                
+                // Shadow
+                ctx.shadowBlur = 20; ctx.shadowColor = 'rgba(59, 130, 246, 0.5)';
+                
+                // Bubble Circle
+                const grad = ctx.createRadialGradient(0,0,0,0,0,t.radius);
+                grad.addColorStop(0, 'rgba(255,255,255,0.2)');
+                grad.addColorStop(1, 'rgba(59, 130, 246, 0.4)');
+                ctx.fillStyle = grad;
+                ctx.beginPath(); ctx.arc(0, 0, t.radius, 0, Math.PI*2); ctx.fill();
+                ctx.strokeStyle = 'rgba(255,255,255,0.5)'; ctx.lineWidth = 2; ctx.stroke();
+                
+                // Image
+                if(t.img.complete) {
+                    ctx.drawImage(t.img, -30, -30, 60, 60);
+                } else {
+                    ctx.fillStyle = 'white'; ctx.font = 'bold 14px Cairo'; ctx.textAlign = 'center';
+                    ctx.fillText(t.word, 0, 5);
+                }
+                ctx.restore();
+            });
+
+            // Draw Drag Line (Aiming)
+            if(dragStart && dragEnd) {
+                const dx = dragStart.x - dragEnd.x;
+                const dy = dragStart.y - dragEnd.y;
+                const dist = Math.min(Math.hypot(dx, dy), 150);
+                const angle = Math.atan2(dy, dx);
+                
+                // Trajectory Preview
+                ctx.setLineDash([5, 5]);
+                ctx.strokeStyle = 'rgba(59, 130, 246, 0.5)';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                let tx = width/2, ty = height-80;
+                let tvx = Math.cos(angle) * (dist/8);
+                let tvy = Math.sin(angle) * (dist/8);
+                ctx.moveTo(tx, ty);
+                for(let i=0; i<20; i++) {
+                    tx += tvx; ty += tvy; tvy += GRAVITY;
+                    ctx.lineTo(tx, ty);
+                }
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Drag Indicator
+                ctx.strokeStyle = '#3b82f6'; ctx.lineWidth = 5;
+                ctx.beginPath(); ctx.moveTo(dragStart.x, dragStart.y); ctx.lineTo(dragEnd.x, dragEnd.y); ctx.stroke();
+            }
+
+            // Update & Draw Projectiles
+            projectiles.forEach((p, i) => {
+                p.x += p.vx; p.y += p.vy; p.vy += GRAVITY;
+                
+                // Draw Projectile (Glowy Ball)
+                ctx.shadowBlur = 15; ctx.shadowColor = '#fbbf24';
+                ctx.fillStyle = '#fbbf24';
+                ctx.beginPath(); ctx.arc(p.x, p.y, 8, 0, Math.PI*2); ctx.fill();
+                ctx.shadowBlur = 0;
+
+                // Collision Detection
+                targets.forEach((t, j) => {
+                    if(Math.hypot(p.x - t.x, p.y - t.y) < t.radius + 5) {
+                        projectiles.splice(i, 1);
+                        if(t.word === currentWord) {
+                            createExplosion(t.x, t.y, '#10b981');
+                            Engine.addScore(20, t.x, t.y);
+                            Engine.showFeedback(true);
+                            setTimeout(nextQuestion, 500);
+                        } else {
+                            createExplosion(t.x, t.y, '#ef4444');
+                            Engine.showFeedback(false);
+                        }
+                    }
+                });
+
+                if(p.y > height || p.x < 0 || p.x > width) projectiles.splice(i, 1);
+            });
+
+            // Draw Cannon
+            ctx.save();
+            ctx.translate(width/2, height-80);
+            let cannonAngle = Math.PI * 1.5;
+            if(dragStart && dragEnd) {
+                cannonAngle = Math.atan2(dragStart.y - dragEnd.y, dragStart.x - dragEnd.x);
+            }
+            ctx.rotate(cannonAngle);
+            
+            // Cannon Body
+            const cGrad = ctx.createLinearGradient(0,-20,0,20);
+            cGrad.addColorStop(0, '#334155'); cGrad.addColorStop(1, '#0f172a');
+            ctx.fillStyle = cGrad;
+            ctx.beginPath(); ctx.roundRect(0, -25, 60, 50, 10); ctx.fill();
+            ctx.strokeStyle = '#3b82f6'; ctx.lineWidth = 3; ctx.stroke();
+            ctx.restore();
+
+            requestAnimationFrame(loop);
+        }
+
+        // Input Handling
+        function handleStart(e) {
+            const pos = getPos(e);
+            dragStart = pos;
+            dragEnd = pos;
+        }
+        function handleMove(e) {
+            if(!dragStart) return;
+            dragEnd = getPos(e);
+        }
+        function handleEnd(e) {
+            if(!dragStart || !dragEnd) return;
+            const dx = dragStart.x - dragEnd.x;
+            const dy = dragStart.y - dragEnd.y;
+            const dist = Math.min(Math.hypot(dx, dy), 150);
+            const angle = Math.atan2(dy, dx);
+            
+            projectiles.push({
+                x: width/2,
+                y: height-80,
+                vx: Math.cos(angle) * (dist/8),
+                vy: Math.sin(angle) * (dist/8)
+            });
+            Engine.playSFX('pop');
+            dragStart = null;
+            dragEnd = null;
+        }
+
+        function getPos(e) {
+            const rect = canvas.getBoundingClientRect();
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+            return { x: clientX - rect.left, y: clientY - rect.top };
+        }
+
+        canvas.addEventListener('mousedown', handleStart);
+        window.addEventListener('mousemove', handleMove);
+        window.addEventListener('mouseup', handleEnd);
+        canvas.addEventListener('touchstart', e => { e.preventDefault(); handleStart(e); }, {passive:false});
+        window.addEventListener('touchmove', e => { e.preventDefault(); handleMove(e); }, {passive:false});
+        window.addEventListener('touchend', handleEnd);
+
+        window.onload = () => {
+            if (window.Engine) {
+                Engine.init();
+                initGame();
+            }
+        };
+    </script>
+</body>
+</html>
