@@ -928,8 +928,9 @@ const GAMES_MAP = {
       "file": "game_24.html"
     }
   ]
-
-      },
+  },
+  "primary-2": {
+    "1": [
       {
         "name": "Lesson 2 - Space Blaster",
         "file": "Lesson 2 - Space Blaster.html"
@@ -2334,8 +2335,9 @@ const GRAMMAR_GAMES_MAP = {"primary-1": {
       "file": "game_24.html"
     }
   ]
-
-            },
+  },
+  "primary-4": {
+    "1": [
             {
                 "name": "Unit 1 Lesson 2 WeUnit seTechnology",
                 "file": "U1_L2_WeUseTechnology.html"
