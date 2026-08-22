@@ -65,16 +65,17 @@
             pins = [];
             for(let i=0; i<3; i++) {
                 let word = (i===1) ? currentWord : vocab[Math.floor(Math.random()*vocab.length)];
-                pins.push({ word, x: (width/4)*(i+1), y: 200, img: new Image() });
-                pins[i].img.src = Engine.getAssetPath(pins[i].word);
+                let p = { word, x: (width/4)*(i+1), y: 200, img: new Image() };
+                p.img.src = Engine.getAssetPath(p.word);
+                pins.push(p);
             }
         }
         function loop() {
             ctx.clearRect(0,0,width,height);
-            ctx.fillStyle = '#cbd5e1'; ctx.fillRect(width/4, 200, width/2, height-200);
+            ctx.fillStyle = '#cbd5e1'; ctx.fillRect(0, 200, width, height-200);
             pins.forEach(p => {
                 ctx.fillStyle = 'white'; ctx.beginPath(); ctx.arc(p.x, p.y, 40, 0, Math.PI*2); ctx.fill();
-                ctx.drawImage(p.img, p.x-30, p.y-30, 60, 60);
+                if(p.img.complete) ctx.drawImage(p.img, p.x-30, p.y-30, 60, 60);
             });
             requestAnimationFrame(loop);
         }
@@ -86,8 +87,16 @@
                 }
             });
         });
-        nextQuestion(); loop();
     
+        
+        // Ensure Engine is ready before starting
+        window.onload = () => {
+            if (window.Engine) {
+                Engine.init();
+                if (typeof nextQuestion === 'function') nextQuestion();
+                if (typeof loop === 'function') loop();
+            }
+        };
     </script>
 </body>
 </html>

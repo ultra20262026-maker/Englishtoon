@@ -16,7 +16,7 @@
         .btn-action:active { transform: scale(0.95); }
     </style>
 
-    <title>Penalty Kick</title>
+    <title>Dictation</title>
 </head>
 <body class="bg-sky-100">
     
@@ -33,7 +33,7 @@
         </div>
         <div class="mt-4 flex flex-col items-center">
             <div class="bg-white/95 backdrop-blur rounded-3xl p-4 shadow-xl border-4 border-blue-400 w-full max-w-md text-center interactive">
-                <h2 class="text-blue-500 font-bold text-sm mb-1 uppercase tracking-widest">Score a goal on:</h2>
+                <h2 class="text-blue-500 font-bold text-sm mb-1 uppercase tracking-widest">Spell the word:</h2>
                 <div id="targetWord" class="text-3xl font-black text-slate-800 mb-2">...</div>
                 <button id="listenBtn" onclick="Engine.speak(currentWord)" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-xl font-bold shadow-lg flex items-center gap-2 mx-auto text-sm">
                     <i class="fa-solid fa-volume-high"></i> Listen
@@ -58,33 +58,45 @@
         resize();
 
         
-        let ball = { x: width/2, y: height-100 }, targets = [];
+        let scrambled = [], slots = [];
         function nextQuestion() {
             currentWord = vocab[Math.floor(Math.random() * vocab.length)];
-            document.getElementById('targetWord').innerText = currentWord;
-            targets = [{x: width/2-100, word: vocab[0]}, {x: width/2, word: currentWord}, {x: width/2+100, word: vocab[1]}].sort(()=>0.5-Math.random());
+            document.getElementById('targetWord').innerText = "(?)";
+            let letters = currentWord.toUpperCase().split('');
+            scrambled = letters.map((l, i) => ({ l, x: (i%5)*60+width/2-120, y: height-150, id: i })).sort(()=>0.5-Math.random());
+            slots = letters.map((l, i) => ({ l, x: (i%5)*60+width/2-120, y: height/2, filled: null }));
         }
         function loop() {
             ctx.clearRect(0,0,width,height);
-            ctx.strokeStyle = 'white'; ctx.strokeRect(width/2-150, 100, 300, 150);
-            targets.forEach(t => {
-                let img = new Image(); img.src = Engine.getAssetPath(t.word);
-                ctx.drawImage(img, t.x-30, 150, 60, 60);
-            });
-            ctx.fillStyle = 'white'; ctx.beginPath(); ctx.arc(ball.x, ball.y, 30, 0, Math.PI*2); ctx.fill();
+            slots.forEach(s => { ctx.strokeStyle='#3b82f6'; ctx.strokeRect(s.x, s.y, 50, 50); if(s.filled) { ctx.fillStyle='#1e293b'; ctx.font='bold 30px Fredoka'; ctx.fillText(s.filled, s.x+15, s.y+35); } });
+            scrambled.forEach(l => { ctx.fillStyle='#3b82f6'; ctx.fillRect(l.x, l.y, 50, 50); ctx.fillStyle='white'; ctx.font='bold 30px Fredoka'; ctx.fillText(l.l, l.x+15, l.y+35); });
             requestAnimationFrame(loop);
         }
         canvas.addEventListener('mousedown', (e) => {
-            const tx = e.clientX;
-            targets.forEach(t => {
-                if(Math.abs(tx - t.x) < 50) {
-                    if(t.word === currentWord) { Engine.addScore(15); Engine.showFeedback(true); nextQuestion(); }
-                    else Engine.showFeedback(false);
+            scrambled.forEach((l, i) => {
+                if(e.clientX > l.x && e.clientX < l.x+50 && e.clientY > l.y && e.clientY < l.y+50) {
+                    let slot = slots.find(s => !s.filled);
+                    if(slot) {
+                        slot.filled = l.l; scrambled.splice(i, 1);
+                        if(slots.every(s => s.filled)) {
+                            let result = slots.map(s => s.filled).join('');
+                            if(result === currentWord.toUpperCase()) { Engine.addScore(50); Engine.showFeedback(true); setTimeout(nextQuestion, 1500); }
+                            else { Engine.showFeedback(false); setTimeout(nextQuestion, 1000); }
+                        }
+                    }
                 }
             });
         });
-        nextQuestion(); loop();
     
+        
+        // Ensure Engine is ready before starting
+        window.onload = () => {
+            if (window.Engine) {
+                Engine.init();
+                if (typeof nextQuestion === 'function') nextQuestion();
+                if (typeof loop === 'function') loop();
+            }
+        };
     </script>
 </body>
 </html>

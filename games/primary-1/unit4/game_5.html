@@ -59,7 +59,11 @@
 
         
         let holes = [], activeMole = null;
-        for(let i=0; i<6; i++) holes.push({ x: (i%3)*120 + width/2-180, y: Math.floor(i/3)*120 + 400 });
+        function resizeHoles() {
+            holes = [];
+            for(let i=0; i<6; i++) holes.push({ x: (i%3)*(width/4) + width/4, y: Math.floor(i/3)*150 + height/2 });
+        }
+        resizeHoles();
         function nextQuestion() {
             currentWord = vocab[Math.floor(Math.random() * vocab.length)];
             document.getElementById('targetWord').innerText = currentWord;
@@ -69,12 +73,12 @@
             const isCorrect = Math.random() < 0.4;
             activeMole = { ...h, word: isCorrect ? currentWord : vocab[Math.floor(Math.random()*vocab.length)], img: new Image() };
             activeMole.img.src = Engine.getAssetPath(activeMole.word);
-            setTimeout(() => { activeMole = null; setTimeout(spawn, 500); }, 1500);
+            setTimeout(() => { activeMole = null; if(Engine.gameActive) setTimeout(spawn, 800); }, 1500);
         }
         function loop() {
             ctx.clearRect(0,0,width,height);
             holes.forEach(h => { ctx.fillStyle='#451a03'; ctx.beginPath(); ctx.ellipse(h.x, h.y, 50, 20, 0, 0, Math.PI*2); ctx.fill(); });
-            if(activeMole) ctx.drawImage(activeMole.img, activeMole.x-40, activeMole.y-60, 80, 80);
+            if(activeMole && activeMole.img.complete) ctx.drawImage(activeMole.img, activeMole.x-40, activeMole.y-60, 80, 80);
             requestAnimationFrame(loop);
         }
         canvas.addEventListener('mousedown', (e) => {
@@ -84,8 +88,17 @@
                 activeMole = null;
             }
         });
-        nextQuestion(); spawn(); loop();
+        spawn();
     
+        
+        // Ensure Engine is ready before starting
+        window.onload = () => {
+            if (window.Engine) {
+                Engine.init();
+                if (typeof nextQuestion === 'function') nextQuestion();
+                if (typeof loop === 'function') loop();
+            }
+        };
     </script>
 </body>
 </html>
