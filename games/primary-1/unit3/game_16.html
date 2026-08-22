@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,7 +16,7 @@
         .btn-action:active { transform: scale(0.95); }
     </style>
 
-    <title>Cannon Shooter</title>
+    <title>Firefighter</title>
 </head>
 <body class="bg-sky-100">
     
@@ -34,9 +33,9 @@
         </div>
         <div class="mt-4 flex flex-col items-center">
             <div class="bg-white/95 backdrop-blur rounded-3xl p-4 shadow-xl border-4 border-blue-400 w-full max-w-md text-center interactive">
-                <h2 class="text-blue-500 font-bold text-sm mb-1 uppercase tracking-widest">Shoot the target:</h2>
+                <h2 class="text-blue-500 font-bold text-sm mb-1 uppercase tracking-widest">Put out the fire on:</h2>
                 <div id="targetWord" class="text-3xl font-black text-slate-800 mb-2">...</div>
-                <button id="listenBtn" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-xl font-bold shadow-lg flex items-center gap-2 mx-auto text-sm">
+                <button id="listenBtn" onclick="Engine.speak(currentWord)" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-xl font-bold shadow-lg flex items-center gap-2 mx-auto text-sm">
                     <i class="fa-solid fa-volume-high"></i> Listen
                 </button>
             </div>
@@ -44,76 +43,46 @@
     </div>
 
     <canvas id="gameCanvas"></canvas>
-    <script src="../../game_engine.js"></script>
+    <script src="../game_engine.js"></script>
     <script>
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
         const vocab = JSON.parse('["brother", "dog", "doll", "door", "drum", "duck", "father", "five", "flowers", "four", "grandfather", "grandmother", "hair", "hands", "hat", "horse", "house", "mother", "nail", "neck", "net", "nose", "nurse", "one", "panda", "parents", "parrot", "pencil", "pizza", "potato", "sister", "three", "two"]');
-        let width, height, currentWord, cannon, targets = [], projectiles = [];
-
+        let width, height, currentWord;
+        
         function resize() {
             width = canvas.width = window.innerWidth;
             height = canvas.height = window.innerHeight;
-            cannon = { x: width/2, y: height - 60, r: 40 };
         }
         window.addEventListener('resize', resize);
         resize();
 
+        
+        let fires = [];
         function nextQuestion() {
             currentWord = vocab[Math.floor(Math.random() * vocab.length)];
             document.getElementById('targetWord').innerText = currentWord;
-            targets = [];
-            spawnTargets();
+            fires = [width/4, width/2, 3*width/4].map((x, i) => ({ x, y: 450, word: (i===1)?currentWord:vocab[Math.floor(Math.random()*vocab.length)] }));
         }
-
-        function spawnTargets() {
-            const count = 3;
-            for(let i=0; i<count; i++) {
-                let word = (i === 0) ? currentWord : vocab[Math.floor(Math.random()*vocab.length)];
-                targets.push({
-                    word, isCorrect: word === currentWord,
-                    x: Math.random() * (width - 100) + 50, y: -50,
-                    speed: 1 + Math.random() * 2, r: 45, img: new Image()
-                });
-                targets[i].img.src = Engine.getAssetPath(word);
-            }
-            targets.sort(() => Math.random() - 0.5);
-        }
-
         function loop() {
             ctx.clearRect(0,0,width,height);
-            // Cannon
-            ctx.fillStyle = '#1e293b';
-            ctx.beginPath(); ctx.arc(cannon.x, cannon.y + 30, 50, Math.PI, 0); ctx.fill();
-            
-            targets.forEach((t, i) => {
-                t.y += t.speed;
-                ctx.beginPath(); ctx.arc(t.x, t.y, t.r, 0, Math.PI*2);
-                ctx.fillStyle = 'white'; ctx.fill(); ctx.strokeStyle = '#3b82f6'; ctx.lineWidth = 3; ctx.stroke();
-                ctx.drawImage(t.img, t.x-30, t.y-30, 60, 60);
-                if(t.y > height + 50) { targets.splice(i, 1); if(targets.length === 0) spawnTargets(); }
-            });
-
-            projectiles.forEach((p, i) => {
-                p.x += p.vx; p.y += p.vy;
-                ctx.beginPath(); ctx.arc(p.x, p.y, 8, 0, Math.PI*2); ctx.fillStyle = '#ef4444'; ctx.fill();
-                targets.forEach((t, j) => {
-                    if(Math.hypot(p.x-t.x, p.y-t.y) < t.r) {
-                        projectiles.splice(i, 1);
-                        if(t.isCorrect) { Engine.addScore(10); Engine.showFeedback(true); nextQuestion(); }
-                        else { Engine.showFeedback(false); targets.splice(j, 1); }
-                    }
-                });
+            fires.forEach(f => {
+                ctx.fillStyle = 'orange'; ctx.beginPath(); ctx.moveTo(f.x, f.y-40); ctx.lineTo(f.x-20, f.y); ctx.lineTo(f.x+20, f.y); ctx.fill();
+                let img = new Image(); img.src = Engine.getAssetPath(f.word);
+                ctx.drawImage(img, f.x-30, f.y+10, 60, 60);
             });
             requestAnimationFrame(loop);
         }
-
         canvas.addEventListener('mousedown', (e) => {
-            const angle = Math.atan2(e.clientY - cannon.y, e.clientX - cannon.x);
-            projectiles.push({ x: cannon.x, y: cannon.y, vx: Math.cos(angle)*12, vy: Math.sin(angle)*12 });
+            fires.forEach(f => {
+                if(Math.hypot(e.clientX-f.x, e.clientY-f.y) < 60) {
+                    if(f.word === currentWord) { Engine.addScore(10); Engine.showFeedback(true); nextQuestion(); }
+                    else Engine.showFeedback(false);
+                }
+            });
         });
-        document.getElementById('listenBtn').onclick = () => Engine.speak(currentWord);
         nextQuestion(); loop();
+    
     </script>
 </body>
 </html>
