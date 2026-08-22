@@ -1,116 +1,204 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Family Tree Explorer - EnglishToon</title>
+    <title>Bowling Striker - Game 4: Bowling Strike</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Fredoka One', cursive; margin: 0; overflow: hidden; background: #f8fafc; height: 100vh; }
-        .animate-shake { animation: shake 0.5s; }
-        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+        body { font-family: 'Fredoka', sans-serif; overflow: hidden; touch-action: none; background: #ecfeff; }
+        #gameCanvas { width: 100%; height: 100vh; display: block; }
+        .game-ui { pointer-events: none; }
+        .interactive { pointer-events: auto; }
     </style>
 </head>
-<body>
-    <div id="gameArea" class="w-full h-full relative">
-        <!-- HUD -->
-        <div class="absolute top-4 left-4 z-50 flex gap-4 pointer-events-none">
-            <div class="bg-white/90 p-3 rounded-2xl shadow-xl border-2 border-blue-400 flex items-center gap-3">
-                <div class="text-blue-600 font-bold">Score: <span id="score">0</span></div>
-                <div class="text-yellow-500 font-bold">⭐ <span id="stars">0</span></div>
+<body class="bg-cyan-50">
+    <!-- UI Overlay -->
+    <div class="game-ui fixed inset-0 z-10 flex flex-col p-4">
+        <div class="flex justify-between items-start">
+            <div class="bg-white/90 backdrop-blur rounded-2xl p-3 shadow-lg border-2 border-cyan-200 flex items-center gap-4">
+                <div class="text-cyan-600">
+                    <span class="text-xs font-bold block uppercase tracking-wider">Score</span>
+                    <span id="score" class="text-2xl font-black">0</span>
+                </div>
+                <div class="w-px h-8 bg-cyan-100"></div>
+                <div class="text-amber-500">
+                    <span class="text-xs font-bold block uppercase tracking-wider">Stars</span>
+                    <span id="stars" class="text-2xl font-black">0</span>
+                </div>
             </div>
-        </div>
-        
-        <div class="absolute top-4 right-4 z-50">
-            <button onclick="window.history.back()" class="w-12 h-12 rounded-full bg-white/90 shadow-lg flex items-center justify-center text-slate-600 border-2 border-slate-200 active:scale-90 transition-all">✕</button>
+            <button onclick="window.history.back()" class="interactive w-12 h-12 rounded-2xl bg-white/90 backdrop-blur flex items-center justify-center text-slate-400 shadow-lg border-2 border-slate-100">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
         </div>
 
-        
-        <style>
-            .card { width: 80px; height: 100px; background: #3b82f6; border-radius: 10px; cursor: pointer; position: relative; transform-style: preserve-3d; transition: 0.5s; }
-            .card.flipped { transform: rotateY(180deg); }
-            .card-front, .card-back { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
-            .card-back { background: #1e40af; color: white; font-size: 2rem; }
-            .card-front { background: white; transform: rotateY(180deg); border: 2px solid #3b82f6; }
-        </style>
-        <div class="flex flex-col items-center justify-center h-full p-4">
-            <div class="bg-white p-4 rounded-2xl shadow-md mb-6 text-center border-2 border-blue-500">
-                <p>Find the match for:</p>
-                <h2 id="targetWord" class="text-2xl font-bold">...</h2>
-            </div>
-            <div id="cardGrid" class="grid grid-cols-3 gap-4"></div>
-        </div>
-        <script>
-            function renderGame() {
-                const grid = document.getElementById('cardGrid');
-                grid.innerHTML = '';
-                let words = [Engine.currentWord];
-                while(words.length < 3) {
-                    let w = wordsData[Math.floor(Math.random() * wordsData.length)].word;
-                    if(!words.includes(w)) words.push(w);
-                }
-                words.forEach(word => {
-                    const c = document.createElement('div');
-                    c.className = 'card';
-                    c.innerHTML = `<div class="card-back">?</div><div class="card-front"><img src="${Engine.getAssetPath(word)}" class="w-16 h-16 object-contain"></div>`;
-                    c.onclick = () => {
-                        c.classList.add('flipped');
-                        if(word === Engine.currentWord) { Engine.addScore(25); Engine.showFeedback(true); setTimeout(nextQuestion, 1000); }
-                        else { setTimeout(() => c.classList.remove('flipped'), 1000); }
-                    };
-                    grid.appendChild(c);
-                });
-            }
-        </script>
-    
-
-        <!-- Start Overlay -->
-        <div id="startOverlay" class="absolute inset-0 bg-blue-600/95 z-[100] flex items-center justify-center p-6 text-white">
-            <div class="bg-white p-8 rounded-[40px] text-center shadow-2xl border-8 border-blue-400 text-blue-600 max-w-sm w-full">
-                <h1 class="text-4xl font-black mb-2">Family Tree Explorer</h1>
-                <p class="text-gray-500 mb-8">Ready for adventure?</p>
-                <button onclick="startGame()" class="bg-blue-500 hover:bg-blue-600 text-white w-full py-4 rounded-3xl text-2xl font-black shadow-xl active:scale-95 transition-all">START PLAYING</button>
+        <div class="mt-4 flex flex-col items-center">
+            <div class="bg-white/95 backdrop-blur rounded-3xl p-6 shadow-xl border-4 border-cyan-400 w-full max-w-md text-center">
+                <h2 class="text-cyan-500 font-bold text-lg mb-1 uppercase tracking-widest">Strike the word:</h2>
+                <div id="targetWord" class="text-4xl font-black text-slate-800 mb-4">...</div>
+                <button id="listenBtn" class="interactive bg-cyan-500 hover:bg-cyan-600 text-white px-8 py-3 rounded-2xl font-bold shadow-lg shadow-cyan-200 transition-all active:scale-95 flex items-center gap-2 mx-auto">
+                    <i class="fa-solid fa-volume-high"></i>
+                    Listen
+                </button>
             </div>
         </div>
     </div>
 
+    <canvas id="gameCanvas"></canvas>
+
+    <script src="../../game_engine.js"></script>
     <script>
-    const Engine = {
-        score: 0, stars: 0, currentWord: null, gameActive: false,
-        init() { this.updateUI(); },
-        speak(text) { if(!text) return; const msg = new SpeechSynthesisUtterance(text); msg.lang = 'en-US'; window.speechSynthesis.speak(msg); },
-        updateUI() { 
-            document.getElementById('score').innerText = this.score; 
-            document.getElementById('stars').innerText = this.stars; 
-        },
-        addScore(p) { this.score += p; if(this.score % 50 === 0) this.stars++; this.updateUI(); },
-        getAssetPath(w) { return `../../../assets/p1/${w.toLowerCase().replace(/ /g, '_')}.png`; },
-        showFeedback(c) {
-            const f = document.createElement('div');
-            f.className = 'fixed inset-0 flex items-center justify-center z-[200] pointer-events-none';
-            f.innerHTML = c ? `<div class="bg-green-500 text-white px-8 py-4 rounded-full text-2xl font-black animate-bounce shadow-2xl">GREAT! 🌟</div>` :
-                              `<div class="bg-red-500 text-white px-8 py-4 rounded-full text-2xl font-black animate-shake shadow-2xl">TRY AGAIN! ❌</div>`;
-            document.body.appendChild(f); setTimeout(() => f.remove(), 800);
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const vocab = JSON.parse('["ball", "banana", "bike", "bird", "boy", "cage", "cat", "chair", "couch", "dog", "elephant", "giraffe", "in", "jacket", "jam", "jar", "jeans", "jellyfish", "lamp", "leaf", "lemon", "lion", "lunch", "monkey", "on", "snake", "table", "tiger", "turtle", "umbrella", "under", "unlock", "up"]');
+        
+        let width, height;
+        let ballX, ballY, ballRadius = 30;
+        let pins = [];
+        let currentWord = null;
+        let isDragging = false;
+        let dragStartX, dragStartY;
+        let gameActive = true;
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            resetBall();
         }
-    };
-    
-    const wordsData = [{"word": "ball"}, {"word": "banana"}, {"word": "bike"}, {"word": "bird"}, {"word": "boy"}, {"word": "cage"}, {"word": "cat"}, {"word": "chair"}, {"word": "couch"}, {"word": "dog"}, {"word": "elephant"}, {"word": "giraffe"}, {"word": "in"}, {"word": "jacket"}, {"word": "jam"}, {"word": "jar"}, {"word": "jeans"}, {"word": "jellyfish"}, {"word": "lamp"}, {"word": "leaf"}, {"word": "lemon"}, {"word": "lion"}, {"word": "lunch"}, {"word": "monkey"}, {"word": "on"}, {"word": "snake"}, {"word": "table"}, {"word": "tiger"}, {"word": "turtle"}, {"word": "umbrella"}, {"word": "under"}, {"word": "unlock"}, {"word": "up"}];
 
-    function startGame() {
-        document.getElementById('startOverlay').classList.add('hidden');
-        Engine.gameActive = true;
+        function resetBall() {
+            ballX = width / 2;
+            ballY = height - 100;
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Pin {
+            constructor(word, isCorrect, x, y) {
+                this.word = word;
+                this.isCorrect = isCorrect;
+                this.x = x;
+                this.y = y;
+                this.radius = 40;
+                this.img = new Image();
+                this.img.src = Engine.getAssetPath(word);
+                this.img.onerror = () => { this.img.src = 'https://cdn-icons-png.flaticon.com/512/3081/3081840.png'; };
+            }
+
+            draw() {
+                ctx.save();
+                ctx.beginPath();
+                ctx.roundRect(this.x - 30, this.y - 40, 60, 80, 10);
+                ctx.fillStyle = 'white';
+                ctx.fill();
+                ctx.strokeStyle = this.isCorrect ? '#06b6d4' : '#e2e8f0';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+
+                ctx.drawImage(this.img, this.x - 25, this.y - 35, 50, 50);
+                
+                ctx.fillStyle = '#1e293b';
+                ctx.font = 'bold 12px Fredoka';
+                ctx.textAlign = 'center';
+                ctx.fillText(this.word, this.x, this.y + 35);
+                ctx.restore();
+            }
+        }
+
+        function nextQuestion() {
+            const correctIdx = Math.floor(Math.random() * vocab.length);
+            currentWord = vocab[correctIdx];
+            document.getElementById('targetWord').innerText = currentWord;
+            
+            pins = [];
+            const pinSpacing = width / 4;
+            // Spawn 3 pins
+            const correctPos = Math.floor(Math.random() * 3);
+            for(let i=0; i<3; i++) {
+                if(i === correctPos) {
+                    pins.push(new Pin(currentWord, true, pinSpacing * (i+1), 250));
+                } else {
+                    let wrongWord;
+                    do { wrongWord = vocab[Math.floor(Math.random() * vocab.length)]; } while(wrongWord === currentWord);
+                    pins.push(new Pin(wrongWord, false, pinSpacing * (i+1), 250));
+                }
+            }
+            resetBall();
+        }
+
+        function gameLoop() {
+            ctx.clearRect(0, 0, width, height);
+
+            // Lane
+            ctx.fillStyle = '#e2e8f0';
+            ctx.beginPath();
+            ctx.moveTo(width/4, 200);
+            ctx.lineTo(3*width/4, 200);
+            ctx.lineTo(width, height);
+            ctx.lineTo(0, height);
+            ctx.fill();
+
+            // Pins
+            pins.forEach(pin => pin.draw());
+
+            // Ball
+            ctx.beginPath();
+            ctx.arc(ballX, ballY, ballRadius, 0, Math.PI * 2);
+            ctx.fillStyle = '#06b6d4';
+            ctx.fill();
+            ctx.strokeStyle = 'white';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            requestAnimationFrame(gameLoop);
+        }
+
+        function handleInput(x, y) {
+            if(!gameActive) return;
+            // Simplified: Strike the pin closest to x
+            let hitPin = null;
+            pins.forEach(pin => {
+                if(Math.abs(x - pin.x) < 50) hitPin = pin;
+            });
+
+            if(hitPin) {
+                // Animation
+                const targetX = hitPin.x;
+                const targetY = hitPin.y;
+                const startX = ballX;
+                const startY = ballY;
+                let progress = 0;
+                
+                const anim = setInterval(() => {
+                    progress += 0.1;
+                    ballX = startX + (targetX - startX) * progress;
+                    ballY = startY + (targetY - startY) * progress;
+                    
+                    if(progress >= 1) {
+                        clearInterval(anim);
+                        if(hitPin.isCorrect) {
+                            Engine.addScore(10);
+                            Engine.showFeedback(true);
+                            setTimeout(nextQuestion, 500);
+                        } else {
+                            Engine.showFeedback(false);
+                            resetBall();
+                        }
+                    }
+                }, 20);
+            }
+        }
+
+        canvas.addEventListener('mousedown', (e) => handleInput(e.clientX, e.clientY));
+        canvas.addEventListener('touchstart', (e) => handleInput(e.touches[0].clientX, e.touches[0].clientY));
+
+        document.getElementById('listenBtn').addEventListener('click', () => Engine.speak(currentWord));
+
         nextQuestion();
-    }
-
-    function nextQuestion() {
-        Engine.currentWord = wordsData[Math.floor(Math.random() * wordsData.length)].word;
-        document.getElementById('targetWord').innerText = Engine.currentWord;
-        renderGame();
-    }
-    
-    Engine.init();
+        gameLoop();
     </script>
 </body>
 </html>
