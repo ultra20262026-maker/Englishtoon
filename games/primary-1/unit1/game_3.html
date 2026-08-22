@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Jungle Jump - قفزة الغابة - Unit 1</title>
+    <title>Space Defender - Professional Arcade</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../game_engine.js?v=5.3"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
-        body { font-family: 'Cairo', sans-serif; overflow: hidden; background: #064e3b; touch-action: none; }
+        body { font-family: 'Cairo', sans-serif; overflow: hidden; background: #020617; touch-action: none; }
         canvas { display: block; width: 100vw; height: 100vh; }
     </style>
 </head>
 <body>
     <canvas id="gameCanvas"></canvas>
     <div class="fixed top-20 left-1/2 -translate-x-1/2 text-center z-50 pointer-events-none">
-        <div class="bg-black/40 backdrop-blur-md p-4 rounded-3xl border border-white/20 animate-bounce">
-            <p class="text-green-400 text-xs font-bold uppercase mb-1">اقفز إلى:</p>
+        <div class="bg-black/40 backdrop-blur-md p-4 rounded-3xl border border-white/20">
+            <p class="text-blue-400 text-xs font-bold uppercase mb-1">دمر الكلمة:</p>
             <h2 id="target-word" class="text-white text-3xl font-black">APPLE</h2>
-            <button onclick="Engine.speak(document.getElementById('target-word').innerText)" class="pointer-events-auto mt-2 bg-green-600 p-2 rounded-full shadow-lg">
+            <button onclick="Engine.speak(document.getElementById('target-word').innerText)" class="pointer-events-auto mt-2 bg-indigo-600 p-2 rounded-full shadow-lg">
                 <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zM16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM3 9v6h4l5 5V4L7 9H3z"/></svg>
             </button>
         </div>
@@ -29,9 +29,9 @@
         const ctx = canvas.getContext('2d');
         const vocab = ["Apple", "Ball", "Cat", "Dog", "Egg", "bag", "board", "book", "chair", "desk", "ill", "in", "ink", "insect", "open your books", "pencil", "sit down", "stand up"];
         let currentTarget = "";
-        let player = { x: 0, y: 0, w: 50, h: 50, vy: 0, jumping: false };
-        let platforms = [];
-        let camY = 0;
+        let player = { x: 0, y: 0 };
+        let bullets = [];
+        let enemies = [];
 
         function initGame() {
             canvas.width = window.innerWidth;
@@ -46,25 +46,25 @@
         function nextLevel() {
             currentTarget = vocab[Math.floor(Math.random() * vocab.length)];
             document.getElementById('target-word').innerText = currentTarget.toUpperCase();
-            platforms = [];
-            for(let i=0; i<6; i++) spawnPlatform(canvas.height - (i * 150));
+            enemies = [];
+            spawnEnemy();
         }
 
-        function spawnPlatform(y) {
-            if (platforms.length >= 3) return; // Limit to 3 choices
+        function spawnEnemy() {
+            if (enemies.length >= 3) return; // Limit to 3 choices
             
+            // Get 3 distinct words including the target
             const choices = Engine.getWords(vocab, 3);
             if (!choices.includes(currentTarget)) choices[0] = currentTarget;
             
             choices.forEach((text, i) => {
                 Engine.loadSprite(text, (img) => {
-                    platforms.push({
-                        x: (i + 0.5) * (canvas.width / 3),
-                        y: canvas.height - 200 - (i * 150),
-                        w: 100,
-                        h: 20,
+                    enemies.push({
+                        x: (i + 1) * (canvas.width / 4),
+                        y: -100 - (i * 50),
                         text: text,
-                        img: img
+                        img: img,
+                        speed: (0.8 + Math.random() * 0.5) * Engine.speed
                     });
                 });
             });
@@ -74,47 +74,58 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
             if (Engine.gameActive) {
-                // Gravity & Jump
-                player.vy += 0.5;
-                player.y += player.vy;
-                
-            if (player.y > canvas.height - 50) {
-                player.y = canvas.height - 50;
-                player.vy = 0; // Stop, no auto jump
+                // Draw Bullets
+                bullets.forEach((b, bi) => {
+                    b.y -= 10;
+                    ctx.fillStyle = '#f87171';
+                    ctx.fillRect(b.x - 2, b.y, 4, 15);
+                    if (b.y < 0) bullets.splice(bi, 1);
+                });
+
+                // Draw Enemies
+                enemies.forEach((e, ei) => {
+                    e.y += e.speed;
+                    if(e.img) ctx.drawImage(e.img, e.x - 40, e.y - 40, 80, 80);
+                    ctx.fillStyle = 'white';
+                    ctx.font = 'bold 14px Cairo';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(e.text.toUpperCase(), e.x, e.y + 55);
+
+                    // Collision
+                    bullets.forEach((b, bi) => {
+                        if (Math.abs(b.x - e.x) < 40 && Math.abs(b.y - e.y) < 40) {
+                            bullets.splice(bi, 1);
+                            if (e.text === currentTarget) {
+                                enemies = []; // Clear to prevent double hits
+                                Engine.addScore(100);
+                                Engine.showFeedback(true);
+                                Engine.showWinScreen(() => nextLevel());
+                            } else {
+                                Engine.addScore(-20);
+                                Engine.showFeedback(false);
+                                enemies.splice(ei, 1);
+                            }
+                        }
+                    });
+                });
+            } else {
+                // Draw static elements when paused
+                enemies.forEach(e => {
+                    if(e.img) ctx.drawImage(e.img, e.x - 40, e.y - 40, 80, 80);
+                    ctx.fillStyle = 'white';
+                    ctx.font = 'bold 14px Cairo';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(e.text.toUpperCase(), e.x, e.y + 55);
+                });
             }
-            }
 
-            // Draw Platforms
-            platforms.forEach((p, i) => {
-                ctx.fillStyle = '#065f46';
-                ctx.roundRect(p.x - 50, p.y, 100, 20, 10);
-                ctx.fill();
-                if(p.img) ctx.drawImage(p.img, p.x - 30, p.y - 70, 60, 60);
-                ctx.fillStyle = 'white';
-                ctx.font = 'bold 14px Cairo';
-                ctx.textAlign = 'center';
-                ctx.fillText(p.text.toUpperCase(), p.x, p.y + 15);
-
-                // Collision
-                if (Engine.gameActive && player.vy > 0 && player.x > p.x - 60 && player.x < p.x + 60 && 
-                    player.y + 25 > p.y && player.y + 25 < p.y + 20) {
-                    if (p.text === currentTarget) {
-                        Engine.addScore(100);
-                        Engine.showFeedback(true);
-                        platforms = []; // Clear to prevent double hits
-                        Engine.showWinScreen(() => nextLevel());
-                    } else {
-                        player.vy = -12; // Bounce off wrong one
-                        Engine.addScore(-10);
-                        Engine.showFeedback(false);
-                    }
-                }
-            });
-
-            // Draw Player
-            ctx.fillStyle = '#fbbf24';
+            // Draw Ship
+            ctx.fillStyle = '#6366f1';
             ctx.beginPath();
-            ctx.arc(player.x, player.y, 25, 0, Math.PI*2);
+            ctx.moveTo(player.x, player.y - 30);
+            ctx.lineTo(player.x - 25, player.y + 20);
+            ctx.lineTo(player.x + 25, player.y + 20);
+            ctx.closePath();
             ctx.fill();
 
             requestAnimationFrame(animate);
@@ -122,15 +133,15 @@
 
         window.addEventListener('pointermove', (e) => { 
             if (!Engine.gameActive) return;
-            player.targetX = e.clientX; 
-            player.x += (player.targetX - player.x) * 0.1; 
+            player.x = e.clientX; 
         });
         
-        // Manual Jump: Only on tap
-        window.addEventListener('pointerdown', (e) => {
+        // Manual shooting: Only on tap
+        window.addEventListener('pointerdown', (e) => { 
             if (!Engine.gameActive) return;
+            // Prevent shooting if clicking UI
             if (e.target.closest('button')) return;
-            player.vy = -15; // Manual jump
+            bullets.push({ x: player.x, y: player.y - 30 }); 
         });
         initGame();
     </script>
