@@ -8,18 +8,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Fredoka', sans-serif; overflow: hidden; touch-action: none; margin: 0; }
-        canvas { display: block; }
+        body { font-family: 'Fredoka', sans-serif; overflow: hidden; touch-action: none; margin: 0; background: #f0f9ff; }
+        canvas { display: block; width: 100vw; height: 100vh; }
         .game-ui { pointer-events: none; position: fixed; inset: 0; z-index: 50; padding: 1rem; }
         .interactive { pointer-events: auto; }
-        .btn-action { background: #3b82f6; color: white; padding: 0.75rem 1.5rem; border-radius: 1rem; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .btn-action:active { transform: scale(0.95); }
+        .speed-ctrl { position: fixed; bottom: 20px; right: 20px; z-index: 100; display: flex; gap: 5px; }
+        .speed-btn { width: 40px; height: 40px; border-radius: 50%; background: white; border: 2px solid #3b82f6; color: #3b82f6; font-weight: bold; font-size: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .speed-btn.active { background: #3b82f6; color: white; }
     </style>
 
-    <title>Basket Catcher</title>
+    <title>Family Tree</title>
 </head>
-<body class="bg-sky-100">
-    
+<body class="bg-sky-50">
     <div class="game-ui">
         <div class="flex justify-between items-start">
             <div class="bg-white/90 backdrop-blur rounded-2xl p-3 shadow-lg border-2 border-blue-200 flex items-center gap-4 interactive">
@@ -33,13 +33,19 @@
         </div>
         <div class="mt-4 flex flex-col items-center">
             <div class="bg-white/95 backdrop-blur rounded-3xl p-4 shadow-xl border-4 border-blue-400 w-full max-w-md text-center interactive">
-                <h2 class="text-blue-500 font-bold text-sm mb-1 uppercase tracking-widest">Catch the correct word:</h2>
+                <h2 class="text-blue-500 font-bold text-sm mb-1 uppercase tracking-widest">Tap the correct member:</h2>
                 <div id="targetWord" class="text-3xl font-black text-slate-800 mb-2">...</div>
                 <button id="listenBtn" onclick="Engine.speak(currentWord)" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-xl font-bold shadow-lg flex items-center gap-2 mx-auto text-sm">
                     <i class="fa-solid fa-volume-high"></i> Listen
                 </button>
             </div>
         </div>
+    </div>
+    
+    <div class="speed-ctrl interactive">
+        <div onclick="Engine.setSpeed(0.5)" class="speed-btn" id="s05">0.5x</div>
+        <div onclick="Engine.setSpeed(1.0)" class="speed-btn active" id="s10">1x</div>
+        <div onclick="Engine.setSpeed(1.5)" class="speed-btn" id="s15">1.5x</div>
     </div>
 
     <canvas id="gameCanvas"></canvas>
@@ -58,42 +64,38 @@
         resize();
 
         
-        let basket = { x: width/2, w: 100, h: 20 }, items = [];
-        function nextQuestion() {
-            currentWord = vocab[Math.floor(Math.random() * vocab.length)];
-            document.getElementById('targetWord').innerText = currentWord;
+    let members = [];
+    function initGame() { nextQuestion(); loop(); }
+    function nextQuestion() {
+        currentWord = vocab[Math.floor(Math.random()*vocab.length)];
+        document.getElementById('targetWord').innerText = currentWord;
+        members = [];
+        for(let i=0; i<4; i++) {
+            let w = (i===0) ? currentWord : vocab[Math.floor(Math.random()*vocab.length)];
+            members.push({word: w, x: width/2 + (i%2==0?-150:150), y: 200 + Math.floor(i/2)*200, img: new Image()});
+            members[i].img.src = Engine.getAssetPath(w);
         }
-        function loop() {
-            ctx.clearRect(0,0,width,height);
-            ctx.fillStyle = '#92400e'; ctx.fillRect(basket.x-50, height-50, 100, 30);
-            if(Math.random() < 0.015) {
-                let word = Math.random() < 0.3 ? currentWord : vocab[Math.floor(Math.random()*vocab.length)];
-                let it = { word, x: Math.random()*width, y: -50, s: 1.5, img: new Image() };
-                it.img.src = Engine.getAssetPath(word);
-                items.push(it);
+    }
+    function loop() {
+        ctx.clearRect(0,0,width,height);
+        ctx.strokeStyle='brown'; ctx.lineWidth=5; ctx.beginPath(); ctx.moveTo(width/2, 100); ctx.lineTo(width/2, 500); ctx.stroke();
+        members.forEach(m => { if(m.img.complete) ctx.drawImage(m.img, m.x-50, m.y-50, 100, 100); });
+        requestAnimationFrame(loop);
+    }
+    canvas.addEventListener('mousedown', e => {
+        members.forEach(m => {
+            if(Math.hypot(e.clientX-m.x, e.clientY-m.y) < 60) {
+                if(m.word === currentWord) { Engine.addScore(10); Engine.showFeedback(true); nextQuestion(); }
+                else Engine.showFeedback(false);
             }
-            for(let i=items.length-1; i>=0; i--) {
-                let it = items[i];
-                it.y += it.s * Engine.speed;
-                if(it.img.complete) ctx.drawImage(it.img, it.x-30, it.y-30, 60, 60);
-                if(it.y > height-60 && Math.abs(it.x-basket.x) < 50) {
-                    items.splice(i, 1);
-                    if(it.word === currentWord) { Engine.addScore(10); Engine.showFeedback(true); nextQuestion(); }
-                    else Engine.showFeedback(false);
-                }
-                else if(it.y > height) items.splice(i, 1);
-            }
-            requestAnimationFrame(loop);
-        }
-        canvas.addEventListener('mousemove', (e) => basket.x = e.clientX);
-        canvas.addEventListener('touchmove', (e) => { e.preventDefault(); basket.x = e.touches[0].clientX; }, {passive:false});
+        });
+    });
     
-        
+
         window.onload = () => {
             if (window.Engine) {
                 Engine.init();
-                if (typeof nextQuestion === 'function') nextQuestion();
-                if (typeof loop === 'function') loop();
+                if (typeof initGame === 'function') initGame();
             }
         };
     </script>
