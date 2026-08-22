@@ -3,153 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ألعاب الصف الأول | EnglishToon</title>
+    <title>ألعاب الصف الأول - EnglishToon</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: 'Cairo', sans-serif; background: #020617; color: #f8fafc; }
-        .bg-pattern {
-            background-image: radial-gradient(#1e293b 2px, transparent 2px);
-            background-size: 30px 30px;
-        }
-        .game-card { transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
-        .game-card:active { transform: scale(0.95); }
-        .animate-fade-in-up { animation: fadeInUp 0.5s ease-out forwards; opacity: 0; }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .gradient-border {
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
-            padding: 3px;
-            border-radius: 2.5rem;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-        }
-        .card-inner {
-            background: #0f172a;
-            border-radius: calc(2.5rem - 3px);
-            position: relative;
-            overflow: hidden;
-        }
-        .card-inner::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.05), transparent);
-            transform: translateX(-100%);
-            transition: 0.5s;
-        }
-        .game-card:hover .card-inner::after { transform: translateX(100%); }
-        .dictation-border {
-            background: linear-gradient(135deg, #f59e0b, #ef4444, #f59e0b);
-            animation: border-glow 3s linear infinite;
-        }
-        @keyframes border-glow {
-            0% { filter: hue-rotate(0deg); }
-            100% { filter: hue-rotate(360deg); }
-        }
+        body { background: #0f172a; font-family: 'Cairo', sans-serif; color: white; }
+        .game-card { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .game-card:hover { transform: translateY(-10px) scale(1.02); }
     </style>
 </head>
-<body class="min-h-screen bg-slate-950 bg-pattern">
-    <header class="p-8 flex items-center justify-between bg-slate-900/90 backdrop-blur-2xl border-b border-white/5 sticky top-0 z-50">
-        <div class="flex items-center gap-6">
-            <a href="dashboard.html" class="w-16 h-16 rounded-3xl bg-slate-800 hover:bg-blue-600 flex items-center justify-center text-white transition-all active:scale-90 shadow-2xl">
-                <i class="fa-solid fa-house text-2xl"></i>
-            </a>
-            <div>
-                <h1 id="unitTitle" class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">ألعاب الصف الأول</h1>
-                <p id="unitSub" class="text-xs text-slate-500 font-black tracking-[0.3em] uppercase mt-1">Unit Arcade Adventure</p>
+<body class="min-h-screen p-6 pb-24 bg-slate-950">
+    <div class="max-w-6xl mx-auto">
+        <header class="flex items-center justify-between mb-12 bg-slate-900/50 p-6 rounded-[2.5rem] border border-white/5 backdrop-blur-xl">
+            <div class="flex items-center gap-4">
+                <a href="dashboard.html" class="w-12 h-12 bg-slate-800 rounded-2xl flex items-center justify-center text-white hover:bg-blue-600 transition-all active:scale-90">
+                    <i class="fa-solid fa-house"></i>
+                </a>
+                <div>
+                    <h1 id="unit-title" class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500 uppercase tracking-tighter">ألعاب الوحدة الأولى</h1>
+                    <p class="text-slate-400 text-xs font-bold uppercase tracking-widest">Arcade Adventure</p>
+                </div>
             </div>
-        </div>
-        <div class="px-6 py-3 rounded-3xl bg-blue-500/10 border border-blue-500/20 flex items-center gap-3 text-blue-400 shadow-[0_0_30px_rgba(59,130,246,0.2)]">
-            <span class="font-black text-2xl">24</span>
-            <i class="fa-solid fa-gamepad text-2xl"></i>
-        </div>
-    </header>
+            <div class="bg-blue-600/20 text-blue-400 px-4 py-2 rounded-2xl border border-blue-500/20 font-black">24 لعبة</div>
+        </header>
 
-    <main class="max-w-6xl mx-auto px-6 py-12">
-        <div id="gamesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- Games will be injected here -->
+        <div id="games-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <!-- Cards will be injected here -->
         </div>
-    </main>
+    </div>
 
     <script>
-        const params = new URLSearchParams(window.location.search);
-        const unitNum = params.get('unit') || '1';
-        const version = '5.0.0';
-        
-        const GAMES_DATA = [
-            { name: "سباق التوربو", icon: "fa-car-side", color: "from-blue-500 to-indigo-600" },
-            { name: "قفزة الغابة", icon: "fa-frog", color: "from-emerald-500 to-teal-600" },
-            { name: "مدافع الفضاء", icon: "fa-rocket", color: "from-purple-500 to-pink-600" },
-            { name: "خطاف الكنوز", icon: "fa-anchor", color: "from-orange-500 to-red-600" },
-            { name: "فرقعة الفقاعات", icon: "fa-circle-dot", color: "from-yellow-500 to-amber-600" },
-            { name: "شيف المطبخ", icon: "fa-utensils", color: "from-cyan-500 to-blue-600" },
-            { name: "ضربات الجزاء", icon: "fa-soccer-ball", color: "from-green-500 to-emerald-600" },
-            { name: "نينجا التقطيع", icon: "fa-shuriken", color: "from-indigo-500 to-purple-600" },
-            { name: "محلق السماء", icon: "fa-plane-up", color: "from-rose-500 to-pink-600" },
-            { name: "الذاكرة الاحترافية", icon: "fa-clone", color: "from-amber-400 to-yellow-600" },
-            { name: "جسر الكلمات", icon: "fa-bridge", color: "from-slate-500 to-slate-700" },
-            { name: "مختبر الروبوت", icon: "fa-robot", color: "from-sky-400 to-blue-500" },
-            { name: "بطل الإطفاء", icon: "fa-fire-extinguisher", color: "from-zinc-500 to-zinc-700" },
-            { name: "صيد الأسماك", icon: "fa-fish", color: "from-gray-700 to-black" },
-            { name: "حماية البيض", icon: "fa-egg", color: "from-red-500 to-orange-600" },
-            { name: "رامي السهام", icon: "fa-bow-arrow", color: "from-pink-400 to-rose-500" },
-            { name: "مستكشف البحار", icon: "fa-water", color: "from-lime-500 to-green-600" },
-            { name: "بولينج الكلمات", icon: "fa-bowling-ball", color: "from-violet-500 to-purple-700" },
-            { name: "طريق النمل", icon: "fa-bug", color: "from-blue-600 to-blue-800" },
-            { name: "المرجل السحري", icon: "fa-cauldron", color: "from-green-600 to-emerald-800" },
-            { name: "برج الآيس كريم", icon: "fa-ice-cream", color: "from-orange-400 to-amber-500" },
-            { name: "سلة الهدايا", icon: "fa-gift", color: "from-indigo-600 to-blue-700" },
-            { name: "جامع النجوم", icon: "fa-star", color: "from-slate-800 to-slate-950" },
-            { name: "تحدي الإملاء", icon: "fa-spell-check", color: "from-amber-500 to-red-600", isSpecial: true }
+        const GAME_NAMES = [
+            "سباق التوربو", "تحدي الإملاء", "قفزة الغابة", "حامي الفضاء",
+            "قاطع الفواكه", "خطاف الكنز", "ضربات الجزاء", "فرقعة الفقاعات",
+            "سلة الكلمات", "جرس الحروف", "ركض الديناصور", "نحلة العسل",
+            "مصنع الروبوت", "مظلي الكلمات", "صانع البيتزا", "مثلجات المرح",
+            "سائق القطار", "انفجار البالونات", "غواصة الأعماق", "قبعة الساحر",
+            "بطل التسلق", "تطابق المزرعة", "صاعق الفضائيين", "الإملاء الخارق"
         ];
 
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('unitTitle').textContent = `الوحدة ${unitNum}`;
-            document.getElementById('unitSub').textContent = `Unit ${unitNum} Professional Arcade`;
-            renderGames();
-        });
+        const urlParams = new URLSearchParams(window.location.search);
+        const unit = urlParams.get('unit') || '1';
+        document.getElementById('unit-title').innerText = `ألعاب الوحدة ${unit}`;
 
-        function renderGames() {
-            const container = document.getElementById('gamesGrid');
-            container.innerHTML = '';
+        const grid = document.getElementById('games-grid');
+        for (let i = 1; i <= 24; i++) {
+            const card = document.createElement('a');
+            card.href = `games/primary-1/unit${unit}/game_${i}.html?v=5.2.0`;
+            card.className = "game-card group relative bg-slate-800/50 backdrop-blur-xl border border-white/10 rounded-[2rem] p-6 flex flex-col items-center text-center shadow-2xl hover:border-blue-500/50";
             
-            GAMES_DATA.forEach((game, index) => {
-                const i = index + 1;
-                // Add version to force cache refresh
-                const gameLink = `games/primary-1/unit${unitNum}/game_${i}.html?v=${version}`;
-                
-                const card = document.createElement('div');
-                card.className = `gradient-border animate-fade-in-up ${game.isSpecial ? 'dictation-border' : ''}`;
-                card.style.animationDelay = `${index * 0.05}s`;
-                
-                card.innerHTML = `
-                    <a href="${gameLink}" class="game-card block card-inner p-6 group hover:bg-slate-900/40 transition-all">
-                        <div class="flex flex-col gap-6">
-                            <div class="flex items-center justify-between">
-                                <div class="w-20 h-20 rounded-[2rem] bg-gradient-to-br ${game.color} flex items-center justify-center text-white shadow-2xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
-                                    <i class="fa-solid ${game.icon} text-4xl"></i>
-                                </div>
-                                <div class="w-12 h-12 rounded-full bg-slate-800/50 flex items-center justify-center text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-inner">
-                                    <i class="fa-solid fa-play text-xl"></i>
-                                </div>
-                            </div>
-                            <div>
-                                <h4 class="font-black text-slate-100 text-2xl mb-1">${game.name}</h4>
-                                <div class="flex items-center gap-2">
-                                    <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
-                                    <p class="text-[10px] ${game.isSpecial ? 'text-amber-400' : 'text-blue-400'} font-black uppercase tracking-widest">
-                                        ${game.isSpecial ? '⭐ Challenge ⭐' : 'Pro Arcade ' + i}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                `;
-                container.appendChild(card);
-            });
+            const isDictation = i === 2 || i === 24;
+            card.innerHTML = `
+                <div class="w-20 h-20 bg-gradient-to-br ${isDictation ? 'from-amber-500 to-red-600' : 'from-blue-600 to-indigo-600'} rounded-3xl flex items-center justify-center text-4xl mb-4 shadow-lg group-hover:rotate-6 transition-transform">
+                    <i class="fa-solid ${isDictation ? 'fa-spell-check' : 'fa-gamepad'}"></i>
+                </div>
+                <h3 class="text-white font-black text-lg mb-1">${GAME_NAMES[i-1]}</h3>
+                <span class="text-blue-400 text-xs font-bold uppercase tracking-widest">المستوى ${i}</span>
+                <div class="absolute top-4 right-4 w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+            `;
+            grid.appendChild(card);
         }
     </script>
 </body>
