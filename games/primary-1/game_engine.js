@@ -20,14 +20,18 @@ const Engine = {
     },
 
     speak(text) {
-        if (!text || this.isSpeaking) return;
-        this.isSpeaking = true;
+        if (!text) return;
+        // Stop any current speech
         window.speechSynthesis.cancel();
+        
         const msg = new SpeechSynthesisUtterance(text);
         msg.lang = 'en-US';
         msg.rate = 0.8;
-        msg.onend = () => { this.isSpeaking = false; };
-        window.speechSynthesis.speak(msg);
+        
+        // Use a small delay to ensure cancel() finished
+        setTimeout(() => {
+            window.speechSynthesis.speak(msg);
+        }, 50);
     },
 
     setupProfessionalUI() {
@@ -147,8 +151,9 @@ const Engine = {
     },
 
     showWinScreen(callback) {
-        if (this.isProcessingResult) return;
+        if (this.isProcessingResult || !this.gameActive) return;
         this.isProcessingResult = true;
+        this.gameActive = false; // Pause game logic during win screen
         
         const win = document.createElement('div');
         win.className = "fixed inset-0 z-[2000] flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4 text-center";
@@ -164,14 +169,15 @@ const Engine = {
         this.speak("Excellent!");
         
         const closeWin = () => {
+            if (!win.parentNode) return;
             win.remove();
+            this.gameActive = true; // Resume game
             this.isProcessingResult = false;
             if(callback) callback();
         };
 
         document.getElementById('next-btn').onclick = closeWin;
-        // Auto-close after 2 seconds to prevent freeze if button is not clicked
-        setTimeout(closeWin, 2000);
+        // REMOVED auto-close timeout to ensure student clicks "Continue"
     },
 
     showFeedback(isCorrect) {

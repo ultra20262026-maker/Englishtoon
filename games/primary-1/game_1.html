@@ -72,8 +72,16 @@
             const text = isTarget ? currentTarget : vocab[Math.floor(Math.random() * vocab.length)];
             
             Engine.loadSprite(text, (img) => {
+                // Ensure obstacles don't spawn exactly in the center to avoid auto-collect
+                let spawnX = Math.random() * (canvas.width - 100) + 50;
+                if (Math.abs(spawnX - canvas.width/2) < 80) {
+                    spawnX = (spawnX < canvas.width/2) ? spawnX - 100 : spawnX + 100;
+                }
+                // Clamp to canvas
+                spawnX = Math.max(50, Math.min(canvas.width - 50, spawnX));
+
                 obstacles.push({
-                    x: Math.random() * (canvas.width - 100) + 50,
+                    x: spawnX,
                     y: yPos,
                     w: 80,
                     h: 80,
@@ -143,6 +151,8 @@
         }
 
         function update() {
+            if (!Engine.gameActive) return; // Stop update when game is paused
+            
             obstacles.forEach((o, index) => {
                 o.y += o.speed * (5 * Engine.speed);
                 
@@ -155,6 +165,7 @@
                     if (o.text === currentTarget) {
                         Engine.addScore(100);
                         Engine.showFeedback(true);
+                        obstacles = []; // Clear all to prevent double hits
                         Engine.showWinScreen(() => nextLevel());
                     } else {
                         Engine.addScore(-50);

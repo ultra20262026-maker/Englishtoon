@@ -68,13 +68,15 @@
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
-            // Gravity & Jump
-            player.vy += 0.5;
-            player.y += player.vy;
-            
+            if (Engine.gameActive) {
+                // Gravity & Jump
+                player.vy += 0.5;
+                player.y += player.vy;
+                
             if (player.y > canvas.height - 50) {
                 player.y = canvas.height - 50;
-                player.vy = -15; // Auto jump
+                player.vy = 0; // Stop, no auto jump
+            }
             }
 
             // Draw Platforms
@@ -89,11 +91,12 @@
                 ctx.fillText(p.text.toUpperCase(), p.x, p.y + 15);
 
                 // Collision
-                if (player.vy > 0 && player.x > p.x - 60 && player.x < p.x + 60 && 
+                if (Engine.gameActive && player.vy > 0 && player.x > p.x - 60 && player.x < p.x + 60 && 
                     player.y + 25 > p.y && player.y + 25 < p.y + 20) {
                     if (p.text === currentTarget) {
                         Engine.addScore(100);
                         Engine.showFeedback(true);
+                        platforms = []; // Clear to prevent double hits
                         Engine.showWinScreen(() => nextLevel());
                     } else {
                         player.vy = -12; // Bounce off wrong one

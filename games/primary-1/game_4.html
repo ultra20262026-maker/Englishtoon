@@ -68,40 +68,51 @@
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
-            // Draw Bullets
-            bullets.forEach((b, bi) => {
-                b.y -= 10;
-                ctx.fillStyle = '#f87171';
-                ctx.fillRect(b.x - 2, b.y, 4, 15);
-                if (b.y < 0) bullets.splice(bi, 1);
-            });
-
-            // Draw Enemies
-            enemies.forEach((e, ei) => {
-                e.y += e.speed;
-                if(e.img) ctx.drawImage(e.img, e.x - 40, e.y - 40, 80, 80);
-                ctx.fillStyle = 'white';
-                ctx.font = 'bold 14px Cairo';
-                ctx.textAlign = 'center';
-                ctx.fillText(e.text.toUpperCase(), e.x, e.y + 55);
-
-                // Collision
+            if (Engine.gameActive) {
+                // Draw Bullets
                 bullets.forEach((b, bi) => {
-                    if (Math.abs(b.x - e.x) < 40 && Math.abs(b.y - e.y) < 40) {
-                        bullets.splice(bi, 1);
-                        if (e.text === currentTarget) {
-                            enemies.splice(ei, 1);
-                            Engine.addScore(100);
-                            Engine.showFeedback(true);
-                            Engine.showWinScreen(() => nextLevel());
-                        } else {
-                            Engine.addScore(-20);
-                            Engine.showFeedback(false);
-                            enemies.splice(ei, 1);
-                        }
-                    }
+                    b.y -= 10;
+                    ctx.fillStyle = '#f87171';
+                    ctx.fillRect(b.x - 2, b.y, 4, 15);
+                    if (b.y < 0) bullets.splice(bi, 1);
                 });
-            });
+
+                // Draw Enemies
+                enemies.forEach((e, ei) => {
+                    e.y += e.speed;
+                    if(e.img) ctx.drawImage(e.img, e.x - 40, e.y - 40, 80, 80);
+                    ctx.fillStyle = 'white';
+                    ctx.font = 'bold 14px Cairo';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(e.text.toUpperCase(), e.x, e.y + 55);
+
+                    // Collision
+                    bullets.forEach((b, bi) => {
+                        if (Math.abs(b.x - e.x) < 40 && Math.abs(b.y - e.y) < 40) {
+                            bullets.splice(bi, 1);
+                            if (e.text === currentTarget) {
+                                enemies = []; // Clear to prevent double hits
+                                Engine.addScore(100);
+                                Engine.showFeedback(true);
+                                Engine.showWinScreen(() => nextLevel());
+                            } else {
+                                Engine.addScore(-20);
+                                Engine.showFeedback(false);
+                                enemies.splice(ei, 1);
+                            }
+                        }
+                    });
+                });
+            } else {
+                // Draw static elements when paused
+                enemies.forEach(e => {
+                    if(e.img) ctx.drawImage(e.img, e.x - 40, e.y - 40, 80, 80);
+                    ctx.fillStyle = 'white';
+                    ctx.font = 'bold 14px Cairo';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(e.text.toUpperCase(), e.x, e.y + 55);
+                });
+            }
 
             // Draw Ship
             ctx.fillStyle = '#6366f1';
