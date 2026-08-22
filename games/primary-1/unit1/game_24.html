@@ -18,7 +18,7 @@
 
     <title>Dictation</title>
 </head>
-<body class="bg-indigo-50">
+<body class="bg-sky-100">
     
     <div class="game-ui">
         <div class="flex justify-between items-start">
@@ -58,34 +58,45 @@
         resize();
 
         
-        let slots = [], tiles = [];
+        let scrambled = [], slots = [];
         function nextQuestion() {
-            currentWord = vocab[Math.floor(Math.random() * vocab.length)].toUpperCase();
-            document.getElementById('targetWord').innerText = "???";
-            const chars = currentWord.split('');
-            slots = chars.map((c, i) => ({ x: width/2 - (chars.length*60)/2 + i*60, y: 300, char: "" }));
-            tiles = chars.map((c, i) => ({ x: Math.random()*(width-100)+50, y: 500, char: c })).sort(()=>0.5-Math.random());
+            currentWord = vocab[Math.floor(Math.random() * vocab.length)];
+            document.getElementById('targetWord').innerText = "(?)";
+            let letters = currentWord.toUpperCase().split('');
+            scrambled = letters.map((l, i) => ({ l, x: (i%5)*60+width/2-120, y: height-150, id: i })).sort(()=>0.5-Math.random());
+            slots = letters.map((l, i) => ({ l, x: (i%5)*60+width/2-120, y: height/2, filled: null }));
         }
         function loop() {
             ctx.clearRect(0,0,width,height);
-            slots.forEach(s => { ctx.strokeRect(s.x, s.y, 50, 60); ctx.fillStyle='black'; ctx.font='30px Arial'; ctx.fillText(s.char, s.x+15, s.y+40); });
-            tiles.forEach(t => { ctx.fillStyle='blue'; ctx.fillRect(t.x, t.y, 50, 60); ctx.fillStyle='white'; ctx.fillText(t.char, t.x+15, t.y+40); });
+            slots.forEach(s => { ctx.strokeStyle='#3b82f6'; ctx.strokeRect(s.x, s.y, 50, 50); if(s.filled) { ctx.fillStyle='#1e293b'; ctx.font='bold 30px Fredoka'; ctx.fillText(s.filled, s.x+15, s.y+35); } });
+            scrambled.forEach(l => { ctx.fillStyle='#3b82f6'; ctx.fillRect(l.x, l.y, 50, 50); ctx.fillStyle='white'; ctx.font='bold 30px Fredoka'; ctx.fillText(l.l, l.x+15, l.y+35); });
             requestAnimationFrame(loop);
         }
         canvas.addEventListener('mousedown', (e) => {
-            tiles.forEach((t, i) => {
-                if(e.clientX > t.x && e.clientX < t.x+50 && e.clientY > t.y && e.clientY < t.y+60) {
-                    let slot = slots.find(s => s.char === "");
-                    if(slot) { slot.char = t.char; tiles.splice(i, 1); }
-                    if(slots.every(s => s.char !== "")) {
-                        if(slots.map(s=>s.char).join('') === currentWord) { Engine.addScore(20); Engine.showFeedback(true); setTimeout(nextQuestion, 1500); }
-                        else { Engine.showFeedback(false); nextQuestion(); }
+            scrambled.forEach((l, i) => {
+                if(e.clientX > l.x && e.clientX < l.x+50 && e.clientY > l.y && e.clientY < l.y+50) {
+                    let slot = slots.find(s => !s.filled);
+                    if(slot) {
+                        slot.filled = l.l; scrambled.splice(i, 1);
+                        if(slots.every(s => s.filled)) {
+                            let result = slots.map(s => s.filled).join('');
+                            if(result === currentWord.toUpperCase()) { Engine.addScore(50); Engine.showFeedback(true); setTimeout(nextQuestion, 1500); }
+                            else { Engine.showFeedback(false); setTimeout(nextQuestion, 1000); }
+                        }
                     }
                 }
             });
         });
-        nextQuestion(); loop();
     
+        
+        // Ensure Engine is ready before starting
+        window.onload = () => {
+            if (window.Engine) {
+                Engine.init();
+                if (typeof nextQuestion === 'function') nextQuestion();
+                if (typeof loop === 'function') loop();
+            }
+        };
     </script>
 </body>
 </html>

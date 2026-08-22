@@ -68,24 +68,35 @@
             ctx.fillStyle = '#92400e'; ctx.fillRect(basket.x-50, height-50, 100, 30);
             if(Math.random() < 0.02) {
                 let word = Math.random() < 0.3 ? currentWord : vocab[Math.floor(Math.random()*vocab.length)];
-                items.push({ word, x: Math.random()*width, y: -50, s: 3, img: new Image() });
-                items[items.length-1].img.src = Engine.getAssetPath(word);
+                let it = { word, x: Math.random()*width, y: -50, s: 3, img: new Image() };
+                it.img.src = Engine.getAssetPath(word);
+                items.push(it);
             }
-            items.forEach((it, i) => {
-                it.y += it.s; ctx.drawImage(it.img, it.x-30, it.y-30, 60, 60);
+            for(let i=items.length-1; i>=0; i--) {
+                let it = items[i];
+                it.y += it.s;
+                if(it.img.complete) ctx.drawImage(it.img, it.x-30, it.y-30, 60, 60);
                 if(it.y > height-60 && Math.abs(it.x-basket.x) < 50) {
                     items.splice(i, 1);
                     if(it.word === currentWord) { Engine.addScore(10); Engine.showFeedback(true); nextQuestion(); }
                     else Engine.showFeedback(false);
                 }
-                if(it.y > height) items.splice(i, 1);
-            });
+                else if(it.y > height) items.splice(i, 1);
+            }
             requestAnimationFrame(loop);
         }
         canvas.addEventListener('mousemove', (e) => basket.x = e.clientX);
-        canvas.addEventListener('touchmove', (e) => basket.x = e.touches[0].clientX);
-        nextQuestion(); loop();
+        canvas.addEventListener('touchmove', (e) => { e.preventDefault(); basket.x = e.touches[0].clientX; }, {passive:false});
     
+        
+        // Ensure Engine is ready before starting
+        window.onload = () => {
+            if (window.Engine) {
+                Engine.init();
+                if (typeof nextQuestion === 'function') nextQuestion();
+                if (typeof loop === 'function') loop();
+            }
+        };
     </script>
 </body>
 </html>
