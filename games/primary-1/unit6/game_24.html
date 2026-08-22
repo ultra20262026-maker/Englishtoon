@@ -1,124 +1,148 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Dictation Challenge - EnglishToon</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Fredoka', sans-serif; overflow: hidden; touch-action: none; margin: 0; }
-        canvas { display: block; }
+        body { font-family: 'Fredoka', sans-serif; background: #fdf4ff; overflow: hidden; touch-action: none; margin: 0; }
+        .letter-box { width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; font-weight: 900; border-radius: 10px; transition: all 0.2s; cursor: pointer; user-select: none; }
+        .letter-slot { width: 45px; height: 45px; border: 2px dashed #d8b4fe; border-radius: 10px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.5); }
         .game-ui { pointer-events: none; position: fixed; inset: 0; z-index: 50; padding: 1rem; }
         .interactive { pointer-events: auto; }
-        .btn-action { background: #3b82f6; color: white; padding: 0.75rem 1.5rem; border-radius: 1rem; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .btn-action:active { transform: scale(0.95); }
+        @keyframes success { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        .animate-success { animation: success 0.5s ease-in-out; }
     </style>
-
-    <title>Dictation</title>
 </head>
-<body class="bg-sky-100">
-    
+<body class="bg-purple-50">
     <div class="game-ui">
         <div class="flex justify-between items-start">
-            <div class="bg-white/90 backdrop-blur rounded-2xl p-3 shadow-lg border-2 border-blue-200 flex items-center gap-4 interactive">
-                <div class="text-blue-600"><span class="text-xs font-bold block uppercase">Score</span><span id="score" class="text-2xl font-black">0</span></div>
-                <div class="w-px h-8 bg-blue-100"></div>
+            <div class="bg-white/90 backdrop-blur rounded-2xl p-3 shadow-lg border-2 border-purple-200 flex items-center gap-4 interactive">
+                <div class="text-purple-600"><span class="text-xs font-bold block uppercase">Score</span><span id="score" class="text-2xl font-black">0</span></div>
+                <div class="w-px h-8 bg-purple-100"></div>
                 <div class="text-amber-500"><span class="text-xs font-bold block uppercase">Stars</span><span id="stars" class="text-2xl font-black">0</span></div>
             </div>
             <button onclick="window.history.back()" class="interactive w-12 h-12 rounded-2xl bg-white/90 backdrop-blur flex items-center justify-center text-slate-400 shadow-lg border-2 border-slate-100">
                 <i class="fa-solid fa-xmark text-xl"></i>
             </button>
         </div>
+
         <div class="mt-4 flex flex-col items-center">
-            <div class="bg-white/95 backdrop-blur rounded-3xl p-4 shadow-xl border-4 border-blue-400 w-full max-w-md text-center interactive">
-                <h2 class="text-blue-500 font-bold text-sm mb-1 uppercase tracking-widest">Spell the word:</h2>
-                <div id="targetWord" class="text-3xl font-black text-slate-800 mb-2">...</div>
-                <button id="listenBtn" onclick="Engine.speak(currentWord)" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-xl font-bold shadow-lg flex items-center gap-2 mx-auto text-sm">
-                    <i class="fa-solid fa-volume-high"></i> Listen
-                </button>
+            <div class="bg-white/95 backdrop-blur rounded-3xl p-4 shadow-xl border-4 border-purple-400 w-full max-w-md text-center interactive">
+                <h2 class="text-purple-500 font-bold text-sm mb-1 uppercase tracking-widest">Dictation Master</h2>
+                <div class="flex justify-center gap-4 my-2">
+                    <img id="wordImage" src="" class="w-24 h-24 object-contain bg-purple-50 rounded-2xl p-2 border-2 border-purple-100">
+                    <div class="flex flex-col justify-center gap-2">
+                        <button id="listenBtn" onclick="Engine.speak(currentWord)" class="bg-purple-500 hover:bg-purple-600 text-white px-6 py-2 rounded-xl font-bold shadow-lg flex items-center gap-2 text-sm">
+                            <i class="fa-solid fa-volume-high"></i> Listen
+                        </button>
+                        <button id="hintBtn" onclick="provideHint()" class="bg-amber-400 hover:bg-amber-500 text-white px-6 py-2 rounded-xl font-bold shadow-lg text-xs">
+                            Hint
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <canvas id="gameCanvas"></canvas>
+    <div class="h-screen flex flex-col items-center justify-center px-4 pt-20">
+        <div id="slotsContainer" class="flex flex-wrap justify-center gap-2 mb-8"></div>
+        <div id="lettersContainer" class="flex flex-wrap justify-center gap-2 max-w-md"></div>
+    </div>
+
     <script src="../game_engine.js"></script>
     <script>
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
         const vocab = JSON.parse('["ball", "banana", "bike", "bird", "boy", "cage", "cat", "chair", "couch", "dog", "elephant", "giraffe", "in", "jacket", "jam", "jar", "jeans", "jellyfish", "lamp", "leaf", "lemon", "lion", "lunch", "monkey", "on", "snake", "table", "tiger", "turtle", "umbrella", "under", "unlock", "up"]');
-        let width, height, currentWord;
-        
-        function resize() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resize);
-        resize();
+        let currentWord = "";
+        let userInput = [];
+        let scrambled = [];
 
-        
-        let letters = [], slots = [], targetLetters = [];
         function nextQuestion() {
-            currentWord = vocab[Math.floor(Math.random() * vocab.length)];
-            document.getElementById('targetWord').innerText = "???";
-            targetLetters = currentWord.toUpperCase().split('');
-            slots = targetLetters.map((l, i) => ({ x: width/2 - (targetLetters.length*30) + i*60, y: 300, w: 50, h: 50, letter: null }));
-            letters = targetLetters.map((l, i) => ({ 
-                l, 
-                x: Math.random()*(width-100)+50, 
-                y: 450 + Math.random()*150, 
-                origX: 0, origY: 0,
-                dragging: false 
-            })).sort(() => Math.random()-0.5);
+            const word = vocab[Math.floor(Math.random() * vocab.length)];
+            currentWord = word.toUpperCase();
+            userInput = new Array(currentWord.length).fill(null);
+            document.getElementById('wordImage').src = Engine.getAssetPath(word);
+            scrambled = currentWord.split('').map((char, index) => ({ char, id: index }));
+            scrambled.sort(() => Math.random() - 0.5);
+            renderGame();
         }
-        function loop() {
-            ctx.clearRect(0,0,width,height);
-            slots.forEach(s => {
-                ctx.strokeStyle = '#94a3b8'; ctx.strokeRect(s.x, s.y, s.w, s.h);
-                if(s.letter) { ctx.fillStyle='#1e293b'; ctx.font='bold 30px Fredoka'; ctx.fillText(s.letter, s.x+15, s.y+35); }
-            });
-            letters.forEach(l => {
-                if(!l.dragging) {
-                    ctx.fillStyle='#3b82f6'; ctx.fillRect(l.x-25, l.y-25, 50, 50);
-                    ctx.fillStyle='white'; ctx.font='bold 30px Fredoka'; ctx.fillText(l.l, l.x-10, l.y+10);
+
+        function renderGame() {
+            const slots = document.getElementById('slotsContainer');
+            const letters = document.getElementById('lettersContainer');
+            slots.innerHTML = '';
+            letters.innerHTML = '';
+            
+            userInput.forEach((char, i) => {
+                const slot = document.createElement('div');
+                slot.className = 'letter-slot';
+                if(char) {
+                    slot.innerHTML = `<div class="letter-box bg-white border-2 border-purple-400 text-purple-600 shadow-sm">${char.char}</div>`;
+                    slot.onclick = () => removeLetter(i);
                 }
+                slots.appendChild(slot);
             });
-            let dragging = letters.find(l => l.dragging);
-            if(dragging) {
-                ctx.fillStyle='#2563eb'; ctx.fillRect(dragging.x-30, dragging.y-30, 60, 60);
-                ctx.fillStyle='white'; ctx.font='bold 35px Fredoka'; ctx.fillText(dragging.l, dragging.x-12, dragging.y+12);
-            }
-            requestAnimationFrame(loop);
+            
+            scrambled.forEach((item, i) => {
+                const box = document.createElement('div');
+                box.className = 'letter-box bg-purple-500 text-white shadow-md border-b-4 border-purple-700 active:border-b-0 active:translate-y-1';
+                box.innerText = item.char;
+                box.onclick = () => addLetter(item, i);
+                letters.appendChild(box);
+            });
         }
-        canvas.addEventListener('mousedown', (e) => {
-            let l = letters.find(l => Math.hypot(e.clientX-l.x, e.clientY-l.y) < 30);
-            if(l) { l.dragging = true; l.origX = l.x; l.origY = l.y; }
-        });
-        canvas.addEventListener('mousemove', (e) => {
-            let l = letters.find(l => l.dragging);
-            if(l) { l.x = e.clientX; l.y = e.clientY; }
-        });
-        canvas.addEventListener('mouseup', (e) => {
-            let l = letters.find(l => l.dragging);
-            if(l) {
-                l.dragging = false;
-                let s = slots.find(s => !s.letter && e.clientX > s.x && e.clientX < s.x+s.w && e.clientY > s.y && e.clientY < s.y+s.h);
-                if(s && l.l === targetLetters[slots.indexOf(s)]) {
-                    s.letter = l.l;
-                    letters.splice(letters.indexOf(l), 1);
-                    if(letters.length === 0) { Engine.addScore(20); Engine.showFeedback(true); setTimeout(nextQuestion, 1500); }
-                } else { l.x = l.origX; l.y = l.origY; }
+
+        function addLetter(item, index) {
+            const emptySlot = userInput.indexOf(null);
+            if(emptySlot !== -1) {
+                userInput[emptySlot] = item;
+                scrambled.splice(index, 1);
+                renderGame();
+                checkWord();
             }
-        });
-    
-        
+        }
+
+        function removeLetter(index) {
+            const item = userInput[index];
+            if(item) {
+                scrambled.push(item);
+                userInput[index] = null;
+                renderGame();
+            }
+        }
+
+        function checkWord() {
+            if(userInput.indexOf(null) === -1) {
+                const word = userInput.map(i => i.char).join('');
+                if(word === currentWord) {
+                    Engine.addScore(30);
+                    Engine.showFeedback(true);
+                    setTimeout(nextQuestion, 1200);
+                } else {
+                    Engine.showFeedback(false);
+                    setTimeout(() => {
+                        userInput.forEach((item, i) => { if(item) scrambled.push(item); userInput[i] = null; });
+                        renderGame();
+                    }, 800);
+                }
+            }
+        }
+
+        function provideHint() {
+            const emptySlot = userInput.indexOf(null);
+            if(emptySlot !== -1) {
+                const targetChar = currentWord[emptySlot];
+                const itemIdx = scrambled.findIndex(i => i.char === targetChar);
+                if(itemIdx !== -1) addLetter(scrambled[itemIdx], itemIdx);
+            }
+        }
+
         window.onload = () => {
-            if (window.Engine) {
-                Engine.init();
-                if (typeof nextQuestion === 'function') nextQuestion();
-                if (typeof loop === 'function') loop();
-            }
+            if(window.Engine) Engine.init();
+            nextQuestion();
         };
     </script>
 </body>
