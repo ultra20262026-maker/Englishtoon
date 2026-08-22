@@ -3,127 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Fruit Slasher - قاطع الفواكه</title>
+    <title>Word Search - البحث عن الكلمة</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="../game_engine.js?v=5.4"></script>
+    <script src="../../game_engine.js?v=5.4.4"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
-        body { font-family: Cairo, sans-serif; overflow: hidden; background: #064e3b; touch-action: none; }
-        canvas { display: block; width: 100vw; height: 100vh; }
+        body { font-family: 'Cairo', sans-serif; overflow: hidden; background: #1e1b4b; touch-action: none; }
+        .grid-cell { width: 40px; height: 40px; display: flex; items-center justify-center; color: white; font-weight: bold; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; }
+        .selected { background: #4f46e5; }
+        .found { background: #10b981; }
     </style>
 </head>
-<body>
-    <canvas id="gameCanvas"></canvas>
-    <div class="fixed top-10 left-1/2 -translate-x-1/2 text-center z-50 pointer-events-none">
-        <div class="bg-green-100/80 backdrop-blur-md p-3 rounded-2xl border border-green-200 shadow-xl">
-            <p class="text-green-800 text-[10px] font-bold uppercase">اقطع الكلمة:</p>
-            <h2 id="target-word" class="text-slate-900 text-2xl font-black">APPLE</h2>
-            <button onclick="Engine.speak(document.getElementById('target-word').innerText)" class="pointer-events-auto mt-1 bg-green-600 p-1.5 rounded-full shadow-lg">
-                <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zM16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM3 9v6h4l5 5V4L7 9H3z"/></svg>
+<body class="flex flex-col items-center justify-center h-screen p-4">
+    <div class="fixed top-10 text-center z-50 w-full px-4">
+        <div class="bg-black/40 backdrop-blur-md p-4 rounded-3xl border border-white/20">
+            <p class="text-indigo-400 text-xs font-bold uppercase mb-1">ابحث عن كلمة:</p>
+            <h2 id="target-word" class="text-white text-3xl font-black">APPLE</h2>
+            <button onclick="Engine.speak(document.getElementById('target-word').innerText)" class="mt-2 bg-indigo-600 p-2 rounded-full shadow-lg">
+                <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zM16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM3 9v6h4l5 5V4L7 9H3z"/></svg>
             </button>
         </div>
     </div>
 
+    <div id="grid" class="grid grid-cols-8 gap-1 mt-20"></div>
+
     <script>
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
-        const vocab = ["Apple", "Ball", "Cat", "Dog", "Egg", "bag", "board", "book", "chair", "desk", "ill", "in", "ink", "insect", "open your books", "pencil", "sit down", "stand up"];
-        let currentTarget = "";
-        let fruits = [];
-        let trail = [];
+        const words = [{"word": "Apple", "image": "../../../assets/p1/apple.png"}, {"word": "Ball", "image": "../../../assets/p1/ball.png"}, {"word": "Cat", "image": "../../../assets/p1/cat.png"}, {"word": "Dog", "image": "../../../assets/p1/dog.png"}, {"word": "Egg", "image": "../../../assets/p1/egg.png"}, {"word": "bag", "image": "../../../assets/p1/bag.png"}, {"word": "board", "image": "../../../assets/p1/board.png"}, {"word": "book", "image": "../../../assets/p1/book.png"}, {"word": "chair", "image": "../../../assets/p1/chair.png"}, {"word": "desk", "image": "../../../assets/p1/desk.png"}, {"word": "ill", "image": "../../../assets/p1/ill.png"}, {"word": "in", "image": "../../../assets/p1/in.png"}, {"word": "ink", "image": "../../../assets/p1/ink.png"}, {"word": "insect", "image": "../../../assets/p1/insect.png"}, {"word": "open your books", "image": "../../../assets/p1/open_your_books.png"}, {"word": "pencil", "image": "../../../assets/p1/pencil.png"}, {"word": "sit down", "image": "../../../assets/p1/sit_down.png"}, {"word": "stand up", "image": "../../../assets/p1/stand_up.png"}];
+        let currentWordIndex = 0;
+        let gridSize = 8;
+        let grid = [];
+        let selection = [];
 
         function initGame() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            nextLevel();
-            Engine.init();
-            animate();
+            Engine.init({
+                onListen: () => Engine.speak(words[currentWordIndex].word),
+                onContinue: nextLevel
+            });
+            setupLevel();
         }
 
-        function nextLevel() {
-            currentTarget = vocab[Math.floor(Math.random() * vocab.length)];
-            document.getElementById('target-word').innerText = currentTarget.toUpperCase();
-            fruits = [];
-            spawnFruits();
+        function setupLevel() {
+            const current = words[currentWordIndex];
+            document.getElementById('target-word').innerText = current.word.toUpperCase();
+            generateGrid(current.word.toUpperCase());
+            renderGrid();
         }
 
-        function spawnFruits() {
-            const choices = Engine.getWords(vocab, 3);
-            if (!choices.includes(currentTarget)) choices[0] = currentTarget;
+        function generateGrid(target) {
+            grid = Array(gridSize * gridSize).fill('').map(() => String.fromCharCode(65 + Math.floor(Math.random() * 26)));
+            const startIdx = Math.floor(Math.random() * (gridSize * gridSize - target.length));
+            const direction = Math.random() > 0.5 ? 1 : gridSize; // Horizontal or Vertical
             
-            choices.forEach((text, i) => {
-                Engine.loadSprite(text, (img) => {
-                    fruits.push({
-                        x: (i + 1) * (canvas.width / 4),
-                        y: canvas.height + 100,
-                        vx: (Math.random() - 0.5) * 4,
-                        vy: -15 - Math.random() * 5,
-                        text: text,
-                        img: img,
-                        sliced: false
-                    });
-                });
+            for(let i=0; i<target.length; i++) {
+                const idx = startIdx + (i * direction);
+                if (idx < gridSize * gridSize) grid[idx] = target[i];
+            }
+        }
+
+        function renderGrid() {
+            const container = document.getElementById('grid');
+            container.innerHTML = '';
+            grid.forEach((letter, i) => {
+                const cell = document.createElement('div');
+                cell.className = 'grid-cell';
+                cell.innerText = letter;
+                cell.dataset.index = i;
+                cell.onpointerdown = () => startSelection(i);
+                cell.onpointerenter = () => updateSelection(i);
+                container.appendChild(cell);
             });
         }
 
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            if (Engine.gameActive) {
-                if (trail.length > 1) {
-                    ctx.beginPath();
-                    ctx.strokeStyle = 'white';
-                    ctx.lineWidth = 5;
-                    ctx.moveTo(trail[0].x, trail[0].y);
-                    for(let i=1; i<trail.length; i++) ctx.lineTo(trail[i].x, trail[i].y);
-                    ctx.stroke();
-                    trail.shift();
-                }
-
-                fruits.forEach((f, fi) => {
-                    f.x += f.vx;
-                    f.y += f.vy;
-                    f.vy += 0.2;
-
-                    if(f.img && !f.sliced) {
-                        ctx.drawImage(f.img, f.x - 40, f.y - 40, 80, 80);
-                        ctx.fillStyle = 'white';
-                        ctx.font = 'bold 14px Cairo';
-                        ctx.textAlign = 'center';
-                        ctx.fillText(f.text.toUpperCase(), f.x, f.y + 55);
-                    }
-
-                    if (!f.sliced && trail.length > 0) {
-                        const last = trail[trail.length-1];
-                        if (Math.abs(last.x - f.x) < 50 && Math.abs(last.y - f.y) < 50) {
-                            f.sliced = true;
-                            if (f.text === currentTarget) {
-                                fruits = [];
-                                Engine.addScore(100);
-                                Engine.showFeedback(true);
-                                Engine.showWinScreen(() => nextLevel());
-                            } else {
-                                Engine.addScore(-20);
-                                Engine.showFeedback(false);
-                            }
-                        }
-                    }
-
-                    if (f.y > canvas.height + 200) {
-                        fruits.splice(fi, 1);
-                        if (fruits.length === 0) spawnFruits();
-                    }
-                });
-            }
-            requestAnimationFrame(animate);
+        function startSelection(idx) {
+            selection = [idx];
+            updateStyles();
         }
 
-        window.addEventListener('pointermove', (e) => {
-            if (!Engine.gameActive) return;
-            trail.push({ x: e.clientX, y: e.clientY });
-            if (trail.length > 10) trail.shift();
-        });
+        function updateSelection(idx) {
+            if (selection.length > 0 && !selection.includes(idx)) {
+                selection.push(idx);
+                updateStyles();
+                checkWord();
+            }
+        }
 
+        function updateStyles() {
+            document.querySelectorAll('.grid-cell').forEach((cell, i) => {
+                cell.classList.toggle('selected', selection.includes(i));
+            });
+        }
+
+        function checkWord() {
+            const selectedText = selection.map(i => grid[i]).join('');
+            const target = words[currentWordIndex].word.toUpperCase();
+            if (selectedText === target) {
+                selection.forEach(i => {
+                    document.querySelector(`[data-index="${i}"]`).classList.add('found');
+                });
+                Engine.showWin();
+            } else if (selectedText.length >= target.length) {
+                selection = [];
+                updateStyles();
+            }
+        }
+
+        function nextLevel() {
+            currentWordIndex = (currentWordIndex + 1) % words.length;
+            setupLevel();
+            Engine.hideWin();
+        }
+
+        window.onpointerup = () => { selection = []; updateStyles(); };
         initGame();
     </script>
 </body>

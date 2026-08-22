@@ -3,117 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Word Search - البحث عن الكلمة</title>
+    <title>Bubble Shooter - قاذف الفقاعات</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="../../game_engine.js?v=5.4.4"></script>
+    <script src="../game_engine.js?v=5.4"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
-        body { font-family: 'Cairo', sans-serif; overflow: hidden; background: #1e1b4b; touch-action: none; }
-        .grid-cell { width: 40px; height: 40px; display: flex; items-center justify-center; color: white; font-weight: bold; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; }
-        .selected { background: #4f46e5; }
-        .found { background: #10b981; }
+        body { font-family: 'Cairo', sans-serif; overflow: hidden; background: #0f172a; touch-action: none; }
+        canvas { display: block; width: 100vw; height: 100vh; }
     </style>
 </head>
-<body class="flex flex-col items-center justify-center h-screen p-4">
-    <div class="fixed top-10 text-center z-50 w-full px-4">
+<body>
+    <canvas id="gameCanvas"></canvas>
+    <div class="fixed top-20 left-1/2 -translate-x-1/2 text-center z-50 pointer-events-none">
         <div class="bg-black/40 backdrop-blur-md p-4 rounded-3xl border border-white/20">
-            <p class="text-indigo-400 text-xs font-bold uppercase mb-1">ابحث عن كلمة:</p>
+            <p class="text-pink-400 text-xs font-bold uppercase mb-1">صوب نحو:</p>
             <h2 id="target-word" class="text-white text-3xl font-black">APPLE</h2>
-            <button onclick="Engine.speak(document.getElementById('target-word').innerText)" class="mt-2 bg-indigo-600 p-2 rounded-full shadow-lg">
+            <button onclick="Engine.speak(document.getElementById('target-word').innerText)" class="pointer-events-auto mt-2 bg-pink-600 p-2 rounded-full shadow-lg">
                 <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zM16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM3 9v6h4l5 5V4L7 9H3z"/></svg>
             </button>
         </div>
     </div>
 
-    <div id="grid" class="grid grid-cols-8 gap-1 mt-20"></div>
-
     <script>
-        const words = ["Apple", "Ball", "Cat", "Dog", "Egg", "bag", "board", "book", "chair", "desk", "ill", "in", "ink", "insect", "open your books", "pencil", "sit down", "stand up"];
-        let currentWordIndex = 0;
-        let gridSize = 8;
-        let grid = [];
-        let selection = [];
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const vocab = [{"word": "Apple", "image": "../../../assets/p1/apple.png"}, {"word": "Ball", "image": "../../../assets/p1/ball.png"}, {"word": "Cat", "image": "../../../assets/p1/cat.png"}, {"word": "Dog", "image": "../../../assets/p1/dog.png"}, {"word": "Egg", "image": "../../../assets/p1/egg.png"}, {"word": "bag", "image": "../../../assets/p1/bag.png"}, {"word": "board", "image": "../../../assets/p1/board.png"}, {"word": "book", "image": "../../../assets/p1/book.png"}, {"word": "chair", "image": "../../../assets/p1/chair.png"}, {"word": "desk", "image": "../../../assets/p1/desk.png"}, {"word": "ill", "image": "../../../assets/p1/ill.png"}, {"word": "in", "image": "../../../assets/p1/in.png"}, {"word": "ink", "image": "../../../assets/p1/ink.png"}, {"word": "insect", "image": "../../../assets/p1/insect.png"}, {"word": "open your books", "image": "../../../assets/p1/open_your_books.png"}, {"word": "pencil", "image": "../../../assets/p1/pencil.png"}, {"word": "sit down", "image": "../../../assets/p1/sit_down.png"}, {"word": "stand up", "image": "../../../assets/p1/stand_up.png"}];
+        let currentTarget = "";
+        let bubbles = [];
+        let projectile = null;
+        let angle = 0;
 
         function initGame() {
-            Engine.init({
-                onListen: () => Engine.speak(words[currentWordIndex].word),
-                onContinue: nextLevel
-            });
-            setupLevel();
-        }
-
-        function setupLevel() {
-            const current = words[currentWordIndex];
-            document.getElementById('target-word').innerText = current.word.toUpperCase();
-            generateGrid(current.word.toUpperCase());
-            renderGrid();
-        }
-
-        function generateGrid(target) {
-            grid = Array(gridSize * gridSize).fill('').map(() => String.fromCharCode(65 + Math.floor(Math.random() * 26)));
-            const startIdx = Math.floor(Math.random() * (gridSize * gridSize - target.length));
-            const direction = Math.random() > 0.5 ? 1 : gridSize; // Horizontal or Vertical
-            
-            for(let i=0; i<target.length; i++) {
-                const idx = startIdx + (i * direction);
-                if (idx < gridSize * gridSize) grid[idx] = target[i];
-            }
-        }
-
-        function renderGrid() {
-            const container = document.getElementById('grid');
-            container.innerHTML = '';
-            grid.forEach((letter, i) => {
-                const cell = document.createElement('div');
-                cell.className = 'grid-cell';
-                cell.innerText = letter;
-                cell.dataset.index = i;
-                cell.onpointerdown = () => startSelection(i);
-                cell.onpointerenter = () => updateSelection(i);
-                container.appendChild(cell);
-            });
-        }
-
-        function startSelection(idx) {
-            selection = [idx];
-            updateStyles();
-        }
-
-        function updateSelection(idx) {
-            if (selection.length > 0 && !selection.includes(idx)) {
-                selection.push(idx);
-                updateStyles();
-                checkWord();
-            }
-        }
-
-        function updateStyles() {
-            document.querySelectorAll('.grid-cell').forEach((cell, i) => {
-                cell.classList.toggle('selected', selection.includes(i));
-            });
-        }
-
-        function checkWord() {
-            const selectedText = selection.map(i => grid[i]).join('');
-            const target = words[currentWordIndex].word.toUpperCase();
-            if (selectedText === target) {
-                selection.forEach(i => {
-                    document.querySelector(`[data-index="${i}"]`).classList.add('found');
-                });
-                Engine.showWin();
-            } else if (selectedText.length >= target.length) {
-                selection = [];
-                updateStyles();
-            }
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            nextLevel();
+            Engine.init();
+            animate();
         }
 
         function nextLevel() {
-            currentWordIndex = (currentWordIndex + 1) % words.length;
-            setupLevel();
-            Engine.hideWin();
+            currentTarget = vocab[Math.floor(Math.random() * vocab.length)];
+            document.getElementById('target-word').innerText = currentTarget.toUpperCase();
+            spawnBubbles();
+            projectile = { x: canvas.width / 2, y: canvas.height - 50, targetX: canvas.width / 2, targetY: canvas.height - 50, active: false };
         }
 
-        window.onpointerup = () => { selection = []; updateStyles(); };
+        function spawnBubbles() {
+            bubbles = [];
+            const choices = Engine.getWords(vocab, 3);
+            if (!choices.includes(currentTarget)) choices[0] = currentTarget;
+            
+            choices.forEach((text, i) => {
+                Engine.loadSprite(text, (img) => {
+                    bubbles.push({
+                        x: (i + 1) * (canvas.width / 4),
+                        y: 150,
+                        text: text,
+                        img: img,
+                        radius: 50,
+                        color: `hsl(${Math.random() * 360}, 70%, 60%)`
+                    });
+                });
+            });
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw Cannon Line
+            if (!projectile.active) {
+                ctx.beginPath();
+                ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+                ctx.setLineDash([5, 5]);
+                ctx.moveTo(canvas.width / 2, canvas.height - 50);
+                ctx.lineTo(canvas.width / 2 + Math.cos(angle) * 200, canvas.height - 50 + Math.sin(angle) * 200);
+                ctx.stroke();
+                ctx.setLineDash([]);
+            }
+
+            // Draw Bubbles
+            bubbles.forEach(b => {
+                ctx.beginPath();
+                ctx.arc(b.x, b.y, b.radius, 0, Math.PI * 2);
+                ctx.fillStyle = b.color;
+                ctx.fill();
+                ctx.strokeStyle = 'white';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+                
+                if(b.img) ctx.drawImage(b.img, b.x - 30, b.y - 30, 60, 60);
+                ctx.fillStyle = 'white';
+                ctx.font = 'bold 12px Cairo';
+                ctx.textAlign = 'center';
+                ctx.fillText(b.text.toUpperCase(), b.x, b.y + 45);
+            });
+
+            // Update Projectile
+            if (projectile.active) {
+                projectile.x += projectile.vx;
+                projectile.y += projectile.vy;
+                
+                ctx.beginPath();
+                ctx.arc(projectile.x, projectile.y, 15, 0, Math.PI * 2);
+                ctx.fillStyle = 'white';
+                ctx.fill();
+
+                // Collision
+                bubbles.forEach((b, i) => {
+                    const dist = Math.hypot(projectile.x - b.x, projectile.y - b.y);
+                    if (dist < b.radius + 15) {
+                        projectile.active = false;
+                        if (b.text === currentTarget) {
+                            Engine.addScore(100);
+                            Engine.showFeedback(true);
+                            Engine.showWinScreen(() => nextLevel());
+                        } else {
+                            Engine.addScore(-20);
+                            Engine.showFeedback(false);
+                            projectile.x = canvas.width / 2;
+                            projectile.y = canvas.height - 50;
+                        }
+                    }
+                });
+
+                if (projectile.x < 0 || projectile.x > canvas.width || projectile.y < 0) {
+                    projectile.active = false;
+                    projectile.x = canvas.width / 2;
+                    projectile.y = canvas.height - 50;
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('pointermove', (e) => {
+            if (projectile.active) return;
+            const dx = e.clientX - canvas.width / 2;
+            const dy = e.clientY - (canvas.height - 50);
+            angle = Math.atan2(dy, dx);
+        });
+
+        window.addEventListener('pointerdown', (e) => {
+            if (projectile.active || e.target.closest('button')) return;
+            const dx = e.clientX - canvas.width / 2;
+            const dy = e.clientY - (canvas.height - 50);
+            const dist = Math.hypot(dx, dy);
+            projectile.vx = (dx / dist) * 15;
+            projectile.vy = (dy / dist) * 15;
+            projectile.active = true;
+        });
+
         initGame();
     </script>
 </body>

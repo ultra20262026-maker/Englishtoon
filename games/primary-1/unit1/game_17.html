@@ -3,72 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Fishing Game - صيد السمك</title>
+    <title>Spelling Bee - ملك الإملاء</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../../game_engine.js?v=5.4.4"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
-        body { font-family: 'Cairo', sans-serif; overflow: hidden; background: #0c4a6e; touch-action: none; }
-        canvas { display: block; width: 100vw; height: 100vh; }
+        body { font-family: 'Cairo', sans-serif; overflow: hidden; background: #431407; touch-action: none; }
+        .letter-tile { width: 50px; height: 50px; background: #fbbf24; color: #431407; font-weight: 900; display: flex; items-center justify-center; border-radius: 12px; font-size: 24px; box-shadow: 0 4px 0 #b45309; }
+        .slot { width: 50px; height: 50px; border: 2px dashed #b45309; border-radius: 12px; }
     </style>
 </head>
-<body>
-    <canvas id="gameCanvas"></canvas>
-    <div class="fixed top-20 left-1/2 -translate-x-1/2 text-center z-50 pointer-events-none">
+<body class="flex flex-col items-center justify-center h-screen p-4">
+    <div class="fixed top-10 text-center z-50 w-full px-4">
         <div class="bg-black/40 backdrop-blur-md p-4 rounded-3xl border border-white/20">
-            <p class="text-blue-400 text-xs font-bold uppercase mb-1">اصطد الكلمة:</p>
-            <h2 id="target-word" class="text-white text-3xl font-black">APPLE</h2>
-            <button onclick="Engine.speak(document.getElementById('target-word').innerText)" class="pointer-events-auto mt-2 bg-indigo-600 p-2 rounded-full shadow-lg">
-                <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zM16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM3 9v6h4l5 5V4L7 9H3z"/></svg>
+            <p class="text-amber-400 text-xs font-bold uppercase mb-1">اسمع ورتب الحروف:</p>
+            <button onclick="Engine.speak(words[currentWordIndex].word)" class="bg-amber-600 p-4 rounded-full shadow-lg">
+                <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zM16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM3 9v6h4l5 5V4L7 9H3z"/></svg>
             </button>
         </div>
     </div>
 
+    <div id="slots" class="flex gap-2 mb-8 mt-20"></div>
+    <div id="letters" class="flex flex-wrap gap-2 justify-center"></div>
+
     <script>
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
-        const words = ["Apple", "Ball", "Cat", "Dog", "Egg", "bag", "board", "book", "chair", "desk", "ill", "in", "ink", "insect", "open your books", "pencil", "sit down", "stand up"];
+        const words = [{"word": "Apple", "image": "../../../assets/p1/apple.png"}, {"word": "Ball", "image": "../../../assets/p1/ball.png"}, {"word": "Cat", "image": "../../../assets/p1/cat.png"}, {"word": "Dog", "image": "../../../assets/p1/dog.png"}, {"word": "Egg", "image": "../../../assets/p1/egg.png"}, {"word": "bag", "image": "../../../assets/p1/bag.png"}, {"word": "board", "image": "../../../assets/p1/board.png"}, {"word": "book", "image": "../../../assets/p1/book.png"}, {"word": "chair", "image": "../../../assets/p1/chair.png"}, {"word": "desk", "image": "../../../assets/p1/desk.png"}, {"word": "ill", "image": "../../../assets/p1/ill.png"}, {"word": "in", "image": "../../../assets/p1/in.png"}, {"word": "ink", "image": "../../../assets/p1/ink.png"}, {"word": "insect", "image": "../../../assets/p1/insect.png"}, {"word": "open your books", "image": "../../../assets/p1/open_your_books.png"}, {"word": "pencil", "image": "../../../assets/p1/pencil.png"}, {"word": "sit down", "image": "../../../assets/p1/sit_down.png"}, {"word": "stand up", "image": "../../../assets/p1/stand_up.png"}];
         let currentWordIndex = 0;
-        let hook = { x: 0, y: 100, targetY: 100, isDropping: false, isReturning: false };
-        let fishes = [];
+        let currentGuess = [];
 
         function initGame() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            hook.x = canvas.width / 2;
-            
             Engine.init({
                 onListen: () => Engine.speak(words[currentWordIndex].word),
                 onContinue: nextLevel
             });
-            
             setupLevel();
-            animate();
         }
 
         function setupLevel() {
             const current = words[currentWordIndex];
-            document.getElementById('target-word').innerText = current.word.toUpperCase();
-            fishes = [];
-            hook.isDropping = false;
-            hook.isReturning = false;
-            hook.y = 100;
+            const letters = current.word.toUpperCase().split('').sort(() => Math.random() - 0.5);
+            currentGuess = [];
             
-            const choices = Engine.getChoices(words, currentWordIndex, 3);
-            choices.forEach((c, i) => {
-                const img = new Image();
-                img.src = c.image;
-                fishes.push({
-                    x: (i + 1) * (canvas.width / 4),
-                    y: canvas.height - 200,
-                    word: c.word,
-                    img: img,
-                    isCorrect: c.word === current.word,
-                    w: 100,
-                    h: 60,
-                    dir: Math.random() > 0.5 ? 1 : -1
-                });
+            const slotContainer = document.getElementById('slots');
+            slotContainer.innerHTML = '';
+            current.word.split('').forEach(() => {
+                const slot = document.createElement('div');
+                slot.className = 'slot';
+                slotContainer.appendChild(slot);
             });
+
+            const letterContainer = document.getElementById('letters');
+            letterContainer.innerHTML = '';
+            letters.forEach(l => {
+                const tile = document.createElement('div');
+                tile.className = 'letter-tile cursor-pointer';
+                tile.innerText = l;
+                tile.onclick = () => addLetter(l, tile);
+                letterContainer.appendChild(tile);
+            });
+        }
+
+        function addLetter(l, tile) {
+            if (tile.style.visibility === 'hidden') return;
+            currentGuess.push(l);
+            tile.style.visibility = 'hidden';
+            
+            const slots = document.querySelectorAll('.slot');
+            slots[currentGuess.length - 1].innerText = l;
+            slots[currentGuess.length - 1].className = 'letter-tile';
+            
+            if (currentGuess.length === words[currentWordIndex].word.length) {
+                if (currentGuess.join('') === words[currentWordIndex].word.toUpperCase()) {
+                    Engine.showWin();
+                } else {
+                    Engine.shake();
+                    setTimeout(setupLevel, 500);
+                }
+            }
         }
 
         function nextLevel() {
@@ -76,98 +87,6 @@
             setupLevel();
             Engine.hideWin();
         }
-
-        function animate() {
-            ctx.fillStyle = '#0c4a6e';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            // Draw Waves
-            ctx.fillStyle = '#075985';
-            ctx.fillRect(0, 0, canvas.width, 150);
-
-            if (!Engine.isPaused) {
-                // Hook Logic
-                if (hook.isDropping) {
-                    hook.y += 10;
-                    if (hook.y >= canvas.height - 150) hook.isReturning = true;
-                    
-                    // Collision
-                    fishes.forEach(f => {
-                        if (Math.abs(hook.x - f.x) < 50 && Math.abs(hook.y - f.y) < 30) {
-                            hook.isReturning = true;
-                            if (f.isCorrect) {
-                                Engine.showWin();
-                            } else {
-                                Engine.shake();
-                            }
-                        }
-                    });
-                } else if (hook.isReturning) {
-                    hook.y -= 10;
-                    if (hook.y <= 100) {
-                        hook.isReturning = false;
-                        hook.isDropping = false;
-                    }
-                }
-
-                // Update Fishes
-                fishes.forEach(f => {
-                    f.x += f.dir * 2;
-                    if (f.x < 50 || f.x > canvas.width - 50) f.dir *= -1;
-                });
-            }
-
-            // Draw Hook Line
-            ctx.strokeStyle = '#fff';
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.moveTo(hook.x, 0);
-            ctx.lineTo(hook.x, hook.y);
-            ctx.stroke();
-
-            // Draw Hook
-            ctx.strokeStyle = '#94a3b8';
-            ctx.lineWidth = 4;
-            ctx.beginPath();
-            ctx.arc(hook.x, hook.y, 10, 0, Math.PI);
-            ctx.stroke();
-
-            // Draw Fishes
-            fishes.forEach(f => {
-                ctx.save();
-                ctx.translate(f.x, f.y);
-                if (f.dir === -1) ctx.scale(-1, 1);
-                
-                ctx.fillStyle = '#38bdf8';
-                ctx.beginPath();
-                ctx.ellipse(0, 0, f.w/2, f.h/2, 0, 0, Math.PI*2);
-                ctx.fill();
-                
-                if (f.img && f.img.complete) {
-                    ctx.drawImage(f.img, -20, -25, 40, 40);
-                }
-                
-                ctx.fillStyle = 'white';
-                ctx.font = 'bold 14px Cairo';
-                ctx.textAlign = 'center';
-                ctx.scale(f.dir === -1 ? -1 : 1, 1);
-                ctx.fillText(f.word.toUpperCase(), 0, 45);
-                ctx.restore();
-            });
-
-            requestAnimationFrame(animate);
-        }
-
-        window.addEventListener('pointermove', (e) => { 
-            if (Engine.isPaused || hook.isDropping || hook.isReturning) return;
-            hook.x = e.clientX; 
-        });
-        
-        window.addEventListener('pointerdown', (e) => { 
-            if (Engine.isPaused || hook.isDropping || hook.isReturning) return;
-            if (e.target.closest('button')) return;
-            hook.isDropping = true;
-        });
 
         initGame();
     </script>

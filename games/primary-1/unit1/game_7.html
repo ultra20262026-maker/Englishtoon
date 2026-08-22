@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Castle Defender - حامي القلعة</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="../../game_engine.js?v=5.5.0"></script>
+    <script src="../../game_engine.js?v=5.5.1"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
-        body { font-family: 'Cairo', sans-serif; overflow: hidden; background: #1e293b; touch-action: none; }
+        body { font-family: 'Cairo', sans-serif; overflow: hidden; background: #1e1b4b; touch-action: none; }
         canvas { display: block; width: 100vw; height: 100vh; }
     </style>
 </head>
@@ -20,8 +20,8 @@
         const words = [{"word": "Apple", "image": "../../../assets/p1/apple.png"}, {"word": "Ball", "image": "../../../assets/p1/ball.png"}, {"word": "Cat", "image": "../../../assets/p1/cat.png"}, {"word": "Dog", "image": "../../../assets/p1/dog.png"}, {"word": "Egg", "image": "../../../assets/p1/egg.png"}, {"word": "bag", "image": "../../../assets/p1/bag.png"}, {"word": "board", "image": "../../../assets/p1/board.png"}, {"word": "book", "image": "../../../assets/p1/book.png"}, {"word": "chair", "image": "../../../assets/p1/chair.png"}, {"word": "desk", "image": "../../../assets/p1/desk.png"}, {"word": "ill", "image": "../../../assets/p1/ill.png"}, {"word": "in", "image": "../../../assets/p1/in.png"}, {"word": "ink", "image": "../../../assets/p1/ink.png"}, {"word": "insect", "image": "../../../assets/p1/insect.png"}, {"word": "open your books", "image": "../../../assets/p1/open_your_books.png"}, {"word": "pencil", "image": "../../../assets/p1/pencil.png"}, {"word": "sit down", "image": "../../../assets/p1/sit_down.png"}, {"word": "stand up", "image": "../../../assets/p1/stand_up.png"}];
         let currentWordIndex = 0;
         let enemies = [];
-        let cannon = { x: 0, y: 0, angle: 0 };
         let bullets = [];
+        let cannon = { x: 0, y: 0, angle: -Math.PI/2 };
 
         function initGame() {
             canvas.width = window.innerWidth;
@@ -40,7 +40,9 @@
 
         function setupLevel() {
             const current = words[currentWordIndex];
-            document.getElementById('engine-target-word').innerText = current.word.toUpperCase();
+            const targetWordEl = document.getElementById('engine-target-word');
+            if(targetWordEl) targetWordEl.innerText = current.word.toUpperCase();
+            
             enemies = [];
             bullets = [];
             
@@ -50,12 +52,11 @@
                 img.src = c.image;
                 enemies.push({
                     x: (i + 1) * (canvas.width / 4),
-                    y: -100,
-                    targetY: canvas.height - 200,
+                    y: -100 - (i * 150),
                     word: c.word,
                     img: img,
                     isCorrect: c.word === current.word,
-                    speed: 1 + Math.random() * 0.5,
+                    speed: 1.2,
                     destroyed: false
                 });
             });
@@ -70,54 +71,58 @@
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
-            // Draw Ground
-            ctx.fillStyle = '#334155';
-            ctx.fillRect(0, canvas.height - 100, canvas.width, 100);
-            
             if (!Engine.isPaused) {
                 // Update Enemies
                 enemies.forEach(e => {
                     if (!e.destroyed) {
                         e.y += e.speed;
                         if (e.y > canvas.height - 150) {
-                            e.y = -100; // Reset if reaches bottom
+                            if (e.isCorrect) {
+                                Engine.shake();
+                                setupLevel();
+                            } else {
+                                e.destroyed = true;
+                            }
                         }
                     }
                 });
 
                 // Update Bullets
                 bullets.forEach((b, bi) => {
-                    b.x += Math.cos(b.angle) * 15;
-                    b.y += Math.sin(b.angle) * 15;
+                    b.x += Math.cos(b.angle) * 12;
+                    b.y += Math.sin(b.angle) * 12;
                     
-                    // Collision
+                    if (b.y < 0 || b.x < 0 || b.x > canvas.width) bullets.splice(bi, 1);
+                    
                     enemies.forEach(e => {
                         if (!e.destroyed && Math.abs(b.x - e.x) < 50 && Math.abs(b.y - e.y) < 50) {
+                            e.destroyed = true;
                             bullets.splice(bi, 1);
                             if (e.isCorrect) {
-                                e.destroyed = true;
                                 Engine.showWin();
                             } else {
                                 Engine.shake();
                             }
                         }
                     });
-
-                    if (b.x < 0 || b.x > canvas.width || b.y < 0) bullets.splice(bi, 1);
                 });
+            }
+
+            // Draw Castle
+            ctx.fillStyle = '#475569';
+            ctx.fillRect(0, canvas.height - 80, canvas.width, 80);
+            for(let i=0; i<canvas.width; i+=60) {
+                ctx.fillRect(i, canvas.height - 100, 40, 20);
             }
 
             // Draw Cannon
             ctx.save();
             ctx.translate(cannon.x, cannon.y);
             ctx.rotate(cannon.angle);
-            ctx.fillStyle = '#64748b';
-            ctx.fillRect(-20, -40, 40, 60);
+            ctx.fillStyle = '#fbbf24';
+            ctx.fillRect(-15, -30, 30, 50);
+            ctx.fillRect(-5, -50, 10, 20);
             ctx.restore();
-            
-            // Draw Castle Base
-            ctx.fillStyle = '#475569';
-            ctx.fillRect(cannon.x - 50, cannon.y, 100, 80);
 
             // Draw Enemies
             enemies.forEach(e => {
@@ -125,16 +130,17 @@
                     ctx.save();
                     ctx.translate(e.x, e.y);
                     if (e.img && e.img.complete) ctx.drawImage(e.img, -40, -40, 80, 80);
+                    ctx.restore();
+                    
                     ctx.fillStyle = 'white';
                     ctx.font = 'bold 16px Cairo';
                     ctx.textAlign = 'center';
-                    ctx.fillText(e.word.toUpperCase(), 0, 55);
-                    ctx.restore();
+                    ctx.fillText(e.word.toUpperCase(), e.x, e.y + 55);
                 }
             });
 
             // Draw Bullets
-            ctx.fillStyle = '#fbbf24';
+            ctx.fillStyle = '#f87171';
             bullets.forEach(b => {
                 ctx.beginPath();
                 ctx.arc(b.x, b.y, 8, 0, Math.PI * 2);
