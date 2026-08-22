@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,129 +8,107 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Fredoka One', cursive; margin: 0; overflow: hidden; background: #f0fdf4; }
-        .choice-card { 
-            background: white; border: 4px solid #22c55e; border-radius: 25px; 
-            padding: 15px; text-align: center; cursor: pointer; transition: all 0.3s;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-        }
-        .choice-card:active { transform: scale(0.95); }
+        body { font-family: 'Fredoka One', cursive; margin: 0; overflow: hidden; background: #f8fafc; height: 100vh; }
+        .animate-shake { animation: shake 0.5s; }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
     </style>
 </head>
 <body>
-    <div id="gameArea" class="w-full h-full relative p-4 flex flex-col items-center justify-center">
+    <div id="gameArea" class="w-full h-full relative">
         <!-- HUD -->
-        <div class="absolute top-4 left-4 z-50 flex gap-4">
-            <div class="bg-white/90 p-2 rounded-xl shadow-md border-2 border-green-400">
-                Score: <span id="score">0</span> | ⭐ <span id="stars">0</span>
+        <div class="absolute top-4 left-4 z-50 flex gap-4 pointer-events-none">
+            <div class="bg-white/90 p-3 rounded-2xl shadow-xl border-2 border-blue-400 flex items-center gap-3">
+                <div class="text-blue-600 font-bold">Score: <span id="score">0</span></div>
+                <div class="text-yellow-500 font-bold">⭐ <span id="stars">0</span></div>
             </div>
         </div>
-
-        <!-- Question Section -->
-        <div class="bg-white p-6 rounded-[40px] shadow-2xl border-8 border-green-500 text-center mb-8 max-w-sm w-full">
-            <p class="text-green-600 mb-2">Listen and find:</p>
-            <h2 id="targetWord" class="text-4xl text-blue-900 mb-4">...</h2>
-            <button onclick="Engine.speak(Engine.currentWord)" class="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-full text-xl shadow-lg active:scale-95 transition-all">🔊 Listen Again</button>
+        
+        <div class="absolute top-4 right-4 z-50">
+            <button onclick="window.history.back()" class="w-12 h-12 rounded-full bg-white/90 shadow-lg flex items-center justify-center text-slate-600 border-2 border-slate-200 active:scale-90 transition-all">✕</button>
         </div>
 
-        <!-- Choices Grid -->
-        <div id="choicesGrid" class="grid grid-cols-2 gap-4 w-full max-w-md">
-            <!-- Injected by JS -->
+        
+        <style>
+            .choice-card { background: white; border: 4px solid #3b82f6; border-radius: 20px; padding: 10px; cursor: pointer; transition: 0.2s; }
+            .choice-card:hover { transform: scale(1.05); border-color: #60a5fa; }
+        </style>
+        <div class="flex flex-col items-center justify-center h-full p-4">
+            <div class="bg-white p-6 rounded-3xl shadow-xl border-4 border-blue-500 text-center mb-8 w-full max-w-sm">
+                <p class="text-blue-600 font-bold mb-2">Look and Choose:</p>
+                <h2 id="targetWord" class="text-4xl font-black text-slate-800 mb-4">...</h2>
+                <button onclick="Engine.speak(Engine.currentWord)" class="bg-blue-500 text-white px-6 py-2 rounded-full shadow-lg active:scale-95">🔊 Listen</button>
+            </div>
+            <div id="choicesGrid" class="grid grid-cols-2 gap-4 w-full max-w-md"></div>
         </div>
+        <script>
+            function renderGame() {
+                const grid = document.getElementById('choicesGrid');
+                grid.innerHTML = '';
+                let choices = [Engine.currentWord];
+                while(choices.length < 4) {
+                    let w = wordsData[Math.floor(Math.random() * wordsData.length)].word;
+                    if(!choices.includes(w)) choices.push(w);
+                }
+                choices.sort(() => Math.random() - 0.5).forEach(word => {
+                    const card = document.createElement('div');
+                    card.className = 'choice-card flex flex-col items-center';
+                    card.innerHTML = `<img src="${Engine.getAssetPath(word)}" class="w-20 h-20 object-contain mb-2" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3081/3081840.png'"><span class="font-bold">${word}</span>`;
+                    card.onclick = () => checkAnswer(word, card);
+                    grid.appendChild(card);
+                });
+            }
+            function checkAnswer(s, el) {
+                if(s === Engine.currentWord) { Engine.addScore(10); Engine.showFeedback(true); setTimeout(nextQuestion, 1000); }
+                else { Engine.showFeedback(false); el.classList.add('bg-red-100'); }
+            }
+        </script>
+    
 
         <!-- Start Overlay -->
-        <div id="startOverlay" class="absolute inset-0 bg-green-600/90 z-[100] flex items-center justify-center p-6 text-white">
-            <div class="bg-white p-8 rounded-[40px] text-center shadow-2xl border-8 border-green-400 text-green-600">
-                <h1 class="text-5xl mb-4">Super Cannon</h1>
-                <p class="text-xl text-gray-600 mb-8">Ready to play?</p>
-                <button onclick="startGame()" class="bg-green-500 hover:bg-green-600 text-white px-12 py-4 rounded-full text-3xl shadow-xl active:scale-95 transition-all">PLAY</button>
+        <div id="startOverlay" class="absolute inset-0 bg-blue-600/95 z-[100] flex items-center justify-center p-6 text-white">
+            <div class="bg-white p-8 rounded-[40px] text-center shadow-2xl border-8 border-blue-400 text-blue-600 max-w-sm w-full">
+                <h1 class="text-4xl font-black mb-2">Super Cannon</h1>
+                <p class="text-gray-500 mb-8">Ready for adventure?</p>
+                <button onclick="startGame()" class="bg-blue-500 hover:bg-blue-600 text-white w-full py-4 rounded-3xl text-2xl font-black shadow-xl active:scale-95 transition-all">START PLAYING</button>
             </div>
         </div>
     </div>
 
     <script>
-// EnglishToon Game Engine 2027
-const Engine = {
-    score: 0, stars: 0, currentWord: null, gameActive: false,
-    studentName: localStorage.getItem('et_student_name') || 'Guest Student',
-    init() { console.log("Engine Init"); this.updateUI(); },
-    speak(text) { if (!text) return; const msg = new SpeechSynthesisUtterance(text); msg.lang = 'en-US'; window.speechSynthesis.speak(msg); },
-    updateUI() {
-        const s = document.getElementById('score'), st = document.getElementById('stars');
-        if (s) s.innerText = this.score; if (st) st.innerText = this.stars;
-    },
-    addScore(p) { this.score += p; if (this.score % 50 === 0) this.stars++; this.updateUI(); },
-    getAssetPath(w) { return `../../../assets/p1/${w.toLowerCase().replace(/ /g, '_')}.png`; },
-    showFeedback(c) {
-        const f = document.createElement('div');
-        f.className = 'fixed inset-0 flex items-center justify-center z-[100] pointer-events-none';
-        f.innerHTML = c ? `<div class="bg-green-500 text-white p-10 rounded-full text-4xl animate-bounce">Excellent! 🌟</div>` :
-                          `<div class="bg-red-500 text-white p-10 rounded-full text-4xl animate-shake">Try Again! ❌</div>`;
-        document.body.appendChild(f); setTimeout(() => f.remove(), 1000);
+    const Engine = {
+        score: 0, stars: 0, currentWord: null, gameActive: false,
+        init() { this.updateUI(); },
+        speak(text) { if(!text) return; const msg = new SpeechSynthesisUtterance(text); msg.lang = 'en-US'; window.speechSynthesis.speak(msg); },
+        updateUI() { 
+            document.getElementById('score').innerText = this.score; 
+            document.getElementById('stars').innerText = this.stars; 
+        },
+        addScore(p) { this.score += p; if(this.score % 50 === 0) this.stars++; this.updateUI(); },
+        getAssetPath(w) { return `../../../assets/p1/${w.toLowerCase().replace(/ /g, '_')}.png`; },
+        showFeedback(c) {
+            const f = document.createElement('div');
+            f.className = 'fixed inset-0 flex items-center justify-center z-[200] pointer-events-none';
+            f.innerHTML = c ? `<div class="bg-green-500 text-white px-8 py-4 rounded-full text-2xl font-black animate-bounce shadow-2xl">GREAT! 🌟</div>` :
+                              `<div class="bg-red-500 text-white px-8 py-4 rounded-full text-2xl font-black animate-shake shadow-2xl">TRY AGAIN! ❌</div>`;
+            document.body.appendChild(f); setTimeout(() => f.remove(), 800);
+        }
+    };
+    
+    const wordsData = [{"word": "ball"}, {"word": "banana"}, {"word": "bike"}, {"word": "bird"}, {"word": "boy"}, {"word": "cage"}, {"word": "cat"}, {"word": "chair"}, {"word": "couch"}, {"word": "dog"}, {"word": "elephant"}, {"word": "giraffe"}, {"word": "in"}, {"word": "jacket"}, {"word": "jam"}, {"word": "jar"}, {"word": "jeans"}, {"word": "jellyfish"}, {"word": "lamp"}, {"word": "leaf"}, {"word": "lemon"}, {"word": "lion"}, {"word": "lunch"}, {"word": "monkey"}, {"word": "on"}, {"word": "snake"}, {"word": "table"}, {"word": "tiger"}, {"word": "turtle"}, {"word": "umbrella"}, {"word": "under"}, {"word": "unlock"}, {"word": "up"}];
+
+    function startGame() {
+        document.getElementById('startOverlay').classList.add('hidden');
+        Engine.gameActive = true;
+        nextQuestion();
     }
-};
-window.Engine = Engine;
-Engine.init();
-</script>
-    <script>
-        const wordsData = [{"word": "ball"}, {"word": "banana"}, {"word": "bike"}, {"word": "bird"}, {"word": "boy"}, {"word": "cage"}, {"word": "cat"}, {"word": "chair"}, {"word": "couch"}, {"word": "dog"}, {"word": "elephant"}, {"word": "giraffe"}, {"word": "in"}, {"word": "jacket"}, {"word": "jam"}, {"word": "jar"}, {"word": "jeans"}, {"word": "jellyfish"}, {"word": "lamp"}, {"word": "leaf"}, {"word": "lemon"}, {"word": "lion"}, {"word": "lunch"}, {"word": "monkey"}, {"word": "on"}, {"word": "snake"}, {"word": "table"}, {"word": "tiger"}, {"word": "turtle"}, {"word": "umbrella"}, {"word": "under"}, {"word": "unlock"}, {"word": "up"}];
-        
-        function startGame() {
-            document.getElementById('startOverlay').classList.add('hidden');
-            Engine.gameActive = true;
-            nextQuestion();
-        }
 
-        function nextQuestion() {
-            Engine.currentWord = wordsData[Math.floor(Math.random() * wordsData.length)].word;
-            document.getElementById('targetWord').innerText = Engine.currentWord;
-            renderChoices();
-        }
-
-        function renderChoices() {
-            const grid = document.getElementById('choicesGrid');
-            grid.innerHTML = '';
-
-            let choices = [Engine.currentWord];
-            while(choices.length < 4) {
-                let w = wordsData[Math.floor(Math.random() * wordsData.length)].word;
-                if(!choices.includes(w)) choices.push(w);
-            }
-            choices = choices.sort(() => Math.random() - 0.5);
-
-            choices.forEach(word => {
-                const card = document.createElement('div');
-                card.className = 'choice-card flex flex-col items-center';
-                
-                const img = document.createElement('img');
-                img.src = Engine.getAssetPath(word);
-                img.className = 'w-24 h-24 object-contain mb-2';
-                img.onerror = () => img.src = 'https://cdn-icons-png.flaticon.com/512/3081/3081840.png';
-                
-                const label = document.createElement('span');
-                label.innerText = word;
-                label.className = 'text-lg font-bold text-green-800';
-
-                card.appendChild(img);
-                card.appendChild(label);
-                card.onclick = () => checkAnswer(word, card);
-                grid.appendChild(card);
-            });
-        }
-
-        function checkAnswer(selected, element) {
-            if(!Engine.gameActive) return;
-            if(selected === Engine.currentWord) {
-                Engine.addScore(10);
-                Engine.showFeedback(true);
-                element.classList.add('bg-green-100', 'scale-105');
-                setTimeout(nextQuestion, 1000);
-            } else {
-                Engine.showFeedback(false);
-                element.classList.add('bg-red-100', 'animate-shake');
-                setTimeout(() => element.classList.remove('bg-red-100', 'animate-shake'), 500);
-            }
-        }
+    function nextQuestion() {
+        Engine.currentWord = wordsData[Math.floor(Math.random() * wordsData.length)].word;
+        document.getElementById('targetWord').innerText = Engine.currentWord;
+        renderGame();
+    }
+    
+    Engine.init();
     </script>
 </body>
 </html>
