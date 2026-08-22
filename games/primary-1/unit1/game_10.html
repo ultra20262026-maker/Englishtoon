@@ -1,204 +1,108 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Bowling Striker - Game 10: Bowling Strike</title>
+    <title>Jumping Hero - EnglishToon</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Fredoka', sans-serif; overflow: hidden; touch-action: none; background: #ecfeff; }
+        body { font-family: 'Fredoka', sans-serif; background: #e0f2fe; overflow: hidden; touch-action: none; }
         #gameCanvas { width: 100%; height: 100vh; display: block; }
         .game-ui { pointer-events: none; }
         .interactive { pointer-events: auto; }
     </style>
 </head>
-<body class="bg-cyan-50">
-    <!-- UI Overlay -->
+<body>
     <div class="game-ui fixed inset-0 z-10 flex flex-col p-4">
         <div class="flex justify-between items-start">
-            <div class="bg-white/90 backdrop-blur rounded-2xl p-3 shadow-lg border-2 border-cyan-200 flex items-center gap-4">
-                <div class="text-cyan-600">
-                    <span class="text-xs font-bold block uppercase tracking-wider">Score</span>
-                    <span id="score" class="text-2xl font-black">0</span>
-                </div>
-                <div class="w-px h-8 bg-cyan-100"></div>
-                <div class="text-amber-500">
-                    <span class="text-xs font-bold block uppercase tracking-wider">Stars</span>
-                    <span id="stars" class="text-2xl font-black">0</span>
-                </div>
+            <div class="bg-white/90 backdrop-blur rounded-2xl p-3 shadow-lg border-2 border-sky-200 flex items-center gap-4 pointer-events-auto">
+                <div class="text-sky-600"><span class="text-xs font-bold block uppercase">Height</span><span id="score" class="text-2xl font-black">0</span></div>
+                <div class="w-px h-8 bg-sky-100"></div>
+                <div class="text-amber-500"><span class="text-xs font-bold block uppercase">Stars</span><span id="stars" class="text-2xl font-black">0</span></div>
             </div>
             <button onclick="window.history.back()" class="interactive w-12 h-12 rounded-2xl bg-white/90 backdrop-blur flex items-center justify-center text-slate-400 shadow-lg border-2 border-slate-100">
                 <i class="fa-solid fa-xmark text-xl"></i>
             </button>
         </div>
-
         <div class="mt-4 flex flex-col items-center">
-            <div class="bg-white/95 backdrop-blur rounded-3xl p-6 shadow-xl border-4 border-cyan-400 w-full max-w-md text-center">
-                <h2 class="text-cyan-500 font-bold text-lg mb-1 uppercase tracking-widest">Strike the word:</h2>
+            <div class="bg-white/95 backdrop-blur rounded-3xl p-6 shadow-xl border-4 border-sky-400 w-full max-w-md text-center pointer-events-auto">
+                <h2 class="text-sky-500 font-bold text-lg mb-1 uppercase tracking-widest">Jump to:</h2>
                 <div id="targetWord" class="text-4xl font-black text-slate-800 mb-4">...</div>
-                <button id="listenBtn" class="interactive bg-cyan-500 hover:bg-cyan-600 text-white px-8 py-3 rounded-2xl font-bold shadow-lg shadow-cyan-200 transition-all active:scale-95 flex items-center gap-2 mx-auto">
-                    <i class="fa-solid fa-volume-high"></i>
-                    Listen
+                <button id="listenBtn" class="bg-sky-500 hover:bg-sky-600 text-white px-8 py-3 rounded-2xl font-bold shadow-lg flex items-center gap-2 mx-auto">
+                    <i class="fa-solid fa-volume-high"></i> Listen
                 </button>
             </div>
         </div>
     </div>
-
     <canvas id="gameCanvas"></canvas>
-
     <script src="../../game_engine.js"></script>
     <script>
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
         const vocab = JSON.parse('["Apple", "Ball", "Cat", "Dog", "Egg", "bag", "board", "book", "chair", "desk", "ill", "in", "ink", "insect", "open your books", "pencil", "sit down", "stand up"]');
+        let width, height, currentWord, hero, platforms = [];
         
-        let width, height;
-        let ballX, ballY, ballRadius = 30;
-        let pins = [];
-        let currentWord = null;
-        let isDragging = false;
-        let dragStartX, dragStartY;
-        let gameActive = true;
-
         function resize() {
             width = canvas.width = window.innerWidth;
             height = canvas.height = window.innerHeight;
-            resetBall();
+            hero = { x: width/2, y: height - 150, w: 50, h: 50, vy: 0, g: 0.5 };
         }
-
-        function resetBall() {
-            ballX = width / 2;
-            ballY = height - 100;
-        }
-
         window.addEventListener('resize', resize);
         resize();
 
-        class Pin {
-            constructor(word, isCorrect, x, y) {
-                this.word = word;
-                this.isCorrect = isCorrect;
-                this.x = x;
-                this.y = y;
-                this.radius = 40;
-                this.img = new Image();
-                this.img.src = Engine.getAssetPath(word);
-                this.img.onerror = () => { this.img.src = 'https://cdn-icons-png.flaticon.com/512/3081/3081840.png'; };
-            }
-
-            draw() {
-                ctx.save();
-                ctx.beginPath();
-                ctx.roundRect(this.x - 30, this.y - 40, 60, 80, 10);
-                ctx.fillStyle = 'white';
-                ctx.fill();
-                ctx.strokeStyle = this.isCorrect ? '#06b6d4' : '#e2e8f0';
-                ctx.lineWidth = 3;
-                ctx.stroke();
-
-                ctx.drawImage(this.img, this.x - 25, this.y - 35, 50, 50);
-                
-                ctx.fillStyle = '#1e293b';
-                ctx.font = 'bold 12px Fredoka';
-                ctx.textAlign = 'center';
-                ctx.fillText(this.word, this.x, this.y + 35);
-                ctx.restore();
-            }
-        }
-
         function nextQuestion() {
-            const correctIdx = Math.floor(Math.random() * vocab.length);
-            currentWord = vocab[correctIdx];
+            currentWord = vocab[Math.floor(Math.random() * vocab.length)];
             document.getElementById('targetWord').innerText = currentWord;
-            
-            pins = [];
-            const pinSpacing = width / 4;
-            // Spawn 3 pins
-            const correctPos = Math.floor(Math.random() * 3);
+            Engine.speak(currentWord);
+            platforms = [];
             for(let i=0; i<3; i++) {
-                if(i === correctPos) {
-                    pins.push(new Pin(currentWord, true, pinSpacing * (i+1), 250));
-                } else {
-                    let wrongWord;
-                    do { wrongWord = vocab[Math.floor(Math.random() * vocab.length)]; } while(wrongWord === currentWord);
-                    pins.push(new Pin(wrongWord, false, pinSpacing * (i+1), 250));
-                }
+                let word = (i === 0) ? currentWord : vocab[Math.floor(Math.random()*vocab.length)];
+                platforms.push({
+                    word, isCorrect: word === currentWord,
+                    x: (width/4) * (i+1) - 50, y: height/2, w: 100, h: 20,
+                    img: new Image()
+                });
+                platforms[i].img.src = Engine.getAssetPath(word);
             }
-            resetBall();
+            platforms.sort(() => Math.random() - 0.5);
+            hero.y = height - 150; hero.vy = 0;
         }
 
         function gameLoop() {
-            ctx.clearRect(0, 0, width, height);
+            ctx.clearRect(0,0,width,height);
+            ctx.fillStyle = '#cbd5e1'; ctx.fillRect(0, height-100, width, 100);
+            
+            platforms.forEach(p => {
+                ctx.fillStyle = p.isCorrect ? '#38bdf8' : '#94a3b8';
+                ctx.fillRect(p.x, p.y, p.w, p.h);
+                ctx.drawImage(p.img, p.x + p.w/2 - 20, p.y - 50, 40, 40);
+                ctx.fillStyle = 'black'; ctx.font = 'bold 12px Fredoka'; ctx.textAlign='center';
+                ctx.fillText(p.word, p.x + p.w/2, p.y + 35);
+            });
 
-            // Lane
-            ctx.fillStyle = '#e2e8f0';
-            ctx.beginPath();
-            ctx.moveTo(width/4, 200);
-            ctx.lineTo(3*width/4, 200);
-            ctx.lineTo(width, height);
-            ctx.lineTo(0, height);
-            ctx.fill();
+            hero.vy += hero.g; hero.y += hero.vy;
+            if(hero.y > height - 150) { hero.y = height - 150; hero.vy = 0; }
 
-            // Pins
-            pins.forEach(pin => pin.draw());
+            platforms.forEach(p => {
+                if(hero.vy > 0 && hero.y + hero.h > p.y && hero.y < p.y + p.h && hero.x + hero.w > p.x && hero.x < p.x + p.w) {
+                    if(p.isCorrect) { Engine.addScore(30); Engine.showFeedback(true); setTimeout(nextQuestion, 1000); }
+                    else { Engine.showFeedback(false); hero.vy = -10; }
+                }
+            });
 
-            // Ball
-            ctx.beginPath();
-            ctx.arc(ballX, ballY, ballRadius, 0, Math.PI * 2);
-            ctx.fillStyle = '#06b6d4';
-            ctx.fill();
-            ctx.strokeStyle = 'white';
-            ctx.lineWidth = 3;
-            ctx.stroke();
-
+            ctx.fillStyle = '#0ea5e9'; ctx.fillRect(hero.x, hero.y, hero.w, hero.h);
             requestAnimationFrame(gameLoop);
         }
 
-        function handleInput(x, y) {
-            if(!gameActive) return;
-            // Simplified: Strike the pin closest to x
-            let hitPin = null;
-            pins.forEach(pin => {
-                if(Math.abs(x - pin.x) < 50) hitPin = pin;
-            });
-
-            if(hitPin) {
-                // Animation
-                const targetX = hitPin.x;
-                const targetY = hitPin.y;
-                const startX = ballX;
-                const startY = ballY;
-                let progress = 0;
-                
-                const anim = setInterval(() => {
-                    progress += 0.1;
-                    ballX = startX + (targetX - startX) * progress;
-                    ballY = startY + (targetY - startY) * progress;
-                    
-                    if(progress >= 1) {
-                        clearInterval(anim);
-                        if(hitPin.isCorrect) {
-                            Engine.addScore(10);
-                            Engine.showFeedback(true);
-                            setTimeout(nextQuestion, 500);
-                        } else {
-                            Engine.showFeedback(false);
-                            resetBall();
-                        }
-                    }
-                }, 20);
-            }
-        }
-
-        canvas.addEventListener('mousedown', (e) => handleInput(e.clientX, e.clientY));
-        canvas.addEventListener('touchstart', (e) => handleInput(e.touches[0].clientX, e.touches[0].clientY));
-
-        document.getElementById('listenBtn').addEventListener('click', () => Engine.speak(currentWord));
-
-        nextQuestion();
-        gameLoop();
+        canvas.addEventListener('mousedown', (e) => {
+            if(hero.y >= height - 150) hero.vy = -15;
+            hero.x = e.clientX - 25;
+        });
+        document.getElementById('listenBtn').onclick = () => Engine.speak(currentWord);
+        nextQuestion(); gameLoop();
     </script>
 </body>
 </html>
