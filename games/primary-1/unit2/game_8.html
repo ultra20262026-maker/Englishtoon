@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,9 +16,9 @@
         .btn-action:active { transform: scale(0.95); }
     </style>
 
-    <title>Space Shooter</title>
+    <title>Penalty Kick</title>
 </head>
-<body class="bg-slate-900">
+<body class="bg-sky-100">
     
     <div class="game-ui">
         <div class="flex justify-between items-start">
@@ -34,9 +33,9 @@
         </div>
         <div class="mt-4 flex flex-col items-center">
             <div class="bg-white/95 backdrop-blur rounded-3xl p-4 shadow-xl border-4 border-blue-400 w-full max-w-md text-center interactive">
-                <h2 class="text-blue-500 font-bold text-sm mb-1 uppercase tracking-widest">Attack Earth! Shoot:</h2>
+                <h2 class="text-blue-500 font-bold text-sm mb-1 uppercase tracking-widest">Score a goal on:</h2>
                 <div id="targetWord" class="text-3xl font-black text-slate-800 mb-2">...</div>
-                <button id="listenBtn" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-xl font-bold shadow-lg flex items-center gap-2 mx-auto text-sm">
+                <button id="listenBtn" onclick="Engine.speak(currentWord)" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-xl font-bold shadow-lg flex items-center gap-2 mx-auto text-sm">
                     <i class="fa-solid fa-volume-high"></i> Listen
                 </button>
             </div>
@@ -44,61 +43,48 @@
     </div>
 
     <canvas id="gameCanvas"></canvas>
-    <script src="../../game_engine.js"></script>
+    <script src="../game_engine.js"></script>
     <script>
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
         const vocab = JSON.parse('["ant", "apple", "arm", "arrow", "axe", "bird", "butterfly", "flower", "grass", "sky", "snake", "spider", "spoon", "star", "sun", "tree"]');
-        let width, height, currentWord, ship, enemies = [], lasers = [];
-
+        let width, height, currentWord;
+        
         function resize() {
             width = canvas.width = window.innerWidth;
             height = canvas.height = window.innerHeight;
-            ship = { x: width/2, y: height - 100 };
         }
         window.addEventListener('resize', resize);
         resize();
 
+        
+        let ball = { x: width/2, y: height-100 }, targets = [];
         function nextQuestion() {
             currentWord = vocab[Math.floor(Math.random() * vocab.length)];
             document.getElementById('targetWord').innerText = currentWord;
+            targets = [{x: width/2-100, word: vocab[0]}, {x: width/2, word: currentWord}, {x: width/2+100, word: vocab[1]}].sort(()=>0.5-Math.random());
         }
-
         function loop() {
             ctx.clearRect(0,0,width,height);
-            // Ship
-            ctx.fillStyle = 'cyan'; ctx.beginPath(); ctx.moveTo(ship.x, ship.y-20); ctx.lineTo(ship.x-20, ship.y+20); ctx.lineTo(ship.x+20, ship.y+20); ctx.fill();
-            
-            if(Math.random() < 0.03) {
-                let word = Math.random() < 0.4 ? currentWord : vocab[Math.floor(Math.random()*vocab.length)];
-                enemies.push({ word, x: Math.random()*width, y: -50, s: 1+Math.random()*2, img: new Image() });
-                enemies[enemies.length-1].img.src = Engine.getAssetPath(word);
-            }
-
-            enemies.forEach((en, i) => {
-                en.y += en.s;
-                ctx.drawImage(en.img, en.x-35, en.y-35, 70, 70);
-                lasers.forEach((la, j) => {
-                    if(Math.hypot(la.x-en.x, la.y-en.y) < 40) {
-                        lasers.splice(j, 1); enemies.splice(i, 1);
-                        if(en.word === currentWord) { Engine.addScore(15); Engine.showFeedback(true); nextQuestion(); }
-                        else { Engine.showFeedback(false); }
-                    }
-                });
-                if(en.y > height) enemies.splice(i, 1);
+            ctx.strokeStyle = 'white'; ctx.strokeRect(width/2-150, 100, 300, 150);
+            targets.forEach(t => {
+                let img = new Image(); img.src = Engine.getAssetPath(t.word);
+                ctx.drawImage(img, t.x-30, 150, 60, 60);
             });
-
-            lasers.forEach((la, i) => { la.y -= 10; ctx.fillStyle='red'; ctx.fillRect(la.x-2, la.y, 4, 15); if(la.y < 0) lasers.splice(i, 1); });
+            ctx.fillStyle = 'white'; ctx.beginPath(); ctx.arc(ball.x, ball.y, 30, 0, Math.PI*2); ctx.fill();
             requestAnimationFrame(loop);
         }
-
         canvas.addEventListener('mousedown', (e) => {
-            ship.x = e.clientX;
-            lasers.push({ x: ship.x, y: ship.y });
+            const tx = e.clientX;
+            targets.forEach(t => {
+                if(Math.abs(tx - t.x) < 50) {
+                    if(t.word === currentWord) { Engine.addScore(15); Engine.showFeedback(true); nextQuestion(); }
+                    else Engine.showFeedback(false);
+                }
+            });
         });
-        canvas.addEventListener('touchmove', (e) => ship.x = e.touches[0].clientX);
-        document.getElementById('listenBtn').onclick = () => Engine.speak(currentWord);
         nextQuestion(); loop();
+    
     </script>
 </body>
 </html>
