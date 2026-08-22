@@ -66,15 +66,15 @@
         function loop() {
             ctx.clearRect(0,0,width,height);
             ctx.fillStyle = '#92400e'; ctx.fillRect(basket.x-50, height-50, 100, 30);
-            if(Math.random() < 0.02) {
+            if(Math.random() < 0.015) {
                 let word = Math.random() < 0.3 ? currentWord : vocab[Math.floor(Math.random()*vocab.length)];
-                let it = { word, x: Math.random()*width, y: -50, s: 3, img: new Image() };
+                let it = { word, x: Math.random()*width, y: -50, s: 1.5, img: new Image() };
                 it.img.src = Engine.getAssetPath(word);
                 items.push(it);
             }
             for(let i=items.length-1; i>=0; i--) {
                 let it = items[i];
-                it.y += it.s;
+                it.y += it.s * Engine.speed;
                 if(it.img.complete) ctx.drawImage(it.img, it.x-30, it.y-30, 60, 60);
                 if(it.y > height-60 && Math.abs(it.x-basket.x) < 50) {
                     items.splice(i, 1);
@@ -89,7 +89,6 @@
         canvas.addEventListener('touchmove', (e) => { e.preventDefault(); basket.x = e.touches[0].clientX; }, {passive:false});
     
         
-        // Ensure Engine is ready before starting
         window.onload = () => {
             if (window.Engine) {
                 Engine.init();
