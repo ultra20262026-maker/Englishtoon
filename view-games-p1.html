@@ -8,51 +8,68 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: 'Cairo', sans-serif; background: #0f172a; color: #f8fafc; }
+        body { font-family: 'Cairo', sans-serif; background: #020617; color: #f8fafc; }
         .bg-pattern {
             background-image: radial-gradient(#1e293b 2px, transparent 2px);
             background-size: 30px 30px;
         }
-        .game-card { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        .game-card { transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
         .game-card:active { transform: scale(0.95); }
         .animate-fade-in-up { animation: fadeInUp 0.5s ease-out forwards; opacity: 0; }
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
         .gradient-border {
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            padding: 2px;
-            border-radius: 2rem;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
+            padding: 3px;
+            border-radius: 2.5rem;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
         .card-inner {
             background: #0f172a;
-            border-radius: calc(2rem - 2px);
+            border-radius: calc(2.5rem - 3px);
+            position: relative;
+            overflow: hidden;
         }
+        .card-inner::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.05), transparent);
+            transform: translateX(-100%);
+            transition: 0.5s;
+        }
+        .game-card:hover .card-inner::after { transform: translateX(100%); }
         .dictation-border {
-            background: linear-gradient(135deg, #f59e0b, #ef4444);
+            background: linear-gradient(135deg, #f59e0b, #ef4444, #f59e0b);
+            animation: border-glow 3s linear infinite;
+        }
+        @keyframes border-glow {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
         }
     </style>
 </head>
 <body class="min-h-screen bg-slate-950 bg-pattern">
-    <header class="p-6 flex items-center justify-between bg-slate-900/80 backdrop-blur-xl border-b border-slate-800 sticky top-0 z-50">
-        <div class="flex items-center gap-4">
-            <a href="dashboard.html" class="w-12 h-12 rounded-2xl bg-slate-800 hover:bg-slate-700 flex items-center justify-center text-slate-300 transition-all active:scale-90">
-                <i class="fa-solid fa-house text-xl"></i>
+    <header class="p-8 flex items-center justify-between bg-slate-900/90 backdrop-blur-2xl border-b border-white/5 sticky top-0 z-50">
+        <div class="flex items-center gap-6">
+            <a href="dashboard.html" class="w-16 h-16 rounded-3xl bg-slate-800 hover:bg-blue-600 flex items-center justify-center text-white transition-all active:scale-90 shadow-2xl">
+                <i class="fa-solid fa-house text-2xl"></i>
             </a>
             <div>
-                <h1 id="unitTitle" class="text-xl font-black text-blue-400">ألعاب الصف الأول</h1>
-                <p id="unitSub" class="text-[10px] text-slate-500 font-bold tracking-widest uppercase">Unit 1 Adventure</p>
+                <h1 id="unitTitle" class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">ألعاب الصف الأول</h1>
+                <p id="unitSub" class="text-xs text-slate-500 font-black tracking-[0.3em] uppercase mt-1">Unit Arcade Adventure</p>
             </div>
         </div>
-        <div class="px-4 py-2 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center gap-2 text-blue-400 shadow-lg">
-            <span class="font-black text-xl">24</span>
-            <i class="fa-solid fa-gamepad text-xl"></i>
+        <div class="px-6 py-3 rounded-3xl bg-blue-500/10 border border-blue-500/20 flex items-center gap-3 text-blue-400 shadow-[0_0_30px_rgba(59,130,246,0.2)]">
+            <span class="font-black text-2xl">24</span>
+            <i class="fa-solid fa-gamepad text-2xl"></i>
         </div>
     </header>
 
-    <main class="max-w-4xl mx-auto px-6 py-8">
-        <div id="gamesGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <main class="max-w-6xl mx-auto px-6 py-12">
+        <div id="gamesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <!-- Games will be injected here -->
         </div>
     </main>
@@ -60,37 +77,38 @@
     <script>
         const params = new URLSearchParams(window.location.search);
         const unitNum = params.get('unit') || '1';
+        const version = '5.0.0';
         
         const GAMES_DATA = [
-            { name: "Cannon Shooter", icon: "fa-bomb", color: "from-blue-500 to-indigo-600" },
-            { name: "Basket Catcher", icon: "fa-basket-shopping", color: "from-emerald-500 to-teal-600" },
-            { name: "Space Shooter", icon: "fa-rocket", color: "from-purple-500 to-pink-600" },
-            { name: "Bowling Striker", icon: "fa-bowling-ball", color: "from-orange-500 to-red-600" },
-            { name: "Whack-a-Word", icon: "fa-hammer", color: "from-yellow-500 to-amber-600" },
-            { name: "Memory Match", icon: "fa-clone", color: "from-cyan-500 to-blue-600" },
-            { name: "Penalty Kick", icon: "fa-soccer-ball", color: "from-green-500 to-emerald-600" },
-            { name: "Jumping Hero", icon: "fa-up-long", color: "from-indigo-500 to-purple-600" },
-            { name: "Meteor Hunter", icon: "fa-meteor", color: "from-rose-500 to-pink-600" },
-            { name: "Treasure Hunt", icon: "fa-gem", color: "from-amber-400 to-yellow-600" },
-            { name: "Word Bridge", icon: "fa-bridge", color: "from-slate-500 to-slate-700" },
-            { name: "Sky Race", icon: "fa-cloud", color: "from-sky-400 to-blue-500" },
-            { name: "Robot Repair", icon: "fa-robot", color: "from-zinc-500 to-zinc-700" },
-            { name: "Shadow Match", icon: "fa-ghost", color: "from-gray-700 to-black" },
-            { name: "Firefighter Rescue", icon: "fa-fire-extinguisher", color: "from-red-500 to-orange-600" },
-            { name: "Balloon Popper", icon: "fa-circle", color: "from-pink-400 to-rose-500" },
-            { name: "Maze Runner", icon: "fa-route", color: "from-lime-500 to-green-600" },
-            { name: "Magic Hat", icon: "fa-hat-wizard", color: "from-violet-500 to-purple-700" },
-            { name: "Listening Bot", icon: "fa-headset", color: "from-blue-600 to-blue-800" },
-            { name: "Jungle Explorer", icon: "fa-leaf", color: "from-green-600 to-emerald-800" },
-            { name: "Butterfly Catcher", icon: "fa-bug", color: "from-orange-400 to-amber-500" },
-            { name: "Magic Piano", icon: "fa-music", color: "from-indigo-600 to-blue-700" },
-            { name: "Space Explorer", icon: "fa-satellite", color: "from-slate-800 to-slate-950" },
-            { name: "Dictation (Spelling)", icon: "fa-spell-check", color: "from-amber-500 to-red-600", isSpecial: true }
+            { name: "سباق التوربو", icon: "fa-car-side", color: "from-blue-500 to-indigo-600" },
+            { name: "قفزة الغابة", icon: "fa-frog", color: "from-emerald-500 to-teal-600" },
+            { name: "مدافع الفضاء", icon: "fa-rocket", color: "from-purple-500 to-pink-600" },
+            { name: "خطاف الكنوز", icon: "fa-anchor", color: "from-orange-500 to-red-600" },
+            { name: "فرقعة الفقاعات", icon: "fa-circle-dot", color: "from-yellow-500 to-amber-600" },
+            { name: "شيف المطبخ", icon: "fa-utensils", color: "from-cyan-500 to-blue-600" },
+            { name: "ضربات الجزاء", icon: "fa-soccer-ball", color: "from-green-500 to-emerald-600" },
+            { name: "نينجا التقطيع", icon: "fa-shuriken", color: "from-indigo-500 to-purple-600" },
+            { name: "محلق السماء", icon: "fa-plane-up", color: "from-rose-500 to-pink-600" },
+            { name: "الذاكرة الاحترافية", icon: "fa-clone", color: "from-amber-400 to-yellow-600" },
+            { name: "جسر الكلمات", icon: "fa-bridge", color: "from-slate-500 to-slate-700" },
+            { name: "مختبر الروبوت", icon: "fa-robot", color: "from-sky-400 to-blue-500" },
+            { name: "بطل الإطفاء", icon: "fa-fire-extinguisher", color: "from-zinc-500 to-zinc-700" },
+            { name: "صيد الأسماك", icon: "fa-fish", color: "from-gray-700 to-black" },
+            { name: "حماية البيض", icon: "fa-egg", color: "from-red-500 to-orange-600" },
+            { name: "رامي السهام", icon: "fa-bow-arrow", color: "from-pink-400 to-rose-500" },
+            { name: "مستكشف البحار", icon: "fa-water", color: "from-lime-500 to-green-600" },
+            { name: "بولينج الكلمات", icon: "fa-bowling-ball", color: "from-violet-500 to-purple-700" },
+            { name: "طريق النمل", icon: "fa-bug", color: "from-blue-600 to-blue-800" },
+            { name: "المرجل السحري", icon: "fa-cauldron", color: "from-green-600 to-emerald-800" },
+            { name: "برج الآيس كريم", icon: "fa-ice-cream", color: "from-orange-400 to-amber-500" },
+            { name: "سلة الهدايا", icon: "fa-gift", color: "from-indigo-600 to-blue-700" },
+            { name: "جامع النجوم", icon: "fa-star", color: "from-slate-800 to-slate-950" },
+            { name: "تحدي الإملاء", icon: "fa-spell-check", color: "from-amber-500 to-red-600", isSpecial: true }
         ];
 
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('unitTitle').textContent = `الوحدة ${unitNum}`;
-            document.getElementById('unitSub').textContent = `Unit ${unitNum} Arcade Adventure`;
+            document.getElementById('unitSub').textContent = `Unit ${unitNum} Professional Arcade`;
             renderGames();
         });
 
@@ -100,28 +118,32 @@
             
             GAMES_DATA.forEach((game, index) => {
                 const i = index + 1;
-                const gameLink = `games/primary-1/unit${unitNum}/game_${i}.html`;
+                // Add version to force cache refresh
+                const gameLink = `games/primary-1/unit${unitNum}/game_${i}.html?v=${version}`;
                 
                 const card = document.createElement('div');
                 card.className = `gradient-border animate-fade-in-up ${game.isSpecial ? 'dictation-border' : ''}`;
                 card.style.animationDelay = `${index * 0.05}s`;
                 
                 card.innerHTML = `
-                    <a href="${gameLink}" class="game-card block card-inner p-5 group hover:bg-slate-900/40 transition-all">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-4">
-                                <div class="w-14 h-14 rounded-2xl bg-gradient-to-br ${game.color} flex items-center justify-center text-white shadow-xl group-hover:scale-110 transition-transform">
-                                    <i class="fa-solid ${game.icon} text-2xl"></i>
+                    <a href="${gameLink}" class="game-card block card-inner p-6 group hover:bg-slate-900/40 transition-all">
+                        <div class="flex flex-col gap-6">
+                            <div class="flex items-center justify-between">
+                                <div class="w-20 h-20 rounded-[2rem] bg-gradient-to-br ${game.color} flex items-center justify-center text-white shadow-2xl group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                                    <i class="fa-solid ${game.icon} text-4xl"></i>
                                 </div>
-                                <div>
-                                    <h4 class="font-black text-slate-100 text-lg">${game.name}</h4>
-                                    <p class="text-[10px] ${game.isSpecial ? 'text-amber-400' : 'text-blue-400'} font-bold uppercase tracking-widest">
-                                        ${game.isSpecial ? '⭐ Challenge ⭐' : 'Game ' + i}
-                                    </p>
+                                <div class="w-12 h-12 rounded-full bg-slate-800/50 flex items-center justify-center text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-inner">
+                                    <i class="fa-solid fa-play text-xl"></i>
                                 </div>
                             </div>
-                            <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all">
-                                <i class="fa-solid fa-play"></i>
+                            <div>
+                                <h4 class="font-black text-slate-100 text-2xl mb-1">${game.name}</h4>
+                                <div class="flex items-center gap-2">
+                                    <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+                                    <p class="text-[10px] ${game.isSpecial ? 'text-amber-400' : 'text-blue-400'} font-black uppercase tracking-widest">
+                                        ${game.isSpecial ? '⭐ Challenge ⭐' : 'Pro Arcade ' + i}
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </a>
