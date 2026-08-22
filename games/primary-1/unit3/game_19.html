@@ -1,237 +1,73 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Cannon Shooter - Game 19: Super Cannon</title>
+    <title>Letter Maze - EnglishToon</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Fredoka', sans-serif; overflow: hidden; touch-action: none; background: #f0f9ff; }
-        #gameCanvas { width: 100%; height: 100vh; display: block; }
-        .game-ui { pointer-events: none; }
-        .interactive { pointer-events: auto; }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-        .animate-bounce-slow { animation: bounce 2s infinite; }
+        body { font-family: 'Fredoka', sans-serif; background: #f0fdf4; overflow: hidden; }
+        .node { width: 80px; height: 80px; cursor: pointer; transition: all 0.3s; border-radius: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: white; border: 4px solid #bbf7d0; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .node:active { transform: scale(0.9); }
     </style>
 </head>
-<body class="bg-sky-50">
-    <!-- UI Overlay -->
-    <div class="game-ui fixed inset-0 z-10 flex flex-col p-4">
+<body>
+    <div class="fixed inset-0 z-10 flex flex-col p-4 pointer-events-none">
         <div class="flex justify-between items-start">
-            <div class="bg-white/90 backdrop-blur rounded-2xl p-3 shadow-lg border-2 border-blue-200 flex items-center gap-4">
-                <div class="text-blue-600">
-                    <span class="text-xs font-bold block uppercase tracking-wider">Score</span>
-                    <span id="score" class="text-2xl font-black">0</span>
-                </div>
-                <div class="w-px h-8 bg-blue-100"></div>
-                <div class="text-amber-500">
-                    <span class="text-xs font-bold block uppercase tracking-wider">Stars</span>
-                    <span id="stars" class="text-2xl font-black">0</span>
-                </div>
+            <div class="bg-white/90 backdrop-blur rounded-2xl p-3 shadow-lg border-2 border-green-200 flex items-center gap-4 pointer-events-auto">
+                <div class="text-green-600"><span class="text-xs font-bold block uppercase">Maze</span><span id="score" class="text-2xl font-black">0</span></div>
+                <div class="w-px h-8 bg-green-100"></div>
+                <div class="text-amber-500"><span class="text-xs font-bold block uppercase">Stars</span><span id="stars" class="text-2xl font-black">0</span></div>
             </div>
-            <button onclick="window.history.back()" class="interactive w-12 h-12 rounded-2xl bg-white/90 backdrop-blur flex items-center justify-center text-slate-400 shadow-lg border-2 border-slate-100">
+            <button onclick="window.history.back()" class="pointer-events-auto w-12 h-12 rounded-2xl bg-white/90 backdrop-blur flex items-center justify-center text-slate-400 shadow-lg border-2 border-slate-100">
                 <i class="fa-solid fa-xmark text-xl"></i>
             </button>
         </div>
-
-        <div class="mt-4 flex flex-col items-center">
-            <div class="bg-white/95 backdrop-blur rounded-3xl p-6 shadow-xl border-4 border-blue-400 w-full max-w-md text-center">
-                <h2 class="text-blue-500 font-bold text-lg mb-1 uppercase tracking-widest">Shoot the target:</h2>
+        <div class="mt-4 text-center pointer-events-auto">
+            <div class="bg-white/95 backdrop-blur rounded-3xl p-6 shadow-xl border-4 border-green-400 w-full max-w-md mx-auto">
+                <h2 class="text-green-500 font-bold text-lg mb-1 uppercase tracking-widest">Exit the maze through:</h2>
                 <div id="targetWord" class="text-4xl font-black text-slate-800 mb-4">...</div>
-                <button id="listenBtn" class="interactive bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 rounded-2xl font-bold shadow-lg shadow-blue-200 transition-all active:scale-95 flex items-center gap-2 mx-auto">
-                    <i class="fa-solid fa-volume-high"></i>
-                    Listen
+                <button id="listenBtn" class="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-2xl font-bold shadow-lg flex items-center gap-2 mx-auto">
+                    <i class="fa-solid fa-volume-high"></i> Listen
                 </button>
             </div>
         </div>
     </div>
-
-    <canvas id="gameCanvas"></canvas>
-
+    <div class="h-screen flex items-center justify-center pt-40 px-4">
+        <div id="nodes" class="grid grid-cols-2 gap-10"></div>
+    </div>
     <script src="../../game_engine.js"></script>
     <script>
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
         const vocab = JSON.parse('["brother", "dog", "doll", "door", "drum", "duck", "father", "five", "flowers", "four", "grandfather", "grandmother", "hair", "hands", "hat", "horse", "house", "mother", "nail", "neck", "net", "nose", "nurse", "one", "panda", "parents", "parrot", "pencil", "pizza", "potato", "sister", "three", "two"]');
-        
-        let width, height;
-        let cannonX, cannonY;
-        let targets = [];
-        let projectiles = [];
-        let currentWord = null;
-        let lastTime = 0;
-        let nextSpawn = 0;
-        let gameActive = true;
-
-        function resize() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-            cannonX = width / 2;
-            cannonY = height - 80;
-        }
-
-        window.addEventListener('resize', resize);
-        resize();
-
-        class Target {
-            constructor(word, isCorrect) {
-                this.word = word;
-                this.isCorrect = isCorrect;
-                this.x = Math.random() * (width - 100) + 50;
-                this.y = -50;
-                this.speed = 1.5 + Math.random() * 1.5;
-                this.radius = 45;
-                this.img = new Image();
-                this.img.src = Engine.getAssetPath(word);
-                this.img.onerror = () => { this.img.src = 'https://cdn-icons-png.flaticon.com/512/3081/3081840.png'; };
-            }
-
-            update(dt) {
-                this.y += this.speed;
-            }
-
-            draw() {
-                ctx.save();
-                // Bubble effect
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
-                ctx.fill();
-                ctx.strokeStyle = this.isCorrect ? '#3b82f6' : '#e2e8f0';
-                ctx.lineWidth = 4;
-                ctx.stroke();
-
-                // Image
-                const imgSize = this.radius * 1.4;
-                ctx.drawImage(this.img, this.x - imgSize/2, this.y - imgSize/2, imgSize, imgSize);
-                
-                // Label
-                ctx.fillStyle = '#1e293b';
-                ctx.font = 'bold 14px Fredoka';
-                ctx.textAlign = 'center';
-                ctx.fillText(this.word, this.x, this.y + this.radius + 20);
-                ctx.restore();
-            }
-        }
-
-        class Projectile {
-            constructor(x, y, targetX, targetY) {
-                this.x = x;
-                this.y = y;
-                const angle = Math.atan2(targetY - y, targetX - x);
-                this.vx = Math.cos(angle) * 15;
-                this.vy = Math.sin(angle) * 15;
-                this.radius = 10;
-            }
-
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-            }
-
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = '#3b82f6';
-                ctx.fill();
-            }
-        }
-
+        let currentWord;
         function nextQuestion() {
-            const correctIdx = Math.floor(Math.random() * vocab.length);
-            currentWord = vocab[correctIdx];
+            currentWord = vocab[Math.floor(Math.random() * vocab.length)];
             document.getElementById('targetWord').innerText = currentWord;
-            targets = [];
-            spawnInitialTargets();
-        }
-
-        function spawnInitialTargets() {
-            // Spawn the correct one
-            targets.push(new Target(currentWord, true));
-            // Spawn 2 wrong ones
-            for(let i=0; i<2; i++) {
-                let wrongWord;
-                do {
-                    wrongWord = vocab[Math.floor(Math.random() * vocab.length)];
-                } while(wrongWord === currentWord);
-                targets.push(new Target(wrongWord, false));
-            }
-        }
-
-        function gameLoop(timestamp) {
-            const dt = timestamp - lastTime;
-            lastTime = timestamp;
-
-            ctx.clearRect(0, 0, width, height);
-
-            // Draw Cannon
-            ctx.fillStyle = '#1e293b';
-            ctx.beginPath();
-            ctx.arc(cannonX, cannonY + 40, 60, Math.PI, 0);
-            ctx.fill();
-            
-            // Update & Draw Targets
-            for(let i = targets.length - 1; i >= 0; i--) {
-                targets[i].update(dt);
-                targets[i].draw();
-                
-                if(targets[i].y > height + 100) {
-                    targets.splice(i, 1);
-                    if(targets.filter(t => t.isCorrect).length === 0) {
-                        targets.push(new Target(currentWord, true));
-                    }
-                }
-            }
-
-            // Update & Draw Projectiles
-            for(let i = projectiles.length - 1; i >= 0; i--) {
-                projectiles[i].update();
-                projectiles[i].draw();
-
-                // Collision check
-                for(let j = targets.length - 1; j >= 0; j--) {
-                    const dist = Math.hypot(projectiles[i].x - targets[j].x, projectiles[i].y - targets[j].y);
-                    if(dist < projectiles[i].radius + targets[j].radius) {
-                        if(targets[j].isCorrect) {
-                            Engine.addScore(10);
-                            Engine.showFeedback(true);
-                            projectiles.splice(i, 1);
-                            setTimeout(nextQuestion, 500);
-                            return requestAnimationFrame(gameLoop);
-                        } else {
-                            Engine.showFeedback(false);
-                            projectiles.splice(i, 1);
-                            targets.splice(j, 1);
-                            break;
-                        }
-                    }
-                }
-
-                if(projectiles[i] && (projectiles[i].x < 0 || projectiles[i].x > width || projectiles[i].y < 0)) {
-                    projectiles.splice(i, 1);
-                }
-            }
-
-            requestAnimationFrame(gameLoop);
-        }
-
-        canvas.addEventListener('mousedown', (e) => {
-            projectiles.push(new Projectile(cannonX, cannonY, e.clientX, e.clientY));
-        });
-
-        canvas.addEventListener('touchstart', (e) => {
-            const touch = e.touches[0];
-            projectiles.push(new Projectile(cannonX, cannonY, touch.clientX, touch.clientY));
-        });
-
-        document.getElementById('listenBtn').addEventListener('click', () => {
             Engine.speak(currentWord);
-        });
-
+            const container = document.getElementById('nodes');
+            container.innerHTML = '';
+            const choices = [currentWord];
+            while(choices.length < 4) {
+                let w = vocab[Math.floor(Math.random()*vocab.length)];
+                if(!choices.includes(w)) choices.push(w);
+            }
+            choices.sort(() => Math.random() - 0.5);
+            choices.forEach(w => {
+                const div = document.createElement('div');
+                div.className = 'node';
+                div.innerHTML = `<img src="${Engine.getAssetPath(w)}" class="w-12 h-12 object-contain mb-1"><span class="text-xs font-bold text-green-700">${w}</span>`;
+                div.onclick = () => {
+                    if(w === currentWord) { Engine.addScore(35); Engine.showFeedback(true); setTimeout(nextQuestion, 1000); }
+                    else { Engine.showFeedback(false); div.style.borderColor = '#fee2e2'; div.style.backgroundColor = '#fef2f2'; }
+                };
+                container.appendChild(div);
+            });
+        }
+        document.getElementById('listenBtn').onclick = () => Engine.speak(currentWord);
         nextQuestion();
-        requestAnimationFrame(gameLoop);
     </script>
 </body>
 </html>

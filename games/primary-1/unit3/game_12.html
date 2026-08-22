@@ -1,176 +1,74 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dictation Challenge - Game 12: Dictation Master</title>
+    <title>Treasure Hunt - EnglishToon</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Fredoka', sans-serif; background: #fdf4ff; overflow: hidden; touch-action: none; }
-        .letter-box { width: 50px; height: 50px; display: flex; items-center justify-center; font-size: 1.5rem; font-weight: 900; border-radius: 12px; transition: all 0.2s; cursor: pointer; user-select: none; }
-        .letter-slot { width: 50px; height: 50px; border: 3px dashed #d8b4fe; border-radius: 12px; display: flex; items-center justify-center; }
+        body { font-family: 'Fredoka', sans-serif; background: #fef3c7; overflow: hidden; touch-action: none; }
+        .chest { width: 100px; height: 100px; cursor: pointer; transition: transform 0.2s; position: relative; }
+        .chest:active { transform: scale(0.9); }
         .game-ui { pointer-events: none; }
         .interactive { pointer-events: auto; }
-        @keyframes success { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
-        .animate-success { animation: success 0.5s ease-in-out; }
     </style>
 </head>
-<body class="bg-purple-50">
-    <!-- UI Overlay -->
+<body>
     <div class="game-ui fixed inset-0 z-10 flex flex-col p-4">
         <div class="flex justify-between items-start">
-            <div class="bg-white/90 backdrop-blur rounded-2xl p-3 shadow-lg border-2 border-purple-200 flex items-center gap-4">
-                <div class="text-purple-600">
-                    <span class="text-xs font-bold block uppercase tracking-wider">Score</span>
-                    <span id="score" class="text-2xl font-black">0</span>
-                </div>
-                <div class="w-px h-8 bg-purple-100"></div>
-                <div class="text-amber-500">
-                    <span class="text-xs font-bold block uppercase tracking-wider">Stars</span>
-                    <span id="stars" class="text-2xl font-black">0</span>
-                </div>
+            <div class="bg-white/90 backdrop-blur rounded-2xl p-3 shadow-lg border-2 border-amber-200 flex items-center gap-4 pointer-events-auto">
+                <div class="text-amber-600"><span class="text-xs font-bold block uppercase">Gold</span><span id="score" class="text-2xl font-black">0</span></div>
+                <div class="w-px h-8 bg-amber-100"></div>
+                <div class="text-orange-500"><span class="text-xs font-bold block uppercase">Stars</span><span id="stars" class="text-2xl font-black">0</span></div>
             </div>
             <button onclick="window.history.back()" class="interactive w-12 h-12 rounded-2xl bg-white/90 backdrop-blur flex items-center justify-center text-slate-400 shadow-lg border-2 border-slate-100">
                 <i class="fa-solid fa-xmark text-xl"></i>
             </button>
         </div>
-
         <div class="mt-4 flex flex-col items-center">
-            <div class="bg-white/95 backdrop-blur rounded-3xl p-6 shadow-xl border-4 border-purple-400 w-full max-w-md text-center">
-                <h2 class="text-purple-500 font-bold text-lg mb-1 uppercase tracking-widest">Dictation Master</h2>
-                <div class="flex justify-center gap-4 my-4">
-                    <img id="wordImage" src="" class="w-32 h-32 object-contain bg-purple-50 rounded-2xl p-2 border-2 border-purple-100">
-                    <div class="flex flex-col justify-center gap-2">
-                        <button id="listenBtn" class="interactive bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded-2xl font-bold shadow-lg shadow-purple-200 transition-all active:scale-95 flex items-center gap-2">
-                            <i class="fa-solid fa-volume-high"></i>
-                            Listen
-                        </button>
-                        <button id="hintBtn" class="interactive bg-amber-400 hover:bg-amber-500 text-white px-6 py-2 rounded-2xl font-bold shadow-lg shadow-amber-200 transition-all active:scale-95 text-sm">
-                            Hint
-                        </button>
-                    </div>
-                </div>
+            <div class="bg-white/95 backdrop-blur rounded-3xl p-6 shadow-xl border-4 border-amber-400 w-full max-w-md text-center pointer-events-auto">
+                <h2 class="text-amber-500 font-bold text-lg mb-1 uppercase tracking-widest">Open the chest with:</h2>
+                <div id="targetWord" class="text-4xl font-black text-slate-800 mb-4">...</div>
+                <button id="listenBtn" class="bg-amber-500 hover:bg-amber-600 text-white px-8 py-3 rounded-2xl font-bold shadow-lg flex items-center gap-2 mx-auto">
+                    <i class="fa-solid fa-volume-high"></i> Listen
+                </button>
             </div>
         </div>
     </div>
-
-    <div class="h-screen flex flex-col items-center justify-center pt-48 pb-10 px-4">
-        <!-- Target Slots -->
-        <div id="slotsContainer" class="flex flex-wrap justify-center gap-2 mb-12"></div>
-        
-        <!-- Scrambled Letters -->
-        <div id="lettersContainer" class="flex flex-wrap justify-center gap-3"></div>
+    <div class="h-screen flex items-center justify-center pt-40 px-4">
+        <div id="chests" class="grid grid-cols-2 gap-10"></div>
     </div>
-
     <script src="../../game_engine.js"></script>
     <script>
         const vocab = JSON.parse('["brother", "dog", "doll", "door", "drum", "duck", "father", "five", "flowers", "four", "grandfather", "grandmother", "hair", "hands", "hat", "horse", "house", "mother", "nail", "neck", "net", "nose", "nurse", "one", "panda", "parents", "parrot", "pencil", "pizza", "potato", "sister", "three", "two"]');
-        let currentWord = "";
-        let userInput = [];
-        let scrambled = [];
-
+        let currentWord;
         function nextQuestion() {
-            const word = vocab[Math.floor(Math.random() * vocab.length)];
-            currentWord = word.toUpperCase();
-            userInput = new Array(currentWord.length).fill(null);
-            
-            // Image
-            document.getElementById('wordImage').src = Engine.getAssetPath(word);
-            
-            // Scramble letters
-            scrambled = currentWord.split('').map((char, index) => ({ char, id: index }));
-            scrambled.sort(() => Math.random() - 0.5);
-            
-            renderGame();
-            Engine.speak(word);
-        }
-
-        function renderGame() {
-            const slots = document.getElementById('slotsContainer');
-            const letters = document.getElementById('lettersContainer');
-            
-            slots.innerHTML = '';
-            letters.innerHTML = '';
-            
-            // Render slots
-            userInput.forEach((char, i) => {
-                const slot = document.createElement('div');
-                slot.className = 'letter-slot';
-                if(char) {
-                    slot.innerHTML = `<div class="letter-box bg-white border-2 border-purple-400 text-purple-600 shadow-md">${char.char}</div>`;
-                    slot.onclick = () => removeLetter(i);
-                }
-                slots.appendChild(slot);
-            });
-            
-            // Render scrambled letters
-            scrambled.forEach((item, i) => {
-                const box = document.createElement('div');
-                box.className = 'letter-box bg-purple-500 text-white shadow-lg border-b-4 border-purple-700 active:border-b-0 active:translate-y-1';
-                box.innerText = item.char;
-                box.onclick = () => addLetter(item, i);
-                letters.appendChild(box);
+            currentWord = vocab[Math.floor(Math.random() * vocab.length)];
+            document.getElementById('targetWord').innerText = currentWord;
+            Engine.speak(currentWord);
+            const container = document.getElementById('chests');
+            container.innerHTML = '';
+            const choices = [currentWord];
+            while(choices.length < 4) {
+                let w = vocab[Math.floor(Math.random()*vocab.length)];
+                if(!choices.includes(w)) choices.push(w);
+            }
+            choices.sort(() => Math.random() - 0.5);
+            choices.forEach(w => {
+                const div = document.createElement('div');
+                div.className = 'chest bg-amber-700 rounded-2xl flex flex-col items-center justify-center border-b-8 border-amber-900 shadow-xl';
+                div.innerHTML = `<img src="${Engine.getAssetPath(w)}" class="w-16 h-16 object-contain bg-white rounded-lg mb-2"><span class="text-white font-bold text-xs">${w}</span>`;
+                div.onclick = () => {
+                    if(w === currentWord) { Engine.addScore(40); Engine.showFeedback(true); setTimeout(nextQuestion, 1000); }
+                    else { Engine.showFeedback(false); div.style.opacity = '0.3'; }
+                };
+                container.appendChild(div);
             });
         }
-
-        function addLetter(item, index) {
-            const emptySlot = userInput.indexOf(null);
-            if(emptySlot !== -1) {
-                userInput[emptySlot] = item;
-                scrambled.splice(index, 1);
-                renderGame();
-                checkWord();
-            }
-        }
-
-        function removeLetter(index) {
-            const item = userInput[index];
-            if(item) {
-                scrambled.push(item);
-                userInput[index] = null;
-                renderGame();
-            }
-        }
-
-        function checkWord() {
-            if(userInput.indexOf(null) === -1) {
-                const word = userInput.map(i => i.char).join('');
-                if(word === currentWord) {
-                    Engine.addScore(30);
-                    Engine.showFeedback(true);
-                    document.getElementById('slotsContainer').classList.add('animate-success');
-                    setTimeout(() => {
-                        document.getElementById('slotsContainer').classList.remove('animate-success');
-                        nextQuestion();
-                    }, 1500);
-                } else {
-                    Engine.showFeedback(false);
-                    // Reset
-                    setTimeout(() => {
-                        userInput.forEach((item, i) => {
-                            if(item) scrambled.push(item);
-                            userInput[i] = null;
-                        });
-                        renderGame();
-                    }, 1000);
-                }
-            }
-        }
-
         document.getElementById('listenBtn').onclick = () => Engine.speak(currentWord);
-        document.getElementById('hintBtn').onclick = () => {
-            const emptySlot = userInput.indexOf(null);
-            if(emptySlot !== -1) {
-                const targetChar = currentWord[emptySlot];
-                const itemIdx = scrambled.findIndex(i => i.char === targetChar);
-                if(itemIdx !== -1) {
-                    addLetter(scrambled[itemIdx], itemIdx);
-                }
-            }
-        };
-
         nextQuestion();
     </script>
 </body>
