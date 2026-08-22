@@ -1,114 +1,237 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Toon Bowling - EnglishToon</title>
+    <title>Cannon Shooter - Game 19: Super Cannon</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Fredoka One', cursive; margin: 0; overflow: hidden; background: #f8fafc; height: 100vh; }
-        .animate-shake { animation: shake 0.5s; }
-        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+        body { font-family: 'Fredoka', sans-serif; overflow: hidden; touch-action: none; background: #f0f9ff; }
+        #gameCanvas { width: 100%; height: 100vh; display: block; }
+        .game-ui { pointer-events: none; }
+        .interactive { pointer-events: auto; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .animate-bounce-slow { animation: bounce 2s infinite; }
     </style>
 </head>
-<body>
-    <div id="gameArea" class="w-full h-full relative">
-        <!-- HUD -->
-        <div class="absolute top-4 left-4 z-50 flex gap-4 pointer-events-none">
-            <div class="bg-white/90 p-3 rounded-2xl shadow-xl border-2 border-blue-400 flex items-center gap-3">
-                <div class="text-blue-600 font-bold">Score: <span id="score">0</span></div>
-                <div class="text-yellow-500 font-bold">⭐ <span id="stars">0</span></div>
+<body class="bg-sky-50">
+    <!-- UI Overlay -->
+    <div class="game-ui fixed inset-0 z-10 flex flex-col p-4">
+        <div class="flex justify-between items-start">
+            <div class="bg-white/90 backdrop-blur rounded-2xl p-3 shadow-lg border-2 border-blue-200 flex items-center gap-4">
+                <div class="text-blue-600">
+                    <span class="text-xs font-bold block uppercase tracking-wider">Score</span>
+                    <span id="score" class="text-2xl font-black">0</span>
+                </div>
+                <div class="w-px h-8 bg-blue-100"></div>
+                <div class="text-amber-500">
+                    <span class="text-xs font-bold block uppercase tracking-wider">Stars</span>
+                    <span id="stars" class="text-2xl font-black">0</span>
+                </div>
             </div>
-        </div>
-        
-        <div class="absolute top-4 right-4 z-50">
-            <button onclick="window.history.back()" class="w-12 h-12 rounded-full bg-white/90 shadow-lg flex items-center justify-center text-slate-600 border-2 border-slate-200 active:scale-90 transition-all">✕</button>
+            <button onclick="window.history.back()" class="interactive w-12 h-12 rounded-2xl bg-white/90 backdrop-blur flex items-center justify-center text-slate-400 shadow-lg border-2 border-slate-100">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
         </div>
 
-        
-        <style>
-            .bubble { position: absolute; bottom: -100px; background: rgba(255,255,255,0.8); border: 2px solid #3b82f6; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; animation: floatUp 5s linear forwards; }
-            @keyframes floatUp { to { transform: translateY(-120vh); } }
-        </style>
-        <div id="gameWindow" class="w-full h-full bg-sky-100 relative overflow-hidden">
-            <div class="absolute top-20 left-4 bg-white/80 p-4 rounded-2xl shadow-lg border-2 border-blue-400">
-                <p class="text-blue-600 font-bold">Pop the bubble:</p>
-                <h2 id="targetWord" class="text-3xl font-black">...</h2>
-            </div>
-            <div id="bubbleLayer"></div>
-        </div>
-        <script>
-            let bubbleInterval;
-            function renderGame() {
-                clearInterval(bubbleInterval);
-                document.getElementById('bubbleLayer').innerHTML = '';
-                bubbleInterval = setInterval(spawnBubble, 1500);
-            }
-            function spawnBubble() {
-                const word = wordsData[Math.floor(Math.random() * wordsData.length)].word;
-                const b = document.createElement('div');
-                b.className = 'bubble w-24 h-24 shadow-inner';
-                b.style.left = Math.random() * 80 + 5 + '%';
-                b.innerHTML = `<img src="${Engine.getAssetPath(word)}" class="w-16 h-16 object-contain" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3081/3081840.png'">`;
-                b.onclick = () => {
-                    if(word === Engine.currentWord) { 
-                        Engine.addScore(15); Engine.showFeedback(true); 
-                        b.remove(); nextQuestion(); 
-                    } else { b.style.background = 'rgba(255,0,0,0.2)'; }
-                };
-                document.getElementById('bubbleLayer').appendChild(b);
-                setTimeout(() => b.remove(), 6000);
-            }
-        </script>
-    
-
-        <!-- Start Overlay -->
-        <div id="startOverlay" class="absolute inset-0 bg-blue-600/95 z-[100] flex items-center justify-center p-6 text-white">
-            <div class="bg-white p-8 rounded-[40px] text-center shadow-2xl border-8 border-blue-400 text-blue-600 max-w-sm w-full">
-                <h1 class="text-4xl font-black mb-2">Toon Bowling</h1>
-                <p class="text-gray-500 mb-8">Ready for adventure?</p>
-                <button onclick="startGame()" class="bg-blue-500 hover:bg-blue-600 text-white w-full py-4 rounded-3xl text-2xl font-black shadow-xl active:scale-95 transition-all">START PLAYING</button>
+        <div class="mt-4 flex flex-col items-center">
+            <div class="bg-white/95 backdrop-blur rounded-3xl p-6 shadow-xl border-4 border-blue-400 w-full max-w-md text-center">
+                <h2 class="text-blue-500 font-bold text-lg mb-1 uppercase tracking-widest">Shoot the target:</h2>
+                <div id="targetWord" class="text-4xl font-black text-slate-800 mb-4">...</div>
+                <button id="listenBtn" class="interactive bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 rounded-2xl font-bold shadow-lg shadow-blue-200 transition-all active:scale-95 flex items-center gap-2 mx-auto">
+                    <i class="fa-solid fa-volume-high"></i>
+                    Listen
+                </button>
             </div>
         </div>
     </div>
 
+    <canvas id="gameCanvas"></canvas>
+
+    <script src="../../game_engine.js"></script>
     <script>
-    const Engine = {
-        score: 0, stars: 0, currentWord: null, gameActive: false,
-        init() { this.updateUI(); },
-        speak(text) { if(!text) return; const msg = new SpeechSynthesisUtterance(text); msg.lang = 'en-US'; window.speechSynthesis.speak(msg); },
-        updateUI() { 
-            document.getElementById('score').innerText = this.score; 
-            document.getElementById('stars').innerText = this.stars; 
-        },
-        addScore(p) { this.score += p; if(this.score % 50 === 0) this.stars++; this.updateUI(); },
-        getAssetPath(w) { return `../../../assets/p1/${w.toLowerCase().replace(/ /g, '_')}.png`; },
-        showFeedback(c) {
-            const f = document.createElement('div');
-            f.className = 'fixed inset-0 flex items-center justify-center z-[200] pointer-events-none';
-            f.innerHTML = c ? `<div class="bg-green-500 text-white px-8 py-4 rounded-full text-2xl font-black animate-bounce shadow-2xl">GREAT! 🌟</div>` :
-                              `<div class="bg-red-500 text-white px-8 py-4 rounded-full text-2xl font-black animate-shake shadow-2xl">TRY AGAIN! ❌</div>`;
-            document.body.appendChild(f); setTimeout(() => f.remove(), 800);
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const vocab = JSON.parse('["Apple", "Ball", "Cat", "Dog", "Egg", "bag", "board", "book", "chair", "desk", "ill", "in", "ink", "insect", "open your books", "pencil", "sit down", "stand up"]');
+        
+        let width, height;
+        let cannonX, cannonY;
+        let targets = [];
+        let projectiles = [];
+        let currentWord = null;
+        let lastTime = 0;
+        let nextSpawn = 0;
+        let gameActive = true;
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            cannonX = width / 2;
+            cannonY = height - 80;
         }
-    };
-    
-    const wordsData = [{"word": "Apple"}, {"word": "Ball"}, {"word": "Cat"}, {"word": "Dog"}, {"word": "Egg"}, {"word": "bag"}, {"word": "board"}, {"word": "book"}, {"word": "chair"}, {"word": "desk"}, {"word": "ill"}, {"word": "in"}, {"word": "ink"}, {"word": "insect"}, {"word": "open your books"}, {"word": "pencil"}, {"word": "sit down"}, {"word": "stand up"}];
 
-    function startGame() {
-        document.getElementById('startOverlay').classList.add('hidden');
-        Engine.gameActive = true;
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Target {
+            constructor(word, isCorrect) {
+                this.word = word;
+                this.isCorrect = isCorrect;
+                this.x = Math.random() * (width - 100) + 50;
+                this.y = -50;
+                this.speed = 1.5 + Math.random() * 1.5;
+                this.radius = 45;
+                this.img = new Image();
+                this.img.src = Engine.getAssetPath(word);
+                this.img.onerror = () => { this.img.src = 'https://cdn-icons-png.flaticon.com/512/3081/3081840.png'; };
+            }
+
+            update(dt) {
+                this.y += this.speed;
+            }
+
+            draw() {
+                ctx.save();
+                // Bubble effect
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                ctx.fill();
+                ctx.strokeStyle = this.isCorrect ? '#3b82f6' : '#e2e8f0';
+                ctx.lineWidth = 4;
+                ctx.stroke();
+
+                // Image
+                const imgSize = this.radius * 1.4;
+                ctx.drawImage(this.img, this.x - imgSize/2, this.y - imgSize/2, imgSize, imgSize);
+                
+                // Label
+                ctx.fillStyle = '#1e293b';
+                ctx.font = 'bold 14px Fredoka';
+                ctx.textAlign = 'center';
+                ctx.fillText(this.word, this.x, this.y + this.radius + 20);
+                ctx.restore();
+            }
+        }
+
+        class Projectile {
+            constructor(x, y, targetX, targetY) {
+                this.x = x;
+                this.y = y;
+                const angle = Math.atan2(targetY - y, targetX - x);
+                this.vx = Math.cos(angle) * 15;
+                this.vy = Math.sin(angle) * 15;
+                this.radius = 10;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = '#3b82f6';
+                ctx.fill();
+            }
+        }
+
+        function nextQuestion() {
+            const correctIdx = Math.floor(Math.random() * vocab.length);
+            currentWord = vocab[correctIdx];
+            document.getElementById('targetWord').innerText = currentWord;
+            targets = [];
+            spawnInitialTargets();
+        }
+
+        function spawnInitialTargets() {
+            // Spawn the correct one
+            targets.push(new Target(currentWord, true));
+            // Spawn 2 wrong ones
+            for(let i=0; i<2; i++) {
+                let wrongWord;
+                do {
+                    wrongWord = vocab[Math.floor(Math.random() * vocab.length)];
+                } while(wrongWord === currentWord);
+                targets.push(new Target(wrongWord, false));
+            }
+        }
+
+        function gameLoop(timestamp) {
+            const dt = timestamp - lastTime;
+            lastTime = timestamp;
+
+            ctx.clearRect(0, 0, width, height);
+
+            // Draw Cannon
+            ctx.fillStyle = '#1e293b';
+            ctx.beginPath();
+            ctx.arc(cannonX, cannonY + 40, 60, Math.PI, 0);
+            ctx.fill();
+            
+            // Update & Draw Targets
+            for(let i = targets.length - 1; i >= 0; i--) {
+                targets[i].update(dt);
+                targets[i].draw();
+                
+                if(targets[i].y > height + 100) {
+                    targets.splice(i, 1);
+                    if(targets.filter(t => t.isCorrect).length === 0) {
+                        targets.push(new Target(currentWord, true));
+                    }
+                }
+            }
+
+            // Update & Draw Projectiles
+            for(let i = projectiles.length - 1; i >= 0; i--) {
+                projectiles[i].update();
+                projectiles[i].draw();
+
+                // Collision check
+                for(let j = targets.length - 1; j >= 0; j--) {
+                    const dist = Math.hypot(projectiles[i].x - targets[j].x, projectiles[i].y - targets[j].y);
+                    if(dist < projectiles[i].radius + targets[j].radius) {
+                        if(targets[j].isCorrect) {
+                            Engine.addScore(10);
+                            Engine.showFeedback(true);
+                            projectiles.splice(i, 1);
+                            setTimeout(nextQuestion, 500);
+                            return requestAnimationFrame(gameLoop);
+                        } else {
+                            Engine.showFeedback(false);
+                            projectiles.splice(i, 1);
+                            targets.splice(j, 1);
+                            break;
+                        }
+                    }
+                }
+
+                if(projectiles[i] && (projectiles[i].x < 0 || projectiles[i].x > width || projectiles[i].y < 0)) {
+                    projectiles.splice(i, 1);
+                }
+            }
+
+            requestAnimationFrame(gameLoop);
+        }
+
+        canvas.addEventListener('mousedown', (e) => {
+            projectiles.push(new Projectile(cannonX, cannonY, e.clientX, e.clientY));
+        });
+
+        canvas.addEventListener('touchstart', (e) => {
+            const touch = e.touches[0];
+            projectiles.push(new Projectile(cannonX, cannonY, touch.clientX, touch.clientY));
+        });
+
+        document.getElementById('listenBtn').addEventListener('click', () => {
+            Engine.speak(currentWord);
+        });
+
         nextQuestion();
-    }
-
-    function nextQuestion() {
-        Engine.currentWord = wordsData[Math.floor(Math.random() * wordsData.length)].word;
-        document.getElementById('targetWord').innerText = Engine.currentWord;
-        renderGame();
-    }
-    
-    Engine.init();
+        requestAnimationFrame(gameLoop);
     </script>
 </body>
 </html>
