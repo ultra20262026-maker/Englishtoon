@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Turbo Racer - مظلي الكلمات - Unit 1</title>
+    <title>Turbo Racer - Professional Arcade</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../game_engine.js?v=5.2"></script>
     <style>
@@ -68,40 +68,44 @@
         }
 
         function spawnObstacle(yPos = -100) {
-            const isTarget = Math.random() > 0.6 || !obstacles.some(o => o.text === currentTarget);
-            const text = isTarget ? currentTarget : vocab[Math.floor(Math.random() * vocab.length)];
+            if (obstacles.length >= 3) return; // Limit to 3 choices
             
-            Engine.loadSprite(text, (img) => {
-                obstacles.push({
-                    x: Math.random() * (canvas.width - 100) + 50,
-                    y: yPos,
-                    w: 80,
-                    h: 80,
-                    text: text,
-                    img: img,
-                    speed: (2 + Math.random() * 2) * Engine.speed
+            const choices = Engine.getWords(vocab, 3);
+            if (!choices.includes(currentTarget)) choices[0] = currentTarget;
+            
+            choices.forEach((text, i) => {
+                Engine.loadSprite(text, (img) => {
+                    obstacles.push({
+                        x: (i + 0.5) * (canvas.width / 3),
+                        y: yPos - (i * 200),
+                        w: 80,
+                        h: 80,
+                        text: text,
+                        img: img,
+                        speed: (0.8 + Math.random() * 1.2) * Engine.speed
+                    });
                 });
             });
         }
 
-        function drawRoad() {
-            ctx.fillStyle = '#1e293b';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            ctx.strokeStyle = 'rgba(255,255,255,0.1)';
-            ctx.setLineDash([40, 40]);
-            ctx.lineWidth = 4;
-            
-            const lanes = 4;
-            for(let i=1; i<lanes; i++) {
-                ctx.beginPath();
-                ctx.moveTo(i * (canvas.width/lanes), 0);
-                ctx.lineTo(i * (canvas.width/lanes), canvas.height);
-                ctx.lineDashOffset = -roadOffset;
-                ctx.stroke();
-            }
-            roadOffset += 10 * Engine.speed;
+    function drawRoad() {
+        ctx.fillStyle = '#1e293b';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+        ctx.setLineDash([40, 40]);
+        ctx.lineWidth = 4;
+        
+        const lanes = 4;
+        for(let i=1; i<lanes; i++) {
+            ctx.beginPath();
+            ctx.moveTo(i * (canvas.width/lanes), 0);
+            ctx.lineTo(i * (canvas.width/lanes), canvas.height);
+            ctx.lineDashOffset = -roadOffset;
+            ctx.stroke();
         }
+        roadOffset += 5 * Engine.speed;
+    }
 
         function drawPlayer() {
             // Smooth movement
@@ -143,8 +147,10 @@
         }
 
         function update() {
+            if (!Engine.gameActive) return; // Stop update when game is paused
+            
             obstacles.forEach((o, index) => {
-                o.y += o.speed * (5 * Engine.speed);
+                o.y += o.speed * (3 * Engine.speed);
                 
                 // Collision Detection
                 const dx = o.x - player.x;
@@ -155,6 +161,7 @@
                     if (o.text === currentTarget) {
                         Engine.addScore(100);
                         Engine.showFeedback(true);
+                        obstacles = []; // Clear all to prevent double hits
                         Engine.showWinScreen(() => nextLevel());
                     } else {
                         Engine.addScore(-50);
