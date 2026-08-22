@@ -2901,14 +2901,6 @@ const GRAMMAR_GAMES_MAP = {"primary-1": {
     ]
   }
 };
-
-
-
-
-
-
-
-
 const EXAMS_MAP = {
     "primary-4": {
         "1": [
@@ -3169,7 +3161,7 @@ const EXAMS_MAP = {
                 "file": "Unit1_Lesson3_Quiz.html"
             },
             {
-                "name": "Unit1 Lesson4and5 Quiz",
+                "name": "Unit1 Lesson4And5 Quiz",
                 "file": "Unit1_Lesson4and5_Quiz.html"
             },
             {
@@ -3185,7 +3177,7 @@ const EXAMS_MAP = {
                 "file": "Unit1_Lesson3_Quiz.html"
             },
             {
-                "name": "Unit1 Lesson4and5 Quiz",
+                "name": "Unit1 Lesson4And5 Quiz",
                 "file": "Unit1_Lesson4and5_Quiz.html"
             },
             {
@@ -3201,7 +3193,7 @@ const EXAMS_MAP = {
                 "file": "exam_lesson3_around_egypt.html"
             },
             {
-                "name": "Exam Lesson4and5 A Day In My School",
+                "name": "Exam Lesson4And5 A Day In My School",
                 "file": "exam_lesson4and5_a_day_in_my_school.html"
             }
         ],
@@ -3219,7 +3211,7 @@ const EXAMS_MAP = {
                 "file": "Unit2_Lesson3_Quiz.html"
             },
             {
-                "name": "Unit2 Lesson4and5 Quiz",
+                "name": "Unit2 Lesson4And5 Quiz",
                 "file": "Unit2_Lesson4and5_Quiz.html"
             },
             {
@@ -3235,7 +3227,7 @@ const EXAMS_MAP = {
                 "file": "Unit2_Lesson3_Quiz.html"
             },
             {
-                "name": "Unit2 Lesson4and5 Quiz",
+                "name": "Unit2 Lesson4And5 Quiz",
                 "file": "Unit2_Lesson4and5_Quiz.html"
             },
             {
@@ -3251,7 +3243,7 @@ const EXAMS_MAP = {
                 "file": "exam_lesson3_nile_river.html"
             },
             {
-                "name": "Exam Lesson4and5 Wadi El Rayan",
+                "name": "Exam Lesson4And5 Wadi El Rayan",
                 "file": "exam_lesson4and5_wadi_el_rayan.html"
             }
         ],
@@ -3269,7 +3261,7 @@ const EXAMS_MAP = {
                 "file": "Unit3_Lesson3_Quiz.html"
             },
             {
-                "name": "Unit3 Lesson4and5 Quiz",
+                "name": "Unit3 Lesson4And5 Quiz",
                 "file": "Unit3_Lesson4and5_Quiz.html"
             },
             {
@@ -3285,7 +3277,7 @@ const EXAMS_MAP = {
                 "file": "Unit3_Lesson3_Quiz.html"
             },
             {
-                "name": "Unit3 Lesson4and5 Quiz",
+                "name": "Unit3 Lesson4And5 Quiz",
                 "file": "Unit3_Lesson4and5_Quiz.html"
             },
             {
@@ -3301,7 +3293,7 @@ const EXAMS_MAP = {
                 "file": "exam_lesson3_proud_rose.html"
             },
             {
-                "name": "Exam Lesson4and5 Egyptian Hero",
+                "name": "Exam Lesson4And5 Egyptian Hero",
                 "file": "exam_lesson4and5_egyptian_hero.html"
             }
         ],
@@ -3319,7 +3311,7 @@ const EXAMS_MAP = {
                 "file": "Unit4_Lesson3_Quiz.html"
             },
             {
-                "name": "Unit4 Lesson4and5 Quiz",
+                "name": "Unit4 Lesson4And5 Quiz",
                 "file": "Unit4_Lesson4and5_Quiz.html"
             },
             {
@@ -3335,7 +3327,7 @@ const EXAMS_MAP = {
                 "file": "Unit4_Lesson3_Quiz.html"
             },
             {
-                "name": "Unit4 Lesson4and5 Quiz",
+                "name": "Unit4 Lesson4And5 Quiz",
                 "file": "Unit4_Lesson4and5_Quiz.html"
             },
             {
@@ -3351,7 +3343,7 @@ const EXAMS_MAP = {
                 "file": "exam_lesson3_gifts_under_ground.html"
             },
             {
-                "name": "Exam Lesson4and5 Man Made Resources",
+                "name": "Exam Lesson4And5 Man Made Resources",
                 "file": "exam_lesson4and5_man_made_resources.html"
             }
         ],
@@ -3369,7 +3361,7 @@ const EXAMS_MAP = {
                 "file": "Unit5_Lesson3_Quiz.html"
             },
             {
-                "name": "Unit5 Lesson4and5 Quiz",
+                "name": "Unit5 Lesson4And5 Quiz",
                 "file": "Unit5_Lesson4and5_Quiz.html"
             },
             {
@@ -3385,7 +3377,7 @@ const EXAMS_MAP = {
                 "file": "Unit5_Lesson3_Quiz.html"
             },
             {
-                "name": "Unit5 Lesson4and5 Quiz",
+                "name": "Unit5 Lesson4And5 Quiz",
                 "file": "Unit5_Lesson4and5_Quiz.html"
             },
             {
@@ -3401,7 +3393,7 @@ const EXAMS_MAP = {
                 "file": "exam_lesson3_bundle_of_sticks.html"
             },
             {
-                "name": "Exam Lesson4and5 Egypt Goes Green",
+                "name": "Exam Lesson4And5 Egypt Goes Green",
                 "file": "exam_lesson4and5_egypt_goes_green.html"
             }
         ],
@@ -3601,7 +3593,7 @@ const EXAMS_MAP = {
                 "file": "U1_L4_ReadingTheLittleInventor.html"
             },
             {
-                "name": "U1 L5 Lessons56expressingidentityonline",
+                "name": "U1 L5 Lessons56Expressingidentityonline",
                 "file": "U1_L5_Lessons56ExpressingIdentityOnline.html"
             }
         ],
@@ -3623,7 +3615,7 @@ const EXAMS_MAP = {
                 "file": "U2_L4_ReadingTheLittleInventorCh2.html"
             },
             {
-                "name": "U2 L5 Lessons56digitaldetectives",
+                "name": "U2 L5 Lessons56Digitaldetectives",
                 "file": "U2_L5_Lessons56DigitalDetectives.html"
             }
         ],
@@ -3645,7 +3637,7 @@ const EXAMS_MAP = {
                 "file": "U3_L4_ReadingTheLittleInventorCh3.html"
             },
             {
-                "name": "U3 L5 Lessons56thepoweroffacingchallenges",
+                "name": "U3 L5 Lessons56Thepoweroffacingchallenges",
                 "file": "U3_L5_Lessons56ThePowerofFacingChallenges.html"
             }
         ],
@@ -3667,7 +3659,7 @@ const EXAMS_MAP = {
                 "file": "U4_L4_ReadingTheHiddenIslandCh1.html"
             },
             {
-                "name": "U4 L5 Lessons56myperformancereview",
+                "name": "U4 L5 Lessons56Myperformancereview",
                 "file": "U4_L5_Lessons56MyPerformanceReview.html"
             }
         ],
@@ -3689,7 +3681,7 @@ const EXAMS_MAP = {
                 "file": "U5_L4_ReadingTheHiddenIslandCh2.html"
             },
             {
-                "name": "U5 L5 Lessons56comeexplorewithus",
+                "name": "U5 L5 Lessons56Comeexplorewithus",
                 "file": "U5_L5_Lessons56ComeExplorewithUs.html"
             }
         ],
@@ -3711,7 +3703,7 @@ const EXAMS_MAP = {
                 "file": "U6_L4_ReadingTheHiddenIslandCh3.html"
             },
             {
-                "name": "U6 L5 Lessons56ifiwereaninventor",
+                "name": "U6 L5 Lessons56Ifiwereaninventor",
                 "file": "U6_L5_Lessons56IfIWereanInventor.html"
             }
         ]
@@ -3719,23 +3711,23 @@ const EXAMS_MAP = {
     "prep-3": {
         "1": [
             {
-                "name": "Lesson 1 Beyond My Looks",
+                "name": "Lesson 1   Beyond My Looks",
                 "file": "Lesson_1_-_Beyond_My_Looks.html"
             },
             {
-                "name": "Lesson 2 Self Discovery",
+                "name": "Lesson 2   Self Discovery",
                 "file": "Lesson_2_-_Self_Discovery.html"
             },
             {
-                "name": "Lesson 3 The Mirror Moment",
+                "name": "Lesson 3   The Mirror Moment",
                 "file": "Lesson_3_-_The_Mirror_Moment.html"
             },
             {
-                "name": "Lesson 4 Story Time",
+                "name": "Lesson 4   Story Time",
                 "file": "Lesson_4_-_Story_Time.html"
             },
             {
-                "name": "Lesson 56 Lets Talk This Is Me",
+                "name": "Lesson 56   Lets Talk This Is Me",
                 "file": "Lesson_56_-_Lets_Talk_This_Is_Me.html"
             },
             {
@@ -3743,23 +3735,23 @@ const EXAMS_MAP = {
                 "file": "Unit_1_Review.html"
             },
             {
-                "name": "Lesson 1 Beyond My Looks",
+                "name": "Lesson 1   Beyond My Looks",
                 "file": "Lesson_1_-_Beyond_My_Looks.html"
             },
             {
-                "name": "Lesson 2 Self Discovery",
+                "name": "Lesson 2   Self Discovery",
                 "file": "Lesson_2_-_Self_Discovery.html"
             },
             {
-                "name": "Lesson 3 The Mirror Moment",
+                "name": "Lesson 3   The Mirror Moment",
                 "file": "Lesson_3_-_The_Mirror_Moment.html"
             },
             {
-                "name": "Lesson 4 Story Time",
+                "name": "Lesson 4   Story Time",
                 "file": "Lesson_4_-_Story_Time.html"
             },
             {
-                "name": "Lesson 56 Lets Talk This Is Me",
+                "name": "Lesson 56   Lets Talk This Is Me",
                 "file": "Lesson_56_-_Lets_Talk_This_Is_Me.html"
             },
             {
@@ -3769,23 +3761,23 @@ const EXAMS_MAP = {
         ],
         "2": [
             {
-                "name": "Lesson 1 Stay Connected",
+                "name": "Lesson 1   Stay Connected",
                 "file": "Lesson_1_-_Stay_Connected.html"
             },
             {
-                "name": "Lesson 2 Communication Challenges And Solutions",
+                "name": "Lesson 2   Communication Challenges And Solutions",
                 "file": "Lesson_2_-_Communication_Challenges_and_Solutions.html"
             },
             {
-                "name": "Lesson 3 The Silent Dinner",
+                "name": "Lesson 3   The Silent Dinner",
                 "file": "Lesson_3_-_The_Silent_Dinner.html"
             },
             {
-                "name": "Lesson 4 Story Time",
+                "name": "Lesson 4   Story Time",
                 "file": "Lesson_4_-_Story_Time.html"
             },
             {
-                "name": "Lesson 56 Lets Talk Staying Close",
+                "name": "Lesson 56   Lets Talk Staying Close",
                 "file": "Lesson_56_-_Lets_Talk_Staying_close.html"
             },
             {
@@ -3793,23 +3785,23 @@ const EXAMS_MAP = {
                 "file": "Unit_2_Review.html"
             },
             {
-                "name": "Lesson 1 Stay Connected",
+                "name": "Lesson 1   Stay Connected",
                 "file": "Lesson_1_-_Stay_Connected.html"
             },
             {
-                "name": "Lesson 2 Communication Challenges And Solutions",
+                "name": "Lesson 2   Communication Challenges And Solutions",
                 "file": "Lesson_2_-_Communication_Challenges_and_Solutions.html"
             },
             {
-                "name": "Lesson 3 The Silent Dinner",
+                "name": "Lesson 3   The Silent Dinner",
                 "file": "Lesson_3_-_The_Silent_Dinner.html"
             },
             {
-                "name": "Lesson 4 Story Time",
+                "name": "Lesson 4   Story Time",
                 "file": "Lesson_4_-_Story_Time.html"
             },
             {
-                "name": "Lesson 56 Lets Talk Staying Close",
+                "name": "Lesson 56   Lets Talk Staying Close",
                 "file": "Lesson_56_-_Lets_Talk_Staying_close.html"
             },
             {
@@ -3819,23 +3811,23 @@ const EXAMS_MAP = {
         ],
         "3": [
             {
-                "name": "Lesson 1 Artificial Intelligence",
+                "name": "Lesson 1   Artificial Intelligence",
                 "file": "Lesson_1_-_Artificial_Intelligence.html"
             },
             {
-                "name": "Lesson 2 A I Technology",
+                "name": "Lesson 2   A I Technology",
                 "file": "Lesson_2_-_A_I_Technology.html"
             },
             {
-                "name": "Lesson 3 Robot Teacher",
+                "name": "Lesson 3   Robot Teacher",
                 "file": "Lesson_3_-_Robot_Teacher.html"
             },
             {
-                "name": "Lesson 4 Story Time",
+                "name": "Lesson 4   Story Time",
                 "file": "Lesson_4_-_Story_Time.html"
             },
             {
-                "name": "Lesson 56 Lets Talk Smart Robots",
+                "name": "Lesson 56   Lets Talk Smart Robots",
                 "file": "Lesson_56_-_Lets_Talk_Smart_Robots.html"
             },
             {
@@ -3843,23 +3835,23 @@ const EXAMS_MAP = {
                 "file": "Unit_3_Review.html"
             },
             {
-                "name": "Lesson 1 Artificial Intelligence",
+                "name": "Lesson 1   Artificial Intelligence",
                 "file": "Lesson_1_-_Artificial_Intelligence.html"
             },
             {
-                "name": "Lesson 2 A I Technology",
+                "name": "Lesson 2   A I Technology",
                 "file": "Lesson_2_-_A_I_Technology.html"
             },
             {
-                "name": "Lesson 3 Robot Teacher",
+                "name": "Lesson 3   Robot Teacher",
                 "file": "Lesson_3_-_Robot_Teacher.html"
             },
             {
-                "name": "Lesson 4 Story Time",
+                "name": "Lesson 4   Story Time",
                 "file": "Lesson_4_-_Story_Time.html"
             },
             {
-                "name": "Lesson 56 Lets Talk Smart Robots",
+                "name": "Lesson 56   Lets Talk Smart Robots",
                 "file": "Lesson_56_-_Lets_Talk_Smart_Robots.html"
             },
             {
@@ -3869,27 +3861,27 @@ const EXAMS_MAP = {
         ],
         "4": [
             {
-                "name": "Lesson 1 Screen Time",
+                "name": "Lesson 1   Screen Time",
                 "file": "Lesson_1_-_Screen_Time.html"
             },
             {
-                "name": "Lesson 2 Egypts Smart Future",
+                "name": "Lesson 2   Egypts Smart Future",
                 "file": "Lesson_2_-_Egypts_Smart_Future.html"
             },
             {
-                "name": "Lesson 3 Balancing Screen Time",
+                "name": "Lesson 3   Balancing Screen Time",
                 "file": "Lesson_3_-_Balancing_Screen_Time.html"
             },
             {
-                "name": "Lesson 4 Story Time",
+                "name": "Lesson 4   Story Time",
                 "file": "Lesson_4_-_Story_Time.html"
             },
             {
-                "name": "Lesson 5 Lets Talk",
+                "name": "Lesson 5   Lets Talk",
                 "file": "Lesson_5_-_Lets_Talk.html"
             },
             {
-                "name": "Lesson 6 Small Change",
+                "name": "Lesson 6   Small Change",
                 "file": "Lesson_6_-_Small_Change.html"
             },
             {
@@ -3897,27 +3889,27 @@ const EXAMS_MAP = {
                 "file": "Unit_4_Review.html"
             },
             {
-                "name": "Lesson 1 Screen Time",
+                "name": "Lesson 1   Screen Time",
                 "file": "Lesson_1_-_Screen_Time.html"
             },
             {
-                "name": "Lesson 2 Egypts Smart Future",
+                "name": "Lesson 2   Egypts Smart Future",
                 "file": "Lesson_2_-_Egypts_Smart_Future.html"
             },
             {
-                "name": "Lesson 3 Balancing Screen Time",
+                "name": "Lesson 3   Balancing Screen Time",
                 "file": "Lesson_3_-_Balancing_Screen_Time.html"
             },
             {
-                "name": "Lesson 4 Story Time",
+                "name": "Lesson 4   Story Time",
                 "file": "Lesson_4_-_Story_Time.html"
             },
             {
-                "name": "Lesson 5 Lets Talk",
+                "name": "Lesson 5   Lets Talk",
                 "file": "Lesson_5_-_Lets_Talk.html"
             },
             {
-                "name": "Lesson 6 Small Change",
+                "name": "Lesson 6   Small Change",
                 "file": "Lesson_6_-_Small_Change.html"
             },
             {
@@ -3927,27 +3919,27 @@ const EXAMS_MAP = {
         ],
         "5": [
             {
-                "name": "Lesson 1 Think Like A Designer",
+                "name": "Lesson 1   Think Like A Designer",
                 "file": "Lesson_1_-_Think_like_a_Designer.html"
             },
             {
-                "name": "Lesson 2 Dream It Build It",
+                "name": "Lesson 2   Dream It Build It",
                 "file": "Lesson_2_-_Dream_It_Build_It.html"
             },
             {
-                "name": "Lesson 3 See Through Their Eyes",
+                "name": "Lesson 3   See Through Their Eyes",
                 "file": "Lesson_3_-_See_through_Their_Eyes.html"
             },
             {
-                "name": "Lesson 4 Story Time",
+                "name": "Lesson 4   Story Time",
                 "file": "Lesson_4_-_Story_Time.html"
             },
             {
-                "name": "Lesson 5 Lets Talk",
+                "name": "Lesson 5   Lets Talk",
                 "file": "Lesson_5_-_Lets_Talk.html"
             },
             {
-                "name": "Lesson 6 Try Learn And Improve",
+                "name": "Lesson 6   Try Learn And Improve",
                 "file": "Lesson_6_-_Try_Learn_and_Improve.html"
             },
             {
@@ -3955,27 +3947,27 @@ const EXAMS_MAP = {
                 "file": "Unit_5_Review.html"
             },
             {
-                "name": "Lesson 1 Think Like A Designer",
+                "name": "Lesson 1   Think Like A Designer",
                 "file": "Lesson_1_-_Think_like_a_Designer.html"
             },
             {
-                "name": "Lesson 2 Dream It Build It",
+                "name": "Lesson 2   Dream It Build It",
                 "file": "Lesson_2_-_Dream_It_Build_It.html"
             },
             {
-                "name": "Lesson 3 See Through Their Eyes",
+                "name": "Lesson 3   See Through Their Eyes",
                 "file": "Lesson_3_-_See_through_Their_Eyes.html"
             },
             {
-                "name": "Lesson 4 Story Time",
+                "name": "Lesson 4   Story Time",
                 "file": "Lesson_4_-_Story_Time.html"
             },
             {
-                "name": "Lesson 5 Lets Talk",
+                "name": "Lesson 5   Lets Talk",
                 "file": "Lesson_5_-_Lets_Talk.html"
             },
             {
-                "name": "Lesson 6 Try Learn And Improve",
+                "name": "Lesson 6   Try Learn And Improve",
                 "file": "Lesson_6_-_Try_Learn_and_Improve.html"
             },
             {
@@ -3985,27 +3977,27 @@ const EXAMS_MAP = {
         ],
         "6": [
             {
-                "name": "Lesson 1 The Power Of Stories",
+                "name": "Lesson 1   The Power Of Stories",
                 "file": "Lesson_1_-_The_Power_of_Stories.html"
             },
             {
-                "name": "Lesson 2 The Story That Helped Me",
+                "name": "Lesson 2   The Story That Helped Me",
                 "file": "Lesson_2_-_The_Story_That_Helped_Me.html"
             },
             {
-                "name": "Lesson 3 Elements Of A Story",
+                "name": "Lesson 3   Elements Of A Story",
                 "file": "Lesson_3_-_Elements_of_a_Story.html"
             },
             {
-                "name": "Lesson 4 Story Time",
+                "name": "Lesson 4   Story Time",
                 "file": "Lesson_4_-_Story_Time.html"
             },
             {
-                "name": "Lesson 5 Lets Talk",
+                "name": "Lesson 5   Lets Talk",
                 "file": "Lesson_5_-_Lets_Talk.html"
             },
             {
-                "name": "Lesson 6 My Own Story",
+                "name": "Lesson 6   My Own Story",
                 "file": "Lesson_6_-_My_Own_Story.html"
             },
             {
@@ -4013,27 +4005,27 @@ const EXAMS_MAP = {
                 "file": "Unit_6_Review.html"
             },
             {
-                "name": "Lesson 1 The Power Of Stories",
+                "name": "Lesson 1   The Power Of Stories",
                 "file": "Lesson_1_-_The_Power_of_Stories.html"
             },
             {
-                "name": "Lesson 2 The Story That Helped Me",
+                "name": "Lesson 2   The Story That Helped Me",
                 "file": "Lesson_2_-_The_Story_That_Helped_Me.html"
             },
             {
-                "name": "Lesson 3 Elements Of A Story",
+                "name": "Lesson 3   Elements Of A Story",
                 "file": "Lesson_3_-_Elements_of_a_Story.html"
             },
             {
-                "name": "Lesson 4 Story Time",
+                "name": "Lesson 4   Story Time",
                 "file": "Lesson_4_-_Story_Time.html"
             },
             {
-                "name": "Lesson 5 Lets Talk",
+                "name": "Lesson 5   Lets Talk",
                 "file": "Lesson_5_-_Lets_Talk.html"
             },
             {
-                "name": "Lesson 6 My Own Story",
+                "name": "Lesson 6   My Own Story",
                 "file": "Lesson_6_-_My_Own_Story.html"
             },
             {
