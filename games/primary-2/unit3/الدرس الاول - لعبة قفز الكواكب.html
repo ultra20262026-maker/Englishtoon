@@ -278,6 +278,216 @@ html, body {
 
 
 
+
+    /* التحسينات الشاملة لواجهة الألعاب */
+    .target-btn, .choice-btn, .option-btn { 
+        width: 90% !important;
+        max-width: 400px !important;
+        height: auto !important; 
+        min-height: 60px !important; 
+        margin: 8px auto !important;
+        padding: 12px 15px !important; 
+        white-space: normal !important; 
+        word-wrap: break-word !important;
+        line-height: 1.4 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        font-size: 1.1rem !important;
+        border-radius: 15px !important;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
+        transition: all 0.2s ease !important;
+    }
+    .target-btn:active, .choice-btn:active { transform: scale(0.98); }
+    #game-container { padding-bottom: 50px !important; }
+    #question-text { font-size: 1.3rem !important; line-height: 1.5 !important; margin-bottom: 20px !important; padding: 0 10px !important; }
+    
+
+/* Timer elements hidden */
+#timerBar, .timer-bar, .time-bar, .timer-container { display: none !important; }
+#bigTimer, .big-timer { display: none !important; }
+
+    /* التحسينات النهائية لواجهة الألعاب */
+    .target-btn, .choice-btn, .option-btn { 
+        width: 90% !important;
+        max-width: 500px !important;
+        height: auto !important; 
+        min-height: 70px !important; 
+        margin: 10px auto !important;
+        padding: 15px 20px !important; 
+        white-space: normal !important; 
+        word-wrap: break-word !important;
+        line-height: 1.4 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        font-size: 1.2rem !important;
+        border-radius: 15px !important;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
+        background-color: #ffffff !important;
+        color: #333 !important;
+        border: 2px solid #eee !important;
+    }
+    .target-btn:hover, .choice-btn:hover { background-color: #f8f9fa !important; border-color: #ddd !important; }
+    #game-container { padding-bottom: 60px !important; display: flex !important; flex-direction: column !important; align-items: center !important; }
+    #question-text { font-size: 1.4rem !important; line-height: 1.6 !important; margin-bottom: 25px !important; padding: 0 15px !important; text-align: center !important; font-weight: bold !important; }
+    .timer-container, #timer, .time-bar, #timerBar { display: none !important; } /* Hide timers */
+    
+
+    /* التحسينات النهائية لواجهة الألعاب - 2027 */
+    .target-btn, .choice-btn, .option-btn, .word-btn { 
+        width: 90% !important;
+        max-width: 500px !important;
+        height: auto !important; 
+        min-height: 70px !important; 
+        margin: 10px auto !important;
+        padding: 15px 20px !important; 
+        white-space: normal !important; 
+        word-wrap: break-word !important;
+        line-height: 1.4 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        font-size: 1.2rem !important;
+        border-radius: 15px !important;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
+        background-color: #ffffff !important;
+        color: #333 !important;
+        border: 2px solid #eee !important;
+        text-indent: 0 !important;
+        overflow: visible !important;
+        position: relative !important;
+        transform: none !important;
+        left: auto !important;
+        top: auto !important;
+    }
+    .target-btn:hover, .choice-btn:hover, .option-btn:hover { background-color: #f8f9fa !important; border-color: #ddd !important; }
+    
+    /* Ensure choice containers don't overlap */
+    #targets, #choices, #options-container {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        position: relative !important;
+        margin-top: 140px !important;
+        height: auto !important;
+        min-height: 300px !important;
+        pointer-events: auto !important;
+        z-index: 100 !important;
+    }
+    
+    #q-panel, #question-container { 
+        position: relative !important; 
+        top: 20px !important; 
+        z-index: 150 !important;
+        pointer-events: none !important;
+    }
+    
+    #question-text, #q-text { 
+        font-size: 1.4rem !important; 
+        line-height: 1.6 !important; 
+        margin-bottom: 25px !important; 
+        padding: 15px !important; 
+        text-align: center !important; 
+        font-weight: bold !important; 
+        background: rgba(255,255,255,0.9) !important;
+        color: #000 !important;
+        border-radius: 15px !important;
+        max-width: 90% !important;
+        margin: 0 auto !important;
+    }
+
+    .timer-container, #timer, .time-bar, #timerBar, .big-timer { display: none !important; } /* Hide timers */
+    
+    /* Ensure gift/lock boxes show text */
+    .gift-box, .lock-box, .mystery-box {
+        position: relative !important;
+        overflow: visible !important;
+    }
+    .gift-box::after, .lock-box::after, .mystery-box::after {
+        content: attr(data-text) !important;
+        position: absolute !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        color: #000 !important;
+        font-weight: bold !important;
+        z-index: 10 !important;
+        font-size: 1.2rem !important;
+        width: 100% !important;
+        text-align: center !important;
+    }
+    
+
+    /* Ultra Fix 2027: Layout & Mobile */
+    .target-btn, .choice-btn, .option-btn, .word-btn { 
+        width: 90% !important;
+        max-width: 500px !important;
+        height: auto !important; 
+        min-height: 70px !important; 
+        margin: 10px auto !important;
+        padding: 15px 20px !important; 
+        white-space: normal !important; 
+        word-wrap: break-word !important;
+        line-height: 1.4 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        font-size: 1.2rem !important;
+        border-radius: 15px !important;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.2) !important;
+        background-color: #ffffff !important;
+        color: #333 !important;
+        border: 2px solid #ddd !important;
+        position: relative !important;
+        left: auto !important;
+        top: auto !important;
+        transform: none !important;
+        z-index: 100 !important;
+        pointer-events: auto !important;
+    }
+    
+    #targets, #choices, #options-container {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        position: relative !important;
+        margin-top: 160px !important;
+        height: auto !important;
+        min-height: 300px !important;
+        pointer-events: auto !important;
+        z-index: 90 !important;
+    }
+    
+    #q-panel, #question-container { 
+        position: fixed !important; 
+        top: 60px !important; 
+        left: 0 !important;
+        right: 0 !important;
+        z-index: 200 !important;
+        pointer-events: none !important;
+        display: flex !important;
+        justify-content: center !important;
+    }
+    
+    #q-text, #question-text { 
+        background: rgba(255,255,255,0.95) !important;
+        color: #000 !important;
+        padding: 15px 25px !important;
+        border-radius: 20px !important;
+        font-size: 1.3rem !important;
+        font-weight: bold !important;
+        max-width: 90% !important;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3) !important;
+        text-align: center !important;
+    }
+
+    .timer-container, #timer, .time-bar, #timerBar, .big-timer { display: none !important; }
+    
 </style>
 <style>
 #game-wrap { overflow: hidden; }
@@ -349,7 +559,7 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
     <div id="fill-wrap"></div>
   </div>
 
-  <div id="countdown" class="hidden">3</div>
+  <div id="countdown" class="hidden" style="display:none!important"></div>
 
   <div id="screen-intro" class="screen">
     <div class="game-logo">&#127759;</div>
@@ -1674,7 +1884,7 @@ const GameBase = (() => {
 
   // ── State ────────────────────────────────────────────────────
   let _questions = [], _qIndex = 0, _score = 0, _lives = 3;
-  let _timeLeft = 60, _totalTime = 60;
+  let _timeLeft = 999999, _totalTime = 999999;
   let _timerInterval = null, _selectedLevel = 1;
   let _gameActive = false;
   let _callbacks = {};
@@ -1727,7 +1937,7 @@ const GameBase = (() => {
     _timerInterval = setInterval(() => {
       _timeLeft -= 0.1;
       if (barEl) barEl.style.width = Math.max(0, (_timeLeft/_totalTime)*100) + '%';
-      if (_timeLeft <= 8) SoundEngine.play('tick');
+      if (_timeLeft <= 8) /* tick disabled */
       if (_timeLeft <= 0) { stopTimer(); endGame(); }
     }, 100);
   }
@@ -1870,7 +2080,7 @@ const GameBase = (() => {
   }
 
   // ── End ───────────────────────────────────────────────────────
-  function endGame() {
+  function endGame() { saveScoreToFirebase(score);
     _gameActive = false;
     stopTimer();
     SoundEngine.stopBg();
@@ -1900,7 +2110,12 @@ const GameBase = (() => {
       const el = document.getElementById(`rstar-${n}`);
       if (!el) return;
       el.classList.remove('lit');
-      if (i < stars) clearTimeout(autoAdvanceTimer); autoAdvanceTimer = setTimeout(() => { el.classList.add('lit'); SoundEngine.play('stars'); }, 400+i*350);
+      if (i < stars) 
+        if(typeof autoAdvanceTimer !== 'undefined' && autoAdvanceTimer) clearTimeout(autoAdvanceTimer);
+        autoAdvanceTimer = setTimeout(() => {
+            qIdx++;
+            if(typeof loadQ === 'function') loadQ();
+        }, isCorrect ? 1000 : 1500);
     });
     if (stars >= 2) setTimeout(() => SoundEngine.play('levelup'), 1400);
     else setTimeout(() => SoundEngine.play('gameover'), 300);
@@ -1931,11 +2146,11 @@ const GameBase = (() => {
     el.classList.remove('hidden');
     let n = 3;
     el.textContent = n;
-    SoundEngine.play('tick');
+    /* tick disabled */
     const iv = setInterval(() => {
       n--;
       if (n <= 0) { clearInterval(iv); el.classList.add('hidden'); onDone(); }
-      else { el.textContent = n; SoundEngine.play('tick'); }
+      else { el.textContent = n; /* tick disabled */ }
     }, 900);
   }
 
@@ -2160,32 +2375,13 @@ canvas.addEventListener('click',e=>{
     const px=p.x*W,py=p.y*H;
     if((mx-px)**2+(my-py)**2<(p.r+15)**2){
       astro.tx=p.x; astro.ty=p.y+p.r*1.2/H; astro.traveling=true;
-      clearTimeout(autoAdvanceTimer); autoAdvanceTimer = setTimeout(() => {
-        if(p.index===currentAnswer){p.glow=1;emitStarburst(px,py);}
-        else p.redFlash=1;
-        GameBase.submitAnswer(p.index);
-      },700);
-      break;
-    }
-  }
-});
-canvas.addEventListener('touchstart',e=>{
-  e.preventDefault();
-  const t=e.changedTouches[0];
-  canvas.dispatchEvent(new MouseEvent('click',{clientX:t.clientX,clientY:t.clientY}));
-},{passive:false});
-
-const allQ=GameBase.loadQuestions();
-GameBase.bindLevelButtons();
-document.getElementById('btn-launch').addEventListener('click',()=>{
-  document.getElementById('screen-intro').classList.add('hidden');
-  GameBase.runCountdown(()=>{
-    gameRunning=true; requestAnimationFrame(draw);
-    GameBase.startGame(GameBase.getLevel(),allQ,{
-      onStart:showQuestion,onNextQ:showQuestion,
-      onGameEnd:()=>{gameRunning=false;},
+      
+        if(typeof autoAdvanceTimer !== 'undefined' && autoAdvanceTimer) clearTimeout(autoAdvanceTimer);
+        autoAdvanceTimer = setTimeout(() => {
+            qIdx++;
+            if(typeof loadQ === 'function') loadQ();
+        }, isCorrect ? 1000 : 1500);
     });
-  });
 });
 function showQuestion(q,idx,total){
   GameBase.renderChoices(q);
