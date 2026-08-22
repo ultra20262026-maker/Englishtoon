@@ -1,204 +1,97 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Bowling Striker - EnglishToon</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Fredoka', sans-serif; overflow: hidden; touch-action: none; background: #ecfeff; }
-        #gameCanvas { width: 100%; height: 100vh; display: block; }
-        .game-ui { pointer-events: none; }
+        body { font-family: 'Fredoka', sans-serif; overflow: hidden; touch-action: none; margin: 0; }
+        canvas { display: block; }
+        .game-ui { pointer-events: none; position: fixed; inset: 0; z-index: 50; padding: 1rem; }
         .interactive { pointer-events: auto; }
+        .btn-action { background: #3b82f6; color: white; padding: 0.75rem 1.5rem; border-radius: 1rem; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .btn-action:active { transform: scale(0.95); }
+    </style>
+
+    <title>Whack-a-Word</title>
+    <style>
+        .hole { background: #78350f; border-radius: 50%; height: 100px; position: relative; overflow: hidden; border: 8px solid #92400e; }
+        .mole { position: absolute; top: 100%; left: 0; right: 0; bottom: 0; transition: top 0.2s; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .mole.up { top: 0; }
+        .mole img { width: 60px; height: 60px; object-fit: contain; }
     </style>
 </head>
-<body class="bg-cyan-50">
-    <!-- UI Overlay -->
-    <div class="game-ui fixed inset-0 z-10 flex flex-col p-4">
+<body class="bg-orange-50">
+    
+    <div class="game-ui">
         <div class="flex justify-between items-start">
-            <div class="bg-white/90 backdrop-blur rounded-2xl p-3 shadow-lg border-2 border-cyan-200 flex items-center gap-4">
-                <div class="text-cyan-600">
-                    <span class="text-xs font-bold block uppercase tracking-wider">Score</span>
-                    <span id="score" class="text-2xl font-black">0</span>
-                </div>
-                <div class="w-px h-8 bg-cyan-100"></div>
-                <div class="text-amber-500">
-                    <span class="text-xs font-bold block uppercase tracking-wider">Stars</span>
-                    <span id="stars" class="text-2xl font-black">0</span>
-                </div>
+            <div class="bg-white/90 backdrop-blur rounded-2xl p-3 shadow-lg border-2 border-blue-200 flex items-center gap-4 interactive">
+                <div class="text-blue-600"><span class="text-xs font-bold block uppercase">Score</span><span id="score" class="text-2xl font-black">0</span></div>
+                <div class="w-px h-8 bg-blue-100"></div>
+                <div class="text-amber-500"><span class="text-xs font-bold block uppercase">Stars</span><span id="stars" class="text-2xl font-black">0</span></div>
             </div>
             <button onclick="window.history.back()" class="interactive w-12 h-12 rounded-2xl bg-white/90 backdrop-blur flex items-center justify-center text-slate-400 shadow-lg border-2 border-slate-100">
                 <i class="fa-solid fa-xmark text-xl"></i>
             </button>
         </div>
-
         <div class="mt-4 flex flex-col items-center">
-            <div class="bg-white/95 backdrop-blur rounded-3xl p-6 shadow-xl border-4 border-cyan-400 w-full max-w-md text-center">
-                <h2 class="text-cyan-500 font-bold text-lg mb-1 uppercase tracking-widest">Strike the word:</h2>
-                <div id="targetWord" class="text-4xl font-black text-slate-800 mb-4">...</div>
-                <button id="listenBtn" class="interactive bg-cyan-500 hover:bg-cyan-600 text-white px-8 py-3 rounded-2xl font-bold shadow-lg shadow-cyan-200 transition-all active:scale-95 flex items-center gap-2 mx-auto">
-                    <i class="fa-solid fa-volume-high"></i>
-                    Listen
+            <div class="bg-white/95 backdrop-blur rounded-3xl p-4 shadow-xl border-4 border-blue-400 w-full max-w-md text-center interactive">
+                <h2 class="text-blue-500 font-bold text-sm mb-1 uppercase tracking-widest">Whack the correct word!</h2>
+                <div id="targetWord" class="text-3xl font-black text-slate-800 mb-2">...</div>
+                <button id="listenBtn" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-xl font-bold shadow-lg flex items-center gap-2 mx-auto text-sm">
+                    <i class="fa-solid fa-volume-high"></i> Listen
                 </button>
             </div>
         </div>
     </div>
 
-    <canvas id="gameCanvas"></canvas>
-
+    <div class="h-screen flex items-center justify-center pt-40 p-4">
+        <div class="grid grid-cols-3 gap-6 w-full max-w-md">
+            <div class="hole"><div class="mole interactive" onclick="whack(this)"><img><span class="text-xs font-bold text-white"></span></div></div><div class="hole"><div class="mole interactive" onclick="whack(this)"><img><span class="text-xs font-bold text-white"></span></div></div><div class="hole"><div class="mole interactive" onclick="whack(this)"><img><span class="text-xs font-bold text-white"></span></div></div><div class="hole"><div class="mole interactive" onclick="whack(this)"><img><span class="text-xs font-bold text-white"></span></div></div><div class="hole"><div class="mole interactive" onclick="whack(this)"><img><span class="text-xs font-bold text-white"></span></div></div><div class="hole"><div class="mole interactive" onclick="whack(this)"><img><span class="text-xs font-bold text-white"></span></div></div>
+        </div>
+    </div>
     <script src="../../game_engine.js"></script>
     <script>
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
         const vocab = JSON.parse('["ant", "apple", "arm", "arrow", "axe", "bird", "butterfly", "flower", "grass", "sky", "snake", "spider", "spoon", "star", "sun", "tree"]');
-        
-        let width, height;
-        let ballX, ballY, ballRadius = 30;
-        let pins = [];
-        let currentWord = null;
-        let isDragging = false;
-        let dragStartX, dragStartY;
-        let gameActive = true;
-
-        function resize() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-            resetBall();
-        }
-
-        function resetBall() {
-            ballX = width / 2;
-            ballY = height - 100;
-        }
-
-        window.addEventListener('resize', resize);
-        resize();
-
-        class Pin {
-            constructor(word, isCorrect, x, y) {
-                this.word = word;
-                this.isCorrect = isCorrect;
-                this.x = x;
-                this.y = y;
-                this.radius = 40;
-                this.img = new Image();
-                this.img.src = Engine.getAssetPath(word);
-                this.img.onerror = () => { this.img.src = 'https://cdn-icons-png.flaticon.com/512/3081/3081840.png'; };
-            }
-
-            draw() {
-                ctx.save();
-                ctx.beginPath();
-                ctx.roundRect(this.x - 30, this.y - 40, 60, 80, 10);
-                ctx.fillStyle = 'white';
-                ctx.fill();
-                ctx.strokeStyle = this.isCorrect ? '#06b6d4' : '#e2e8f0';
-                ctx.lineWidth = 3;
-                ctx.stroke();
-
-                ctx.drawImage(this.img, this.x - 25, this.y - 35, 50, 50);
-                
-                ctx.fillStyle = '#1e293b';
-                ctx.font = 'bold 12px Fredoka';
-                ctx.textAlign = 'center';
-                ctx.fillText(this.word, this.x, this.y + 35);
-                ctx.restore();
-            }
-        }
+        let currentWord = "";
 
         function nextQuestion() {
-            const correctIdx = Math.floor(Math.random() * vocab.length);
-            currentWord = vocab[correctIdx];
+            currentWord = vocab[Math.floor(Math.random() * vocab.length)];
             document.getElementById('targetWord').innerText = currentWord;
+            Engine.speak(currentWord);
+        }
+
+        function pop() {
+            const moles = document.querySelectorAll('.mole');
+            const mole = moles[Math.floor(Math.random()*moles.length)];
+            const isCorrect = Math.random() < 0.3;
+            const word = isCorrect ? currentWord : vocab[Math.floor(Math.random()*vocab.length)];
             
-            pins = [];
-            const pinSpacing = width / 4;
-            // Spawn 3 pins
-            const correctPos = Math.floor(Math.random() * 3);
-            for(let i=0; i<3; i++) {
-                if(i === correctPos) {
-                    pins.push(new Pin(currentWord, true, pinSpacing * (i+1), 250));
-                } else {
-                    let wrongWord;
-                    do { wrongWord = vocab[Math.floor(Math.random() * vocab.length)]; } while(wrongWord === currentWord);
-                    pins.push(new Pin(wrongWord, false, pinSpacing * (i+1), 250));
-                }
-            }
-            resetBall();
+            mole.querySelector('img').src = Engine.getAssetPath(word);
+            mole.querySelector('span').innerText = word;
+            mole.dataset.word = word;
+            mole.classList.add('up');
+            
+            setTimeout(() => mole.classList.remove('up'), 1000 + Math.random()*1000);
+            setTimeout(pop, 800 + Math.random()*1000);
         }
 
-        function gameLoop() {
-            ctx.clearRect(0, 0, width, height);
-
-            // Lane
-            ctx.fillStyle = '#e2e8f0';
-            ctx.beginPath();
-            ctx.moveTo(width/4, 200);
-            ctx.lineTo(3*width/4, 200);
-            ctx.lineTo(width, height);
-            ctx.lineTo(0, height);
-            ctx.fill();
-
-            // Pins
-            pins.forEach(pin => pin.draw());
-
-            // Ball
-            ctx.beginPath();
-            ctx.arc(ballX, ballY, ballRadius, 0, Math.PI * 2);
-            ctx.fillStyle = '#06b6d4';
-            ctx.fill();
-            ctx.strokeStyle = 'white';
-            ctx.lineWidth = 3;
-            ctx.stroke();
-
-            requestAnimationFrame(gameLoop);
-        }
-
-        function handleInput(x, y) {
-            if(!gameActive) return;
-            // Simplified: Strike the pin closest to x
-            let hitPin = null;
-            pins.forEach(pin => {
-                if(Math.abs(x - pin.x) < 50) hitPin = pin;
-            });
-
-            if(hitPin) {
-                // Animation
-                const targetX = hitPin.x;
-                const targetY = hitPin.y;
-                const startX = ballX;
-                const startY = ballY;
-                let progress = 0;
-                
-                const anim = setInterval(() => {
-                    progress += 0.1;
-                    ballX = startX + (targetX - startX) * progress;
-                    ballY = startY + (targetY - startY) * progress;
-                    
-                    if(progress >= 1) {
-                        clearInterval(anim);
-                        if(hitPin.isCorrect) {
-                            Engine.addScore(10);
-                            Engine.showFeedback(true);
-                            setTimeout(nextQuestion, 500);
-                        } else {
-                            Engine.showFeedback(false);
-                            resetBall();
-                        }
-                    }
-                }, 20);
+        function whack(el) {
+            if(!el.classList.contains('up')) return;
+            el.classList.remove('up');
+            if(el.dataset.word === currentWord) {
+                Engine.addScore(10); Engine.showFeedback(true); nextQuestion();
+            } else {
+                Engine.showFeedback(false);
             }
         }
 
-        canvas.addEventListener('mousedown', (e) => handleInput(e.clientX, e.clientY));
-        canvas.addEventListener('touchstart', (e) => handleInput(e.touches[0].clientX, e.touches[0].clientY));
-
-        document.getElementById('listenBtn').addEventListener('click', () => Engine.speak(currentWord));
-
-        nextQuestion();
-        gameLoop();
+        document.getElementById('listenBtn').onclick = () => Engine.speak(currentWord);
+        nextQuestion(); pop();
     </script>
 </body>
 </html>
