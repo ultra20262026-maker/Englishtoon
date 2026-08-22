@@ -51,16 +51,21 @@
         }
 
         function spawnPlatform(y) {
-            const isTarget = Math.random() > 0.7 || !platforms.some(p => p.text === currentTarget);
-            const text = isTarget ? currentTarget : vocab[Math.floor(Math.random() * vocab.length)];
-            Engine.loadSprite(text, (img) => {
-                platforms.push({
-                    x: Math.random() * (canvas.width - 120) + 60,
-                    y: y,
-                    w: 100,
-                    h: 20,
-                    text: text,
-                    img: img
+            if (platforms.length >= 3) return; // Limit to 3 choices
+            
+            const choices = Engine.getWords(vocab, 3);
+            if (!choices.includes(currentTarget)) choices[0] = currentTarget;
+            
+            choices.forEach((text, i) => {
+                Engine.loadSprite(text, (img) => {
+                    platforms.push({
+                        x: (i + 0.5) * (canvas.width / 3),
+                        y: canvas.height - 200 - (i * 150),
+                        w: 100,
+                        h: 20,
+                        text: text,
+                        img: img
+                    });
                 });
             });
         }
@@ -73,10 +78,10 @@
                 player.vy += 0.5;
                 player.y += player.vy;
                 
-                if (player.y > canvas.height - 50) {
-                    player.y = canvas.height - 50;
-                    player.vy = -15; // Auto jump
-                }
+            if (player.y > canvas.height - 50) {
+                player.y = canvas.height - 50;
+                player.vy = 0; // Stop, no auto jump
+            }
             }
 
             // Draw Platforms
@@ -115,7 +120,18 @@
             requestAnimationFrame(animate);
         }
 
-        window.addEventListener('pointermove', (e) => { player.targetX = e.clientX; player.x += (player.targetX - player.x) * 0.1; });
+        window.addEventListener('pointermove', (e) => { 
+            if (!Engine.gameActive) return;
+            player.targetX = e.clientX; 
+            player.x += (player.targetX - player.x) * 0.1; 
+        });
+        
+        // Manual Jump: Only on tap
+        window.addEventListener('pointerdown', (e) => {
+            if (!Engine.gameActive) return;
+            if (e.target.closest('button')) return;
+            player.vy = -15; // Manual jump
+        });
         initGame();
     </script>
 </body>

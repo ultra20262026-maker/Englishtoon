@@ -51,18 +51,23 @@
         }
 
         function spawnEnemy() {
-            const isTarget = Math.random() > 0.5;
-            const text = isTarget ? currentTarget : vocab[Math.floor(Math.random() * vocab.length)];
-            Engine.loadSprite(text, (img) => {
-                enemies.push({
-                    x: Math.random() * (canvas.width - 100) + 50,
-                    y: -50,
-                    text: text,
-                    img: img,
-                    speed: (1 + Math.random()) * Engine.speed
+            if (enemies.length >= 3) return; // Limit to 3 choices
+            
+            // Get 3 distinct words including the target
+            const choices = Engine.getWords(vocab, 3);
+            if (!choices.includes(currentTarget)) choices[0] = currentTarget;
+            
+            choices.forEach((text, i) => {
+                Engine.loadSprite(text, (img) => {
+                    enemies.push({
+                        x: (i + 1) * (canvas.width / 4),
+                        y: -100 - (i * 50),
+                        text: text,
+                        img: img,
+                        speed: (0.8 + Math.random() * 0.5) * Engine.speed
+                    });
                 });
             });
-            setTimeout(spawnEnemy, 2000 / Engine.speed);
         }
 
         function animate() {
@@ -126,8 +131,18 @@
             requestAnimationFrame(animate);
         }
 
-        window.addEventListener('pointermove', (e) => { player.x = e.clientX; });
-        window.addEventListener('pointerdown', () => { bullets.push({ x: player.x, y: player.y - 30 }); });
+        window.addEventListener('pointermove', (e) => { 
+            if (!Engine.gameActive) return;
+            player.x = e.clientX; 
+        });
+        
+        // Manual shooting: Only on tap
+        window.addEventListener('pointerdown', (e) => { 
+            if (!Engine.gameActive) return;
+            // Prevent shooting if clicking UI
+            if (e.target.closest('button')) return;
+            bullets.push({ x: player.x, y: player.y - 30 }); 
+        });
         initGame();
     </script>
 </body>
