@@ -6,7 +6,7 @@ const Engine = {
     stars: 0,
     currentWord: null,
     gameActive: false,
-    speed: parseFloat(localStorage.getItem('et_game_speed')) || 1.0,
+    speed: parseFloat(localStorage.getItem('et_game_speed')) || 0.5,
     studentName: localStorage.getItem('et_student_name') || 'Guest Student',
     
     init() {
@@ -14,6 +14,8 @@ const Engine = {
         console.log("Game Engine Initialized for: " + this.studentName);
         this.updateUI();
         this.gameActive = true;
+        // Apply initial speed state to buttons
+        this.setSpeed(this.speed);
     },
 
     speak(text) {
@@ -59,14 +61,16 @@ const Engine = {
     },
 
     addSpeedControl() {
+        if (document.getElementById('speed-container')) return;
         const speedContainer = document.createElement('div');
-        speedContainer.className = 'fixed top-4 right-20 z-[100] flex flex-col items-center bg-white/90 p-2 rounded-lg shadow-md border border-blue-200';
+        speedContainer.id = 'speed-container';
+        speedContainer.className = 'fixed top-4 right-20 z-[100] flex flex-col items-center bg-white/90 p-2 rounded-lg shadow-md border border-blue-200 pointer-events-auto';
         speedContainer.innerHTML = `
-            <label class="text-[10px] font-bold text-blue-600 mb-1">SPEED</label>
+            <label class="text-[10px] font-bold text-blue-600 mb-1 uppercase tracking-tighter">Speed / السرعة</label>
             <div class="flex gap-1">
-                <button onclick="Engine.setSpeed(0.5)" id="speed-slow" class="px-2 py-1 text-xs rounded ${this.speed === 0.5 ? 'bg-blue-600 text-white' : 'bg-gray-200'}">Slow</button>
-                <button onclick="Engine.setSpeed(1.0)" id="speed-normal" class="px-2 py-1 text-xs rounded ${this.speed === 1.0 ? 'bg-blue-600 text-white' : 'bg-gray-200'}">Normal</button>
-                <button onclick="Engine.setSpeed(1.5)" id="speed-fast" class="px-2 py-1 text-xs rounded ${this.speed === 1.5 ? 'bg-blue-600 text-white' : 'bg-gray-200'}">Fast</button>
+                <button onclick="Engine.setSpeed(0.5)" id="speed-slow" class="px-2 py-1 text-[10px] font-bold rounded transition-colors">بطيء</button>
+                <button onclick="Engine.setSpeed(1.0)" id="speed-normal" class="px-2 py-1 text-[10px] font-bold rounded transition-colors">عادي</button>
+                <button onclick="Engine.setSpeed(1.5)" id="speed-fast" class="px-2 py-1 text-[10px] font-bold rounded transition-colors">سريع</button>
             </div>
         `;
         document.body.appendChild(speedContainer);
