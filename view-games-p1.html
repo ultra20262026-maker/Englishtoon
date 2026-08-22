@@ -29,6 +29,9 @@
             background: #0f172a;
             border-radius: calc(2rem - 2px);
         }
+        .dictation-border {
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+        }
     </style>
 </head>
 <body class="min-h-screen bg-slate-950 bg-pattern">
@@ -58,18 +61,36 @@
         const params = new URLSearchParams(window.location.search);
         const unitNum = params.get('unit') || '1';
         
-        const GAME_NAMES = [
-            "Adventure Flashlight", "Bubble Pop", "Butterfly Catcher", "Family Tree Explorer",
-            "Firefighter Rescue", "Hot Air Balloon", "Hungry Fish", "Letter Maze",
-            "Magic Hat", "Magic Piano", "Meteor Hunter", "Penalty Kick",
-            "Robot Repair", "Shadow Match", "Sky Race", "Speech Bot",
-            "Super Cannon", "Super Jump", "Toon Bowling", "Word Bridge",
-            "Treasure Hunt", "Jungle Adventure", "Space Explorer", "Garden Matching"
+        const GAMES_DATA = [
+            { name: "Cannon Shooter", icon: "fa-bomb", color: "from-blue-500 to-indigo-600" },
+            { name: "Basket Catcher", icon: "fa-basket-shopping", color: "from-emerald-500 to-teal-600" },
+            { name: "Space Shooter", icon: "fa-rocket", color: "from-purple-500 to-pink-600" },
+            { name: "Bowling Striker", icon: "fa-bowling-ball", color: "from-orange-500 to-red-600" },
+            { name: "Whack-a-Word", icon: "fa-hammer", color: "from-yellow-500 to-amber-600" },
+            { name: "Memory Match", icon: "fa-clone", color: "from-cyan-500 to-blue-600" },
+            { name: "Penalty Kick", icon: "fa-soccer-ball", color: "from-green-500 to-emerald-600" },
+            { name: "Jumping Hero", icon: "fa-up-long", color: "from-indigo-500 to-purple-600" },
+            { name: "Meteor Hunter", icon: "fa-meteor", color: "from-rose-500 to-pink-600" },
+            { name: "Treasure Hunt", icon: "fa-gem", color: "from-amber-400 to-yellow-600" },
+            { name: "Word Bridge", icon: "fa-bridge", color: "from-slate-500 to-slate-700" },
+            { name: "Sky Race", icon: "fa-cloud", color: "from-sky-400 to-blue-500" },
+            { name: "Robot Repair", icon: "fa-robot", color: "from-zinc-500 to-zinc-700" },
+            { name: "Shadow Match", icon: "fa-ghost", color: "from-gray-700 to-black" },
+            { name: "Firefighter Rescue", icon: "fa-fire-extinguisher", color: "from-red-500 to-orange-600" },
+            { name: "Balloon Popper", icon: "fa-circle", color: "from-pink-400 to-rose-500" },
+            { name: "Maze Runner", icon: "fa-route", color: "from-lime-500 to-green-600" },
+            { name: "Magic Hat", icon: "fa-hat-wizard", color: "from-violet-500 to-purple-700" },
+            { name: "Listening Bot", icon: "fa-headset", color: "from-blue-600 to-blue-800" },
+            { name: "Jungle Explorer", icon: "fa-leaf", color: "from-green-600 to-emerald-800" },
+            { name: "Butterfly Catcher", icon: "fa-bug", color: "from-orange-400 to-amber-500" },
+            { name: "Magic Piano", icon: "fa-music", color: "from-indigo-600 to-blue-700" },
+            { name: "Space Explorer", icon: "fa-satellite", color: "from-slate-800 to-slate-950" },
+            { name: "Dictation (Spelling)", icon: "fa-spell-check", color: "from-amber-500 to-red-600", isSpecial: true }
         ];
 
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('unitTitle').textContent = `الوحدة ${unitNum}`;
-            document.getElementById('unitSub').textContent = `Unit ${unitNum} Adventure`;
+            document.getElementById('unitSub').textContent = `Unit ${unitNum} Arcade Adventure`;
             renderGames();
         });
 
@@ -77,24 +98,26 @@
             const container = document.getElementById('gamesGrid');
             container.innerHTML = '';
             
-            for (let i = 1; i <= 24; i++) {
-                const gameName = GAME_NAMES[i-1];
+            GAMES_DATA.forEach((game, index) => {
+                const i = index + 1;
                 const gameLink = `games/primary-1/unit${unitNum}/game_${i}.html`;
                 
                 const card = document.createElement('div');
-                card.className = 'gradient-border animate-fade-in-up';
-                card.style.animationDelay = `${(i-1) * 0.05}s`;
+                card.className = `gradient-border animate-fade-in-up ${game.isSpecial ? 'dictation-border' : ''}`;
+                card.style.animationDelay = `${index * 0.05}s`;
                 
                 card.innerHTML = `
                     <a href="${gameLink}" class="game-card block card-inner p-5 group hover:bg-slate-900/40 transition-all">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-4">
-                                <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white shadow-xl group-hover:scale-110 transition-transform">
-                                    <span class="text-2xl font-black">${i}</span>
+                                <div class="w-14 h-14 rounded-2xl bg-gradient-to-br ${game.color} flex items-center justify-center text-white shadow-xl group-hover:scale-110 transition-transform">
+                                    <i class="fa-solid ${game.icon} text-2xl"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-black text-slate-100 text-lg">${gameName}</h4>
-                                    <p class="text-[10px] text-blue-400 font-bold uppercase tracking-widest">Level ${i}</p>
+                                    <h4 class="font-black text-slate-100 text-lg">${game.name}</h4>
+                                    <p class="text-[10px] ${game.isSpecial ? 'text-amber-400' : 'text-blue-400'} font-bold uppercase tracking-widest">
+                                        ${game.isSpecial ? '⭐ Challenge ⭐' : 'Game ' + i}
+                                    </p>
                                 </div>
                             </div>
                             <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all">
@@ -104,7 +127,7 @@
                     </a>
                 `;
                 container.appendChild(card);
-            }
+            });
         }
     </script>
 </body>
