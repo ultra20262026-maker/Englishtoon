@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,15 +16,9 @@
         .btn-action:active { transform: scale(0.95); }
     </style>
 
-    <title>Hit-a-Word</title>
-    <style>
-        .hole { background: #78350f; border-radius: 50%; height: 100px; position: relative; overflow: hidden; border: 8px solid #92400e; }
-        .mole { position: absolute; top: 100%; left: 0; right: 0; bottom: 0; transition: top 0.2s; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .mole.up { top: 0; }
-        .mole img { width: 60px; height: 60px; object-fit: contain; }
-    </style>
+    <title>Treasure Hunt</title>
 </head>
-<body class="bg-orange-50">
+<body class="bg-sky-100">
     
     <div class="game-ui">
         <div class="flex justify-between items-start">
@@ -40,56 +33,56 @@
         </div>
         <div class="mt-4 flex flex-col items-center">
             <div class="bg-white/95 backdrop-blur rounded-3xl p-4 shadow-xl border-4 border-blue-400 w-full max-w-md text-center interactive">
-                <h2 class="text-blue-500 font-bold text-sm mb-1 uppercase tracking-widest">Hit the correct word!</h2>
+                <h2 class="text-blue-500 font-bold text-sm mb-1 uppercase tracking-widest">Find the chest with:</h2>
                 <div id="targetWord" class="text-3xl font-black text-slate-800 mb-2">...</div>
-                <button id="listenBtn" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-xl font-bold shadow-lg flex items-center gap-2 mx-auto text-sm">
+                <button id="listenBtn" onclick="Engine.speak(currentWord)" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-xl font-bold shadow-lg flex items-center gap-2 mx-auto text-sm">
                     <i class="fa-solid fa-volume-high"></i> Listen
                 </button>
             </div>
         </div>
     </div>
 
-    <div class="h-screen flex items-center justify-center pt-40 p-4">
-        <div class="grid grid-cols-3 gap-6 w-full max-w-md">
-            <div class="hole"><div class="mole interactive" onclick="whack(this)"><img><span class="text-xs font-bold text-white"></span></div></div><div class="hole"><div class="mole interactive" onclick="whack(this)"><img><span class="text-xs font-bold text-white"></span></div></div><div class="hole"><div class="mole interactive" onclick="whack(this)"><img><span class="text-xs font-bold text-white"></span></div></div><div class="hole"><div class="mole interactive" onclick="whack(this)"><img><span class="text-xs font-bold text-white"></span></div></div><div class="hole"><div class="mole interactive" onclick="whack(this)"><img><span class="text-xs font-bold text-white"></span></div></div><div class="hole"><div class="mole interactive" onclick="whack(this)"><img><span class="text-xs font-bold text-white"></span></div></div>
-        </div>
-    </div>
+    <canvas id="gameCanvas"></canvas>
     <script src="../game_engine.js"></script>
     <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
         const vocab = JSON.parse('["Apple", "Ball", "Cat", "Dog", "Egg", "bag", "board", "book", "chair", "desk", "ill", "in", "ink", "insect", "open your books", "pencil", "sit down", "stand up"]');
-        let currentWord = "";
+        let width, height, currentWord;
+        
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
 
+        
+        let chests = [];
         function nextQuestion() {
             currentWord = vocab[Math.floor(Math.random() * vocab.length)];
             document.getElementById('targetWord').innerText = currentWord;
+            chests = [0,1,2].map(i => ({ x: (i+1)*width/4, y: 400, word: (i===1)?currentWord:vocab[Math.floor(Math.random()*vocab.length)] }));
         }
-
-        function pop() {
-            const moles = document.querySelectorAll('.mole');
-            const mole = moles[Math.floor(Math.random()*moles.length)];
-            const isCorrect = Math.random() < 0.3;
-            const word = isCorrect ? currentWord : vocab[Math.floor(Math.random()*vocab.length)];
-            
-            mole.querySelector('img').src = Engine.getAssetPath(word);
-            mole.querySelector('span').innerText = word;
-            mole.dataset.word = word;
-            mole.classList.add('up');
-            
-            setTimeout(() => mole.classList.remove('up'), 1000 + Math.random()*1000);
-            setTimeout(pop, 800 + Math.random()*1000);
+        function loop() {
+            ctx.clearRect(0,0,width,height);
+            chests.forEach(c => {
+                ctx.fillStyle = '#78350f'; ctx.fillRect(c.x-40, c.y, 80, 60);
+                let img = new Image(); img.src = Engine.getAssetPath(c.word);
+                ctx.drawImage(img, c.x-30, c.y-70, 60, 60);
+            });
+            requestAnimationFrame(loop);
         }
-
-        function whack(el) {
-            if(!el.classList.contains('up')) return;
-            el.classList.remove('up');
-            if(el.dataset.word === currentWord) {
-                Engine.addScore(10); Engine.showFeedback(true); nextQuestion();
-            } else {
-                Engine.showFeedback(false);
-            }
-        }
-
-        nextQuestion(); pop();
+        canvas.addEventListener('mousedown', (e) => {
+            chests.forEach(c => {
+                if(Math.hypot(e.clientX-c.x, e.clientY-c.y) < 60) {
+                    if(c.word === currentWord) { Engine.addScore(10); Engine.showFeedback(true); nextQuestion(); }
+                    else Engine.showFeedback(false);
+                }
+            });
+        });
+        nextQuestion(); loop();
+    
     </script>
 </body>
 </html>
