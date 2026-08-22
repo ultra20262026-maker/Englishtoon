@@ -3,222 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Turbo Racer - فرقعة الفقاعات - Unit 1</title>
+    <title>Balloon Pop - فرقعة البالونات</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="../game_engine.js?v=5.2"></script>
+    <script src="../game_engine.js?v=5.4"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
-        body { font-family: 'Cairo', sans-serif; overflow: hidden; background: #0f172a; touch-action: none; }
-        canvas { display: block; width: 100vw; height: 100vh; }
-        .game-ui { pointer-events: none; position: fixed; inset: 0; }
-        .interactive { pointer-events: auto; }
+        body { font-family: 'Cairo', sans-serif; overflow: hidden; background: #ecfeff; touch-action: none; }
+        .balloon { position: absolute; cursor: pointer; transition: transform 0.1s; }
+        .balloon:active { transform: scale(0.9); }
     </style>
 </head>
 <body>
-    <canvas id="gameCanvas"></canvas>
-    
-    <div class="game-ui flex flex-col items-center justify-between py-12 px-4">
-        <!-- Target Display -->
-        <div class="bg-black/40 backdrop-blur-md p-4 rounded-3xl border border-white/20 text-center animate-bounce mt-16">
-            <p class="text-blue-400 text-xs font-bold uppercase tracking-widest mb-1">المطلوب جمع:</p>
-            <h2 id="target-word" class="text-white text-3xl font-black tracking-tighter">APPLE</h2>
-            <button onclick="Engine.speak(document.getElementById('target-word').innerText)" class="interactive mt-2 bg-blue-600 p-2 rounded-full shadow-lg active:scale-90 transition-transform">
+    <div class="fixed top-20 left-1/2 -translate-x-1/2 text-center z-50 pointer-events-none">
+        <div class="bg-white/60 backdrop-blur-md p-4 rounded-3xl border border-cyan-200 shadow-xl">
+            <p class="text-cyan-600 text-xs font-bold uppercase mb-1">فرقع كلمة:</p>
+            <h2 id="target-word" class="text-slate-900 text-3xl font-black">APPLE</h2>
+            <button onclick="Engine.speak(document.getElementById('target-word').innerText)" class="pointer-events-auto mt-2 bg-cyan-500 p-2 rounded-full shadow-lg">
                 <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zM16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM3 9v6h4l5 5V4L7 9H3z"/></svg>
             </button>
-        </div>
-
-        <!-- Controls Hint -->
-        <div class="bg-white/5 backdrop-blur-sm px-6 py-2 rounded-full border border-white/10">
-            <p class="text-white/40 text-sm font-medium">اسحب لليمين واليسار للتحرك</p>
         </div>
     </div>
 
     <script>
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
         const vocab = ["Apple", "Ball", "Cat", "Dog", "Egg", "bag", "board", "book", "chair", "desk", "ill", "in", "ink", "insect", "open your books", "pencil", "sit down", "stand up"];
         let currentTarget = "";
-        let player = { x: 0, y: 0, w: 60, h: 100, targetX: 0 };
-        let obstacles = [];
-        let particles = [];
-        let roadOffset = 0;
-        let frame = 0;
+        let balloons = [];
 
         function initGame() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            player.x = canvas.width / 2;
-            player.targetX = player.x;
-            player.y = canvas.height - 150;
-            
-            nextLevel();
             Engine.init();
+            nextLevel();
             animate();
         }
 
         function nextLevel() {
             currentTarget = vocab[Math.floor(Math.random() * vocab.length)];
             document.getElementById('target-word').innerText = currentTarget.toUpperCase();
-            obstacles = [];
-            spawnInitialObstacles();
-        }
-
-        function spawnInitialObstacles() {
-            for(let i=0; i<3; i++) spawnObstacle(canvas.height * 0.2 - (i * 300));
-        }
-
-        function spawnObstacle(yPos = -100) {
-            const isTarget = Math.random() > 0.6 || !obstacles.some(o => o.text === currentTarget);
-            const text = isTarget ? currentTarget : vocab[Math.floor(Math.random() * vocab.length)];
             
-            Engine.loadSprite(text, (img) => {
-                obstacles.push({
-                    x: Math.random() * (canvas.width - 100) + 50,
-                    y: yPos,
-                    w: 80,
-                    h: 80,
-                    text: text,
-                    img: img,
-                    speed: (2 + Math.random() * 2) * Engine.speed
+            balloons.forEach(b => b.el.remove());
+            balloons = [];
+            
+            const choices = Engine.getWords(vocab, 3);
+            if (!choices.includes(currentTarget)) choices[0] = currentTarget;
+            
+            choices.forEach((text, i) => {
+                const el = document.createElement('div');
+                el.className = 'balloon flex flex-col items-center justify-center p-4 rounded-full shadow-lg border-4 border-white';
+                el.style.backgroundColor = ['#f87171', '#60a5fa', '#fbbf24'][i];
+                el.style.width = '120px';
+                el.style.height = '150px';
+                el.style.left = (i * 30 + 10) + '%';
+                el.style.top = '100%';
+                
+                el.innerHTML = `
+                    <img id="img-${i}" class="w-16 h-16 mb-2" src="">
+                    <span class="text-white font-black text-sm">${text.toUpperCase()}</span>
+                `;
+                
+                Engine.loadSprite(text, (img) => {
+                    el.querySelector('img').src = img.src;
                 });
-            });
-        }
 
-        function drawRoad() {
-            ctx.fillStyle = '#1e293b';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            ctx.strokeStyle = 'rgba(255,255,255,0.1)';
-            ctx.setLineDash([40, 40]);
-            ctx.lineWidth = 4;
-            
-            const lanes = 4;
-            for(let i=1; i<lanes; i++) {
-                ctx.beginPath();
-                ctx.moveTo(i * (canvas.width/lanes), 0);
-                ctx.lineTo(i * (canvas.width/lanes), canvas.height);
-                ctx.lineDashOffset = -roadOffset;
-                ctx.stroke();
-            }
-            roadOffset += 10 * Engine.speed;
-        }
-
-        function drawPlayer() {
-            // Smooth movement
-            player.x += (player.targetX - player.x) * 0.2;
-            
-            ctx.save();
-            ctx.translate(player.x, player.y);
-            
-            // Shadow
-            ctx.fillStyle = 'rgba(0,0,0,0.3)';
-            ctx.beginPath();
-            ctx.ellipse(0, 60, 30, 10, 0, 0, Math.PI*2);
-            ctx.fill();
-
-            // Car Body (Professional Neon Style)
-            const gradient = ctx.createLinearGradient(-30, 0, 30, 0);
-            gradient.addColorStop(0, '#3b82f6');
-            gradient.addColorStop(1, '#6366f1');
-            
-            ctx.fillStyle = gradient;
-            ctx.beginPath();
-            ctx.roundRect(-30, -50, 60, 100, 15);
-            ctx.fill();
-            
-            // Cockpit
-            ctx.fillStyle = '#0f172a';
-            ctx.beginPath();
-            ctx.roundRect(-20, -20, 40, 40, 10);
-            ctx.fill();
-            
-            // Headlights
-            ctx.fillStyle = '#fff';
-            ctx.shadowBlur = 15;
-            ctx.shadowColor = '#fff';
-            ctx.fillRect(-25, -55, 10, 5);
-            ctx.fillRect(15, -55, 10, 5);
-            
-            ctx.restore();
-        }
-
-        function update() {
-            obstacles.forEach((o, index) => {
-                o.y += o.speed * (5 * Engine.speed);
-                
-                // Collision Detection
-                const dx = o.x - player.x;
-                const dy = o.y - player.y;
-                const distance = Math.sqrt(dx*dx + dy*dy);
-                
-                if (distance < 60) {
-                    if (o.text === currentTarget) {
+                el.onclick = () => {
+                    if (!Engine.gameActive) return;
+                    if (text === currentTarget) {
                         Engine.addScore(100);
                         Engine.showFeedback(true);
-                        Engine.showWinScreen(() => nextLevel());
+                        el.style.transform = 'scale(2)';
+                        el.style.opacity = '0';
+                        setTimeout(() => Engine.showWinScreen(() => nextLevel()), 500);
                     } else {
-                        Engine.addScore(-50);
+                        Engine.addScore(-20);
                         Engine.showFeedback(false);
-                        o.y = canvas.height + 100; // Remove
+                        el.style.transform = 'translateY(20px)';
+                        setTimeout(() => el.style.transform = 'translateY(0)', 200);
                     }
-                }
-                
-                if (o.y > canvas.height + 100) {
-                    obstacles.splice(index, 1);
-                    spawnObstacle();
-                }
-            });
-        }
+                };
 
-        function drawObstacles() {
-            obstacles.forEach(o => {
-                ctx.save();
-                ctx.translate(o.x, o.y);
-                
-                // Glow
-                ctx.shadowBlur = 20;
-                ctx.shadowColor = o.text === currentTarget ? 'rgba(59, 130, 246, 0.5)' : 'rgba(255,255,255,0.2)';
-                
-                // Card Background
-                ctx.fillStyle = 'rgba(255,255,255,0.1)';
-                ctx.beginPath();
-                ctx.roundRect(-50, -50, 100, 100, 20);
-                ctx.fill();
-                ctx.strokeStyle = 'rgba(255,255,255,0.2)';
-                ctx.stroke();
-
-                // Sprite
-                if(o.img) ctx.drawImage(o.img, -40, -45, 80, 80);
-                
-                // Text Label
-                ctx.fillStyle = 'white';
-                ctx.font = 'bold 14px Cairo';
-                ctx.textAlign = 'center';
-                ctx.fillText(o.text.toUpperCase(), 0, 45);
-                
-                ctx.restore();
+                document.body.appendChild(el);
+                balloons.push({ el, text, y: window.innerHeight, speed: 1 + Math.random() });
             });
         }
 
         function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            drawRoad();
-            update();
-            drawObstacles();
-            drawPlayer();
+            if (Engine.gameActive) {
+                balloons.forEach(b => {
+                    b.y -= b.speed * Engine.speed * 2;
+                    if (b.y < -200) b.y = window.innerHeight + 100;
+                    b.el.style.top = b.y + 'px';
+                });
+            }
             requestAnimationFrame(animate);
         }
-
-        // Touch/Mouse Controls
-        window.addEventListener('pointermove', (e) => {
-            player.targetX = e.clientX;
-        });
-
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            player.y = canvas.height - 150;
-        });
 
         initGame();
     </script>
