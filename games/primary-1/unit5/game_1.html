@@ -12,10 +12,7 @@
         canvas { display: block; width: 100vw; height: 100vh; }
         .game-ui { pointer-events: none; position: fixed; inset: 0; z-index: 50; padding: 1rem; }
         .interactive { pointer-events: auto; }
-        .speed-ctrl { position: fixed; bottom: 20px; right: 20px; z-index: 100; display: flex; gap: 5px; }
-        .speed-btn { width: 40px; height: 40px; border-radius: 50%; background: white; border: 2px solid #3b82f6; color: #3b82f6; font-weight: bold; font-size: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-        .speed-btn.active { background: #3b82f6; color: white; }
-    </style>
+        </style>
 
     <title>Cannon Aim</title>
 </head>
@@ -42,11 +39,7 @@
         </div>
     </div>
     
-    <div class="speed-ctrl interactive">
-        <div onclick="Engine.setSpeed(0.5)" class="speed-btn" id="s05">0.5x</div>
-        <div onclick="Engine.setSpeed(1.0)" class="speed-btn active" id="s10">1x</div>
-        <div onclick="Engine.setSpeed(1.5)" class="speed-btn" id="s15">1.5x</div>
-    </div>
+
 
     <canvas id="gameCanvas"></canvas>
     <script src="../game_engine.js"></script>
@@ -97,10 +90,15 @@
         });
         requestAnimationFrame(loop);
     }
-    canvas.addEventListener('mousedown', (e) => {
-        let a = Math.atan2(e.clientY-height, e.clientX-width/2);
+    function handleAction(e) {
+        const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+        const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+        if (clientX === undefined) return;
+        let a = Math.atan2(clientY-height, clientX-width/2);
         projectiles.push({x: width/2, y: height, vx: Math.cos(a)*12, vy: Math.sin(a)*12});
-    });
+    }
+    canvas.addEventListener('mousedown', handleAction);
+    canvas.addEventListener('touchstart', e => { e.preventDefault(); handleAction(e); }, {passive:false});
     
 
         window.onload = () => {
