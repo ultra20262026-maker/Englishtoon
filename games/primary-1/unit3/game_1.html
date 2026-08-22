@@ -59,7 +59,6 @@
 
         
         let cannon, targets = [], projectiles = [];
-        cannon = { x: width/2, y: height - 60, r: 40 };
         function nextQuestion() {
             currentWord = vocab[Math.floor(Math.random() * vocab.length)];
             document.getElementById('targetWord').innerText = currentWord;
@@ -68,19 +67,24 @@
         function spawnTargets() {
             for(let i=0; i<3; i++) {
                 let word = (i === 0) ? currentWord : vocab[Math.floor(Math.random()*vocab.length)];
-                targets.push({ word, isCorrect: word === currentWord, x: Math.random()*(width-100)+50, y: -50, speed: 1+Math.random()*2, r: 45, img: new Image() });
-                targets[i].img.src = Engine.getAssetPath(word);
+                let t = { word, isCorrect: word === currentWord, x: Math.random()*(width-100)+50, y: -50, speed: 1+Math.random()*2, r: 45, img: new Image() };
+                t.img.src = Engine.getAssetPath(word);
+                targets.push(t);
             }
             targets.sort(() => Math.random()-0.5);
         }
         function loop() {
             ctx.clearRect(0,0,width,height);
             ctx.fillStyle = '#1e293b'; ctx.beginPath(); ctx.arc(width/2, height, 80, Math.PI, 0); ctx.fill();
-            targets.forEach((t, i) => {
-                t.y += t.speed; ctx.drawImage(t.img, t.x-35, t.y-35, 70, 70);
+            for(let i=targets.length-1; i>=0; i--) {
+                let t = targets[i];
+                t.y += t.speed;
+                if(t.img.complete) ctx.drawImage(t.img, t.x-35, t.y-35, 70, 70);
+                else { ctx.fillStyle='gray'; ctx.beginPath(); ctx.arc(t.x, t.y, 35, 0, Math.PI*2); ctx.fill(); }
                 if(t.y > height) { targets.splice(i, 1); if(targets.length === 0) spawnTargets(); }
-            });
-            projectiles.forEach((p, i) => {
+            }
+            for(let i=projectiles.length-1; i>=0; i--) {
+                let p = projectiles[i];
                 p.x += p.vx; p.y += p.vy; ctx.fillStyle = 'red'; ctx.beginPath(); ctx.arc(p.x, p.y, 10, 0, Math.PI*2); ctx.fill();
                 targets.forEach((t, j) => {
                     if(Math.hypot(p.x-t.x, p.y-t.y) < t.r) {
@@ -89,15 +93,24 @@
                         else { Engine.showFeedback(false); targets.splice(j, 1); }
                     }
                 });
-            });
+                if(p.y < 0 || p.x < 0 || p.x > width) projectiles.splice(i, 1);
+            }
             requestAnimationFrame(loop);
         }
         canvas.addEventListener('mousedown', (e) => {
             const angle = Math.atan2(e.clientY - height, e.clientX - width/2);
             projectiles.push({ x: width/2, y: height, vx: Math.cos(angle)*15, vy: Math.sin(angle)*15 });
         });
-        nextQuestion(); loop();
     
+        
+        // Ensure Engine is ready before starting
+        window.onload = () => {
+            if (window.Engine) {
+                Engine.init();
+                if (typeof nextQuestion === 'function') nextQuestion();
+                if (typeof loop === 'function') loop();
+            }
+        };
     </script>
 </body>
 </html>
