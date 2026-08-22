@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +18,7 @@
 
     <title>Basket Catcher</title>
 </head>
-<body class="bg-green-50">
+<body class="bg-sky-100">
     
     <div class="game-ui">
         <div class="flex justify-between items-start">
@@ -36,7 +35,7 @@
             <div class="bg-white/95 backdrop-blur rounded-3xl p-4 shadow-xl border-4 border-blue-400 w-full max-w-md text-center interactive">
                 <h2 class="text-blue-500 font-bold text-sm mb-1 uppercase tracking-widest">Catch the correct word:</h2>
                 <div id="targetWord" class="text-3xl font-black text-slate-800 mb-2">...</div>
-                <button id="listenBtn" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-xl font-bold shadow-lg flex items-center gap-2 mx-auto text-sm">
+                <button id="listenBtn" onclick="Engine.speak(currentWord)" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-xl font-bold shadow-lg flex items-center gap-2 mx-auto text-sm">
                     <i class="fa-solid fa-volume-high"></i> Listen
                 </button>
             </div>
@@ -44,56 +43,49 @@
     </div>
 
     <canvas id="gameCanvas"></canvas>
-    <script src="../../game_engine.js"></script>
+    <script src="../game_engine.js"></script>
     <script>
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
         const vocab = JSON.parse('["ball", "banana", "bike", "bird", "boy", "cage", "cat", "chair", "couch", "dog", "elephant", "giraffe", "in", "jacket", "jam", "jar", "jeans", "jellyfish", "lamp", "leaf", "lemon", "lion", "lunch", "monkey", "on", "snake", "table", "tiger", "turtle", "umbrella", "under", "unlock", "up"]');
-        let width, height, currentWord, basket, items = [];
-
+        let width, height, currentWord;
+        
         function resize() {
             width = canvas.width = window.innerWidth;
             height = canvas.height = window.innerHeight;
-            basket = { x: width/2, y: height - 100, w: 100, h: 60 };
         }
         window.addEventListener('resize', resize);
         resize();
 
+        
+        let basket = { x: width/2, w: 100, h: 20 }, items = [];
         function nextQuestion() {
             currentWord = vocab[Math.floor(Math.random() * vocab.length)];
             document.getElementById('targetWord').innerText = currentWord;
-            items = [];
         }
-
         function loop() {
             ctx.clearRect(0,0,width,height);
-            // Basket
-            ctx.fillStyle = '#92400e';
-            ctx.fillRect(basket.x - basket.w/2, basket.y, basket.w, basket.h);
-            
+            ctx.fillStyle = '#92400e'; ctx.fillRect(basket.x-50, height-50, 100, 30);
             if(Math.random() < 0.02) {
                 let word = Math.random() < 0.3 ? currentWord : vocab[Math.floor(Math.random()*vocab.length)];
-                items.push({ word, x: Math.random()*width, y: -50, s: 2+Math.random()*3, img: new Image() });
+                items.push({ word, x: Math.random()*width, y: -50, s: 3, img: new Image() });
                 items[items.length-1].img.src = Engine.getAssetPath(word);
             }
-
             items.forEach((it, i) => {
-                it.y += it.s;
-                ctx.drawImage(it.img, it.x-30, it.y-30, 60, 60);
-                if(it.y > basket.y && Math.abs(it.x - basket.x) < basket.w/2) {
+                it.y += it.s; ctx.drawImage(it.img, it.x-30, it.y-30, 60, 60);
+                if(it.y > height-60 && Math.abs(it.x-basket.x) < 50) {
                     items.splice(i, 1);
                     if(it.word === currentWord) { Engine.addScore(10); Engine.showFeedback(true); nextQuestion(); }
-                    else { Engine.showFeedback(false); }
+                    else Engine.showFeedback(false);
                 }
                 if(it.y > height) items.splice(i, 1);
             });
             requestAnimationFrame(loop);
         }
-
         canvas.addEventListener('mousemove', (e) => basket.x = e.clientX);
         canvas.addEventListener('touchmove', (e) => basket.x = e.touches[0].clientX);
-        document.getElementById('listenBtn').onclick = () => Engine.speak(currentWord);
         nextQuestion(); loop();
+    
     </script>
 </body>
 </html>
