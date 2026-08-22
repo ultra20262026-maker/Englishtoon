@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Spelling Bee - ملك الإملاء</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../game_engine.js?v=5.4.4"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
+        body { font-family: 'Cairo', sans-serif; overflow: hidden; background: #431407; touch-action: none; }
+        .letter-tile { width: 50px; height: 50px; background: #fbbf24; color: #431407; font-weight: 900; display: flex; items-center justify-center; border-radius: 12px; font-size: 24px; box-shadow: 0 4px 0 #b45309; }
+        .slot { width: 50px; height: 50px; border: 2px dashed #b45309; border-radius: 12px; }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center h-screen p-4">
+    <div class="fixed top-10 text-center z-50 w-full px-4">
+        <div class="bg-black/40 backdrop-blur-md p-4 rounded-3xl border border-white/20">
+            <p class="text-amber-400 text-xs font-bold uppercase mb-1">اسمع ورتب الحروف:</p>
+            <button onclick="Engine.speak(words[currentWordIndex].word)" class="bg-amber-600 p-4 rounded-full shadow-lg">
+                <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zM16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM3 9v6h4l5 5V4L7 9H3z"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <div id="slots" class="flex gap-2 mb-8 mt-20"></div>
+    <div id="letters" class="flex flex-wrap gap-2 justify-center"></div>
+
+    <script>
+        const words = [{"word": "Apple", "image": "apple.png"}, {"word": "Ball", "image": "ball.png"}, {"word": "Cat", "image": "cat.png"}, {"word": "Dog", "image": "dog.png"}, {"word": "Egg", "image": "egg.png"}, {"word": "bag", "image": "bag.png"}, {"word": "board", "image": "board.png"}, {"word": "book", "image": "book.png"}, {"word": "chair", "image": "chair.png"}, {"word": "desk", "image": "desk.png"}, {"word": "ill", "image": "ill.png"}, {"word": "in", "image": "in.png"}, {"word": "ink", "image": "ink.png"}, {"word": "insect", "image": "insect.png"}, {"word": "open your books", "image": "open_your_books.png"}, {"word": "pencil", "image": "pencil.png"}, {"word": "sit down", "image": "sit_down.png"}, {"word": "stand up", "image": "stand_up.png"}];
+        let currentWordIndex = 0;
+        let currentGuess = [];
+
+        function initGame() {
+            Engine.init({
+                onListen: () => Engine.speak(words[currentWordIndex].word),
+                onContinue: nextLevel
+            });
+            setupLevel();
+        }
+
+        function setupLevel() {
+            const current = words[currentWordIndex];
+            const letters = current.word.toUpperCase().split('').sort(() => Math.random() - 0.5);
+            currentGuess = [];
+            
+            const slotContainer = document.getElementById('slots');
+            slotContainer.innerHTML = '';
+            current.word.split('').forEach(() => {
+                const slot = document.createElement('div');
+                slot.className = 'slot';
+                slotContainer.appendChild(slot);
+            });
+
+            const letterContainer = document.getElementById('letters');
+            letterContainer.innerHTML = '';
+            letters.forEach(l => {
+                const tile = document.createElement('div');
+                tile.className = 'letter-tile cursor-pointer';
+                tile.innerText = l;
+                tile.onclick = () => addLetter(l, tile);
+                letterContainer.appendChild(tile);
+            });
+        }
+
+        function addLetter(l, tile) {
+            if (tile.style.visibility === 'hidden') return;
+            currentGuess.push(l);
+            tile.style.visibility = 'hidden';
+            
+            const slots = document.querySelectorAll('.slot');
+            slots[currentGuess.length - 1].innerText = l;
+            slots[currentGuess.length - 1].className = 'letter-tile';
+            
+            if (currentGuess.length === words[currentWordIndex].word.length) {
+                if (currentGuess.join('') === words[currentWordIndex].word.toUpperCase()) {
+                    Engine.showWin();
+                } else {
+                    Engine.shake();
+                    setTimeout(setupLevel, 500);
+                }
+            }
+        }
+
+        function nextLevel() {
+            currentWordIndex = (currentWordIndex + 1) % words.length;
+            setupLevel();
+            Engine.hideWin();
+        }
+
+        initGame();
+    </script>
+</body>
+</html>

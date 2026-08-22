@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Fruit Slasher - قاطع الفواكه</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../game_engine.js?v=5.5.1"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
+        body { font-family: 'Cairo', sans-serif; overflow: hidden; background: #064e3b; touch-action: none; }
+        canvas { display: block; width: 100vw; height: 100vh; }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas"></canvas>
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const words = [{"word": "Apple", "image": "apple.png"}, {"word": "Ball", "image": "ball.png"}, {"word": "Cat", "image": "cat.png"}, {"word": "Dog", "image": "dog.png"}, {"word": "Egg", "image": "egg.png"}, {"word": "bag", "image": "bag.png"}, {"word": "board", "image": "board.png"}, {"word": "book", "image": "book.png"}, {"word": "chair", "image": "chair.png"}, {"word": "desk", "image": "desk.png"}, {"word": "ill", "image": "ill.png"}, {"word": "in", "image": "in.png"}, {"word": "ink", "image": "ink.png"}, {"word": "insect", "image": "insect.png"}, {"word": "open your books", "image": "open_your_books.png"}, {"word": "pencil", "image": "pencil.png"}, {"word": "sit down", "image": "sit_down.png"}, {"word": "stand up", "image": "stand_up.png"}];
+        let currentWordIndex = 0;
+        let fruits = [];
+        let trail = [];
+
+        function initGame() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            Engine.init({
+                onListen: () => Engine.speak(words[currentWordIndex].word),
+                onContinue: nextLevel
+            });
+            
+            setupLevel();
+            animate();
+        }
+
+        function setupLevel() {
+            const current = words[currentWordIndex];
+            const targetWordEl = document.getElementById('engine-target-word');
+            if(targetWordEl) targetWordEl.innerText = current.word.toUpperCase();
+            
+            fruits = [];
+            const choices = Engine.getChoices(words, currentWordIndex, 3);
+            choices.forEach((c, i) => {
+                const img = new Image();
+                img.src = c.image;
+                fruits.push({
+                    x: (i + 1) * (canvas.width / 4),
+                    y: canvas.height + 100,
+                    word: c.word,
+                    img: img,
+                    isCorrect: c.word === current.word,
+                    vx: (Math.random() - 0.5) * 4,
+                    vy: -15 - Math.random() * 5,
+                    destroyed: false
+                });
+            });
+        }
+
+        function nextLevel() {
+            currentWordIndex = (currentWordIndex + 1) % words.length;
+            setupLevel();
+            Engine.hideWin();
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            if (!Engine.isPaused) {
+                // Update Fruits
+                fruits.forEach(f => {
+                    if (!f.destroyed) {
+                        f.x += f.vx;
+                        f.y += f.vy;
+                        f.vy += 0.25; // Gravity
+                        
+                        if (f.y > canvas.height + 200 && f.vy > 0) {
+                            if (f.isCorrect) setupLevel(); // Respawn if correct missed
+                        }
+                    }
+                });
+
+                // Update Trail
+                if (trail.length > 0) {
+                    trail.shift();
+                }
+            }
+
+            // Draw Fruits
+            fruits.forEach(f => {
+                if (!f.destroyed) {
+                    ctx.save();
+                    ctx.translate(f.x, f.y);
+                    if (f.img && f.img.complete) ctx.drawImage(f.img, -45, -45, 90, 90);
+                    ctx.restore();
+                    
+                    ctx.fillStyle = 'white';
+                    ctx.font = 'bold 16px Cairo';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(f.word.toUpperCase(), f.x, f.y + 60);
+                }
+            });
+
+            // Draw Trail
+            if (trail.length > 1) {
+                ctx.strokeStyle = '#fde047';
+                ctx.lineWidth = 5;
+                ctx.lineCap = 'round';
+                ctx.beginPath();
+                ctx.moveTo(trail[0].x, trail[0].y);
+                for(let i=1; i<trail.length; i++) {
+                    ctx.lineTo(trail[i].x, trail[i].y);
+                }
+                ctx.stroke();
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('pointermove', (e) => {
+            if (!Engine.isPaused) {
+                trail.push({ x: e.clientX, y: e.clientY });
+                if (trail.length > 10) trail.shift();
+                
+                fruits.forEach(f => {
+                    if (!f.destroyed && Math.abs(e.clientX - f.x) < 50 && Math.abs(e.clientY - f.y) < 50) {
+                        f.destroyed = true;
+                        if (f.isCorrect) {
+                            Engine.showWin();
+                        } else {
+                            Engine.shake();
+                            setTimeout(setupLevel, 500);
+                        }
+                    }
+                });
+            }
+        });
+
+        initGame();
+    </script>
+</body>
+</html>

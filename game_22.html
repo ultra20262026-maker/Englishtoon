@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Word Cannon - مدفع الكلمات</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { margin: 0; overflow: hidden; background: #0f172a; font-family: 'Segoe UI', sans-serif; }
+        #game-container { position: relative; width: 100vw; height: 100vh; display: flex; flex-direction: column; }
+        #top-bar { height: 60px; background: rgba(30, 41, 59, 0.9); display: flex; align-items: center; justify-content: space-between; padding: 0 15px; border-bottom: 2px solid #334155; z-index: 100; }
+        .target-word { color: #facc15; font-size: 24px; font-weight: bold; text-transform: uppercase; }
+        canvas { flex: 1; background: #1e293b; }
+        #win-screen { display: none; position: absolute; inset: 0; background: rgba(0,0,0,0.8); z-index: 1000; flex-direction: column; align-items: center; justify-content: center; }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <div id="top-bar">
+            <div class="flex items-center gap-2">
+                <span class="text-white text-sm">★ <span id="score">0</span></span>
+            </div>
+            <div class="flex flex-col items-center">
+                <span class="text-blue-400 text-[10px] font-bold">:المطلوب</span>
+                <span class="target-word" id="target-word">APPLE</span>
+            </div>
+            <button onclick="playSound()" class="bg-blue-600 p-2 rounded-full shadow-lg active:scale-95">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+            </button>
+        </div>
+        <canvas id="gameCanvas"></canvas>
+    </div>
+
+    <div id="win-screen">
+        <div class="bg-white p-8 rounded-3xl text-center shadow-2xl transform scale-110">
+            <div class="text-6xl mb-4">💥</div>
+            <h2 class="text-3xl font-black text-slate-800 mb-2">Boom!</h2>
+            <p class="text-slate-600 mb-6">Direct hit!</p>
+            <button onclick="nextLevel()" class="bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-10 rounded-2xl text-xl shadow-lg transition-all active:scale-95">
+                Next Target
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const words = [{"word": "Apple", "image": "apple.png"}, {"word": "Ball", "image": "ball.png"}, {"word": "Cat", "image": "cat.png"}, {"word": "Dog", "image": "dog.png"}, {"word": "Egg", "image": "egg.png"}, {"word": "bag", "image": "bag.png"}, {"word": "board", "image": "board.png"}, {"word": "book", "image": "book.png"}, {"word": "chair", "image": "chair.png"}, {"word": "desk", "image": "desk.png"}, {"word": "ill", "image": "ill.png"}, {"word": "in", "image": "in.png"}, {"word": "ink", "image": "ink.png"}, {"word": "insect", "image": "insect.png"}, {"word": "open your books", "image": "open_your_books.png"}, {"word": "pencil", "image": "pencil.png"}, {"word": "sit down", "image": "sit_down.png"}, {"word": "stand up", "image": "stand_up.png"}];
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        let currentWord = "";
+        let score = 0;
+        let targets = [];
+        let bullets = [];
+        let cannonX = 0;
+        let gameActive = true;
+        let sprites = {};
+
+        function initGame() {
+            currentWord = words[Math.floor(Math.random() * words.length)];
+            document.getElementById('target-word').textContent = currentWord.word;
+            
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight - 60;
+            cannonX = canvas.width / 2;
+            
+            targets = [];
+            bullets = [];
+            let choices = [currentWord];
+            while(choices.length < 3) {
+                let w = words[Math.floor(Math.random() * words.length)];
+                if(!choices.find(c => c.word === w.word)) choices.push(w);
+            }
+            choices.sort(() => Math.random() - 0.5);
+            
+            choices.forEach((w, i) => {
+                targets.push({
+                    x: (canvas.width / 4) * (i + 1) - 50,
+                    y: 100,
+                    w: 100,
+                    h: 100,
+                    word: w.word,
+                    image: w.image,
+                    dx: (Math.random() - 0.5) * 4
+                });
+            });
+            
+            loadSprites();
+            gameActive = true;
+            requestAnimationFrame(update);
+        }
+
+        function loadSprites() {
+            targets.forEach(t => {
+                if(!sprites[t.word]) {
+                    const img = new Image();
+                    img.src = `../../../assets/p1/${t.image}`;
+                    sprites[t.word] = img;
+                }
+            });
+        }
+
+        function update() {
+            if(!gameActive) return;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw Cannon
+            ctx.fillStyle = '#64748b';
+            ctx.beginPath();
+            ctx.arc(cannonX, canvas.height - 20, 40, Math.PI, 0);
+            ctx.fill();
+            ctx.fillRect(cannonX - 10, canvas.height - 80, 20, 60);
+            
+            // Bullets
+            bullets.forEach((b, bi) => {
+                b.y -= 10;
+                ctx.fillStyle = '#facc15';
+                ctx.beginPath();
+                ctx.arc(b.x, b.y, 8, 0, Math.PI * 2);
+                ctx.fill();
+                
+                targets.forEach((t, ti) => {
+                    if(b.x > t.x && b.x < t.x + t.w && b.y > t.y && b.y < t.y + t.h) {
+                        bullets.splice(bi, 1);
+                        if(t.word === currentWord.word) {
+                            score += 10;
+                            document.getElementById('score').textContent = score;
+                            gameActive = false;
+                            showWin();
+                        }
+                    }
+                });
+                if(b.y < 0) bullets.splice(bi, 1);
+            });
+            
+            // Targets
+            targets.forEach(t => {
+                t.x += t.dx;
+                if(t.x < 0 || t.x > canvas.width - t.w) t.dx *= -1;
+                
+                ctx.fillStyle = 'rgba(255,255,255,0.1)';
+                ctx.fillRect(t.x, t.y, t.w, t.h);
+                
+                if(sprites[t.word] && sprites[t.word].complete) {
+                    ctx.drawImage(sprites[t.word], t.x + 10, t.y + 10, 80, 80);
+                }
+                ctx.fillStyle = 'white';
+                ctx.font = 'bold 14px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(t.word.toUpperCase(), t.x + t.w/2, t.y + t.h + 20);
+            });
+            
+            requestAnimationFrame(update);
+        }
+
+        canvas.addEventListener('mousedown', handleInput);
+        canvas.addEventListener('touchstart', (e) => handleInput(e.touches[0]));
+
+        function handleInput(e) {
+            if(!gameActive) return;
+            cannonX = e.clientX;
+            bullets.push({ x: cannonX, y: canvas.height - 80 });
+        }
+
+        function showWin() {
+            document.getElementById('win-screen').style.display = 'flex';
+        }
+
+        function nextLevel() {
+            document.getElementById('win-screen').style.display = 'none';
+            initGame();
+        }
+
+        function playSound() {
+            const utterance = new SpeechSynthesisUtterance(currentWord.word);
+            utterance.lang = 'en-US';
+            window.speechSynthesis.speak(utterance);
+        }
+
+        initGame();
+    </script>
+</body>
+</html>

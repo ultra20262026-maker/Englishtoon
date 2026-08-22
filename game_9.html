@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Penalty Shootout - ركلات الترجيح</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../game_engine.js?v=5.4"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
+        body { font-family: 'Cairo', sans-serif; overflow: hidden; background: #166534; touch-action: none; }
+        canvas { display: block; width: 100vw; height: 100vh; }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas"></canvas>
+    <div class="fixed top-20 left-1/2 -translate-x-1/2 text-center z-50 pointer-events-none">
+        <div class="bg-black/40 backdrop-blur-md p-4 rounded-3xl border border-white/20">
+            <p class="text-yellow-400 text-xs font-bold uppercase mb-1">سجل في هدف الكلمة:</p>
+            <h2 id="target-word" class="text-white text-3xl font-black">APPLE</h2>
+            <button onclick="Engine.speak(document.getElementById('target-word').innerText)" class="pointer-events-auto mt-2 bg-yellow-600 p-2 rounded-full shadow-lg">
+                <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zM16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM3 9v6h4l5 5V4L7 9H3z"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const vocab = [{"word": "Apple", "image": "apple.png"}, {"word": "Ball", "image": "ball.png"}, {"word": "Cat", "image": "cat.png"}, {"word": "Dog", "image": "dog.png"}, {"word": "Egg", "image": "egg.png"}, {"word": "bag", "image": "bag.png"}, {"word": "board", "image": "board.png"}, {"word": "book", "image": "book.png"}, {"word": "chair", "image": "chair.png"}, {"word": "desk", "image": "desk.png"}, {"word": "ill", "image": "ill.png"}, {"word": "in", "image": "in.png"}, {"word": "ink", "image": "ink.png"}, {"word": "insect", "image": "insect.png"}, {"word": "open your books", "image": "open_your_books.png"}, {"word": "pencil", "image": "pencil.png"}, {"word": "sit down", "image": "sit_down.png"}, {"word": "stand up", "image": "stand_up.png"}];
+        let currentTarget = "";
+        let ball = { x: 0, y: 0, vx: 0, vy: 0, kicked: false };
+        let goals = [];
+
+        function initGame() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            resetBall();
+            nextLevel();
+            Engine.init();
+            animate();
+        }
+
+        function resetBall() {
+            ball = { x: canvas.width / 2, y: canvas.height - 100, vx: 0, vy: 0, kicked: false };
+        }
+
+        function nextLevel() {
+            currentTarget = vocab[Math.floor(Math.random() * vocab.length)];
+            document.getElementById('target-word').innerText = currentTarget.toUpperCase();
+            goals = [];
+            const choices = Engine.getWords(vocab, 3);
+            if (!choices.includes(currentTarget)) choices[0] = currentTarget;
+            
+            choices.forEach((text, i) => {
+                Engine.loadSprite(text, (img) => {
+                    goals.push({
+                        x: (i + 1) * (canvas.width / 4),
+                        y: 150,
+                        text: text,
+                        img: img
+                    });
+                });
+            });
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw Pitch
+            ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+            ctx.lineWidth = 5;
+            ctx.strokeRect(50, 50, canvas.width - 100, canvas.height - 100);
+            
+            if (Engine.gameActive) {
+                // Update Ball
+                if (ball.kicked) {
+                    ball.x += ball.vx;
+                    ball.y += ball.vy;
+                    ball.vy *= 0.98; ball.vx *= 0.98;
+
+                    // Collision with goals
+                    goals.forEach(g => {
+                        if (Math.abs(ball.x - g.x) < 60 && Math.abs(ball.y - g.y) < 60) {
+                            if (g.text === currentTarget) {
+                                Engine.addScore(100);
+                                Engine.showFeedback(true);
+                                Engine.showWinScreen(() => { resetBall(); nextLevel(); });
+                            } else {
+                                Engine.addScore(-20);
+                                Engine.showFeedback(false);
+                                resetBall();
+                            }
+                        }
+                    });
+
+                    if (ball.y < 0 || ball.y > canvas.height || ball.x < 0 || ball.x > canvas.width) resetBall();
+                }
+
+                // Draw Goals
+                goals.forEach(g => {
+                    ctx.fillStyle = 'rgba(255,255,255,0.1)';
+                    ctx.fillRect(g.x - 50, g.y - 50, 100, 100);
+                    if(g.img) ctx.drawImage(g.img, g.x - 40, g.y - 40, 80, 80);
+                    ctx.fillStyle = 'white';
+                    ctx.font = 'bold 14px Cairo';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(g.text.toUpperCase(), g.x, g.y + 55);
+                });
+            }
+
+            // Draw Ball
+            ctx.fillStyle = 'white';
+            ctx.beginPath();
+            ctx.arc(ball.x, ball.y, 20, 0, Math.PI*2);
+            ctx.fill();
+            ctx.strokeStyle = 'black';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('pointerdown', (e) => {
+            if (!Engine.gameActive || ball.kicked) return;
+            const dx = e.clientX - ball.x;
+            const dy = e.clientY - ball.y;
+            const dist = Math.sqrt(dx*dx + dy*dy);
+            ball.vx = (dx / dist) * 20;
+            ball.vy = (dy / dist) * 20;
+            ball.kicked = true;
+        });
+
+        initGame();
+    </script>
+</body>
+</html>

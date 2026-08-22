@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Speed Challenge - تحدي السرعة</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { margin: 0; overflow: hidden; background: #0f172a; font-family: 'Segoe UI', sans-serif; }
+        #game-container { position: relative; width: 100vw; height: 100vh; display: flex; flex-direction: column; }
+        #top-bar { height: 60px; background: rgba(30, 41, 59, 0.9); display: flex; align-items: center; justify-content: space-between; padding: 0 15px; border-bottom: 2px solid #334155; z-index: 100; }
+        .target-word { color: #facc15; font-size: 24px; font-weight: bold; text-transform: uppercase; }
+        #play-area { flex: 1; position: relative; overflow: hidden; }
+        .bubble { position: absolute; background: white; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); cursor: pointer; transition: transform 0.1s; border: 4px solid #3b82f6; }
+        .bubble img { width: 60%; height: 60%; object-fit: contain; }
+        .bubble span { font-size: 12px; font-weight: bold; color: #1e293b; }
+        #timer-bar { position: absolute; bottom: 0; left: 0; height: 6px; background: #ef4444; width: 100%; transition: width 0.1s linear; }
+        #win-screen { display: none; position: absolute; inset: 0; background: rgba(0,0,0,0.8); z-index: 1000; flex-direction: column; align-items: center; justify-content: center; }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <div id="top-bar">
+            <div class="flex items-center gap-2">
+                <span class="text-white text-sm">★ <span id="score">0</span></span>
+            </div>
+            <div class="flex flex-col items-center">
+                <span class="text-blue-400 text-[10px] font-bold">:المطلوب</span>
+                <span class="target-word" id="target-word">APPLE</span>
+            </div>
+            <button onclick="playSound()" class="bg-blue-600 p-2 rounded-full shadow-lg active:scale-95">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+            </button>
+        </div>
+        <div id="play-area">
+            <div id="timer-bar"></div>
+        </div>
+    </div>
+
+    <div id="win-screen">
+        <div class="bg-white p-8 rounded-3xl text-center shadow-2xl transform scale-110">
+            <div class="text-6xl mb-4">⚡</div>
+            <h2 class="text-3xl font-black text-slate-800 mb-2">Super Fast!</h2>
+            <p class="text-slate-600 mb-6">You got it!</p>
+            <button onclick="nextLevel()" class="bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-10 rounded-2xl text-xl shadow-lg transition-all active:scale-95">
+                Continue
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const words = [{"word": "Apple", "image": "apple.png"}, {"word": "Ball", "image": "ball.png"}, {"word": "Cat", "image": "cat.png"}, {"word": "Dog", "image": "dog.png"}, {"word": "Egg", "image": "egg.png"}, {"word": "bag", "image": "bag.png"}, {"word": "board", "image": "board.png"}, {"word": "book", "image": "book.png"}, {"word": "chair", "image": "chair.png"}, {"word": "desk", "image": "desk.png"}, {"word": "ill", "image": "ill.png"}, {"word": "in", "image": "in.png"}, {"word": "ink", "image": "ink.png"}, {"word": "insect", "image": "insect.png"}, {"word": "open your books", "image": "open_your_books.png"}, {"word": "pencil", "image": "pencil.png"}, {"word": "sit down", "image": "sit_down.png"}, {"word": "stand up", "image": "stand_up.png"}];
+        let currentWord = "";
+        let score = 0;
+        let timeLeft = 100;
+        let timerInterval;
+
+        function initGame() {
+            currentWord = words[Math.floor(Math.random() * words.length)];
+            document.getElementById('target-word').textContent = currentWord.word;
+            
+            const area = document.getElementById('play-area');
+            // Keep existing timer bar
+            const timerBar = document.getElementById('timer-bar');
+            area.innerHTML = '';
+            area.appendChild(timerBar);
+            
+            let choices = [currentWord];
+            while(choices.length < 4) {
+                let w = words[Math.floor(Math.random() * words.length)];
+                if(!choices.find(c => c.word === w.word)) choices.push(w);
+            }
+            choices.sort(() => Math.random() - 0.5);
+            
+            choices.forEach((w, i) => {
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+                const size = 120;
+                bubble.style.width = size + 'px';
+                bubble.style.height = size + 'px';
+                bubble.style.left = Math.random() * (window.innerWidth - size) + 'px';
+                bubble.style.top = Math.random() * (area.offsetHeight - size) + 'px';
+                
+                bubble.innerHTML = `
+                    <img src="../../../assets/p1/${w.image}" alt="${w.word}">
+                    <span>${w.word.toUpperCase()}</span>
+                `;
+                
+                bubble.onclick = () => {
+                    if(w.word === currentWord.word) {
+                        score += 10;
+                        document.getElementById('score').textContent = score;
+                        clearInterval(timerInterval);
+                        showWin();
+                    } else {
+                        bubble.style.transform = 'scale(0.8)';
+                        setTimeout(() => bubble.style.transform = 'scale(1)', 100);
+                        score = Math.max(0, score - 5);
+                        document.getElementById('score').textContent = score;
+                    }
+                };
+                area.appendChild(bubble);
+            });
+            
+            timeLeft = 100;
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeLeft -= 1;
+                document.getElementById('timer-bar').style.width = timeLeft + '%';
+                if(timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    initGame(); // Reset on timeout
+                }
+            }, 100);
+        }
+
+        function showWin() {
+            document.getElementById('win-screen').style.display = 'flex';
+        }
+
+        function nextLevel() {
+            document.getElementById('win-screen').style.display = 'none';
+            initGame();
+        }
+
+        function playSound() {
+            const utterance = new SpeechSynthesisUtterance(currentWord.word);
+            utterance.lang = 'en-US';
+            window.speechSynthesis.speak(utterance);
+        }
+
+        initGame();
+    </script>
+</body>
+</html>

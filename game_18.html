@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Word Search - البحث عن الكلمة</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../game_engine.js?v=5.4.4"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
+        body { font-family: 'Cairo', sans-serif; overflow: hidden; background: #1e1b4b; touch-action: none; }
+        .grid-cell { width: 40px; height: 40px; display: flex; items-center justify-center; color: white; font-weight: bold; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; }
+        .selected { background: #4f46e5; }
+        .found { background: #10b981; }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center h-screen p-4">
+    <div class="fixed top-10 text-center z-50 w-full px-4">
+        <div class="bg-black/40 backdrop-blur-md p-4 rounded-3xl border border-white/20">
+            <p class="text-indigo-400 text-xs font-bold uppercase mb-1">ابحث عن كلمة:</p>
+            <h2 id="target-word" class="text-white text-3xl font-black">APPLE</h2>
+            <button onclick="Engine.speak(document.getElementById('target-word').innerText)" class="mt-2 bg-indigo-600 p-2 rounded-full shadow-lg">
+                <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zM16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM3 9v6h4l5 5V4L7 9H3z"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <div id="grid" class="grid grid-cols-8 gap-1 mt-20"></div>
+
+    <script>
+        const words = [{"word": "Apple", "image": "apple.png"}, {"word": "Ball", "image": "ball.png"}, {"word": "Cat", "image": "cat.png"}, {"word": "Dog", "image": "dog.png"}, {"word": "Egg", "image": "egg.png"}, {"word": "bag", "image": "bag.png"}, {"word": "board", "image": "board.png"}, {"word": "book", "image": "book.png"}, {"word": "chair", "image": "chair.png"}, {"word": "desk", "image": "desk.png"}, {"word": "ill", "image": "ill.png"}, {"word": "in", "image": "in.png"}, {"word": "ink", "image": "ink.png"}, {"word": "insect", "image": "insect.png"}, {"word": "open your books", "image": "open_your_books.png"}, {"word": "pencil", "image": "pencil.png"}, {"word": "sit down", "image": "sit_down.png"}, {"word": "stand up", "image": "stand_up.png"}];
+        let currentWordIndex = 0;
+        let gridSize = 8;
+        let grid = [];
+        let selection = [];
+
+        function initGame() {
+            Engine.init({
+                onListen: () => Engine.speak(words[currentWordIndex].word),
+                onContinue: nextLevel
+            });
+            setupLevel();
+        }
+
+        function setupLevel() {
+            const current = words[currentWordIndex];
+            document.getElementById('target-word').innerText = current.word.toUpperCase();
+            generateGrid(current.word.toUpperCase());
+            renderGrid();
+        }
+
+        function generateGrid(target) {
+            grid = Array(gridSize * gridSize).fill('').map(() => String.fromCharCode(65 + Math.floor(Math.random() * 26)));
+            const startIdx = Math.floor(Math.random() * (gridSize * gridSize - target.length));
+            const direction = Math.random() > 0.5 ? 1 : gridSize; // Horizontal or Vertical
+            
+            for(let i=0; i<target.length; i++) {
+                const idx = startIdx + (i * direction);
+                if (idx < gridSize * gridSize) grid[idx] = target[i];
+            }
+        }
+
+        function renderGrid() {
+            const container = document.getElementById('grid');
+            container.innerHTML = '';
+            grid.forEach((letter, i) => {
+                const cell = document.createElement('div');
+                cell.className = 'grid-cell';
+                cell.innerText = letter;
+                cell.dataset.index = i;
+                cell.onpointerdown = () => startSelection(i);
+                cell.onpointerenter = () => updateSelection(i);
+                container.appendChild(cell);
+            });
+        }
+
+        function startSelection(idx) {
+            selection = [idx];
+            updateStyles();
+        }
+
+        function updateSelection(idx) {
+            if (selection.length > 0 && !selection.includes(idx)) {
+                selection.push(idx);
+                updateStyles();
+                checkWord();
+            }
+        }
+
+        function updateStyles() {
+            document.querySelectorAll('.grid-cell').forEach((cell, i) => {
+                cell.classList.toggle('selected', selection.includes(i));
+            });
+        }
+
+        function checkWord() {
+            const selectedText = selection.map(i => grid[i]).join('');
+            const target = words[currentWordIndex].word.toUpperCase();
+            if (selectedText === target) {
+                selection.forEach(i => {
+                    document.querySelector(`[data-index="${i}"]`).classList.add('found');
+                });
+                Engine.showWin();
+            } else if (selectedText.length >= target.length) {
+                selection = [];
+                updateStyles();
+            }
+        }
+
+        function nextLevel() {
+            currentWordIndex = (currentWordIndex + 1) % words.length;
+            setupLevel();
+            Engine.hideWin();
+        }
+
+        window.onpointerup = () => { selection = []; updateStyles(); };
+        initGame();
+    </script>
+</body>
+</html>

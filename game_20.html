@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Image Match - توصيل الصور</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { margin: 0; overflow: hidden; background: #0f172a; font-family: 'Segoe UI', sans-serif; }
+        #game-container { position: relative; width: 100vw; height: 100vh; display: flex; flex-direction: column; }
+        #top-bar { height: 60px; background: rgba(30, 41, 59, 0.9); display: flex; align-items: center; justify-content: space-between; padding: 0 15px; border-bottom: 2px solid #334155; z-index: 100; }
+        .target-word { color: #facc15; font-size: 24px; font-weight: bold; text-transform: uppercase; }
+        #match-area { flex: 1; display: flex; justify-content: space-around; align-items: center; padding: 20px; }
+        .column { display: flex; flex-direction: column; gap: 20px; }
+        .item { background: #1e293b; border: 3px solid #334155; border-radius: 15px; padding: 15px; width: 140px; height: 140px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
+        .item.selected { border-color: #3b82f6; background: #1e3a8a; transform: scale(1.05); }
+        .item img { max-width: 90%; max-height: 90%; object-fit: contain; }
+        .item span { color: white; font-weight: bold; font-size: 18px; text-align: center; }
+        #win-screen { display: none; position: absolute; inset: 0; background: rgba(0,0,0,0.8); z-index: 1000; flex-direction: column; align-items: center; justify-content: center; }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <div id="top-bar">
+            <div class="flex items-center gap-2">
+                <span class="text-white text-sm">★ <span id="score">0</span></span>
+            </div>
+            <div class="flex flex-col items-center">
+                <span class="text-blue-400 text-[10px] font-bold">:المطلوب</span>
+                <span class="target-word" id="target-word">MATCH ALL</span>
+            </div>
+            <button onclick="playSound()" class="bg-blue-600 p-2 rounded-full shadow-lg active:scale-95">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+            </button>
+        </div>
+        <div id="match-area">
+            <div class="column" id="words-col"></div>
+            <div class="column" id="images-col"></div>
+        </div>
+    </div>
+
+    <div id="win-screen">
+        <div class="bg-white p-8 rounded-3xl text-center shadow-2xl transform scale-110">
+            <div class="text-6xl mb-4">🔗</div>
+            <h2 class="text-3xl font-black text-slate-800 mb-2">Great Matching!</h2>
+            <p class="text-slate-600 mb-6">You connected them all!</p>
+            <button onclick="nextLevel()" class="bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-10 rounded-2xl text-xl shadow-lg transition-all active:scale-95">
+                Next Level
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const words = [{"word": "Apple", "image": "apple.png"}, {"word": "Ball", "image": "ball.png"}, {"word": "Cat", "image": "cat.png"}, {"word": "Dog", "image": "dog.png"}, {"word": "Egg", "image": "egg.png"}, {"word": "bag", "image": "bag.png"}, {"word": "board", "image": "board.png"}, {"word": "book", "image": "book.png"}, {"word": "chair", "image": "chair.png"}, {"word": "desk", "image": "desk.png"}, {"word": "ill", "image": "ill.png"}, {"word": "in", "image": "in.png"}, {"word": "ink", "image": "ink.png"}, {"word": "insect", "image": "insect.png"}, {"word": "open your books", "image": "open_your_books.png"}, {"word": "pencil", "image": "pencil.png"}, {"word": "sit down", "image": "sit_down.png"}, {"word": "stand up", "image": "stand_up.png"}];
+        let score = 0;
+        let selectedWord = null;
+        let selectedImage = null;
+        let matchesFound = 0;
+
+        function initGame() {
+            matchesFound = 0;
+            const area = document.getElementById('match-area');
+            const wordsCol = document.getElementById('words-col');
+            const imagesCol = document.getElementById('images-col');
+            wordsCol.innerHTML = '';
+            imagesCol.innerHTML = '';
+            
+            let choices = [];
+            let tempWords = [...words];
+            for(let i=0; i<3; i++) {
+                if(tempWords.length === 0) break;
+                let idx = Math.floor(Math.random() * tempWords.length);
+                choices.push(tempWords.splice(idx, 1)[0]);
+            }
+            
+            let displayWords = [...choices].sort(() => Math.random() - 0.5);
+            let displayImages = [...choices].sort(() => Math.random() - 0.5);
+            
+            displayWords.forEach(w => {
+                const item = document.createElement('div');
+                item.className = 'item';
+                item.innerHTML = `<span>${w.word.toUpperCase()}</span>`;
+                item.onclick = () => {
+                    if(item.classList.contains('opacity-0')) return;
+                    document.querySelectorAll('#words-col .item').forEach(el => el.classList.remove('selected'));
+                    item.classList.add('selected');
+                    selectedWord = { word: w.word, element: item };
+                    checkMatch();
+                };
+                wordsCol.appendChild(item);
+            });
+            
+            displayImages.forEach(w => {
+                const item = document.createElement('div');
+                item.className = 'item';
+                item.innerHTML = `<img src="../../../assets/p1/${w.image}" alt="${w.word}">`;
+                item.onclick = () => {
+                    if(item.classList.contains('opacity-0')) return;
+                    document.querySelectorAll('#images-col .item').forEach(el => el.classList.remove('selected'));
+                    item.classList.add('selected');
+                    selectedImage = { word: w.word, element: item };
+                    checkMatch();
+                };
+                imagesCol.appendChild(item);
+            });
+        }
+
+        function checkMatch() {
+            if(selectedWord && selectedImage) {
+                if(selectedWord.word === selectedImage.word) {
+                    selectedWord.element.classList.add('opacity-0');
+                    selectedImage.element.classList.add('opacity-0');
+                    score += 20;
+                    document.getElementById('score').textContent = score;
+                    matchesFound++;
+                    if(matchesFound === 3) showWin();
+                } else {
+                    selectedWord.element.classList.remove('selected');
+                    selectedImage.element.classList.remove('selected');
+                }
+                selectedWord = null;
+                selectedImage = null;
+            }
+        }
+
+        function showWin() {
+            document.getElementById('win-screen').style.display = 'flex';
+        }
+
+        function nextLevel() {
+            document.getElementById('win-screen').style.display = 'none';
+            initGame();
+        }
+
+        function playSound() {
+            const utterance = new SpeechSynthesisUtterance("Match the words with their images");
+            utterance.lang = 'en-US';
+            window.speechSynthesis.speak(utterance);
+        }
+
+        initGame();
+    </script>
+</body>
+</html>

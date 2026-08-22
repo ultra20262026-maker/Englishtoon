@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>قاذف الكواكب - Planet Launcher</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Cairo', sans-serif; overflow: hidden; background: #020617; touch-action: none; margin: 0; }
+        canvas { display: block; width: 100vw; height: 100vh; background: radial-gradient(circle, #0f172a 0%, #020617 100%); }
+        
+        #engine-ui {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 500px;
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 8px 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1000;
+        }
+        
+        #target-word { color: #60a5fa; font-weight: 900; font-size: 1.2rem; text-transform: uppercase; }
+        
+        .ui-btn {
+            background: #2563eb; color: white; border: none; border-radius: 10px;
+            padding: 5px 12px; font-size: 0.9rem; font-weight: bold; cursor: pointer;
+        }
+        
+        #win-screen {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.95);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+    </style>
+</head>
+<body>
+    <div id="engine-ui">
+        <div class="flex items-center gap-2">
+            <span class="text-slate-400 text-xs font-bold ml-2">المطلوب:</span>
+            <span id="target-word">APPLE</span>
+        </div>
+        <div class="flex gap-2">
+            <button class="ui-btn" onclick="handleListen()"><i class="fa-solid fa-volume-high"></i></button>
+            <div class="bg-slate-800 px-3 py-1 rounded-lg text-xs font-bold text-amber-400">
+                ★ <span id="score">0</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="win-screen">
+        <div class="bg-slate-800 p-8 rounded-3xl border-2 border-green-500 text-center">
+            <i class="fa-solid fa-circle-check text-6xl text-green-500 mb-4"></i>
+            <h2 class="text-3xl font-black text-white mb-6">مستكشف الفضاء!</h2>
+            <button class="ui-btn px-8 py-3 text-lg bg-green-600" onclick="nextLevel()">متابعة اللعب</button>
+        </div>
+    </div>
+
+    <canvas id="gameCanvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const words = [{"word": "Apple", "image": "apple.png"}, {"word": "Ball", "image": "ball.png"}, {"word": "Cat", "image": "cat.png"}, {"word": "Dog", "image": "dog.png"}, {"word": "Egg", "image": "egg.png"}, {"word": "bag", "image": "bag.png"}, {"word": "board", "image": "board.png"}, {"word": "book", "image": "book.png"}, {"word": "chair", "image": "chair.png"}, {"word": "desk", "image": "desk.png"}, {"word": "ill", "image": "ill.png"}, {"word": "in", "image": "in.png"}, {"word": "ink", "image": "ink.png"}, {"word": "insect", "image": "insect.png"}, {"word": "open your books", "image": "open_your_books.png"}, {"word": "pencil", "image": "pencil.png"}, {"word": "sit down", "image": "sit_down.png"}, {"word": "stand up", "image": "stand_up.png"}];
+        let currentWordIndex = 0;
+        let score = 0;
+        let isPaused = false;
+        let targets = [];
+        let planets = [];
+        let launcher = { x: 0, y: 0, angle: -Math.PI/2 };
+
+        function initGame() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            launcher.x = canvas.width / 2;
+            launcher.y = canvas.height - 100;
+            setupLevel();
+            animate();
+        }
+
+        function setupLevel() {
+            const current = words[currentWordIndex];
+            document.getElementById('target-word').innerText = current.word.toUpperCase();
+            
+            targets = [];
+            planets = [];
+            
+            let choices = [current];
+            let others = words.filter(w => w.word !== current.word);
+            others.sort(() => Math.random() - 0.5);
+            choices.push(others[0], others[1]);
+            choices.sort(() => Math.random() - 0.5);
+
+            choices.forEach((c, i) => {
+                const img = new Image();
+                img.src = `../../../assets/p1/${c.word.toLowerCase().replace(/ /g, '_')}.png`;
+                targets.push({
+                    x: (i + 1) * (canvas.width / 4),
+                    y: 200 + (i * 50),
+                    word: c.word,
+                    img: img,
+                    isCorrect: c.word === current.word,
+                    speed: 1.5,
+                    dir: 1
+                });
+            });
+        }
+
+        function handleListen() {
+            const utterance = new SpeechSynthesisUtterance(words[currentWordIndex].word);
+            utterance.lang = 'en-US';
+            speechSynthesis.cancel();
+            speechSynthesis.speak(utterance);
+        }
+
+        function nextLevel() {
+            document.getElementById('win-screen').style.display = 'none';
+            isPaused = false;
+            currentWordIndex = (currentWordIndex + 1) % words.length;
+            setupLevel();
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw Stars
+            ctx.fillStyle = 'white';
+            for(let i=0; i<50; i++) {
+                ctx.beginPath();
+                ctx.arc((i * 137) % canvas.width, (i * 251) % canvas.height, 1, 0, Math.PI*2);
+                ctx.fill();
+            }
+
+            if (!isPaused) {
+                // Update Targets
+                targets.forEach(t => {
+                    t.x += t.speed * t.dir;
+                    if (t.x < 50 || t.x > canvas.width - 50) t.dir *= -1;
+                });
+
+                // Update Planets
+                planets = planets.filter(p => {
+                    p.x += Math.cos(p.angle) * 12;
+                    p.y += Math.sin(p.angle) * 12;
+                    
+                    let hit = false;
+                    targets.forEach(t => {
+                        if (Math.abs(p.x - t.x) < 50 && Math.abs(p.y - t.y) < 50) {
+                            hit = true;
+                            if (t.isCorrect) {
+                                score += 10;
+                                document.getElementById('score').innerText = score;
+                                isPaused = true;
+                                document.getElementById('win-screen').style.display = 'flex';
+                            }
+                        }
+                    });
+                    return !hit && p.y > 0 && p.x > 0 && p.x < canvas.width;
+                });
+            }
+
+            // Draw Launcher
+            ctx.save();
+            ctx.translate(launcher.x, launcher.y);
+            ctx.rotate(launcher.angle);
+            ctx.fillStyle = '#334155';
+            ctx.fillRect(-10, -40, 20, 60);
+            ctx.fillStyle = '#64748b';
+            ctx.beginPath();
+            ctx.arc(0, 0, 30, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+
+            // Draw Planets (Bullets)
+            planets.forEach(p => {
+                ctx.fillStyle = '#ec4899';
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, 12, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.strokeStyle = '#f472b6';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.ellipse(p.x, p.y, 18, 5, Math.PI/4, 0, Math.PI*2);
+                ctx.stroke();
+            });
+
+            // Draw Targets
+            targets.forEach(t => {
+                ctx.save();
+                ctx.translate(t.x, t.y);
+                if (t.img && t.img.complete) ctx.drawImage(t.img, -45, -45, 90, 90);
+                
+                ctx.fillStyle = 'rgba(15, 23, 42, 0.8)';
+                ctx.roundRect(-50, 50, 100, 30, 10);
+                ctx.fill();
+                
+                ctx.fillStyle = 'white';
+                ctx.font = 'bold 16px Cairo';
+                ctx.textAlign = 'center';
+                ctx.fillText(t.word.toUpperCase(), 0, 70);
+                ctx.restore();
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('pointermove', (e) => {
+            if (isPaused) return;
+            const dx = e.clientX - launcher.x;
+            const dy = e.clientY - launcher.y;
+            launcher.angle = Math.atan2(dy, dx);
+        });
+
+        window.addEventListener('pointerdown', (e) => {
+            if (e.target.closest('button') || isPaused) return;
+            const dx = e.clientX - launcher.x;
+            const dy = e.clientY - launcher.y;
+            const angle = Math.atan2(dy, dx);
+            planets.push({ x: launcher.x, y: launcher.y, angle: angle });
+        });
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            launcher.x = canvas.width / 2;
+            launcher.y = canvas.height - 100;
+        });
+
+        initGame();
+    </script>
+</body>
+</html>
