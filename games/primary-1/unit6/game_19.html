@@ -16,7 +16,7 @@
         .btn-action:active { transform: scale(0.95); }
     </style>
 
-    <title>Space Defender</title>
+    <title>Meteor Hunter</title>
 </head>
 <body class="bg-sky-100">
     
@@ -33,7 +33,7 @@
         </div>
         <div class="mt-4 flex flex-col items-center">
             <div class="bg-white/95 backdrop-blur rounded-3xl p-4 shadow-xl border-4 border-blue-400 w-full max-w-md text-center interactive">
-                <h2 class="text-blue-500 font-bold text-sm mb-1 uppercase tracking-widest">Blast the asteroids! Shoot:</h2>
+                <h2 class="text-blue-500 font-bold text-sm mb-1 uppercase tracking-widest">Tap the correct meteor:</h2>
                 <div id="targetWord" class="text-3xl font-black text-slate-800 mb-2">...</div>
                 <button id="listenBtn" onclick="Engine.speak(currentWord)" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-xl font-bold shadow-lg flex items-center gap-2 mx-auto text-sm">
                     <i class="fa-solid fa-volume-high"></i> Listen
@@ -58,43 +58,39 @@
         resize();
 
         
-        let ship = { x: width/2 }, lasers = [], enemies = [];
+        let meteors = [];
         function nextQuestion() {
             currentWord = vocab[Math.floor(Math.random() * vocab.length)];
             document.getElementById('targetWord').innerText = currentWord;
         }
         function loop() {
             ctx.clearRect(0,0,width,height);
-            ctx.fillStyle = 'cyan'; ctx.beginPath(); ctx.moveTo(ship.x, height-80); ctx.lineTo(ship.x-20, height-40); ctx.lineTo(ship.x+20, height-40); ctx.fill();
-            if(Math.random() < 0.03) {
-                let word = Math.random() < 0.4 ? currentWord : vocab[Math.floor(Math.random()*vocab.length)];
-                let en = { word, x: Math.random()*width, y: -50, s: 2, img: new Image() };
-                en.img.src = Engine.getAssetPath(word);
-                enemies.push(en);
+            if(Math.random() < 0.015) {
+                let word = Math.random() < 0.5 ? currentWord : vocab[Math.floor(Math.random()*vocab.length)];
+                let m = { word, x: Math.random()*width, y: -50, s: 1.5, img: new Image() };
+                m.img.src = Engine.getAssetPath(word);
+                meteors.push(m);
             }
-            for(let i=enemies.length-1; i>=0; i--) {
-                let en = enemies[i];
-                en.y += en.s;
-                if(en.img.complete) ctx.drawImage(en.img, en.x-30, en.y-30, 60, 60);
-                for(let j=lasers.length-1; j>=0; j--) {
-                    let la = lasers[j];
-                    if(Math.hypot(la.x-en.x, la.y-en.y) < 40) {
-                        lasers.splice(j, 1); enemies.splice(i, 1);
-                        if(en.word === currentWord) { Engine.addScore(10); Engine.showFeedback(true); nextQuestion(); }
-                        else Engine.showFeedback(false);
-                        break;
-                    }
-                }
-                if(en && en.y > height) enemies.splice(i, 1);
+            for(let i=meteors.length-1; i>=0; i--) {
+                let m = meteors[i];
+                m.y += m.s * Engine.speed;
+                if(m.img.complete) ctx.drawImage(m.img, m.x-40, m.y-40, 80, 80);
+                if(m.y > height) meteors.splice(i, 1);
             }
-            for(let i=lasers.length-1; i>=0; i--) { lasers[i].y -= 10; ctx.fillStyle='yellow'; ctx.fillRect(lasers[i].x-2, lasers[i].y, 4, 20); if(lasers[i].y<0) lasers.splice(i,1); }
             requestAnimationFrame(loop);
         }
-        canvas.addEventListener('mousedown', (e) => { ship.x = e.clientX; lasers.push({x:ship.x, y:height-80}); });
-        canvas.addEventListener('touchstart', (e) => { ship.x = e.touches[0].clientX; lasers.push({x:ship.x, y:height-80}); });
+        canvas.addEventListener('mousedown', (e) => {
+            for(let i=meteors.length-1; i>=0; i--) {
+                let m = meteors[i];
+                if(Math.hypot(e.clientX-m.x, e.clientY-m.y) < 50) {
+                    meteors.splice(i, 1);
+                    if(m.word === currentWord) { Engine.addScore(10); Engine.showFeedback(true); nextQuestion(); }
+                    else Engine.showFeedback(false);
+                }
+            }
+        });
     
         
-        // Ensure Engine is ready before starting
         window.onload = () => {
             if (window.Engine) {
                 Engine.init();
