@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Jungle Jump - قفزة الغابة</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="../game_engine.js?v=5.4"></script>
+    <script src="../../game_engine.js?v=5.4.4"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap');
         body { font-family: 'Cairo', sans-serif; overflow: hidden; background: #064e3b; touch-action: none; }
@@ -15,10 +15,10 @@
 <body>
     <canvas id="gameCanvas"></canvas>
     <div class="fixed top-20 left-1/2 -translate-x-1/2 text-center z-50 pointer-events-none">
-        <div class="bg-green-900/40 backdrop-blur-md p-4 rounded-3xl border border-green-400/30">
-            <p class="text-green-300 text-xs font-bold uppercase mb-1">اقفز نحو:</p>
+        <div class="bg-black/40 backdrop-blur-md p-4 rounded-3xl border border-white/20">
+            <p class="text-green-400 text-xs font-bold uppercase mb-1">اقفز على الكلمة:</p>
             <h2 id="target-word" class="text-white text-3xl font-black">APPLE</h2>
-            <button onclick="Engine.speak(document.getElementById('target-word').innerText)" class="pointer-events-auto mt-2 bg-green-600 p-2 rounded-full shadow-lg">
+            <button onclick="Engine.speak(document.getElementById('target-word').innerText)" class="pointer-events-auto mt-2 bg-indigo-600 p-2 rounded-full shadow-lg">
                 <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zM16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM3 9v6h4l5 5V4L7 9H3z"/></svg>
             </button>
         </div>
@@ -27,9 +27,9 @@
     <script>
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
-        const vocab = ["Apple", "Ball", "Cat", "Dog", "Egg", "bag", "board", "book", "chair", "desk", "ill", "in", "ink", "insect", "open your books", "pencil", "sit down", "stand up"];
-        let currentTarget = "";
-        let player = { x: 0, y: 0, vy: 0, isJumping: false };
+        const words = ["Apple", "Ball", "Cat", "Dog", "Egg", "bag", "board", "book", "chair", "desk", "ill", "in", "ink", "insect", "open your books", "pencil", "sit down", "stand up"];
+        let currentWordIndex = 0;
+        let player = { x: 0, y: 0, vy: 0, isJumping: false, w: 50, h: 50 };
         let platforms = [];
 
         function initGame() {
@@ -37,82 +37,95 @@
             canvas.height = window.innerHeight;
             player.x = canvas.width / 2;
             player.y = canvas.height - 100;
-            nextLevel();
-            Engine.init();
+            
+            Engine.init({
+                onListen: () => Engine.speak(words[currentWordIndex].word),
+                onContinue: nextLevel
+            });
+            
+            setupLevel();
             animate();
         }
 
-        function nextLevel() {
-            currentTarget = vocab[Math.floor(Math.random() * vocab.length)];
-            document.getElementById('target-word').innerText = currentTarget.toUpperCase();
+        function setupLevel() {
+            const current = words[currentWordIndex];
+            document.getElementById('target-word').innerText = current.word.toUpperCase();
             platforms = [];
-            spawnPlatforms();
-            player.y = canvas.height - 100;
             player.vy = 0;
             player.isJumping = false;
-        }
-
-        function spawnPlatforms() {
-            const choices = Engine.getWords(vocab, 3);
-            if (!choices.includes(currentTarget)) choices[0] = currentTarget;
+            player.y = canvas.height - 100;
             
-            choices.forEach((text, i) => {
-                Engine.loadSprite(text, (img) => {
-                    platforms.push({
-                        x: (i + 1) * (canvas.width / 4),
-                        y: canvas.height - 300 - (i * 50),
-                        text: text,
-                        img: img,
-                        w: 120,
-                        h: 20
-                    });
+            const choices = Engine.getChoices(words, currentWordIndex, 3);
+            choices.forEach((c, i) => {
+                const img = new Image();
+                img.src = c.image;
+                platforms.push({
+                    x: (i + 1) * (canvas.width / 4),
+                    y: canvas.height - 300,
+                    word: c.word,
+                    img: img,
+                    isCorrect: c.word === current.word,
+                    w: 120,
+                    h: 20
                 });
             });
         }
 
+        function nextLevel() {
+            currentWordIndex = (currentWordIndex + 1) % words.length;
+            setupLevel();
+            Engine.hideWin();
+        }
+
         function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#064e3b';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            if (Engine.gameActive) {
+            if (!Engine.isPaused) {
                 // Gravity
-                player.vy += 0.8;
-                player.y += player.vy;
-                
-                if (player.y > canvas.height - 100) {
-                    player.y = canvas.height - 100;
-                    player.vy = 0;
-                    player.isJumping = false;
-                }
-
-                // Platforms
-                platforms.forEach(p => {
-                    ctx.fillStyle = '#854d0e';
-                    ctx.fillRect(p.x - p.w/2, p.y, p.w, p.h);
+                if (player.isJumping) {
+                    player.vy += 0.8;
+                    player.y += player.vy;
                     
-                    if(p.img) ctx.drawImage(p.img, p.x - 30, p.y - 70, 60, 60);
-                    ctx.fillStyle = 'white';
-                    ctx.font = 'bold 14px Cairo';
-                    ctx.textAlign = 'center';
-                    ctx.fillText(p.text.toUpperCase(), p.x, p.y + 15);
-
-                    // Collision Detection (Landing on top)
-                    if (player.vy > 0 && 
-                        Math.abs(player.x - p.x) < p.w/2 && 
-                        player.y > p.y - 20 && player.y < p.y + 10) {
-                        
-                        if (p.text === currentTarget) {
-                            Engine.addScore(100);
-                            Engine.showFeedback(true);
-                            platforms = []; // Prevent multiple triggers
-                            Engine.showWinScreen(() => nextLevel());
-                        } else {
-                            Engine.addScore(-20);
-                            Engine.showFeedback(false);
-                            player.vy = -10; // Bounce off wrong platform
-                        }
+                    if (player.y >= canvas.height - 100) {
+                        player.y = canvas.height - 100;
+                        player.vy = 0;
+                        player.isJumping = false;
                     }
-                });
+
+                    // Collision with platforms
+                    platforms.forEach(p => {
+                        if (player.vy > 0 && 
+                            player.x > p.x - p.w/2 && player.x < p.x + p.w/2 && 
+                            player.y > p.y - 20 && player.y < p.y + 10) {
+                            
+                            if (p.isCorrect) {
+                                Engine.showWin();
+                            } else {
+                                Engine.shake();
+                                player.vy = -10; // Bounce back
+                            }
+                        }
+                    });
+                }
             }
+
+            // Draw Platforms
+            platforms.forEach(p => {
+                ctx.fillStyle = '#854d0e';
+                ctx.beginPath();
+                ctx.roundRect(p.x - p.w/2, p.y, p.w, p.h, 5);
+                ctx.fill();
+                
+                if (p.img && p.img.complete) {
+                    ctx.drawImage(p.img, p.x - 30, p.y - 75, 60, 60);
+                }
+                
+                ctx.fillStyle = 'white';
+                ctx.font = 'bold 14px Cairo';
+                ctx.textAlign = 'center';
+                ctx.fillText(p.word.toUpperCase(), p.x, p.y + 40);
+            });
 
             // Draw Player
             ctx.fillStyle = '#fbbf24';
@@ -123,13 +136,14 @@
             requestAnimationFrame(animate);
         }
 
-        window.addEventListener('pointermove', (e) => {
-            if (!Engine.gameActive) return;
-            player.x = e.clientX;
+        window.addEventListener('pointermove', (e) => { 
+            if (Engine.isPaused) return;
+            player.x = e.clientX; 
         });
-
-        window.addEventListener('pointerdown', (e) => {
-            if (!Engine.gameActive || player.isJumping || e.target.closest('button')) return;
+        
+        window.addEventListener('pointerdown', (e) => { 
+            if (Engine.isPaused || player.isJumping) return;
+            if (e.target.closest('button')) return;
             player.vy = -20;
             player.isJumping = true;
         });
