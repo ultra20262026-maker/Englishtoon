@@ -44,7 +44,7 @@
     </div>
 
     <canvas id="gameCanvas"></canvas>
-    <script src="../../game_engine.js"></script>
+    <script src="../game_engine.js"></script>
     <script>
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
@@ -97,7 +97,6 @@
             lasers.push({ x: ship.x, y: ship.y });
         });
         canvas.addEventListener('touchmove', (e) => ship.x = e.touches[0].clientX);
-        document.getElementById('listenBtn').onclick = () => Engine.speak(currentWord);
         nextQuestion(); loop();
     </script>
 </body>

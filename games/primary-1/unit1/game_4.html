@@ -54,7 +54,7 @@
             <div class="hole"><div class="mole interactive" onclick="whack(this)"><img><span class="text-xs font-bold text-white"></span></div></div><div class="hole"><div class="mole interactive" onclick="whack(this)"><img><span class="text-xs font-bold text-white"></span></div></div><div class="hole"><div class="mole interactive" onclick="whack(this)"><img><span class="text-xs font-bold text-white"></span></div></div><div class="hole"><div class="mole interactive" onclick="whack(this)"><img><span class="text-xs font-bold text-white"></span></div></div><div class="hole"><div class="mole interactive" onclick="whack(this)"><img><span class="text-xs font-bold text-white"></span></div></div><div class="hole"><div class="mole interactive" onclick="whack(this)"><img><span class="text-xs font-bold text-white"></span></div></div>
         </div>
     </div>
-    <script src="../../game_engine.js"></script>
+    <script src="../game_engine.js"></script>
     <script>
         const vocab = JSON.parse('["Apple", "Ball", "Cat", "Dog", "Egg", "bag", "board", "book", "chair", "desk", "ill", "in", "ink", "insect", "open your books", "pencil", "sit down", "stand up"]');
         let currentWord = "";
@@ -62,7 +62,6 @@
         function nextQuestion() {
             currentWord = vocab[Math.floor(Math.random() * vocab.length)];
             document.getElementById('targetWord').innerText = currentWord;
-            Engine.speak(currentWord);
         }
 
         function pop() {
@@ -90,7 +89,6 @@
             }
         }
 
-        document.getElementById('listenBtn').onclick = () => Engine.speak(currentWord);
         nextQuestion(); pop();
     </script>
 </body>

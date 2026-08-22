@@ -53,7 +53,7 @@
         <div id="tiles" class="flex flex-wrap gap-4 justify-center"></div>
         <button id="checkBtn" class="mt-12 bg-indigo-600 text-white px-12 py-4 rounded-2xl text-2xl font-bold shadow-xl interactive">CHECK</button>
     </div>
-    <script src="../../game_engine.js"></script>
+    <script src="../game_engine.js"></script>
     <script>
         const vocab = JSON.parse('["Apple", "Ball", "Cat", "Dog", "Egg", "bag", "board", "book", "chair", "desk", "ill", "in", "ink", "insect", "open your books", "pencil", "sit down", "stand up"]');
         let currentWord = "", userSpelling = [];
@@ -63,7 +63,6 @@
             document.getElementById('targetWord').innerText = "???";
             userSpelling = Array(currentWord.length).fill("");
             render();
-            Engine.speak(currentWord);
         }
 
         function render() {
@@ -96,7 +95,6 @@
             }
         };
 
-        document.getElementById('listenBtn').onclick = () => Engine.speak(currentWord);
         initGame();
     </script>
 </body>

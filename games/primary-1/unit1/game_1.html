@@ -44,7 +44,7 @@
     </div>
 
     <canvas id="gameCanvas"></canvas>
-    <script src="../../game_engine.js"></script>
+    <script src="../game_engine.js"></script>
     <script>
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
@@ -112,7 +112,6 @@
             const angle = Math.atan2(e.clientY - cannon.y, e.clientX - cannon.x);
             projectiles.push({ x: cannon.x, y: cannon.y, vx: Math.cos(angle)*12, vy: Math.sin(angle)*12 });
         });
-        document.getElementById('listenBtn').onclick = () => Engine.speak(currentWord);
         nextQuestion(); loop();
     </script>
 </body>
