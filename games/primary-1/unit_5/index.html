@@ -4,45 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Primary 1 - unit 5</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: sans-serif; padding: 20px; background: #f0f4f8; }
-        h1 { color: #2c3e50; text-align: center; }
-        .game-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; max-width: 1000px; margin: 0 auto; }
-        .game-item { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; transition: transform 0.2s; }
-        .game-item:hover { transform: translateY(-5px); }
-        .game-item a { text-decoration: none; color: #3498db; font-weight: bold; display: block; }
-        .back-link { display: block; text-align: center; margin-top: 30px; color: #7f8c8d; text-decoration: none; }
+        body { font-family: 'Nunito', sans-serif; background: #1a1a2e; color: white; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        h1 { font-family: 'Fredoka One', cursive; color: #f39c12; margin-bottom: 30px; text-align: center; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; width: 100%; max-width: 1000px; }
+        .game-card { background: #16213e; border: 2px solid #4a90e2; border-radius: 15px; padding: 20px; text-decoration: none; color: white; text-align: center; transition: transform 0.2s, background 0.2s; }
+        .game-card:hover { transform: scale(1.05); background: #1f4068; }
+        .game-card h3 { margin: 0; font-size: 1.2rem; }
+        .back-btn { margin-top: 40px; padding: 10px 25px; background: #e74c3c; color: white; text-decoration: none; border-radius: 25px; font-weight: bold; }
     </style>
 </head>
 <body>
     <h1>Primary 1 - unit 5</h1>
-    <div class="game-list">
-            <div class="game-item"><a href="10_قفزة_الضفدع.html">10 قفزة الضفدع</a></div>
-        <div class="game-item"><a href="11_الغواصة.html">11 الغواصة</a></div>
-        <div class="game-item"><a href="12_سفينة_الفضاء.html">12 سفينة الفضاء</a></div>
-        <div class="game-item"><a href="13_تجميع_الروبوت.html">13 تجميع الروبوت</a></div>
-        <div class="game-item"><a href="14_سباق_التزلج.html">14 سباق التزلج</a></div>
-        <div class="game-item"><a href="15_مزرعة_العد.html">15 مزرعة العد</a></div>
-        <div class="game-item"><a href="16_صندوق_الكنز.html">16 صندوق الكنز</a></div>
-        <div class="game-item"><a href="17_الغيمة_الماطرة.html">17 الغيمة الماطرة</a></div>
-        <div class="game-item"><a href="18_السلحفاة_السريعة.html">18 السلحفاة السريعة</a></div>
-        <div class="game-item"><a href="19_البالونات_الطائرة.html">19 البالونات الطائرة</a></div>
-        <div class="game-item"><a href="1_صائد_الفقاعات.html">1 صائد الفقاعات</a></div>
-        <div class="game-item"><a href="20_مصنع_الحلوى.html">20 مصنع الحلوى</a></div>
-        <div class="game-item"><a href="21_إطعام_الديناصور.html">21 إطعام الديناصور</a></div>
-        <div class="game-item"><a href="22_وصفة_الساحرة.html">22 وصفة الساحرة</a></div>
-        <div class="game-item"><a href="23_الجسر_المتحرك.html">23 الجسر المتحرك</a></div>
-        <div class="game-item"><a href="24_سباق_السيارات.html">24 سباق السيارات</a></div>
-        <div class="game-item"><a href="25_كعكة_عيد_الميلاد.html">25 كعكة عيد الميلاد</a></div>
-        <div class="game-item"><a href="2_القفز_فوق_المنصات.html">2 القفز فوق المنصات</a></div>
-        <div class="game-item"><a href="3_السلة_السحرية.html">3 السلة السحرية</a></div>
-        <div class="game-item"><a href="4_قطف_الثمار.html">4 قطف الثمار</a></div>
-        <div class="game-item"><a href="5_ترتيب_القطار.html">5 ترتيب القطار</a></div>
-        <div class="game-item"><a href="6_النينجا.html">6 النينجا</a></div>
-        <div class="game-item"><a href="7_بائع_الآيس_كريم.html">7 بائع الآيس كريم</a></div>
-        <div class="game-item"><a href="8_تسلق_الشجرة.html">8 تسلق الشجرة</a></div>
-        <div class="game-item"><a href="9_إطعام_الحيوانات.html">9 إطعام الحيوانات</a></div>
+    <div class="grid">
+        <a href="10_قفزة_الضفدع.html" class="game-card"><h3>10 قفزة الضفدع</h3></a>
+<a href="11_الغواصة.html" class="game-card"><h3>11 الغواصة</h3></a>
+<a href="12_سفينة_الفضاء.html" class="game-card"><h3>12 سفينة الفضاء</h3></a>
+<a href="13_تجميع_الروبوت.html" class="game-card"><h3>13 تجميع الروبوت</h3></a>
+<a href="14_سباق_التزلج.html" class="game-card"><h3>14 سباق التزلج</h3></a>
+<a href="15_مزرعة_العد.html" class="game-card"><h3>15 مزرعة العد</h3></a>
+<a href="16_صندوق_الكنز.html" class="game-card"><h3>16 صندوق الكنز</h3></a>
+<a href="17_الغيمة_الماطرة.html" class="game-card"><h3>17 الغيمة الماطرة</h3></a>
+<a href="18_السلحفاة_السريعة.html" class="game-card"><h3>18 السلحفاة السريعة</h3></a>
+<a href="19_البالونات_الطائرة.html" class="game-card"><h3>19 البالونات الطائرة</h3></a>
+<a href="1_صائد_الفقاعات.html" class="game-card"><h3>1 صائد الفقاعات</h3></a>
+<a href="20_مصنع_الحلوى.html" class="game-card"><h3>20 مصنع الحلوى</h3></a>
+<a href="21_إطعام_الديناصور.html" class="game-card"><h3>21 إطعام الديناصور</h3></a>
+<a href="22_وصفة_الساحرة.html" class="game-card"><h3>22 وصفة الساحرة</h3></a>
+<a href="23_الجسر_المتحرك.html" class="game-card"><h3>23 الجسر المتحرك</h3></a>
+<a href="24_سباق_السيارات.html" class="game-card"><h3>24 سباق السيارات</h3></a>
+<a href="25_كعكة_عيد_الميلاد.html" class="game-card"><h3>25 كعكة عيد الميلاد</h3></a>
+<a href="2_القفز_فوق_المنصات.html" class="game-card"><h3>2 القفز فوق المنصات</h3></a>
+<a href="3_السلة_السحرية.html" class="game-card"><h3>3 السلة السحرية</h3></a>
+<a href="4_قطف_الثمار.html" class="game-card"><h3>4 قطف الثمار</h3></a>
+<a href="5_ترتيب_القطار.html" class="game-card"><h3>5 ترتيب القطار</h3></a>
+<a href="6_النينجا.html" class="game-card"><h3>6 النينجا</h3></a>
+<a href="7_بائع_الآيس_كريم.html" class="game-card"><h3>7 بائع الآيس كريم</h3></a>
+<a href="8_تسلق_الشجرة.html" class="game-card"><h3>8 تسلق الشجرة</h3></a>
+<a href="9_إطعام_الحيوانات.html" class="game-card"><h3>9 إطعام الحيوانات</h3></a>
+
     </div>
-    <a href="../../games.html" class="back-link">← Back to Grades</a>
+    <a href="../../games.html" class="back-btn">Back to Grades</a>
 </body>
 </html>
