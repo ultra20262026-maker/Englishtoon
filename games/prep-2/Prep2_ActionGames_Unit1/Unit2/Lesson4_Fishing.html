@@ -79,22 +79,6 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 }
 </style>
 <!-- /MOBILE-FIT-2027-head -->
-
-    <!-- MOBILE-FIT-2027-style -->
-    <style id="manus-mobile-fit">
-    html, body { touch-action: manipulation; -webkit-tap-highlight-color: transparent; overscroll-behavior: none; margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
-    canvas { max-width: 100%; max-height: 100%; object-fit: contain; }
-    button, .target-btn, .gg-target, .gg-btn, a, [onclick] { touch-action: manipulation; }
-    @media (max-width: 900px), (max-height: 520px) {
-      html { font-size: clamp(10px, 3vmin, 16px) !important; }
-      .gg-target, .target-btn { min-width: clamp(60px, 15vmin, 120px) !important; min-height: clamp(60px, 15vmin, 120px) !important; font-size: 1rem !important; }
-      #gg-prompt, #q-text { font-size: clamp(1.1rem, 4vw, 1.5rem) !important; padding: 10px !important; }
-      #gg-hud, #hud { font-size: 0.9rem !important; padding: 5px 10px !important; }
-      .gg-btn { padding: 10px 20px !important; font-size: 1.1rem !important; }
-    }
-    </style>
-    <!-- /MOBILE-FIT-2027-style -->
-    
 </head>
 <body>
 
@@ -116,8 +100,6 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 </div>
 
 <script>
-window.isMuted = function() { return true; };
-
 const QS = [{"type": "mcq", "q": "If I don't set my _____ settings, all my photos will be seen.", "choices": ["privacy", "public", "open"], "answer": 0}, {"type": "mcq", "q": "Don't put yourself _____ risk by trying extreme sports.", "choices": ["in", "at", "on"], "answer": 1}, {"type": "mcq", "q": "To stay safe online, you shouldn't _____ your full name.", "choices": ["take", "read", "share"], "answer": 2}, {"type": "mcq", "q": "You should _____ sure that you don't post your personal details.", "choices": ["make", "have", "do"], "answer": 0}, {"type": "mcq", "q": "It is important to make a study plan. -> You _____ make a study plan.", "choices": ["should", "shouldn't", "mustn't"], "answer": 0}, {"type": "mcq", "q": "You should think twice before posting. -> You should think _____.", "choices": ["badly", "carefully", "carelessly"], "answer": 1}, {"type": "mcq", "q": "When we download something, we should ask for _____ first.", "choices": ["forgiveness", "money", "permission"], "answer": 2}, {"type": "mcq", "q": "Amal's hard work and _____ were admired.", "choices": ["laziness", "determination", "fear"], "answer": 1}, {"type": "mcq", "q": "She fixed the problems _____ her robot.", "choices": ["in", "with", "of"], "answer": 1}, {"type": "mcq", "q": "Being _____ means you understand how someone feels.", "choices": ["careless", "selfish", "empathetic"], "answer": 2}, {"type": "mcq", "q": "A strong password is not _____ to guess.", "choices": ["easy", "impossible", "hard"], "answer": 0}, {"type": "mcq", "q": "Your online security is your _____.", "choices": ["game", "hobby", "responsibility"], "answer": 2}, {"type": "mcq", "q": "We must protect our _____ footprint.", "choices": ["digital", "physical", "manual"], "answer": 0}, {"type": "mcq", "q": "People who laugh _____ you are not real friends.", "choices": ["with", "for", "at"], "answer": 2}, {"type": "mcq", "q": "Amal stayed true to who she _____.", "choices": ["are", "were", "is"], "answer": 2}, {"type": "mcq", "q": "The good points of using social media include staying in _____ with friends.", "choices": ["away", "far", "touch"], "answer": 2}, {"type": "mcq", "q": "Social media is a great platform for _____ and finding information.", "choices": ["eating", "sleeping", "learning"], "answer": 2}, {"type": "mcq", "q": "A bad point of social media is that it can be a waste of _____.", "choices": ["time", "money", "water"], "answer": 0}, {"type": "mcq", "q": "Sitting too long on digital devices is bad for your _____.", "choices": ["car", "health", "shoes"], "answer": 1}, {"type": "mcq", "q": "You should spend your free time doing physical _____.", "choices": ["sleep", "activities", "screens"], "answer": 1}, {"type": "mcq", "q": "A strong password should contain letters, numbers, and _____.", "choices": ["videos", "symbols", "photos"], "answer": 1}, {"type": "mcq", "q": "Always check the _____ of a website before trusting it.", "choices": ["color", "size", "source"], "answer": 2}, {"type": "mcq", "q": "Do not accept friend requests from _____.", "choices": ["strangers", "teachers", "family"], "answer": 0}, {"type": "mcq", "q": "Cyberbullying is a _____ part of the internet.", "choices": ["negative", "helpful", "positive"], "answer": 0}, {"type": "mcq", "q": "If someone bullies you online, you should tell an _____.", "choices": ["adult", "baby", "child"], "answer": 0}];
 const cv = document.getElementById('cv');
 const ctx = cv.getContext('2d');
@@ -126,8 +108,16 @@ cv.width = window.innerWidth; cv.height = window.innerHeight;
 window.addEventListener('resize', () => { cv.width = window.innerWidth; cv.height = window.innerHeight; });
 
 // AUDIO
-const AC = ({ state: "suspended", resume: () => {}, createOscillator: () => ({ connect: () => {}, start: () => {}, stop: () => {}, frequency: { setValueAtTime: () => {} } }), createGain: () => ({ connect: () => {}, gain: { setValueAtTime: () => {}, exponentialRampToValueAtTime: () => {} } }), destination: {} })
-function tone() {}
+const AC = new (window.AudioContext||window.webkitAudioContext)();
+function tone(f,d,t='sine',v=0.4){
+    if(AC.state==='suspended') AC.resume();
+    const o=AC.createOscillator(),g=AC.createGain();
+    o.connect(g);g.connect(AC.destination);
+    o.type=t;o.frequency.value=f;
+    g.gain.setValueAtTime(v,AC.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+d);
+    o.start();o.stop(AC.currentTime+d);
+}
 function sndCorrect(){ tone(523,.1); setTimeout(()=>tone(784,.3),100); }
 function sndWrong(){ tone(150,.6,'sawtooth'); setTimeout(()=>tone(100,.6,'sawtooth'),150); }
 function sndShoot(){ tone(300,.1,'square',0.1); }
@@ -198,7 +188,9 @@ function handleChoice(btn, isCorrect, index) {
             });
         }
         
-        // autoAdvanceTimer cleared // autoAdvance disabled
+        clearTimeout(autoAdvanceTimer); autoAdvanceTimer = setTimeout(() => {
+            qIdx++;
+            loadQ();
         }, isCorrect ? 1000 : 1500);
     });
 }
@@ -362,5 +354,23 @@ mainLoop();
 })();
 </script>
 <!-- /MOBILE-FIT-2027-body -->
+
+<script id="prep-mute-js">
+(function(){
+    const originalCreateElement = document.createElement;
+    document.createElement = function(tag) {
+        const el = originalCreateElement.call(document, tag);
+        if (tag.toLowerCase() === 'audio') {
+            setTimeout(() => {
+                if (el.src && (el.src.includes('bg') || el.src.includes('music'))) {
+                    el.muted = true;
+                    el.volume = 0;
+                }
+            }, 0);
+        }
+        return el;
+    };
+})();
+</script>
 </body>
 </html>
