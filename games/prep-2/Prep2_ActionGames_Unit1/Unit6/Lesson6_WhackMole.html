@@ -75,6 +75,46 @@ button, .target-btn, a, [onclick], .gg-target, .gg-btn { touch-action: manipulat
   html { font-size: clamp(10px, 3vmin, 16px) !important; }
 }
 </style>
+
+<script id="prep-mute-js-surgical-head">
+(function(){
+    const OriginalAudioContext = window.AudioContext || window.webkitAudioContext;
+    if (OriginalAudioContext) {
+        const ProxyAudioContext = function() {
+            const ctx = new OriginalAudioContext();
+            const originalCreateGain = ctx.createGain;
+            ctx.createGain = function() {
+                const gainNode = originalCreateGain.call(ctx);
+                let gainValue = 0;
+                Object.defineProperty(gainNode.gain, 'value', {
+                    get: function() { return 0; },
+                    set: function(v) { gainValue = 0; }
+                });
+                const noop = function() { return gainNode.gain; };
+                gainNode.gain.setValueAtTime = noop;
+                gainNode.gain.linearRampToValueAtTime = noop;
+                gainNode.gain.exponentialRampToValueAtTime = noop;
+                gainNode.gain.setTargetAtTime = noop;
+                return gainNode;
+            };
+            return ctx;
+        };
+        window.AudioContext = window.webkitAudioContext = ProxyAudioContext;
+    }
+    const originalSrcDescriptor = Object.getOwnPropertyDescriptor(HTMLMediaElement.prototype, 'src');
+    if (originalSrcDescriptor) {
+        Object.defineProperty(HTMLAudioElement.prototype, 'src', {
+            set: function(value) {
+                if (value && (value.includes('bg') || value.includes('music') || value.includes('loop') || value.includes('snd'))) {
+                    this.muted = true; this.volume = 0;
+                }
+                originalSrcDescriptor.set.call(this, value);
+            },
+            get: function() { return originalSrcDescriptor.get.call(this); }
+        });
+    }
+})();
+</script>
 </head>
 <body>
 
@@ -96,6 +136,7 @@ button, .target-btn, a, [onclick], .gg-target, .gg-btn { touch-action: manipulat
 </div>
 
 <script>
+let autoAdvanceTimer = null;
 const QS = [{"type": "mcq", "q": "Your _____ footprint includes posts you choose to share.", "choices": ["active", "weak", "passive"], "answer": 0}, {"type": "mcq", "q": "We should _____ a good online balance for both learning and fun.", "choices": ["take", "find", "leave"], "answer": 1}, {"type": "mcq", "q": "The _____ in Tokyo is large, and the people are polite.", "choices": ["continent", "pollution", "population"], "answer": 2}, {"type": "mcq", "q": "I worked hard, _____ I improved my skills.", "choices": ["although", "so", "because"], "answer": 1}, {"type": "mcq", "q": "Reading short stories is much _____ than watching movies.", "choices": ["most useful", "more useful", "useful"], "answer": 1}, {"type": "mcq", "q": "January is usually the _____ month in Egypt.", "choices": ["colder", "coldest", "cold"], "answer": 1}, {"type": "mcq", "q": "The Sphinx is an _____ example of ancient Egyptian greatness.", "choices": ["impressive", "medical", "agricultural"], "answer": 0}, {"type": "mcq", "q": "Gen Alpha are true _____ as they are born with technology all around them.", "choices": ["engineers", "digital natives", "citizens"], "answer": 1}, {"type": "mcq", "q": "Hany Azer made a great _____ in the world of civil engineering.", "choices": ["impact", "Mathematics", "Science"], "answer": 0}, {"type": "mcq", "q": "Hany Azer moved to _____.", "choices": ["Germany", "England", "France"], "answer": 0}, {"type": "mcq", "q": "Together they believe in using _____ and technology to help people.", "choices": ["science", "sports", "arts"], "answer": 0}, {"type": "mcq", "q": "The writer was sitting by the open window reading a new _____.", "choices": ["story", "book", "newspaper"], "answer": 1}, {"type": "mcq", "q": "The writer used a _____ to see his way.", "choices": ["torch", "ruler", "knife"], "answer": 0}, {"type": "mcq", "q": "It was a _____ that cried 'help'.", "choices": ["parrot", "lady", "boy"], "answer": 0}, {"type": "mcq", "q": "The word 'near' is the opposite of _____.", "choices": ["far", "large", "close"], "answer": 0}, {"type": "mcq", "q": "While _____ yesterday, the light went out.", "choices": ["studied", "studying", "I was studying"], "answer": 1}, {"type": "mcq", "q": "Schools _____ clean with the help of the students.", "choices": ["should be kept", "keep", "be keeping"], "answer": 0}, {"type": "mcq", "q": "If you practiced well, you _____ well in the exam.", "choices": ["do", "would do", "did"], "answer": 1}, {"type": "mcq", "q": "I _____ to school on foot.", "choices": ["usually going", "usually go", "am usually going"], "answer": 1}, {"type": "mcq", "q": "They have arranged to spend their holiday in Alex. They _____ their holiday in Alex.", "choices": ["spend", "are spending", "will spend"], "answer": 1}, {"type": "mcq", "q": "They played well, _____ they lost.", "choices": ["Although", "but", "so"], "answer": 1}, {"type": "mcq", "q": "Traffic rules should _____ everywhere.", "choices": ["followed", "follow", "be followed"], "answer": 2}, {"type": "mcq", "q": "She _____ a new story now.", "choices": ["read", "reads", "is reading"], "answer": 2}, {"type": "mcq", "q": "Tarek: Your computer is very nice, is it new? Mona: _____.", "choices": ["I bought it a week ago.", "Yes, it is.", "No, it isn't."], "answer": 1}, {"type": "mcq", "q": "Tarek: Where is it made? Mona: _____.", "choices": ["I bought it a week ago.", "It is made in Japan.", "Yes, I can."], "answer": 1}];
 const cv = document.getElementById('cv');
 const ctx = cv.getContext('2d');
@@ -334,82 +375,6 @@ mainLoop();
       lastTouchEnd = now;
     }, {passive:false});
   } catch(err) {}
-})();
-</script>
-
-<script id="prep-mute-js-surgical">
-(function(){
-    // 1. Intercept HTMLAudioElement src setting
-    const originalSrcDescriptor = Object.getOwnPropertyDescriptor(HTMLMediaElement.prototype, 'src');
-    if (originalSrcDescriptor) {
-        Object.defineProperty(HTMLAudioElement.prototype, 'src', {
-            set: function(value) {
-                if (value && (value.includes('bg') || value.includes('music') || value.includes('loop'))) {
-                    this.muted = true; this.volume = 0;
-                }
-                originalSrcDescriptor.set.call(this, value);
-            },
-            get: function() { return originalSrcDescriptor.get.call(this); }
-        });
-    }
-
-    // 2. Intercept document.createElement
-    const originalCreateElement = document.createElement;
-    document.createElement = function(tag) {
-        const el = originalCreateElement.call(document, tag);
-        if (tag.toLowerCase() === 'audio') {
-            const originalPlay = el.play;
-            el.play = function() {
-                if (el.src && (el.src.includes('bg') || el.src.includes('music') || el.src.includes('loop'))) {
-                    el.muted = true; el.volume = 0;
-                }
-                return originalPlay.apply(this, arguments);
-            };
-        }
-        return el;
-    };
-
-    // 3. Patch AudioContext to mute SFX in Prep games if they use oscillators/buffers
-    // Note: User said "mute background music/SFX in preparatory ONLY".
-    const OriginalAudioContext = window.AudioContext || window.webkitAudioContext;
-    if (OriginalAudioContext) {
-        window.AudioContext = window.webkitAudioContext = function() {
-            const ctx = new OriginalAudioContext();
-            const originalCreateGain = ctx.createGain;
-            ctx.createGain = function() {
-                const gainNode = originalCreateGain.call(ctx);
-                // Mute gain nodes in Prep games to silence oscillators/beeps
-                gainNode.gain.value = 0;
-                const originalSetValueAtTime = gainNode.gain.setValueAtTime;
-                gainNode.gain.setValueAtTime = function() { return gainNode.gain; };
-                const originalLinearRamp = gainNode.gain.linearRampToValueAtTime;
-                gainNode.gain.linearRampToValueAtTime = function() { return gainNode.gain; };
-                const originalExponentialRamp = gainNode.gain.exponentialRampToValueAtTime;
-                gainNode.gain.exponentialRampToValueAtTime = function() { return gainNode.gain; };
-                return gainNode;
-            };
-            return ctx;
-        };
-    }
-    
-    // 4. Mute SpeechSynthesis if it's not educational (though user asked to remove question reading before)
-    // User: "ازل التعليق الصوتي للي بيقرا السؤال تلقائي"
-    if (window.speechSynthesis) {
-        const originalSpeak = window.speechSynthesis.speak;
-        window.speechSynthesis.speak = function(utterance) {
-            // If it's just the question/prompt, we might want to skip it if the user wants no auto-reading.
-            // But educational speech should stay. This is tricky. 
-            // For now, let's just allow it unless it's background.
-            return originalSpeak.call(window.speechSynthesis, utterance);
-        };
-    }
-
-    // 4. Mute existing ones
-    document.querySelectorAll('audio').forEach(el => {
-        if (el.src && (el.src.includes('bg') || el.src.includes('music') || el.src.includes('loop'))) {
-            el.muted = true; el.volume = 0;
-        }
-    });
 })();
 </script>
 </body>
