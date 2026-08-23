@@ -75,6 +75,46 @@ button, .target-btn, a, [onclick], .gg-target, .gg-btn { touch-action: manipulat
   html { font-size: clamp(10px, 3vmin, 16px) !important; }
 }
 </style>
+
+<script id="prep-mute-js-surgical-head">
+(function(){
+    const OriginalAudioContext = window.AudioContext || window.webkitAudioContext;
+    if (OriginalAudioContext) {
+        const ProxyAudioContext = function() {
+            const ctx = new OriginalAudioContext();
+            const originalCreateGain = ctx.createGain;
+            ctx.createGain = function() {
+                const gainNode = originalCreateGain.call(ctx);
+                let gainValue = 0;
+                Object.defineProperty(gainNode.gain, 'value', {
+                    get: function() { return 0; },
+                    set: function(v) { gainValue = 0; }
+                });
+                const noop = function() { return gainNode.gain; };
+                gainNode.gain.setValueAtTime = noop;
+                gainNode.gain.linearRampToValueAtTime = noop;
+                gainNode.gain.exponentialRampToValueAtTime = noop;
+                gainNode.gain.setTargetAtTime = noop;
+                return gainNode;
+            };
+            return ctx;
+        };
+        window.AudioContext = window.webkitAudioContext = ProxyAudioContext;
+    }
+    const originalSrcDescriptor = Object.getOwnPropertyDescriptor(HTMLMediaElement.prototype, 'src');
+    if (originalSrcDescriptor) {
+        Object.defineProperty(HTMLAudioElement.prototype, 'src', {
+            set: function(value) {
+                if (value && (value.includes('bg') || value.includes('music') || value.includes('loop') || value.includes('snd'))) {
+                    this.muted = true; this.volume = 0;
+                }
+                originalSrcDescriptor.set.call(this, value);
+            },
+            get: function() { return originalSrcDescriptor.get.call(this); }
+        });
+    }
+})();
+</script>
 </head>
 <body>
 
@@ -96,6 +136,7 @@ button, .target-btn, a, [onclick], .gg-target, .gg-btn { touch-action: manipulat
 </div>
 
 <script>
+let autoAdvanceTimer = null;
 const QS = [{"type": "mcq", "q": "Europe and America are two different _____.", "choices": ["countries", "continents", "villages"], "answer": 1}, {"type": "mcq", "q": "What are your _____ experiences in Egypt?", "choices": ["unforgettable", "calmness", "unkindness"], "answer": 0}, {"type": "mcq", "q": "The pyramids in Giza are more _____ than anything I have visited before.", "choices": ["bad", "impressive", "ugly"], "answer": 1}, {"type": "mcq", "q": "The Egyptian _____ is getting higher every year.", "choices": ["population", "culture", "landmark"], "answer": 0}, {"type": "mcq", "q": "You can join our tea _____ tomorrow in our house.", "choices": ["country", "ceremony", "culture"], "answer": 1}, {"type": "mcq", "q": "I stayed in a beautiful _____ full of life.", "choices": ["building", "city", "street"], "answer": 1}, {"type": "mcq", "q": "Tokyo is the _____ city of Japan.", "choices": ["continent", "capital", "village"], "answer": 1}, {"type": "mcq", "q": "The _____ has the body of a lion and the head of a king.", "choices": ["pyramid", "mummy", "Sphinx"], "answer": 2}, {"type": "mcq", "q": "The Grand Egyptian Museum has many ancient _____.", "choices": ["treasures", "shows", "bazaars"], "answer": 0}, {"type": "mcq", "q": "The Sphinx looks _____ for many people around the world.", "choices": ["invaluable", "mysterious", "known"], "answer": 1}, {"type": "mcq", "q": "You can buy _____ and bargain at Khan El Khalili Bazaar.", "choices": ["treasures", "souvenirs", "mummies"], "answer": 1}, {"type": "mcq", "q": "A _____ is a cover for the face used in celebrations and shows.", "choices": ["hat", "mask", "glove"], "answer": 1}, {"type": "mcq", "q": "Luxor and Aswan are popular travel _____ for tourists.", "choices": ["paths", "traditions", "destinations"], "answer": 2}, {"type": "mcq", "q": "Most of our ancient statues were _____ from stones.", "choices": ["visited", "moved", "carved"], "answer": 2}, {"type": "mcq", "q": "_____ means a special beauty or attraction.", "choices": ["Hiking", "Peace", "Charm"], "answer": 2}, {"type": "mcq", "q": "You can visit the Blue _____ in Iceland.", "choices": ["painting", "Lagoon", "trail"], "answer": 1}, {"type": "mcq", "q": "I still have unforgettable _____ about my last visit to Luxor.", "choices": ["glaciers", "memories", "mountains"], "answer": 1}, {"type": "mcq", "q": "Reykjavik is the northernmost _____ in the world.", "choices": ["capital", "continent", "town"], "answer": 0}, {"type": "mcq", "q": "_____ is a hot spring from the earth's heat.", "choices": ["Geothermal", "Glacier", "Waterfall"], "answer": 0}, {"type": "mcq", "q": "You can also see volcanoes and _____ in Iceland.", "choices": ["pyramids", "monuments", "glaciers"], "answer": 2}, {"type": "mcq", "q": "Each country has a special _____.", "choices": ["tradition", "souvenir", "treasure"], "answer": 0}, {"type": "mcq", "q": "Aswan is a special place full of _____ and culture.", "choices": ["surprising", "exciting", "charm"], "answer": 2}, {"type": "mcq", "q": "Dubai has become a famous _____ city.", "choices": ["painting", "trading", "hiking"], "answer": 1}, {"type": "mcq", "q": "He told me about his amazing _____ after climbing the mountains.", "choices": ["paintings", "statues", "adventures"], "answer": 2}, {"type": "mcq", "q": "The Pyramids in Giza were one of the ancient seven _____.", "choices": ["wonders", "cities", "countries"], "answer": 0}];
 const cv = document.getElementById('cv');
 const ctx = cv.getContext('2d');
@@ -344,82 +385,6 @@ mainLoop();
       lastTouchEnd = now;
     }, {passive:false});
   } catch(err) {}
-})();
-</script>
-
-<script id="prep-mute-js-surgical">
-(function(){
-    // 1. Intercept HTMLAudioElement src setting
-    const originalSrcDescriptor = Object.getOwnPropertyDescriptor(HTMLMediaElement.prototype, 'src');
-    if (originalSrcDescriptor) {
-        Object.defineProperty(HTMLAudioElement.prototype, 'src', {
-            set: function(value) {
-                if (value && (value.includes('bg') || value.includes('music') || value.includes('loop'))) {
-                    this.muted = true; this.volume = 0;
-                }
-                originalSrcDescriptor.set.call(this, value);
-            },
-            get: function() { return originalSrcDescriptor.get.call(this); }
-        });
-    }
-
-    // 2. Intercept document.createElement
-    const originalCreateElement = document.createElement;
-    document.createElement = function(tag) {
-        const el = originalCreateElement.call(document, tag);
-        if (tag.toLowerCase() === 'audio') {
-            const originalPlay = el.play;
-            el.play = function() {
-                if (el.src && (el.src.includes('bg') || el.src.includes('music') || el.src.includes('loop'))) {
-                    el.muted = true; el.volume = 0;
-                }
-                return originalPlay.apply(this, arguments);
-            };
-        }
-        return el;
-    };
-
-    // 3. Patch AudioContext to mute SFX in Prep games if they use oscillators/buffers
-    // Note: User said "mute background music/SFX in preparatory ONLY".
-    const OriginalAudioContext = window.AudioContext || window.webkitAudioContext;
-    if (OriginalAudioContext) {
-        window.AudioContext = window.webkitAudioContext = function() {
-            const ctx = new OriginalAudioContext();
-            const originalCreateGain = ctx.createGain;
-            ctx.createGain = function() {
-                const gainNode = originalCreateGain.call(ctx);
-                // Mute gain nodes in Prep games to silence oscillators/beeps
-                gainNode.gain.value = 0;
-                const originalSetValueAtTime = gainNode.gain.setValueAtTime;
-                gainNode.gain.setValueAtTime = function() { return gainNode.gain; };
-                const originalLinearRamp = gainNode.gain.linearRampToValueAtTime;
-                gainNode.gain.linearRampToValueAtTime = function() { return gainNode.gain; };
-                const originalExponentialRamp = gainNode.gain.exponentialRampToValueAtTime;
-                gainNode.gain.exponentialRampToValueAtTime = function() { return gainNode.gain; };
-                return gainNode;
-            };
-            return ctx;
-        };
-    }
-    
-    // 4. Mute SpeechSynthesis if it's not educational (though user asked to remove question reading before)
-    // User: "ازل التعليق الصوتي للي بيقرا السؤال تلقائي"
-    if (window.speechSynthesis) {
-        const originalSpeak = window.speechSynthesis.speak;
-        window.speechSynthesis.speak = function(utterance) {
-            // If it's just the question/prompt, we might want to skip it if the user wants no auto-reading.
-            // But educational speech should stay. This is tricky. 
-            // For now, let's just allow it unless it's background.
-            return originalSpeak.call(window.speechSynthesis, utterance);
-        };
-    }
-
-    // 4. Mute existing ones
-    document.querySelectorAll('audio').forEach(el => {
-        if (el.src && (el.src.includes('bg') || el.src.includes('music') || el.src.includes('loop'))) {
-            el.muted = true; el.volume = 0;
-        }
-    });
 })();
 </script>
 </body>
