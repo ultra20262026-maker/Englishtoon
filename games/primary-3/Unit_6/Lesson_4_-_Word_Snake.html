@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Word Snake</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Cairo:wght@700;800&display=swap" rel="stylesheet">
+<style>
+
+:root{
+  --gg-bg:#0f1226; --gg-panel:#171b3a; --gg-accent:#ffd166; --gg-good:#31d0aa;
+  --gg-bad:#ff6b6b; --gg-text:#f4f6ff; --gg-muted:#9aa0c3;
+}
+*,*::before,*::after{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;height:100%;overscroll-behavior:none;}
+body{
+  font-family:'Baloo 2','Cairo','Nunito',system-ui,sans-serif;
+  background:var(--stage-bg, radial-gradient(circle at 50% 0%,#232a5c,#0f1226 70%));
+  color:var(--gg-text); overflow:hidden; touch-action:none; user-select:none;
+  height:100dvh; width:100vw; position:fixed; inset:0;
+}
+#gg-root{position:absolute; inset:0; display:flex; flex-direction:column;}
+#gg-hud{
+  position:relative; z-index:40; display:flex; align-items:center; justify-content:space-between;
+  padding:calc(env(safe-area-inset-top,0px) + 8px) 10px 8px; gap:8px; flex-wrap:wrap;
+  background:linear-gradient(180deg,rgba(0,0,0,.55),transparent);
+}
+.gg-pill{
+  display:flex; align-items:center; gap:6px; background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.16); border-radius:999px; padding:6px 12px;
+  font-weight:800; font-size:clamp(12px,3.4vw,15px); backdrop-filter:blur(6px);
+}
+.gg-pill.coins{color:var(--gg-accent);}
+.gg-pill.level{color:#8ec5ff;}
+#gg-back,#gg-mute{
+  border:none; background:rgba(255,255,255,.1); color:var(--gg-text); border-radius:12px;
+  width:38px; height:38px; font-size:18px; display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+}
+#gg-back:active,#gg-mute:active{transform:scale(.9);}
+#gg-stage{position:relative; flex:1; min-height:0; overflow:hidden;}
+#gg-instructions{
+  font-size:clamp(13px,3.6vw,17px); text-align:center; padding:0 16px 10px; color:var(--gg-muted); font-weight:700;
+}
+.gg-btn{
+  font-family:inherit; font-weight:900; border:none; border-radius:16px; cursor:pointer;
+  color:#221a00; background:linear-gradient(180deg,#ffe08a,var(--gg-accent));
+  box-shadow:0 6px 0 #b8871f, 0 10px 18px rgba(0,0,0,.35);
+  padding:14px 30px; font-size:clamp(16px,4.6vw,22px); touch-action:manipulation;
+}
+.gg-btn:active{transform:translateY(5px); box-shadow:0 1px 0 #b8871f;}
+.gg-btn.secondary{
+  background:linear-gradient(180deg,#7c8cff,#5661d8); color:#fff; box-shadow:0 6px 0 #3b428f, 0 10px 18px rgba(0,0,0,.35);
+}
+.gg-screen{
+  position:absolute; inset:0; z-index:60; display:flex; flex-direction:column; align-items:center;
+  justify-content:center; gap:16px; text-align:center; padding:24px;
+  background:radial-gradient(circle at 50% 20%,rgba(30,36,80,.97),rgba(6,8,20,.98));
+}
+.gg-hidden{display:none !important;}
+.gg-title{font-size:clamp(24px,7vw,40px); font-weight:900; text-shadow:0 4px 0 rgba(0,0,0,.35);}
+.gg-sub{font-size:clamp(14px,4vw,18px); color:var(--gg-muted); font-weight:700; max-width:520px;}
+#gg-stars{font-size:clamp(30px,9vw,54px); letter-spacing:6px;}
+.gg-row{display:flex; gap:12px; flex-wrap:wrap; justify-content:center;}
+.gg-toast{
+  position:absolute; top:14%; left:50%; transform:translate(-50%,0); z-index:80;
+  font-weight:900; font-size:clamp(18px,6vw,28px); padding:8px 18px; border-radius:14px;
+  pointer-events:none; opacity:0; transition:all .5s ease;
+}
+.gg-toast.show{opacity:1; transform:translate(-50%,-14px);}
+.gg-toast.good{background:rgba(49,208,170,.92); color:#00281f;}
+.gg-toast.bad{background:rgba(255,107,107,.92); color:#3a0000;}
+.gg-coinburst{position:absolute; z-index:90; font-size:22px; pointer-events:none; animation:gg-fly 1s ease-out forwards;}
+@keyframes gg-fly{
+  0%{transform:translate(0,0) scale(1); opacity:1;}
+  100%{transform:translate(var(--dx,0px),-90px) scale(.5); opacity:0;}
+}
+#gg-badge-pop{
+  position:absolute; z-index:95; inset:0; display:flex; align-items:center; justify-content:center;
+  pointer-events:none;
+}
+.gg-badge-card{
+  background:linear-gradient(160deg,#2c2f66,#171935); border:2px solid var(--gg-accent); border-radius:20px;
+  padding:18px 28px; text-align:center; box-shadow:0 20px 40px rgba(0,0,0,.5); animation:gg-pop .5s ease;
+}
+@keyframes gg-pop{0%{transform:scale(.4) rotate(-8deg); opacity:0;}70%{transform:scale(1.08) rotate(2deg);} 100%{transform:scale(1) rotate(0); opacity:1;}}
+.gg-progress-wrap{width:min(320px,80vw); height:10px; border-radius:8px; background:rgba(255,255,255,.12); overflow:hidden;}
+.gg-progress-bar{height:100%; background:linear-gradient(90deg,#31d0aa,#8ec5ff); width:0%; transition:width .4s ease;}
+@media (max-height:480px){ #gg-instructions{display:none;} }
+
+:root{ --stage-bg: radial-gradient(circle at 50% 0%,#123a26,#0f1226 70%); }
+
+#gg-arena{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; padding:66px 10px 10px; gap:8px;}
+#gg-prompt{font-size:clamp(16px,5vw,24px); font-weight:900; text-align:center; background:rgba(255,255,255,.08); border-radius:14px; padding:8px 16px; max-width:94vw;}
+#gg-grid{
+  position:relative; width:min(94vw,440px); aspect-ratio:8/7; background:rgba(255,255,255,.05);
+  border:3px solid #6bdc8c; border-radius:16px; overflow:hidden;
+}
+.gg-cell{position:absolute; display:flex; align-items:center; justify-content:center; font-weight:900; border-radius:6px; font-size:calc(min(94vw,440px)/8 * .55); transition:left .12s linear, top .12s linear;}
+.gg-seg{background:#6bdc8c;}
+.gg-head{background:#a8f3bd; z-index:3;}
+.gg-food{
+  background:rgba(20,22,50,.88); border:2px solid rgba(255,255,255,.4); color:#fff; z-index:2;
+  border-radius:999px; padding:0 8px; white-space:nowrap; transform:translate(-50%,-50%);
+  transition:left .2s linear, top .2s linear, opacity .2s; box-shadow:0 4px 10px rgba(0,0,0,.35);
+}
+#gg-pad{display:grid; grid-template-columns:repeat(3,64px); grid-template-rows:repeat(3,64px); gap:6px; margin-top:8px;}
+#gg-pad button{border:none; border-radius:12px; background:rgba(255,255,255,.12); color:#fff; font-size:22px; cursor:pointer;}
+#gg-pad button:active{background:rgba(255,255,255,.28);}
+
+</style>
+<!-- MOBILE-FIT-2027 -->
+<style id="mobile-fit-2027">
+html, body { touch-action: manipulation; -webkit-tap-highlight-color: transparent; overscroll-behavior: none; }
+button, .target-btn, a, [onclick] { touch-action: manipulation; }
+@media (max-width: 900px), (max-height: 520px) {
+  html { font-size: clamp(11px, 3.4vmin, 16px) !important; }
+}
+</style>
+<!-- /MOBILE-FIT-2027-head -->
+
+    <!-- MOBILE-FIT-2027-style -->
+    <style id="manus-mobile-fit">
+    html, body { touch-action: manipulation; -webkit-tap-highlight-color: transparent; overscroll-behavior: none; margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
+    canvas { max-width: 100%; max-height: 100%; object-fit: contain; }
+    button, .target-btn, .gg-target, .gg-btn, a, [onclick] { touch-action: manipulation; }
+    @media (max-width: 900px), (max-height: 520px) {
+      html { font-size: clamp(10px, 3vmin, 16px) !important; }
+      .gg-target, .target-btn { min-width: clamp(60px, 15vmin, 120px) !important; min-height: clamp(60px, 15vmin, 120px) !important; font-size: 1rem !important; }
+      #gg-prompt, #q-text { font-size: clamp(1.1rem, 4vw, 1.5rem) !important; padding: 10px !important; }
+      #gg-hud, #hud { font-size: 0.9rem !important; padding: 5px 10px !important; }
+      .gg-btn { padding: 10px 20px !important; font-size: 1.1rem !important; }
+    }
+    </style>
+    <!-- /MOBILE-FIT-2027-style -->
+    
+</head>
+<body>
+<div id="gg-root">
+  <div id="gg-hud">
+    <div style="display:flex;gap:8px;align-items:center;">
+      <button id="gg-back">‹</button>
+      <div class="gg-pill coins">🪙 <span id="gg-coins-val">0</span></div>
+      <div class="gg-pill level">🎖️ Lv<span id="gg-level-val">1</span></div>
+    </div>
+    <button id="gg-mute">🔊</button>
+  </div>
+  <div id="gg-instructions">اقرأ السؤال واختر الإجابة الصحيحة</div>
+  <div id="gg-stage">
+    
+<div style="display:flex;align-items:center;gap:10px;position:absolute;top:calc(env(safe-area-inset-top,0px) + 54px);left:0;right:0;z-index:35;padding:0 14px;justify-content:space-between;">
+  <div class="gg-progress-wrap"><div class="gg-progress-bar" id="gg-progress-bar"></div></div>
+  <div id="gg-lives" style="font-size:16px;white-space:nowrap;">❤️❤️❤️</div>
+</div>
+
+<div id="gg-start" class="gg-screen">
+  <div style="font-size:54px;">🐍</div>
+  <div class="gg-title">Word Snake</div>
+  <div class="gg-sub">العب وتعلّم مع المكافآت!</div>
+  <button class="gg-btn" id="gg-start-btn">ابدأ اللعب ▶</button>
+</div>
+
+<div id="gg-arena">
+  <div id="gg-prompt"></div>
+  <div id="gg-grid"></div>
+  <div id="gg-pad">
+    <div></div><button data-d="up">⬆️</button><div></div>
+    <button data-d="left">⬅️</button><div></div><button data-d="right">➡️</button>
+    <div></div><button data-d="down">⬇️</button><div></div>
+  </div>
+</div>
+
+    <div id="gg-badge-pop" class="gg-hidden"></div>
+  </div>
+</div>
+
+<div id="gg-result" class="gg-screen gg-hidden">
+  <div class="gg-title" id="gg-result-title">أحسنت! 🎉</div>
+  <div id="gg-stars">☆☆☆</div>
+  <div class="gg-sub" id="gg-result-sub">0 / 0</div>
+  <div class="gg-pill coins" id="gg-coins-earned" style="font-size:20px;">+0 🪙</div>
+  <div class="gg-row">
+    <button class="gg-btn" id="gg-replay">العب مرة أخرى 🔁</button>
+  </div>
+</div>
+
+<script>
+
+// ============================================================
+//  GG27 — نظام المكافآت الموحّد (نقاط/نجوم/عملات/شارات/مستويات)
+// ============================================================
+const GG27 = (function(){
+  const KEY = 'gg27_profile_v1';
+  function _load(){
+    try { return JSON.parse(localStorage.getItem(KEY)) || _fresh(); }
+    catch(e){ return _fresh(); }
+  }
+  function _fresh(){
+    return { coins:0, xp:0, level:1, badges:{}, streak:0, lastDate:'', lessons:{} };
+  }
+  function _save(p){ try{ localStorage.setItem(KEY, JSON.stringify(p)); }catch(e){} }
+  function _levelFor(xp){ return Math.max(1, Math.floor(xp/150)+1); }
+
+  function today(){ return new Date().toISOString().slice(0,10); }
+
+  function bumpStreak(p){
+    const t = today();
+    if(p.lastDate === t) return;
+    const y = new Date(Date.now()-86400000).toISOString().slice(0,10);
+    p.streak = (p.lastDate === y) ? (p.streak||0)+1 : 1;
+    p.lastDate = t;
+  }
+
+  function recordResult(lessonKey, res){
+    // res = { stars, score, total, coins }
+    const p = _load();
+    bumpStreak(p);
+    const prev = p.lessons[lessonKey] || { stars:0, best:0, plays:0, coins:0 };
+    prev.stars = Math.max(prev.stars, res.stars||0);
+    prev.best  = Math.max(prev.best, res.score||0);
+    prev.plays = (prev.plays||0)+1;
+    prev.coins = (prev.coins||0) + (res.coins||0);
+    p.lessons[lessonKey] = prev;
+    p.coins = (p.coins||0) + (res.coins||0);
+    p.xp = (p.xp||0) + (res.coins||0) + (res.stars||0)*10;
+    const newLevel = _levelFor(p.xp);
+    const leveledUp = newLevel > p.level;
+    p.level = newLevel;
+    const newBadges = [];
+    if(res.stars>=3 && !p.badges['perfect_'+lessonKey]){ p.badges['perfect_'+lessonKey]=true; newBadges.push('نجمة كاملة ⭐'); }
+    if(prev.plays===1 && !p.badges['first_'+lessonKey]){ p.badges['first_'+lessonKey]=true; }
+    if(p.streak===3 && !p.badges['streak3']){ p.badges['streak3']=true; newBadges.push('3 أيام متتالية 🔥'); }
+    if(p.streak===7 && !p.badges['streak7']){ p.badges['streak7']=true; newBadges.push('أسبوع كامل 🔥🔥'); }
+    if(Object.keys(p.lessons).length===5 && !p.badges['five']){ p.badges['five']=true; newBadges.push('٥ ألعاب مكتملة 🏅'); }
+    _save(p);
+    return { profile:p, leveledUp, newBadges };
+  }
+  function profile(){ return _load(); }
+  function coins(){ return _load().coins||0; }
+  function level(){ return _load().level||1; }
+  function isMuted(){ try{ return localStorage.getItem('gg27_muted')==='1'; }catch(e){ return false; } }
+  function setMuted(v){ try{ localStorage.setItem('gg27_muted', v?'1':'0'); }catch(e){} }
+  return { recordResult, profile, coins, level, isMuted, setMuted };
+})();
+
+// ============================================================
+//  محرك صوت بسيط (Web Audio) — بدون أي ملفات خارجية
+// ============================================================
+const GGSound = (function(){
+  let ctx=null;
+  function c(){ if(!ctx) ctx = new (window.AudioContext||window.webkitAudioContext)(); if(ctx.state==='suspended') ctx.resume(); return ctx; }
+  function beep(freq,type,dur,vol,t0){
+    if(GG27.isMuted()) return;
+    try{
+      const ac=c(); const o=ac.createOscillator(); const g=ac.createGain();
+      o.connect(g); g.connect(ac.destination); o.type=type||'sine';
+      o.frequency.setValueAtTime(freq, ac.currentTime+(t0||0));
+      g.gain.setValueAtTime(vol||.25, ac.currentTime+(t0||0));
+      g.gain.exponentialRampToValueAtTime(.001, ac.currentTime+(t0||0)+dur);
+      o.start(ac.currentTime+(t0||0)); o.stop(ac.currentTime+(t0||0)+dur+.02);
+    }catch(e){}
+  }
+  return {
+    correct(){ beep(523,'sine',.12,.3); beep(659,'sine',.12,.3,.09); beep(880,'sine',.18,.3,.18); },
+    wrong(){ beep(220,'sawtooth',.18,.25); beep(160,'sawtooth',.22,.2,.12); },
+    coin(){ beep(988,'square',.08,.18); beep(1318,'square',.1,.18,.06); },
+    tap(){ beep(700,'square',.05,.12); },
+    win(){ [523,659,784,1047].forEach((f,i)=>beep(f,'sine',.16,.3,i*.11)); },
+    lose(){ beep(311,'sawtooth',.3,.3); beep(196,'sawtooth',.5,.3,.22); },
+    badge(){ beep(784,'triangle',.15,.3); beep(1047,'triangle',.2,.3,.12); }
+  };
+})();
+
+function ggSpeak(text, lang){
+  try{
+    if(!window.speechSynthesis) return;
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = lang || 'en-US'; u.rate = .92; u.pitch = 1.05;
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(u);
+  }catch(e){}
+}
+function ggShuffle(arr){
+  const a=arr.slice();
+  for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+  return a;
+}
+function ggVibrate(ms){ try{ if(navigator.vibrate) navigator.vibrate(ms); }catch(e){} }
+
+function ggCoinBurst(x,y,n){
+  const root = document.getElementById('gg-stage');
+  if(!root) return;
+  for(let i=0;i<(n||3);i++){
+    const s = document.createElement('div');
+    s.className='gg-coinburst'; s.textContent='🪙';
+    s.style.left=(x)+'px'; s.style.top=(y)+'px';
+    s.style.setProperty('--dx', ((Math.random()*80)-40)+'px');
+    root.appendChild(s);
+    setTimeout(()=>s.remove(), 1000);
+  }
+}
+
+function ggToast(msg, kind){
+  const stage = document.getElementById('gg-stage');
+  if(!stage) return;
+  const t = document.createElement('div');
+  t.className = 'gg-toast ' + (kind||'good');
+  t.textContent = msg;
+  stage.appendChild(t);
+  requestAnimationFrame(()=>t.classList.add('show'));
+  setTimeout(()=>{ t.classList.remove('show'); setTimeout(()=>t.remove(),400); }, 900);
+}
+
+function ggInitHud(opts){
+  document.getElementById('gg-coins-val').textContent = GG27.coins();
+  document.getElementById('gg-level-val').textContent = GG27.level();
+  const muteBtn = document.getElementById('gg-mute');
+  function refreshMute(){ muteBtn.textContent = GG27.isMuted() ? '🔇' : '🔊'; }
+  refreshMute();
+  muteBtn.onclick = () => { GG27.setMuted(!GG27.isMuted()); refreshMute(); GGSound.tap(); };
+  document.getElementById('gg-back').onclick = () => {
+    if (opts && opts.homeHref) { location.href = opts.homeHref; }
+    else if (document.referrer) { history.back(); }
+    else { history.back(); }
+  };
+}
+
+function ggShowResult(opts){
+  // opts = { correct, total, coinsEarned, lessonKey, titleWin, titleLose, onReplay }
+  const total = Math.max(1, opts.total);
+  const ratio = opts.correct / total;
+  const stars = ratio >= .95 ? 3 : ratio >= .7 ? 2 : ratio > 0 ? 1 : 0;
+  const rec = GG27.recordResult(opts.lessonKey, { stars, score:opts.correct, total, coins:opts.coinsEarned });
+  const scr = document.getElementById('gg-result');
+  scr.classList.remove('gg-hidden');
+  document.getElementById('gg-result-title').textContent = stars>=2 ? (opts.titleWin||'أحسنت! 🎉') : (opts.titleLose||'حاول مرة أخرى 💪');
+  document.getElementById('gg-result-sub').textContent = `${opts.correct} / ${total} إجابة صحيحة`;
+  document.getElementById('gg-stars').textContent = '⭐'.repeat(stars) + '☆'.repeat(3-stars);
+  document.getElementById('gg-coins-earned').textContent = '+' + opts.coinsEarned + ' 🪙';
+  document.getElementById('gg-coins-val').textContent = rec.profile.coins;
+  document.getElementById('gg-level-val').textContent = rec.profile.level;
+  if(!GG27.isMuted()){ (stars>=2 ? GGSound.win : GGSound.lose)(); }
+  if(rec.newBadges && rec.newBadges.length){
+    setTimeout(()=>{
+      const pop = document.getElementById('gg-badge-pop');
+      pop.innerHTML = `<div class="gg-badge-card"><div style="font-size:15px;color:var(--gg-muted);font-weight:800;">شارة جديدة</div><div style="font-size:22px;font-weight:900;margin-top:6px;">${rec.newBadges[0]}</div></div>`;
+      pop.classList.remove('gg-hidden'); GGSound.badge(); ggVibrate(40);
+      setTimeout(()=>pop.classList.add('gg-hidden'), 1800);
+    }, 500);
+  }
+  document.getElementById('gg-replay').onclick = () => { scr.classList.add('gg-hidden'); if(opts.onReplay) opts.onReplay(); };
+}
+
+ggInitHud({});
+const LESSON_KEY = "grade3-unit6-Lesson 4 - Word Snake.html";
+const SPEAK_LANG = "en-US";
+</script>
+<script>
+
+// ---------- منطق مشترك بين كل المحركات ----------
+function ggBuildRounds(raw, maxRounds){
+  const rs = ggShuffle(raw).slice(0, maxRounds || 8);
+  return rs.map(r => {
+    const correctText = r.choices[r.correct];
+    const order = ggShuffle(r.choices.map((c,i)=>i));
+    return { prompt:r.prompt, choices: order.map(i=>r.choices[i]), correct: order.indexOf(r.correct), speak_word:r.speak_word };
+  });
+}
+let GG_STATE = { i:0, rounds:[], correct:0, lives:3, coins:0, perfect:true, meta:null };
+
+function ggStartSession(meta){
+  GG_STATE = { i:0, rounds: ggBuildRounds(meta.rawRounds, meta.maxRounds||8), correct:0, lives:3, coins:0, perfect:true, meta };
+  document.getElementById('gg-progress-bar').style.width='0%';
+  ggRenderRound();
+}
+function ggProgressUpdate(){
+  const p = Math.round((GG_STATE.i)/GG_STATE.rounds.length*100);
+  const bar = document.getElementById('gg-progress-bar'); if(bar) bar.style.width = p+'%';
+}
+function ggEndSession(){
+  const coinsEarned = GG_STATE.coins + (GG_STATE.perfect ? 15 : 0);
+  ggShowResult({
+    correct: GG_STATE.correct, total: GG_STATE.rounds.length, coinsEarned,
+    lessonKey: LESSON_KEY,
+    onReplay: () => ggStartSession(GG_STATE.meta)
+  });
+}
+function ggRegisterAnswer(isCorrect, elCoinOriginEvent){
+  if(isCorrect){
+    GG_STATE.correct++; GG_STATE.coins += 10; GGSound.correct(); ggVibrate(15);
+    ggToast('صح! 🎉','good');
+    try{
+      const ev = elCoinOriginEvent;
+      const x = (ev && ev.touches && ev.touches[0]) ? ev.touches[0].clientX : (ev? ev.clientX : window.innerWidth/2);
+      const y = (ev && ev.touches && ev.touches[0]) ? ev.touches[0].clientY : (ev? ev.clientY : window.innerHeight/2);
+      ggCoinBurst(x,y,3);
+    }catch(e){}
+  } else {
+    GG_STATE.perfect = false; GG_STATE.lives--; GGSound.wrong(); ggVibrate([20,30,20]);
+    ggToast('حاول تاني','bad');
+  }
+  const lv = document.getElementById('gg-lives'); if(lv) lv.textContent = '❤️'.repeat(Math.max(0,GG_STATE.lives)) + '🖤'.repeat(3-Math.max(0,GG_STATE.lives));
+  GG_STATE.i++;
+  ggProgressUpdate();
+  setTimeout(()=>{
+    if(GG_STATE.lives<=0 || GG_STATE.i >= GG_STATE.rounds.length){ ggEndSession(); }
+    else { ggRenderRound(); }
+  }, isCorrect ? 750 : 900);
+}
+
+const META = {"speak": true, "maxRounds": 10, "rawRounds": [{"prompt": "I have a big _____.", "choices": ["sad", "dream", "bad"], "correct": 1}, {"prompt": "My _____ is to be a doctor.", "choices": ["ball", "car", "goal"], "correct": 2}, {"prompt": "He takes a _____ forward.", "choices": ["sleep", "step", "eat"], "correct": 1}, {"prompt": "They _____ their success.", "choices": ["celebrate", "cry", "fall"], "correct": 0}, {"prompt": "I want to _____ a famous player.", "choices": ["be", "am", "do"], "correct": 0}, {"prompt": "A goal is something you want to _____.", "choices": ["achieve", "play", "sleep"], "correct": 0}, {"prompt": "You need to work _____ to achieve your dream.", "choices": ["hard", "bad", "soft"], "correct": 0}, {"prompt": "Samer is trying to get _____ at football.", "choices": ["worse", "sad", "better"], "correct": 2}, {"prompt": "He is _____ every day.", "choices": ["train", "training", "trains"], "correct": 1}, {"prompt": "Training helps him to _____.", "choices": ["improve", "fall", "sleep"], "correct": 0}, {"prompt": "He is _____ the ball.", "choices": ["kick", "kicking", "kicks"], "correct": 1}, {"prompt": "He is splashing in the _____.", "choices": ["book", "sky", "mud"], "correct": 2}, {"prompt": "Now, he is _____ a match.", "choices": ["play", "playing", "plays"], "correct": 1}, {"prompt": "He is _____ a goal.", "choices": ["scoring", "scores", "score"], "correct": 0}, {"prompt": "He feels very _____.", "choices": ["proud", "angry", "sad"], "correct": 0}, {"prompt": "I am _____ my skills.", "choices": ["improves", "improving", "improve"], "correct": 1}, {"prompt": "She is _____ for the test.", "choices": ["studies", "study", "studying"], "correct": 2}, {"prompt": "We are _____ for the race.", "choices": ["preparing", "prepare", "prepares"], "correct": 0}, {"prompt": "They are _____ hard.", "choices": ["working", "work", "works"], "correct": 0}, {"prompt": "Are you _____ to reach your goal?", "choices": ["tries", "try", "trying"], "correct": 2}, {"prompt": "Yes, I am _____.", "choices": ["tries", "trying", "try"], "correct": 1}, {"prompt": "He is _____ his dream.", "choices": ["following", "follow", "follows"], "correct": 0}, {"prompt": "She is _____ a book.", "choices": ["reads", "read", "reading"], "correct": 2}, {"prompt": "We are _____ a new language.", "choices": ["learn", "learning", "learns"], "correct": 1}, {"prompt": "They are _____ a picture.", "choices": ["draw", "drawing", "draws"], "correct": 1}, {"prompt": "I am _____ my homework.", "choices": ["do", "does", "doing"], "correct": 2}, {"prompt": "My brother is _____ TV.", "choices": ["watches", "watching", "watch"], "correct": 1}, {"prompt": "My sister is _____ to music.", "choices": ["listen", "listens", "listening"], "correct": 2}, {"prompt": "The dog is _____.", "choices": ["run", "running", "runs"], "correct": 1}, {"prompt": "The bird is _____.", "choices": ["fly", "flies", "flying"], "correct": 2}, {"prompt": "The fish is _____.", "choices": ["swims", "swimming", "swim"], "correct": 1}, {"prompt": "The children are _____.", "choices": ["plays", "play", "playing"], "correct": 2}, {"prompt": "The teacher is _____.", "choices": ["teaches", "teach", "teaching"], "correct": 2}, {"prompt": "The student is _____.", "choices": ["learns", "learn", "learning"], "correct": 2}, {"prompt": "The doctor is _____ the patient.", "choices": ["helping", "help", "helps"], "correct": 0}, {"prompt": "The baker is _____ bread.", "choices": ["bake", "baking", "bakes"], "correct": 1}, {"prompt": "The pilot is _____ the plane.", "choices": ["fly", "flies", "flying"], "correct": 2}, {"prompt": "The farmer is _____ vegetables.", "choices": ["growing", "grow", "grows"], "correct": 0}, {"prompt": "I am _____ happy.", "choices": ["feeling", "feels", "feel"], "correct": 0}, {"prompt": "He is _____ sad.", "choices": ["feeling", "feel", "feels"], "correct": 0}, {"prompt": "She is _____ excited.", "choices": ["feeling", "feels", "feel"], "correct": 0}, {"prompt": "We are _____ proud.", "choices": ["feel", "feeling", "feels"], "correct": 1}, {"prompt": "They are _____ nervous.", "choices": ["feel", "feels", "feeling"], "correct": 2}, {"prompt": "What is your _____?", "choices": ["dog", "goal", "cat"], "correct": 1}, {"prompt": "I want to _____ my dream.", "choices": ["eat", "reach", "sleep"], "correct": 1}, {"prompt": "Mona is _____ how to ride her bike.", "choices": ["learning", "learns", "learn"], "correct": 0}, {"prompt": "She is _____ every day in the garden.", "choices": ["practice", "practicing", "practices"], "correct": 1}, {"prompt": "First, she is _____ the bike.", "choices": ["holds", "holding", "hold"], "correct": 1}, {"prompt": "She is _____ with it.", "choices": ["walk", "walks", "walking"], "correct": 2}, {"prompt": "She is _____ her feet on the pedals.", "choices": ["pushing", "push", "pushes"], "correct": 0}, {"prompt": "Now, she is _____ around the garden.", "choices": ["ride", "riding", "rides"], "correct": 1}, {"prompt": "Mona is showing that practice brings _____.", "choices": ["success", "mistakes", "sadness"], "correct": 0}, {"prompt": "Mariem is _____ passing the exam.", "choices": ["celebrate", "celebrating", "celebrates"], "correct": 1}, {"prompt": "Laila is _____ outside.", "choices": ["plays", "play", "playing"], "correct": 2}, {"prompt": "She is _____ water.", "choices": ["spraying", "spray", "sprays"], "correct": 0}, {"prompt": "It makes a big _____.", "choices": ["splash", "book", "tree"], "correct": 0}, {"prompt": "She is _____ with her toy car.", "choices": ["play", "playing", "plays"], "correct": 1}, {"prompt": "The car _____ fast.", "choices": ["spins", "spinning", "spin"], "correct": 0}, {"prompt": "The car bumps _____ a rock.", "choices": ["at", "on", "into"], "correct": 2}, {"prompt": "Today is a day to _____.", "choices": ["sleep", "remember", "forget"], "correct": 1}, {"prompt": "We are _____ a good time.", "choices": ["have", "having", "has"], "correct": 1}, {"prompt": "I am _____ photos.", "choices": ["taking", "takes", "take"], "correct": 0}, {"prompt": "He is _____ with his friends.", "choices": ["laughing", "laugh", "laughs"], "correct": 0}, {"prompt": "She is _____ a song.", "choices": ["sing", "singing", "sings"], "correct": 1}, {"prompt": "They are _____ to the music.", "choices": ["dances", "dancing", "dance"], "correct": 1}, {"prompt": "A word with the 'sp' sound is _____.", "choices": ["spring", "string", "scratch"], "correct": 0}, {"prompt": "A word with the 'spl' sound is _____.", "choices": ["spray", "splash", "spring"], "correct": 1}, {"prompt": "A word with the 'spr' sound is _____.", "choices": ["split", "splash", "spray"], "correct": 2}, {"prompt": "A word with the 'scr' sound is _____.", "choices": ["string", "scratch", "spring"], "correct": 1}, {"prompt": "A word with the 'str' sound is _____.", "choices": ["string", "scream", "screen"], "correct": 0}, {"prompt": "I watch a movie on the _____.", "choices": ["spring", "string", "screen"], "correct": 2}, {"prompt": "She gave a loud _____.", "choices": ["scream", "string", "screen"], "correct": 0}, {"prompt": "The cat can _____ the door.", "choices": ["scratch", "spring", "string"], "correct": 0}, {"prompt": "We tie the box with a _____.", "choices": ["string", "screen", "scream"], "correct": 0}, {"prompt": "Water makes a big _____.", "choices": ["spray", "splash", "split"], "correct": 1}, {"prompt": "I use water _____ for the plants.", "choices": ["splash", "spray", "spring"], "correct": 1}, {"prompt": "Flowers bloom in the _____.", "choices": ["spring", "spray", "string"], "correct": 0}, {"prompt": "We can _____ the apple into two halves.", "choices": ["split", "splash", "spray"], "correct": 0}, {"prompt": "He is _____ the ball.", "choices": ["spinning", "spins", "spin"], "correct": 0}, {"prompt": "The dog is _____ its back.", "choices": ["scratch", "scratches", "scratching"], "correct": 2}, {"prompt": "She is _____ the water.", "choices": ["sprays", "spraying", "spray"], "correct": 1}, {"prompt": "They are _____ in the pool.", "choices": ["splash", "splashes", "splashing"], "correct": 2}, {"prompt": "I am _____ the screen.", "choices": ["watching", "watch", "watches"], "correct": 0}, {"prompt": "He is _____ loudly.", "choices": ["screaming", "scream", "screams"], "correct": 0}, {"prompt": "She is tying the _____.", "choices": ["spring", "screen", "string"], "correct": 2}, {"prompt": "The car is _____ around.", "choices": ["spin", "spins", "spinning"], "correct": 2}, {"prompt": "The cat is _____ the sofa.", "choices": ["scratches", "scratching", "scratch"], "correct": 1}, {"prompt": "He is _____ the bug.", "choices": ["sprays", "spraying", "spray"], "correct": 1}, {"prompt": "They are _____ the cake.", "choices": ["split", "splitting", "splits"], "correct": 1}, {"prompt": "We are _____ in the sea.", "choices": ["splash", "splashes", "splashing", "answering"], "correct": 2}, {"prompt": "Tamer _____ hard for the exam. 92. He _____ all the questions.", "choices": ["studied", "studying", "study"], "correct": 0}, {"prompt": "Finally, he _____ with his family.", "choices": ["celebrate", "celebrating", "celebrated"], "correct": 2}, {"prompt": "Tamer was _____ before the exam.", "choices": ["proud", "nervous", "happy"], "correct": 1}, {"prompt": "He felt _____ after the exam.", "choices": ["sad", "happy", "nervous"], "correct": 1}, {"prompt": "He felt _____ of himself.", "choices": ["sad", "proud", "angry"], "correct": 1}, {"prompt": "I _____ it!", "choices": ["does", "did", "do"], "correct": 1}, {"prompt": "She _____ her homework.", "choices": ["finishing", "finished", "finish"], "correct": 1}, {"prompt": "He _____ the race.", "choices": ["win", "winning", "won"], "correct": 2}, {"prompt": "They _____ the mountain.", "choices": ["climbed", "climbing", "climb"], "correct": 0}, {"prompt": "I _____ my goal.", "choices": ["reaching", "reach", "reached"], "correct": 2}, {"prompt": "She _____ the puzzle.", "choices": ["solved", "solving", "solve"], "correct": 0}, {"prompt": "He _____ the broken toy.", "choices": ["fix", "fixed", "fixing"], "correct": 1}, {"prompt": "We _____ a tree house.", "choices": ["build", "building", "built"], "correct": 2}, {"prompt": "They _____ a beautiful picture.", "choices": ["painted", "painting", "paint"], "correct": 0}, {"prompt": "I _____ a story.", "choices": ["wrote", "writing", "write"], "correct": 0}, {"prompt": "She _____ a cake.", "choices": ["bake", "baking", "baked"], "correct": 2}, {"prompt": "He _____ a nice song.", "choices": ["sing", "singing", "sang"], "correct": 2}, {"prompt": "We _____ a new language.", "choices": ["learned", "learn", "learning"], "correct": 0}, {"prompt": "They _____ the match.", "choices": ["won", "winning", "win"], "correct": 0}, {"prompt": "I am _____ of my sister.", "choices": ["angry", "proud", "sad"], "correct": 1}, {"prompt": "She is _____ of her brother.", "choices": ["proud", "sad", "angry"], "correct": 0}, {"prompt": "He is _____ of his son.", "choices": ["angry", "sad", "proud"], "correct": 2}, {"prompt": "We are _____ of our team.", "choices": ["sad", "angry", "proud"], "correct": 2}, {"prompt": "They are _____ of their country.", "choices": ["sad", "proud", "angry"], "correct": 1}, {"prompt": "Tamer _____ a plan.", "choices": ["making", "make", "made"], "correct": 2}, {"prompt": "He _____ to his plan.", "choices": ["sticking", "stuck", "stick"], "correct": 1}, {"prompt": "He didn't _____ up.", "choices": ["make", "take", "give"], "correct": 2}, {"prompt": "He _____ his best.", "choices": ["tried", "trying", "try"], "correct": 0}, {"prompt": "He _____ a lot of questions.", "choices": ["asking", "asked", "ask"], "correct": 1}, {"prompt": "He _____ from his mistakes.", "choices": ["learn", "learning", "learned"], "correct": 2}, {"prompt": "He _____ the final test.", "choices": ["passing", "pass", "passed"], "correct": 2}, {"prompt": "He _____ very happy.", "choices": ["was", "were", "am"], "correct": 0}, {"prompt": "His family _____ very proud.", "choices": ["am", "was", "were"], "correct": 1}, {"prompt": "They _____ a big party.", "choices": ["have", "had", "has"], "correct": 1}, {"prompt": "They _____ a lot of food.", "choices": ["eat", "eating", "ate"], "correct": 2}, {"prompt": "They _____ a lot of juice.", "choices": ["drinking", "drank", "drink"], "correct": 1}, {"prompt": "They _____ to music.", "choices": ["listened", "listening", "listen"], "correct": 0}, {"prompt": "They _____ all night.", "choices": ["dancing", "danced", "dance"], "correct": 1}, {"prompt": "It _____ a great day.", "choices": ["were", "am", "was"], "correct": 2}, {"prompt": "I want to _____ like Tamer.", "choices": ["do", "be", "am"], "correct": 1}, {"prompt": "I want to _____ my goals.", "choices": ["eat", "achieve", "sleep"], "correct": 1}, {"prompt": "I want to _____ my family proud.", "choices": ["make", "give", "take"], "correct": 0}, {"prompt": "I want to _____ success.", "choices": ["celebrate", "cry", "fall"], "correct": 0}, {"prompt": "I want to say, 'I _____ it!'", "choices": ["do", "did", "does", "library"], "correct": 1}, {"prompt": "Yara is a _____ runner. 137. She practices every day at the school _____.", "choices": ["sad", "fast", "slow"], "correct": 1}, {"prompt": "Her friend needed _____ getting ready.", "choices": ["help", "cry", "hurt"], "correct": 0}, {"prompt": "Sara showed her _____ to run.", "choices": ["how", "what", "where"], "correct": 0}, {"prompt": "They _____ together every day.", "choices": ["run", "ran", "running"], "correct": 1}, {"prompt": "On race day, her friend ran _____.", "choices": ["sad", "bad", "well"], "correct": 2}, {"prompt": "They both celebrated their _____.", "choices": ["mistakes", "sadness", "success"], "correct": 2}, {"prompt": "Helping others is _____.", "choices": ["good", "sad", "bad"], "correct": 0}, {"prompt": "We should _____ our friends.", "choices": ["hurt", "help", "hit"], "correct": 1}, {"prompt": "She _____ her brother with his homework.", "choices": ["helping", "help", "helped"], "correct": 2}, {"prompt": "He _____ his sister ride a bike.", "choices": ["teach", "teaching", "taught"], "correct": 2}, {"prompt": "They _____ each other.", "choices": ["supporting", "support", "supported"], "correct": 2}, {"prompt": "We _____ together as a team.", "choices": ["working", "worked", "work"], "correct": 1}, {"prompt": "He _____ his friend up when he fell.", "choices": ["pulling", "pull", "pulled"], "correct": 2}, {"prompt": "She _____ her friend an apple.", "choices": ["give", "giving", "gave"], "correct": 2}, {"prompt": "They _____ their food.", "choices": ["share", "sharing", "shared"], "correct": 2}, {"prompt": "He _____ to his friend's problem.", "choices": ["listened", "listening", "listen"], "correct": 0}, {"prompt": "She _____ her friend smile.", "choices": ["making", "made", "make"], "correct": 1}, {"prompt": "They _____ each other.", "choices": ["hugged", "hugging", "hug"], "correct": 0}, {"prompt": "He _____ 'well done' to his friend.", "choices": ["said", "saying", "say"], "correct": 0}, {"prompt": "She _____ for her friend.", "choices": ["cheer", "cheering", "cheered"], "correct": 2}, {"prompt": "They _____ happy for each other.", "choices": ["feeling", "feel", "felt"], "correct": 2}, {"prompt": "When you help others, you feel _____.", "choices": ["sad", "angry", "happy"], "correct": 2}, {"prompt": "When others succeed, we should be _____.", "choices": ["jealous", "happy", "sad"], "correct": 1}, {"prompt": "Yara's friend was _____ about the race.", "choices": ["happy", "worried", "proud"], "correct": 1}, {"prompt": "Yara helped her to get _____.", "choices": ["bad", "ready", "sad"], "correct": 1}, {"prompt": "They ran _____.", "choices": ["sadly", "together", "alone"], "correct": 1}, {"prompt": "Her friend smiled _____ race day.", "choices": ["in", "on", "at"], "correct": 1}, {"prompt": "They celebrated with big _____.", "choices": ["cheers", "tears", "cries"], "correct": 0}, {"prompt": "She is _____ her friend.", "choices": ["help", "helping", "helps"], "correct": 1}, {"prompt": "He is _____ his sister.", "choices": ["teach", "teaching", "teaches"], "correct": 1}, {"prompt": "They are _____ each other.", "choices": ["supports", "supporting", "support"], "correct": 1}, {"prompt": "We are _____ together.", "choices": ["work", "works", "working"], "correct": 2}, {"prompt": "She is _____ her friend.", "choices": ["encourages", "encourage", "encouraging"], "correct": 2}, {"prompt": "He is _____ for his brother.", "choices": ["cheering", "cheer", "cheers"], "correct": 0}, {"prompt": "They are _____ their success.", "choices": ["celebrates", "celebrate", "celebrating"], "correct": 2}, {"prompt": "I am _____ of my friend.", "choices": ["proud", "angry", "sad"], "correct": 0}, {"prompt": "She is _____ to help.", "choices": ["glad", "angry", "sad"], "correct": 0}, {"prompt": "He is _____ to have a good friend.", "choices": ["sad", "lucky", "bad"], "correct": 1}, {"prompt": "We are _____ to be a team.", "choices": ["sad", "happy", "angry"], "correct": 1}, {"prompt": "They are _____ a great job.", "choices": ["does", "do", "doing"], "correct": 2}, {"prompt": "You are _____ a good friend.", "choices": ["am", "be", "being"], "correct": 2}, {"prompt": "Helping others makes the world _____.", "choices": ["sad", "worse", "better"], "correct": 2}, {"prompt": "We should always _____ kind.", "choices": ["do", "be", "am"], "correct": 1}, {"prompt": "Together, we can _____ anything.", "choices": ["achieve", "sleep", "fall"], "correct": 0}]};
+const COLS=8, ROWS=7;
+let snake, dir, nextDir, foods, cellPx, moveTimer;
+function ggCellStyle(el,x,y){
+  el.style.width=cellPx+'px'; el.style.height=cellPx+'px';
+  el.style.left=(x*cellPx)+'px'; el.style.top=(y*cellPx)+'px';
+}
+function ggFoodStyle(el,x,y,label){
+  el.style.height=Math.round(cellPx*.82)+'px';
+  el.style.left=((x+0.5)*cellPx)+'px'; el.style.top=((y+0.5)*cellPx)+'px';
+  const big = label.length > 5;
+  el.style.fontSize = (big ? cellPx*.34 : cellPx*.42) + 'px';
+}
+function ggRenderRound(){
+  const r = GG_STATE.rounds[GG_STATE.i];
+  document.getElementById('gg-prompt').textContent = r.prompt;
+  if(META.speak) ggSpeak(r.speak_word || r.prompt, SPEAK_LANG);
+  const grid = document.getElementById('gg-grid'); grid.innerHTML='';
+  cellPx = grid.clientWidth / COLS;
+  snake = [{x:1,y:3},{x:0,y:3}];
+  dir = 'right'; nextDir='right';
+  const cellPool = ggShuffle(Array.from({length:(COLS-2)*ROWS},(_,i)=>({x:1+(i%(COLS-2)), y:Math.floor(i/(COLS-2))})))
+    .filter(c => !(c.x<3 && c.y===3));
+  const picked = [];
+  for(const c of cellPool){
+    if(picked.length >= r.choices.length) break;
+    const tooClose = picked.some(p => Math.abs(p.x-c.x) < 2 && Math.abs(p.y-c.y) < 2);
+    if(!tooClose) picked.push(c);
+  }
+  while(picked.length < r.choices.length) picked.push(cellPool[picked.length] || {x:6,y:6});
+  foods = r.choices.map((c,idx)=>({ ...picked[idx], label:c, correct: idx===r.correct }));
+  foods.forEach(f=>{
+    const el = document.createElement('div'); el.className='gg-cell gg-food'; el.textContent=f.label;
+    ggFoodStyle(el,f.x,f.y,f.label); grid.appendChild(el); f.el=el;
+  });
+  snake.forEach((s,i)=>{
+    const el=document.createElement('div'); el.className='gg-cell '+(i===0?'gg-head':'gg-seg');
+    el.textContent = i===0 ? '🐍' : '';
+    ggCellStyle(el,s.x,s.y); grid.appendChild(el); s.el=el;
+  });
+  clearInterval(moveTimer);
+  moveTimer = setInterval(ggTick, 340);
+}
+function ggTick(){
+  dir = nextDir;
+  const head = snake[0];
+  let nx=head.x, ny=head.y;
+  if(dir==='up') ny--; else if(dir==='down') ny++; else if(dir==='left') nx--; else nx++;
+  nx = (nx+COLS)%COLS; ny=(ny+ROWS)%ROWS;
+  const eaten = foods.find(f => f.x===nx && f.y===ny && !f.eaten);
+  const newHead = {x:nx,y:ny};
+  snake.unshift(newHead);
+  if(eaten){
+    eaten.eaten = true; eaten.el.remove();
+    clearInterval(moveTimer);
+    const ok = eaten.correct;
+    const grid = document.getElementById('gg-grid');
+    const flash = document.createElement('div'); flash.className='gg-cell'; flash.style.background = ok?'#31d0aa':'#ff6b6b';
+    flash.style.opacity='.6'; ggCellStyle(flash, nx, ny); grid.appendChild(flash);
+    setTimeout(()=>flash.remove(), 300);
+    ggRegisterAnswer(ok, null);
+    return;
+  } else {
+    snake.pop();
+  }
+  const grid = document.getElementById('gg-grid');
+  snake.forEach((s,i)=>{
+    if(!s.el){ s.el=document.createElement('div'); s.el.className='gg-cell gg-seg'; grid.appendChild(s.el); }
+    s.el.className = 'gg-cell ' + (i===0?'gg-head':'gg-seg');
+    s.el.textContent = i===0 ? '🐍' : '';
+    ggCellStyle(s.el, s.x, s.y);
+  });
+}
+function ggSetDir(d){
+  const opp = {up:'down',down:'up',left:'right',right:'left'};
+  if(opp[d]===dir) return;
+  nextDir = d;
+}
+document.querySelectorAll('#gg-pad button').forEach(b=>{
+  b.addEventListener('click', ()=>ggSetDir(b.dataset.d));
+});
+let ggTouchStart=null;
+document.getElementById('gg-grid').addEventListener('touchstart', e=>{ ggTouchStart = e.touches[0]; }, {passive:true});
+document.getElementById('gg-grid').addEventListener('touchend', e=>{
+  if(!ggTouchStart) return;
+  const dx = e.changedTouches[0].clientX - ggTouchStart.clientX;
+  const dy = e.changedTouches[0].clientY - ggTouchStart.clientY;
+  if(Math.abs(dx) > Math.abs(dy)) ggSetDir(dx>0?'right':'left'); else ggSetDir(dy>0?'down':'up');
+  ggTouchStart=null;
+}, {passive:true});
+document.addEventListener('keydown', e=>{
+  if(e.key==='ArrowUp') ggSetDir('up'); if(e.key==='ArrowDown') ggSetDir('down');
+  if(e.key==='ArrowLeft') ggSetDir('left'); if(e.key==='ArrowRight') ggSetDir('right');
+});
+const _origEnd = ggEndSession;
+ggEndSession = function(){ clearInterval(moveTimer); _origEnd(); };
+
+document.getElementById('gg-start-btn').onclick = function(){
+  document.getElementById('gg-start').classList.add('gg-hidden');
+  
+  ggStartSession(META);
+  GGSound.tap();
+};
+
+</script>
+<!-- MOBILE-FIT-2027-body -->
+<script id="mobile-fit-2027-js">
+(function(){
+  try {
+    function fireResize(){ try { window.dispatchEvent(new Event('resize')); } catch(e){} }
+    window.addEventListener('orientationchange', function(){ setTimeout(fireResize,150); setTimeout(fireResize,450); setTimeout(fireResize,900); });
+    if (window.visualViewport) { window.visualViewport.addEventListener('resize', fireResize); }
+    document.addEventListener('gesturestart', function(e){ e.preventDefault(); });
+    var lastTouchEnd = 0;
+    document.addEventListener('touchend', function(e){
+      var now = Date.now();
+      if (now - lastTouchEnd <= 300) { e.preventDefault(); }
+      lastTouchEnd = now;
+    }, {passive:false});
+  } catch(err) {}
+})();
+</script>
+<!-- /MOBILE-FIT-2027-body -->
+</body>
+</html>
