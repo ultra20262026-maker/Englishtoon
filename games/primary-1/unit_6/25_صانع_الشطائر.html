@@ -66,6 +66,7 @@ button, .target-btn, a, [onclick], .gg-target, .gg-btn { touch-action: manipulat
         <button class="start" onclick="startGame()">العب!</button>
     </div>
     <script>
+let autoAdvanceTimer = null;
         
 const wordsData = [
   { word: "lion", image: "🦁", type: "emoji" },
