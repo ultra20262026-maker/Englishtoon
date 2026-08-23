@@ -66,22 +66,6 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 }
 </style>
 <!-- /MOBILE-FIT-2027-head -->
-
-    <!-- MOBILE-FIT-2027-style -->
-    <style id="manus-mobile-fit">
-    html, body { touch-action: manipulation; -webkit-tap-highlight-color: transparent; overscroll-behavior: none; margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
-    canvas { max-width: 100%; max-height: 100%; object-fit: contain; }
-    button, .target-btn, .gg-target, .gg-btn, a, [onclick] { touch-action: manipulation; }
-    @media (max-width: 900px), (max-height: 520px) {
-      html { font-size: clamp(10px, 3vmin, 16px) !important; }
-      .gg-target, .target-btn { min-width: clamp(60px, 15vmin, 120px) !important; min-height: clamp(60px, 15vmin, 120px) !important; font-size: 1rem !important; }
-      #gg-prompt, #q-text { font-size: clamp(1.1rem, 4vw, 1.5rem) !important; padding: 10px !important; }
-      #gg-hud, #hud { font-size: 0.9rem !important; padding: 5px 10px !important; }
-      .gg-btn { padding: 10px 20px !important; font-size: 1.1rem !important; }
-    }
-    </style>
-    <!-- /MOBILE-FIT-2027-style -->
-    
 </head>
 <body>
 
@@ -103,8 +87,6 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 </div>
 
 <script>
-window.isMuted = function() { return true; };
-
 const QS = [{"type": "mcq", "q": "Egypt is located in the _____ of Africa.", "choices": ["continent", "country", "city"], "answer": 0}, {"type": "mcq", "q": "He studied hard, _____ he succeeded.", "choices": ["but", "so", "because"], "answer": 1}, {"type": "mcq", "q": "I have never read a _____ exciting story than this one.", "choices": ["most", "more", "less"], "answer": 1}, {"type": "mcq", "q": "Ali always smiles _____ he is facing many problems.", "choices": ["although", "so", "because"], "answer": 0}, {"type": "mcq", "q": "They have arranged to spend their holiday in Alex. They _____ to Alex.", "choices": ["travel", "traveled", "are traveling"], "answer": 2}, {"type": "mcq", "q": "While I _____ to school, I saw an accident.", "choices": ["was walking", "walked", "walk"], "answer": 0}, {"type": "mcq", "q": "I suggest _____ to the park on Friday.", "choices": ["go", "going", "went"], "answer": 1}, {"type": "mcq", "q": "A lot of videos _____ from the internet.", "choices": ["download", "is downloaded", "are downloaded"], "answer": 2}, {"type": "mcq", "q": "We should _____ a hand to the poor.", "choices": ["gave", "give", "given"], "answer": 1}, {"type": "mcq", "q": "It's important to _____ healthy food.", "choices": ["ate", "eating", "eat"], "answer": 2}, {"type": "mcq", "q": "Teachers help students _____ their lessons.", "choices": ["understood", "understanding", "understand"], "answer": 2}, {"type": "mcq", "q": "Your active footprint includes posts you _____ to share.", "choices": ["choose", "choosing", "choose to"], "answer": 0}, {"type": "mcq", "q": "A famous sculptor received _____ for his pieces of artistic work.", "choices": ["threat", "punishment", "recognition"], "answer": 2}, {"type": "mcq", "q": "The population in Tokyo is _____, and the people are polite.", "choices": ["large", "tiny", "small"], "answer": 0}, {"type": "mcq", "q": "I _____ a local trip for the Japanese tourists.", "choices": ["organizes", "organized", "organizing"], "answer": 1}, {"type": "mcq", "q": "The painting is _____ beautiful than the one in the living room.", "choices": ["much", "most", "more"], "answer": 2}, {"type": "mcq", "q": "They were playing tennis when it _____ to rain.", "choices": ["was starting", "starts", "started"], "answer": 2}, {"type": "mcq", "q": "She _____ her room every day.", "choices": ["is cleaning", "clean", "cleans"], "answer": 2}, {"type": "mcq", "q": "I was watching TV when the lights _____ out.", "choices": ["going", "went", "go"], "answer": 1}, {"type": "mcq", "q": "Look! Adel _____ memes with his friends.", "choices": ["share", "is sharing", "shares"], "answer": 1}, {"type": "mcq", "q": "You shouldn't _____ personal photos without permission.", "choices": ["taking", "be taken", "take"], "answer": 2}, {"type": "mcq", "q": "What does water _____ in our bodies?", "choices": ["do", "does", "did"], "answer": 0}, {"type": "mcq", "q": "Being close to nature made the trip a perfect way to _____.", "choices": ["work", "relax", "study"], "answer": 1}, {"type": "mcq", "q": "The Sphinx has the body of a _____ and the head of a king.", "choices": ["dog", "cat", "lion"], "answer": 2}, {"type": "mcq", "q": "You can visit the Blue _____ in Iceland.", "choices": ["Sea", "Lagoon", "River"], "answer": 1}];
 const cv = document.getElementById('cv');
 const ctx = cv.getContext('2d');
@@ -113,8 +95,16 @@ cv.width = window.innerWidth; cv.height = window.innerHeight;
 window.addEventListener('resize', () => { cv.width = window.innerWidth; cv.height = window.innerHeight; });
 
 // AUDIO
-const AC = ({ state: "suspended", resume: () => {}, createOscillator: () => ({ connect: () => {}, start: () => {}, stop: () => {}, frequency: { setValueAtTime: () => {} } }), createGain: () => ({ connect: () => {}, gain: { setValueAtTime: () => {}, exponentialRampToValueAtTime: () => {} } }), destination: {} })
-function tone() {}
+const AC = new (window.AudioContext||window.webkitAudioContext)();
+function tone(f,d,t='sine',v=0.4){
+    if(AC.state==='suspended') AC.resume();
+    const o=AC.createOscillator(),g=AC.createGain();
+    o.connect(g);g.connect(AC.destination);
+    o.type=t;o.frequency.value=f;
+    g.gain.setValueAtTime(v,AC.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+d);
+    o.start();o.stop(AC.currentTime+d);
+}
 function sndCorrect(){ tone(523,.1); setTimeout(()=>tone(784,.3),100); }
 function sndWrong(){ tone(150,.6,'sawtooth'); setTimeout(()=>tone(100,.6,'sawtooth'),150); }
 function sndShoot(){ tone(300,.1,'square',0.1); }
@@ -185,7 +175,9 @@ function handleChoice(btn, isCorrect, index) {
             });
         }
         
-        // autoAdvanceTimer cleared // autoAdvance disabled
+        clearTimeout(autoAdvanceTimer); autoAdvanceTimer = setTimeout(() => {
+            qIdx++;
+            loadQ();
         }, isCorrect ? 1000 : 1500);
     });
 }
@@ -247,7 +239,10 @@ function gameInitTarget(btn, i, total) {
 function gameOnLoadQ() { 
     mallet = null; 
     // Pop them up
-    // autoAdvanceTimer cleared // autoAdvance disabled
+    clearTimeout(autoAdvanceTimer); autoAdvanceTimer = setTimeout(() => {
+        document.querySelectorAll('.target-btn').forEach(btn => {
+            btn.style.top = btn.dataset.baseY + 'px';
+        });
     }, 100);
 }
 
@@ -315,5 +310,23 @@ mainLoop();
 })();
 </script>
 <!-- /MOBILE-FIT-2027-body -->
+
+<script id="prep-mute-js">
+(function(){
+    const originalCreateElement = document.createElement;
+    document.createElement = function(tag) {
+        const el = originalCreateElement.call(document, tag);
+        if (tag.toLowerCase() === 'audio') {
+            setTimeout(() => {
+                if (el.src && (el.src.includes('bg') || el.src.includes('music'))) {
+                    el.muted = true;
+                    el.volume = 0;
+                }
+            }, 0);
+        }
+        return el;
+    };
+})();
+</script>
 </body>
 </html>
