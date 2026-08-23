@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Space Shooter - Unit 3</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Nunito', sans-serif; overflow: hidden; width: 100vw; height: 100vh; background: #000; user-select: none; }
+
+/* HUD */
+#hud { position: fixed; top: 0; left: 0; right: 0; padding: 15px 30px; display: flex; justify-content: space-between; color: white; font-size: 1.5rem; font-weight: 900; z-index: 200; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); pointer-events: none; }
+#score-val { color: #f1c40f; }
+
+/* Question Panel */
+#q-panel { position: fixed; top: 70px; left: 0; right: 0; display: flex; justify-content: center; z-index: 150; pointer-events: none; }
+#q-text { background: rgba(0,0,0,0.7); border: 2px solid rgba(255,255,255,0.2); padding: 15px 40px; border-radius: 30px; color: white; font-size: 1.8rem; font-weight: 900; max-width: 80%; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.5); line-height: 1.4; }
+
+/* Targets Container */
+#targets { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 100; pointer-events: none; }
+.target-btn { position: absolute; transform: translate(-50%, -50%); pointer-events: auto; cursor: pointer; border: none; font-family: 'Fredoka One', cursive; font-size: 1.4rem; color: white; text-shadow: 2px 2px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; display: flex; justify-content: center; align-items: center; text-align: center; line-height: 1.2; padding: 10px; transition: filter 0.2s; }
+.target-btn:hover { filter: brightness(1.2); }
+.target-btn:disabled { cursor: not-allowed; }
+
+/* Canvas */
+canvas { display: block; position: fixed; top: 0; left: 0; z-index: 10; }
+
+/* End Screen */
+#end-screen { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 300; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; }
+#end-screen.show { display: flex; }
+#end-screen h1 { font-size: 4rem; margin-bottom: 20px; font-family: 'Fredoka One', cursive; }
+#end-screen p { font-size: 2rem; color: #f1c40f; margin-bottom: 30px; font-weight: 900; }
+#end-screen button { padding: 15px 50px; background: #e74c3c; color: white; border: none; border-radius: 40px; font-size: 1.5rem; font-weight: 900; cursor: pointer; font-family: 'Nunito', sans-serif; transition: transform 0.2s; }
+#end-screen button:hover { transform: scale(1.1); background: #c0392b; }
+
+/* Game Specific CSS */
+
+body { background: #000; }
+.target-btn {
+    width: 150px; height: 100px;
+    background: #555;
+    border-radius: 50% 40% 60% 30% / 30% 60% 40% 50%;
+    box-shadow: inset -10px -10px 20px rgba(0,0,0,0.6), 0 0 15px rgba(255,255,255,0.2);
+    border: 3px solid #777;
+    transition: transform 0.1s;
+}
+
+</style>
+<!-- MOBILE-FIT-2027 -->
+<style id="mobile-fit-2027">
+html, body { touch-action: manipulation; -webkit-tap-highlight-color: transparent; overscroll-behavior: none; }
+button, .target-btn, a, [onclick] { touch-action: manipulation; }
+@media (max-width: 900px), (max-height: 520px) {
+  html { font-size: clamp(11px, 3.4vmin, 16px) !important; }
+}
+</style>
+<style id="mobile-fit-2027-2a">
+@media (max-width: 900px), (max-height: 520px) {
+  .target-btn { width: clamp(56px, 15vmin, 140px) !important; height: clamp(56px, 15vmin, 140px) !important; font-size: clamp(0.7rem, 3.2vmin, 1.4rem) !important; }
+  #q-text { font-size: clamp(0.85rem, 3.4vmin, 1.8rem) !important; padding: clamp(8px,2vmin,15px) clamp(14px,4vmin,40px) !important; max-width: 94% !important; }
+  #hud { font-size: clamp(0.8rem, 3vmin, 1.5rem) !important; padding: 10px 14px !important; }
+  #end-screen h1 { font-size: clamp(1.8rem, 8vmin, 4rem) !important; }
+  #end-screen p { font-size: clamp(1.1rem, 4.5vmin, 2rem) !important; }
+  #end-screen button { padding: clamp(10px,3vmin,15px) clamp(24px,8vmin,50px) !important; font-size: clamp(0.95rem, 3.6vmin, 1.5rem) !important; }
+}
+</style>
+<!-- /MOBILE-FIT-2027-head -->
+
+    <style id="manus-mobile-fit">
+    html, body { touch-action: manipulation; -webkit-tap-highlight-color: transparent; overscroll-behavior: none; }
+    button, .target-btn, a, [onclick] { touch-action: manipulation; }
+    @media (max-width: 900px), (max-height: 520px) {
+      html { font-size: clamp(10px, 3vmin, 16px) !important; }
+      .target-btn { width: clamp(50px, 12vmin, 120px) !important; height: clamp(50px, 12vmin, 120px) !important; font-size: 0.9rem !important; }
+      #q-text { font-size: 1.2rem !important; padding: 10px !important; }
+      #hud { font-size: 1rem !important; padding: 5px 10px !important; }
+    }
+    </style>
+    
+</head>
+<body>
+
+<div id="hud">
+    <div>Space Shooter - Unit 3</div>
+    <div id="q-num">Q 1/25</div>
+    <div>Score: <span id="score-val">0</span></div>
+</div>
+
+<div id="q-panel"><div id="q-text"></div></div>
+
+<div id="targets"></div>
+<canvas id="cv"></canvas>
+
+<div id="end-screen">
+    <h1 id="end-title">Game Over!</h1>
+    <p id="end-score">Score: 0</p>
+    <button onclick="location.reload()">ðŸ”„ Play Again</button>
+</div>
+
+<script>
+const QS = [{"type": "mcq", "q": "While my father was driving his car, it _____ down.", "choices": ["breaks", "broke", "breaking"], "answer": 1}, {"type": "mcq", "q": "I was watching TV when the lights _____ out.", "choices": ["goes", "went", "go"], "answer": 1}, {"type": "mcq", "q": "My sister _____ when her friend phoned her.", "choices": ["was cooking", "cooked", "cooking"], "answer": 0}, {"type": "mcq", "q": "My dad had a flat tire while he _____ to work.", "choices": ["drives", "drove", "was driving"], "answer": 2}, {"type": "mcq", "q": "While he was sleeping, his friend _____ him.", "choices": ["phoning", "phoned", "phones"], "answer": 1}, {"type": "mcq", "q": "When he fell down, he _____ basketball.", "choices": ["was playing", "played", "plays"], "answer": 0}, {"type": "mcq", "q": "While I was walking to school, I _____ an accident.", "choices": ["saw", "see", "was seeing"], "answer": 0}, {"type": "mcq", "q": "If you are creative this means you come _____ new ideas.", "choices": ["up to", "up with", "up for"], "answer": 1}, {"type": "mcq", "q": "To be a role model for others means to _____ them.", "choices": ["inspire", "empire", "conspire"], "answer": 0}, {"type": "mcq", "q": "They _____ tennis when it started to rain.", "choices": ["play", "were playing", "played"], "answer": 1}, {"type": "mcq", "q": "I suggest _____ to the park on Friday.", "choices": ["going", "go", "went"], "answer": 0}, {"type": "mcq", "q": "Maybe we _____ study together.", "choices": ["should", "must", "could"], "answer": 2}, {"type": "mcq", "q": "When you work hard without giving up and stay _____ to who you are, you achieve success.", "choices": ["true", "false", "wrong"], "answer": 0}, {"type": "mcq", "q": "A true leader should act _____ in his work.", "choices": ["responsibly", "fearfully", "angrily"], "answer": 0}, {"type": "mcq", "q": "Students always _____ their creative pieces of work in school fairs.", "choices": ["pretend", "forget", "display"], "answer": 2}, {"type": "mcq", "q": "All the children displayed their work on the day of the _____.", "choices": ["hospital", "bank", "fair"], "answer": 2}, {"type": "mcq", "q": "Amal stood _____ with her robot.", "choices": ["badly", "proudly", "sadly"], "answer": 1}, {"type": "mcq", "q": "When she presented it, the robot spoke: 'Be yourself. Never give _____!'.", "choices": ["in", "up", "out"], "answer": 1}, {"type": "mcq", "q": "The children _____ Amal's hard work and creativity.", "choices": ["ignored", "hated", "admired"], "answer": 2}, {"type": "mcq", "q": "The teacher said, 'Amal, you showed _____ and honesty.'", "choices": ["determination", "laziness", "fear"], "answer": 0}, {"type": "mcq", "q": "Amal felt proud because she had expressed _____ honestly.", "choices": ["herself", "yourself", "himself"], "answer": 0}, {"type": "mcq", "q": "When I make a mistake during a presentation, I feel _____.", "choices": ["happy", "discouraged", "glad"], "answer": 1}, {"type": "mcq", "q": "I sometimes feel nervous when I have to _____ a speech to my class.", "choices": ["escape", "give", "take"], "answer": 1}, {"type": "mcq", "q": "Our teacher asked us to _____ more research online.", "choices": ["take", "do", "make"], "answer": 1}, {"type": "mcq", "q": "Facing an obstacle can surprise us, but we can _____ it with hard work.", "choices": ["get through", "get into", "get off"], "answer": 0}];
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+cv.width = window.innerWidth; cv.height = window.innerHeight;
+
+window.addEventListener('resize', () => { cv.width = window.innerWidth; cv.height = window.innerHeight; });
+
+// AUDIO
+const AC = { resume: () => {}, createOscillator: () => ({ connect: () => {}, start: () => {}, stop: () => {}, frequency: { value: 0 } }), createGain: () => ({ connect: () => {}, gain: { setValueAtTime: () => {}, exponentialRampToValueAtTime: () => {} } }), destination: {} };
+function tone() {}
+function sndCorrect(){ tone(523,.1); setTimeout(()=>tone(784,.3),100); }
+function sndWrong(){ tone(150,.6,'sawtooth'); setTimeout(()=>tone(100,.6,'sawtooth'),150); }
+function sndShoot(){ tone(300,.1,'square',0.1); }
+
+// CORE GAME LOGIC
+let qIdx = 0, score = 0, locked = false;
+let particles = [];
+let gameEntities = {}; // Custom state for each game
+
+function loadQ() {
+    if(qIdx >= QS.length) { showEndScreen(); return; }
+    const q = QS[qIdx];
+    locked = false;
+    document.getElementById('q-text').textContent = q.q;
+    document.getElementById('q-num').textContent = `Q ${qIdx+1}/${QS.length}`;
+    
+    const container = document.getElementById('targets');
+    container.innerHTML = '';
+    
+    let choices = [...q.choices];
+    while(choices.length < 3) choices.push('...');
+    choices = choices.slice(0, 3);
+    const correctText = q.choices[q.answer] || q.choices[0];
+    
+    const labeled = choices.map(c => ({ text: c, isCorrect: c === correctText }));
+    labeled.sort(() => Math.random() - 0.5); // Shuffle
+    
+    labeled.forEach((item, i) => {
+        if(!item.text) return;
+        const btn = document.createElement('button');
+        btn.className = 'target-btn';
+        btn.textContent = item.text;
+        btn.onclick = () => handleChoice(btn, item.isCorrect, i);
+        container.appendChild(btn);
+        
+        // Let the specific game set the button's position and appearance
+        gameInitTarget(btn, i, labeled.length);
+    });
+    
+    if(typeof gameOnLoadQ === 'function') gameOnLoadQ();
+}
+
+function handleChoice(btn, isCorrect, index) {
+    if(locked) return;
+    locked = true;
+    document.querySelectorAll('.target-btn').forEach(b => b.disabled = true);
+    
+    const rect = btn.getBoundingClientRect();
+    const tx = rect.left + rect.width / 2;
+    const ty = rect.top + rect.height / 2;
+    
+    // Call specific game animation
+    gameAnimateAction(tx, ty, isCorrect, btn, () => {
+        // Action finished hitting target
+        if(isCorrect) {
+            score += 100;
+            document.getElementById('score-val').textContent = score;
+            sndCorrect();
+            createParticles(tx, ty, '#2ecc71', 30);
+            btn.style.transform += ' scale(0)';
+        } else {
+            sndWrong();
+            createParticles(tx, ty, '#e74c3c', 30);
+            btn.style.transform += ' scale(0)';
+            // Show correct answer briefly
+            document.querySelectorAll('.target-btn').forEach(b => {
+                if(b !== btn) b.style.opacity = '0.3';
+            });
+        }
+        
+        // autoAdvanceTimer cleared 
+        }, isCorrect ? 1000 : 1500);
+    });
+}
+
+function createParticles(x, y, color, count) {
+    for(let i=0; i<count; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 8 + 2;
+        particles.push({
+            x, y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            life: 1, color, size: Math.random() * 5 + 3
+        });
+    }
+}
+
+function updateAndDrawParticles() {
+    particles = particles.filter(p => p.life > 0);
+    particles.forEach(p => {
+        p.x += p.vx; p.y += p.vy; p.vy += 0.2; // Gravity
+        p.life -= 0.02;
+        ctx.globalAlpha = Math.max(0, p.life);
+        ctx.fillStyle = p.color;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
+        ctx.globalAlpha = 1;
+    });
+}
+
+function showEndScreen() {
+    document.getElementById('end-screen').classList.add('show');
+    document.getElementById('end-title').textContent = score >= (QS.length*70) ? 'ðŸ† Awesome!' : 'ðŸ’ª Good Effort!';
+    document.getElementById('end-score').textContent = `Final Score: ${score}`;
+}
+
+// Request Animation Frame loop
+function mainLoop() {
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    gameDrawBackground();
+    gameDrawForeground();
+    updateAndDrawParticles();
+    requestAnimationFrame(mainLoop);
+}
+
+// Init
+
+let stars = [];
+for(let i=0; i<150; i++) stars.push({x: Math.random()*2000, y: Math.random()*2000, s: Math.random()*2+1});
+let shipX = window.innerWidth/2, shipY = window.innerHeight - 100;
+let laser = null;
+let shipTarget = null;
+let onHitCb = null;
+let isWrongShot = false;
+
+function gameInitTarget(btn, i, total) {
+    const spacing = window.innerWidth / (total + 1);
+    btn.style.left = (spacing * (i + 1)) + 'px';
+    btn.style.top = (window.innerHeight * 0.3) + 'px';
+}
+
+function gameOnLoadQ() { 
+    laser = null; shipTarget = null; 
+    // ship returns to center slowly
+    shipX = window.innerWidth/2;
+    shipY = window.innerHeight - 100;
+}
+
+function gameAnimateAction(tx, ty, isCorrect, btn, onHitCallback) {
+    // Animate ship moving to under the target, then fire
+    shipTarget = { x: tx, y: ty + 80 }; // move ship 80px below target
+    onHitCb = onHitCallback;
+    isWrongShot = !isCorrect;
+}
+
+function gameDrawBackground() {
+    ctx.fillStyle = '#000'; ctx.fillRect(0,0,cv.width,cv.height);
+    ctx.fillStyle = '#fff';
+    stars.forEach(s => {
+        s.y += s.s * 0.5;
+        if(s.y > cv.height) s.y = 0;
+        ctx.beginPath(); ctx.arc(s.x, s.y, s.s, 0, Math.PI*2); ctx.fill();
+    });
+}
+
+function gameDrawForeground() {
+    // Move ship
+    if(shipTarget) {
+        const dx = shipTarget.x - shipX;
+        const dy = shipTarget.y - shipY;
+        shipX += dx * 0.1;
+        shipY += dy * 0.1;
+        
+        // If arrived, fire laser
+        if(Math.hypot(dx, dy) < 5 && !laser) {
+            sndShoot();
+            laser = { x: shipX, y: shipY - 30, color: isWrongShot ? '#e74c3c' : '#2ecc71' };
+            shipTarget = null; // stop moving
+        }
+    }
+    
+    // Draw Ship
+    ctx.save();
+    ctx.translate(shipX, shipY);
+    // Flame
+    ctx.fillStyle = '#f39c12';
+    ctx.beginPath(); ctx.moveTo(-10, 20); ctx.lineTo(0, 40 + Math.random()*10); ctx.lineTo(10, 20); ctx.fill();
+    // Body
+    ctx.fillStyle = '#ecf0f1';
+    ctx.beginPath(); ctx.moveTo(0, -30); ctx.lineTo(-25, 20); ctx.lineTo(25, 20); ctx.fill();
+    // Cockpit
+    ctx.fillStyle = '#3498db';
+    ctx.beginPath(); ctx.moveTo(0, -10); ctx.lineTo(-10, 10); ctx.lineTo(10, 10); ctx.fill();
+    ctx.restore();
+    
+    // Laser
+    if(laser) {
+        laser.y -= 25;
+        ctx.fillStyle = laser.color;
+        ctx.shadowBlur = 15; ctx.shadowColor = laser.color;
+        ctx.fillRect(laser.x - 4, laser.y, 8, 30);
+        ctx.shadowBlur = 0;
+        
+        if(laser.y < shipY - 120) { // arbitrary hit point since it's close
+            onHitCb();
+            laser = null;
+        }
+    }
+}
+
+loadQ();
+mainLoop();
+</script>
+<!-- MOBILE-FIT-2027-body -->
+<script id="mobile-fit-2027-js">
+(function(){
+  try {
+    function fireResize(){ try { window.dispatchEvent(new Event('resize')); } catch(e){} }
+    window.addEventListener('orientationchange', function(){ setTimeout(fireResize,150); setTimeout(fireResize,450); setTimeout(fireResize,900); });
+    if (window.visualViewport) { window.visualViewport.addEventListener('resize', fireResize); }
+    document.addEventListener('gesturestart', function(e){ e.preventDefault(); });
+    var lastTouchEnd = 0;
+    document.addEventListener('touchend', function(e){
+      var now = Date.now();
+      if (now - lastTouchEnd <= 300) { e.preventDefault(); }
+      lastTouchEnd = now;
+    }, {passive:false});
+  } catch(err) {}
+})();
+</script>
+<!-- /MOBILE-FIT-2027-body -->
+</body>
+</html>
