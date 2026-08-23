@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Hot Air Balloon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Cairo:wght@700;800&display=swap" rel="stylesheet">
+<style>
+
+:root{
+  --gg-bg:#0f1226; --gg-panel:#171b3a; --gg-accent:#ffd166; --gg-good:#31d0aa;
+  --gg-bad:#ff6b6b; --gg-text:#f4f6ff; --gg-muted:#9aa0c3;
+}
+*,*::before,*::after{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;height:100%;overscroll-behavior:none;}
+body{
+  font-family:'Baloo 2','Cairo','Nunito',system-ui,sans-serif;
+  background:var(--stage-bg, radial-gradient(circle at 50% 0%,#232a5c,#0f1226 70%));
+  color:var(--gg-text); overflow:hidden; touch-action:none; user-select:none;
+  height:100dvh; width:100vw; position:fixed; inset:0;
+}
+#gg-root{position:absolute; inset:0; display:flex; flex-direction:column;}
+#gg-hud{
+  position:relative; z-index:40; display:flex; align-items:center; justify-content:space-between;
+  padding:calc(env(safe-area-inset-top,0px) + 8px) 10px 8px; gap:8px; flex-wrap:wrap;
+  background:linear-gradient(180deg,rgba(0,0,0,.55),transparent);
+}
+.gg-pill{
+  display:flex; align-items:center; gap:6px; background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.16); border-radius:999px; padding:6px 12px;
+  font-weight:800; font-size:clamp(12px,3.4vw,15px); backdrop-filter:blur(6px);
+}
+.gg-pill.coins{color:var(--gg-accent);}
+.gg-pill.level{color:#8ec5ff;}
+#gg-back,#gg-mute{
+  border:none; background:rgba(255,255,255,.1); color:var(--gg-text); border-radius:12px;
+  width:38px; height:38px; font-size:18px; display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+}
+#gg-back:active,#gg-mute:active{transform:scale(.9);}
+#gg-stage{position:relative; flex:1; min-height:0; overflow:hidden;}
+#gg-instructions{
+  font-size:clamp(13px,3.6vw,17px); text-align:center; padding:0 16px 10px; color:var(--gg-muted); font-weight:700;
+}
+.gg-btn{
+  font-family:inherit; font-weight:900; border:none; border-radius:16px; cursor:pointer;
+  color:#221a00; background:linear-gradient(180deg,#ffe08a,var(--gg-accent));
+  box-shadow:0 6px 0 #b8871f, 0 10px 18px rgba(0,0,0,.35);
+  padding:14px 30px; font-size:clamp(16px,4.6vw,22px); touch-action:manipulation;
+}
+.gg-btn:active{transform:translateY(5px); box-shadow:0 1px 0 #b8871f;}
+.gg-btn.secondary{
+  background:linear-gradient(180deg,#7c8cff,#5661d8); color:#fff; box-shadow:0 6px 0 #3b428f, 0 10px 18px rgba(0,0,0,.35);
+}
+.gg-screen{
+  position:absolute; inset:0; z-index:60; display:flex; flex-direction:column; align-items:center;
+  justify-content:center; gap:16px; text-align:center; padding:24px;
+  background:radial-gradient(circle at 50% 20%,rgba(30,36,80,.97),rgba(6,8,20,.98));
+}
+.gg-hidden{display:none !important;}
+.gg-title{font-size:clamp(24px,7vw,40px); font-weight:900; text-shadow:0 4px 0 rgba(0,0,0,.35);}
+.gg-sub{font-size:clamp(14px,4vw,18px); color:var(--gg-muted); font-weight:700; max-width:520px;}
+#gg-stars{font-size:clamp(30px,9vw,54px); letter-spacing:6px;}
+.gg-row{display:flex; gap:12px; flex-wrap:wrap; justify-content:center;}
+.gg-toast{
+  position:absolute; top:14%; left:50%; transform:translate(-50%,0); z-index:80;
+  font-weight:900; font-size:clamp(18px,6vw,28px); padding:8px 18px; border-radius:14px;
+  pointer-events:none; opacity:0; transition:all .5s ease;
+}
+.gg-toast.show{opacity:1; transform:translate(-50%,-14px);}
+.gg-toast.good{background:rgba(49,208,170,.92); color:#00281f;}
+.gg-toast.bad{background:rgba(255,107,107,.92); color:#3a0000;}
+.gg-coinburst{position:absolute; z-index:90; font-size:22px; pointer-events:none; animation:gg-fly 1s ease-out forwards;}
+@keyframes gg-fly{
+  0%{transform:translate(0,0) scale(1); opacity:1;}
+  100%{transform:translate(var(--dx,0px),-90px) scale(.5); opacity:0;}
+}
+#gg-badge-pop{
+  position:absolute; z-index:95; inset:0; display:flex; align-items:center; justify-content:center;
+  pointer-events:none;
+}
+.gg-badge-card{
+  background:linear-gradient(160deg,#2c2f66,#171935); border:2px solid var(--gg-accent); border-radius:20px;
+  padding:18px 28px; text-align:center; box-shadow:0 20px 40px rgba(0,0,0,.5); animation:gg-pop .5s ease;
+}
+@keyframes gg-pop{0%{transform:scale(.4) rotate(-8deg); opacity:0;}70%{transform:scale(1.08) rotate(2deg);} 100%{transform:scale(1) rotate(0); opacity:1;}}
+.gg-progress-wrap{width:min(320px,80vw); height:10px; border-radius:8px; background:rgba(255,255,255,.12); overflow:hidden;}
+.gg-progress-bar{height:100%; background:linear-gradient(90deg,#31d0aa,#8ec5ff); width:0%; transition:width .4s ease;}
+@media (max-height:480px){ #gg-instructions{display:none;} }
+
+:root{ --stage-bg: radial-gradient(circle at 50% 0%,#3a1f2a,#0f1226 70%); }
+
+#gg-arena{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px; padding:70px 14px 20px;}
+#gg-prompt{font-size:clamp(20px,6.4vw,32px); font-weight:900; text-align:center; background:rgba(255,255,255,.08); border-radius:18px; padding:12px 22px; max-width:92vw;}
+#gg-choices{display:flex; gap:14px; flex-wrap:wrap; justify-content:center; max-width:96vw;}
+.gg-target{
+  min-width:104px; min-height:104px; border-radius:22px; border:none; cursor:pointer;
+  background:linear-gradient(160deg,#ffc2cf,#ff8fa3); color:#1c1400;
+  font-size:clamp(28px,8vw,42px); font-weight:900; display:flex; align-items:center; justify-content:center;
+  box-shadow:0 8px 0 #b34d5e, 0 14px 22px rgba(0,0,0,.35); padding:10px 16px; word-break:break-word; text-align:center;
+  animation: gg-bob 2.4s ease-in-out infinite;
+}
+.gg-target:nth-child(2){animation-delay:.3s;} .gg-target:nth-child(3){animation-delay:.6s;}
+.gg-target:active{transform:translateY(6px) scale(.96); box-shadow:0 2px 0 #b34d5e;}
+.gg-target.hit{background:linear-gradient(160deg,#6ef2c8,#31d0aa); animation:none;}
+.gg-target.miss{background:linear-gradient(160deg,#ff9d9d,#ff6b6b); animation:gg-shake .4s;}
+@keyframes gg-bob{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+@keyframes gg-shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-8px);}75%{transform:translateX(8px);}}
+
+</style>
+<!-- MOBILE-FIT-2027 -->
+<style id="mobile-fit-2027">
+html, body { touch-action: manipulation; -webkit-tap-highlight-color: transparent; overscroll-behavior: none; }
+button, .target-btn, a, [onclick] { touch-action: manipulation; }
+@media (max-width: 900px), (max-height: 520px) {
+  html { font-size: clamp(11px, 3.4vmin, 16px) !important; }
+}
+</style>
+<!-- /MOBILE-FIT-2027-head -->
+
+    <!-- MOBILE-FIT-2027-style -->
+    <style id="manus-mobile-fit">
+    html, body { touch-action: manipulation; -webkit-tap-highlight-color: transparent; overscroll-behavior: none; margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
+    canvas { max-width: 100%; max-height: 100%; object-fit: contain; }
+    button, .target-btn, .gg-target, .gg-btn, a, [onclick] { touch-action: manipulation; }
+    @media (max-width: 900px), (max-height: 520px) {
+      html { font-size: clamp(10px, 3vmin, 16px) !important; }
+      .gg-target, .target-btn { min-width: clamp(60px, 15vmin, 120px) !important; min-height: clamp(60px, 15vmin, 120px) !important; font-size: 1rem !important; }
+      #gg-prompt, #q-text { font-size: clamp(1.1rem, 4vw, 1.5rem) !important; padding: 10px !important; }
+      #gg-hud, #hud { font-size: 0.9rem !important; padding: 5px 10px !important; }
+      .gg-btn { padding: 10px 20px !important; font-size: 1.1rem !important; }
+    }
+    </style>
+    <!-- /MOBILE-FIT-2027-style -->
+    
+</head>
+<body>
+<div id="gg-root">
+  <div id="gg-hud">
+    <div style="display:flex;gap:8px;align-items:center;">
+      <button id="gg-back">‹</button>
+      <div class="gg-pill coins">🪙 <span id="gg-coins-val">0</span></div>
+      <div class="gg-pill level">🎖️ Lv<span id="gg-level-val">1</span></div>
+    </div>
+    <button id="gg-mute">🔊</button>
+  </div>
+  <div id="gg-instructions">اقرأ السؤال واختر الإجابة الصحيحة</div>
+  <div id="gg-stage">
+    
+<div style="display:flex;align-items:center;gap:10px;position:absolute;top:calc(env(safe-area-inset-top,0px) + 54px);left:0;right:0;z-index:35;padding:0 14px;justify-content:space-between;">
+  <div class="gg-progress-wrap"><div class="gg-progress-bar" id="gg-progress-bar"></div></div>
+  <div id="gg-lives" style="font-size:16px;white-space:nowrap;">❤️❤️❤️</div>
+</div>
+
+<div id="gg-start" class="gg-screen">
+  <div style="font-size:54px;">👽</div>
+  <div class="gg-title">Hot Air Balloon</div>
+  <div class="gg-sub">العب وتعلّم مع المكافآت!</div>
+  <button class="gg-btn" id="gg-start-btn">ابدأ الإصابة ▶</button>
+</div>
+
+<div id="gg-arena">
+  <div id="gg-prompt"></div>
+  <div id="gg-choices"></div>
+</div>
+
+    <div id="gg-badge-pop" class="gg-hidden"></div>
+  </div>
+</div>
+
+<div id="gg-result" class="gg-screen gg-hidden">
+  <div class="gg-title" id="gg-result-title">أحسنت! 🎉</div>
+  <div id="gg-stars">☆☆☆</div>
+  <div class="gg-sub" id="gg-result-sub">0 / 0</div>
+  <div class="gg-pill coins" id="gg-coins-earned" style="font-size:20px;">+0 🪙</div>
+  <div class="gg-row">
+    <button class="gg-btn" id="gg-replay">العب مرة أخرى 🔁</button>
+  </div>
+</div>
+
+<script>
+
+// ============================================================
+//  GG27 — نظام المكافآت الموحّد (نقاط/نجوم/عملات/شارات/مستويات)
+// ============================================================
+const GG27 = (function(){
+  const KEY = 'gg27_profile_v1';
+  function _load(){
+    try { return JSON.parse(localStorage.getItem(KEY)) || _fresh(); }
+    catch(e){ return _fresh(); }
+  }
+  function _fresh(){
+    return { coins:0, xp:0, level:1, badges:{}, streak:0, lastDate:'', lessons:{} };
+  }
+  function _save(p){ try{ localStorage.setItem(KEY, JSON.stringify(p)); }catch(e){} }
+  function _levelFor(xp){ return Math.max(1, Math.floor(xp/150)+1); }
+
+  function today(){ return new Date().toISOString().slice(0,10); }
+
+  function bumpStreak(p){
+    const t = today();
+    if(p.lastDate === t) return;
+    const y = new Date(Date.now()-86400000).toISOString().slice(0,10);
+    p.streak = (p.lastDate === y) ? (p.streak||0)+1 : 1;
+    p.lastDate = t;
+  }
+
+  function recordResult(lessonKey, res){
+    // res = { stars, score, total, coins }
+    const p = _load();
+    bumpStreak(p);
+    const prev = p.lessons[lessonKey] || { stars:0, best:0, plays:0, coins:0 };
+    prev.stars = Math.max(prev.stars, res.stars||0);
+    prev.best  = Math.max(prev.best, res.score||0);
+    prev.plays = (prev.plays||0)+1;
+    prev.coins = (prev.coins||0) + (res.coins||0);
+    p.lessons[lessonKey] = prev;
+    p.coins = (p.coins||0) + (res.coins||0);
+    p.xp = (p.xp||0) + (res.coins||0) + (res.stars||0)*10;
+    const newLevel = _levelFor(p.xp);
+    const leveledUp = newLevel > p.level;
+    p.level = newLevel;
+    const newBadges = [];
+    if(res.stars>=3 && !p.badges['perfect_'+lessonKey]){ p.badges['perfect_'+lessonKey]=true; newBadges.push('نجمة كاملة ⭐'); }
+    if(prev.plays===1 && !p.badges['first_'+lessonKey]){ p.badges['first_'+lessonKey]=true; }
+    if(p.streak===3 && !p.badges['streak3']){ p.badges['streak3']=true; newBadges.push('3 أيام متتالية 🔥'); }
+    if(p.streak===7 && !p.badges['streak7']){ p.badges['streak7']=true; newBadges.push('أسبوع كامل 🔥🔥'); }
+    if(Object.keys(p.lessons).length===5 && !p.badges['five']){ p.badges['five']=true; newBadges.push('٥ ألعاب مكتملة 🏅'); }
+    _save(p);
+    return { profile:p, leveledUp, newBadges };
+  }
+  function profile(){ return _load(); }
+  function coins(){ return _load().coins||0; }
+  function level(){ return _load().level||1; }
+  function isMuted(){ return true; }
+  function setMuted(v){ try{ localStorage.setItem('gg27_muted', v?'1':'0'); }catch(e){} }
+  return { recordResult, profile, coins, level, isMuted, setMuted };
+})();
+
+// ============================================================
+//  محرك صوت بسيط (Web Audio) — بدون أي ملفات خارجية
+// ============================================================
+const GGSound = (function(){
+  let ctx=null;
+  function c(){ if(!ctx) ctx = ({ state: "suspended", resume: () => {}, createOscillator: () => ({ connect: () => {}, start: () => {}, stop: () => {}, frequency: { setValueAtTime: () => {} } }), createGain: () => ({ connect: () => {}, gain: { setValueAtTime: () => {}, exponentialRampToValueAtTime: () => {} } }), destination: {} }) if(ctx.state==='suspended') ctx.resume(); return ctx; }
+  function beep(freq,type,dur,vol,t0){
+    if(GG27.isMuted()) return;
+    try{
+      const ac=c(); const o=ac.createOscillator(); const g=ac.createGain();
+      o.connect(g); g.connect(ac.destination); o.type=type||'sine';
+      o.frequency.setValueAtTime(freq, ac.currentTime+(t0||0));
+      g.gain.setValueAtTime(vol||.25, ac.currentTime+(t0||0));
+      g.gain.exponentialRampToValueAtTime(.001, ac.currentTime+(t0||0)+dur);
+      o.start(ac.currentTime+(t0||0)); o.stop(ac.currentTime+(t0||0)+dur+.02);
+    }catch(e){}
+  }
+  return {
+    correct(){ beep(523,'sine',.12,.3); beep(659,'sine',.12,.3,.09); beep(880,'sine',.18,.3,.18); },
+    wrong(){ beep(220,'sawtooth',.18,.25); beep(160,'sawtooth',.22,.2,.12); },
+    coin(){ beep(988,'square',.08,.18); beep(1318,'square',.1,.18,.06); },
+    tap(){ beep(700,'square',.05,.12); },
+    win(){ [523,659,784,1047].forEach((f,i)=>beep(f,'sine',.16,.3,i*.11)); },
+    lose(){ beep(311,'sawtooth',.3,.3); beep(196,'sawtooth',.5,.3,.22); },
+    badge(){ beep(784,'triangle',.15,.3); beep(1047,'triangle',.2,.3,.12); }
+  };
+})();
+
+function ggSpeak(text, lang){
+  try{
+    if(!window.speechSynthesis) return;
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = lang || 'en-US'; u.rate = .92; u.pitch = 1.05;
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(u);
+  }catch(e){}
+}
+function ggShuffle(arr){
+  const a=arr.slice();
+  for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+  return a;
+}
+function ggVibrate(ms){ try{ if(navigator.vibrate) navigator.vibrate(ms); }catch(e){} }
+
+function ggCoinBurst(x,y,n){
+  const root = document.getElementById('gg-stage');
+  if(!root) return;
+  for(let i=0;i<(n||3);i++){
+    const s = document.createElement('div');
+    s.className='gg-coinburst'; s.textContent='🪙';
+    s.style.left=(x)+'px'; s.style.top=(y)+'px';
+    s.style.setProperty('--dx', ((Math.random()*80)-40)+'px');
+    root.appendChild(s);
+    setTimeout(()=>s.remove(), 1000);
+  }
+}
+
+function ggToast(msg, kind){
+  const stage = document.getElementById('gg-stage');
+  if(!stage) return;
+  const t = document.createElement('div');
+  t.className = 'gg-toast ' + (kind||'good');
+  t.textContent = msg;
+  stage.appendChild(t);
+  requestAnimationFrame(()=>t.classList.add('show'));
+  setTimeout(()=>{ t.classList.remove('show'); setTimeout(()=>t.remove(),400); }, 900);
+}
+
+function ggInitHud(opts){
+  document.getElementById('gg-coins-val').textContent = GG27.coins();
+  document.getElementById('gg-level-val').textContent = GG27.level();
+  const muteBtn = document.getElementById('gg-mute');
+  function refreshMute(){ muteBtn.textContent = GG27.isMuted() ? '🔇' : '🔊'; }
+  refreshMute();
+  muteBtn.onclick = () => { GG27.setMuted(!GG27.isMuted()); refreshMute(); GGSound.tap(); };
+  document.getElementById('gg-back').onclick = () => {
+    if (opts && opts.homeHref) { location.href = opts.homeHref; }
+    else if (document.referrer) { history.back(); }
+    else { history.back(); }
+  };
+}
+
+function ggShowResult(opts){
+  // opts = { correct, total, coinsEarned, lessonKey, titleWin, titleLose, onReplay }
+  const total = Math.max(1, opts.total);
+  const ratio = opts.correct / total;
+  const stars = ratio >= .95 ? 3 : ratio >= .7 ? 2 : ratio > 0 ? 1 : 0;
+  const rec = GG27.recordResult(opts.lessonKey, { stars, score:opts.correct, total, coins:opts.coinsEarned });
+  const scr = document.getElementById('gg-result');
+  scr.classList.remove('gg-hidden');
+  document.getElementById('gg-result-title').textContent = stars>=2 ? (opts.titleWin||'أحسنت! 🎉') : (opts.titleLose||'حاول مرة أخرى 💪');
+  document.getElementById('gg-result-sub').textContent = `${opts.correct} / ${total} إجابة صحيحة`;
+  document.getElementById('gg-stars').textContent = '⭐'.repeat(stars) + '☆'.repeat(3-stars);
+  document.getElementById('gg-coins-earned').textContent = '+' + opts.coinsEarned + ' 🪙';
+  document.getElementById('gg-coins-val').textContent = rec.profile.coins;
+  document.getElementById('gg-level-val').textContent = rec.profile.level;
+  if(!GG27.isMuted()){ (stars>=2 ? GGSound.win : GGSound.lose)(); }
+  if(rec.newBadges && rec.newBadges.length){
+    setTimeout(()=>{
+      const pop = document.getElementById('gg-badge-pop');
+      pop.innerHTML = `<div class="gg-badge-card"><div style="font-size:15px;color:var(--gg-muted);font-weight:800;">شارة جديدة</div><div style="font-size:22px;font-weight:900;margin-top:6px;">${rec.newBadges[0]}</div></div>`;
+      pop.classList.remove('gg-hidden'); GGSound.badge(); ggVibrate(40);
+      setTimeout(()=>pop.classList.add('gg-hidden'), 1800);
+    }, 500);
+  }
+  document.getElementById('gg-replay').onclick = () => { scr.classList.add('gg-hidden'); if(opts.onReplay) opts.onReplay(); };
+}
+
+ggInitHud({});
+const LESSON_KEY = "prep1-unit5-Lesson 3 - Hot Air Balloon.html";
+const SPEAK_LANG = "en-US";
+</script>
+<script>
+
+// ---------- منطق مشترك بين كل المحركات ----------
+function ggBuildRounds(raw, maxRounds){
+  const rs = ggShuffle(raw).slice(0, maxRounds || 8);
+  return rs.map(r => {
+    const correctText = r.choices[r.correct];
+    const order = ggShuffle(r.choices.map((c,i)=>i));
+    return { prompt:r.prompt, choices: order.map(i=>r.choices[i]), correct: order.indexOf(r.correct), speak_word:r.speak_word };
+  });
+}
+let GG_STATE = { i:0, rounds:[], correct:0, lives:3, coins:0, perfect:true, meta:null };
+
+function ggStartSession(meta){
+  GG_STATE = { i:0, rounds: ggBuildRounds(meta.rawRounds, meta.maxRounds||8), correct:0, lives:3, coins:0, perfect:true, meta };
+  document.getElementById('gg-progress-bar').style.width='0%';
+  ggRenderRound();
+}
+function ggProgressUpdate(){
+  const p = Math.round((GG_STATE.i)/GG_STATE.rounds.length*100);
+  const bar = document.getElementById('gg-progress-bar'); if(bar) bar.style.width = p+'%';
+}
+function ggEndSession(){
+  const coinsEarned = GG_STATE.coins + (GG_STATE.perfect ? 15 : 0);
+  ggShowResult({
+    correct: GG_STATE.correct, total: GG_STATE.rounds.length, coinsEarned,
+    lessonKey: LESSON_KEY,
+    onReplay: () => ggStartSession(GG_STATE.meta)
+  });
+}
+function ggRegisterAnswer(isCorrect, elCoinOriginEvent){
+  if(isCorrect){
+    GG_STATE.correct++; GG_STATE.coins += 10; GGSound.correct(); ggVibrate(15);
+    ggToast('صح! 🎉','good');
+    try{
+      const ev = elCoinOriginEvent;
+      const x = (ev && ev.touches && ev.touches[0]) ? ev.touches[0].clientX : (ev? ev.clientX : window.innerWidth/2);
+      const y = (ev && ev.touches && ev.touches[0]) ? ev.touches[0].clientY : (ev? ev.clientY : window.innerHeight/2);
+      ggCoinBurst(x,y,3);
+    }catch(e){}
+  } else {
+    GG_STATE.perfect = false; GG_STATE.lives--; GGSound.wrong(); ggVibrate([20,30,20]);
+    ggToast('حاول تاني','bad');
+  }
+  const lv = document.getElementById('gg-lives'); if(lv) lv.textContent = '❤️'.repeat(Math.max(0,GG_STATE.lives)) + '🖤'.repeat(3-Math.max(0,GG_STATE.lives));
+  GG_STATE.i++;
+  ggProgressUpdate();
+  setTimeout(()=>{
+    if(GG_STATE.lives<=0 || GG_STATE.i >= GG_STATE.rounds.length){ ggEndSession(); }
+    else { ggRenderRound(); }
+  }, isCorrect ? 750 : 900);
+}
+
+const META = {"speak": true, "maxRounds": 10, "rawRounds": [{"prompt": "What is she going to _____?", "choices": ["wear", "wearing", "wears"], "correct": 0}, {"prompt": "They are going to _____ their homework later.", "choices": ["does", "doing", "do"], "correct": 2}, {"prompt": "Is Ali going to _____ us?", "choices": ["visit", "visiting", "visits"], "correct": 0}, {"prompt": "We are going to _____ a new language.", "choices": ["learning", "learns", "learn"], "correct": 2}, {"prompt": "I am going to _____ my friend tomorrow.", "choices": ["meets", "meet", "meeting"], "correct": 1}, {"prompt": "My parents _____ going to buy a new car.", "choices": ["are", "do", "is"], "correct": 0}, {"prompt": "She is going to _____ a cake for the party.", "choices": ["baking", "bake", "bakes"], "correct": 1}, {"prompt": "It is very cold. It is going to _____.", "choices": ["snowing", "snows", "snow"], "correct": 2}, {"prompt": "Are we going to _____ the match?", "choices": ["win", "winning", "wins"], "correct": 0}, {"prompt": "I _____ going to be a vet when I grow up.", "choices": ["are", "is", "am"], "correct": 2}, {"prompt": "When the machine didn't work perfectly, some members of the team felt _____.", "choices": ["proud", "happy", "discouraged"], "correct": 2}, {"prompt": "Karim made a mistake, but no one _____ him. Instead, they helped him.", "choices": ["solved", "passed", "blamed"], "correct": 2}, {"prompt": "Instead of blaming Karim, they helped him to _____ it.", "choices": ["fix", "pass", "hit"], "correct": 0}, {"prompt": "_____ people don't feel comfort in dealing with strangers.", "choices": ["Shy", "Cunning", "Brave"], "correct": 0}, {"prompt": "Respect, teamwork, courage and _____ are the values we learned from the story.", "choices": ["doublework", "determination", "individual work"], "correct": 1}, {"prompt": "The children were proud _____ what they built-not just the machine, but the friendship.", "choices": ["in", "of", "at"], "correct": 1}, {"prompt": "The team worked late, _____ each other.", "choices": ["supporting", "blaming", "ignoring"], "correct": 0}, {"prompt": "They _____ every idea from the team members.", "choices": ["blamed", "respected", "ignored"], "correct": 1}, {"prompt": "They organized the work when _____ tasks.", "choices": ["breaking", "dividing", "hiding"], "correct": 1}, {"prompt": "Why shouldn't we _____ other members of the team who make mistakes?", "choices": ["help", "support", "blame"], "correct": 2}, {"prompt": "It is important to have a clear _____ when doing a project.", "choices": ["blame", "mistake", "purpose"], "correct": 2}, {"prompt": "The children were proud of the _____ they shared.", "choices": ["sadness", "machines", "friendship"], "correct": 2}, {"prompt": "Lily felt left out because her ideas were _____.", "choices": ["respected", "ignored", "supported"], "correct": 1}, {"prompt": "Sara reminded them, 'We can't _____ up now.'", "choices": ["take", "feel", "give"], "correct": 2}, {"prompt": "Everyone's ideas _____. We are a team.", "choices": ["matter", "drop", "fail"], "correct": 0}]};
+function ggRenderRound(){
+  const r = GG_STATE.rounds[GG_STATE.i];
+  document.getElementById('gg-prompt').textContent = r.prompt;
+  if(META.speak) ggSpeak(r.speak_word || r.prompt, SPEAK_LANG);
+  const wrap = document.getElementById('gg-choices'); wrap.innerHTML='';
+  r.choices.forEach((c,idx)=>{
+    const b = document.createElement('button');
+    b.className='gg-target'; b.textContent=c;
+    b.onclick = (ev)=>{
+      if(b.disabled) return;
+      Array.from(wrap.children).forEach(x=>x.disabled=true);
+      const ok = idx===r.correct;
+      b.classList.add(ok?'hit':'miss');
+      if(!ok){ wrap.children[r.correct].classList.add('hit'); }
+      ggRegisterAnswer(ok, ev);
+    };
+    wrap.appendChild(b);
+  });
+}
+
+document.getElementById('gg-start-btn').onclick = function(){
+  document.getElementById('gg-start').classList.add('gg-hidden');
+  
+  ggStartSession(META);
+  GGSound.tap();
+};
+
+</script>
+<!-- MOBILE-FIT-2027-body -->
+<script id="mobile-fit-2027-js">
+(function(){
+  try {
+    function fireResize(){ try { window.dispatchEvent(new Event('resize')); } catch(e){} }
+    window.addEventListener('orientationchange', function(){ setTimeout(fireResize,150); setTimeout(fireResize,450); setTimeout(fireResize,900); });
+    if (window.visualViewport) { window.visualViewport.addEventListener('resize', fireResize); }
+    document.addEventListener('gesturestart', function(e){ e.preventDefault(); });
+    var lastTouchEnd = 0;
+    document.addEventListener('touchend', function(e){
+      var now = Date.now();
+      if (now - lastTouchEnd <= 300) { e.preventDefault(); }
+      lastTouchEnd = now;
+    }, {passive:false});
+  } catch(err) {}
+})();
+</script>
+<!-- /MOBILE-FIT-2027-body -->
+</body>
+</html>
