@@ -1,454 +1,483 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>Bubble Pop</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Cairo:wght@700;800&display=swap" rel="stylesheet">
-<style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Bubble Pop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4a90e2;
+            --secondary: #f39c12;
+            --success: #2ecc71;
+            --danger: #e74c3c;
+            --bg: #1a1a2e;
+            --text: #ffffff;
+        }
 
-:root{
-  --gg-bg:#0f1226; --gg-panel:#171b3a; --gg-accent:#ffd166; --gg-good:#31d0aa;
-  --gg-bad:#ff6b6b; --gg-text:#f4f6ff; --gg-muted:#9aa0c3;
-}
-*,*::before,*::after{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-html,body{margin:0;padding:0;height:100%;overscroll-behavior:none;}
-body{
-  font-family:'Baloo 2','Cairo','Nunito',system-ui,sans-serif;
-  background:var(--stage-bg, radial-gradient(circle at 50% 0%,#232a5c,#0f1226 70%));
-  color:var(--gg-text); overflow:hidden; touch-action:none; user-select:none;
-  height:100dvh; width:100vw; position:fixed; inset:0;
-}
-#gg-root{position:absolute; inset:0; display:flex; flex-direction:column;}
-#gg-hud{
-  position:relative; z-index:40; display:flex; align-items:center; justify-content:space-between;
-  padding:calc(env(safe-area-inset-top,0px) + 8px) 10px 8px; gap:8px; flex-wrap:wrap;
-  background:linear-gradient(180deg,rgba(0,0,0,.55),transparent);
-}
-.gg-pill{
-  display:flex; align-items:center; gap:6px; background:rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.16); border-radius:999px; padding:6px 12px;
-  font-weight:800; font-size:clamp(12px,3.4vw,15px); backdrop-filter:blur(6px);
-}
-.gg-pill.coins{color:var(--gg-accent);}
-.gg-pill.level{color:#8ec5ff;}
-#gg-back,#gg-mute{
-  border:none; background:rgba(255,255,255,.1); color:var(--gg-text); border-radius:12px;
-  width:38px; height:38px; font-size:18px; display:flex; align-items:center; justify-content:center;
-  cursor:pointer;
-}
-#gg-back:active,#gg-mute:active{transform:scale(.9);}
-#gg-stage{position:relative; flex:1; min-height:0; overflow:hidden;}
-#gg-instructions{
-  font-size:clamp(13px,3.6vw,17px); text-align:center; padding:0 16px 10px; color:var(--gg-muted); font-weight:700;
-}
-.gg-btn{
-  font-family:inherit; font-weight:900; border:none; border-radius:16px; cursor:pointer;
-  color:#221a00; background:linear-gradient(180deg,#ffe08a,var(--gg-accent));
-  box-shadow:0 6px 0 #b8871f, 0 10px 18px rgba(0,0,0,.35);
-  padding:14px 30px; font-size:clamp(16px,4.6vw,22px); touch-action:manipulation;
-}
-.gg-btn:active{transform:translateY(5px); box-shadow:0 1px 0 #b8871f;}
-.gg-btn.secondary{
-  background:linear-gradient(180deg,#7c8cff,#5661d8); color:#fff; box-shadow:0 6px 0 #3b428f, 0 10px 18px rgba(0,0,0,.35);
-}
-.gg-screen{
-  position:absolute; inset:0; z-index:60; display:flex; flex-direction:column; align-items:center;
-  justify-content:center; gap:16px; text-align:center; padding:24px;
-  background:radial-gradient(circle at 50% 20%,rgba(30,36,80,.97),rgba(6,8,20,.98));
-}
-.gg-hidden{display:none !important;}
-.gg-title{font-size:clamp(24px,7vw,40px); font-weight:900; text-shadow:0 4px 0 rgba(0,0,0,.35);}
-.gg-sub{font-size:clamp(14px,4vw,18px); color:var(--gg-muted); font-weight:700; max-width:520px;}
-#gg-stars{font-size:clamp(30px,9vw,54px); letter-spacing:6px;}
-.gg-row{display:flex; gap:12px; flex-wrap:wrap; justify-content:center;}
-.gg-toast{
-  position:absolute; top:14%; left:50%; transform:translate(-50%,0); z-index:80;
-  font-weight:900; font-size:clamp(18px,6vw,28px); padding:8px 18px; border-radius:14px;
-  pointer-events:none; opacity:0; transition:all .5s ease;
-}
-.gg-toast.show{opacity:1; transform:translate(-50%,-14px);}
-.gg-toast.good{background:rgba(49,208,170,.92); color:#00281f;}
-.gg-toast.bad{background:rgba(255,107,107,.92); color:#3a0000;}
-.gg-coinburst{position:absolute; z-index:90; font-size:22px; pointer-events:none; animation:gg-fly 1s ease-out forwards;}
-@keyframes gg-fly{
-  0%{transform:translate(0,0) scale(1); opacity:1;}
-  100%{transform:translate(var(--dx,0px),-90px) scale(.5); opacity:0;}
-}
-#gg-badge-pop{
-  position:absolute; z-index:95; inset:0; display:flex; align-items:center; justify-content:center;
-  pointer-events:none;
-}
-.gg-badge-card{
-  background:linear-gradient(160deg,#2c2f66,#171935); border:2px solid var(--gg-accent); border-radius:20px;
-  padding:18px 28px; text-align:center; box-shadow:0 20px 40px rgba(0,0,0,.5); animation:gg-pop .5s ease;
-}
-@keyframes gg-pop{0%{transform:scale(.4) rotate(-8deg); opacity:0;}70%{transform:scale(1.08) rotate(2deg);} 100%{transform:scale(1) rotate(0); opacity:1;}}
-.gg-progress-wrap{width:min(320px,80vw); height:10px; border-radius:8px; background:rgba(255,255,255,.12); overflow:hidden;}
-.gg-progress-bar{height:100%; background:linear-gradient(90deg,#31d0aa,#8ec5ff); width:0%; transition:width .4s ease;}
-@media (max-height:480px){ #gg-instructions{display:none;} }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+        }
 
-:root{ --stage-bg: radial-gradient(circle at 50% 0%,#122b3a,#0f1226 70%); }
+        #hud {
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0,0,0,0.3);
+            z-index: 100;
+        }
 
-#gg-arena{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px; padding:70px 14px 20px;}
-#gg-prompt{font-size:clamp(20px,6.4vw,32px); font-weight:900; text-align:center; background:rgba(255,255,255,.08); border-radius:18px; padding:12px 22px; max-width:92vw;}
-#gg-choices{display:flex; gap:14px; flex-wrap:wrap; justify-content:center; max-width:96vw;}
-.gg-target{
-  min-width:104px; min-height:104px; border-radius:22px; border:none; cursor:pointer;
-  background:linear-gradient(160deg,#b4e2ff,#7cc9ff); color:#1c1400;
-  font-size:clamp(28px,8vw,42px); font-weight:900; display:flex; align-items:center; justify-content:center;
-  box-shadow:0 8px 0 #2f7fbf, 0 14px 22px rgba(0,0,0,.35); padding:10px 16px; word-break:break-word; text-align:center;
-  animation: gg-bob 2.4s ease-in-out infinite;
-}
-.gg-target:nth-child(2){animation-delay:.3s;} .gg-target:nth-child(3){animation-delay:.6s;}
-.gg-target:active{transform:translateY(6px) scale(.96); box-shadow:0 2px 0 #2f7fbf;}
-.gg-target.hit{background:linear-gradient(160deg,#6ef2c8,#31d0aa); animation:none;}
-.gg-target.miss{background:linear-gradient(160deg,#ff9d9d,#ff6b6b); animation:gg-shake .4s;}
-@keyframes gg-bob{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
-@keyframes gg-shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-8px);}75%{transform:translateX(8px);}}
+        .hud-item {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.2rem;
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.5);
+        }
 
-</style>
-<!-- MOBILE-FIT-2027 -->
-<style id="mobile-fit-2027">
-html, body { touch-action: manipulation; -webkit-tap-highlight-color: transparent; overscroll-behavior: none; }
-button, .target-btn, a, [onclick] { touch-action: manipulation; }
-@media (max-width: 900px), (max-height: 520px) {
-  html { font-size: clamp(11px, 3.4vmin, 16px) !important; }
-}
-</style>
-<!-- /MOBILE-FIT-2027-head -->
+        #score-val { color: var(--secondary); }
 
-    <!-- MOBILE-FIT-2027-style -->
-    <style id="manus-mobile-fit">
-    html, body { touch-action: manipulation; -webkit-tap-highlight-color: transparent; overscroll-behavior: none; margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
-    canvas { max-width: 100%; max-height: 100%; object-fit: contain; }
-    button, .target-btn, .gg-target, .gg-btn, a, [onclick] { touch-action: manipulation; }
-    @media (max-width: 900px), (max-height: 520px) {
-      html { font-size: clamp(10px, 3vmin, 16px) !important; }
-      .gg-target, .target-btn { min-width: clamp(60px, 15vmin, 120px) !important; min-height: clamp(60px, 15vmin, 120px) !important; font-size: 1rem !important; }
-      #gg-prompt, #q-text { font-size: clamp(1.1rem, 4vw, 1.5rem) !important; padding: 10px !important; }
-      #gg-hud, #hud { font-size: 0.9rem !important; padding: 5px 10px !important; }
-      .gg-btn { padding: 10px 20px !important; font-size: 1.1rem !important; }
-    }
+        #game-container {
+            flex: 1;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        #question-box {
+            background: rgba(255,255,255,0.1);
+            padding: 20px 40px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            max-width: 90%;
+            border: 2px solid rgba(255,255,255,0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        #q-text {
+            font-size: 1.8rem;
+            font-weight: 900;
+            line-height: 1.4;
+        }
+
+        #q-image {
+            max-width: 200px;
+            max-height: 200px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+        }
+
+        #choices-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .choice-btn {
+            background: var(--primary);
+            border: none;
+            padding: 20px;
+            border-radius: 15px;
+            color: white;
+            font-size: 1.4rem;
+            font-weight: 900;
+            cursor: pointer;
+            transition: transform 0.1s, background 0.2s;
+            box-shadow: 0 6px 0 #2980b9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .choice-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #2980b9;
+        }
+
+        .choice-btn.correct { background: var(--success); box-shadow: 0 6px 0 #27ae60; }
+        .choice-btn.wrong { background: var(--danger); box-shadow: 0 6px 0 #c0392b; }
+
+        /* Scramble Mode */
+        #scramble-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .slots-row, .letters-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .letter-tile {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #2980b9;
+        }
+
+        .slot-tile {
+            width: 50px;
+            height: 50px;
+            border-bottom: 4px solid white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--secondary);
+        }
+
+        #overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        #overlay.show { display: flex; }
+
+        #overlay h1 { font-size: 3rem; margin-bottom: 20px; font-family: 'Fredoka One'; }
+        #overlay p { font-size: 1.5rem; margin-bottom: 30px; }
+
+        .btn-restart {
+            padding: 15px 40px;
+            background: var(--secondary);
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        @media (max-width: 600px) {
+            #q-text { font-size: 1.4rem; }
+            .choice-btn { font-size: 1.1rem; padding: 15px; }
+            #choices-grid { grid-template-columns: 1fr 1fr; }
+        }
     </style>
-    <!-- /MOBILE-FIT-2027-style -->
-    
 </head>
 <body>
-<div id="gg-root">
-  <div id="gg-hud">
-    <div style="display:flex;gap:8px;align-items:center;">
-      <button id="gg-back">‹</button>
-      <div class="gg-pill coins">🪙 <span id="gg-coins-val">0</span></div>
-      <div class="gg-pill level">🎖️ Lv<span id="gg-level-val">1</span></div>
+    <div id="hud">
+        <div class="hud-item" id="q-num">Q 1/1</div>
+        <div class="hud-item">Score: <span id="score-val">0</span></div>
     </div>
-    <button id="gg-mute">🔊</button>
-  </div>
-  <div id="gg-instructions">اقرأ السؤال واختر الإجابة الصحيحة</div>
-  <div id="gg-stage">
-    
-<div style="display:flex;align-items:center;gap:10px;position:absolute;top:calc(env(safe-area-inset-top,0px) + 54px);left:0;right:0;z-index:35;padding:0 14px;justify-content:space-between;">
-  <div class="gg-progress-wrap"><div class="gg-progress-bar" id="gg-progress-bar"></div></div>
-  <div id="gg-lives" style="font-size:16px;white-space:nowrap;">❤️❤️❤️</div>
-</div>
 
-<div id="gg-start" class="gg-screen">
-  <div style="font-size:54px;">🫧</div>
-  <div class="gg-title">Bubble Pop</div>
-  <div class="gg-sub">العب وتعلّم مع المكافآت!</div>
-  <button class="gg-btn" id="gg-start-btn">ابدأ الإصابة ▶</button>
-</div>
+    <div id="game-container">
+        <div id="question-box">
+            <img id="q-image" style="display:none">
+            <div id="q-text">Loading...</div>
+        </div>
 
-<div id="gg-arena">
-  <div id="gg-prompt"></div>
-  <div id="gg-choices"></div>
-</div>
+        <div id="choices-grid"></div>
+        
+        <div id="scramble-container" style="display:none">
+            <div class="slots-row" id="slots"></div>
+            <div class="letters-row" id="letters"></div>
+        </div>
+        <div id="farm-grid" style="display: none; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 20px;"></div>
+    </div>
 
-    <div id="gg-badge-pop" class="gg-hidden"></div>
-  </div>
-</div>
+    <div id="overlay">
+        <h1>Well Done!</h1>
+        <p id="final-score">Final Score: 0</p>
+        <button class="btn-restart" onclick="location.reload()">Play Again</button>
+    </div>
 
-<div id="gg-result" class="gg-screen gg-hidden">
-  <div class="gg-title" id="gg-result-title">أحسنت! 🎉</div>
-  <div id="gg-stars">☆☆☆</div>
-  <div class="gg-sub" id="gg-result-sub">0 / 0</div>
-  <div class="gg-pill coins" id="gg-coins-earned" style="font-size:20px;">+0 🪙</div>
-  <div class="gg-row">
-    <button class="gg-btn" id="gg-replay">العب مرة أخرى 🔁</button>
-  </div>
-</div>
+    <script>
+        // Data injected by rebuilder
+        const RAW_DATA = {"speak": true, "maxRounds": 10, "rawRounds": [{"prompt": "The _____ is a very long river in Egypt.", "choices": ["bazaar", "museum", "Nile"], "correct": 2}, {"prompt": "I want to _____ the Egyptian Museum.", "choices": ["visit", "ride", "walk"], "correct": 0}, {"prompt": "People buy gifts from the _____.", "choices": ["bazaar", "history", "camels"], "correct": 0}, {"prompt": "A/An _____ is a place with water and trees in the desert.", "choices": ["bazaar", "tower", "oasis"], "correct": 2}, {"prompt": "You can look down from the Cairo _____.", "choices": ["Museum", "Tower", "Giza"], "correct": 1}, {"prompt": "Ali is a tour _____ in Egypt.", "choices": ["teacher", "driver", "guide"], "correct": 2}, {"prompt": "He takes tourists to see the _____.", "choices": ["bazaar", "oasis", "Pyramids"], "correct": 2}, {"prompt": "They stop to take _____ with their cameras.", "choices": ["pictures", "books", "food"], "correct": 0}, {"prompt": "Many visitors want to _____ a camel.", "choices": ["fly", "ride", "drive"], "correct": 1}, {"prompt": "They ride a camel near the _____.", "choices": ["Lake", "Pyramids", "River"], "correct": 1}, {"prompt": "The Nile is the _____ river in Egypt.", "choices": ["longest", "smallest", "shortest"], "correct": 0}, {"prompt": "We can see Cairo from the _____ of the tower.", "choices": ["under", "top", "bottom"], "correct": 1}, {"prompt": "Let's buy a _____ for my sister.", "choices": ["history", "gift", "museum"], "correct": 1}, {"prompt": "I went to the bazaar to buy _____.", "choices": ["rivers", "gifts", "towers"], "correct": 1}, {"prompt": "Tourists use _____ to take pictures.", "choices": ["books", "cameras", "pens"], "correct": 1}, {"prompt": "A tour guide helps the _____.", "choices": ["tourists", "doctors", "farmers"], "correct": 0}, {"prompt": "An oasis has water and _____ in the desert.", "choices": ["buildings", "cars", "trees"], "correct": 2}, {"prompt": "The Egyptian _____ has old treasures.", "choices": ["Bazaar", "Museum", "River"], "correct": 1}, {"prompt": "The Cairo Tower is very _____.", "choices": ["small", "short", "tall"], "correct": 2}, {"prompt": "We can take a _____ on the Nile.", "choices": ["train", "boat", "car"], "correct": 1}, {"prompt": "The Pyramids are very _____.", "choices": ["quiet", "sad", "famous"], "correct": 2}, {"prompt": "Many _____ visit Egypt every year.", "choices": ["camels", "guides", "tourists"], "correct": 2}, {"prompt": "We saw old statues at the _____.", "choices": ["Bazaar", "Museum", "River"], "correct": 1}, {"prompt": "They enjoy _____ rides near the Pyramids.", "choices": ["car", "camel", "boat"], "correct": 1}, {"prompt": "A bazaar is a busy _____.", "choices": ["market", "tower", "museum"], "correct": 0}, {"prompt": "They sell clothes and _____ at the market.", "choices": ["rivers", "trees", "gifts"], "correct": 2}, {"prompt": "The river Nile provides _____ for Egypt.", "choices": ["sand", "oil", "water"], "correct": 2}, {"prompt": "Tourists like to visit _____ places.", "choices": ["boring", "famous", "ugly"], "correct": 1}, {"prompt": "Ali takes _____ to many places.", "choices": ["tourists", "books", "gifts"], "correct": 0}, {"prompt": "I want to _____ to the oasis.", "choices": ["swim", "read", "travel"], "correct": 2}, {"prompt": "A camel lives in the _____.", "choices": ["river", "desert", "lake"], "correct": 1}, {"prompt": "We took many _____ with our phone.", "choices": ["books", "photos", "gifts"], "correct": 1}, {"prompt": "The guide tells us _____ about the places.", "choices": ["facts", "food", "clothes"], "correct": 0}, {"prompt": "The museum has a lot of _____.", "choices": ["water", "sand", "history"], "correct": 2}, {"prompt": "My family went on a _____ to Cairo.", "choices": ["trip", "book", "pen"], "correct": 0}, {"prompt": "They walked around the _____.", "choices": ["river", "lake", "bazaar"], "correct": 2}, {"prompt": "It is fun to _____ new places.", "choices": ["lose", "visit", "break"], "correct": 1}, {"prompt": "The weather in the desert is very _____.", "choices": ["cold", "hot", "snowy"], "correct": 1}, {"prompt": "I bought a beautiful _____ at the bazaar.", "choices": ["tree", "ring", "river"], "correct": 1}, {"prompt": "We can relax in the _____.", "choices": ["oasis", "street", "bazaar"], "correct": 0}, {"prompt": "Egypt is my _____.", "choices": ["homeland", "hospital", "school"], "correct": 0}, {"prompt": "The tower is a very tall _____.", "choices": ["building", "river", "lake"], "correct": 0}, {"prompt": "We take a _____ from the train station.", "choices": ["train", "boat", "plane"], "correct": 0}, {"prompt": "We learn about our country's _____.", "choices": ["toys", "history", "food"], "correct": 1}, {"prompt": "They had a _____ time together.", "choices": ["bad", "great", "sad"], "correct": 1}, {"prompt": "We go to the library to _____ books.", "choices": ["buy", "borrow", "sell"], "correct": 1}, {"prompt": "We learn _____ in the museum.", "choices": ["science", "history", "math"], "correct": 1}, {"prompt": "The flower is growing _____ the pot.", "choices": ["under", "in", "next"], "correct": 1}, {"prompt": "The sandwich is _____ to the juice.", "choices": ["on", "in", "next"], "correct": 2}, {"prompt": "She stands in _____ of the board.", "choices": ["back", "front", "next"], "correct": 1}, {"prompt": "The picture is _____ the wall.", "choices": ["in", "on", "under"], "correct": 1}, {"prompt": "My shoes are _____ the bed.", "choices": ["on", "under", "in"], "correct": 1}, {"prompt": "The boy hides _____ the door.", "choices": ["behind", "in front", "on"], "correct": 0}, {"prompt": "I took a photo in _____ of the Cairo Tower.", "choices": ["behind", "front", "under"], "correct": 1}, {"prompt": "The chair is _____ to the two beds.", "choices": ["on", "in", "next"], "correct": 2}, {"prompt": "The number 1,000 is one _____.", "choices": ["thousand", "hundred", "million"], "correct": 0}, {"prompt": "120,000 is read as one hundred and twenty _____.", "choices": ["million", "thousand", "billion"], "correct": 1}, {"prompt": "2,500,000,000 is read as two _____ five hundred million.", "choices": ["million", "thousand", "billion"], "correct": 2}, {"prompt": "560,000 is five hundred and sixty _____.", "choices": ["million", "hundred", "thousand"], "correct": 2}, {"prompt": "In 5,000,000,500, the last 5 is in the _____ place.", "choices": ["millions", "hundreds", "ones"], "correct": 1}, {"prompt": "A word that starts with /p/ is _____.", "choices": ["bear", "pan", "bat"], "correct": 1}, {"prompt": "A word that starts with /b/ is _____.", "choices": ["pan", "bat", "pen"], "correct": 1}, {"prompt": "The opposite of front is _____.", "choices": ["behind", "on", "next"], "correct": 0}, {"prompt": "The cat is sleeping _____ the table.", "choices": ["under", "next", "in"], "correct": 0}, {"prompt": "I put my books _____ my bag.", "choices": ["under", "in", "on"], "correct": 1}, {"prompt": "The library is _____ to the school.", "choices": ["on", "next", "in"], "correct": 1}, {"prompt": "The map is _____ the wall.", "choices": ["under", "in", "on"], "correct": 2}, {"prompt": "She sits _____ her friend.", "choices": ["on", "next to", "in"], "correct": 1}, {"prompt": "One million has _____ zeros.", "choices": ["nine", "three", "six"], "correct": 2}, {"prompt": "One billion has _____ zeros.", "choices": ["nine", "three", "six"], "correct": 0}, {"prompt": "One thousand has _____ zeros.", "choices": ["three", "six", "nine"], "correct": 0}, {"prompt": "100,000 is one _____ thousand.", "choices": ["ten", "million", "hundred"], "correct": 2}, {"prompt": "1,000,000 is one _____.", "choices": ["million", "billion", "thousand"], "correct": 0}, {"prompt": "We read books quietly at the _____.", "choices": ["museum", "library", "bazaar"], "correct": 1}, {"prompt": "The museum is a place to see _____ things.", "choices": ["food", "old", "new"], "correct": 1}, {"prompt": "I have a _____ in my bag.", "choices": ["bear", "pen", "bat"], "correct": 1}, {"prompt": "The _____ is full of trash.", "choices": ["pin", "bin", "pan"], "correct": 1}, {"prompt": "A _____ is a big animal.", "choices": ["pin", "pear", "bear"], "correct": 2}, {"prompt": "A _____ flies at night.", "choices": ["pan", "bat", "pat"], "correct": 1}, {"prompt": "We fry an egg in a _____.", "choices": ["pan", "ban", "bin"], "correct": 0}, {"prompt": "I write on a piece of _____.", "choices": ["bear", "paper", "bin"], "correct": 1}, {"prompt": "The number after 999 is one _____.", "choices": ["thousand", "hundred", "million"], "correct": 0}, {"prompt": "A _____ has tables and chairs for reading.", "choices": ["bazaar", "library", "museum"], "correct": 1}, {"prompt": "Do your homework at your _____.", "choices": ["desk", "bin", "pan"], "correct": 0}, {"prompt": "The board is _____ the teacher.", "choices": ["in", "behind", "on"], "correct": 1}, {"prompt": "Put the picture _____ the wall.", "choices": ["in", "on", "under"], "correct": 1}, {"prompt": "The toys are _____ the box.", "choices": ["next", "in", "on"], "correct": 1}, {"prompt": "My house is _____ to the park.", "choices": ["under", "in", "next"], "correct": 2}, {"prompt": "The boy is hiding _____ the tree.", "choices": ["in", "on", "behind"], "correct": 2}, {"prompt": "3,000,000 is three _____.", "choices": ["billion", "thousand", "million"], "correct": 2}, {"prompt": "The Pyramids are one of the most _____ places in Egypt.", "choices": ["quiet", "sad", "famous"], "correct": 2}, {"prompt": "Many _____ visit the Pyramids every year.", "choices": ["tourists", "books", "doctors"], "correct": 0}, {"prompt": "Tourists enjoy _____ rides near the Pyramids.", "choices": ["car", "camel", "train"], "correct": 1}, {"prompt": "The Pyramids were built using big _____.", "choices": ["stones", "books", "trees"], "correct": 0}, {"prompt": "After the Pyramids, visitors often go to the Egyptian _____.", "choices": ["Bazaar", "Museum", "Oasis"], "correct": 1}, {"prompt": "They go to the museum to see old _____.", "choices": ["cars", "treasures", "trees"], "correct": 1}, {"prompt": "The library is a _____ place in the city.", "choices": ["quiet", "busy", "loud"], "correct": 0}, {"prompt": "We go to the library to read or _____ books.", "choices": ["buy", "borrow", "sell"], "correct": 1}, {"prompt": "The library has books about animals, science, and _____.", "choices": ["clothes", "history", "food"], "correct": 1}, {"prompt": "Some people go to the library to _____ or do homework.", "choices": ["sleep", "study", "play"], "correct": 1}, {"prompt": "There are _____ and tables for reading in the library.", "choices": ["sofas", "chairs", "beds"], "correct": 1}, {"prompt": "You must be _____ inside the library.", "choices": ["noisy", "quiet", "loud"], "correct": 1}, {"prompt": "You must keep the library _____.", "choices": ["messy", "dirty", "clean"], "correct": 2}, {"prompt": "Sami went to the Cairo _____ on Friday.", "choices": ["Tower", "Museum", "Pyramid"], "correct": 0}, {"prompt": "He went with his _____.", "choices": ["brother", "book", "dog"], "correct": 0}, {"prompt": "They saw the whole _____ from the top of the tower.", "choices": ["city", "desert", "river"], "correct": 0}, {"prompt": "The Cairo Tower is a very _____ building.", "choices": ["small", "short", "tall"], "correct": 2}, {"prompt": "They ate _____ at a very nice restaurant.", "choices": ["lunch", "books", "gifts"], "correct": 0}, {"prompt": "Yesterday, I went to Khan Al-Khalili _____.", "choices": ["Museum", "Tower", "Bazaar"], "correct": 2}, {"prompt": "It was a very _____ and colorful market.", "choices": ["quiet", "sad", "busy"], "correct": 2}, {"prompt": "There were many _____ selling gifts.", "choices": ["trees", "shops", "rivers"], "correct": 1}, {"prompt": "I bought a nice _____ for my sister.", "choices": ["car", "ring", "tree"], "correct": 1}, {"prompt": "We took many _____ at the bazaar.", "choices": ["gifts", "photos", "rings"], "correct": 1}, {"prompt": "The Pyramids were built a _____ time ago.", "choices": ["short", "quick", "long"], "correct": 2}, {"prompt": "Tourists take _____ to remember their trip.", "choices": ["clothes", "pictures", "food"], "correct": 1}, {"prompt": "The museum is full of beautiful _____.", "choices": ["statues", "cars", "trees"], "correct": 0}, {"prompt": "We can _____ books from the library.", "choices": ["break", "throw", "borrow"], "correct": 2}, {"prompt": "It is usually open during the _____.", "choices": ["night", "day", "midnight"], "correct": 1}, {"prompt": "They had a _____ time together at the tower.", "choices": ["great", "sad", "bad"], "correct": 0}, {"prompt": "They went to the top of the Cairo _____.", "choices": ["Bazaar", "Museum", "Tower"], "correct": 2}, {"prompt": "The restaurant is at the _____ of the tower.", "choices": ["top", "under", "bottom"], "correct": 0}, {"prompt": "I bought _____ for my friends.", "choices": ["gifts", "rivers", "trees"], "correct": 0}, {"prompt": "A bazaar is a type of _____.", "choices": ["museum", "school", "market"], "correct": 2}, {"prompt": "The market is very _____ and bright.", "choices": ["colorful", "boring", "dark"], "correct": 0}, {"prompt": "The shops sell clothes and _____.", "choices": ["sand", "water", "gifts"], "correct": 2}, {"prompt": "We went to the market with our _____.", "choices": ["books", "pets", "family"], "correct": 2}, {"prompt": "Many _____ love to visit Khan Al- Khalili.", "choices": ["cars", "tourists", "trees"], "correct": 1}, {"prompt": "The Pyramids are very _____ and famous.", "choices": ["new", "old", "modern"], "correct": 1}, {"prompt": "Visitors love learning about how the Pyramids were _____.", "choices": ["destroyed", "eaten", "built"], "correct": 2}, {"prompt": "They used big _____ to build them.", "choices": ["stones", "paper", "wood"], "correct": 0}, {"prompt": "The Egyptian Museum has old _____.", "choices": ["planes", "cars", "treasures"], "correct": 2}, {"prompt": "You must not be _____ in the library.", "choices": ["quiet", "clean", "noisy"], "correct": 2}, {"prompt": "We use _____ and tables in the library.", "choices": ["chairs", "beds", "trees"], "correct": 0}, {"prompt": "People learn more when they read _____.", "choices": ["books", "clothes", "toys"], "correct": 0}, {"prompt": "Sami saw the whole city from the _____.", "choices": ["top", "bottom", "under"], "correct": 0}, {"prompt": "St. Catherine Mountain is in South _____.", "choices": ["Sinai", "Giza", "Cairo"], "correct": 0}, {"prompt": "People come to _____ the mountain.", "choices": ["climb", "fly", "swim"], "correct": 0}, {"prompt": "They see _____ rocks on the mountain.", "choices": ["colorful", "plain", "boring"], "correct": 0}, {"prompt": "They see green _____ and sometimes animals.", "choices": ["sand", "plants", "buildings"], "correct": 1}, {"prompt": "When they reach the top, they visit the old _____.", "choices": ["monastery", "market", "bazaar"], "correct": 0}, {"prompt": "The weather is _____ in the morning in St. Catherine.", "choices": ["cold", "hot", "warm"], "correct": 0}, {"prompt": "Tourists can swim at the Salt _____ in Siwa.", "choices": ["River", "Lake", "Ocean"], "correct": 1}, {"prompt": "Sweet _____ are fresh from palm trees.", "choices": ["dates", "bananas", "apples"], "correct": 0}, {"prompt": "It's a good idea to bring a _____ at night in Siwa Oasis.", "choices": ["t-shirt", "hat", "jacket"], "correct": 2}, {"prompt": "People wear light _____ during the day in Siwa.", "choices": ["coats", "clothes", "jackets"], "correct": 1}, {"prompt": "You can see palm _____ around the lake and desert.", "choices": ["flowers", "trees", "plants"], "correct": 1}, {"prompt": "Siwa Oasis has good olive _____.", "choices": ["oil", "juice", "water"], "correct": 0}, {"prompt": "You can see the _____ at the Salt Lake.", "choices": ["stars", "moon", "sunset"], "correct": 2}, {"prompt": "You can _____ in the Salt Lake.", "choices": ["climb", "swim", "fly"], "correct": 1}, {"prompt": "Dates grow on _____ trees.", "choices": ["oak", "pine", "palm"], "correct": 2}, {"prompt": "It is _____ at night in the desert.", "choices": ["warm", "cold", "hot"], "correct": 1}, {"prompt": "It is _____ during the day in the desert.", "choices": ["freezing", "cold", "hot"], "correct": 2}, {"prompt": "Tourists take _____ of the amazing view.", "choices": ["food", "clothes", "pictures"], "correct": 2}, {"prompt": "South Sinai is a _____ place.", "choices": ["famous", "ugly", "boring"], "correct": 0}, {"prompt": "Many tourists come to Egypt every _____.", "choices": ["year", "minute", "second"], "correct": 0}, {"prompt": "The Nile _____ is the longest in the world.", "choices": ["Lake", "Sea", "River"], "correct": 2}, {"prompt": "Tourists can _____ a camel near the pyramids.", "choices": ["fly", "ride", "drive"], "correct": 1}, {"prompt": "A/An _____ is a place with water in the desert.", "choices": ["oasis", "museum", "bazaar"], "correct": 0}, {"prompt": "We went to Siwa _____ last week.", "choices": ["Tower", "River", "Oasis"], "correct": 2}, {"prompt": "They went to the _____ to see the treasures.", "choices": ["Museum", "Oasis", "Bazaar"], "correct": 0}, {"prompt": "St. Catherine _____ is very high.", "choices": ["Lake", "River", "Mountain"], "correct": 2}, {"prompt": "He takes photos of the _____.", "choices": ["museum", "bag", "book"], "correct": 0}, {"prompt": "We went to the Pyramids last _____.", "choices": ["year", "Friday", "month"], "correct": 0}, {"prompt": "_____ do tourists go to Khan Al Khalili?", "choices": ["What", "Why", "Who"], "correct": 1}, {"prompt": "The Nile River is very _____.", "choices": ["long", "small", "short"], "correct": 0}, {"prompt": "A tour guide helps visitors to _____ the country.", "choices": ["sell", "buy", "see"], "correct": 2}, {"prompt": "A diary entry can be about a fun _____ with family.", "choices": ["day", "book", "pen"], "correct": 0}, {"prompt": "Siwa is famous for sweet dates and _____ oil.", "choices": ["corn", "olive", "sunflower"], "correct": 1}, {"prompt": "We wear _____ clothes when it is hot.", "choices": ["light", "heavy", "thick"], "correct": 0}, {"prompt": "We wear a _____ when it is cold.", "choices": ["jacket", "t-shirt", "shorts"], "correct": 0}, {"prompt": "We saw colorful _____ on the mountain.", "choices": ["rocks", "water", "trees"], "correct": 0}, {"prompt": "Climbing a mountain is _____ but fun.", "choices": ["boring", "hard", "easy"], "correct": 1}, {"prompt": "The air is _____ and clean in the mountains.", "choices": ["fresh", "polluted", "dirty"], "correct": 0}, {"prompt": "A trip to the oasis is very _____.", "choices": ["tiring", "boring", "relaxing"], "correct": 2}, {"prompt": "The sunset at the lake is _____.", "choices": ["bad", "ugly", "beautiful"], "correct": 2}, {"prompt": "Many people visit the old _____ at the top of the mountain.", "choices": ["monastery", "restaurant", "shop"], "correct": 0}, {"prompt": "You can buy gifts at the _____.", "choices": ["bazaar", "museum", "river"], "correct": 0}, {"prompt": "Siwa Oasis is in the _____.", "choices": ["forest", "city", "desert"], "correct": 2}, {"prompt": "Palm trees grow in the _____.", "choices": ["oasis", "museum", "bazaar"], "correct": 0}, {"prompt": "Egypt is a wonderful _____ to visit.", "choices": ["country", "village", "city"], "correct": 0}]};
+        const DATA_TYPE = "META";
+        const IS_PREP = false;
 
-<script>
+        // Audio Management
+        const AC = new (window.AudioContext || window.webkitAudioContext)();
+        if (IS_PREP) {
+            // Mute background music for Prep
+            const originalCreateElement = document.createElement;
+            document.createElement = function(tag) {
+                const el = originalCreateElement.call(document, tag);
+                if (tag.toLowerCase() === 'audio') {
+                    setTimeout(() => {
+                        if (el.src && (el.src.includes('bg') || el.src.includes('music'))) {
+                            el.muted = true;
+                            el.volume = 0;
+                        }
+                    }, 0);
+                }
+                return el;
+            };
+        }
 
-// ============================================================
-//  GG27 — نظام المكافآت الموحّد (نقاط/نجوم/عملات/شارات/مستويات)
-// ============================================================
-const GG27 = (function(){
-  const KEY = 'gg27_profile_v1';
-  function _load(){
-    try { return JSON.parse(localStorage.getItem(KEY)) || _fresh(); }
-    catch(e){ return _fresh(); }
-  }
-  function _fresh(){
-    return { coins:0, xp:0, level:1, badges:{}, streak:0, lastDate:'', lessons:{} };
-  }
-  function _save(p){ try{ localStorage.setItem(KEY, JSON.stringify(p)); }catch(e){} }
-  function _levelFor(xp){ return Math.max(1, Math.floor(xp/150)+1); }
+        function speak(text) {
+            if (!window.speechSynthesis) return;
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US';
+            utterance.rate = 0.9;
+            window.speechSynthesis.speak(utterance);
+        }
 
-  function today(){ return new Date().toISOString().slice(0,10); }
+        // Data Adapter
+        function parseData(raw, type) {
+            let questions = [];
+            if (type === 'QS' || type === 'questions') {
+                questions = raw.map(q => ({
+                    text: q.q || q.question,
+                    choices: q.choices || q.options,
+                    answer: q.answer,
+                    image: q.image || q.img || null,
+                    type: 'mcq'
+                }));
+            } else if (type === 'words' || type === 'vocabulary') {
+                questions = raw.map(item => ({
+                    text: item.w || item.word,
+                    image: item.i || item.img || null,
+                    type: 'scramble'
+                }));
+            } else if (type === 'META') {
+                questions = raw.rawRounds.map(r => ({
+                    text: r.prompt,
+                    choices: r.choices,
+                    answer: r.correct,
+                    type: 'mcq'
+                }));
+            } else if (type === 'pairs' || type === 'tasks' || type === 'sentences' || type === 'wordsData') {
+                questions = raw.map(item => ({
+                    text: item.text || item.word || item.w || "What is this?",
+                    image: item.img || item.i || item.image || null,
+                    choices: item.wrong ? [item.answer, ...item.wrong] : null,
+                    answer: item.wrong ? 0 : null,
+                    type: (item.wrong || item.choices) ? 'mcq' : 'scramble'
+                }));
+            } else if (type === 'custom_farm') {
+                questions = raw.map(q => ({
+                    text: q.text,
+                    answer: q.answer,
+                    type: 'count'
+                }));
+            } else if (type === 'CURRICULUM') {
+                // Flatten curriculum
+                raw.units.forEach(u => {
+                    u.lessons.forEach(l => {
+                        if (l.questions) {
+                            l.questions.forEach(q => {
+                                questions.push({
+                                    text: q.q,
+                                    choices: q.choices,
+                                    answer: q.answer,
+                                    type: 'mcq'
+                                });
+                            });
+                        }
+                    });
+                });
+            }
+            return questions;
+        }
 
-  function bumpStreak(p){
-    const t = today();
-    if(p.lastDate === t) return;
-    const y = new Date(Date.now()-86400000).toISOString().slice(0,10);
-    p.streak = (p.lastDate === y) ? (p.streak||0)+1 : 1;
-    p.lastDate = t;
-  }
+        const questions = parseData(RAW_DATA, DATA_TYPE);
+        let currentQ = 0;
+        let score = 0;
+        let locked = false;
 
-  function recordResult(lessonKey, res){
-    // res = { stars, score, total, coins }
-    const p = _load();
-    bumpStreak(p);
-    const prev = p.lessons[lessonKey] || { stars:0, best:0, plays:0, coins:0 };
-    prev.stars = Math.max(prev.stars, res.stars||0);
-    prev.best  = Math.max(prev.best, res.score||0);
-    prev.plays = (prev.plays||0)+1;
-    prev.coins = (prev.coins||0) + (res.coins||0);
-    p.lessons[lessonKey] = prev;
-    p.coins = (p.coins||0) + (res.coins||0);
-    p.xp = (p.xp||0) + (res.coins||0) + (res.stars||0)*10;
-    const newLevel = _levelFor(p.xp);
-    const leveledUp = newLevel > p.level;
-    p.level = newLevel;
-    const newBadges = [];
-    if(res.stars>=3 && !p.badges['perfect_'+lessonKey]){ p.badges['perfect_'+lessonKey]=true; newBadges.push('نجمة كاملة ⭐'); }
-    if(prev.plays===1 && !p.badges['first_'+lessonKey]){ p.badges['first_'+lessonKey]=true; }
-    if(p.streak===3 && !p.badges['streak3']){ p.badges['streak3']=true; newBadges.push('3 أيام متتالية 🔥'); }
-    if(p.streak===7 && !p.badges['streak7']){ p.badges['streak7']=true; newBadges.push('أسبوع كامل 🔥🔥'); }
-    if(Object.keys(p.lessons).length===5 && !p.badges['five']){ p.badges['five']=true; newBadges.push('٥ ألعاب مكتملة 🏅'); }
-    _save(p);
-    return { profile:p, leveledUp, newBadges };
-  }
-  function profile(){ return _load(); }
-  function coins(){ return _load().coins||0; }
-  function level(){ return _load().level||1; }
-  function isMuted(){ try{ return localStorage.getItem('gg27_muted')==='1'; }catch(e){ return false; } }
-  function setMuted(v){ try{ localStorage.setItem('gg27_muted', v?'1':'0'); }catch(e){} }
-  return { recordResult, profile, coins, level, isMuted, setMuted };
-})();
+        function loadQuestion() {
+            if (currentQ >= questions.length) {
+                showEnd();
+                return;
+            }
 
-// ============================================================
-//  محرك صوت بسيط (Web Audio) — بدون أي ملفات خارجية
-// ============================================================
-const GGSound = (function(){
-  let ctx=null;
-  function c(){ if(!ctx) ctx = new (window.AudioContext||window.webkitAudioContext)(); if(ctx.state==='suspended') ctx.resume(); return ctx; }
-  function beep(freq,type,dur,vol,t0){
-    if(GG27.isMuted()) return;
-    try{
-      const ac=c(); const o=ac.createOscillator(); const g=ac.createGain();
-      o.connect(g); g.connect(ac.destination); o.type=type||'sine';
-      o.frequency.setValueAtTime(freq, ac.currentTime+(t0||0));
-      g.gain.setValueAtTime(vol||.25, ac.currentTime+(t0||0));
-      g.gain.exponentialRampToValueAtTime(.001, ac.currentTime+(t0||0)+dur);
-      o.start(ac.currentTime+(t0||0)); o.stop(ac.currentTime+(t0||0)+dur+.02);
-    }catch(e){}
-  }
-  return {
-    correct(){ beep(523,'sine',.12,.3); beep(659,'sine',.12,.3,.09); beep(880,'sine',.18,.3,.18); },
-    wrong(){ beep(220,'sawtooth',.18,.25); beep(160,'sawtooth',.22,.2,.12); },
-    coin(){ beep(988,'square',.08,.18); beep(1318,'square',.1,.18,.06); },
-    tap(){ beep(700,'square',.05,.12); },
-    win(){ [523,659,784,1047].forEach((f,i)=>beep(f,'sine',.16,.3,i*.11)); },
-    lose(){ beep(311,'sawtooth',.3,.3); beep(196,'sawtooth',.5,.3,.22); },
-    badge(){ beep(784,'triangle',.15,.3); beep(1047,'triangle',.2,.3,.12); }
-  };
-})();
+            locked = false;
+            const q = questions[currentQ];
+            document.getElementById('q-num').innerText = `Q ${currentQ + 1}/${questions.length}`;
+            
+            const qText = document.getElementById('q-text');
+            const qImg = document.getElementById('q-image');
+            const choicesGrid = document.getElementById('choices-grid');
+            const scrambleBox = document.getElementById('scramble-container');
 
-function ggSpeak(text, lang){
-  try{
-    if(!window.speechSynthesis) return;
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = lang || 'en-US'; u.rate = .92; u.pitch = 1.05;
-    window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(u);
-  }catch(e){}
-}
-function ggShuffle(arr){
-  const a=arr.slice();
-  for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
-  return a;
-}
-function ggVibrate(ms){ try{ if(navigator.vibrate) navigator.vibrate(ms); }catch(e){} }
+            qText.innerText = q.text;
+            if (q.image) {
+                qImg.src = q.image;
+                qImg.style.display = 'block';
+            } else {
+                qImg.style.display = 'none';
+            }
 
-function ggCoinBurst(x,y,n){
-  const root = document.getElementById('gg-stage');
-  if(!root) return;
-  for(let i=0;i<(n||3);i++){
-    const s = document.createElement('div');
-    s.className='gg-coinburst'; s.textContent='🪙';
-    s.style.left=(x)+'px'; s.style.top=(y)+'px';
-    s.style.setProperty('--dx', ((Math.random()*80)-40)+'px');
-    root.appendChild(s);
-    setTimeout(()=>s.remove(), 1000);
-  }
-}
+            const farm = document.getElementById('farm-grid');
+            if (farm) farm.style.display = 'none';
 
-function ggToast(msg, kind){
-  const stage = document.getElementById('gg-stage');
-  if(!stage) return;
-  const t = document.createElement('div');
-  t.className = 'gg-toast ' + (kind||'good');
-  t.textContent = msg;
-  stage.appendChild(t);
-  requestAnimationFrame(()=>t.classList.add('show'));
-  setTimeout(()=>{ t.classList.remove('show'); setTimeout(()=>t.remove(),400); }, 900);
-}
+            if (q.type === 'mcq') {
+                choicesGrid.style.display = 'grid';
+                scrambleBox.style.display = 'none';
+                choicesGrid.innerHTML = '';
+                q.choices.forEach((c, i) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'choice-btn';
+                    btn.innerText = c;
+                    btn.onclick = () => handleMCQ(btn, i === q.answer);
+                    choicesGrid.appendChild(btn);
+                });
+            } else if (q.type === 'count') {
+                choicesGrid.style.display = 'none';
+                scrambleBox.style.display = 'none';
+                let farmGrid = document.getElementById('farm-grid');
+                if (!farmGrid) {
+                    farmGrid = document.createElement('div');
+                    farmGrid.id = 'farm-grid';
+                    farmGrid.style.display = 'flex';
+                    farmGrid.style.flexWrap = 'wrap';
+                    farmGrid.style.gap = '10px';
+                    farmGrid.style.justifyContent = 'center';
+                    farmGrid.style.marginTop = '20px';
+                    document.getElementById('game-container').appendChild(farmGrid);
+                }
+                farmGrid.style.display = 'flex';
+                setupFarm(farmGrid, q.answer);
+            } else {
+                choicesGrid.style.display = 'none';
+                scrambleBox.style.display = 'flex';
+                setupScramble(q.text);
+            }
 
-function ggInitHud(opts){
-  document.getElementById('gg-coins-val').textContent = GG27.coins();
-  document.getElementById('gg-level-val').textContent = GG27.level();
-  const muteBtn = document.getElementById('gg-mute');
-  function refreshMute(){ muteBtn.textContent = GG27.isMuted() ? '🔇' : '🔊'; }
-  refreshMute();
-  muteBtn.onclick = () => { GG27.setMuted(!GG27.isMuted()); refreshMute(); GGSound.tap(); };
-  document.getElementById('gg-back').onclick = () => {
-    if (opts && opts.homeHref) { location.href = opts.homeHref; }
-    else if (document.referrer) { history.back(); }
-    else { history.back(); }
-  };
-}
+            // Speak question text
+            speak(q.text);
+        }
 
-function ggShowResult(opts){
-  // opts = { correct, total, coinsEarned, lessonKey, titleWin, titleLose, onReplay }
-  const total = Math.max(1, opts.total);
-  const ratio = opts.correct / total;
-  const stars = ratio >= .95 ? 3 : ratio >= .7 ? 2 : ratio > 0 ? 1 : 0;
-  const rec = GG27.recordResult(opts.lessonKey, { stars, score:opts.correct, total, coins:opts.coinsEarned });
-  const scr = document.getElementById('gg-result');
-  scr.classList.remove('gg-hidden');
-  document.getElementById('gg-result-title').textContent = stars>=2 ? (opts.titleWin||'أحسنت! 🎉') : (opts.titleLose||'حاول مرة أخرى 💪');
-  document.getElementById('gg-result-sub').textContent = `${opts.correct} / ${total} إجابة صحيحة`;
-  document.getElementById('gg-stars').textContent = '⭐'.repeat(stars) + '☆'.repeat(3-stars);
-  document.getElementById('gg-coins-earned').textContent = '+' + opts.coinsEarned + ' 🪙';
-  document.getElementById('gg-coins-val').textContent = rec.profile.coins;
-  document.getElementById('gg-level-val').textContent = rec.profile.level;
-  if(!GG27.isMuted()){ (stars>=2 ? GGSound.win : GGSound.lose)(); }
-  if(rec.newBadges && rec.newBadges.length){
-    setTimeout(()=>{
-      const pop = document.getElementById('gg-badge-pop');
-      pop.innerHTML = `<div class="gg-badge-card"><div style="font-size:15px;color:var(--gg-muted);font-weight:800;">شارة جديدة</div><div style="font-size:22px;font-weight:900;margin-top:6px;">${rec.newBadges[0]}</div></div>`;
-      pop.classList.remove('gg-hidden'); GGSound.badge(); ggVibrate(40);
-      setTimeout(()=>pop.classList.add('gg-hidden'), 1800);
-    }, 500);
-  }
-  document.getElementById('gg-replay').onclick = () => { scr.classList.add('gg-hidden'); if(opts.onReplay) opts.onReplay(); };
-}
+        function setupFarm(grid, target) {
+            grid.innerHTML = '';
+            let nums = [target];
+            while(nums.length < 3) {
+                let r = Math.floor(Math.random() * 5) + 1;
+                if(!nums.includes(r)) nums.push(r);
+            }
+            nums.sort(() => Math.random() - 0.5);
+            
+            nums.forEach(n => {
+                const pen = document.createElement('div');
+                pen.className = 'choice-btn';
+                pen.style.fontSize = '2rem';
+                pen.innerHTML = '🐄'.repeat(n);
+                pen.onclick = () => {
+                    if (locked) return;
+                    if (n === target) {
+                        locked = true;
+                        score += 100;
+                        document.getElementById('score-val').innerText = score;
+                        pen.classList.add('correct');
+                        setTimeout(() => {
+                            currentQ++;
+                            loadQuestion();
+                        }, 1000);
+                    } else {
+                        pen.classList.add('wrong');
+                        setTimeout(() => pen.classList.remove('wrong'), 500);
+                    }
+                };
+                grid.appendChild(pen);
+            });
+        }
 
-ggInitHud({});
-const LESSON_KEY = "grade4-unit4-Lesson 3 - Bubble Pop.html";
-const SPEAK_LANG = "en-US";
-</script>
-<script>
+        function handleMCQ(btn, isCorrect) {
+            if (locked) return;
+            locked = true;
 
-// ---------- منطق مشترك بين كل المحركات ----------
-function ggBuildRounds(raw, maxRounds){
-  const rs = ggShuffle(raw).slice(0, maxRounds || 8);
-  return rs.map(r => {
-    const correctText = r.choices[r.correct];
-    const order = ggShuffle(r.choices.map((c,i)=>i));
-    return { prompt:r.prompt, choices: order.map(i=>r.choices[i]), correct: order.indexOf(r.correct), speak_word:r.speak_word };
-  });
-}
-let GG_STATE = { i:0, rounds:[], correct:0, lives:3, coins:0, perfect:true, meta:null };
+            if (isCorrect) {
+                score += 100;
+                btn.classList.add('correct');
+            } else {
+                btn.classList.add('wrong');
+            }
 
-function ggStartSession(meta){
-  GG_STATE = { i:0, rounds: ggBuildRounds(meta.rawRounds, meta.maxRounds||8), correct:0, lives:3, coins:0, perfect:true, meta };
-  document.getElementById('gg-progress-bar').style.width='0%';
-  ggRenderRound();
-}
-function ggProgressUpdate(){
-  const p = Math.round((GG_STATE.i)/GG_STATE.rounds.length*100);
-  const bar = document.getElementById('gg-progress-bar'); if(bar) bar.style.width = p+'%';
-}
-function ggEndSession(){
-  const coinsEarned = GG_STATE.coins + (GG_STATE.perfect ? 15 : 0);
-  ggShowResult({
-    correct: GG_STATE.correct, total: GG_STATE.rounds.length, coinsEarned,
-    lessonKey: LESSON_KEY,
-    onReplay: () => ggStartSession(GG_STATE.meta)
-  });
-}
-function ggRegisterAnswer(isCorrect, elCoinOriginEvent){
-  if(isCorrect){
-    GG_STATE.correct++; GG_STATE.coins += 10; GGSound.correct(); ggVibrate(15);
-    ggToast('صح! 🎉','good');
-    try{
-      const ev = elCoinOriginEvent;
-      const x = (ev && ev.touches && ev.touches[0]) ? ev.touches[0].clientX : (ev? ev.clientX : window.innerWidth/2);
-      const y = (ev && ev.touches && ev.touches[0]) ? ev.touches[0].clientY : (ev? ev.clientY : window.innerHeight/2);
-      ggCoinBurst(x,y,3);
-    }catch(e){}
-  } else {
-    GG_STATE.perfect = false; GG_STATE.lives--; GGSound.wrong(); ggVibrate([20,30,20]);
-    ggToast('حاول تاني','bad');
-  }
-  const lv = document.getElementById('gg-lives'); if(lv) lv.textContent = '❤️'.repeat(Math.max(0,GG_STATE.lives)) + '🖤'.repeat(3-Math.max(0,GG_STATE.lives));
-  GG_STATE.i++;
-  ggProgressUpdate();
-  setTimeout(()=>{
-    if(GG_STATE.lives<=0 || GG_STATE.i >= GG_STATE.rounds.length){ ggEndSession(); }
-    else { ggRenderRound(); }
-  }, isCorrect ? 750 : 900);
-}
+            document.getElementById('score-val').innerText = score;
+            setTimeout(() => {
+                currentQ++;
+                loadQuestion();
+            }, 1000);
+        }
 
-const META = {"speak": true, "maxRounds": 10, "rawRounds": [{"prompt": "The _____ is a very long river in Egypt.", "choices": ["bazaar", "museum", "Nile"], "correct": 2}, {"prompt": "I want to _____ the Egyptian Museum.", "choices": ["visit", "ride", "walk"], "correct": 0}, {"prompt": "People buy gifts from the _____.", "choices": ["bazaar", "history", "camels"], "correct": 0}, {"prompt": "A/An _____ is a place with water and trees in the desert.", "choices": ["bazaar", "tower", "oasis"], "correct": 2}, {"prompt": "You can look down from the Cairo _____.", "choices": ["Museum", "Tower", "Giza"], "correct": 1}, {"prompt": "Ali is a tour _____ in Egypt.", "choices": ["teacher", "driver", "guide"], "correct": 2}, {"prompt": "He takes tourists to see the _____.", "choices": ["bazaar", "oasis", "Pyramids"], "correct": 2}, {"prompt": "They stop to take _____ with their cameras.", "choices": ["pictures", "books", "food"], "correct": 0}, {"prompt": "Many visitors want to _____ a camel.", "choices": ["fly", "ride", "drive"], "correct": 1}, {"prompt": "They ride a camel near the _____.", "choices": ["Lake", "Pyramids", "River"], "correct": 1}, {"prompt": "The Nile is the _____ river in Egypt.", "choices": ["longest", "smallest", "shortest"], "correct": 0}, {"prompt": "We can see Cairo from the _____ of the tower.", "choices": ["under", "top", "bottom"], "correct": 1}, {"prompt": "Let's buy a _____ for my sister.", "choices": ["history", "gift", "museum"], "correct": 1}, {"prompt": "I went to the bazaar to buy _____.", "choices": ["rivers", "gifts", "towers"], "correct": 1}, {"prompt": "Tourists use _____ to take pictures.", "choices": ["books", "cameras", "pens"], "correct": 1}, {"prompt": "A tour guide helps the _____.", "choices": ["tourists", "doctors", "farmers"], "correct": 0}, {"prompt": "An oasis has water and _____ in the desert.", "choices": ["buildings", "cars", "trees"], "correct": 2}, {"prompt": "The Egyptian _____ has old treasures.", "choices": ["Bazaar", "Museum", "River"], "correct": 1}, {"prompt": "The Cairo Tower is very _____.", "choices": ["small", "short", "tall"], "correct": 2}, {"prompt": "We can take a _____ on the Nile.", "choices": ["train", "boat", "car"], "correct": 1}, {"prompt": "The Pyramids are very _____.", "choices": ["quiet", "sad", "famous"], "correct": 2}, {"prompt": "Many _____ visit Egypt every year.", "choices": ["camels", "guides", "tourists"], "correct": 2}, {"prompt": "We saw old statues at the _____.", "choices": ["Bazaar", "Museum", "River"], "correct": 1}, {"prompt": "They enjoy _____ rides near the Pyramids.", "choices": ["car", "camel", "boat"], "correct": 1}, {"prompt": "A bazaar is a busy _____.", "choices": ["market", "tower", "museum"], "correct": 0}, {"prompt": "They sell clothes and _____ at the market.", "choices": ["rivers", "trees", "gifts"], "correct": 2}, {"prompt": "The river Nile provides _____ for Egypt.", "choices": ["sand", "oil", "water"], "correct": 2}, {"prompt": "Tourists like to visit _____ places.", "choices": ["boring", "famous", "ugly"], "correct": 1}, {"prompt": "Ali takes _____ to many places.", "choices": ["tourists", "books", "gifts"], "correct": 0}, {"prompt": "I want to _____ to the oasis.", "choices": ["swim", "read", "travel"], "correct": 2}, {"prompt": "A camel lives in the _____.", "choices": ["river", "desert", "lake"], "correct": 1}, {"prompt": "We took many _____ with our phone.", "choices": ["books", "photos", "gifts"], "correct": 1}, {"prompt": "The guide tells us _____ about the places.", "choices": ["facts", "food", "clothes"], "correct": 0}, {"prompt": "The museum has a lot of _____.", "choices": ["water", "sand", "history"], "correct": 2}, {"prompt": "My family went on a _____ to Cairo.", "choices": ["trip", "book", "pen"], "correct": 0}, {"prompt": "They walked around the _____.", "choices": ["river", "lake", "bazaar"], "correct": 2}, {"prompt": "It is fun to _____ new places.", "choices": ["lose", "visit", "break"], "correct": 1}, {"prompt": "The weather in the desert is very _____.", "choices": ["cold", "hot", "snowy"], "correct": 1}, {"prompt": "I bought a beautiful _____ at the bazaar.", "choices": ["tree", "ring", "river"], "correct": 1}, {"prompt": "We can relax in the _____.", "choices": ["oasis", "street", "bazaar"], "correct": 0}, {"prompt": "Egypt is my _____.", "choices": ["homeland", "hospital", "school"], "correct": 0}, {"prompt": "The tower is a very tall _____.", "choices": ["building", "river", "lake"], "correct": 0}, {"prompt": "We take a _____ from the train station.", "choices": ["train", "boat", "plane"], "correct": 0}, {"prompt": "We learn about our country's _____.", "choices": ["toys", "history", "food"], "correct": 1}, {"prompt": "They had a _____ time together.", "choices": ["bad", "great", "sad"], "correct": 1}, {"prompt": "We go to the library to _____ books.", "choices": ["buy", "borrow", "sell"], "correct": 1}, {"prompt": "We learn _____ in the museum.", "choices": ["science", "history", "math"], "correct": 1}, {"prompt": "The flower is growing _____ the pot.", "choices": ["under", "in", "next"], "correct": 1}, {"prompt": "The sandwich is _____ to the juice.", "choices": ["on", "in", "next"], "correct": 2}, {"prompt": "She stands in _____ of the board.", "choices": ["back", "front", "next"], "correct": 1}, {"prompt": "The picture is _____ the wall.", "choices": ["in", "on", "under"], "correct": 1}, {"prompt": "My shoes are _____ the bed.", "choices": ["on", "under", "in"], "correct": 1}, {"prompt": "The boy hides _____ the door.", "choices": ["behind", "in front", "on"], "correct": 0}, {"prompt": "I took a photo in _____ of the Cairo Tower.", "choices": ["behind", "front", "under"], "correct": 1}, {"prompt": "The chair is _____ to the two beds.", "choices": ["on", "in", "next"], "correct": 2}, {"prompt": "The number 1,000 is one _____.", "choices": ["thousand", "hundred", "million"], "correct": 0}, {"prompt": "120,000 is read as one hundred and twenty _____.", "choices": ["million", "thousand", "billion"], "correct": 1}, {"prompt": "2,500,000,000 is read as two _____ five hundred million.", "choices": ["million", "thousand", "billion"], "correct": 2}, {"prompt": "560,000 is five hundred and sixty _____.", "choices": ["million", "hundred", "thousand"], "correct": 2}, {"prompt": "In 5,000,000,500, the last 5 is in the _____ place.", "choices": ["millions", "hundreds", "ones"], "correct": 1}, {"prompt": "A word that starts with /p/ is _____.", "choices": ["bear", "pan", "bat"], "correct": 1}, {"prompt": "A word that starts with /b/ is _____.", "choices": ["pan", "bat", "pen"], "correct": 1}, {"prompt": "The opposite of front is _____.", "choices": ["behind", "on", "next"], "correct": 0}, {"prompt": "The cat is sleeping _____ the table.", "choices": ["under", "next", "in"], "correct": 0}, {"prompt": "I put my books _____ my bag.", "choices": ["under", "in", "on"], "correct": 1}, {"prompt": "The library is _____ to the school.", "choices": ["on", "next", "in"], "correct": 1}, {"prompt": "The map is _____ the wall.", "choices": ["under", "in", "on"], "correct": 2}, {"prompt": "She sits _____ her friend.", "choices": ["on", "next to", "in"], "correct": 1}, {"prompt": "One million has _____ zeros.", "choices": ["nine", "three", "six"], "correct": 2}, {"prompt": "One billion has _____ zeros.", "choices": ["nine", "three", "six"], "correct": 0}, {"prompt": "One thousand has _____ zeros.", "choices": ["three", "six", "nine"], "correct": 0}, {"prompt": "100,000 is one _____ thousand.", "choices": ["ten", "million", "hundred"], "correct": 2}, {"prompt": "1,000,000 is one _____.", "choices": ["million", "billion", "thousand"], "correct": 0}, {"prompt": "We read books quietly at the _____.", "choices": ["museum", "library", "bazaar"], "correct": 1}, {"prompt": "The museum is a place to see _____ things.", "choices": ["food", "old", "new"], "correct": 1}, {"prompt": "I have a _____ in my bag.", "choices": ["bear", "pen", "bat"], "correct": 1}, {"prompt": "The _____ is full of trash.", "choices": ["pin", "bin", "pan"], "correct": 1}, {"prompt": "A _____ is a big animal.", "choices": ["pin", "pear", "bear"], "correct": 2}, {"prompt": "A _____ flies at night.", "choices": ["pan", "bat", "pat"], "correct": 1}, {"prompt": "We fry an egg in a _____.", "choices": ["pan", "ban", "bin"], "correct": 0}, {"prompt": "I write on a piece of _____.", "choices": ["bear", "paper", "bin"], "correct": 1}, {"prompt": "The number after 999 is one _____.", "choices": ["thousand", "hundred", "million"], "correct": 0}, {"prompt": "A _____ has tables and chairs for reading.", "choices": ["bazaar", "library", "museum"], "correct": 1}, {"prompt": "Do your homework at your _____.", "choices": ["desk", "bin", "pan"], "correct": 0}, {"prompt": "The board is _____ the teacher.", "choices": ["in", "behind", "on"], "correct": 1}, {"prompt": "Put the picture _____ the wall.", "choices": ["in", "on", "under"], "correct": 1}, {"prompt": "The toys are _____ the box.", "choices": ["next", "in", "on"], "correct": 1}, {"prompt": "My house is _____ to the park.", "choices": ["under", "in", "next"], "correct": 2}, {"prompt": "The boy is hiding _____ the tree.", "choices": ["in", "on", "behind"], "correct": 2}, {"prompt": "3,000,000 is three _____.", "choices": ["billion", "thousand", "million"], "correct": 2}, {"prompt": "The Pyramids are one of the most _____ places in Egypt.", "choices": ["quiet", "sad", "famous"], "correct": 2}, {"prompt": "Many _____ visit the Pyramids every year.", "choices": ["tourists", "books", "doctors"], "correct": 0}, {"prompt": "Tourists enjoy _____ rides near the Pyramids.", "choices": ["car", "camel", "train"], "correct": 1}, {"prompt": "The Pyramids were built using big _____.", "choices": ["stones", "books", "trees"], "correct": 0}, {"prompt": "After the Pyramids, visitors often go to the Egyptian _____.", "choices": ["Bazaar", "Museum", "Oasis"], "correct": 1}, {"prompt": "They go to the museum to see old _____.", "choices": ["cars", "treasures", "trees"], "correct": 1}, {"prompt": "The library is a _____ place in the city.", "choices": ["quiet", "busy", "loud"], "correct": 0}, {"prompt": "We go to the library to read or _____ books.", "choices": ["buy", "borrow", "sell"], "correct": 1}, {"prompt": "The library has books about animals, science, and _____.", "choices": ["clothes", "history", "food"], "correct": 1}, {"prompt": "Some people go to the library to _____ or do homework.", "choices": ["sleep", "study", "play"], "correct": 1}, {"prompt": "There are _____ and tables for reading in the library.", "choices": ["sofas", "chairs", "beds"], "correct": 1}, {"prompt": "You must be _____ inside the library.", "choices": ["noisy", "quiet", "loud"], "correct": 1}, {"prompt": "You must keep the library _____.", "choices": ["messy", "dirty", "clean"], "correct": 2}, {"prompt": "Sami went to the Cairo _____ on Friday.", "choices": ["Tower", "Museum", "Pyramid"], "correct": 0}, {"prompt": "He went with his _____.", "choices": ["brother", "book", "dog"], "correct": 0}, {"prompt": "They saw the whole _____ from the top of the tower.", "choices": ["city", "desert", "river"], "correct": 0}, {"prompt": "The Cairo Tower is a very _____ building.", "choices": ["small", "short", "tall"], "correct": 2}, {"prompt": "They ate _____ at a very nice restaurant.", "choices": ["lunch", "books", "gifts"], "correct": 0}, {"prompt": "Yesterday, I went to Khan Al-Khalili _____.", "choices": ["Museum", "Tower", "Bazaar"], "correct": 2}, {"prompt": "It was a very _____ and colorful market.", "choices": ["quiet", "sad", "busy"], "correct": 2}, {"prompt": "There were many _____ selling gifts.", "choices": ["trees", "shops", "rivers"], "correct": 1}, {"prompt": "I bought a nice _____ for my sister.", "choices": ["car", "ring", "tree"], "correct": 1}, {"prompt": "We took many _____ at the bazaar.", "choices": ["gifts", "photos", "rings"], "correct": 1}, {"prompt": "The Pyramids were built a _____ time ago.", "choices": ["short", "quick", "long"], "correct": 2}, {"prompt": "Tourists take _____ to remember their trip.", "choices": ["clothes", "pictures", "food"], "correct": 1}, {"prompt": "The museum is full of beautiful _____.", "choices": ["statues", "cars", "trees"], "correct": 0}, {"prompt": "We can _____ books from the library.", "choices": ["break", "throw", "borrow"], "correct": 2}, {"prompt": "It is usually open during the _____.", "choices": ["night", "day", "midnight"], "correct": 1}, {"prompt": "They had a _____ time together at the tower.", "choices": ["great", "sad", "bad"], "correct": 0}, {"prompt": "They went to the top of the Cairo _____.", "choices": ["Bazaar", "Museum", "Tower"], "correct": 2}, {"prompt": "The restaurant is at the _____ of the tower.", "choices": ["top", "under", "bottom"], "correct": 0}, {"prompt": "I bought _____ for my friends.", "choices": ["gifts", "rivers", "trees"], "correct": 0}, {"prompt": "A bazaar is a type of _____.", "choices": ["museum", "school", "market"], "correct": 2}, {"prompt": "The market is very _____ and bright.", "choices": ["colorful", "boring", "dark"], "correct": 0}, {"prompt": "The shops sell clothes and _____.", "choices": ["sand", "water", "gifts"], "correct": 2}, {"prompt": "We went to the market with our _____.", "choices": ["books", "pets", "family"], "correct": 2}, {"prompt": "Many _____ love to visit Khan Al- Khalili.", "choices": ["cars", "tourists", "trees"], "correct": 1}, {"prompt": "The Pyramids are very _____ and famous.", "choices": ["new", "old", "modern"], "correct": 1}, {"prompt": "Visitors love learning about how the Pyramids were _____.", "choices": ["destroyed", "eaten", "built"], "correct": 2}, {"prompt": "They used big _____ to build them.", "choices": ["stones", "paper", "wood"], "correct": 0}, {"prompt": "The Egyptian Museum has old _____.", "choices": ["planes", "cars", "treasures"], "correct": 2}, {"prompt": "You must not be _____ in the library.", "choices": ["quiet", "clean", "noisy"], "correct": 2}, {"prompt": "We use _____ and tables in the library.", "choices": ["chairs", "beds", "trees"], "correct": 0}, {"prompt": "People learn more when they read _____.", "choices": ["books", "clothes", "toys"], "correct": 0}, {"prompt": "Sami saw the whole city from the _____.", "choices": ["top", "bottom", "under"], "correct": 0}, {"prompt": "St. Catherine Mountain is in South _____.", "choices": ["Sinai", "Giza", "Cairo"], "correct": 0}, {"prompt": "People come to _____ the mountain.", "choices": ["climb", "fly", "swim"], "correct": 0}, {"prompt": "They see _____ rocks on the mountain.", "choices": ["colorful", "plain", "boring"], "correct": 0}, {"prompt": "They see green _____ and sometimes animals.", "choices": ["sand", "plants", "buildings"], "correct": 1}, {"prompt": "When they reach the top, they visit the old _____.", "choices": ["monastery", "market", "bazaar"], "correct": 0}, {"prompt": "The weather is _____ in the morning in St. Catherine.", "choices": ["cold", "hot", "warm"], "correct": 0}, {"prompt": "Tourists can swim at the Salt _____ in Siwa.", "choices": ["River", "Lake", "Ocean"], "correct": 1}, {"prompt": "Sweet _____ are fresh from palm trees.", "choices": ["dates", "bananas", "apples"], "correct": 0}, {"prompt": "It's a good idea to bring a _____ at night in Siwa Oasis.", "choices": ["t-shirt", "hat", "jacket"], "correct": 2}, {"prompt": "People wear light _____ during the day in Siwa.", "choices": ["coats", "clothes", "jackets"], "correct": 1}, {"prompt": "You can see palm _____ around the lake and desert.", "choices": ["flowers", "trees", "plants"], "correct": 1}, {"prompt": "Siwa Oasis has good olive _____.", "choices": ["oil", "juice", "water"], "correct": 0}, {"prompt": "You can see the _____ at the Salt Lake.", "choices": ["stars", "moon", "sunset"], "correct": 2}, {"prompt": "You can _____ in the Salt Lake.", "choices": ["climb", "swim", "fly"], "correct": 1}, {"prompt": "Dates grow on _____ trees.", "choices": ["oak", "pine", "palm"], "correct": 2}, {"prompt": "It is _____ at night in the desert.", "choices": ["warm", "cold", "hot"], "correct": 1}, {"prompt": "It is _____ during the day in the desert.", "choices": ["freezing", "cold", "hot"], "correct": 2}, {"prompt": "Tourists take _____ of the amazing view.", "choices": ["food", "clothes", "pictures"], "correct": 2}, {"prompt": "South Sinai is a _____ place.", "choices": ["famous", "ugly", "boring"], "correct": 0}, {"prompt": "Many tourists come to Egypt every _____.", "choices": ["year", "minute", "second"], "correct": 0}, {"prompt": "The Nile _____ is the longest in the world.", "choices": ["Lake", "Sea", "River"], "correct": 2}, {"prompt": "Tourists can _____ a camel near the pyramids.", "choices": ["fly", "ride", "drive"], "correct": 1}, {"prompt": "A/An _____ is a place with water in the desert.", "choices": ["oasis", "museum", "bazaar"], "correct": 0}, {"prompt": "We went to Siwa _____ last week.", "choices": ["Tower", "River", "Oasis"], "correct": 2}, {"prompt": "They went to the _____ to see the treasures.", "choices": ["Museum", "Oasis", "Bazaar"], "correct": 0}, {"prompt": "St. Catherine _____ is very high.", "choices": ["Lake", "River", "Mountain"], "correct": 2}, {"prompt": "He takes photos of the _____.", "choices": ["museum", "bag", "book"], "correct": 0}, {"prompt": "We went to the Pyramids last _____.", "choices": ["year", "Friday", "month"], "correct": 0}, {"prompt": "_____ do tourists go to Khan Al Khalili?", "choices": ["What", "Why", "Who"], "correct": 1}, {"prompt": "The Nile River is very _____.", "choices": ["long", "small", "short"], "correct": 0}, {"prompt": "A tour guide helps visitors to _____ the country.", "choices": ["sell", "buy", "see"], "correct": 2}, {"prompt": "A diary entry can be about a fun _____ with family.", "choices": ["day", "book", "pen"], "correct": 0}, {"prompt": "Siwa is famous for sweet dates and _____ oil.", "choices": ["corn", "olive", "sunflower"], "correct": 1}, {"prompt": "We wear _____ clothes when it is hot.", "choices": ["light", "heavy", "thick"], "correct": 0}, {"prompt": "We wear a _____ when it is cold.", "choices": ["jacket", "t-shirt", "shorts"], "correct": 0}, {"prompt": "We saw colorful _____ on the mountain.", "choices": ["rocks", "water", "trees"], "correct": 0}, {"prompt": "Climbing a mountain is _____ but fun.", "choices": ["boring", "hard", "easy"], "correct": 1}, {"prompt": "The air is _____ and clean in the mountains.", "choices": ["fresh", "polluted", "dirty"], "correct": 0}, {"prompt": "A trip to the oasis is very _____.", "choices": ["tiring", "boring", "relaxing"], "correct": 2}, {"prompt": "The sunset at the lake is _____.", "choices": ["bad", "ugly", "beautiful"], "correct": 2}, {"prompt": "Many people visit the old _____ at the top of the mountain.", "choices": ["monastery", "restaurant", "shop"], "correct": 0}, {"prompt": "You can buy gifts at the _____.", "choices": ["bazaar", "museum", "river"], "correct": 0}, {"prompt": "Siwa Oasis is in the _____.", "choices": ["forest", "city", "desert"], "correct": 2}, {"prompt": "Palm trees grow in the _____.", "choices": ["oasis", "museum", "bazaar"], "correct": 0}, {"prompt": "Egypt is a wonderful _____ to visit.", "choices": ["country", "village", "city"], "correct": 0}]};
-function ggRenderRound(){
-  const r = GG_STATE.rounds[GG_STATE.i];
-  document.getElementById('gg-prompt').textContent = r.prompt;
-  if(META.speak) ggSpeak(r.speak_word || r.prompt, SPEAK_LANG);
-  const wrap = document.getElementById('gg-choices'); wrap.innerHTML='';
-  r.choices.forEach((c,idx)=>{
-    const b = document.createElement('button');
-    b.className='gg-target'; b.textContent=c;
-    b.onclick = (ev)=>{
-      if(b.disabled) return;
-      Array.from(wrap.children).forEach(x=>x.disabled=true);
-      const ok = idx===r.correct;
-      b.classList.add(ok?'hit':'miss');
-      if(!ok){ wrap.children[r.correct].classList.add('hit'); }
-      ggRegisterAnswer(ok, ev);
-    };
-    wrap.appendChild(b);
-  });
-}
+        function setupScramble(word) {
+            const slots = document.getElementById('slots');
+            const letters = document.getElementById('letters');
+            slots.innerHTML = '';
+            letters.innerHTML = '';
 
-document.getElementById('gg-start-btn').onclick = function(){
-  document.getElementById('gg-start').classList.add('gg-hidden');
-  
-  ggStartSession(META);
-  GGSound.tap();
-};
+            const chars = word.toUpperCase().split('');
+            const shuffled = [...chars].sort(() => Math.random() - 0.5);
+            let currentPos = 0;
 
-</script>
-<!-- MOBILE-FIT-2027-body -->
-<script id="mobile-fit-2027-js">
-(function(){
-  try {
-    function fireResize(){ try { window.dispatchEvent(new Event('resize')); } catch(e){} }
-    window.addEventListener('orientationchange', function(){ setTimeout(fireResize,150); setTimeout(fireResize,450); setTimeout(fireResize,900); });
-    if (window.visualViewport) { window.visualViewport.addEventListener('resize', fireResize); }
-    document.addEventListener('gesturestart', function(e){ e.preventDefault(); });
-    var lastTouchEnd = 0;
-    document.addEventListener('touchend', function(e){
-      var now = Date.now();
-      if (now - lastTouchEnd <= 300) { e.preventDefault(); }
-      lastTouchEnd = now;
-    }, {passive:false});
-  } catch(err) {}
-})();
-</script>
-<!-- /MOBILE-FIT-2027-body -->
+            chars.forEach(() => {
+                const slot = document.createElement('div');
+                slot.className = 'slot-tile';
+                slots.appendChild(slot);
+            });
+
+            shuffled.forEach((char) => {
+                const tile = document.createElement('div');
+                tile.className = 'letter-tile';
+                tile.innerText = char;
+                tile.onclick = () => {
+                    if (tile.classList.contains('used')) return;
+                    
+                    const targetSlot = slots.children[currentPos];
+                    if (char === chars[currentPos]) {
+                        tile.classList.add('used');
+                        targetSlot.innerText = char;
+                        currentPos++;
+                        if (currentPos === chars.length) {
+                            score += 100;
+                            document.getElementById('score-val').innerText = score;
+                            setTimeout(() => {
+                                currentQ++;
+                                loadQuestion();
+                            }, 1000);
+                        }
+                    } else {
+                        tile.style.background = 'var(--danger)';
+                        setTimeout(() => tile.style.background = 'var(--primary)', 500);
+                    }
+                };
+                letters.appendChild(tile);
+            });
+        }
+
+        function showEnd() {
+            document.getElementById('overlay').classList.add('show');
+            document.getElementById('final-score').innerText = `Final Score: ${score}`;
+        }
+
+        // Start
+        loadQuestion();
+    </script>
 </body>
 </html>
