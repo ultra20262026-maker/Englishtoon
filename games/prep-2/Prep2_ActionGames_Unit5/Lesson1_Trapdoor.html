@@ -63,22 +63,6 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 }
 </style>
 <!-- /MOBILE-FIT-2027-head -->
-
-    <!-- MOBILE-FIT-2027-style -->
-    <style id="manus-mobile-fit">
-    html, body { touch-action: manipulation; -webkit-tap-highlight-color: transparent; overscroll-behavior: none; margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
-    canvas { max-width: 100%; max-height: 100%; object-fit: contain; }
-    button, .target-btn, .gg-target, .gg-btn, a, [onclick] { touch-action: manipulation; }
-    @media (max-width: 900px), (max-height: 520px) {
-      html { font-size: clamp(10px, 3vmin, 16px) !important; }
-      .gg-target, .target-btn { min-width: clamp(60px, 15vmin, 120px) !important; min-height: clamp(60px, 15vmin, 120px) !important; font-size: 1rem !important; }
-      #gg-prompt, #q-text { font-size: clamp(1.1rem, 4vw, 1.5rem) !important; padding: 10px !important; }
-      #gg-hud, #hud { font-size: 0.9rem !important; padding: 5px 10px !important; }
-      .gg-btn { padding: 10px 20px !important; font-size: 1.1rem !important; }
-    }
-    </style>
-    <!-- /MOBILE-FIT-2027-style -->
-    
 </head>
 <body>
 
@@ -100,16 +84,22 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 </div>
 
 <script>
-window.isMuted = function() { return true; };
-
 const QS = [{"type": "mcq", "q": "Europe and America are two different _____.", "choices": ["countries", "continents", "villages"], "answer": 1}, {"type": "mcq", "q": "What are your _____ experiences in Egypt?", "choices": ["unforgettable", "calmness", "unkindness"], "answer": 0}, {"type": "mcq", "q": "The pyramids in Giza are more _____ than anything I have visited before.", "choices": ["bad", "impressive", "ugly"], "answer": 1}, {"type": "mcq", "q": "The Egyptian _____ is getting higher every year.", "choices": ["population", "culture", "landmark"], "answer": 0}, {"type": "mcq", "q": "You can join our tea _____ tomorrow in our house.", "choices": ["country", "ceremony", "culture"], "answer": 1}, {"type": "mcq", "q": "I stayed in a beautiful _____ full of life.", "choices": ["building", "city", "street"], "answer": 1}, {"type": "mcq", "q": "Tokyo is the _____ city of Japan.", "choices": ["continent", "capital", "village"], "answer": 1}, {"type": "mcq", "q": "The _____ has the body of a lion and the head of a king.", "choices": ["pyramid", "mummy", "Sphinx"], "answer": 2}, {"type": "mcq", "q": "The Grand Egyptian Museum has many ancient _____.", "choices": ["treasures", "shows", "bazaars"], "answer": 0}, {"type": "mcq", "q": "The Sphinx looks _____ for many people around the world.", "choices": ["invaluable", "mysterious", "known"], "answer": 1}, {"type": "mcq", "q": "You can buy _____ and bargain at Khan El Khalili Bazaar.", "choices": ["treasures", "souvenirs", "mummies"], "answer": 1}, {"type": "mcq", "q": "A _____ is a cover for the face used in celebrations and shows.", "choices": ["hat", "mask", "glove"], "answer": 1}, {"type": "mcq", "q": "Luxor and Aswan are popular travel _____ for tourists.", "choices": ["paths", "traditions", "destinations"], "answer": 2}, {"type": "mcq", "q": "Most of our ancient statues were _____ from stones.", "choices": ["visited", "moved", "carved"], "answer": 2}, {"type": "mcq", "q": "_____ means a special beauty or attraction.", "choices": ["Hiking", "Peace", "Charm"], "answer": 2}, {"type": "mcq", "q": "You can visit the Blue _____ in Iceland.", "choices": ["painting", "Lagoon", "trail"], "answer": 1}, {"type": "mcq", "q": "I still have unforgettable _____ about my last visit to Luxor.", "choices": ["glaciers", "memories", "mountains"], "answer": 1}, {"type": "mcq", "q": "Reykjavik is the northernmost _____ in the world.", "choices": ["capital", "continent", "town"], "answer": 0}, {"type": "mcq", "q": "_____ is a hot spring from the earth's heat.", "choices": ["Geothermal", "Glacier", "Waterfall"], "answer": 0}, {"type": "mcq", "q": "You can also see volcanoes and _____ in Iceland.", "choices": ["pyramids", "monuments", "glaciers"], "answer": 2}, {"type": "mcq", "q": "Each country has a special _____.", "choices": ["tradition", "souvenir", "treasure"], "answer": 0}, {"type": "mcq", "q": "Aswan is a special place full of _____ and culture.", "choices": ["surprising", "exciting", "charm"], "answer": 2}, {"type": "mcq", "q": "Dubai has become a famous _____ city.", "choices": ["painting", "trading", "hiking"], "answer": 1}, {"type": "mcq", "q": "He told me about his amazing _____ after climbing the mountains.", "choices": ["paintings", "statues", "adventures"], "answer": 2}, {"type": "mcq", "q": "The Pyramids in Giza were one of the ancient seven _____.", "choices": ["wonders", "cities", "countries"], "answer": 0}];
 const cv = document.getElementById('cv');
 const ctx = cv.getContext('2d');
 cv.width = window.innerWidth; cv.height = window.innerHeight;
 window.addEventListener('resize', () => { cv.width = window.innerWidth; cv.height = window.innerHeight; });
 
-const AC = ({ state: "suspended", resume: () => {}, createOscillator: () => ({ connect: () => {}, start: () => {}, stop: () => {}, frequency: { setValueAtTime: () => {} } }), createGain: () => ({ connect: () => {}, gain: { setValueAtTime: () => {}, exponentialRampToValueAtTime: () => {} } }), destination: {} })
-function tone() {}
+const AC = new (window.AudioContext||window.webkitAudioContext)();
+function tone(f,d,t='sine',v=0.4){
+    if(AC.state==='suspended') AC.resume();
+    const o=AC.createOscillator(),g=AC.createGain();
+    o.connect(g);g.connect(AC.destination);
+    o.type=t;o.frequency.value=f;
+    g.gain.setValueAtTime(v,AC.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+d);
+    o.start();o.stop(AC.currentTime+d);
+}
 function sndCorrect(){ tone(523,.1); setTimeout(()=>tone(784,.3),100); }
 function sndWrong(){ tone(150,.6,'sawtooth'); setTimeout(()=>tone(100,.6,'sawtooth'),150); }
 function sndShoot(){ tone(300,.1,'square',0.1); }
@@ -174,7 +164,7 @@ function handleChoice(btn, isCorrect, index) {
                 if(b !== btn) b.style.opacity = '0.3';
             });
         }
-        // autoAdvanceTimer cleared // autoAdvance disabled }, isCorrect ? 1000 : 1500);
+        clearTimeout(autoAdvanceTimer); autoAdvanceTimer = setTimeout(() => { qIdx++; loadQ(); }, isCorrect ? 1000 : 1500);
     });
 }
 
@@ -286,5 +276,23 @@ mainLoop();
 })();
 </script>
 <!-- /MOBILE-FIT-2027-body -->
+
+<script id="prep-mute-js">
+(function(){
+    const originalCreateElement = document.createElement;
+    document.createElement = function(tag) {
+        const el = originalCreateElement.call(document, tag);
+        if (tag.toLowerCase() === 'audio') {
+            setTimeout(() => {
+                if (el.src && (el.src.includes('bg') || el.src.includes('music'))) {
+                    el.muted = true;
+                    el.volume = 0;
+                }
+            }, 0);
+        }
+        return el;
+    };
+})();
+</script>
 </body>
 </html>

@@ -62,22 +62,6 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 }
 </style>
 <!-- /MOBILE-FIT-2027-head -->
-
-    <!-- MOBILE-FIT-2027-style -->
-    <style id="manus-mobile-fit">
-    html, body { touch-action: manipulation; -webkit-tap-highlight-color: transparent; overscroll-behavior: none; margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
-    canvas { max-width: 100%; max-height: 100%; object-fit: contain; }
-    button, .target-btn, .gg-target, .gg-btn, a, [onclick] { touch-action: manipulation; }
-    @media (max-width: 900px), (max-height: 520px) {
-      html { font-size: clamp(10px, 3vmin, 16px) !important; }
-      .gg-target, .target-btn { min-width: clamp(60px, 15vmin, 120px) !important; min-height: clamp(60px, 15vmin, 120px) !important; font-size: 1rem !important; }
-      #gg-prompt, #q-text { font-size: clamp(1.1rem, 4vw, 1.5rem) !important; padding: 10px !important; }
-      #gg-hud, #hud { font-size: 0.9rem !important; padding: 5px 10px !important; }
-      .gg-btn { padding: 10px 20px !important; font-size: 1.1rem !important; }
-    }
-    </style>
-    <!-- /MOBILE-FIT-2027-style -->
-    
 </head>
 <body>
 
@@ -99,16 +83,22 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 </div>
 
 <script>
-window.isMuted = function() { return true; };
-
 const QS = [{"type": "mcq", "q": "Amira is the _____ intelligent one in class.", "choices": ["most", "much", "more"], "answer": 0}, {"type": "mcq", "q": "English is _____ than Math for some students.", "choices": ["easier", "easiest", "easy"], "answer": 0}, {"type": "mcq", "q": "This book is _____ interesting than the other one.", "choices": ["most", "more", "much"], "answer": 1}, {"type": "mcq", "q": "Which is the _____ animal in the world?", "choices": ["fastest", "faster", "fast"], "answer": 0}, {"type": "mcq", "q": "My bag is _____ than yours.", "choices": ["heaviest", "heavy", "heavier"], "answer": 2}, {"type": "mcq", "q": "He is the _____ boy in the team.", "choices": ["tall", "taller", "tallest"], "answer": 2}, {"type": "mcq", "q": "A plane is _____ than a train.", "choices": ["faster", "fastest", "fast"], "answer": 0}, {"type": "mcq", "q": "When I was in Europe, I saw _____ plants I have never seen before.", "choices": ["ugly", "strange", "safe"], "answer": 1}, {"type": "mcq", "q": "You can enjoy the _____ in Al Fayoum.", "choices": ["stadium", "waterfall", "highway"], "answer": 1}, {"type": "mcq", "q": "We can _____ into pairs and explore the city.", "choices": ["dream", "cut", "split"], "answer": 2}, {"type": "mcq", "q": "Health is _____ important than money.", "choices": ["much", "more", "most"], "answer": 1}, {"type": "mcq", "q": "That was the _____ day of my life!", "choices": ["happiest", "happier", "happy"], "answer": 0}, {"type": "mcq", "q": "Ali is _____ careful than his brother.", "choices": ["most", "much", "more"], "answer": 2}, {"type": "mcq", "q": "The story about how the pharaohs built the pyramids is still _____.", "choices": ["curious", "known", "mysterious"], "answer": 2}, {"type": "mcq", "q": "They want to collect _____ stones from the beach.", "choices": ["noisy", "ugly", "shiny"], "answer": 2}, {"type": "mcq", "q": "While walking through the forest, we heard a _____ sound.", "choices": ["ordinary", "strange", "bad"], "answer": 1}, {"type": "mcq", "q": "My friend pointed at an old tree that had split into two _____.", "choices": ["leaves", "branches", "parts"], "answer": 2}, {"type": "mcq", "q": "Playing sports is a fantastic way to stay _____.", "choices": ["unhealthy", "active", "lazy"], "answer": 1}, {"type": "mcq", "q": "Soccer and basketball are _____ sports.", "choices": ["personal", "individual", "team"], "answer": 2}, {"type": "mcq", "q": "Individual sports are like running or _____.", "choices": ["soccer", "swimming", "basketball"], "answer": 1}, {"type": "mcq", "q": "Sports can help you _____ your physical and mental health.", "choices": ["improve", "fall", "cross"], "answer": 0}, {"type": "mcq", "q": "Sports can help you develop _____ and leadership skills.", "choices": ["laziness", "teamwork", "selfishness"], "answer": 1}, {"type": "mcq", "q": "Our teacher _____ that there would be an English task next Monday.", "choices": ["told", "announced", "asked"], "answer": 1}, {"type": "mcq", "q": "We should _____ a good online balance for both learning and fun.", "choices": ["find", "leave", "take"], "answer": 0}, {"type": "mcq", "q": "The _____ in Tokyo is large, and the people are polite.", "choices": ["pollution", "continent", "population"], "answer": 2}];
 const cv = document.getElementById('cv');
 const ctx = cv.getContext('2d');
 cv.width = window.innerWidth; cv.height = window.innerHeight;
 window.addEventListener('resize', () => { cv.width = window.innerWidth; cv.height = window.innerHeight; });
 
-const AC = ({ state: "suspended", resume: () => {}, createOscillator: () => ({ connect: () => {}, start: () => {}, stop: () => {}, frequency: { setValueAtTime: () => {} } }), createGain: () => ({ connect: () => {}, gain: { setValueAtTime: () => {}, exponentialRampToValueAtTime: () => {} } }), destination: {} })
-function tone() {}
+const AC = new (window.AudioContext||window.webkitAudioContext)();
+function tone(f,d,t='sine',v=0.4){
+    if(AC.state==='suspended') AC.resume();
+    const o=AC.createOscillator(),g=AC.createGain();
+    o.connect(g);g.connect(AC.destination);
+    o.type=t;o.frequency.value=f;
+    g.gain.setValueAtTime(v,AC.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+d);
+    o.start();o.stop(AC.currentTime+d);
+}
 function sndCorrect(){ tone(523,.1); setTimeout(()=>tone(784,.3),100); }
 function sndWrong(){ tone(150,.6,'sawtooth'); setTimeout(()=>tone(100,.6,'sawtooth'),150); }
 function sndShoot(){ tone(300,.1,'square',0.1); }
@@ -173,7 +163,7 @@ function handleChoice(btn, isCorrect, index) {
                 if(b !== btn) b.style.opacity = '0.3';
             });
         }
-        // autoAdvanceTimer cleared // autoAdvance disabled }, isCorrect ? 1000 : 1500);
+        clearTimeout(autoAdvanceTimer); autoAdvanceTimer = setTimeout(() => { qIdx++; loadQ(); }, isCorrect ? 1000 : 1500);
     });
 }
 
@@ -289,5 +279,23 @@ mainLoop();
 })();
 </script>
 <!-- /MOBILE-FIT-2027-body -->
+
+<script id="prep-mute-js">
+(function(){
+    const originalCreateElement = document.createElement;
+    document.createElement = function(tag) {
+        const el = originalCreateElement.call(document, tag);
+        if (tag.toLowerCase() === 'audio') {
+            setTimeout(() => {
+                if (el.src && (el.src.includes('bg') || el.src.includes('music'))) {
+                    el.muted = true;
+                    el.volume = 0;
+                }
+            }, 0);
+        }
+        return el;
+    };
+})();
+</script>
 </body>
 </html>

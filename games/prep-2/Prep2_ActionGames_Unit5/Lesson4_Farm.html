@@ -62,22 +62,6 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 }
 </style>
 <!-- /MOBILE-FIT-2027-head -->
-
-    <!-- MOBILE-FIT-2027-style -->
-    <style id="manus-mobile-fit">
-    html, body { touch-action: manipulation; -webkit-tap-highlight-color: transparent; overscroll-behavior: none; margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
-    canvas { max-width: 100%; max-height: 100%; object-fit: contain; }
-    button, .target-btn, .gg-target, .gg-btn, a, [onclick] { touch-action: manipulation; }
-    @media (max-width: 900px), (max-height: 520px) {
-      html { font-size: clamp(10px, 3vmin, 16px) !important; }
-      .gg-target, .target-btn { min-width: clamp(60px, 15vmin, 120px) !important; min-height: clamp(60px, 15vmin, 120px) !important; font-size: 1rem !important; }
-      #gg-prompt, #q-text { font-size: clamp(1.1rem, 4vw, 1.5rem) !important; padding: 10px !important; }
-      #gg-hud, #hud { font-size: 0.9rem !important; padding: 5px 10px !important; }
-      .gg-btn { padding: 10px 20px !important; font-size: 1.1rem !important; }
-    }
-    </style>
-    <!-- /MOBILE-FIT-2027-style -->
-    
 </head>
 <body>
 
@@ -99,16 +83,22 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 </div>
 
 <script>
-window.isMuted = function() { return true; };
-
 const QS = [{"type": "mcq", "q": "I worked hard, _____ I improved my skills.", "choices": ["although", "so", "because"], "answer": 1}, {"type": "mcq", "q": "_____ they practiced very hard, they didn't win.", "choices": ["Although", "Because", "So"], "answer": 0}, {"type": "mcq", "q": "During our camping trip, we stayed in a _____ surrounded by beautiful nature.", "choices": ["tent", "station", "park"], "answer": 0}, {"type": "mcq", "q": "The opposite of the word 'peaceful' is _____.", "choices": ["calm", "quiet", "noisy"], "answer": 2}, {"type": "mcq", "q": "Traveling makes you see famous _____ and hear new languages.", "choices": ["houses", "landmarks", "trips"], "answer": 1}, {"type": "mcq", "q": "We stayed for _____ when we were in France.", "choices": ["days", "awhile", "long"], "answer": 1}, {"type": "mcq", "q": "I think this trip gave us the best _____ we will keep forever.", "choices": ["money", "memorize", "memories"], "answer": 2}, {"type": "mcq", "q": "The animals always _____ their babies from danger.", "choices": ["protect", "ignore", "attack"], "answer": 0}, {"type": "mcq", "q": "Did you buy any _____ for your mother when you were in London?", "choices": ["souvenirs", "memories", "mummies"], "answer": 0}, {"type": "mcq", "q": "The tourists go around the world to explore different _____.", "choices": ["cultures", "souvenirs", "perfumes"], "answer": 0}, {"type": "mcq", "q": "Paris is the _____ city of France.", "choices": ["castle", "citadel", "capital"], "answer": 2}, {"type": "mcq", "q": "The Citadel in Cairo was _____ in 1176.", "choices": ["build", "built", "building"], "answer": 1}, {"type": "mcq", "q": "He _____ Europe many times before.", "choices": ["has visited", "visit", "visited"], "answer": 0}, {"type": "mcq", "q": "The ancient statue was _____ from a single piece of stone.", "choices": ["carved", "carving", "carves"], "answer": 0}, {"type": "mcq", "q": "Ali always smiles _____ he is facing many problems.", "choices": ["but", "although", "so"], "answer": 1}, {"type": "mcq", "q": "Khan El Khalili is famous for its _____.", "choices": ["bazaars", "rivers", "mountains"], "answer": 0}, {"type": "mcq", "q": "People like to visit Khan El Khalili to buy souvenirs and _____ for fun.", "choices": ["bargain", "run", "swim"], "answer": 0}, {"type": "mcq", "q": "To express admiration, we can say 'Wow! That is _____ indeed!'", "choices": ["impressive", "boring", "terrible"], "answer": 0}, {"type": "mcq", "q": "In a dialogue about sports, a person asks: 'What do you like to do in your _____ time?'", "choices": ["work", "busy", "free"], "answer": 2}, {"type": "mcq", "q": "I like comedy films. What _____ you?", "choices": ["with", "for", "about"], "answer": 2}, {"type": "mcq", "q": "Do you like going _____? Yes, I love buying new clothes.", "choices": ["hiking", "swimming", "shopping"], "answer": 2}, {"type": "mcq", "q": "Who do you go shopping _____? With my friends.", "choices": ["for", "with", "about"], "answer": 1}, {"type": "mcq", "q": "We go shopping _____ a week.", "choices": ["once", "one", "two"], "answer": 0}, {"type": "mcq", "q": "The only thing I don't like about shopping is _____ the heavy bags.", "choices": ["to carry", "carrying", "carried"], "answer": 1}, {"type": "mcq", "q": "Water helps in moving _____ and keeping the body cool.", "choices": ["stones", "air", "blood"], "answer": 2}];
 const cv = document.getElementById('cv');
 const ctx = cv.getContext('2d');
 cv.width = window.innerWidth; cv.height = window.innerHeight;
 window.addEventListener('resize', () => { cv.width = window.innerWidth; cv.height = window.innerHeight; });
 
-const AC = ({ state: "suspended", resume: () => {}, createOscillator: () => ({ connect: () => {}, start: () => {}, stop: () => {}, frequency: { setValueAtTime: () => {} } }), createGain: () => ({ connect: () => {}, gain: { setValueAtTime: () => {}, exponentialRampToValueAtTime: () => {} } }), destination: {} })
-function tone() {}
+const AC = new (window.AudioContext||window.webkitAudioContext)();
+function tone(f,d,t='sine',v=0.4){
+    if(AC.state==='suspended') AC.resume();
+    const o=AC.createOscillator(),g=AC.createGain();
+    o.connect(g);g.connect(AC.destination);
+    o.type=t;o.frequency.value=f;
+    g.gain.setValueAtTime(v,AC.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+d);
+    o.start();o.stop(AC.currentTime+d);
+}
 function sndCorrect(){ tone(523,.1); setTimeout(()=>tone(784,.3),100); }
 function sndWrong(){ tone(150,.6,'sawtooth'); setTimeout(()=>tone(100,.6,'sawtooth'),150); }
 function sndShoot(){ tone(300,.1,'square',0.1); }
@@ -173,7 +163,7 @@ function handleChoice(btn, isCorrect, index) {
                 if(b !== btn) b.style.opacity = '0.3';
             });
         }
-        // autoAdvanceTimer cleared // autoAdvance disabled }, isCorrect ? 1000 : 1500);
+        clearTimeout(autoAdvanceTimer); autoAdvanceTimer = setTimeout(() => { qIdx++; loadQ(); }, isCorrect ? 1000 : 1500);
     });
 }
 
@@ -286,5 +276,23 @@ mainLoop();
 })();
 </script>
 <!-- /MOBILE-FIT-2027-body -->
+
+<script id="prep-mute-js">
+(function(){
+    const originalCreateElement = document.createElement;
+    document.createElement = function(tag) {
+        const el = originalCreateElement.call(document, tag);
+        if (tag.toLowerCase() === 'audio') {
+            setTimeout(() => {
+                if (el.src && (el.src.includes('bg') || el.src.includes('music'))) {
+                    el.muted = true;
+                    el.volume = 0;
+                }
+            }, 0);
+        }
+        return el;
+    };
+})();
+</script>
 </body>
 </html>

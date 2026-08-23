@@ -63,22 +63,6 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 }
 </style>
 <!-- /MOBILE-FIT-2027-head -->
-
-    <!-- MOBILE-FIT-2027-style -->
-    <style id="manus-mobile-fit">
-    html, body { touch-action: manipulation; -webkit-tap-highlight-color: transparent; overscroll-behavior: none; margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
-    canvas { max-width: 100%; max-height: 100%; object-fit: contain; }
-    button, .target-btn, .gg-target, .gg-btn, a, [onclick] { touch-action: manipulation; }
-    @media (max-width: 900px), (max-height: 520px) {
-      html { font-size: clamp(10px, 3vmin, 16px) !important; }
-      .gg-target, .target-btn { min-width: clamp(60px, 15vmin, 120px) !important; min-height: clamp(60px, 15vmin, 120px) !important; font-size: 1rem !important; }
-      #gg-prompt, #q-text { font-size: clamp(1.1rem, 4vw, 1.5rem) !important; padding: 10px !important; }
-      #gg-hud, #hud { font-size: 0.9rem !important; padding: 5px 10px !important; }
-      .gg-btn { padding: 10px 20px !important; font-size: 1.1rem !important; }
-    }
-    </style>
-    <!-- /MOBILE-FIT-2027-style -->
-    
 </head>
 <body>
 
@@ -100,16 +84,22 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 </div>
 
 <script>
-window.isMuted = function() { return true; };
-
 const QS = [{"type": "mcq", "q": "Computers are far more _____ than human beings.", "choices": ["efficient", "slow", "tired"], "answer": 0}, {"type": "mcq", "q": "Computers can store _____ faster and better.", "choices": ["water", "food", "information"], "answer": 2}, {"type": "mcq", "q": "Computers are useful for helping us catch _____.", "choices": ["teachers", "doctors", "criminals"], "answer": 2}, {"type": "mcq", "q": "A new kind of criminal knows how to _____ a computer.", "choices": ["clean", "fix", "corrupt"], "answer": 2}, {"type": "mcq", "q": "My mom is a teacher, and my dad is an _____.", "choices": ["engineer", "artist", "actor"], "answer": 1}, {"type": "mcq", "q": "My dad does _____ for storybooks.", "choices": ["sports", "music", "drawings"], "answer": 2}, {"type": "mcq", "q": "My mom teaches elementary school children and they do lots of _____ activities.", "choices": ["boring", "creative", "lazy"], "answer": 1}, {"type": "mcq", "q": "_____ is one of the most basic forms of arts using pencils or charcoal.", "choices": ["Sculpture", "Drawing", "Photography"], "answer": 1}, {"type": "mcq", "q": "_____ involves creating 3D works from materials like clay.", "choices": ["Drawing", "Painting", "Sculpture"], "answer": 2}, {"type": "mcq", "q": "_____ captures moments and emotions through a camera lens.", "choices": ["Photography", "Sculpture", "Painting"], "answer": 0}, {"type": "mcq", "q": "Being in nature made the vacation feel refreshing and _____.", "choices": ["calm", "noisy", "bad"], "answer": 0}, {"type": "mcq", "q": "We set up a tent near a _____ and spent the days hiking.", "choices": ["lake", "street", "highway"], "answer": 0}, {"type": "mcq", "q": "The evenings were peaceful, sitting by the _____ and listening to the forest.", "choices": ["campfire", "radio", "television"], "answer": 0}, {"type": "mcq", "q": "Being close to nature made the trip a perfect way to relax and _____.", "choices": ["stress", "work", "unwind"], "answer": 2}, {"type": "mcq", "q": "An email to a friend about a trip should be written in a _____ tone.", "choices": ["friendly", "angry", "formal"], "answer": 0}, {"type": "mcq", "q": "A paragraph about 'Famous Landmarks in Egypt' might include the _____.", "choices": ["Eiffel Tower", "Big Ben", "Sphinx"], "answer": 2}, {"type": "mcq", "q": "When writing about a country you want to visit, you describe its _____ and traditions.", "choices": ["stars", "planets", "culture"], "answer": 2}, {"type": "mcq", "q": "My trip to London is full of _____ experiences.", "choices": ["forgettable", "unforgettable", "bad"], "answer": 1}, {"type": "mcq", "q": "To start a story, you can use phrases like '_____'.", "choices": ["Tomorrow", "Next year", "Last summer"], "answer": 2}, {"type": "mcq", "q": "A biography is a text written about someone's _____.", "choices": ["life", "car", "house"], "answer": 0}, {"type": "mcq", "q": "A dream holiday usually involves _____ to amazing places.", "choices": ["working", "traveling", "sleeping"], "answer": 1}, {"type": "mcq", "q": "I had a sense of _____. It was so calm and quiet inside.", "choices": ["peaceful", "peacefulness", "peace"], "answer": 2}, {"type": "mcq", "q": "The postcards are so _____ with pictures of the temple at sunset.", "choices": ["colorful", "terrible", "dark"], "answer": 0}, {"type": "mcq", "q": "I bought a small statue of Horus as a _____.", "choices": ["souvenir", "treasure", "stone"], "answer": 0}, {"type": "mcq", "q": "The statue is huge and is beautifully _____.", "choices": ["carving", "carved", "carves"], "answer": 1}];
 const cv = document.getElementById('cv');
 const ctx = cv.getContext('2d');
 cv.width = window.innerWidth; cv.height = window.innerHeight;
 window.addEventListener('resize', () => { cv.width = window.innerWidth; cv.height = window.innerHeight; });
 
-const AC = ({ state: "suspended", resume: () => {}, createOscillator: () => ({ connect: () => {}, start: () => {}, stop: () => {}, frequency: { setValueAtTime: () => {} } }), createGain: () => ({ connect: () => {}, gain: { setValueAtTime: () => {}, exponentialRampToValueAtTime: () => {} } }), destination: {} })
-function tone() {}
+const AC = new (window.AudioContext||window.webkitAudioContext)();
+function tone(f,d,t='sine',v=0.4){
+    if(AC.state==='suspended') AC.resume();
+    const o=AC.createOscillator(),g=AC.createGain();
+    o.connect(g);g.connect(AC.destination);
+    o.type=t;o.frequency.value=f;
+    g.gain.setValueAtTime(v,AC.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+d);
+    o.start();o.stop(AC.currentTime+d);
+}
 function sndCorrect(){ tone(523,.1); setTimeout(()=>tone(784,.3),100); }
 function sndWrong(){ tone(150,.6,'sawtooth'); setTimeout(()=>tone(100,.6,'sawtooth'),150); }
 function sndShoot(){ tone(300,.1,'square',0.1); }
@@ -174,7 +164,7 @@ function handleChoice(btn, isCorrect, index) {
                 if(b !== btn) b.style.opacity = '0.3';
             });
         }
-        // autoAdvanceTimer cleared // autoAdvance disabled }, isCorrect ? 1000 : 1500);
+        clearTimeout(autoAdvanceTimer); autoAdvanceTimer = setTimeout(() => { qIdx++; loadQ(); }, isCorrect ? 1000 : 1500);
     });
 }
 
@@ -291,5 +281,23 @@ mainLoop();
 })();
 </script>
 <!-- /MOBILE-FIT-2027-body -->
+
+<script id="prep-mute-js">
+(function(){
+    const originalCreateElement = document.createElement;
+    document.createElement = function(tag) {
+        const el = originalCreateElement.call(document, tag);
+        if (tag.toLowerCase() === 'audio') {
+            setTimeout(() => {
+                if (el.src && (el.src.includes('bg') || el.src.includes('music'))) {
+                    el.muted = true;
+                    el.volume = 0;
+                }
+            }, 0);
+        }
+        return el;
+    };
+})();
+</script>
 </body>
 </html>

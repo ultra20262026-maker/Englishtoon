@@ -62,22 +62,6 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 }
 </style>
 <!-- /MOBILE-FIT-2027-head -->
-
-    <!-- MOBILE-FIT-2027-style -->
-    <style id="manus-mobile-fit">
-    html, body { touch-action: manipulation; -webkit-tap-highlight-color: transparent; overscroll-behavior: none; margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
-    canvas { max-width: 100%; max-height: 100%; object-fit: contain; }
-    button, .target-btn, .gg-target, .gg-btn, a, [onclick] { touch-action: manipulation; }
-    @media (max-width: 900px), (max-height: 520px) {
-      html { font-size: clamp(10px, 3vmin, 16px) !important; }
-      .gg-target, .target-btn { min-width: clamp(60px, 15vmin, 120px) !important; min-height: clamp(60px, 15vmin, 120px) !important; font-size: 1rem !important; }
-      #gg-prompt, #q-text { font-size: clamp(1.1rem, 4vw, 1.5rem) !important; padding: 10px !important; }
-      #gg-hud, #hud { font-size: 0.9rem !important; padding: 5px 10px !important; }
-      .gg-btn { padding: 10px 20px !important; font-size: 1.1rem !important; }
-    }
-    </style>
-    <!-- /MOBILE-FIT-2027-style -->
-    
 </head>
 <body>
 
@@ -99,16 +83,22 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 </div>
 
 <script>
-window.isMuted = function() { return true; };
-
 const QS = [{"type": "mcq", "q": "The trip to Ras Mohamed was an _____ experience.", "choices": ["unforgettable", "forgettable", "peaceful"], "answer": 0}, {"type": "mcq", "q": "We can enjoy the beautiful _____ in Al Fayoum.", "choices": ["weather", "stadium", "bridge"], "answer": 0}, {"type": "mcq", "q": "Salah El Din's _____ was built to protect Cairo.", "choices": ["school", "Citadel", "hospital"], "answer": 1}, {"type": "mcq", "q": "Some people are afraid of shark _____ in the sea.", "choices": ["rocks", "stones", "attacks"], "answer": 2}, {"type": "mcq", "q": "Tourists explore different traditions and _____.", "choices": ["cultures", "perfumes", "objects"], "answer": 0}, {"type": "mcq", "q": "Grand Egyptian Museum is one of the _____ museums in the world.", "choices": ["largest", "large", "larger"], "answer": 0}, {"type": "mcq", "q": "The population in China is _____ than Egypt's.", "choices": ["biggest", "big", "bigger"], "answer": 2}, {"type": "mcq", "q": "Our ancient history is the _____ impressive.", "choices": ["more", "much", "most"], "answer": 2}, {"type": "mcq", "q": "Maria is _____ beautiful than her friend.", "choices": ["most", "the most", "more"], "answer": 2}, {"type": "mcq", "q": "My hometown is _____ than Alexandria.", "choices": ["quietest", "quiet", "quieter"], "answer": 2}, {"type": "mcq", "q": "Grand Egyptian Museum is the _____ impressive one.", "choices": ["most", "more", "less"], "answer": 0}, {"type": "mcq", "q": "This is the _____ expensive car I have ever seen.", "choices": ["most", "much", "more"], "answer": 0}, {"type": "mcq", "q": "Luxor is _____ than Sharm El Sheikh.", "choices": ["hot", "hotter", "hottest"], "answer": 1}, {"type": "mcq", "q": "The Nile River is the _____ river in the world.", "choices": ["longer", "long", "longest"], "answer": 2}, {"type": "mcq", "q": "The painting is _____ beautiful than the one in the living room.", "choices": ["the most", "more", "most"], "answer": 1}, {"type": "mcq", "q": "Cairo is _____ crowded than Luxor.", "choices": ["most", "the most", "more"], "answer": 2}, {"type": "mcq", "q": "Reading short stories is much _____ than watching movies.", "choices": ["useful", "more useful", "most useful"], "answer": 1}, {"type": "mcq", "q": "January is usually the _____ month in Egypt.", "choices": ["coldest", "colder", "cold"], "answer": 0}, {"type": "mcq", "q": "Our trip in Jordan was one of the _____ we've ever had.", "choices": ["most impressive", "impressive", "more impressive"], "answer": 0}, {"type": "mcq", "q": "Asia is the _____ continent in the world.", "choices": ["larger", "large", "largest"], "answer": 2}, {"type": "mcq", "q": "Cairo is _____ than Alexandria.", "choices": ["bigger", "big", "biggest"], "answer": 0}, {"type": "mcq", "q": "No month is _____ than August in Egypt.", "choices": ["hot", "hotter", "hottest"], "answer": 1}, {"type": "mcq", "q": "I have never read a _____ exciting story than 'The Little Inventor'.", "choices": ["less", "more", "most"], "answer": 1}, {"type": "mcq", "q": "Adel is _____ than Ali.", "choices": ["short", "shortest", "shorter"], "answer": 2}, {"type": "mcq", "q": "Japan is _____ modern than India.", "choices": ["more", "the most", "most"], "answer": 0}];
 const cv = document.getElementById('cv');
 const ctx = cv.getContext('2d');
 cv.width = window.innerWidth; cv.height = window.innerHeight;
 window.addEventListener('resize', () => { cv.width = window.innerWidth; cv.height = window.innerHeight; });
 
-const AC = ({ state: "suspended", resume: () => {}, createOscillator: () => ({ connect: () => {}, start: () => {}, stop: () => {}, frequency: { setValueAtTime: () => {} } }), createGain: () => ({ connect: () => {}, gain: { setValueAtTime: () => {}, exponentialRampToValueAtTime: () => {} } }), destination: {} })
-function tone() {}
+const AC = new (window.AudioContext||window.webkitAudioContext)();
+function tone(f,d,t='sine',v=0.4){
+    if(AC.state==='suspended') AC.resume();
+    const o=AC.createOscillator(),g=AC.createGain();
+    o.connect(g);g.connect(AC.destination);
+    o.type=t;o.frequency.value=f;
+    g.gain.setValueAtTime(v,AC.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+d);
+    o.start();o.stop(AC.currentTime+d);
+}
 function sndCorrect(){ tone(523,.1); setTimeout(()=>tone(784,.3),100); }
 function sndWrong(){ tone(150,.6,'sawtooth'); setTimeout(()=>tone(100,.6,'sawtooth'),150); }
 function sndShoot(){ tone(300,.1,'square',0.1); }
@@ -173,7 +163,7 @@ function handleChoice(btn, isCorrect, index) {
                 if(b !== btn) b.style.opacity = '0.3';
             });
         }
-        // autoAdvanceTimer cleared // autoAdvance disabled }, isCorrect ? 1000 : 1500);
+        clearTimeout(autoAdvanceTimer); autoAdvanceTimer = setTimeout(() => { qIdx++; loadQ(); }, isCorrect ? 1000 : 1500);
     });
 }
 
@@ -288,5 +278,23 @@ mainLoop();
 })();
 </script>
 <!-- /MOBILE-FIT-2027-body -->
+
+<script id="prep-mute-js">
+(function(){
+    const originalCreateElement = document.createElement;
+    document.createElement = function(tag) {
+        const el = originalCreateElement.call(document, tag);
+        if (tag.toLowerCase() === 'audio') {
+            setTimeout(() => {
+                if (el.src && (el.src.includes('bg') || el.src.includes('music'))) {
+                    el.muted = true;
+                    el.volume = 0;
+                }
+            }, 0);
+        }
+        return el;
+    };
+})();
+</script>
 </body>
 </html>
