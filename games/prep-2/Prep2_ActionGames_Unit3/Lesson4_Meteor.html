@@ -61,22 +61,6 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 }
 </style>
 <!-- /MOBILE-FIT-2027-head -->
-
-    <!-- MOBILE-FIT-2027-style -->
-    <style id="manus-mobile-fit">
-    html, body { touch-action: manipulation; -webkit-tap-highlight-color: transparent; overscroll-behavior: none; margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
-    canvas { max-width: 100%; max-height: 100%; object-fit: contain; }
-    button, .target-btn, .gg-target, .gg-btn, a, [onclick] { touch-action: manipulation; }
-    @media (max-width: 900px), (max-height: 520px) {
-      html { font-size: clamp(10px, 3vmin, 16px) !important; }
-      .gg-target, .target-btn { min-width: clamp(60px, 15vmin, 120px) !important; min-height: clamp(60px, 15vmin, 120px) !important; font-size: 1rem !important; }
-      #gg-prompt, #q-text { font-size: clamp(1.1rem, 4vw, 1.5rem) !important; padding: 10px !important; }
-      #gg-hud, #hud { font-size: 0.9rem !important; padding: 5px 10px !important; }
-      .gg-btn { padding: 10px 20px !important; font-size: 1.1rem !important; }
-    }
-    </style>
-    <!-- /MOBILE-FIT-2027-style -->
-    
 </head>
 <body>
 
@@ -98,16 +82,22 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 </div>
 
 <script>
-window.isMuted = function() { return true; };
-
 const QS = [{"type": "mcq", "q": "Facing challenges in life teaches us to be braver and more _____.", "choices": ["lazy", "confident", "careless"], "answer": 1}, {"type": "mcq", "q": "Our school principal _____ that the school fair would be next month.", "choices": ["announced", "prepared", "keep"], "answer": 0}, {"type": "mcq", "q": "Facing challenges makes a lot of people better _____ for the future.", "choices": ["announced", "keep", "prepared"], "answer": 2}, {"type": "mcq", "q": "We should all _____ going, even if we face challenges.", "choices": ["prepare", "keep", "announce"], "answer": 1}, {"type": "mcq", "q": "The teacher admired Amal's _____.", "choices": ["sadness", "creativity", "laziness"], "answer": 1}, {"type": "mcq", "q": "Amal used her tools _____.", "choices": ["responsibly", "badly", "carelessly"], "answer": 0}, {"type": "mcq", "q": "She felt proud because she stayed true to _____ she is.", "choices": ["who", "where", "when"], "answer": 0}, {"type": "mcq", "q": "If you are a role model, people will try to be _____ you.", "choices": ["unlike", "like", "hate"], "answer": 1}, {"type": "mcq", "q": "When I face an obstacle, I try to overcome _____.", "choices": ["them", "her", "it"], "answer": 2}, {"type": "mcq", "q": "Giving a speech can make you feel _____ at first.", "choices": ["nervous", "confident", "happy"], "answer": 0}, {"type": "mcq", "q": "It's okay to make _____ in life; we learn from them.", "choices": ["mistakes", "friends", "money"], "answer": 0}, {"type": "mcq", "q": "Amal's robot was a _____ invention.", "choices": ["creative", "useless", "boring"], "answer": 0}, {"type": "mcq", "q": "To 'come up with' means to _____.", "choices": ["forget", "invent/think of", "destroy"], "answer": 1}, {"type": "mcq", "q": "A school fair is a place to _____ projects.", "choices": ["ignore", "hide", "display"], "answer": 2}, {"type": "mcq", "q": "Computers are being used more and more _____ in the world today.", "choices": ["narrowly", "badly", "widely"], "answer": 2}, {"type": "mcq", "q": "Computers are far more _____ than human beings.", "choices": ["slow", "efficient", "lazy"], "answer": 1}, {"type": "mcq", "q": "Computers can _____ information faster and better.", "choices": ["store", "break", "lose"], "answer": 0}, {"type": "mcq", "q": "Computers can help the police fight _____.", "choices": ["peace", "health", "crime"], "answer": 2}, {"type": "mcq", "q": "They can find out information about people's _____.", "choices": ["appearance", "dreams", "food"], "answer": 0}, {"type": "mcq", "q": "We should never _____ up.", "choices": ["keep", "take", "give"], "answer": 2}, {"type": "mcq", "q": "Photographs of criminals are seen across the computer _____.", "choices": ["keyboard", "screen", "mouse"], "answer": 1}, {"type": "mcq", "q": "A new kind of criminal knows how to _____ a computer.", "choices": ["fix", "build", "corrupt"], "answer": 2}, {"type": "mcq", "q": "Human beings are _____ than computers.", "choices": ["more efficient", "less efficient", "faster"], "answer": 1}, {"type": "mcq", "q": "The criminal who corrupts a computer is very _____ to be caught.", "choices": ["difficult", "easy", "simple"], "answer": 0}, {"type": "mcq", "q": "Saja uses her smartphone for _____ with her friends.", "choices": ["chatting", "eating", "sleeping"], "answer": 0}];
 const cv = document.getElementById('cv');
 const ctx = cv.getContext('2d');
 cv.width = window.innerWidth; cv.height = window.innerHeight;
 window.addEventListener('resize', () => { cv.width = window.innerWidth; cv.height = window.innerHeight; });
 
-const AC = ({ state: "suspended", resume: () => {}, createOscillator: () => ({ connect: () => {}, start: () => {}, stop: () => {}, frequency: { setValueAtTime: () => {} } }), createGain: () => ({ connect: () => {}, gain: { setValueAtTime: () => {}, exponentialRampToValueAtTime: () => {} } }), destination: {} })
-function tone() {}
+const AC = new (window.AudioContext||window.webkitAudioContext)();
+function tone(f,d,t='sine',v=0.4){
+    if(AC.state==='suspended') AC.resume();
+    const o=AC.createOscillator(),g=AC.createGain();
+    o.connect(g);g.connect(AC.destination);
+    o.type=t;o.frequency.value=f;
+    g.gain.setValueAtTime(v,AC.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+d);
+    o.start();o.stop(AC.currentTime+d);
+}
 function sndCorrect(){ tone(523,.1); setTimeout(()=>tone(784,.3),100); }
 function sndWrong(){ tone(150,.6,'sawtooth'); setTimeout(()=>tone(100,.6,'sawtooth'),150); }
 function sndShoot(){ tone(300,.1,'square',0.1); }
@@ -170,7 +160,7 @@ function handleChoice(btn, isCorrect, index) {
                 if(b !== btn) b.style.opacity = '0.3';
             });
         }
-        // autoAdvanceTimer cleared // autoAdvance disabled }, isCorrect ? 1000 : 1500);
+        clearTimeout(autoAdvanceTimer); autoAdvanceTimer = setTimeout(() => { qIdx++; loadQ(); }, isCorrect ? 1000 : 1500);
     });
 }
 
@@ -284,5 +274,23 @@ mainLoop();
 })();
 </script>
 <!-- /MOBILE-FIT-2027-body -->
+
+<script id="prep-mute-js">
+(function(){
+    const originalCreateElement = document.createElement;
+    document.createElement = function(tag) {
+        const el = originalCreateElement.call(document, tag);
+        if (tag.toLowerCase() === 'audio') {
+            setTimeout(() => {
+                if (el.src && (el.src.includes('bg') || el.src.includes('music'))) {
+                    el.muted = true;
+                    el.volume = 0;
+                }
+            }, 0);
+        }
+        return el;
+    };
+})();
+</script>
 </body>
 </html>
