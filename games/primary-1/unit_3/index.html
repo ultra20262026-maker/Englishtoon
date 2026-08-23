@@ -4,39 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Primary 1 - unit 3</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: sans-serif; padding: 20px; background: #f0f4f8; }
-        h1 { color: #2c3e50; text-align: center; }
-        .game-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; max-width: 1000px; margin: 0 auto; }
-        .game-item { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; transition: transform 0.2s; }
-        .game-item:hover { transform: translateY(-5px); }
-        .game-item a { text-decoration: none; color: #3498db; font-weight: bold; display: block; }
-        .back-link { display: block; text-align: center; margin-top: 30px; color: #7f8c8d; text-decoration: none; }
+        body { font-family: 'Nunito', sans-serif; background: #1a1a2e; color: white; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        h1 { font-family: 'Fredoka One', cursive; color: #f39c12; margin-bottom: 30px; text-align: center; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; width: 100%; max-width: 1000px; }
+        .game-card { background: #16213e; border: 2px solid #4a90e2; border-radius: 15px; padding: 20px; text-decoration: none; color: white; text-align: center; transition: transform 0.2s, background 0.2s; }
+        .game-card:hover { transform: scale(1.05); background: #1f4068; }
+        .game-card h3 { margin: 0; font-size: 1.2rem; }
+        .back-btn { margin-top: 40px; padding: 10px 25px; background: #e74c3c; color: white; text-decoration: none; border-radius: 25px; font-weight: bold; }
     </style>
 </head>
 <body>
     <h1>Primary 1 - unit 3</h1>
-    <div class="game-list">
-            <div class="game-item"><a href="10_الاستماع_والاختيار.html">10 الاستماع والاختيار</a></div>
-        <div class="game-item"><a href="11_بناء_الجمل.html">11 بناء الجمل</a></div>
-        <div class="game-item"><a href="12_بناء_البرج.html">12 بناء البرج</a></div>
-        <div class="game-item"><a href="13_سباق_السيارات.html">13 سباق السيارات</a></div>
-        <div class="game-item"><a href="14_القطار_السريع.html">14 القطار السريع</a></div>
-        <div class="game-item"><a href="15_صائد_الفراشات.html">15 صائد الفراشات</a></div>
-        <div class="game-item"><a href="16_كرة_السلة.html">16 كرة السلة</a></div>
-        <div class="game-item"><a href="17_البالون_الطائر.html">17 البالون الطائر</a></div>
-        <div class="game-item"><a href="18_توصيل_الظل.html">18 توصيل الظل</a></div>
-        <div class="game-item"><a href="19_صيد_البط.html">19 صيد البط</a></div>
-        <div class="game-item"><a href="1_صيد_الكلمات.html">1 صيد الكلمات</a></div>
-        <div class="game-item"><a href="20_السمكة_الجائعة.html">20 السمكة الجائعة</a></div>
-        <div class="game-item"><a href="2_البطاقات_التعليمية.html">2 البطاقات التعليمية</a></div>
-        <div class="game-item"><a href="3_توصيل_الكلمات.html">3 توصيل الكلمات</a></div>
-        <div class="game-item"><a href="4_سؤال_وجواب.html">4 سؤال وجواب</a></div>
-        <div class="game-item"><a href="6_فرقعة_الفقاعات.html">6 فرقعة الفقاعات</a></div>
-        <div class="game-item"><a href="7_الحرف_المفقود.html">7 الحرف المفقود</a></div>
-        <div class="game-item"><a href="8_تصنيف_الكلمات.html">8 تصنيف الكلمات</a></div>
-        <div class="game-item"><a href="9_ذاكرة_البطاقات.html">9 ذاكرة البطاقات</a></div>
+    <div class="grid">
+        <a href="10_الاستماع_والاختيار.html" class="game-card"><h3>10 الاستماع والاختيار</h3></a>
+<a href="11_بناء_الجمل.html" class="game-card"><h3>11 بناء الجمل</h3></a>
+<a href="12_بناء_البرج.html" class="game-card"><h3>12 بناء البرج</h3></a>
+<a href="13_سباق_السيارات.html" class="game-card"><h3>13 سباق السيارات</h3></a>
+<a href="14_القطار_السريع.html" class="game-card"><h3>14 القطار السريع</h3></a>
+<a href="15_صائد_الفراشات.html" class="game-card"><h3>15 صائد الفراشات</h3></a>
+<a href="16_كرة_السلة.html" class="game-card"><h3>16 كرة السلة</h3></a>
+<a href="17_البالون_الطائر.html" class="game-card"><h3>17 البالون الطائر</h3></a>
+<a href="18_توصيل_الظل.html" class="game-card"><h3>18 توصيل الظل</h3></a>
+<a href="19_صيد_البط.html" class="game-card"><h3>19 صيد البط</h3></a>
+<a href="1_صيد_الكلمات.html" class="game-card"><h3>1 صيد الكلمات</h3></a>
+<a href="20_السمكة_الجائعة.html" class="game-card"><h3>20 السمكة الجائعة</h3></a>
+<a href="2_البطاقات_التعليمية.html" class="game-card"><h3>2 البطاقات التعليمية</h3></a>
+<a href="3_توصيل_الكلمات.html" class="game-card"><h3>3 توصيل الكلمات</h3></a>
+<a href="4_سؤال_وجواب.html" class="game-card"><h3>4 سؤال وجواب</h3></a>
+<a href="6_فرقعة_الفقاعات.html" class="game-card"><h3>6 فرقعة الفقاعات</h3></a>
+<a href="7_الحرف_المفقود.html" class="game-card"><h3>7 الحرف المفقود</h3></a>
+<a href="8_تصنيف_الكلمات.html" class="game-card"><h3>8 تصنيف الكلمات</h3></a>
+<a href="9_ذاكرة_البطاقات.html" class="game-card"><h3>9 ذاكرة البطاقات</h3></a>
+
     </div>
-    <a href="../../games.html" class="back-link">← Back to Grades</a>
+    <a href="../../games.html" class="back-btn">Back to Grades</a>
 </body>
 </html>
