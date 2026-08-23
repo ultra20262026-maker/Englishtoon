@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Whack-A-Mole - Unit 2</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Nunito', sans-serif; overflow: hidden; width: 100vw; height: 100vh; background: #000; user-select: none; }
+
+/* HUD */
+#hud { position: fixed; top: 0; left: 0; right: 0; padding: 15px 30px; display: flex; justify-content: space-between; color: white; font-size: 1.5rem; font-weight: 900; z-index: 200; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); pointer-events: none; }
+#score-val { color: #f1c40f; }
+
+/* Question Panel */
+#q-panel { position: fixed; top: 70px; left: 0; right: 0; display: flex; justify-content: center; z-index: 150; pointer-events: none; }
+#q-text { background: rgba(0,0,0,0.7); border: 2px solid rgba(255,255,255,0.2); padding: 15px 40px; border-radius: 30px; color: white; font-size: 1.8rem; font-weight: 900; max-width: 80%; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.5); line-height: 1.4; }
+
+/* Targets Container */
+#targets { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 100; pointer-events: none; }
+.target-btn { position: absolute; transform: translate(-50%, -50%); pointer-events: auto; cursor: pointer; border: none; font-family: 'Fredoka One', cursive; font-size: 1.4rem; color: white; text-shadow: 2px 2px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; display: flex; justify-content: center; align-items: center; text-align: center; line-height: 1.2; padding: 10px; transition: filter 0.2s; }
+.target-btn:hover { filter: brightness(1.2); }
+.target-btn:disabled { cursor: not-allowed; }
+
+/* Canvas */
+canvas { display: block; position: fixed; top: 0; left: 0; z-index: 10; }
+
+/* End Screen */
+#end-screen { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 300; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; }
+#end-screen.show { display: flex; }
+#end-screen h1 { font-size: 4rem; margin-bottom: 20px; font-family: 'Fredoka One', cursive; }
+#end-screen p { font-size: 2rem; color: #f1c40f; margin-bottom: 30px; font-weight: 900; }
+#end-screen button { padding: 15px 50px; background: #e74c3c; color: white; border: none; border-radius: 40px; font-size: 1.5rem; font-weight: 900; cursor: pointer; font-family: 'Nunito', sans-serif; transition: transform 0.2s; }
+#end-screen button:hover { transform: scale(1.1); background: #c0392b; }
+
+/* Game Specific CSS */
+
+body { background: #27ae60; }
+.target-btn {
+    width: 130px; height: 110px;
+    background: #8e44ad;
+    border-radius: 50% 50% 10% 10%;
+    border: 4px solid #2c3e50;
+    box-shadow: inset 0 -15px 0 rgba(0,0,0,0.2);
+    transition: top 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+</style>
+<!-- MOBILE-FIT-2027 -->
+<style id="mobile-fit-2027">
+html, body { touch-action: manipulation; -webkit-tap-highlight-color: transparent; overscroll-behavior: none; }
+button, .target-btn, a, [onclick] { touch-action: manipulation; }
+@media (max-width: 900px), (max-height: 520px) {
+  html { font-size: clamp(11px, 3.4vmin, 16px) !important; }
+}
+</style>
+<style id="mobile-fit-2027-2a">
+@media (max-width: 900px), (max-height: 520px) {
+  .target-btn { width: clamp(56px, 15vmin, 140px) !important; height: clamp(56px, 15vmin, 140px) !important; font-size: clamp(0.7rem, 3.2vmin, 1.4rem) !important; }
+  #q-text { font-size: clamp(0.85rem, 3.4vmin, 1.8rem) !important; padding: clamp(8px,2vmin,15px) clamp(14px,4vmin,40px) !important; max-width: 94% !important; }
+  #hud { font-size: clamp(0.8rem, 3vmin, 1.5rem) !important; padding: 10px 14px !important; }
+  #end-screen h1 { font-size: clamp(1.8rem, 8vmin, 4rem) !important; }
+  #end-screen p { font-size: clamp(1.1rem, 4.5vmin, 2rem) !important; }
+  #end-screen button { padding: clamp(10px,3vmin,15px) clamp(24px,8vmin,50px) !important; font-size: clamp(0.95rem, 3.6vmin, 1.5rem) !important; }
+}
+</style>
+<!-- /MOBILE-FIT-2027-head -->
+
+    <!-- MOBILE-FIT-2027-style -->
+    <style id="manus-mobile-fit">
+    html, body { touch-action: manipulation; -webkit-tap-highlight-color: transparent; overscroll-behavior: none; margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
+    canvas { max-width: 100%; max-height: 100%; object-fit: contain; }
+    button, .target-btn, .gg-target, .gg-btn, a, [onclick] { touch-action: manipulation; }
+    @media (max-width: 900px), (max-height: 520px) {
+      html { font-size: clamp(10px, 3vmin, 16px) !important; }
+      .gg-target, .target-btn { min-width: clamp(60px, 15vmin, 120px) !important; min-height: clamp(60px, 15vmin, 120px) !important; font-size: 1rem !important; }
+      #gg-prompt, #q-text { font-size: clamp(1.1rem, 4vw, 1.5rem) !important; padding: 10px !important; }
+      #gg-hud, #hud { font-size: 0.9rem !important; padding: 5px 10px !important; }
+      .gg-btn { padding: 10px 20px !important; font-size: 1.1rem !important; }
+    }
+    </style>
+    <!-- /MOBILE-FIT-2027-style -->
+    
+</head>
+<body>
+
+<div id="hud">
+    <div>Whack-A-Mole - Unit 2</div>
+    <div id="q-num">Q 1/25</div>
+    <div>Score: <span id="score-val">0</span></div>
+</div>
+
+<div id="q-panel"><div id="q-text"></div></div>
+
+<div id="targets"></div>
+<canvas id="cv"></canvas>
+
+<div id="end-screen">
+    <h1 id="end-title">Game Over!</h1>
+    <p id="end-score">Score: 0</p>
+    <button onclick="location.reload()">ðŸ”„ Play Again</button>
+</div>
+
+<script>
+window.isMuted = function() { return true; };
+
+const QS = [{"type": "mcq", "q": "The antonym of 'small' is _____.", "choices": ["tiny", "big", "little"], "answer": 1}, {"type": "mcq", "q": "You should think _____ before posting.", "choices": ["careless", "badly", "carefully"], "answer": 2}, {"type": "mcq", "q": "A person who is fully grown is an _____.", "choices": ["toddler", "child", "adult"], "answer": 2}, {"type": "mcq", "q": "To 'experience' means to go _____ something.", "choices": ["through", "in", "on"], "answer": 0}, {"type": "mcq", "q": "Gen Alpha are children born from _____.", "choices": ["2000", "2010", "1990"], "answer": 1}, {"type": "mcq", "q": "Parents try to _____ their children's screen time.", "choices": ["increase", "limit", "double"], "answer": 1}, {"type": "mcq", "q": "The _____ helps you organize your schedule.", "choices": ["fridge", "oven", "calendar"], "answer": 2}, {"type": "mcq", "q": "They like to share _____ and emojis.", "choices": ["food", "memes", "clothes"], "answer": 1}, {"type": "mcq", "q": "Working women try to _____ their personal life with work.", "choices": ["reduce", "limit", "balance"], "answer": 2}, {"type": "mcq", "q": "If people live _____, they communicate using mobiles.", "choices": ["close", "far apart", "near"], "answer": 1}, {"type": "mcq", "q": "The policemen found a _____ that leads to the criminal.", "choices": ["clue", "clay", "coin"], "answer": 0}, {"type": "mcq", "q": "A lot of projects _____ in Egypt.", "choices": ["are done", "is done", "does"], "answer": 0}, {"type": "mcq", "q": "The internet _____ by millions.", "choices": ["are used", "is used", "use"], "answer": 1}, {"type": "mcq", "q": "Amal felt frustrated, but Yara showed _____.", "choices": ["fear", "anger", "empathy"], "answer": 2}, {"type": "mcq", "q": "Never laugh _____ someone's mistakes.", "choices": ["at", "in", "with"], "answer": 0}, {"type": "mcq", "q": "If I don't set my privacy settings, my photos will be seen. The password was _____.", "choices": ["hacked", "hooked", "healed"], "answer": 0}, {"type": "mcq", "q": "Don't put yourself _____ risk.", "choices": ["on", "at", "in"], "answer": 1}, {"type": "mcq", "q": "You should make _____ that you don't share your location.", "choices": ["do", "take", "sure"], "answer": 2}, {"type": "mcq", "q": "A passive footprint is left _____.", "choices": ["intentionally", "purposefully", "unintentionally"], "answer": 2}, {"type": "mcq", "q": "We _____ our grandparents next weekend.", "choices": ["are visiting", "visit", "visits"], "answer": 0}, {"type": "mcq", "q": "My room _____ clean.", "choices": ["is kept", "keeps", "keep"], "answer": 0}, {"type": "mcq", "q": "The synonym of 'protect' is _____.", "choices": ["spoil", "destroy", "save"], "answer": 2}, {"type": "mcq", "q": "Prefix '_____' gives the opposite of 'comfortable'.", "choices": ["dis-", "in-", "un-"], "answer": 2}, {"type": "mcq", "q": "Amal was learning from _____ places online.", "choices": ["dangerous", "unreliable", "trustworthy"], "answer": 2}, {"type": "mcq", "q": "My computer _____ by my brother.", "choices": ["is fixed", "fixes", "are fixed"], "answer": 0}];
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+cv.width = window.innerWidth; cv.height = window.innerHeight;
+
+window.addEventListener('resize', () => { cv.width = window.innerWidth; cv.height = window.innerHeight; });
+
+// AUDIO
+const AC = ({ state: "suspended", resume: () => {}, createOscillator: () => ({ connect: () => {}, start: () => {}, stop: () => {}, frequency: { setValueAtTime: () => {} } }), createGain: () => ({ connect: () => {}, gain: { setValueAtTime: () => {}, exponentialRampToValueAtTime: () => {} } }), destination: {} })
+function tone() {}
+function sndCorrect(){ tone(523,.1); setTimeout(()=>tone(784,.3),100); }
+function sndWrong(){ tone(150,.6,'sawtooth'); setTimeout(()=>tone(100,.6,'sawtooth'),150); }
+function sndShoot(){ tone(300,.1,'square',0.1); }
+
+// CORE GAME LOGIC
+let qIdx = 0, score = 0, locked = false;
+let particles = [];
+let gameEntities = {}; // Custom state for each game
+
+function loadQ() {
+    if(qIdx >= QS.length) { showEndScreen(); return; }
+    const q = QS[qIdx];
+    locked = false;
+    document.getElementById('q-text').textContent = q.q;
+    document.getElementById('q-num').textContent = `Q ${qIdx+1}/${QS.length}`;
+    
+    const container = document.getElementById('targets');
+    container.innerHTML = '';
+    
+    let choices = [...q.choices];
+    while(choices.length < 3) choices.push('...');
+    choices = choices.slice(0, 3);
+    const correctText = q.choices[q.answer] || q.choices[0];
+    
+    const labeled = choices.map(c => ({ text: c, isCorrect: c === correctText }));
+    labeled.sort(() => Math.random() - 0.5); // Shuffle
+    
+    labeled.forEach((item, i) => {
+        if(!item.text) return;
+        const btn = document.createElement('button');
+        btn.className = 'target-btn';
+        btn.textContent = item.text;
+        btn.onclick = () => handleChoice(btn, item.isCorrect, i);
+        container.appendChild(btn);
+        
+        // Let the specific game set the button's position and appearance
+        gameInitTarget(btn, i, labeled.length);
+    });
+    
+    if(typeof gameOnLoadQ === 'function') gameOnLoadQ();
+}
+
+function handleChoice(btn, isCorrect, index) {
+    if(locked) return;
+    locked = true;
+    document.querySelectorAll('.target-btn').forEach(b => b.disabled = true);
+    
+    const rect = btn.getBoundingClientRect();
+    const tx = rect.left + rect.width / 2;
+    const ty = rect.top + rect.height / 2;
+    
+    // Call specific game animation
+    gameAnimateAction(tx, ty, isCorrect, btn, () => {
+        // Action finished hitting target
+        if(isCorrect) {
+            score += 100;
+            document.getElementById('score-val').textContent = score;
+            sndCorrect();
+            createParticles(tx, ty, '#2ecc71', 30);
+            btn.style.transform += ' scale(0)';
+        } else {
+            sndWrong();
+            createParticles(tx, ty, '#e74c3c', 30);
+            btn.style.transform += ' scale(0)';
+            // Show correct answer briefly
+            document.querySelectorAll('.target-btn').forEach(b => {
+                if(b !== btn) b.style.opacity = '0.3';
+            });
+        }
+        
+        // autoAdvanceTimer cleared // autoAdvance disabled
+        }, isCorrect ? 1000 : 1500);
+    });
+}
+
+function createParticles(x, y, color, count) {
+    for(let i=0; i<count; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 8 + 2;
+        particles.push({
+            x, y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            life: 1, color, size: Math.random() * 5 + 3
+        });
+    }
+}
+
+function updateAndDrawParticles() {
+    particles = particles.filter(p => p.life > 0);
+    particles.forEach(p => {
+        p.x += p.vx; p.y += p.vy; p.vy += 0.2; // Gravity
+        p.life -= 0.02;
+        ctx.globalAlpha = Math.max(0, p.life);
+        ctx.fillStyle = p.color;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
+        ctx.globalAlpha = 1;
+    });
+}
+
+function showEndScreen() {
+    document.getElementById('end-screen').classList.add('show');
+    document.getElementById('end-title').textContent = score >= (QS.length*70) ? 'ðŸ† Awesome!' : 'ðŸ’ª Good Effort!';
+    document.getElementById('end-score').textContent = `Final Score: ${score}`;
+}
+
+// Request Animation Frame loop
+function mainLoop() {
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    gameDrawBackground();
+    gameDrawForeground();
+    updateAndDrawParticles();
+    requestAnimationFrame(mainLoop);
+}
+
+// Init
+
+let tTime = 0;
+let mallet = null;
+
+function gameInitTarget(btn, i, total) {
+    const spacing = window.innerWidth / (total + 1);
+    btn.dataset.x = spacing * (i + 1);
+    btn.dataset.baseY = window.innerHeight * 0.6;
+    
+    btn.style.left = btn.dataset.x + 'px';
+    btn.style.top = (parseFloat(btn.dataset.baseY) + 100) + 'px'; // Hidden initially
+}
+
+function gameOnLoadQ() { 
+    mallet = null; 
+    // Pop them up
+    // autoAdvanceTimer cleared // autoAdvance disabled
+    }, 100);
+}
+
+function gameAnimateAction(tx, ty, isCorrect, btn, onHitCallback) {
+    // Mallet swings down
+    mallet = { x: tx, y: ty - 150, angle: -Math.PI/4, state: 'swinging', cb: onHitCallback, target: btn };
+}
+
+function gameDrawBackground() {
+    // Draw Holes behind buttons
+    document.querySelectorAll('.target-btn').forEach(btn => {
+        const x = parseFloat(btn.dataset.x);
+        const y = parseFloat(btn.dataset.baseY) + 40;
+        ctx.fillStyle = '#1e8449'; ctx.beginPath(); ctx.ellipse(x, y + 20, 80, 30, 0, 0, Math.PI*2); ctx.fill();
+        ctx.fillStyle = '#111'; ctx.beginPath(); ctx.ellipse(x, y + 20, 60, 20, 0, 0, Math.PI*2); ctx.fill();
+    });
+}
+
+function gameDrawForeground() {
+    if(mallet) {
+        if(mallet.state === 'swinging') {
+            mallet.angle += 0.2;
+            if(mallet.angle > Math.PI/4) {
+                mallet.state = 'returning';
+                sndShoot();
+                mallet.cb();
+            }
+        } else if (mallet.state === 'returning') {
+            mallet.angle -= 0.1;
+            if(mallet.angle < -Math.PI/2) mallet = null;
+        }
+        
+        if(mallet) {
+            ctx.save();
+            ctx.translate(mallet.x + 50, mallet.y + 50);
+            ctx.rotate(mallet.angle);
+            // Handle
+            ctx.fillStyle = '#d35400'; ctx.fillRect(-10, -100, 20, 100);
+            // Head
+            ctx.fillStyle = '#7f8c8d'; ctx.fillRect(-40, -130, 80, 50);
+            ctx.fillStyle = '#95a5a6'; ctx.fillRect(-30, -120, 60, 30);
+            ctx.restore();
+        }
+    }
+}
+
+loadQ();
+mainLoop();
+</script>
+<!-- MOBILE-FIT-2027-body -->
+<script id="mobile-fit-2027-js">
+(function(){
+  try {
+    function fireResize(){ try { window.dispatchEvent(new Event('resize')); } catch(e){} }
+    window.addEventListener('orientationchange', function(){ setTimeout(fireResize,150); setTimeout(fireResize,450); setTimeout(fireResize,900); });
+    if (window.visualViewport) { window.visualViewport.addEventListener('resize', fireResize); }
+    document.addEventListener('gesturestart', function(e){ e.preventDefault(); });
+    var lastTouchEnd = 0;
+    document.addEventListener('touchend', function(e){
+      var now = Date.now();
+      if (now - lastTouchEnd <= 300) { e.preventDefault(); }
+      lastTouchEnd = now;
+    }, {passive:false});
+  } catch(err) {}
+})();
+</script>
+<!-- /MOBILE-FIT-2027-body -->
+</body>
+</html>
