@@ -1,76 +1,222 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>بناء البرج</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Cairo:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
     <style>
-        body { margin: 0; background: #34495e; font-family: 'Cairo', 'Fredoka One', sans-serif; overflow: hidden; touch-action: none; display: flex; align-items: center; justify-content: center; height: 100vh;}
-        .game-container { width: 95vw; height: 85vh; background: #2c3e50; border-radius: 20px; border: 5px solid #fff; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; flex-direction: column; align-items: center;}
-        .ui-top { position: absolute; top: 10px; left: 10px; right: 10px; display: flex; justify-content: space-between; font-size: 1.5rem; color: #fff; pointer-events: none; z-index: 30; font-weight: bold;}
-        .screen { position: absolute; inset: 0; background: rgba(0,0,0,0.8); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 100; text-align: center; color: white;}
-        button.start { font-family: 'Cairo', sans-serif; font-size: 2.5rem; padding: 15px 50px; background: #e67e22; border: none; border-radius: 50px; color: white; cursor: pointer; box-shadow: 0 8px 0 #d35400;}
-        button.start:active { transform: translateY(8px); box-shadow: 0 0 0; }
-        .hidden-screen { display: none !important; }
-        
-        .target-box { background: white; border-radius: 20px; padding: 10px 30px; font-size: 3rem; color: #e67e22; font-family: 'Fredoka One'; box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 25; margin-top: 50px; cursor: pointer;}
-        
-        .tower { display: flex; flex-direction: column-reverse; align-items: center; position: absolute; bottom: 150px; width: 100%;}
-        .block { width: 150px; height: 60px; background: #f1c40f; border: 5px solid #d4ac0d; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 40px; margin-bottom: -5px; z-index: 10;}
-        
-        .options { display: flex; gap: 15px; position: absolute; bottom: 30px;}
-        .opt-btn { width: 80px; height: 80px; background: white; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 50px; cursor: pointer; box-shadow: 0 5px 0 rgba(0,0,0,0.2); transition: transform 0.2s;}
-        .opt-btn:active { transform: translateY(5px); box-shadow: 0 0 0; }
-    </style>
-<!-- MOBILE-FIT-2027 -->
-<style id="mobile-fit-2027">
-html, body { touch-action: manipulation; -webkit-tap-highlight-color: transparent; overscroll-behavior: none; }
-button, .target-btn, a, [onclick] { touch-action: manipulation; }
-@media (max-width: 900px), (max-height: 520px) {
-  html { font-size: clamp(11px, 3.4vmin, 16px) !important; }
-}
-</style>
-<!-- /MOBILE-FIT-2027-head -->
+        :root {
+            --primary: #4a90e2;
+            --secondary: #f39c12;
+            --success: #2ecc71;
+            --danger: #e74c3c;
+            --bg: #1a1a2e;
+            --text: #ffffff;
+        }
 
-    <!-- MOBILE-FIT-2027-style -->
-    <style id="manus-mobile-fit">
-    html, body { touch-action: manipulation; -webkit-tap-highlight-color: transparent; overscroll-behavior: none; margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
-    canvas { max-width: 100%; max-height: 100%; object-fit: contain; }
-    button, .target-btn, .gg-target, .gg-btn, a, [onclick] { touch-action: manipulation; }
-    @media (max-width: 900px), (max-height: 520px) {
-      html { font-size: clamp(10px, 3vmin, 16px) !important; }
-      .gg-target, .target-btn { min-width: clamp(60px, 15vmin, 120px) !important; min-height: clamp(60px, 15vmin, 120px) !important; font-size: 1rem !important; }
-      #gg-prompt, #q-text { font-size: clamp(1.1rem, 4vw, 1.5rem) !important; padding: 10px !important; }
-      #gg-hud, #hud { font-size: 0.9rem !important; padding: 5px 10px !important; }
-      .gg-btn { padding: 10px 20px !important; font-size: 1.1rem !important; }
-    }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+        }
+
+        #hud {
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0,0,0,0.3);
+            z-index: 100;
+        }
+
+        .hud-item {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.2rem;
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.5);
+        }
+
+        #score-val { color: var(--secondary); }
+
+        #game-container {
+            flex: 1;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        #question-box {
+            background: rgba(255,255,255,0.1);
+            padding: 20px 40px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            max-width: 90%;
+            border: 2px solid rgba(255,255,255,0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        #q-text {
+            font-size: 1.8rem;
+            font-weight: 900;
+            line-height: 1.4;
+        }
+
+        #q-image {
+            max-width: 200px;
+            max-height: 200px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+        }
+
+        #choices-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .choice-btn {
+            background: var(--primary);
+            border: none;
+            padding: 20px;
+            border-radius: 15px;
+            color: white;
+            font-size: 1.4rem;
+            font-weight: 900;
+            cursor: pointer;
+            transition: transform 0.1s, background 0.2s;
+            box-shadow: 0 6px 0 #2980b9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .choice-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #2980b9;
+        }
+
+        .choice-btn.correct { background: var(--success); box-shadow: 0 6px 0 #27ae60; }
+        .choice-btn.wrong { background: var(--danger); box-shadow: 0 6px 0 #c0392b; }
+
+        /* Scramble Mode */
+        #scramble-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .slots-row, .letters-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .letter-tile {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #2980b9;
+        }
+
+        .slot-tile {
+            width: 50px;
+            height: 50px;
+            border-bottom: 4px solid white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--secondary);
+        }
+
+        #overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        #overlay.show { display: flex; }
+
+        #overlay h1 { font-size: 3rem; margin-bottom: 20px; font-family: 'Fredoka One'; }
+        #overlay p { font-size: 1.5rem; margin-bottom: 30px; }
+
+        .btn-restart {
+            padding: 15px 40px;
+            background: var(--secondary);
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        @media (max-width: 600px) {
+            #q-text { font-size: 1.4rem; }
+            .choice-btn { font-size: 1.1rem; padding: 15px; }
+            #choices-grid { grid-template-columns: 1fr 1fr; }
+        }
     </style>
-    <!-- /MOBILE-FIT-2027-style -->
-    
 </head>
 <body>
-    <div class="game-container" id="game-container">
-        <div class="ui-top">
-            <div>النقاط: <span id="score">0</span></div>
-            <div>بناء البرج 🧱</div>
+    <div id="hud">
+        <div class="hud-item" id="q-num">Q 1/1</div>
+        <div class="hud-item">Score: <span id="score-val">0</span></div>
+    </div>
+
+    <div id="game-container">
+        <div id="question-box">
+            <img id="q-image" style="display:none">
+            <div id="q-text">Loading...</div>
         </div>
+
+        <div id="choices-grid"></div>
         
-        <div class="target-box" id="target-box" onclick="if(currentWord) speak(currentWord.word)">word</div>
-        
-        <div class="tower" id="tower"></div>
-        
-        <div class="options" id="options"></div>
-        
+        <div id="scramble-container" style="display:none">
+            <div class="slots-row" id="slots"></div>
+            <div class="letters-row" id="letters"></div>
+        </div>
+        <div id="farm-grid" style="display: none; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 20px;"></div>
     </div>
-    <div id="start-screen" class="screen">
-        <h1 style="font-size: 4rem; color: #e67e22;">بناء البرج 🧱</h1>
-        <p style="font-size: 1.5rem;">اختر الكتلة الصحيحة لبناء أعلى برج!</p>
-        <button class="start" onclick="startGame()">العب!</button>
+
+    <div id="overlay">
+        <h1>Well Done!</h1>
+        <p id="final-score">Final Score: 0</p>
+        <button class="btn-restart" onclick="location.reload()">Play Again</button>
     </div>
+
     <script>
-        
-const wordsData = [
+        // Data injected by rebuilder
+        const RAW_DATA = [
   { word: "lion", image: "🦁", type: "emoji" },
   { word: "tiger", image: "🐯", type: "emoji" },
   { word: "monkey", image: "🐒", type: "emoji" },
@@ -105,90 +251,267 @@ const wordsData = [
   { word: "jar", image: "🫙", type: "emoji" },
   { word: "jeans", image: "👖", type: "emoji" }
 ];
+        const DATA_TYPE = "wordsData";
+        const IS_PREP = false;
 
-const synth = window.speechSynthesis;
-function speak(text) {
-    const utterThis = new SpeechSynthesisUtterance(text);
-    utterThis.pitch = 1.3; utterThis.rate = 0.9;
-    synth.speak(utterThis);
-}
-
-const colors = ['#f1c40f', '#e74c3c', '#3498db', '#2ecc71', '#9b59b6'];
-
-        let score = 0;
-        let currentWord = null;
-        let canClick = true;
-
-        function spawnLevel() {
-            canClick = true;
-            let selected = [...wordsData].sort(()=>0.5-Math.random()).slice(0, 3);
-            currentWord = selected[Math.floor(Math.random()*3)];
-            
-            document.getElementById('target-box').textContent = currentWord.word;
-            speak(currentWord.word);
-            
-            const opts = document.getElementById('options');
-            opts.innerHTML = '';
-            
-            selected.forEach(w => {
-                const btn = document.createElement('div');
-                btn.className = 'opt-btn';
-                btn.innerHTML = w.image;
-                
-                btn.onclick = () => {
-                    if(!canClick) return;
-                    canClick = false;
-                    
-                    if(w.word === currentWord.word) {
-                        speak('Build!'); score+=10; document.getElementById('score').textContent=score;
-                        const block = document.createElement('div');
-                        block.className = 'block';
-                        const color = colors[document.getElementById('tower').children.length % colors.length];
-                        block.style.background = color;
-                        block.style.borderColor = 'rgba(0,0,0,0.2)';
-                        block.innerHTML = w.image;
-                        document.getElementById('tower').appendChild(block);
-                        
-                        if(document.getElementById('tower').children.length > 5) {
-                            document.getElementById('tower').innerHTML = ''; // reset tower
+        // Audio Management
+        const AC = new (window.AudioContext || window.webkitAudioContext)();
+        if (IS_PREP) {
+            // Mute background music for Prep
+            const originalCreateElement = document.createElement;
+            document.createElement = function(tag) {
+                const el = originalCreateElement.call(document, tag);
+                if (tag.toLowerCase() === 'audio') {
+                    setTimeout(() => {
+                        if (el.src && (el.src.includes('bg') || el.src.includes('music'))) {
+                            el.muted = true;
+                            el.volume = 0;
                         }
-                        
-                        setTimeout(spawnLevel, 1000);
+                    }, 0);
+                }
+                return el;
+            };
+        }
+
+        function speak(text) {
+            if (!window.speechSynthesis) return;
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US';
+            utterance.rate = 0.9;
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // Data Adapter
+        function parseData(raw, type) {
+            let questions = [];
+            if (type === 'QS' || type === 'questions') {
+                questions = raw.map(q => ({
+                    text: q.q || q.question,
+                    choices: q.choices || q.options,
+                    answer: q.answer,
+                    image: q.image || q.img || null,
+                    type: 'mcq'
+                }));
+            } else if (type === 'words' || type === 'vocabulary') {
+                questions = raw.map(item => ({
+                    text: item.w || item.word,
+                    image: item.i || item.img || null,
+                    type: 'scramble'
+                }));
+            } else if (type === 'META') {
+                questions = raw.rawRounds.map(r => ({
+                    text: r.prompt,
+                    choices: r.choices,
+                    answer: r.correct,
+                    type: 'mcq'
+                }));
+            } else if (type === 'pairs' || type === 'tasks' || type === 'sentences' || type === 'wordsData') {
+                questions = raw.map(item => ({
+                    text: item.text || item.word || item.w || "What is this?",
+                    image: item.img || item.i || item.image || null,
+                    choices: item.wrong ? [item.answer, ...item.wrong] : null,
+                    answer: item.wrong ? 0 : null,
+                    type: (item.wrong || item.choices) ? 'mcq' : 'scramble'
+                }));
+            } else if (type === 'custom_farm') {
+                questions = raw.map(q => ({
+                    text: q.text,
+                    answer: q.answer,
+                    type: 'count'
+                }));
+            } else if (type === 'CURRICULUM') {
+                // Flatten curriculum
+                raw.units.forEach(u => {
+                    u.lessons.forEach(l => {
+                        if (l.questions) {
+                            l.questions.forEach(q => {
+                                questions.push({
+                                    text: q.q,
+                                    choices: q.choices,
+                                    answer: q.answer,
+                                    type: 'mcq'
+                                });
+                            });
+                        }
+                    });
+                });
+            }
+            return questions;
+        }
+
+        const questions = parseData(RAW_DATA, DATA_TYPE);
+        let currentQ = 0;
+        let score = 0;
+        let locked = false;
+
+        function loadQuestion() {
+            if (currentQ >= questions.length) {
+                showEnd();
+                return;
+            }
+
+            locked = false;
+            const q = questions[currentQ];
+            document.getElementById('q-num').innerText = `Q ${currentQ + 1}/${questions.length}`;
+            
+            const qText = document.getElementById('q-text');
+            const qImg = document.getElementById('q-image');
+            const choicesGrid = document.getElementById('choices-grid');
+            const scrambleBox = document.getElementById('scramble-container');
+
+            qText.innerText = q.text;
+            if (q.image) {
+                qImg.src = q.image;
+                qImg.style.display = 'block';
+            } else {
+                qImg.style.display = 'none';
+            }
+
+            const farm = document.getElementById('farm-grid');
+            if (farm) farm.style.display = 'none';
+
+            if (q.type === 'mcq') {
+                choicesGrid.style.display = 'grid';
+                scrambleBox.style.display = 'none';
+                choicesGrid.innerHTML = '';
+                q.choices.forEach((c, i) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'choice-btn';
+                    btn.innerText = c;
+                    btn.onclick = () => handleMCQ(btn, i === q.answer);
+                    choicesGrid.appendChild(btn);
+                });
+            } else if (q.type === 'count') {
+                choicesGrid.style.display = 'none';
+                scrambleBox.style.display = 'none';
+                let farmGrid = document.getElementById('farm-grid');
+                if (!farmGrid) {
+                    farmGrid = document.createElement('div');
+                    farmGrid.id = 'farm-grid';
+                    farmGrid.style.display = 'flex';
+                    farmGrid.style.flexWrap = 'wrap';
+                    farmGrid.style.gap = '10px';
+                    farmGrid.style.justifyContent = 'center';
+                    farmGrid.style.marginTop = '20px';
+                    document.getElementById('game-container').appendChild(farmGrid);
+                }
+                farmGrid.style.display = 'flex';
+                setupFarm(farmGrid, q.answer);
+            } else {
+                choicesGrid.style.display = 'none';
+                scrambleBox.style.display = 'flex';
+                setupScramble(q.text);
+            }
+
+            // Speak question text
+            speak(q.text);
+        }
+
+        function setupFarm(grid, target) {
+            grid.innerHTML = '';
+            let nums = [target];
+            while(nums.length < 3) {
+                let r = Math.floor(Math.random() * 5) + 1;
+                if(!nums.includes(r)) nums.push(r);
+            }
+            nums.sort(() => Math.random() - 0.5);
+            
+            nums.forEach(n => {
+                const pen = document.createElement('div');
+                pen.className = 'choice-btn';
+                pen.style.fontSize = '2rem';
+                pen.innerHTML = '🐄'.repeat(n);
+                pen.onclick = () => {
+                    if (locked) return;
+                    if (n === target) {
+                        locked = true;
+                        score += 100;
+                        document.getElementById('score-val').innerText = score;
+                        pen.classList.add('correct');
+                        setTimeout(() => {
+                            currentQ++;
+                            loadQuestion();
+                        }, 1000);
                     } else {
-                        speak('Crash!');
-                        document.getElementById('tower').innerHTML = ''; // collapse tower
-                        btn.style.background = '#e74c3c';
-                        // autoAdvanceTimer cleared // autoAdvance disabled
+                        pen.classList.add('wrong');
+                        setTimeout(() => pen.classList.remove('wrong'), 500);
                     }
                 };
-                opts.appendChild(btn);
+                grid.appendChild(pen);
             });
         }
 
-        function startGame() { 
-            document.getElementById('start-screen').classList.add('hidden-screen'); 
-            score=0; document.getElementById('score').textContent=score;
-            document.getElementById('tower').innerHTML = '';
-            spawnLevel(); 
+        function handleMCQ(btn, isCorrect) {
+            if (locked) return;
+            locked = true;
+
+            if (isCorrect) {
+                score += 100;
+                btn.classList.add('correct');
+            } else {
+                btn.classList.add('wrong');
+            }
+
+            document.getElementById('score-val').innerText = score;
+            setTimeout(() => {
+                currentQ++;
+                loadQuestion();
+            }, 1000);
         }
+
+        function setupScramble(word) {
+            const slots = document.getElementById('slots');
+            const letters = document.getElementById('letters');
+            slots.innerHTML = '';
+            letters.innerHTML = '';
+
+            const chars = word.toUpperCase().split('');
+            const shuffled = [...chars].sort(() => Math.random() - 0.5);
+            let currentPos = 0;
+
+            chars.forEach(() => {
+                const slot = document.createElement('div');
+                slot.className = 'slot-tile';
+                slots.appendChild(slot);
+            });
+
+            shuffled.forEach((char) => {
+                const tile = document.createElement('div');
+                tile.className = 'letter-tile';
+                tile.innerText = char;
+                tile.onclick = () => {
+                    if (tile.classList.contains('used')) return;
+                    
+                    const targetSlot = slots.children[currentPos];
+                    if (char === chars[currentPos]) {
+                        tile.classList.add('used');
+                        targetSlot.innerText = char;
+                        currentPos++;
+                        if (currentPos === chars.length) {
+                            score += 100;
+                            document.getElementById('score-val').innerText = score;
+                            setTimeout(() => {
+                                currentQ++;
+                                loadQuestion();
+                            }, 1000);
+                        }
+                    } else {
+                        tile.style.background = 'var(--danger)';
+                        setTimeout(() => tile.style.background = 'var(--primary)', 500);
+                    }
+                };
+                letters.appendChild(tile);
+            });
+        }
+
+        function showEnd() {
+            document.getElementById('overlay').classList.add('show');
+            document.getElementById('final-score').innerText = `Final Score: ${score}`;
+        }
+
+        // Start
+        loadQuestion();
     </script>
-<!-- MOBILE-FIT-2027-body -->
-<script id="mobile-fit-2027-js">
-(function(){
-  try {
-    function fireResize(){ try { window.dispatchEvent(new Event('resize')); } catch(e){} }
-    window.addEventListener('orientationchange', function(){ setTimeout(fireResize,150); setTimeout(fireResize,450); setTimeout(fireResize,900); });
-    if (window.visualViewport) { window.visualViewport.addEventListener('resize', fireResize); }
-    document.addEventListener('gesturestart', function(e){ e.preventDefault(); });
-    var lastTouchEnd = 0;
-    document.addEventListener('touchend', function(e){
-      var now = Date.now();
-      if (now - lastTouchEnd <= 300) { e.preventDefault(); }
-      lastTouchEnd = now;
-    }, {passive:false});
-  } catch(err) {}
-})();
-</script>
-<!-- /MOBILE-FIT-2027-body -->
 </body>
 </html>
