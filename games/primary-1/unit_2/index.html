@@ -4,34 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Primary 1 - unit 2</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: sans-serif; padding: 20px; background: #f0f4f8; }
-        h1 { color: #2c3e50; text-align: center; }
-        .game-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; max-width: 1000px; margin: 0 auto; }
-        .game-item { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; transition: transform 0.2s; }
-        .game-item:hover { transform: translateY(-5px); }
-        .game-item a { text-decoration: none; color: #3498db; font-weight: bold; display: block; }
-        .back-link { display: block; text-align: center; margin-top: 30px; color: #7f8c8d; text-decoration: none; }
+        body { font-family: 'Nunito', sans-serif; background: #1a1a2e; color: white; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        h1 { font-family: 'Fredoka One', cursive; color: #f39c12; margin-bottom: 30px; text-align: center; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; width: 100%; max-width: 1000px; }
+        .game-card { background: #16213e; border: 2px solid #4a90e2; border-radius: 15px; padding: 20px; text-decoration: none; color: white; text-align: center; transition: transform 0.2s, background 0.2s; }
+        .game-card:hover { transform: scale(1.05); background: #1f4068; }
+        .game-card h3 { margin: 0; font-size: 1.2rem; }
+        .back-btn { margin-top: 40px; padding: 10px 25px; background: #e74c3c; color: white; text-decoration: none; border-radius: 25px; font-weight: bold; }
     </style>
 </head>
 <body>
     <h1>Primary 1 - unit 2</h1>
-    <div class="game-list">
-            <div class="game-item"><a href="القفز_على_الصخور.html">القفز على الصخور</a></div>
-        <div class="game-item"><a href="بطاقات_الذاكرة.html">بطاقات الذاكرة</a></div>
-        <div class="game-item"><a href="بناء_البرج.html">بناء البرج</a></div>
-        <div class="game-item"><a href="بناء_الجمل.html">بناء الجمل</a></div>
-        <div class="game-item"><a href="تطابق_الظل.html">تطابق الظل</a></div>
-        <div class="game-item"><a href="توصيل_الجمل.html">توصيل الجمل</a></div>
-        <div class="game-item"><a href="توصيل_الكلمات.html">توصيل الكلمات</a></div>
-        <div class="game-item"><a href="حارس_المرمى.html">حارس المرمى</a></div>
-        <div class="game-item"><a href="سؤال_وجواب.html">سؤال وجواب</a></div>
-        <div class="game-item"><a href="سقوط_الكلمات.html">سقوط الكلمات</a></div>
-        <div class="game-item"><a href="صيد_الكلمات.html">صيد الكلمات</a></div>
-        <div class="game-item"><a href="قطار_الكلمات.html">قطار الكلمات</a></div>
-        <div class="game-item"><a href="لوحة_التلوين.html">لوحة التلوين</a></div>
-        <div class="game-item"><a href="مدفع_الكلمات.html">مدفع الكلمات</a></div>
+    <div class="grid">
+        <a href="القفز_على_الصخور.html" class="game-card"><h3>القفز على الصخور</h3></a>
+<a href="بطاقات_الذاكرة.html" class="game-card"><h3>بطاقات الذاكرة</h3></a>
+<a href="بناء_البرج.html" class="game-card"><h3>بناء البرج</h3></a>
+<a href="بناء_الجمل.html" class="game-card"><h3>بناء الجمل</h3></a>
+<a href="تطابق_الظل.html" class="game-card"><h3>تطابق الظل</h3></a>
+<a href="توصيل_الجمل.html" class="game-card"><h3>توصيل الجمل</h3></a>
+<a href="توصيل_الكلمات.html" class="game-card"><h3>توصيل الكلمات</h3></a>
+<a href="حارس_المرمى.html" class="game-card"><h3>حارس المرمى</h3></a>
+<a href="سؤال_وجواب.html" class="game-card"><h3>سؤال وجواب</h3></a>
+<a href="سقوط_الكلمات.html" class="game-card"><h3>سقوط الكلمات</h3></a>
+<a href="صيد_الكلمات.html" class="game-card"><h3>صيد الكلمات</h3></a>
+<a href="قطار_الكلمات.html" class="game-card"><h3>قطار الكلمات</h3></a>
+<a href="لوحة_التلوين.html" class="game-card"><h3>لوحة التلوين</h3></a>
+<a href="مدفع_الكلمات.html" class="game-card"><h3>مدفع الكلمات</h3></a>
+
     </div>
-    <a href="../../games.html" class="back-link">← Back to Grades</a>
+    <a href="../../games.html" class="back-btn">Back to Grades</a>
 </body>
 </html>
