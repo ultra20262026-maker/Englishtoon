@@ -67,22 +67,6 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 }
 </style>
 <!-- /MOBILE-FIT-2027-head -->
-
-    <!-- MOBILE-FIT-2027-style -->
-    <style id="manus-mobile-fit">
-    html, body { touch-action: manipulation; -webkit-tap-highlight-color: transparent; overscroll-behavior: none; margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
-    canvas { max-width: 100%; max-height: 100%; object-fit: contain; }
-    button, .target-btn, .gg-target, .gg-btn, a, [onclick] { touch-action: manipulation; }
-    @media (max-width: 900px), (max-height: 520px) {
-      html { font-size: clamp(10px, 3vmin, 16px) !important; }
-      .gg-target, .target-btn { min-width: clamp(60px, 15vmin, 120px) !important; min-height: clamp(60px, 15vmin, 120px) !important; font-size: 1rem !important; }
-      #gg-prompt, #q-text { font-size: clamp(1.1rem, 4vw, 1.5rem) !important; padding: 10px !important; }
-      #gg-hud, #hud { font-size: 0.9rem !important; padding: 5px 10px !important; }
-      .gg-btn { padding: 10px 20px !important; font-size: 1.1rem !important; }
-    }
-    </style>
-    <!-- /MOBILE-FIT-2027-style -->
-    
 </head>
 <body>
 
@@ -104,16 +88,22 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 </div>
 
 <script>
-window.isMuted = function() { return true; };
-
 const QS = [{"type": "mcq", "q": "Mahmoud Mokhtar is a famous Egyptian _____.", "choices": ["actor", "sculptor", "singer"], "answer": 1}, {"type": "mcq", "q": "He gained international _____ for his artworks.", "choices": ["punishment", "recognition", "money"], "answer": 1}, {"type": "mcq", "q": "The opposite of 'imagination' is _____.", "choices": ["reality", "creativity", "dream"], "answer": 0}, {"type": "mcq", "q": "A/An _____ is an object made out of stone, wood, or clay.", "choices": ["painting", "sculpture", "drawing"], "answer": 1}, {"type": "mcq", "q": "They found an old _____ of a 'Hidden Island'.", "choices": ["book", "letter", "map"], "answer": 2}, {"type": "mcq", "q": "Teamwork means to _____ with each other.", "choices": ["ignore", "fight", "collaborate"], "answer": 2}, {"type": "mcq", "q": "They packed food, water, and a _____ for the journey.", "choices": ["fridge", "compass", "television"], "answer": 1}, {"type": "mcq", "q": "Photography captures moments through a camera _____.", "choices": ["pen", "lens", "brush"], "answer": 1}, {"type": "mcq", "q": "Drawing uses pencils or _____.", "choices": ["charcoal", "water", "oil"], "answer": 0}, {"type": "mcq", "q": "The gallery held a _____ competition among artists.", "choices": ["national", "boring", "useless"], "answer": 0}, {"type": "mcq", "q": "I always include interactive _____ in my installations.", "choices": ["sounds", "elements", "words"], "answer": 1}, {"type": "mcq", "q": "The statue is so _____ that people take photos of it.", "choices": ["terrible", "stunning", "ugly"], "answer": 1}, {"type": "mcq", "q": "He walked slowly _____ he was tired.", "choices": ["so", "although", "because"], "answer": 2}, {"type": "mcq", "q": "The weather was cold, _____ we stayed at home.", "choices": ["because", "so", "but"], "answer": 1}, {"type": "mcq", "q": "_____ it rained heavily, they went out for a walk.", "choices": ["So", "Although", "Because"], "answer": 1}, {"type": "mcq", "q": "Making art requires a lot of _____ and creativity.", "choices": ["math", "imagination", "rules"], "answer": 1}, {"type": "mcq", "q": "Sami felt _____ for sharing his ideas.", "choices": ["sad", "worried", "appreciated"], "answer": 2}, {"type": "mcq", "q": "Leadership is about caring for others and helping them _____.", "choices": ["shine", "cry", "fail"], "answer": 0}, {"type": "mcq", "q": "They agreed on a rule of collaboration and _____.", "choices": ["hate", "fear", "respect"], "answer": 2}, {"type": "mcq", "q": "Every piece of art carries a _____.", "choices": ["color", "price", "message"], "answer": 2}, {"type": "mcq", "q": "She used a piece of _____ to carve a statue.", "choices": ["water", "stone", "air"], "answer": 1}, {"type": "mcq", "q": "He prepared well, _____ he won the race.", "choices": ["although", "so", "because"], "answer": 1}, {"type": "mcq", "q": "_____ his artworks are amazing, he doesn't deserve recognition. (Correct: Although)", "choices": ["Because", "So", "Although"], "answer": 2}, {"type": "mcq", "q": "Artists _____ their original works in exhibitions.", "choices": ["destroy", "showcase", "hide"], "answer": 1}, {"type": "mcq", "q": "An artwork doesn't need to be _____ to be valuable.", "choices": ["worthless", "ugly", "perfect"], "answer": 2}];
 const cv = document.getElementById('cv');
 const ctx = cv.getContext('2d');
 cv.width = window.innerWidth; cv.height = window.innerHeight;
 window.addEventListener('resize', () => { cv.width = window.innerWidth; cv.height = window.innerHeight; });
 
-const AC = ({ state: "suspended", resume: () => {}, createOscillator: () => ({ connect: () => {}, start: () => {}, stop: () => {}, frequency: { setValueAtTime: () => {} } }), createGain: () => ({ connect: () => {}, gain: { setValueAtTime: () => {}, exponentialRampToValueAtTime: () => {} } }), destination: {} })
-function tone() {}
+const AC = new (window.AudioContext||window.webkitAudioContext)();
+function tone(f,d,t='sine',v=0.4){
+    if(AC.state==='suspended') AC.resume();
+    const o=AC.createOscillator(),g=AC.createGain();
+    o.connect(g);g.connect(AC.destination);
+    o.type=t;o.frequency.value=f;
+    g.gain.setValueAtTime(v,AC.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+d);
+    o.start();o.stop(AC.currentTime+d);
+}
 function sndCorrect(){ tone(523,.1); setTimeout(()=>tone(784,.3),100); }
 function sndWrong(){ tone(150,.6,'sawtooth'); setTimeout(()=>tone(100,.6,'sawtooth'),150); }
 function sndShoot(){ tone(300,.1,'square',0.1); }
@@ -176,7 +166,7 @@ function handleChoice(btn, isCorrect, index) {
                 if(b !== btn) b.style.opacity = '0.3';
             });
         }
-        // autoAdvanceTimer cleared // autoAdvance disabled }, isCorrect ? 1000 : 1500);
+        clearTimeout(autoAdvanceTimer); autoAdvanceTimer = setTimeout(() => { qIdx++; loadQ(); }, isCorrect ? 1000 : 1500);
     });
 }
 
@@ -272,5 +262,23 @@ mainLoop();
 })();
 </script>
 <!-- /MOBILE-FIT-2027-body -->
+
+<script id="prep-mute-js">
+(function(){
+    const originalCreateElement = document.createElement;
+    document.createElement = function(tag) {
+        const el = originalCreateElement.call(document, tag);
+        if (tag.toLowerCase() === 'audio') {
+            setTimeout(() => {
+                if (el.src && (el.src.includes('bg') || el.src.includes('music'))) {
+                    el.muted = true;
+                    el.volume = 0;
+                }
+            }, 0);
+        }
+        return el;
+    };
+})();
+</script>
 </body>
 </html>
