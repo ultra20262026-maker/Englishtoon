@@ -314,22 +314,6 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 }
 </style>
 <!-- /MOBILE-FIT-2027-head -->
-
-    <!-- MOBILE-FIT-2027-style -->
-    <style id="manus-mobile-fit">
-    html, body { touch-action: manipulation; -webkit-tap-highlight-color: transparent; overscroll-behavior: none; margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
-    canvas { max-width: 100%; max-height: 100%; object-fit: contain; }
-    button, .target-btn, .gg-target, .gg-btn, a, [onclick] { touch-action: manipulation; }
-    @media (max-width: 900px), (max-height: 520px) {
-      html { font-size: clamp(10px, 3vmin, 16px) !important; }
-      .gg-target, .target-btn { min-width: clamp(60px, 15vmin, 120px) !important; min-height: clamp(60px, 15vmin, 120px) !important; font-size: 1rem !important; }
-      #gg-prompt, #q-text { font-size: clamp(1.1rem, 4vw, 1.5rem) !important; padding: 10px !important; }
-      #gg-hud, #hud { font-size: 0.9rem !important; padding: 5px 10px !important; }
-      .gg-btn { padding: 10px 20px !important; font-size: 1.1rem !important; }
-    }
-    </style>
-    <!-- /MOBILE-FIT-2027-style -->
-    
 </head>
 <body>
 <div id="game-wrap">
@@ -350,7 +334,7 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
       <button id="mute-btn" onclick="SoundEngine.toggleMute()">&#128266;</button>
     </div>
   </div>
-  <div id="timer-bar-wrap"><div id="timer-bar"></div></div>
+  <div id="timer-bar-wrap" style="display:none;"><div id="timer-bar" style="display:none;"></div></div>
   <div id="feedback-flash"></div>
 
   <div id="question-zone">
@@ -7846,7 +7830,8 @@ const GameBase = (() => {
     } else {
       if (typeof GameBase_onWrong === 'function') GameBase_onWrong();
       // Advance to next question even if wrong, so they see all questions
-      // autoAdvanceTimer cleared // autoAdvance disabled
+      clearTimeout(autoAdvanceTimer); autoAdvanceTimer = setTimeout(() => {
+        advance();
       }, 1200);
     }
   }
@@ -7920,7 +7905,7 @@ const GameBase = (() => {
       const el = document.getElementById(`rstar-${n}`);
       if (!el) return;
       el.classList.remove('lit');
-      if (i < stars) // autoAdvanceTimer cleared // autoAdvance disabled SoundEngine.play('stars'); }, 400+i*350);
+      if (i < stars) clearTimeout(autoAdvanceTimer); autoAdvanceTimer = setTimeout(() => { el.classList.add('lit'); SoundEngine.play('stars'); }, 400+i*350);
     });
     if (stars >= 2) setTimeout(() => SoundEngine.play('levelup'), 1400);
     else setTimeout(() => SoundEngine.play('gameover'), 300);
@@ -8098,7 +8083,8 @@ function draw() {
       if (!e.hit && Math.abs(b.x-e.x)<40 && Math.abs(b.y-e.y)<20) {
         e.hit = true; bullets.splice(idx,1);
         emitExplosion(e.x, e.y);
-        // autoAdvanceTimer cleared // autoAdvance disabled
+        clearTimeout(autoAdvanceTimer); autoAdvanceTimer = setTimeout(() => {
+          GameBase.submitAnswer(e.index);
         }, 300);
       }
     });
