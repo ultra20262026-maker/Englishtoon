@@ -66,22 +66,6 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 }
 </style>
 <!-- /MOBILE-FIT-2027-head -->
-
-    <!-- MOBILE-FIT-2027-style -->
-    <style id="manus-mobile-fit">
-    html, body { touch-action: manipulation; -webkit-tap-highlight-color: transparent; overscroll-behavior: none; margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
-    canvas { max-width: 100%; max-height: 100%; object-fit: contain; }
-    button, .target-btn, .gg-target, .gg-btn, a, [onclick] { touch-action: manipulation; }
-    @media (max-width: 900px), (max-height: 520px) {
-      html { font-size: clamp(10px, 3vmin, 16px) !important; }
-      .gg-target, .target-btn { min-width: clamp(60px, 15vmin, 120px) !important; min-height: clamp(60px, 15vmin, 120px) !important; font-size: 1rem !important; }
-      #gg-prompt, #q-text { font-size: clamp(1.1rem, 4vw, 1.5rem) !important; padding: 10px !important; }
-      #gg-hud, #hud { font-size: 0.9rem !important; padding: 5px 10px !important; }
-      .gg-btn { padding: 10px 20px !important; font-size: 1.1rem !important; }
-    }
-    </style>
-    <!-- /MOBILE-FIT-2027-style -->
-    
 </head>
 <body>
 
@@ -103,8 +87,6 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 </div>
 
 <script>
-window.isMuted = function() { return true; };
-
 const QS = [{"type": "mcq", "q": "While my father was driving his car, it _____ down.", "choices": ["breaks", "broke", "breaking"], "answer": 1}, {"type": "mcq", "q": "I was watching TV when the lights _____ out.", "choices": ["goes", "went", "go"], "answer": 1}, {"type": "mcq", "q": "My sister _____ when her friend phoned her.", "choices": ["was cooking", "cooked", "cooking"], "answer": 0}, {"type": "mcq", "q": "My dad had a flat tire while he _____ to work.", "choices": ["drives", "drove", "was driving"], "answer": 2}, {"type": "mcq", "q": "While he was sleeping, his friend _____ him.", "choices": ["phoning", "phoned", "phones"], "answer": 1}, {"type": "mcq", "q": "When he fell down, he _____ basketball.", "choices": ["was playing", "played", "plays"], "answer": 0}, {"type": "mcq", "q": "While I was walking to school, I _____ an accident.", "choices": ["saw", "see", "was seeing"], "answer": 0}, {"type": "mcq", "q": "If you are creative this means you come _____ new ideas.", "choices": ["up to", "up with", "up for"], "answer": 1}, {"type": "mcq", "q": "To be a role model for others means to _____ them.", "choices": ["inspire", "empire", "conspire"], "answer": 0}, {"type": "mcq", "q": "They _____ tennis when it started to rain.", "choices": ["play", "were playing", "played"], "answer": 1}, {"type": "mcq", "q": "I suggest _____ to the park on Friday.", "choices": ["going", "go", "went"], "answer": 0}, {"type": "mcq", "q": "Maybe we _____ study together.", "choices": ["should", "must", "could"], "answer": 2}, {"type": "mcq", "q": "When you work hard without giving up and stay _____ to who you are, you achieve success.", "choices": ["true", "false", "wrong"], "answer": 0}, {"type": "mcq", "q": "A true leader should act _____ in his work.", "choices": ["responsibly", "fearfully", "angrily"], "answer": 0}, {"type": "mcq", "q": "Students always _____ their creative pieces of work in school fairs.", "choices": ["pretend", "forget", "display"], "answer": 2}, {"type": "mcq", "q": "All the children displayed their work on the day of the _____.", "choices": ["hospital", "bank", "fair"], "answer": 2}, {"type": "mcq", "q": "Amal stood _____ with her robot.", "choices": ["badly", "proudly", "sadly"], "answer": 1}, {"type": "mcq", "q": "When she presented it, the robot spoke: 'Be yourself. Never give _____!'.", "choices": ["in", "up", "out"], "answer": 1}, {"type": "mcq", "q": "The children _____ Amal's hard work and creativity.", "choices": ["ignored", "hated", "admired"], "answer": 2}, {"type": "mcq", "q": "The teacher said, 'Amal, you showed _____ and honesty.'", "choices": ["determination", "laziness", "fear"], "answer": 0}, {"type": "mcq", "q": "Amal felt proud because she had expressed _____ honestly.", "choices": ["herself", "yourself", "himself"], "answer": 0}, {"type": "mcq", "q": "When I make a mistake during a presentation, I feel _____.", "choices": ["happy", "discouraged", "glad"], "answer": 1}, {"type": "mcq", "q": "I sometimes feel nervous when I have to _____ a speech to my class.", "choices": ["escape", "give", "take"], "answer": 1}, {"type": "mcq", "q": "Our teacher asked us to _____ more research online.", "choices": ["take", "do", "make"], "answer": 1}, {"type": "mcq", "q": "Facing an obstacle can surprise us, but we can _____ it with hard work.", "choices": ["get through", "get into", "get off"], "answer": 0}];
 const cv = document.getElementById('cv');
 const ctx = cv.getContext('2d');
@@ -113,8 +95,16 @@ cv.width = window.innerWidth; cv.height = window.innerHeight;
 window.addEventListener('resize', () => { cv.width = window.innerWidth; cv.height = window.innerHeight; });
 
 // AUDIO
-const AC = ({ state: "suspended", resume: () => {}, createOscillator: () => ({ connect: () => {}, start: () => {}, stop: () => {}, frequency: { setValueAtTime: () => {} } }), createGain: () => ({ connect: () => {}, gain: { setValueAtTime: () => {}, exponentialRampToValueAtTime: () => {} } }), destination: {} })
-function tone() {}
+const AC = new (window.AudioContext||window.webkitAudioContext)();
+function tone(f,d,t='sine',v=0.4){
+    if(AC.state==='suspended') AC.resume();
+    const o=AC.createOscillator(),g=AC.createGain();
+    o.connect(g);g.connect(AC.destination);
+    o.type=t;o.frequency.value=f;
+    g.gain.setValueAtTime(v,AC.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+d);
+    o.start();o.stop(AC.currentTime+d);
+}
 function sndCorrect(){ tone(523,.1); setTimeout(()=>tone(784,.3),100); }
 function sndWrong(){ tone(150,.6,'sawtooth'); setTimeout(()=>tone(100,.6,'sawtooth'),150); }
 function sndShoot(){ tone(300,.1,'square',0.1); }
@@ -185,7 +175,9 @@ function handleChoice(btn, isCorrect, index) {
             });
         }
         
-        // autoAdvanceTimer cleared // autoAdvance disabled
+        clearTimeout(autoAdvanceTimer); autoAdvanceTimer = setTimeout(() => {
+            qIdx++;
+            loadQ();
         }, isCorrect ? 1000 : 1500);
     });
 }
@@ -336,5 +328,23 @@ mainLoop();
 })();
 </script>
 <!-- /MOBILE-FIT-2027-body -->
+
+<script id="prep-mute-js">
+(function(){
+    const originalCreateElement = document.createElement;
+    document.createElement = function(tag) {
+        const el = originalCreateElement.call(document, tag);
+        if (tag.toLowerCase() === 'audio') {
+            setTimeout(() => {
+                if (el.src && (el.src.includes('bg') || el.src.includes('music'))) {
+                    el.muted = true;
+                    el.volume = 0;
+                }
+            }, 0);
+        }
+        return el;
+    };
+})();
+</script>
 </body>
 </html>
