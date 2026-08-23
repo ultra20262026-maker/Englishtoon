@@ -1,483 +1,546 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Word Snake</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #4a90e2;
-            --secondary: #f39c12;
-            --success: #2ecc71;
-            --danger: #e74c3c;
-            --bg: #1a1a2e;
-            --text: #ffffff;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Word Snake</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Cairo:wght@700;800&display=swap" rel="stylesheet">
+<style>
 
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body {
-            font-family: 'Nunito', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            overflow: hidden;
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            user-select: none;
-        }
+:root{
+  --gg-bg:#0f1226; --gg-panel:#171b3a; --gg-accent:#ffd166; --gg-good:#31d0aa;
+  --gg-bad:#ff6b6b; --gg-text:#f4f6ff; --gg-muted:#9aa0c3;
+}
+*,*::before,*::after{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;height:100%;overscroll-behavior:none;}
+body{
+  font-family:'Baloo 2','Cairo','Nunito',system-ui,sans-serif;
+  background:var(--stage-bg, radial-gradient(circle at 50% 0%,#232a5c,#0f1226 70%));
+  color:var(--gg-text); overflow:hidden; touch-action:none; user-select:none;
+  height:100dvh; width:100vw; position:fixed; inset:0;
+}
+#gg-root{position:absolute; inset:0; display:flex; flex-direction:column;}
+#gg-hud{
+  position:relative; z-index:40; display:flex; align-items:center; justify-content:space-between;
+  padding:calc(env(safe-area-inset-top,0px) + 8px) 10px 8px; gap:8px; flex-wrap:wrap;
+  background:linear-gradient(180deg,rgba(0,0,0,.55),transparent);
+}
+.gg-pill{
+  display:flex; align-items:center; gap:6px; background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.16); border-radius:999px; padding:6px 12px;
+  font-weight:800; font-size:clamp(12px,3.4vw,15px); backdrop-filter:blur(6px);
+}
+.gg-pill.coins{color:var(--gg-accent);}
+.gg-pill.level{color:#8ec5ff;}
+#gg-back,#gg-mute{
+  border:none; background:rgba(255,255,255,.1); color:var(--gg-text); border-radius:12px;
+  width:38px; height:38px; font-size:18px; display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+}
+#gg-back:active,#gg-mute:active{transform:scale(.9);}
+#gg-stage{position:relative; flex:1; min-height:0; overflow:hidden;}
+#gg-instructions{
+  font-size:clamp(13px,3.6vw,17px); text-align:center; padding:0 16px 10px; color:var(--gg-muted); font-weight:700;
+}
+.gg-btn{
+  font-family:inherit; font-weight:900; border:none; border-radius:16px; cursor:pointer;
+  color:#221a00; background:linear-gradient(180deg,#ffe08a,var(--gg-accent));
+  box-shadow:0 6px 0 #b8871f, 0 10px 18px rgba(0,0,0,.35);
+  padding:14px 30px; font-size:clamp(16px,4.6vw,22px); touch-action:manipulation;
+}
+.gg-btn:active{transform:translateY(5px); box-shadow:0 1px 0 #b8871f;}
+.gg-btn.secondary{
+  background:linear-gradient(180deg,#7c8cff,#5661d8); color:#fff; box-shadow:0 6px 0 #3b428f, 0 10px 18px rgba(0,0,0,.35);
+}
+.gg-screen{
+  position:absolute; inset:0; z-index:60; display:flex; flex-direction:column; align-items:center;
+  justify-content:center; gap:16px; text-align:center; padding:24px;
+  background:radial-gradient(circle at 50% 20%,rgba(30,36,80,.97),rgba(6,8,20,.98));
+}
+.gg-hidden{display:none !important;}
+.gg-title{font-size:clamp(24px,7vw,40px); font-weight:900; text-shadow:0 4px 0 rgba(0,0,0,.35);}
+.gg-sub{font-size:clamp(14px,4vw,18px); color:var(--gg-muted); font-weight:700; max-width:520px;}
+#gg-stars{font-size:clamp(30px,9vw,54px); letter-spacing:6px;}
+.gg-row{display:flex; gap:12px; flex-wrap:wrap; justify-content:center;}
+.gg-toast{
+  position:absolute; top:14%; left:50%; transform:translate(-50%,0); z-index:80;
+  font-weight:900; font-size:clamp(18px,6vw,28px); padding:8px 18px; border-radius:14px;
+  pointer-events:none; opacity:0; transition:all .5s ease;
+}
+.gg-toast.show{opacity:1; transform:translate(-50%,-14px);}
+.gg-toast.good{background:rgba(49,208,170,.92); color:#00281f;}
+.gg-toast.bad{background:rgba(255,107,107,.92); color:#3a0000;}
+.gg-coinburst{position:absolute; z-index:90; font-size:22px; pointer-events:none; animation:gg-fly 1s ease-out forwards;}
+@keyframes gg-fly{
+  0%{transform:translate(0,0) scale(1); opacity:1;}
+  100%{transform:translate(var(--dx,0px),-90px) scale(.5); opacity:0;}
+}
+#gg-badge-pop{
+  position:absolute; z-index:95; inset:0; display:flex; align-items:center; justify-content:center;
+  pointer-events:none;
+}
+.gg-badge-card{
+  background:linear-gradient(160deg,#2c2f66,#171935); border:2px solid var(--gg-accent); border-radius:20px;
+  padding:18px 28px; text-align:center; box-shadow:0 20px 40px rgba(0,0,0,.5); animation:gg-pop .5s ease;
+}
+@keyframes gg-pop{0%{transform:scale(.4) rotate(-8deg); opacity:0;}70%{transform:scale(1.08) rotate(2deg);} 100%{transform:scale(1) rotate(0); opacity:1;}}
+.gg-progress-wrap{width:min(320px,80vw); height:10px; border-radius:8px; background:rgba(255,255,255,.12); overflow:hidden;}
+.gg-progress-bar{height:100%; background:linear-gradient(90deg,#31d0aa,#8ec5ff); width:0%; transition:width .4s ease;}
+@media (max-height:480px){ #gg-instructions{display:none;} }
 
-        #hud {
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(0,0,0,0.3);
-            z-index: 100;
-        }
+:root{ --stage-bg: radial-gradient(circle at 50% 0%,#123a26,#0f1226 70%); }
 
-        .hud-item {
-            font-family: 'Fredoka One', cursive;
-            font-size: 1.2rem;
-            text-shadow: 2px 2px 0 rgba(0,0,0,0.5);
-        }
+#gg-arena{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; padding:66px 10px 10px; gap:8px;}
+#gg-prompt{font-size:clamp(16px,5vw,24px); font-weight:900; text-align:center; background:rgba(255,255,255,.08); border-radius:14px; padding:8px 16px; max-width:94vw;}
+#gg-grid{
+  position:relative; width:min(94vw,440px); aspect-ratio:8/7; background:rgba(255,255,255,.05);
+  border:3px solid #6bdc8c; border-radius:16px; overflow:hidden;
+}
+.gg-cell{position:absolute; display:flex; align-items:center; justify-content:center; font-weight:900; border-radius:6px; font-size:calc(min(94vw,440px)/8 * .55); transition:left .12s linear, top .12s linear;}
+.gg-seg{background:#6bdc8c;}
+.gg-head{background:#a8f3bd; z-index:3;}
+.gg-food{
+  background:rgba(20,22,50,.88); border:2px solid rgba(255,255,255,.4); color:#fff; z-index:2;
+  border-radius:999px; padding:0 8px; white-space:nowrap; transform:translate(-50%,-50%);
+  transition:left .2s linear, top .2s linear, opacity .2s; box-shadow:0 4px 10px rgba(0,0,0,.35);
+}
+#gg-pad{display:grid; grid-template-columns:repeat(3,64px); grid-template-rows:repeat(3,64px); gap:6px; margin-top:8px;}
+#gg-pad button{border:none; border-radius:12px; background:rgba(255,255,255,.12); color:#fff; font-size:22px; cursor:pointer;}
+#gg-pad button:active{background:rgba(255,255,255,.28);}
 
-        #score-val { color: var(--secondary); }
-
-        #game-container {
-            flex: 1;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        #question-box {
-            background: rgba(255,255,255,0.1);
-            padding: 20px 40px;
-            border-radius: 20px;
-            text-align: center;
-            margin-bottom: 30px;
-            max-width: 90%;
-            border: 2px solid rgba(255,255,255,0.2);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        #q-text {
-            font-size: 1.8rem;
-            font-weight: 900;
-            line-height: 1.4;
-        }
-
-        #q-image {
-            max-width: 200px;
-            max-height: 200px;
-            margin-bottom: 15px;
-            border-radius: 10px;
-        }
-
-        #choices-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            width: 100%;
-            max-width: 800px;
-        }
-
-        .choice-btn {
-            background: var(--primary);
-            border: none;
-            padding: 20px;
-            border-radius: 15px;
-            color: white;
-            font-size: 1.4rem;
-            font-weight: 900;
-            cursor: pointer;
-            transition: transform 0.1s, background 0.2s;
-            box-shadow: 0 6px 0 #2980b9;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-
-        .choice-btn:active {
-            transform: translateY(4px);
-            box-shadow: 0 2px 0 #2980b9;
-        }
-
-        .choice-btn.correct { background: var(--success); box-shadow: 0 6px 0 #27ae60; }
-        .choice-btn.wrong { background: var(--danger); box-shadow: 0 6px 0 #c0392b; }
-
-        /* Scramble Mode */
-        #scramble-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .slots-row, .letters-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-        }
-
-        .letter-tile {
-            width: 50px;
-            height: 50px;
-            background: var(--primary);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            font-weight: 900;
-            cursor: pointer;
-            box-shadow: 0 4px 0 #2980b9;
-        }
-
-        .slot-tile {
-            width: 50px;
-            height: 50px;
-            border-bottom: 4px solid white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            font-weight: 900;
-            color: var(--secondary);
-        }
-
-        #overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.9);
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-
-        #overlay.show { display: flex; }
-
-        #overlay h1 { font-size: 3rem; margin-bottom: 20px; font-family: 'Fredoka One'; }
-        #overlay p { font-size: 1.5rem; margin-bottom: 30px; }
-
-        .btn-restart {
-            padding: 15px 40px;
-            background: var(--secondary);
-            border: none;
-            border-radius: 30px;
-            color: white;
-            font-size: 1.5rem;
-            font-weight: 900;
-            cursor: pointer;
-        }
-
-        @media (max-width: 600px) {
-            #q-text { font-size: 1.4rem; }
-            .choice-btn { font-size: 1.1rem; padding: 15px; }
-            #choices-grid { grid-template-columns: 1fr 1fr; }
-        }
-    </style>
+</style>
+<!-- MOBILE-FIT-2027 -->
+<style id="mobile-fit-2027">
+html, body { touch-action: manipulation; -webkit-tap-highlight-color: transparent; overscroll-behavior: none; }
+button, .target-btn, a, [onclick] { touch-action: manipulation; }
+@media (max-width: 900px), (max-height: 520px) {
+  html { font-size: clamp(11px, 3.4vmin, 16px) !important; }
+}
+</style>
+<!-- /MOBILE-FIT-2027-head -->
+<style>.timer, #timer, [id*="timer"], [class*="timer"], .time-display, #time-display { display: none !important; opacity: 0 !important; pointer-events: none !important; visibility: hidden !important; }</style>
+<!-- MOBILE-FIT-2027 -->
+<style id="mobile-fit-2027-surgical">
+html, body { touch-action: manipulation; -webkit-tap-highlight-color: transparent; overscroll-behavior: none; }
+button, .target-btn, a, [onclick], .gg-target, .gg-btn { touch-action: manipulation; }
+@media (max-width: 900px), (max-height: 520px) {
+  html { font-size: clamp(10px, 3vmin, 16px) !important; }
+}
+</style>
 </head>
 <body>
-    <div id="hud">
-        <div class="hud-item" id="q-num">Q 1/1</div>
-        <div class="hud-item">Score: <span id="score-val">0</span></div>
+<div id="gg-root">
+  <div id="gg-hud">
+    <div style="display:flex;gap:8px;align-items:center;">
+      <button id="gg-back">‹</button>
+      <div class="gg-pill coins">🪙 <span id="gg-coins-val">0</span></div>
+      <div class="gg-pill level">🎖️ Lv<span id="gg-level-val">1</span></div>
     </div>
+    <button id="gg-mute">🔊</button>
+  </div>
+  <div id="gg-instructions">اقرأ السؤال واختر الإجابة الصحيحة</div>
+  <div id="gg-stage">
+    
+<div style="display:flex;align-items:center;gap:10px;position:absolute;top:calc(env(safe-area-inset-top,0px) + 54px);left:0;right:0;z-index:35;padding:0 14px;justify-content:space-between;">
+  <div class="gg-progress-wrap"><div class="gg-progress-bar" id="gg-progress-bar"></div></div>
+  <div id="gg-lives" style="font-size:16px;white-space:nowrap;">❤️❤️❤️</div>
+</div>
 
-    <div id="game-container">
-        <div id="question-box">
-            <img id="q-image" style="display:none">
-            <div id="q-text">Loading...</div>
-        </div>
+<div id="gg-start" class="gg-screen">
+  <div style="font-size:54px;">🐍</div>
+  <div class="gg-title">Word Snake</div>
+  <div class="gg-sub">العب وتعلّم مع المكافآت!</div>
+  <button class="gg-btn" id="gg-start-btn">ابدأ اللعب ▶</button>
+</div>
 
-        <div id="choices-grid"></div>
-        
-        <div id="scramble-container" style="display:none">
-            <div class="slots-row" id="slots"></div>
-            <div class="letters-row" id="letters"></div>
-        </div>
-        <div id="farm-grid" style="display: none; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 20px;"></div>
-    </div>
+<div id="gg-arena">
+  <div id="gg-prompt"></div>
+  <div id="gg-grid"></div>
+  <div id="gg-pad">
+    <div></div><button data-d="up">⬆️</button><div></div>
+    <button data-d="left">⬅️</button><div></div><button data-d="right">➡️</button>
+    <div></div><button data-d="down">⬇️</button><div></div>
+  </div>
+</div>
 
-    <div id="overlay">
-        <h1>Well Done!</h1>
-        <p id="final-score">Final Score: 0</p>
-        <button class="btn-restart" onclick="location.reload()">Play Again</button>
-    </div>
+    <div id="gg-badge-pop" class="gg-hidden"></div>
+  </div>
+</div>
 
-    <script>
-        // Data injected by rebuilder
-        const RAW_DATA = {"speak": true, "maxRounds": 10, "rawRounds": [{"prompt": "A giraffe has a _____ coat.", "choices": ["striped", "black", "spotted"], "correct": 2}, {"prompt": "My dad is a forest _____.", "choices": ["guide", "doctor", "teacher"], "correct": 0}, {"prompt": "A forest guide shows visitors the _____.", "choices": ["books", "cars", "animals"], "correct": 2}, {"prompt": "_____ are very good at climbing trees.", "choices": ["Elephants", "Lions", "Monkeys"], "correct": 2}, {"prompt": "The forest _____ is an amazing place.", "choices": ["school", "park", "book"], "correct": 1}, {"prompt": "You can see animals up _____ in the forest park.", "choices": ["far", "close", "high"], "correct": 1}, {"prompt": "The bear has a thick _____.", "choices": ["fur", "scales", "feathers"], "correct": 0}, {"prompt": "Giraffes eat green _____.", "choices": ["leaves", "meat", "fish"], "correct": 0}, {"prompt": "Rabbits eat fresh _____.", "choices": ["vegetables", "insects", "meat"], "correct": 0}, {"prompt": "The monkey has a _____ tail.", "choices": ["long", "no", "short"], "correct": 0}, {"prompt": "The zebra has a _____ coat.", "choices": ["gray", "striped", "spotted"], "correct": 1}, {"prompt": "Lions _____ at night.", "choices": ["sleep", "hunt", "play"], "correct": 1}, {"prompt": "Pets need _____ care from their owners.", "choices": ["monthly", "daily", "yearly"], "correct": 1}, {"prompt": "An elephant has a long _____.", "choices": ["trunk", "neck", "tail"], "correct": 0}, {"prompt": "A bird has two _____ to fly.", "choices": ["arms", "wings", "legs"], "correct": 1}, {"prompt": "Fish live in the _____.", "choices": ["forest", "desert", "water"], "correct": 2}, {"prompt": "The _____ is the king of the jungle.", "choices": ["lion", "monkey", "rabbit"], "correct": 0}, {"prompt": "A camel lives in the _____.", "choices": ["forest", "river", "desert"], "correct": 2}, {"prompt": "A cat is a common _____.", "choices": ["bird", "wild animal", "pet"], "correct": 2}, {"prompt": "Dogs are very _____ animals.", "choices": ["bad", "dangerous", "friendly"], "correct": 2}, {"prompt": "The _____ has a very long neck.", "choices": ["lion", "bear", "giraffe"], "correct": 2}, {"prompt": "Bears love to eat _____ and fish.", "choices": ["honey", "leaves", "grass"], "correct": 0}, {"prompt": "Monkeys like to eat _____.", "choices": ["bananas", "meat", "fish"], "correct": 0}, {"prompt": "A forest has many _____.", "choices": ["cars", "trees", "buildings"], "correct": 1}, {"prompt": "We shouldn't _____ wild animals.", "choices": ["feed", "protect", "hurt"], "correct": 2}, {"prompt": "The forest guide knows a lot about _____.", "choices": ["cars", "computers", "nature"], "correct": 2}, {"prompt": "A tiger runs very _____.", "choices": ["fast", "slow", "quietly"], "correct": 0}, {"prompt": "A turtle is very _____.", "choices": ["loud", "fast", "slow"], "correct": 2}, {"prompt": "Some animals sleep in a _____.", "choices": ["house", "bed", "cave"], "correct": 2}, {"prompt": "Thick fur keeps the bear _____.", "choices": ["hungry", "cold", "warm"], "correct": 2}, {"prompt": "A cheetah has black _____ on its coat.", "choices": ["lines", "spots", "stripes"], "correct": 1}, {"prompt": "A tiger has black _____.", "choices": ["stripes", "circles", "spots"], "correct": 0}, {"prompt": "Wild animals find their own _____.", "choices": ["food", "clothes", "toys"], "correct": 0}, {"prompt": "A snake has no _____.", "choices": ["eyes", "mouth", "legs"], "correct": 2}, {"prompt": "We can see many animals in the _____.", "choices": ["zoo", "hospital", "bakery"], "correct": 0}, {"prompt": "A baby dog is called a _____.", "choices": ["cub", "kitten", "puppy"], "correct": 2}, {"prompt": "A baby cat is called a _____.", "choices": ["puppy", "kitten", "calf"], "correct": 1}, {"prompt": "Birds build _____ in trees.", "choices": ["caves", "webs", "nests"], "correct": 2}, {"prompt": "Spiders spin _____.", "choices": ["nests", "webs", "caves"], "correct": 1}, {"prompt": "A crocodile has a hard _____.", "choices": ["shell", "feather", "fur"], "correct": 0}, {"prompt": "Frogs can live in water and on _____.", "choices": ["air", "land", "fire"], "correct": 1}, {"prompt": "A bat sleeps upside _____.", "choices": ["right", "down", "up"], "correct": 1}, {"prompt": "An owl can fly at _____.", "choices": ["night", "morning", "noon"], "correct": 0}, {"prompt": "Penguins live in very _____ places.", "choices": ["hot", "cold", "warm"], "correct": 1}, {"prompt": "Dolphins are very _____ swimmers.", "choices": ["bad", "slow", "fast"], "correct": 2}, {"prompt": "Zoo animals need special _____.", "choices": ["books", "pens", "attention"], "correct": 2}, {"prompt": "Elephants need _____ spaces than monkeys.", "choices": ["smaller", "shorter", "bigger"], "correct": 2}, {"prompt": "Elephants need to move _____.", "choices": ["up", "around", "down"], "correct": 1}, {"prompt": "Lions eat a lot of _____.", "choices": ["grass", "leaves", "food"], "correct": 2}, {"prompt": "Lions eat food to stay _____ than other animals.", "choices": ["stronger", "smaller", "weaker"], "correct": 0}, {"prompt": "Giraffes need _____ trees.", "choices": ["taller", "shorter", "smaller"], "correct": 0}, {"prompt": "Giraffes need tall trees to reach their _____.", "choices": ["toys", "water", "food"], "correct": 2}, {"prompt": "Ahmed is _____ than Ali.", "choices": ["shorter", "short", "shortest"], "correct": 0}, {"prompt": "Sally is _____ than Rana.", "choices": ["laziest", "lazy", "lazier"], "correct": 2}, {"prompt": "Elephants are _____ than cats.", "choices": ["big", "bigger", "biggest"], "correct": 1}, {"prompt": "Cats are _____ than lions.", "choices": ["safest", "safer", "safe"], "correct": 1}, {"prompt": "Today is _____ than yesterday.", "choices": ["hot", "hotter", "hottest"], "correct": 1}, {"prompt": "The cat is _____ than the mouse.", "choices": ["bigger", "big", "biggest"], "correct": 0}, {"prompt": "Nashwa is _____ than Hala.", "choices": ["thinner", "thin", "thinnest"], "correct": 0}, {"prompt": "Dina is _____ than Amira.", "choices": ["pretty", "prettier", "prettiest"], "correct": 1}, {"prompt": "Hala is _____ than Amira.", "choices": ["shortest", "short", "shorter"], "correct": 2}, {"prompt": "Sama is _____ than Abeer.", "choices": ["laziest", "lazy", "lazier"], "correct": 2}, {"prompt": "My class is _____ than yours.", "choices": ["big", "bigger", "biggest"], "correct": 1}, {"prompt": "Arabic is _____ than French.", "choices": ["easier", "easiest", "easy"], "correct": 0}, {"prompt": "Hana is taller _____ Rana.", "choices": ["than", "then", "that"], "correct": 0}, {"prompt": "Ahmed isn't _____ than Ali.", "choices": ["tall", "tallest", "taller"], "correct": 2}, {"prompt": "Bears are _____ than monkeys.", "choices": ["lazy", "lazier", "laziest"], "correct": 1}, {"prompt": "Fruit is _____ than sweets.", "choices": ["healthier", "healthiest", "healthy"], "correct": 0}, {"prompt": "The plane is _____ than the train.", "choices": ["faster", "fastest", "fast"], "correct": 0}, {"prompt": "A mouse is _____ than an elephant.", "choices": ["smallest", "small", "smaller"], "correct": 2}, {"prompt": "A cheetah is _____ than a dog.", "choices": ["fast", "fastest", "faster"], "correct": 2}, {"prompt": "A turtle is _____ than a rabbit.", "choices": ["slow", "slowest", "slower"], "correct": 2}, {"prompt": "Winter is _____ than summer.", "choices": ["cold", "coldest", "colder"], "correct": 2}, {"prompt": "A rock is _____ than a feather.", "choices": ["heaviest", "heavier", "heavy"], "correct": 1}, {"prompt": "A feather is _____ than a book.", "choices": ["lighter", "lightest", "light"], "correct": 0}, {"prompt": "The river is _____ than the lake.", "choices": ["longer", "long", "longest"], "correct": 0}, {"prompt": "My grandfather is _____ than my father.", "choices": ["old", "oldest", "older"], "correct": 2}, {"prompt": "My brother is _____ than my grandfather.", "choices": ["young", "younger", "youngest"], "correct": 1}, {"prompt": "The math test was _____ than the English test.", "choices": ["hard", "hardest", "harder"], "correct": 2}, {"prompt": "This box is _____ than that box.", "choices": ["large", "larger", "largest"], "correct": 1}, {"prompt": "My bag is _____ than yours.", "choices": ["heavy", "heavier", "heaviest"], "correct": 1}, {"prompt": "A lion is _____ than a cat.", "choices": ["stronger", "strongest", "strong"], "correct": 0}, {"prompt": "A giraffe is _____ than a zebra.", "choices": ["tallest", "taller", "tall"], "correct": 1}, {"prompt": "A rabbit has _____ ears than a cat.", "choices": ["long", "longer", "longest"], "correct": 1}, {"prompt": "A dog is _____ than a mouse.", "choices": ["big", "bigger", "biggest"], "correct": 1}, {"prompt": "I am _____ than my little sister.", "choices": ["taller", "tall", "tallest"], "correct": 0}, {"prompt": "The sun is _____ than the moon.", "choices": ["hot", "hottest", "hotter"], "correct": 2}, {"prompt": "A train is _____ than a car.", "choices": ["longer", "longest", "long"], "correct": 0}, {"prompt": "Ice is _____ than water.", "choices": ["cold", "colder", "coldest"], "correct": 1}, {"prompt": "This book is _____ than the other one.", "choices": ["thicker", "thick", "thickest"], "correct": 0}, {"prompt": "The old lion _____ to be very sick.", "choices": ["pretended", "played", "jumped"], "correct": 0}, {"prompt": "The lion was not really _____.", "choices": ["sick", "big", "old"], "correct": 0}, {"prompt": "Many animals came into the lion's _____.", "choices": ["house", "tree", "cave"], "correct": 2}, {"prompt": "The animals came to _____ him.", "choices": ["hunt", "eat", "visit"], "correct": 2}, {"prompt": "The animals didn't _____ out.", "choices": ["come", "go", "run"], "correct": 0}, {"prompt": "The _____ was very clever.", "choices": ["bear", "fox", "lion"], "correct": 1}, {"prompt": "The fox learned from the _____ of others.", "choices": ["mistakes", "books", "food"], "correct": 0}, {"prompt": "The lion could _____ the foolish animals.", "choices": ["visit", "hunt", "help"], "correct": 1}, {"prompt": "The fox saw _____ going into the cave.", "choices": ["food", "footprints", "books"], "correct": 1}, {"prompt": "The fox saw no footprints coming _____ of the cave.", "choices": ["out", "on", "in"], "correct": 0}, {"prompt": "The lion was _____ the animals.", "choices": ["teaching", "helping", "eating"], "correct": 2}, {"prompt": "The fox was a very _____ animal.", "choices": ["clever", "lazy", "foolish"], "correct": 0}, {"prompt": "We should learn from the mistakes of _____.", "choices": ["ourselves", "lions", "others"], "correct": 2}, {"prompt": "The lion was known as the king of the _____.", "choices": ["jungle", "sea", "sky"], "correct": 0}, {"prompt": "The old lion stayed in his _____.", "choices": ["cave", "web", "nest"], "correct": 0}, {"prompt": "The fox did not go _____ the cave.", "choices": ["inside", "outside", "above"], "correct": 0}, {"prompt": "The lion tried to _____ the animals.", "choices": ["trick", "feed", "help"], "correct": 0}, {"prompt": "A _____ is a smart animal in stories.", "choices": ["cow", "fox", "sheep"], "correct": 1}, {"prompt": "The animals who went in were _____.", "choices": ["smart", "foolish", "clever"], "correct": 1}, {"prompt": "The word 'pretended' means to act like something is _____.", "choices": ["false", "big", "true"], "correct": 2}, {"prompt": "The lion wanted an easy _____.", "choices": ["book", "meal", "friend"], "correct": 1}, {"prompt": "The fox stood _____ the cave.", "choices": ["under", "inside", "outside"], "correct": 2}, {"prompt": "The fox asked the lion, 'How are you _____?'", "choices": ["feeling", "sleeping", "eating"], "correct": 0}, {"prompt": "The lion said, 'I am very _____.'", "choices": ["sick", "strong", "healthy"], "correct": 0}, {"prompt": "The fox noticed the _____ on the ground.", "choices": ["flowers", "leaves", "footprints"], "correct": 2}, {"prompt": "The footprints pointed _____ the cave.", "choices": ["under", "towards", "away from"], "correct": 1}, {"prompt": "None of the footprints pointed _____.", "choices": ["in", "forward", "back"], "correct": 2}, {"prompt": "The fox knew it was a _____.", "choices": ["trap", "game", "party"], "correct": 0}, {"prompt": "The lion was too _____ to hunt outside.", "choices": ["old", "fast", "young"], "correct": 0}, {"prompt": "The fox ran _____ safely.", "choices": ["inside", "away", "towards"], "correct": 1}, {"prompt": "A cave is a large hole in a _____.", "choices": ["mountain", "cloud", "tree"], "correct": 0}, {"prompt": "The animals wanted to be _____ to the sick lion.", "choices": ["angry", "kind", "mean"], "correct": 1}, {"prompt": "The lion took advantage of their _____.", "choices": ["kindness", "speed", "anger"], "correct": 0}, {"prompt": "The fox used his _____ to stay safe.", "choices": ["eyes", "ears", "tail"], "correct": 0}, {"prompt": "A trick is used to _____ someone.", "choices": ["fool", "protect", "help"], "correct": 0}, {"prompt": "The lion was a _____ hunter.", "choices": ["dangerous", "friendly", "safe"], "correct": 0}, {"prompt": "The fox said, 'I will not come _____.'", "choices": ["out", "in", "up"], "correct": 1}, {"prompt": "The moral of the story is to be _____.", "choices": ["lazy", "careful", "greedy"], "correct": 1}, {"prompt": "The fox saved his own _____.", "choices": ["food", "cave", "life"], "correct": 2}, {"prompt": "The lion was waiting for his next _____.", "choices": ["victim", "doctor", "friend"], "correct": 0}, {"prompt": "Animals in the jungle must stay _____.", "choices": ["sick", "asleep", "alert"], "correct": 2}, {"prompt": "The fox was not _____ by the lion.", "choices": ["eaten", "heard", "seen"], "correct": 0}, {"prompt": "The lion's plan _____ with the fox.", "choices": ["failed", "worked", "helped"], "correct": 0}, {"prompt": "The fox walked away _____.", "choices": ["sleeping", "smiling", "crying"], "correct": 1}, {"prompt": "The old lion remained _____ in his cave.", "choices": ["full", "hungry", "happy"], "correct": 1}, {"prompt": "Many animals around the world are in _____.", "choices": ["safety", "parks", "danger"], "correct": 2}, {"prompt": "They are in danger of _____ forever.", "choices": ["playing", "growing", "disappearing"], "correct": 2}, {"prompt": "Animals are in danger because of _____ down trees.", "choices": ["watering", "cutting", "planting"], "correct": 1}, {"prompt": "Another reason is _____.", "choices": ["helping", "pollution", "cleaning"], "correct": 1}, {"prompt": "_____ animals also puts them in danger.", "choices": ["Protecting", "Hunting", "Feeding"], "correct": 1}, {"prompt": "The Arabian _____ is an endangered animal.", "choices": ["Leopard", "Dog", "Cat"], "correct": 0}, {"prompt": "The Red Sea _____ is in danger.", "choices": ["Dolphin", "Dugong", "Shark"], "correct": 1}, {"prompt": "The giant _____ is also an endangered animal.", "choices": ["bear", "rabbit", "panda"], "correct": 2}, {"prompt": "We can protect them by protecting their _____.", "choices": ["homes", "hunters", "food"], "correct": 0}, {"prompt": "We should _____ trees to help animals.", "choices": ["burn", "cut", "plant"], "correct": 2}, {"prompt": "We must keep the environment _____.", "choices": ["clean", "dirty", "polluted"], "correct": 0}, {"prompt": "We should stop _____ endangered animals.", "choices": ["feeding", "hunting", "watching"], "correct": 1}, {"prompt": "The Red Sea Dugong eats sea _____.", "choices": ["grass", "fish", "meat"], "correct": 0}, {"prompt": "We _____ flowers and trees in the park.", "choices": ["does", "plant", "wear"], "correct": 1}, {"prompt": "I use my _____ to taste food.", "choices": ["tongue", "ears", "eyes"], "correct": 0}, {"prompt": "Fruit is a/an _____ food.", "choices": ["healthy", "unhealthy", "bad"], "correct": 0}, {"prompt": "Sara _____ to her village every week.", "choices": ["travels", "travel", "traveled"], "correct": 0}, {"prompt": "Nora _____ her car every day.", "choices": ["washing", "washes", "wash"], "correct": 1}, {"prompt": "_____ you play football?", "choices": ["Do", "Does", "Is"], "correct": 0}, {"prompt": "Hany doesn't _____ well.", "choices": ["reading", "read", "reads"], "correct": 1}, {"prompt": "Do you _____ up late?", "choices": ["get", "getting", "gets"], "correct": 0}, {"prompt": "We _____ go to the club on Friday.", "choices": ["isn't", "don't", "doesn't"], "correct": 1}, {"prompt": "_____ Ahmed like healthy food?", "choices": ["Do", "Does", "Are"], "correct": 1}, {"prompt": "Farida follows the same _____ every day.", "choices": ["book", "car", "routine"], "correct": 2}, {"prompt": "Ahmed lives in _____.", "choices": ["London", "Paris", "Cairo"], "correct": 2}, {"prompt": "Traffic is very _____ in Cairo.", "choices": ["good", "fast", "slow"], "correct": 2}, {"prompt": "Ahmed is always _____ for work.", "choices": ["fast", "early", "late"], "correct": 2}, {"prompt": "Traffic is a very _____ problem.", "choices": ["healthy", "dangerous", "safe"], "correct": 1}, {"prompt": "Ahmed decided to use _____ instead of his car.", "choices": ["planes", "buses", "ships"], "correct": 1}, {"prompt": "A research _____ gives facts about a topic.", "choices": ["report", "car", "toy"], "correct": 0}, {"prompt": "We can make a _____ using pictures and words.", "choices": ["cake", "soup", "collage"], "correct": 2}, {"prompt": "Endangered means an animal might _____.", "choices": ["run fast", "grow up", "die out"], "correct": 2}, {"prompt": "Protecting the environment is our _____.", "choices": ["duty", "mistake", "problem"], "correct": 0}, {"prompt": "We should not _____ trash in the sea.", "choices": ["clean", "collect", "throw"], "correct": 2}, {"prompt": "Giant pandas eat _____.", "choices": ["meat", "bamboo", "fish"], "correct": 1}, {"prompt": "Pollution makes the air _____.", "choices": ["dirty", "fresh", "clean"], "correct": 0}, {"prompt": "We can _____ old paper and plastic.", "choices": ["recycle", "burn", "eat"], "correct": 0}, {"prompt": "Wild animals need a safe _____ to live.", "choices": ["box", "cage", "habitat"], "correct": 2}, {"prompt": "A leopard has a beautiful _____ coat.", "choices": ["striped", "spotted", "plain"], "correct": 1}, {"prompt": "The dugong is also called a sea _____.", "choices": ["horse", "cow", "dog"], "correct": 1}, {"prompt": "We should _____ wild animals from far away.", "choices": ["touch", "watch", "hunt"], "correct": 1}, {"prompt": "Cutting down forests destroys animal _____.", "choices": ["homes", "water", "food"], "correct": 0}, {"prompt": "It is _____ to hunt endangered animals.", "choices": ["illegal", "helpful", "good"], "correct": 0}, {"prompt": "A healthy environment is good for _____.", "choices": ["everyone", "machines", "no one"], "correct": 0}, {"prompt": "We can all _____ to save the animals.", "choices": ["hurt", "ignore", "help"], "correct": 2}]};
-        const DATA_TYPE = "META";
-        const IS_PREP = false;
+<div id="gg-result" class="gg-screen gg-hidden">
+  <div class="gg-title" id="gg-result-title">أحسنت! 🎉</div>
+  <div id="gg-stars">☆☆☆</div>
+  <div class="gg-sub" id="gg-result-sub">0 / 0</div>
+  <div class="gg-pill coins" id="gg-coins-earned" style="font-size:20px;">+0 🪙</div>
+  <div class="gg-row">
+    <button class="gg-btn" id="gg-replay">العب مرة أخرى 🔁</button>
+  </div>
+</div>
 
-        // Audio Management
-        const AC = new (window.AudioContext || window.webkitAudioContext)();
-        if (IS_PREP) {
-            // Mute background music for Prep
-            const originalCreateElement = document.createElement;
-            document.createElement = function(tag) {
-                const el = originalCreateElement.call(document, tag);
-                if (tag.toLowerCase() === 'audio') {
-                    setTimeout(() => {
-                        if (el.src && (el.src.includes('bg') || el.src.includes('music'))) {
-                            el.muted = true;
-                            el.volume = 0;
-                        }
-                    }, 0);
-                }
-                return el;
-            };
-        }
+<script>
 
-        function speak(text) {
-            if (!window.speechSynthesis) return;
-            window.speechSynthesis.cancel();
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'en-US';
-            utterance.rate = 0.9;
-            window.speechSynthesis.speak(utterance);
-        }
+// ============================================================
+//  GG27 — نظام المكافآت الموحّد (نقاط/نجوم/عملات/شارات/مستويات)
+// ============================================================
+const GG27 = (function(){
+  const KEY = 'gg27_profile_v1';
+  function _load(){
+    try { return JSON.parse(localStorage.getItem(KEY)) || _fresh(); }
+    catch(e){ return _fresh(); }
+  }
+  function _fresh(){
+    return { coins:0, xp:0, level:1, badges:{}, streak:0, lastDate:'', lessons:{} };
+  }
+  function _save(p){ try{ localStorage.setItem(KEY, JSON.stringify(p)); }catch(e){} }
+  function _levelFor(xp){ return Math.max(1, Math.floor(xp/150)+1); }
 
-        // Data Adapter
-        function parseData(raw, type) {
-            let questions = [];
-            if (type === 'QS' || type === 'questions') {
-                questions = raw.map(q => ({
-                    text: q.q || q.question,
-                    choices: q.choices || q.options,
-                    answer: q.answer,
-                    image: q.image || q.img || null,
-                    type: 'mcq'
-                }));
-            } else if (type === 'words' || type === 'vocabulary') {
-                questions = raw.map(item => ({
-                    text: item.w || item.word,
-                    image: item.i || item.img || null,
-                    type: 'scramble'
-                }));
-            } else if (type === 'META') {
-                questions = raw.rawRounds.map(r => ({
-                    text: r.prompt,
-                    choices: r.choices,
-                    answer: r.correct,
-                    type: 'mcq'
-                }));
-            } else if (type === 'pairs' || type === 'tasks' || type === 'sentences' || type === 'wordsData') {
-                questions = raw.map(item => ({
-                    text: item.text || item.word || item.w || "What is this?",
-                    image: item.img || item.i || item.image || null,
-                    choices: item.wrong ? [item.answer, ...item.wrong] : null,
-                    answer: item.wrong ? 0 : null,
-                    type: (item.wrong || item.choices) ? 'mcq' : 'scramble'
-                }));
-            } else if (type === 'custom_farm') {
-                questions = raw.map(q => ({
-                    text: q.text,
-                    answer: q.answer,
-                    type: 'count'
-                }));
-            } else if (type === 'CURRICULUM') {
-                // Flatten curriculum
-                raw.units.forEach(u => {
-                    u.lessons.forEach(l => {
-                        if (l.questions) {
-                            l.questions.forEach(q => {
-                                questions.push({
-                                    text: q.q,
-                                    choices: q.choices,
-                                    answer: q.answer,
-                                    type: 'mcq'
-                                });
-                            });
-                        }
-                    });
-                });
-            }
-            return questions;
-        }
+  function today(){ return new Date().toISOString().slice(0,10); }
 
-        const questions = parseData(RAW_DATA, DATA_TYPE);
-        let currentQ = 0;
-        let score = 0;
-        let locked = false;
+  function bumpStreak(p){
+    const t = today();
+    if(p.lastDate === t) return;
+    const y = new Date(Date.now()-86400000).toISOString().slice(0,10);
+    p.streak = (p.lastDate === y) ? (p.streak||0)+1 : 1;
+    p.lastDate = t;
+  }
 
-        function loadQuestion() {
-            if (currentQ >= questions.length) {
-                showEnd();
-                return;
-            }
+  function recordResult(lessonKey, res){
+    // res = { stars, score, total, coins }
+    const p = _load();
+    bumpStreak(p);
+    const prev = p.lessons[lessonKey] || { stars:0, best:0, plays:0, coins:0 };
+    prev.stars = Math.max(prev.stars, res.stars||0);
+    prev.best  = Math.max(prev.best, res.score||0);
+    prev.plays = (prev.plays||0)+1;
+    prev.coins = (prev.coins||0) + (res.coins||0);
+    p.lessons[lessonKey] = prev;
+    p.coins = (p.coins||0) + (res.coins||0);
+    p.xp = (p.xp||0) + (res.coins||0) + (res.stars||0)*10;
+    const newLevel = _levelFor(p.xp);
+    const leveledUp = newLevel > p.level;
+    p.level = newLevel;
+    const newBadges = [];
+    if(res.stars>=3 && !p.badges['perfect_'+lessonKey]){ p.badges['perfect_'+lessonKey]=true; newBadges.push('نجمة كاملة ⭐'); }
+    if(prev.plays===1 && !p.badges['first_'+lessonKey]){ p.badges['first_'+lessonKey]=true; }
+    if(p.streak===3 && !p.badges['streak3']){ p.badges['streak3']=true; newBadges.push('3 أيام متتالية 🔥'); }
+    if(p.streak===7 && !p.badges['streak7']){ p.badges['streak7']=true; newBadges.push('أسبوع كامل 🔥🔥'); }
+    if(Object.keys(p.lessons).length===5 && !p.badges['five']){ p.badges['five']=true; newBadges.push('٥ ألعاب مكتملة 🏅'); }
+    _save(p);
+    return { profile:p, leveledUp, newBadges };
+  }
+  function profile(){ return _load(); }
+  function coins(){ return _load().coins||0; }
+  function level(){ return _load().level||1; }
+  function isMuted(){ try{ return localStorage.getItem('gg27_muted')==='1'; }catch(e){ return false; } }
+  function setMuted(v){ try{ localStorage.setItem('gg27_muted', v?'1':'0'); }catch(e){} }
+  return { recordResult, profile, coins, level, isMuted, setMuted };
+})();
 
-            locked = false;
-            const q = questions[currentQ];
-            document.getElementById('q-num').innerText = `Q ${currentQ + 1}/${questions.length}`;
-            
-            const qText = document.getElementById('q-text');
-            const qImg = document.getElementById('q-image');
-            const choicesGrid = document.getElementById('choices-grid');
-            const scrambleBox = document.getElementById('scramble-container');
+// ============================================================
+//  محرك صوت بسيط (Web Audio) — بدون أي ملفات خارجية
+// ============================================================
+const GGSound = (function(){
+  let ctx=null;
+  function c(){ if(!ctx) ctx = new (window.AudioContext||window.webkitAudioContext)(); if(ctx.state==='suspended') ctx.resume(); return ctx; }
+  function beep(freq,type,dur,vol,t0){
+    if(GG27.isMuted()) return;
+    try{
+      const ac=c(); const o=ac.createOscillator(); const g=ac.createGain();
+      o.connect(g); g.connect(ac.destination); o.type=type||'sine';
+      o.frequency.setValueAtTime(freq, ac.currentTime+(t0||0));
+      g.gain.setValueAtTime(vol||.25, ac.currentTime+(t0||0));
+      g.gain.exponentialRampToValueAtTime(.001, ac.currentTime+(t0||0)+dur);
+      o.start(ac.currentTime+(t0||0)); o.stop(ac.currentTime+(t0||0)+dur+.02);
+    }catch(e){}
+  }
+  return {
+    correct(){ beep(523,'sine',.12,.3); beep(659,'sine',.12,.3,.09); beep(880,'sine',.18,.3,.18); },
+    wrong(){ beep(220,'sawtooth',.18,.25); beep(160,'sawtooth',.22,.2,.12); },
+    coin(){ beep(988,'square',.08,.18); beep(1318,'square',.1,.18,.06); },
+    tap(){ beep(700,'square',.05,.12); },
+    win(){ [523,659,784,1047].forEach((f,i)=>beep(f,'sine',.16,.3,i*.11)); },
+    lose(){ beep(311,'sawtooth',.3,.3); beep(196,'sawtooth',.5,.3,.22); },
+    badge(){ beep(784,'triangle',.15,.3); beep(1047,'triangle',.2,.3,.12); }
+  };
+})();
 
-            qText.innerText = q.text;
-            if (q.image) {
-                qImg.src = q.image;
-                qImg.style.display = 'block';
-            } else {
-                qImg.style.display = 'none';
-            }
+function ggSpeak(text, lang){
+  try{
+    if(!window.speechSynthesis) return;
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = lang || 'en-US'; u.rate = .92; u.pitch = 1.05;
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(u);
+  }catch(e){}
+}
+function ggShuffle(arr){
+  const a=arr.slice();
+  for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+  return a;
+}
+function ggVibrate(ms){ try{ if(navigator.vibrate) navigator.vibrate(ms); }catch(e){} }
 
-            const farm = document.getElementById('farm-grid');
-            if (farm) farm.style.display = 'none';
+function ggCoinBurst(x,y,n){
+  const root = document.getElementById('gg-stage');
+  if(!root) return;
+  for(let i=0;i<(n||3);i++){
+    const s = document.createElement('div');
+    s.className='gg-coinburst'; s.textContent='🪙';
+    s.style.left=(x)+'px'; s.style.top=(y)+'px';
+    s.style.setProperty('--dx', ((Math.random()*80)-40)+'px');
+    root.appendChild(s);
+    setTimeout(()=>s.remove(), 1000);
+  }
+}
 
-            if (q.type === 'mcq') {
-                choicesGrid.style.display = 'grid';
-                scrambleBox.style.display = 'none';
-                choicesGrid.innerHTML = '';
-                q.choices.forEach((c, i) => {
-                    const btn = document.createElement('button');
-                    btn.className = 'choice-btn';
-                    btn.innerText = c;
-                    btn.onclick = () => handleMCQ(btn, i === q.answer);
-                    choicesGrid.appendChild(btn);
-                });
-            } else if (q.type === 'count') {
-                choicesGrid.style.display = 'none';
-                scrambleBox.style.display = 'none';
-                let farmGrid = document.getElementById('farm-grid');
-                if (!farmGrid) {
-                    farmGrid = document.createElement('div');
-                    farmGrid.id = 'farm-grid';
-                    farmGrid.style.display = 'flex';
-                    farmGrid.style.flexWrap = 'wrap';
-                    farmGrid.style.gap = '10px';
-                    farmGrid.style.justifyContent = 'center';
-                    farmGrid.style.marginTop = '20px';
-                    document.getElementById('game-container').appendChild(farmGrid);
-                }
-                farmGrid.style.display = 'flex';
-                setupFarm(farmGrid, q.answer);
-            } else {
-                choicesGrid.style.display = 'none';
-                scrambleBox.style.display = 'flex';
-                setupScramble(q.text);
-            }
+function ggToast(msg, kind){
+  const stage = document.getElementById('gg-stage');
+  if(!stage) return;
+  const t = document.createElement('div');
+  t.className = 'gg-toast ' + (kind||'good');
+  t.textContent = msg;
+  stage.appendChild(t);
+  requestAnimationFrame(()=>t.classList.add('show'));
+  setTimeout(()=>{ t.classList.remove('show'); setTimeout(()=>t.remove(),400); }, 900);
+}
 
-            // Speak question text
-            speak(q.text);
-        }
+function ggInitHud(opts){
+  document.getElementById('gg-coins-val').textContent = GG27.coins();
+  document.getElementById('gg-level-val').textContent = GG27.level();
+  const muteBtn = document.getElementById('gg-mute');
+  function refreshMute(){ muteBtn.textContent = GG27.isMuted() ? '🔇' : '🔊'; }
+  refreshMute();
+  muteBtn.onclick = () => { GG27.setMuted(!GG27.isMuted()); refreshMute(); GGSound.tap(); };
+  document.getElementById('gg-back').onclick = () => {
+    if (opts && opts.homeHref) { location.href = opts.homeHref; }
+    else if (document.referrer) { history.back(); }
+    else { history.back(); }
+  };
+}
 
-        function setupFarm(grid, target) {
-            grid.innerHTML = '';
-            let nums = [target];
-            while(nums.length < 3) {
-                let r = Math.floor(Math.random() * 5) + 1;
-                if(!nums.includes(r)) nums.push(r);
-            }
-            nums.sort(() => Math.random() - 0.5);
-            
-            nums.forEach(n => {
-                const pen = document.createElement('div');
-                pen.className = 'choice-btn';
-                pen.style.fontSize = '2rem';
-                pen.innerHTML = '🐄'.repeat(n);
-                pen.onclick = () => {
-                    if (locked) return;
-                    if (n === target) {
-                        locked = true;
-                        score += 100;
-                        document.getElementById('score-val').innerText = score;
-                        pen.classList.add('correct');
-                        setTimeout(() => {
-                            currentQ++;
-                            loadQuestion();
-                        }, 1000);
-                    } else {
-                        pen.classList.add('wrong');
-                        setTimeout(() => pen.classList.remove('wrong'), 500);
-                    }
-                };
-                grid.appendChild(pen);
-            });
-        }
+function ggShowResult(opts){
+  // opts = { correct, total, coinsEarned, lessonKey, titleWin, titleLose, onReplay }
+  const total = Math.max(1, opts.total);
+  const ratio = opts.correct / total;
+  const stars = ratio >= .95 ? 3 : ratio >= .7 ? 2 : ratio > 0 ? 1 : 0;
+  const rec = GG27.recordResult(opts.lessonKey, { stars, score:opts.correct, total, coins:opts.coinsEarned });
+  const scr = document.getElementById('gg-result');
+  scr.classList.remove('gg-hidden');
+  document.getElementById('gg-result-title').textContent = stars>=2 ? (opts.titleWin||'أحسنت! 🎉') : (opts.titleLose||'حاول مرة أخرى 💪');
+  document.getElementById('gg-result-sub').textContent = `${opts.correct} / ${total} إجابة صحيحة`;
+  document.getElementById('gg-stars').textContent = '⭐'.repeat(stars) + '☆'.repeat(3-stars);
+  document.getElementById('gg-coins-earned').textContent = '+' + opts.coinsEarned + ' 🪙';
+  document.getElementById('gg-coins-val').textContent = rec.profile.coins;
+  document.getElementById('gg-level-val').textContent = rec.profile.level;
+  if(!GG27.isMuted()){ (stars>=2 ? GGSound.win : GGSound.lose)(); }
+  if(rec.newBadges && rec.newBadges.length){
+    setTimeout(()=>{
+      const pop = document.getElementById('gg-badge-pop');
+      pop.innerHTML = `<div class="gg-badge-card"><div style="font-size:15px;color:var(--gg-muted);font-weight:800;">شارة جديدة</div><div style="font-size:22px;font-weight:900;margin-top:6px;">${rec.newBadges[0]}</div></div>`;
+      pop.classList.remove('gg-hidden'); GGSound.badge(); ggVibrate(40);
+      setTimeout(()=>pop.classList.add('gg-hidden'), 1800);
+    }, 500);
+  }
+  document.getElementById('gg-replay').onclick = () => { scr.classList.add('gg-hidden'); if(opts.onReplay) opts.onReplay(); };
+}
 
-        function handleMCQ(btn, isCorrect) {
-            if (locked) return;
-            locked = true;
+ggInitHud({});
+const LESSON_KEY = "grade4-unit3-Lesson 4 - Word Snake.html";
+const SPEAK_LANG = "en-US";
+</script>
+<script>
 
-            if (isCorrect) {
-                score += 100;
-                btn.classList.add('correct');
-            } else {
-                btn.classList.add('wrong');
-            }
+// ---------- منطق مشترك بين كل المحركات ----------
+function ggBuildRounds(raw, maxRounds){
+  const rs = ggShuffle(raw).slice(0, maxRounds || 8);
+  return rs.map(r => {
+    const correctText = r.choices[r.correct];
+    const order = ggShuffle(r.choices.map((c,i)=>i));
+    return { prompt:r.prompt, choices: order.map(i=>r.choices[i]), correct: order.indexOf(r.correct), speak_word:r.speak_word };
+  });
+}
+let GG_STATE = { i:0, rounds:[], correct:0, lives:3, coins:0, perfect:true, meta:null };
 
-            document.getElementById('score-val').innerText = score;
-            setTimeout(() => {
-                currentQ++;
-                loadQuestion();
-            }, 1000);
-        }
+function ggStartSession(meta){
+  GG_STATE = { i:0, rounds: ggBuildRounds(meta.rawRounds, meta.maxRounds||8), correct:0, lives:3, coins:0, perfect:true, meta };
+  document.getElementById('gg-progress-bar').style.width='0%';
+  ggRenderRound();
+}
+function ggProgressUpdate(){
+  const p = Math.round((GG_STATE.i)/GG_STATE.rounds.length*100);
+  const bar = document.getElementById('gg-progress-bar'); if(bar) bar.style.width = p+'%';
+}
+function ggEndSession(){
+  const coinsEarned = GG_STATE.coins + (GG_STATE.perfect ? 15 : 0);
+  ggShowResult({
+    correct: GG_STATE.correct, total: GG_STATE.rounds.length, coinsEarned,
+    lessonKey: LESSON_KEY,
+    onReplay: () => ggStartSession(GG_STATE.meta)
+  });
+}
+function ggRegisterAnswer(isCorrect, elCoinOriginEvent){
+  if(isCorrect){
+    GG_STATE.correct++; GG_STATE.coins += 10; GGSound.correct(); ggVibrate(15);
+    ggToast('صح! 🎉','good');
+    try{
+      const ev = elCoinOriginEvent;
+      const x = (ev && ev.touches && ev.touches[0]) ? ev.touches[0].clientX : (ev? ev.clientX : window.innerWidth/2);
+      const y = (ev && ev.touches && ev.touches[0]) ? ev.touches[0].clientY : (ev? ev.clientY : window.innerHeight/2);
+      ggCoinBurst(x,y,3);
+    }catch(e){}
+  } else {
+    GG_STATE.perfect = false; GG_STATE.lives--; GGSound.wrong(); ggVibrate([20,30,20]);
+    ggToast('حاول تاني','bad');
+  }
+  const lv = document.getElementById('gg-lives'); if(lv) lv.textContent = '❤️'.repeat(Math.max(0,GG_STATE.lives)) + '🖤'.repeat(3-Math.max(0,GG_STATE.lives));
+  GG_STATE.i++;
+  ggProgressUpdate();
+  setTimeout(()=>{
+    if(GG_STATE.lives<=0 || GG_STATE.i >= GG_STATE.rounds.length){ ggEndSession(); }
+    else { ggRenderRound(); }
+  }, isCorrect ? 750 : 900);
+}
 
-        function setupScramble(word) {
-            const slots = document.getElementById('slots');
-            const letters = document.getElementById('letters');
-            slots.innerHTML = '';
-            letters.innerHTML = '';
+const META = {"speak": true, "maxRounds": 10, "rawRounds": [{"prompt": "A giraffe has a _____ coat.", "choices": ["striped", "black", "spotted"], "correct": 2}, {"prompt": "My dad is a forest _____.", "choices": ["guide", "doctor", "teacher"], "correct": 0}, {"prompt": "A forest guide shows visitors the _____.", "choices": ["books", "cars", "animals"], "correct": 2}, {"prompt": "_____ are very good at climbing trees.", "choices": ["Elephants", "Lions", "Monkeys"], "correct": 2}, {"prompt": "The forest _____ is an amazing place.", "choices": ["school", "park", "book"], "correct": 1}, {"prompt": "You can see animals up _____ in the forest park.", "choices": ["far", "close", "high"], "correct": 1}, {"prompt": "The bear has a thick _____.", "choices": ["fur", "scales", "feathers"], "correct": 0}, {"prompt": "Giraffes eat green _____.", "choices": ["leaves", "meat", "fish"], "correct": 0}, {"prompt": "Rabbits eat fresh _____.", "choices": ["vegetables", "insects", "meat"], "correct": 0}, {"prompt": "The monkey has a _____ tail.", "choices": ["long", "no", "short"], "correct": 0}, {"prompt": "The zebra has a _____ coat.", "choices": ["gray", "striped", "spotted"], "correct": 1}, {"prompt": "Lions _____ at night.", "choices": ["sleep", "hunt", "play"], "correct": 1}, {"prompt": "Pets need _____ care from their owners.", "choices": ["monthly", "daily", "yearly"], "correct": 1}, {"prompt": "An elephant has a long _____.", "choices": ["trunk", "neck", "tail"], "correct": 0}, {"prompt": "A bird has two _____ to fly.", "choices": ["arms", "wings", "legs"], "correct": 1}, {"prompt": "Fish live in the _____.", "choices": ["forest", "desert", "water"], "correct": 2}, {"prompt": "The _____ is the king of the jungle.", "choices": ["lion", "monkey", "rabbit"], "correct": 0}, {"prompt": "A camel lives in the _____.", "choices": ["forest", "river", "desert"], "correct": 2}, {"prompt": "A cat is a common _____.", "choices": ["bird", "wild animal", "pet"], "correct": 2}, {"prompt": "Dogs are very _____ animals.", "choices": ["bad", "dangerous", "friendly"], "correct": 2}, {"prompt": "The _____ has a very long neck.", "choices": ["lion", "bear", "giraffe"], "correct": 2}, {"prompt": "Bears love to eat _____ and fish.", "choices": ["honey", "leaves", "grass"], "correct": 0}, {"prompt": "Monkeys like to eat _____.", "choices": ["bananas", "meat", "fish"], "correct": 0}, {"prompt": "A forest has many _____.", "choices": ["cars", "trees", "buildings"], "correct": 1}, {"prompt": "We shouldn't _____ wild animals.", "choices": ["feed", "protect", "hurt"], "correct": 2}, {"prompt": "The forest guide knows a lot about _____.", "choices": ["cars", "computers", "nature"], "correct": 2}, {"prompt": "A tiger runs very _____.", "choices": ["fast", "slow", "quietly"], "correct": 0}, {"prompt": "A turtle is very _____.", "choices": ["loud", "fast", "slow"], "correct": 2}, {"prompt": "Some animals sleep in a _____.", "choices": ["house", "bed", "cave"], "correct": 2}, {"prompt": "Thick fur keeps the bear _____.", "choices": ["hungry", "cold", "warm"], "correct": 2}, {"prompt": "A cheetah has black _____ on its coat.", "choices": ["lines", "spots", "stripes"], "correct": 1}, {"prompt": "A tiger has black _____.", "choices": ["stripes", "circles", "spots"], "correct": 0}, {"prompt": "Wild animals find their own _____.", "choices": ["food", "clothes", "toys"], "correct": 0}, {"prompt": "A snake has no _____.", "choices": ["eyes", "mouth", "legs"], "correct": 2}, {"prompt": "We can see many animals in the _____.", "choices": ["zoo", "hospital", "bakery"], "correct": 0}, {"prompt": "A baby dog is called a _____.", "choices": ["cub", "kitten", "puppy"], "correct": 2}, {"prompt": "A baby cat is called a _____.", "choices": ["puppy", "kitten", "calf"], "correct": 1}, {"prompt": "Birds build _____ in trees.", "choices": ["caves", "webs", "nests"], "correct": 2}, {"prompt": "Spiders spin _____.", "choices": ["nests", "webs", "caves"], "correct": 1}, {"prompt": "A crocodile has a hard _____.", "choices": ["shell", "feather", "fur"], "correct": 0}, {"prompt": "Frogs can live in water and on _____.", "choices": ["air", "land", "fire"], "correct": 1}, {"prompt": "A bat sleeps upside _____.", "choices": ["right", "down", "up"], "correct": 1}, {"prompt": "An owl can fly at _____.", "choices": ["night", "morning", "noon"], "correct": 0}, {"prompt": "Penguins live in very _____ places.", "choices": ["hot", "cold", "warm"], "correct": 1}, {"prompt": "Dolphins are very _____ swimmers.", "choices": ["bad", "slow", "fast"], "correct": 2}, {"prompt": "Zoo animals need special _____.", "choices": ["books", "pens", "attention"], "correct": 2}, {"prompt": "Elephants need _____ spaces than monkeys.", "choices": ["smaller", "shorter", "bigger"], "correct": 2}, {"prompt": "Elephants need to move _____.", "choices": ["up", "around", "down"], "correct": 1}, {"prompt": "Lions eat a lot of _____.", "choices": ["grass", "leaves", "food"], "correct": 2}, {"prompt": "Lions eat food to stay _____ than other animals.", "choices": ["stronger", "smaller", "weaker"], "correct": 0}, {"prompt": "Giraffes need _____ trees.", "choices": ["taller", "shorter", "smaller"], "correct": 0}, {"prompt": "Giraffes need tall trees to reach their _____.", "choices": ["toys", "water", "food"], "correct": 2}, {"prompt": "Ahmed is _____ than Ali.", "choices": ["shorter", "short", "shortest"], "correct": 0}, {"prompt": "Sally is _____ than Rana.", "choices": ["laziest", "lazy", "lazier"], "correct": 2}, {"prompt": "Elephants are _____ than cats.", "choices": ["big", "bigger", "biggest"], "correct": 1}, {"prompt": "Cats are _____ than lions.", "choices": ["safest", "safer", "safe"], "correct": 1}, {"prompt": "Today is _____ than yesterday.", "choices": ["hot", "hotter", "hottest"], "correct": 1}, {"prompt": "The cat is _____ than the mouse.", "choices": ["bigger", "big", "biggest"], "correct": 0}, {"prompt": "Nashwa is _____ than Hala.", "choices": ["thinner", "thin", "thinnest"], "correct": 0}, {"prompt": "Dina is _____ than Amira.", "choices": ["pretty", "prettier", "prettiest"], "correct": 1}, {"prompt": "Hala is _____ than Amira.", "choices": ["shortest", "short", "shorter"], "correct": 2}, {"prompt": "Sama is _____ than Abeer.", "choices": ["laziest", "lazy", "lazier"], "correct": 2}, {"prompt": "My class is _____ than yours.", "choices": ["big", "bigger", "biggest"], "correct": 1}, {"prompt": "Arabic is _____ than French.", "choices": ["easier", "easiest", "easy"], "correct": 0}, {"prompt": "Hana is taller _____ Rana.", "choices": ["than", "then", "that"], "correct": 0}, {"prompt": "Ahmed isn't _____ than Ali.", "choices": ["tall", "tallest", "taller"], "correct": 2}, {"prompt": "Bears are _____ than monkeys.", "choices": ["lazy", "lazier", "laziest"], "correct": 1}, {"prompt": "Fruit is _____ than sweets.", "choices": ["healthier", "healthiest", "healthy"], "correct": 0}, {"prompt": "The plane is _____ than the train.", "choices": ["faster", "fastest", "fast"], "correct": 0}, {"prompt": "A mouse is _____ than an elephant.", "choices": ["smallest", "small", "smaller"], "correct": 2}, {"prompt": "A cheetah is _____ than a dog.", "choices": ["fast", "fastest", "faster"], "correct": 2}, {"prompt": "A turtle is _____ than a rabbit.", "choices": ["slow", "slowest", "slower"], "correct": 2}, {"prompt": "Winter is _____ than summer.", "choices": ["cold", "coldest", "colder"], "correct": 2}, {"prompt": "A rock is _____ than a feather.", "choices": ["heaviest", "heavier", "heavy"], "correct": 1}, {"prompt": "A feather is _____ than a book.", "choices": ["lighter", "lightest", "light"], "correct": 0}, {"prompt": "The river is _____ than the lake.", "choices": ["longer", "long", "longest"], "correct": 0}, {"prompt": "My grandfather is _____ than my father.", "choices": ["old", "oldest", "older"], "correct": 2}, {"prompt": "My brother is _____ than my grandfather.", "choices": ["young", "younger", "youngest"], "correct": 1}, {"prompt": "The math test was _____ than the English test.", "choices": ["hard", "hardest", "harder"], "correct": 2}, {"prompt": "This box is _____ than that box.", "choices": ["large", "larger", "largest"], "correct": 1}, {"prompt": "My bag is _____ than yours.", "choices": ["heavy", "heavier", "heaviest"], "correct": 1}, {"prompt": "A lion is _____ than a cat.", "choices": ["stronger", "strongest", "strong"], "correct": 0}, {"prompt": "A giraffe is _____ than a zebra.", "choices": ["tallest", "taller", "tall"], "correct": 1}, {"prompt": "A rabbit has _____ ears than a cat.", "choices": ["long", "longer", "longest"], "correct": 1}, {"prompt": "A dog is _____ than a mouse.", "choices": ["big", "bigger", "biggest"], "correct": 1}, {"prompt": "I am _____ than my little sister.", "choices": ["taller", "tall", "tallest"], "correct": 0}, {"prompt": "The sun is _____ than the moon.", "choices": ["hot", "hottest", "hotter"], "correct": 2}, {"prompt": "A train is _____ than a car.", "choices": ["longer", "longest", "long"], "correct": 0}, {"prompt": "Ice is _____ than water.", "choices": ["cold", "colder", "coldest"], "correct": 1}, {"prompt": "This book is _____ than the other one.", "choices": ["thicker", "thick", "thickest"], "correct": 0}, {"prompt": "The old lion _____ to be very sick.", "choices": ["pretended", "played", "jumped"], "correct": 0}, {"prompt": "The lion was not really _____.", "choices": ["sick", "big", "old"], "correct": 0}, {"prompt": "Many animals came into the lion's _____.", "choices": ["house", "tree", "cave"], "correct": 2}, {"prompt": "The animals came to _____ him.", "choices": ["hunt", "eat", "visit"], "correct": 2}, {"prompt": "The animals didn't _____ out.", "choices": ["come", "go", "run"], "correct": 0}, {"prompt": "The _____ was very clever.", "choices": ["bear", "fox", "lion"], "correct": 1}, {"prompt": "The fox learned from the _____ of others.", "choices": ["mistakes", "books", "food"], "correct": 0}, {"prompt": "The lion could _____ the foolish animals.", "choices": ["visit", "hunt", "help"], "correct": 1}, {"prompt": "The fox saw _____ going into the cave.", "choices": ["food", "footprints", "books"], "correct": 1}, {"prompt": "The fox saw no footprints coming _____ of the cave.", "choices": ["out", "on", "in"], "correct": 0}, {"prompt": "The lion was _____ the animals.", "choices": ["teaching", "helping", "eating"], "correct": 2}, {"prompt": "The fox was a very _____ animal.", "choices": ["clever", "lazy", "foolish"], "correct": 0}, {"prompt": "We should learn from the mistakes of _____.", "choices": ["ourselves", "lions", "others"], "correct": 2}, {"prompt": "The lion was known as the king of the _____.", "choices": ["jungle", "sea", "sky"], "correct": 0}, {"prompt": "The old lion stayed in his _____.", "choices": ["cave", "web", "nest"], "correct": 0}, {"prompt": "The fox did not go _____ the cave.", "choices": ["inside", "outside", "above"], "correct": 0}, {"prompt": "The lion tried to _____ the animals.", "choices": ["trick", "feed", "help"], "correct": 0}, {"prompt": "A _____ is a smart animal in stories.", "choices": ["cow", "fox", "sheep"], "correct": 1}, {"prompt": "The animals who went in were _____.", "choices": ["smart", "foolish", "clever"], "correct": 1}, {"prompt": "The word 'pretended' means to act like something is _____.", "choices": ["false", "big", "true"], "correct": 2}, {"prompt": "The lion wanted an easy _____.", "choices": ["book", "meal", "friend"], "correct": 1}, {"prompt": "The fox stood _____ the cave.", "choices": ["under", "inside", "outside"], "correct": 2}, {"prompt": "The fox asked the lion, 'How are you _____?'", "choices": ["feeling", "sleeping", "eating"], "correct": 0}, {"prompt": "The lion said, 'I am very _____.'", "choices": ["sick", "strong", "healthy"], "correct": 0}, {"prompt": "The fox noticed the _____ on the ground.", "choices": ["flowers", "leaves", "footprints"], "correct": 2}, {"prompt": "The footprints pointed _____ the cave.", "choices": ["under", "towards", "away from"], "correct": 1}, {"prompt": "None of the footprints pointed _____.", "choices": ["in", "forward", "back"], "correct": 2}, {"prompt": "The fox knew it was a _____.", "choices": ["trap", "game", "party"], "correct": 0}, {"prompt": "The lion was too _____ to hunt outside.", "choices": ["old", "fast", "young"], "correct": 0}, {"prompt": "The fox ran _____ safely.", "choices": ["inside", "away", "towards"], "correct": 1}, {"prompt": "A cave is a large hole in a _____.", "choices": ["mountain", "cloud", "tree"], "correct": 0}, {"prompt": "The animals wanted to be _____ to the sick lion.", "choices": ["angry", "kind", "mean"], "correct": 1}, {"prompt": "The lion took advantage of their _____.", "choices": ["kindness", "speed", "anger"], "correct": 0}, {"prompt": "The fox used his _____ to stay safe.", "choices": ["eyes", "ears", "tail"], "correct": 0}, {"prompt": "A trick is used to _____ someone.", "choices": ["fool", "protect", "help"], "correct": 0}, {"prompt": "The lion was a _____ hunter.", "choices": ["dangerous", "friendly", "safe"], "correct": 0}, {"prompt": "The fox said, 'I will not come _____.'", "choices": ["out", "in", "up"], "correct": 1}, {"prompt": "The moral of the story is to be _____.", "choices": ["lazy", "careful", "greedy"], "correct": 1}, {"prompt": "The fox saved his own _____.", "choices": ["food", "cave", "life"], "correct": 2}, {"prompt": "The lion was waiting for his next _____.", "choices": ["victim", "doctor", "friend"], "correct": 0}, {"prompt": "Animals in the jungle must stay _____.", "choices": ["sick", "asleep", "alert"], "correct": 2}, {"prompt": "The fox was not _____ by the lion.", "choices": ["eaten", "heard", "seen"], "correct": 0}, {"prompt": "The lion's plan _____ with the fox.", "choices": ["failed", "worked", "helped"], "correct": 0}, {"prompt": "The fox walked away _____.", "choices": ["sleeping", "smiling", "crying"], "correct": 1}, {"prompt": "The old lion remained _____ in his cave.", "choices": ["full", "hungry", "happy"], "correct": 1}, {"prompt": "Many animals around the world are in _____.", "choices": ["safety", "parks", "danger"], "correct": 2}, {"prompt": "They are in danger of _____ forever.", "choices": ["playing", "growing", "disappearing"], "correct": 2}, {"prompt": "Animals are in danger because of _____ down trees.", "choices": ["watering", "cutting", "planting"], "correct": 1}, {"prompt": "Another reason is _____.", "choices": ["helping", "pollution", "cleaning"], "correct": 1}, {"prompt": "_____ animals also puts them in danger.", "choices": ["Protecting", "Hunting", "Feeding"], "correct": 1}, {"prompt": "The Arabian _____ is an endangered animal.", "choices": ["Leopard", "Dog", "Cat"], "correct": 0}, {"prompt": "The Red Sea _____ is in danger.", "choices": ["Dolphin", "Dugong", "Shark"], "correct": 1}, {"prompt": "The giant _____ is also an endangered animal.", "choices": ["bear", "rabbit", "panda"], "correct": 2}, {"prompt": "We can protect them by protecting their _____.", "choices": ["homes", "hunters", "food"], "correct": 0}, {"prompt": "We should _____ trees to help animals.", "choices": ["burn", "cut", "plant"], "correct": 2}, {"prompt": "We must keep the environment _____.", "choices": ["clean", "dirty", "polluted"], "correct": 0}, {"prompt": "We should stop _____ endangered animals.", "choices": ["feeding", "hunting", "watching"], "correct": 1}, {"prompt": "The Red Sea Dugong eats sea _____.", "choices": ["grass", "fish", "meat"], "correct": 0}, {"prompt": "We _____ flowers and trees in the park.", "choices": ["does", "plant", "wear"], "correct": 1}, {"prompt": "I use my _____ to taste food.", "choices": ["tongue", "ears", "eyes"], "correct": 0}, {"prompt": "Fruit is a/an _____ food.", "choices": ["healthy", "unhealthy", "bad"], "correct": 0}, {"prompt": "Sara _____ to her village every week.", "choices": ["travels", "travel", "traveled"], "correct": 0}, {"prompt": "Nora _____ her car every day.", "choices": ["washing", "washes", "wash"], "correct": 1}, {"prompt": "_____ you play football?", "choices": ["Do", "Does", "Is"], "correct": 0}, {"prompt": "Hany doesn't _____ well.", "choices": ["reading", "read", "reads"], "correct": 1}, {"prompt": "Do you _____ up late?", "choices": ["get", "getting", "gets"], "correct": 0}, {"prompt": "We _____ go to the club on Friday.", "choices": ["isn't", "don't", "doesn't"], "correct": 1}, {"prompt": "_____ Ahmed like healthy food?", "choices": ["Do", "Does", "Are"], "correct": 1}, {"prompt": "Farida follows the same _____ every day.", "choices": ["book", "car", "routine"], "correct": 2}, {"prompt": "Ahmed lives in _____.", "choices": ["London", "Paris", "Cairo"], "correct": 2}, {"prompt": "Traffic is very _____ in Cairo.", "choices": ["good", "fast", "slow"], "correct": 2}, {"prompt": "Ahmed is always _____ for work.", "choices": ["fast", "early", "late"], "correct": 2}, {"prompt": "Traffic is a very _____ problem.", "choices": ["healthy", "dangerous", "safe"], "correct": 1}, {"prompt": "Ahmed decided to use _____ instead of his car.", "choices": ["planes", "buses", "ships"], "correct": 1}, {"prompt": "A research _____ gives facts about a topic.", "choices": ["report", "car", "toy"], "correct": 0}, {"prompt": "We can make a _____ using pictures and words.", "choices": ["cake", "soup", "collage"], "correct": 2}, {"prompt": "Endangered means an animal might _____.", "choices": ["run fast", "grow up", "die out"], "correct": 2}, {"prompt": "Protecting the environment is our _____.", "choices": ["duty", "mistake", "problem"], "correct": 0}, {"prompt": "We should not _____ trash in the sea.", "choices": ["clean", "collect", "throw"], "correct": 2}, {"prompt": "Giant pandas eat _____.", "choices": ["meat", "bamboo", "fish"], "correct": 1}, {"prompt": "Pollution makes the air _____.", "choices": ["dirty", "fresh", "clean"], "correct": 0}, {"prompt": "We can _____ old paper and plastic.", "choices": ["recycle", "burn", "eat"], "correct": 0}, {"prompt": "Wild animals need a safe _____ to live.", "choices": ["box", "cage", "habitat"], "correct": 2}, {"prompt": "A leopard has a beautiful _____ coat.", "choices": ["striped", "spotted", "plain"], "correct": 1}, {"prompt": "The dugong is also called a sea _____.", "choices": ["horse", "cow", "dog"], "correct": 1}, {"prompt": "We should _____ wild animals from far away.", "choices": ["touch", "watch", "hunt"], "correct": 1}, {"prompt": "Cutting down forests destroys animal _____.", "choices": ["homes", "water", "food"], "correct": 0}, {"prompt": "It is _____ to hunt endangered animals.", "choices": ["illegal", "helpful", "good"], "correct": 0}, {"prompt": "A healthy environment is good for _____.", "choices": ["everyone", "machines", "no one"], "correct": 0}, {"prompt": "We can all _____ to save the animals.", "choices": ["hurt", "ignore", "help"], "correct": 2}]};
+const COLS=8, ROWS=7;
+let snake, dir, nextDir, foods, cellPx, moveTimer;
+function ggCellStyle(el,x,y){
+  el.style.width=cellPx+'px'; el.style.height=cellPx+'px';
+  el.style.left=(x*cellPx)+'px'; el.style.top=(y*cellPx)+'px';
+}
+function ggFoodStyle(el,x,y,label){
+  el.style.height=Math.round(cellPx*.82)+'px';
+  el.style.left=((x+0.5)*cellPx)+'px'; el.style.top=((y+0.5)*cellPx)+'px';
+  const big = label.length > 5;
+  el.style.fontSize = (big ? cellPx*.34 : cellPx*.42) + 'px';
+}
+function ggRenderRound(){
+  const r = GG_STATE.rounds[GG_STATE.i];
+  document.getElementById('gg-prompt').textContent = r.prompt;
+  if(META.speak) ggSpeak(r.speak_word || r.prompt, SPEAK_LANG);
+  const grid = document.getElementById('gg-grid'); grid.innerHTML='';
+  cellPx = grid.clientWidth / COLS;
+  snake = [{x:1,y:3},{x:0,y:3}];
+  dir = 'right'; nextDir='right';
+  const cellPool = ggShuffle(Array.from({length:(COLS-2)*ROWS},(_,i)=>({x:1+(i%(COLS-2)), y:Math.floor(i/(COLS-2))})))
+    .filter(c => !(c.x<3 && c.y===3));
+  const picked = [];
+  for(const c of cellPool){
+    if(picked.length >= r.choices.length) break;
+    const tooClose = picked.some(p => Math.abs(p.x-c.x) < 2 && Math.abs(p.y-c.y) < 2);
+    if(!tooClose) picked.push(c);
+  }
+  while(picked.length < r.choices.length) picked.push(cellPool[picked.length] || {x:6,y:6});
+  foods = r.choices.map((c,idx)=>({ ...picked[idx], label:c, correct: idx===r.correct }));
+  foods.forEach(f=>{
+    const el = document.createElement('div'); el.className='gg-cell gg-food'; el.textContent=f.label;
+    ggFoodStyle(el,f.x,f.y,f.label); grid.appendChild(el); f.el=el;
+  });
+  snake.forEach((s,i)=>{
+    const el=document.createElement('div'); el.className='gg-cell '+(i===0?'gg-head':'gg-seg');
+    el.textContent = i===0 ? '🐍' : '';
+    ggCellStyle(el,s.x,s.y); grid.appendChild(el); s.el=el;
+  });
+  clearInterval(moveTimer);
+  moveTimer = setInterval(ggTick, 340);
+}
+function ggTick(){
+  dir = nextDir;
+  const head = snake[0];
+  let nx=head.x, ny=head.y;
+  if(dir==='up') ny--; else if(dir==='down') ny++; else if(dir==='left') nx--; else nx++;
+  nx = (nx+COLS)%COLS; ny=(ny+ROWS)%ROWS;
+  const eaten = foods.find(f => f.x===nx && f.y===ny && !f.eaten);
+  const newHead = {x:nx,y:ny};
+  snake.unshift(newHead);
+  if(eaten){
+    eaten.eaten = true; eaten.el.remove();
+    clearInterval(moveTimer);
+    const ok = eaten.correct;
+    const grid = document.getElementById('gg-grid');
+    const flash = document.createElement('div'); flash.className='gg-cell'; flash.style.background = ok?'#31d0aa':'#ff6b6b';
+    flash.style.opacity='.6'; ggCellStyle(flash, nx, ny); grid.appendChild(flash);
+    setTimeout(()=>flash.remove(), 300);
+    ggRegisterAnswer(ok, null);
+    return;
+  } else {
+    snake.pop();
+  }
+  const grid = document.getElementById('gg-grid');
+  snake.forEach((s,i)=>{
+    if(!s.el){ s.el=document.createElement('div'); s.el.className='gg-cell gg-seg'; grid.appendChild(s.el); }
+    s.el.className = 'gg-cell ' + (i===0?'gg-head':'gg-seg');
+    s.el.textContent = i===0 ? '🐍' : '';
+    ggCellStyle(s.el, s.x, s.y);
+  });
+}
+function ggSetDir(d){
+  const opp = {up:'down',down:'up',left:'right',right:'left'};
+  if(opp[d]===dir) return;
+  nextDir = d;
+}
+document.querySelectorAll('#gg-pad button').forEach(b=>{
+  b.addEventListener('click', ()=>ggSetDir(b.dataset.d));
+});
+let ggTouchStart=null;
+document.getElementById('gg-grid').addEventListener('touchstart', e=>{ ggTouchStart = e.touches[0]; }, {passive:true});
+document.getElementById('gg-grid').addEventListener('touchend', e=>{
+  if(!ggTouchStart) return;
+  const dx = e.changedTouches[0].clientX - ggTouchStart.clientX;
+  const dy = e.changedTouches[0].clientY - ggTouchStart.clientY;
+  if(Math.abs(dx) > Math.abs(dy)) ggSetDir(dx>0?'right':'left'); else ggSetDir(dy>0?'down':'up');
+  ggTouchStart=null;
+}, {passive:true});
+document.addEventListener('keydown', e=>{
+  if(e.key==='ArrowUp') ggSetDir('up'); if(e.key==='ArrowDown') ggSetDir('down');
+  if(e.key==='ArrowLeft') ggSetDir('left'); if(e.key==='ArrowRight') ggSetDir('right');
+});
+const _origEnd = ggEndSession;
+ggEndSession = function(){ clearInterval(moveTimer); _origEnd(); };
 
-            const chars = word.toUpperCase().split('');
-            const shuffled = [...chars].sort(() => Math.random() - 0.5);
-            let currentPos = 0;
+document.getElementById('gg-start-btn').onclick = function(){
+  document.getElementById('gg-start').classList.add('gg-hidden');
+  
+  ggStartSession(META);
+  GGSound.tap();
+};
 
-            chars.forEach(() => {
-                const slot = document.createElement('div');
-                slot.className = 'slot-tile';
-                slots.appendChild(slot);
-            });
+</script>
+<!-- MOBILE-FIT-2027-body -->
+<script id="mobile-fit-2027-js">
+(function(){
+  try {
+    function fireResize(){ try { window.dispatchEvent(new Event('resize')); } catch(e){} }
+    window.addEventListener('orientationchange', function(){ setTimeout(fireResize,150); setTimeout(fireResize,450); setTimeout(fireResize,900); });
+    if (window.visualViewport) { window.visualViewport.addEventListener('resize', fireResize); }
+    document.addEventListener('gesturestart', function(e){ e.preventDefault(); });
+    var lastTouchEnd = 0;
+    document.addEventListener('touchend', function(e){
+      var now = Date.now();
+      if (now - lastTouchEnd <= 300) { e.preventDefault(); }
+      lastTouchEnd = now;
+    }, {passive:false});
+  } catch(err) {}
+})();
+</script>
+<!-- /MOBILE-FIT-2027-body -->
 
-            shuffled.forEach((char) => {
-                const tile = document.createElement('div');
-                tile.className = 'letter-tile';
-                tile.innerText = char;
-                tile.onclick = () => {
-                    if (tile.classList.contains('used')) return;
-                    
-                    const targetSlot = slots.children[currentPos];
-                    if (char === chars[currentPos]) {
-                        tile.classList.add('used');
-                        targetSlot.innerText = char;
-                        currentPos++;
-                        if (currentPos === chars.length) {
-                            score += 100;
-                            document.getElementById('score-val').innerText = score;
-                            setTimeout(() => {
-                                currentQ++;
-                                loadQuestion();
-                            }, 1000);
-                        }
-                    } else {
-                        tile.style.background = 'var(--danger)';
-                        setTimeout(() => tile.style.background = 'var(--primary)', 500);
-                    }
-                };
-                letters.appendChild(tile);
-            });
-        }
-
-        function showEnd() {
-            document.getElementById('overlay').classList.add('show');
-            document.getElementById('final-score').innerText = `Final Score: ${score}`;
-        }
-
-        // Start
-        loadQuestion();
-    </script>
+<!-- MOBILE-FIT-2027-JS-surgical -->
+<script>
+(function(){
+  try {
+    function fireResize(){ try { window.dispatchEvent(new Event('resize')); } catch(e){} }
+    window.addEventListener('orientationchange', function(){ setTimeout(fireResize,150); setTimeout(fireResize,450); });
+    document.addEventListener('gesturestart', function(e){ e.preventDefault(); });
+    var lastTouchEnd = 0;
+    document.addEventListener('touchend', function(e){
+      var now = Date.now();
+      if (now - lastTouchEnd <= 300) { e.preventDefault(); }
+      lastTouchEnd = now;
+    }, {passive:false});
+  } catch(err) {}
+})();
+</script>
 </body>
 </html>
