@@ -66,22 +66,6 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 }
 </style>
 <!-- /MOBILE-FIT-2027-head -->
-
-    <!-- MOBILE-FIT-2027-style -->
-    <style id="manus-mobile-fit">
-    html, body { touch-action: manipulation; -webkit-tap-highlight-color: transparent; overscroll-behavior: none; margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
-    canvas { max-width: 100%; max-height: 100%; object-fit: contain; }
-    button, .target-btn, .gg-target, .gg-btn, a, [onclick] { touch-action: manipulation; }
-    @media (max-width: 900px), (max-height: 520px) {
-      html { font-size: clamp(10px, 3vmin, 16px) !important; }
-      .gg-target, .target-btn { min-width: clamp(60px, 15vmin, 120px) !important; min-height: clamp(60px, 15vmin, 120px) !important; font-size: 1rem !important; }
-      #gg-prompt, #q-text { font-size: clamp(1.1rem, 4vw, 1.5rem) !important; padding: 10px !important; }
-      #gg-hud, #hud { font-size: 0.9rem !important; padding: 5px 10px !important; }
-      .gg-btn { padding: 10px 20px !important; font-size: 1.1rem !important; }
-    }
-    </style>
-    <!-- /MOBILE-FIT-2027-style -->
-    
 </head>
 <body>
 
@@ -103,8 +87,6 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 </div>
 
 <script>
-window.isMuted = function() { return true; };
-
 const QS = [{"type": "mcq", "q": "Are you _____ to the cinema tonight?", "choices": ["go", "goes", "going"], "answer": 2}, {"type": "mcq", "q": "I _____ not working next week. I'm on holiday.", "choices": ["are", "am", "is"], "answer": 1}, {"type": "mcq", "q": "She _____ her new dress to the party.", "choices": ["wears", "wear", "is wearing"], "answer": 2}, {"type": "mcq", "q": "We _____ to the new restaurant later.", "choices": ["are going", "goes", "go"], "answer": 0}, {"type": "mcq", "q": "He _____ an exam tomorrow morning.", "choices": ["takes", "take", "is taking"], "answer": 2}, {"type": "mcq", "q": "They _____ a new car next month.", "choices": ["buy", "buys", "are buying"], "answer": 2}, {"type": "mcq", "q": "I _____ my grandparents on Sunday.", "choices": ["visits", "am visiting", "visit"], "answer": 1}, {"type": "mcq", "q": "Your identity is _____ you are.", "choices": ["when", "where", "who"], "answer": 2}, {"type": "mcq", "q": "In school fairs, students present the projects they are passionate _____.", "choices": ["about", "of", "for"], "answer": 0}, {"type": "mcq", "q": "It isn't a good thing to laugh _____ others' actions.", "choices": ["at", "about", "to"], "answer": 0}, {"type": "mcq", "q": "She _____ a presentation next week.", "choices": ["is giving", "give", "gives"], "answer": 0}, {"type": "mcq", "q": "We _____ to Paris next month. The flights are booked.", "choices": ["are flying", "fly", "flies"], "answer": 0}, {"type": "mcq", "q": "He _____ his friend at the airport tomorrow.", "choices": ["meets", "meet", "is meeting"], "answer": 2}, {"type": "mcq", "q": "Before going out, young people should ask for their parents' _____.", "choices": ["connection", "permission", "education"], "answer": 1}, {"type": "mcq", "q": "All parents should _____ their children to study hard.", "choices": ["ignore", "discourage", "encourage"], "answer": 2}, {"type": "mcq", "q": "Amal was a curious girl. She _____ old toys, wires and little machines.", "choices": ["used", "strange", "special"], "answer": 0}, {"type": "mcq", "q": "The other children annoyed her and said, 'You are _____.'", "choices": ["creative", "strange", "special"], "answer": 1}, {"type": "mcq", "q": "Her parents always told her, 'Your identity is what makes you _____.'", "choices": ["strange", "special", "used"], "answer": 1}, {"type": "mcq", "q": "Amal decided to build a _____ robot to take part in a school fair.", "choices": ["special", "creative", "strange"], "answer": 1}, {"type": "mcq", "q": "Her friend, Farida, _____ her, 'We believe in you, Amal.'", "choices": ["discouraged", "encouraged", "ignored"], "answer": 1}, {"type": "mcq", "q": "We can use the expression 'In my opinion' to explain our ideas _____ when talking to others.", "choices": ["carelessly", "clearly", "cleanly"], "answer": 1}, {"type": "mcq", "q": "We should put our mobiles _____ during meals and before bedtime.", "choices": ["away", "out", "in"], "answer": 0}, {"type": "mcq", "q": "Spending too much time on digital devices can be _____.", "choices": ["unhappy", "unhealthy", "untidy"], "answer": 1}, {"type": "mcq", "q": "We should learn how to find a _____ between our screen time and family life.", "choices": ["solution", "jobs", "balance"], "answer": 2}, {"type": "mcq", "q": "A blog is an online journal or _____ where someone writes regularly.", "choices": ["app", "trend", "website"], "answer": 2}];
 const cv = document.getElementById('cv');
 const ctx = cv.getContext('2d');
@@ -113,8 +95,16 @@ cv.width = window.innerWidth; cv.height = window.innerHeight;
 window.addEventListener('resize', () => { cv.width = window.innerWidth; cv.height = window.innerHeight; });
 
 // AUDIO
-const AC = ({ state: "suspended", resume: () => {}, createOscillator: () => ({ connect: () => {}, start: () => {}, stop: () => {}, frequency: { setValueAtTime: () => {} } }), createGain: () => ({ connect: () => {}, gain: { setValueAtTime: () => {}, exponentialRampToValueAtTime: () => {} } }), destination: {} })
-function tone() {}
+const AC = new (window.AudioContext||window.webkitAudioContext)();
+function tone(f,d,t='sine',v=0.4){
+    if(AC.state==='suspended') AC.resume();
+    const o=AC.createOscillator(),g=AC.createGain();
+    o.connect(g);g.connect(AC.destination);
+    o.type=t;o.frequency.value=f;
+    g.gain.setValueAtTime(v,AC.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+d);
+    o.start();o.stop(AC.currentTime+d);
+}
 function sndCorrect(){ tone(523,.1); setTimeout(()=>tone(784,.3),100); }
 function sndWrong(){ tone(150,.6,'sawtooth'); setTimeout(()=>tone(100,.6,'sawtooth'),150); }
 function sndShoot(){ tone(300,.1,'square',0.1); }
@@ -185,7 +175,9 @@ function handleChoice(btn, isCorrect, index) {
             });
         }
         
-        // autoAdvanceTimer cleared // autoAdvance disabled
+        clearTimeout(autoAdvanceTimer); autoAdvanceTimer = setTimeout(() => {
+            qIdx++;
+            loadQ();
         }, isCorrect ? 1000 : 1500);
     });
 }
@@ -336,5 +328,23 @@ mainLoop();
 })();
 </script>
 <!-- /MOBILE-FIT-2027-body -->
+
+<script id="prep-mute-js">
+(function(){
+    const originalCreateElement = document.createElement;
+    document.createElement = function(tag) {
+        const el = originalCreateElement.call(document, tag);
+        if (tag.toLowerCase() === 'audio') {
+            setTimeout(() => {
+                if (el.src && (el.src.includes('bg') || el.src.includes('music'))) {
+                    el.muted = true;
+                    el.volume = 0;
+                }
+            }, 0);
+        }
+        return el;
+    };
+})();
+</script>
 </body>
 </html>

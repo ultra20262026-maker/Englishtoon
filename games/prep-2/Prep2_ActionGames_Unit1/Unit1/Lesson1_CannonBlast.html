@@ -66,22 +66,6 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 }
 </style>
 <!-- /MOBILE-FIT-2027-head -->
-
-    <!-- MOBILE-FIT-2027-style -->
-    <style id="manus-mobile-fit">
-    html, body { touch-action: manipulation; -webkit-tap-highlight-color: transparent; overscroll-behavior: none; margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
-    canvas { max-width: 100%; max-height: 100%; object-fit: contain; }
-    button, .target-btn, .gg-target, .gg-btn, a, [onclick] { touch-action: manipulation; }
-    @media (max-width: 900px), (max-height: 520px) {
-      html { font-size: clamp(10px, 3vmin, 16px) !important; }
-      .gg-target, .target-btn { min-width: clamp(60px, 15vmin, 120px) !important; min-height: clamp(60px, 15vmin, 120px) !important; font-size: 1rem !important; }
-      #gg-prompt, #q-text { font-size: clamp(1.1rem, 4vw, 1.5rem) !important; padding: 10px !important; }
-      #gg-hud, #hud { font-size: 0.9rem !important; padding: 5px 10px !important; }
-      .gg-btn { padding: 10px 20px !important; font-size: 1.1rem !important; }
-    }
-    </style>
-    <!-- /MOBILE-FIT-2027-style -->
-    
 </head>
 <body>
 
@@ -103,8 +87,6 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 </div>
 
 <script>
-window.isMuted = function() { return true; };
-
 const QS = [{"type": "mcq", "q": "Individuals who have grown up with technology are known as digital _____.", "choices": ["natives", "cameras", "devices"], "answer": 0}, {"type": "mcq", "q": "Women and girls usually follow the latest _____ in fashion.", "choices": ["trends", "trams", "trees"], "answer": 0}, {"type": "mcq", "q": "Gen Alpha children are _____ discovering new movements in their communities.", "choices": ["constantly", "constant", "temporary"], "answer": 0}, {"type": "mcq", "q": "Nowadays, parents are trying to _____ the time their children spend using digital devices.", "choices": ["increase", "limit", "gain"], "answer": 1}, {"type": "mcq", "q": "Gen Alpha individuals like using technological devices to _____ their identity.", "choices": ["create", "decrease", "degrade"], "answer": 0}, {"type": "mcq", "q": "Gen Alpha are the children who were born from around _____ to the mid-2020s.", "choices": ["2000", "2010", "1990"], "answer": 1}, {"type": "mcq", "q": "They like creating short _____ to show their hobbies and opinions.", "choices": ["memes", "photos", "videos"], "answer": 2}, {"type": "mcq", "q": "They share _____ and send emojis to show their emotions.", "choices": ["balance", "memes", "photos"], "answer": 1}, {"type": "mcq", "q": "They are learning to _____ online activities with real-life connections.", "choices": ["balance", "represent", "videos"], "answer": 0}, {"type": "mcq", "q": "They _____ a powerful trend that is shaping the future.", "choices": ["memes", "represent", "videos"], "answer": 1}, {"type": "mcq", "q": "Working women try hard to _____ their personal life with their work.", "choices": ["limit", "decrease", "balance"], "answer": 2}, {"type": "mcq", "q": "Nowadays, people use emojis to _____ their emotions.", "choices": ["limit", "express", "extend"], "answer": 1}, {"type": "mcq", "q": "Gen Alpha generation should use social media _____.", "choices": ["foolishly", "carelessly", "wisely"], "answer": 2}, {"type": "mcq", "q": "Using social media, generations Z and Alpha can _____ and have fun with others.", "choices": ["connect", "contact", "correct"], "answer": 0}, {"type": "mcq", "q": "If people live _____, they can communicate using mobile phones.", "choices": ["apart", "near", "far apart"], "answer": 2}, {"type": "mcq", "q": "Gen Z and Gen Alpha are interested in treating people with _____.", "choices": ["fair", "careless", "fairness"], "answer": 2}, {"type": "mcq", "q": "People use technology to share their thoughts and _____ important issues.", "choices": ["contact", "relax", "support"], "answer": 2}, {"type": "mcq", "q": "If people have something in _____, they have the same ideas and interests.", "choices": ["special", "particular", "common"], "answer": 2}, {"type": "mcq", "q": "Gen Z and Gen Alpha like short videos, emojis, and _____.", "choices": ["books", "memes", "games"], "answer": 1}, {"type": "mcq", "q": "Both generations speak the same digital _____.", "choices": ["about", "language", "thoughts"], "answer": 1}, {"type": "mcq", "q": "Technology helps them _____ each other and cooperate.", "choices": ["to", "understand", "language"], "answer": 1}, {"type": "mcq", "q": "The time people spend using a screen is called _____.", "choices": ["screen time", "spare time", "free time"], "answer": 0}, {"type": "mcq", "q": "We should all treat old people _____ kindness.", "choices": ["for", "with", "to"], "answer": 1}, {"type": "mcq", "q": "_____ are small digital images used to express emotions or ideas.", "choices": ["Sites", "Emojis", "Websites"], "answer": 1}, {"type": "mcq", "q": "Many parents encourage their children to use _____ skills online.", "choices": ["digital", "manual", "interpersonal"], "answer": 0}];
 const cv = document.getElementById('cv');
 const ctx = cv.getContext('2d');
@@ -113,8 +95,16 @@ cv.width = window.innerWidth; cv.height = window.innerHeight;
 window.addEventListener('resize', () => { cv.width = window.innerWidth; cv.height = window.innerHeight; });
 
 // AUDIO
-const AC = ({ state: "suspended", resume: () => {}, createOscillator: () => ({ connect: () => {}, start: () => {}, stop: () => {}, frequency: { setValueAtTime: () => {} } }), createGain: () => ({ connect: () => {}, gain: { setValueAtTime: () => {}, exponentialRampToValueAtTime: () => {} } }), destination: {} })
-function tone() {}
+const AC = new (window.AudioContext||window.webkitAudioContext)();
+function tone(f,d,t='sine',v=0.4){
+    if(AC.state==='suspended') AC.resume();
+    const o=AC.createOscillator(),g=AC.createGain();
+    o.connect(g);g.connect(AC.destination);
+    o.type=t;o.frequency.value=f;
+    g.gain.setValueAtTime(v,AC.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+d);
+    o.start();o.stop(AC.currentTime+d);
+}
 function sndCorrect(){ tone(523,.1); setTimeout(()=>tone(784,.3),100); }
 function sndWrong(){ tone(150,.6,'sawtooth'); setTimeout(()=>tone(100,.6,'sawtooth'),150); }
 function sndShoot(){ tone(300,.1,'square',0.1); }
@@ -185,7 +175,9 @@ function handleChoice(btn, isCorrect, index) {
             });
         }
         
-        // autoAdvanceTimer cleared // autoAdvance disabled
+        clearTimeout(autoAdvanceTimer); autoAdvanceTimer = setTimeout(() => {
+            qIdx++;
+            loadQ();
         }, isCorrect ? 1000 : 1500);
     });
 }
@@ -328,5 +320,23 @@ mainLoop();
 })();
 </script>
 <!-- /MOBILE-FIT-2027-body -->
+
+<script id="prep-mute-js">
+(function(){
+    const originalCreateElement = document.createElement;
+    document.createElement = function(tag) {
+        const el = originalCreateElement.call(document, tag);
+        if (tag.toLowerCase() === 'audio') {
+            setTimeout(() => {
+                if (el.src && (el.src.includes('bg') || el.src.includes('music'))) {
+                    el.muted = true;
+                    el.volume = 0;
+                }
+            }, 0);
+        }
+        return el;
+    };
+})();
+</script>
 </body>
 </html>
