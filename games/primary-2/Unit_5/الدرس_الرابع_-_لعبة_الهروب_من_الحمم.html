@@ -431,6 +431,15 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 }
 </style>
 <!-- /MOBILE-FIT-2027-head -->
+<style>.timer, #timer, [id*="timer"], [class*="timer"], .time-display, #time-display { display: none !important; opacity: 0 !important; pointer-events: none !important; visibility: hidden !important; }</style>
+<!-- MOBILE-FIT-2027 -->
+<style id="mobile-fit-2027-surgical">
+html, body { touch-action: manipulation; -webkit-tap-highlight-color: transparent; overscroll-behavior: none; }
+button, .target-btn, a, [onclick], .gg-target, .gg-btn { touch-action: manipulation; }
+@media (max-width: 900px), (max-height: 520px) {
+  html { font-size: clamp(10px, 3vmin, 16px) !important; }
+}
+</style>
 </head>
 <body>
 <div id="app">
@@ -454,7 +463,7 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
       </div>
     </div>
   </div>
-  <div id="timer-bar-wrap" style="display:none;"><div id="timer-bar" style="display:none;"></div></div>
+  <div id="timer-bar-wrap"><div id="timer-bar"></div></div>
 
   <!-- Question Zone -->
   <div id="question-zone">
@@ -3043,6 +3052,23 @@ document.getElementById('btn-launch').addEventListener('click', () => {
 })();
 </script>
 <!-- /MOBILE-FIT-2027-body -->
+
+<!-- MOBILE-FIT-2027-JS-surgical -->
+<script>
+(function(){
+  try {
+    function fireResize(){ try { window.dispatchEvent(new Event('resize')); } catch(e){} }
+    window.addEventListener('orientationchange', function(){ setTimeout(fireResize,150); setTimeout(fireResize,450); });
+    document.addEventListener('gesturestart', function(e){ e.preventDefault(); });
+    var lastTouchEnd = 0;
+    document.addEventListener('touchend', function(e){
+      var now = Date.now();
+      if (now - lastTouchEnd <= 300) { e.preventDefault(); }
+      lastTouchEnd = now;
+    }, {passive:false});
+  } catch(err) {}
+})();
+</script>
 </body>
 </html>
 
