@@ -4,50 +4,119 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>عالم الألعاب | English Toon</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: 'Cairo', sans-serif; background-color: #f0f9ff; }
-        .coming-soon-card {
-            background: white;
-            border-radius: 3rem;
-            padding: 60px 40px;
-            text-align: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            max-width: 600px;
-            width: 90%;
-            margin: 100px auto;
-            border: 8px solid #bee3f8;
-        }
-        .icon-bounce {
-            animation: bounce 2s infinite;
-        }
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f7f9; margin: 0; padding: 20px; color: #333; text-align: center; }
+        header { padding: 40px 0; background: linear-gradient(135deg, #3498db, #2980b9); color: white; border-radius: 15px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h1 { margin: 0; font-size: 2.5em; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+        .container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+        .grade-card { background: white; border-radius: 15px; padding: 25px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); transition: all 0.3s ease; border-top: 5px solid #3498db; }
+        .grade-card:hover { transform: translateY(-10px); box-shadow: 0 8px 30px rgba(0,0,0,0.1); }
+        .grade-card h2 { color: #2c3e50; margin-top: 0; font-size: 1.8em; }
+        .unit-links { list-style: none; padding: 0; margin-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .unit-links a { text-decoration: none; background: #fff; color: #3498db; padding: 10px; border-radius: 10px; font-size: 1.1em; border: 2px solid #3498db; transition: 0.3s; font-weight: bold; }
+        .unit-links a:hover { background: #3498db; color: white; }
+        .back-home { display: inline-block; margin-top: 40px; text-decoration: none; color: #7f8c8d; font-weight: bold; border-bottom: 2px solid #7f8c8d; padding-bottom: 2px; }
+        footer { text-align: center; margin-top: 60px; color: #95a5a6; font-size: 0.9em; padding-bottom: 20px; }
     </style>
 </head>
-<body class="flex items-center justify-center min-h-screen">
-
-    <div class="coming-soon-card">
-        <div class="w-32 h-32 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 text-6xl mx-auto mb-8 icon-bounce">
-            <i class="fa-solid fa-gamepad"></i>
+<body>
+    <header>
+        <h1>ألعاب English Toon 2027</h1>
+        <p>مغامرات تعليمية تفاعلية ممتعة</p>
+    </header>
+    <div class="container">
+        <div class="grade-card">
+            <h2>الصف الأول الابتدائي</h2>
+            <div class="unit-links">
+                <a href="games/primary-1/unit_1/index.html">الوحدة 1</a>
+                <a href="games/primary-1/unit_2/index.html">الوحدة 2</a>
+                <a href="games/primary-1/unit_3/index.html">الوحدة 3</a>
+                <a href="games/primary-1/unit_4/index.html">الوحدة 4</a>
+                <a href="games/primary-1/unit_5/index.html">الوحدة 5</a>
+                <a href="games/primary-1/unit_6/index.html">الوحدة 6</a>
+            </div>
         </div>
-        <h1 class="text-5xl font-black text-slate-800 mb-6">سنعود قريباً!</h1>
-        <p class="text-2xl text-slate-600 font-bold mb-8">
-            نحن نقوم الآن بتحديث وتطوير الألعاب لنقدم لكم تجربة تعليمية ممتعة وجديدة.
-        </p>
-        <div class="inline-block bg-blue-600 text-white px-10 py-4 rounded-full text-xl font-black shadow-lg">
-            انتظرونا في القريب العاجل 🚀
+        <div class="grade-card">
+            <h2>الصف الثاني الابتدائي</h2>
+            <div class="unit-links">
+                <a href="games/primary-2/Unit_1/index.html">الوحدة 1</a>
+                <a href="games/primary-2/Unit_2/index.html">الوحدة 2</a>
+                <a href="games/primary-2/Unit_3/index.html">الوحدة 3</a>
+                <a href="games/primary-2/Unit_4/index.html">الوحدة 4</a>
+                <a href="games/primary-2/Unit_5/index.html">الوحدة 5</a>
+                <a href="games/primary-2/Unit_6/index.html">الوحدة 6</a>
+            </div>
         </div>
-        <div class="mt-12">
-            <a href="index.html" class="text-blue-500 font-bold hover:underline">
-                <i class="fa-solid fa-arrow-right ml-2"></i> العودة للرئيسية
-            </a>
+        <div class="grade-card">
+            <h2>الصف الثالث الابتدائي</h2>
+            <div class="unit-links">
+                <a href="games/primary-3/Unit_1/index.html">الوحدة 1</a>
+                <a href="games/primary-3/Unit_2/index.html">الوحدة 2</a>
+                <a href="games/primary-3/Unit_3/index.html">الوحدة 3</a>
+                <a href="games/primary-3/Unit_4/index.html">الوحدة 4</a>
+                <a href="games/primary-3/Unit_5/index.html">الوحدة 5</a>
+                <a href="games/primary-3/Unit_6/index.html">الوحدة 6</a>
+            </div>
+        </div>
+        <div class="grade-card">
+            <h2>الصف الرابع الابتدائي</h2>
+            <div class="unit-links">
+                <a href="games/primary-4/Unit_1/index.html">الوحدة 1</a>
+                <a href="games/primary-4/Unit_2/index.html">الوحدة 2</a>
+                <a href="games/primary-4/Unit_3/index.html">الوحدة 3</a>
+                <a href="games/primary-4/Unit_4/index.html">الوحدة 4</a>
+                <a href="games/primary-4/Unit_5/index.html">الوحدة 5</a>
+                <a href="games/primary-4/Unit_6/index.html">الوحدة 6</a>
+            </div>
+        </div>
+        <div class="grade-card">
+            <h2>الصف الخامس الابتدائي</h2>
+            <div class="unit-links">
+                <a href="games/primary-5/Unit_1/index.html">الوحدة 1</a>
+                <a href="games/primary-5/Unit_2/index.html">الوحدة 2</a>
+                <a href="games/primary-5/Unit_3/index.html">الوحدة 3</a>
+                <a href="games/primary-5/Unit_4/index.html">الوحدة 4</a>
+                <a href="games/primary-5/Unit_5/index.html">الوحدة 5</a>
+                <a href="games/primary-5/Unit_6/index.html">الوحدة 6</a>
+            </div>
+        </div>
+        <div class="grade-card">
+            <h2>الصف السادس الابتدائي</h2>
+            <div class="unit-links">
+                <a href="games/primary-6/Unit_1/index.html">الوحدة 1</a>
+                <a href="games/primary-6/Unit_2/index.html">الوحدة 2</a>
+                <a href="games/primary-6/Unit_3/index.html">الوحدة 3</a>
+                <a href="games/primary-6/Unit_4/index.html">الوحدة 4</a>
+                <a href="games/primary-6/Unit_5/index.html">الوحدة 5</a>
+                <a href="games/primary-6/Unit_6/index.html">الوحدة 6</a>
+            </div>
+        </div>
+        <div class="grade-card">
+            <h2>الصف الأول الإعدادي</h2>
+            <div class="unit-links">
+                <a href="games/prep-1/Unit_1/index.html">الوحدة 1</a>
+                <a href="games/prep-1/Unit_2/index.html">الوحدة 2</a>
+                <a href="games/prep-1/Unit_3/index.html">الوحدة 3</a>
+                <a href="games/prep-1/Unit_4/index.html">الوحدة 4</a>
+                <a href="games/prep-1/Unit_5/index.html">الوحدة 5</a>
+                <a href="games/prep-1/Unit_6/index.html">الوحدة 6</a>
+            </div>
+        </div>
+        <div class="grade-card">
+            <h2>الصف الثاني الإعدادي</h2>
+            <div class="unit-links">
+                <a href="games/prep-2/Prep2_ActionGames_Unit1/index.html">الوحدة 1</a>
+                <a href="games/prep-2/Prep2_ActionGames_Unit2/index.html">الوحدة 2</a>
+                <a href="games/prep-2/Prep2_ActionGames_Unit3/index.html">الوحدة 3</a>
+                <a href="games/prep-2/Prep2_ActionGames_Unit4/index.html">الوحدة 4</a>
+                <a href="games/prep-2/Prep2_ActionGames_Unit5/index.html">الوحدة 5</a>
+                <a href="games/prep-2/Prep2_ActionGames_Unit6/index.html">الوحدة 6</a>
+            </div>
         </div>
     </div>
-
+    <a href="index.html" class="back-home">العودة للرئيسية</a>
+    <footer>
+        جميع الحقوق محفوظة &copy; 2027 منصة English Toon التعليمية
+    </footer>
 </body>
 </html>
