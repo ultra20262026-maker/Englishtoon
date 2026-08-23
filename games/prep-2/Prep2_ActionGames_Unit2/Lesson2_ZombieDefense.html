@@ -61,22 +61,6 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 }
 </style>
 <!-- /MOBILE-FIT-2027-head -->
-
-    <!-- MOBILE-FIT-2027-style -->
-    <style id="manus-mobile-fit">
-    html, body { touch-action: manipulation; -webkit-tap-highlight-color: transparent; overscroll-behavior: none; margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
-    canvas { max-width: 100%; max-height: 100%; object-fit: contain; }
-    button, .target-btn, .gg-target, .gg-btn, a, [onclick] { touch-action: manipulation; }
-    @media (max-width: 900px), (max-height: 520px) {
-      html { font-size: clamp(10px, 3vmin, 16px) !important; }
-      .gg-target, .target-btn { min-width: clamp(60px, 15vmin, 120px) !important; min-height: clamp(60px, 15vmin, 120px) !important; font-size: 1rem !important; }
-      #gg-prompt, #q-text { font-size: clamp(1.1rem, 4vw, 1.5rem) !important; padding: 10px !important; }
-      #gg-hud, #hud { font-size: 0.9rem !important; padding: 5px 10px !important; }
-      .gg-btn { padding: 10px 20px !important; font-size: 1.1rem !important; }
-    }
-    </style>
-    <!-- /MOBILE-FIT-2027-style -->
-    
 </head>
 <body>
 
@@ -98,16 +82,22 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 </div>
 
 <script>
-window.isMuted = function() { return true; };
-
 const QS = [{"type": "mcq", "q": "The prefix '_____' gives the opposite of 'happy'.", "choices": ["dis-", "im-", "un-"], "answer": 2}, {"type": "mcq", "q": "The antonym of 'carefully' is _____.", "choices": ["carelessly", "wisely", "smartly"], "answer": 0}, {"type": "mcq", "q": "When you go _____ a difficult time, you learn from it.", "choices": ["in", "above", "through"], "answer": 2}, {"type": "mcq", "q": "He is no longer a child; he is an _____.", "choices": ["toddler", "adult", "baby"], "answer": 1}, {"type": "mcq", "q": "Social media platforms are used by _____ of people.", "choices": ["hundreds", "dozens", "millions"], "answer": 2}, {"type": "mcq", "q": "English _____ all over the world.", "choices": ["is speaking", "speaks", "is spoken"], "answer": 2}, {"type": "mcq", "q": "Strong passwords _____ to protect our information.", "choices": ["are used", "use", "are using"], "answer": 0}, {"type": "mcq", "q": "Our lessons _____ well by our teachers.", "choices": ["are teach", "teach", "are taught"], "answer": 2}, {"type": "mcq", "q": "My room _____ clean to stay healthy.", "choices": ["is kept", "keep", "keeps"], "answer": 0}, {"type": "mcq", "q": "A lot of products _____ to many countries by Egypt.", "choices": ["exported", "are exported", "export"], "answer": 1}, {"type": "mcq", "q": "The latest technology _____ inside the classes by teachers.", "choices": ["is used", "are used", "uses"], "answer": 0}, {"type": "mcq", "q": "If water is boiled, it _____ into vapor.", "choices": ["turns", "is turned", "turning"], "answer": 0}, {"type": "mcq", "q": "Teachers explain their lessons using smartboards. -> Smartboards _____ to explain lessons.", "choices": ["is used", "are used", "uses"], "answer": 1}, {"type": "mcq", "q": "A lot of videos _____ from the internet.", "choices": ["download", "is downloaded", "are downloaded"], "answer": 2}, {"type": "mcq", "q": "The Metro _____ to go to and from our work.", "choices": ["uses", "is used", "are used"], "answer": 1}, {"type": "mcq", "q": "Good students _____ for their work by teachers.", "choices": ["are rewarded", "reward", "rewards"], "answer": 0}, {"type": "mcq", "q": "A lot of messages _____ on the internet.", "choices": ["sends", "are sent", "is sent"], "answer": 1}, {"type": "mcq", "q": "Cameras _____ to take photos.", "choices": ["uses", "are used", "is used"], "answer": 1}, {"type": "mcq", "q": "A lot of projects _____ in Egypt by the government.", "choices": ["does", "are done", "is done"], "answer": 1}, {"type": "mcq", "q": "Different goods _____ in our town.", "choices": ["produces", "is produced", "are produced"], "answer": 2}, {"type": "mcq", "q": "The internet _____ by millions of people.", "choices": ["are used", "is used", "uses"], "answer": 1}, {"type": "mcq", "q": "Personal information _____ hidden from strangers.", "choices": ["keeps", "is kept", "are kept"], "answer": 1}, {"type": "mcq", "q": "Many languages _____ in Africa.", "choices": ["is spoken", "speaks", "are spoken"], "answer": 2}, {"type": "mcq", "q": "New apps _____ every day.", "choices": ["creates", "are created", "is created"], "answer": 1}, {"type": "mcq", "q": "The class _____ every morning.", "choices": ["is cleaned", "cleans", "are cleaned"], "answer": 0}];
 const cv = document.getElementById('cv');
 const ctx = cv.getContext('2d');
 cv.width = window.innerWidth; cv.height = window.innerHeight;
 window.addEventListener('resize', () => { cv.width = window.innerWidth; cv.height = window.innerHeight; });
 
-const AC = ({ state: "suspended", resume: () => {}, createOscillator: () => ({ connect: () => {}, start: () => {}, stop: () => {}, frequency: { setValueAtTime: () => {} } }), createGain: () => ({ connect: () => {}, gain: { setValueAtTime: () => {}, exponentialRampToValueAtTime: () => {} } }), destination: {} })
-function tone() {}
+const AC = new (window.AudioContext||window.webkitAudioContext)();
+function tone(f,d,t='sine',v=0.4){
+    if(AC.state==='suspended') AC.resume();
+    const o=AC.createOscillator(),g=AC.createGain();
+    o.connect(g);g.connect(AC.destination);
+    o.type=t;o.frequency.value=f;
+    g.gain.setValueAtTime(v,AC.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+d);
+    o.start();o.stop(AC.currentTime+d);
+}
 function sndCorrect(){ tone(523,.1); setTimeout(()=>tone(784,.3),100); }
 function sndWrong(){ tone(150,.6,'sawtooth'); setTimeout(()=>tone(100,.6,'sawtooth'),150); }
 function sndShoot(){ tone(300,.1,'square',0.1); }
@@ -170,7 +160,7 @@ function handleChoice(btn, isCorrect, index) {
                 if(b !== btn) b.style.opacity = '0.3';
             });
         }
-        // autoAdvanceTimer cleared // autoAdvance disabled }, isCorrect ? 1000 : 1500);
+        clearTimeout(autoAdvanceTimer); autoAdvanceTimer = setTimeout(() => { qIdx++; loadQ(); }, isCorrect ? 1000 : 1500);
     });
 }
 
@@ -284,5 +274,23 @@ mainLoop();
 })();
 </script>
 <!-- /MOBILE-FIT-2027-body -->
+
+<script id="prep-mute-js">
+(function(){
+    const originalCreateElement = document.createElement;
+    document.createElement = function(tag) {
+        const el = originalCreateElement.call(document, tag);
+        if (tag.toLowerCase() === 'audio') {
+            setTimeout(() => {
+                if (el.src && (el.src.includes('bg') || el.src.includes('music'))) {
+                    el.muted = true;
+                    el.volume = 0;
+                }
+            }, 0);
+        }
+        return el;
+    };
+})();
+</script>
 </body>
 </html>
