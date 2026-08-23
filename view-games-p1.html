@@ -34,14 +34,23 @@
     </div>
 
     <script>
-        const GAME_NAMES = [
-            "سباق التوربو", "تحدي الإملاء", "قفزة الغابة", "حامي الفضاء",
-            "قاطع الفواكه", "خطاف الكنز", "ضربات الجزاء", "فرقعة الفقاعات",
-            "سلة الكلمات", "جرس الحروف", "ركض الديناصور", "نحلة العسل",
-            "مصنع الروبوت", "مظلي الكلمات", "صانع البيتزا", "مثلجات المرح",
-            "سائق القطار", "انفجار البالونات", "غواصة الأعماق", "قبعة الساحر",
-            "بطل التسلق", "تطابق المزرعة", "صاعق الفضائيين", "الإملاء الخارق"
-        ];
+        const GAME_NAMES = {
+            1: "صائد الأسماك", 2: "حامي القلعة", 3: "فرقعة البالونات", 4: "انطلاق الصاروخ",
+            5: "قفز القرد", 6: "سباق السيارات", 7: "قاذف الكواكب", 8: "ركلات الترجيح",
+            9: "مطابقة الذاكرة", 10: "سلة الحصاد", 11: "صائد الكنز", 12: "فرقعة الفقاعات",
+            13: "جري الديناصور", 14: "ضرب الأهداف", 15: "النحلة الإملائية", 16: "البحث عن الكلمات",
+            17: "توصيل الصور", 18: "آلة الفشار", 19: "تلوين اللوحة", 20: "إصلاح الروبوت",
+            21: "متجر الآيس كريم", 22: "إنقاذ الحيوانات", 23: "الغوص عن الكنز", 24: "إملاء الوحدة"
+        };
+
+        const ICONS = {
+            1: "fa-fish", 2: "fa-fort-awesome", 3: "fa-circle", 4: "fa-rocket",
+            5: "fa-frog", 6: "fa-car", 7: "fa-meteor", 8: "fa-futbol",
+            9: "fa-clone", 10: "fa-basket-shopping", 11: "fa-gem", 12: "fa-soap",
+            13: "fa-dragon", 14: "fa-bullseye", 15: "fa-bee", 16: "fa-magnifying-glass",
+            17: "fa-link", 18: "fa-fire", 19: "fa-palette", 20: "fa-robot",
+            21: "fa-ice-cream", 22: "fa-heart", 23: "fa-water", 24: "fa-keyboard"
+        };
 
         const urlParams = new URLSearchParams(window.location.search);
         const unit = urlParams.get('unit') || '1';
@@ -50,16 +59,15 @@
         const grid = document.getElementById('games-grid');
         for (let i = 1; i <= 24; i++) {
             const card = document.createElement('a');
-            card.href = `games/primary-1/unit${unit}/game_${i}.html?v=5.6.1`;
+            card.href = `games/primary-1/unit${unit}/game_${i}.html?v=v2026_final`;
             card.className = "game-card group relative bg-slate-800/50 backdrop-blur-xl border border-white/10 rounded-[2rem] p-6 flex flex-col items-center text-center shadow-2xl hover:border-blue-500/50";
             
-            const isSpecial = i === 2 || i === 24 || i === 4 || i === 5 || i === 6;
             card.innerHTML = `
-                <div class="w-20 h-20 bg-gradient-to-br ${isSpecial ? 'from-amber-500 to-red-600' : 'from-blue-600 to-indigo-600'} rounded-3xl flex items-center justify-center text-4xl mb-4 shadow-lg group-hover:rotate-6 transition-transform">
-                    <i class="fa-solid ${isSpecial ? 'fa-star' : 'fa-gamepad'}"></i>
+                <div class="w-20 h-20 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-3xl flex items-center justify-center text-4xl mb-4 shadow-lg group-hover:rotate-6 transition-transform">
+                    <i class="fa-solid ${ICONS[i] || 'fa-gamepad'}"></i>
                 </div>
-                <h3 class="text-white font-black text-lg mb-1">${GAME_NAMES[i-1]}</h3>
-                <span class="text-blue-400 text-xs font-bold uppercase tracking-widest">المستوى ${i}</span>
+                <h3 class="text-white font-black text-lg mb-1">${GAME_NAMES[i]}</h3>
+                <span class="text-blue-400 text-xs font-bold uppercase tracking-widest">اللعبة ${i}</span>
                 <div class="absolute top-4 right-4 w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
             `;
             grid.appendChild(card);
