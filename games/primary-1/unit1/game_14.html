@@ -3,44 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>فرقعة البالونات</title>
+    <title>عسل النحل</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Cairo', sans-serif; overflow: hidden; background: #f0f9ff; touch-action: none; margin: 0; padding: 0; }
-        canvas { display: block; width: 100vw; height: 100vh; background: linear-gradient(to bottom, #bae6fd, #f0f9ff); }
+        body { font-family: 'Cairo', sans-serif; overflow: hidden; background: #fefce8; touch-action: none; margin: 0; padding: 0; }
+        canvas { display: block; width: 100vw; height: 100vh; background: #fef9c3; }
         #top-bar {
             position: fixed; top: 0; left: 0; width: 100%; height: 45px;
             background: rgba(15, 23, 42, 0.9); display: flex; align-items: center; 
-            justify-content: space-between; padding: 0 10px; z-index: 1000; border-bottom: 2px solid #ec4899;
+            justify-content: space-between; padding: 0 10px; z-index: 1000; border-bottom: 2px solid #eab308;
         }
-        #target-word { color: #ec4899; font-weight: 900; font-size: 1.2rem; margin: 0 10px; text-transform: uppercase; }
+        #target-word { color: #eab308; font-weight: 900; font-size: 1.2rem; margin: 0 10px; text-transform: uppercase; }
         #win-screen {
             position: fixed; inset: 0; background: rgba(15, 23, 42, 0.85);
             display: none; flex-direction: column; align-items: center; justify-content: center;
             z-index: 2000; text-align: center;
         }
-        .win-box { background: white; padding: 20px; border-radius: 20px; border: 4px solid #ec4899; width: 85%; max-width: 350px; }
-        .btn { background: #ec4899; color: white; padding: 10px 25px; border-radius: 12px; font-weight: bold; cursor: pointer; border: none; margin-top: 15px; }
+        .win-box { background: white; padding: 20px; border-radius: 20px; border: 4px solid #eab308; width: 85%; max-width: 350px; }
+        .btn { background: #eab308; color: white; padding: 10px 25px; border-radius: 12px; font-weight: bold; cursor: pointer; border: none; margin-top: 15px; }
         .score-tag { background: #0f172a; color: white; padding: 2px 10px; border-radius: 8px; font-weight: bold; font-size: 0.9rem; }
     </style>
 </head>
 <body>
     <div id="top-bar">
         <div style="display: flex; align-items: center;">
-            <span style="color: #94a3b8; font-size: 0.7rem; font-weight: bold;">فرقع:</span>
+            <span style="color: #94a3b8; font-size: 0.7rem; font-weight: bold;">اجمع من:</span>
             <span id="target-word">---</span>
-            <button onclick="handleListen()" style="background: #ec4899; color: white; width: 30px; height: 30px; border-radius: 50%; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+            <button onclick="handleListen()" style="background: #eab308; color: white; width: 30px; height: 30px; border-radius: 50%; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer;">
                 <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77zM16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM3 9v6h4l5 5V4L7 9H3z"/></svg>
             </button>
         </div>
-        <div class="score-tag">🎈 <span id="score-count">0</span></div>
+        <div class="score-tag">🐝 <span id="score-count">0</span></div>
     </div>
     <canvas id="gameCanvas"></canvas>
     <div id="win-screen">
         <div class="win-box">
-            <div style="font-size: 3rem; margin-bottom: 10px;">✨</div>
-            <h2 style="color: #0f172a; font-size: 1.5rem; font-weight: 900;">فرقعة مذهلة!</h2>
+            <div style="font-size: 3rem; margin-bottom: 10px;">🍯</div>
+            <h2 style="color: #0f172a; font-size: 1.5rem; font-weight: 900;">عسل لذيذ!</h2>
             <button class="btn" onclick="nextLevel()">متابعة</button>
         </div>
     </div>
@@ -60,33 +60,31 @@
         function nextLevel() { document.getElementById('win-screen').style.display = 'none'; setupLevel(); }
         
         
-        let balloons = [];
+        let flowers = []; let bee = { x: 0, y: 0 };
         function setupLevel() {
             currentTarget = vocab[Math.floor(Math.random() * vocab.length)];
             document.getElementById('target-word').innerText = currentTarget.word;
-            balloons = []; let choices = [currentTarget];
-            let others = vocab.filter(v => v.word !== currentTarget.word);
+            bee.x = canvas.width / 2; bee.y = canvas.height - 100; flowers = [];
+            let choices = [currentTarget]; let others = vocab.filter(v => v.word !== currentTarget.word);
             others.sort(() => Math.random() - 0.5); choices.push(others[0], others[1]);
             choices.sort(() => Math.random() - 0.5);
-            choices.forEach((c, i) => { balloons.push({ x: (i + 1) * (canvas.width / 4), y: canvas.height + 100, word: c.word, isCorrect: c.word === currentTarget.word, w: 90, h: 120, speed: 2 + Math.random() * 2, color: `hsl(${Math.random() * 360}, 70%, 60%)`, popped: false }); });
+            choices.forEach((c, i) => { flowers.push({ x: (i + 1) * (canvas.width / 4), y: 200, word: c.word, isCorrect: c.word === currentTarget.word }); });
             isPaused = false;
         }
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            if (!isPaused) { balloons.forEach(b => { if (!b.popped) { b.y -= b.speed; if (b.y < -150) b.y = canvas.height + 100; } }); }
-            balloons.forEach(b => { if (b.popped) return;
-                ctx.fillStyle = b.color; ctx.beginPath(); ctx.ellipse(b.x, b.y, b.w/2, b.h/2, 0, 0, Math.PI * 2); ctx.fill();
-                ctx.beginPath(); ctx.moveTo(b.x, b.y + b.h/2); ctx.lineTo(b.x, b.y + b.h/2 + 30); ctx.strokeStyle = 'white'; ctx.stroke();
-                const img = assets[b.word]; if (img && img.complete) ctx.drawImage(img, b.x - 20, b.y - 30, 40, 40);
-                ctx.fillStyle = 'white'; ctx.font = 'bold 14px Cairo'; ctx.textAlign = 'center'; ctx.fillText(b.word.toUpperCase(), b.x, b.y + 30);
+            ctx.fillStyle = '#facc15'; ctx.beginPath(); ctx.arc(bee.x, bee.y, 25, 0, Math.PI*2); ctx.fill();
+            flowers.forEach(f => { ctx.fillStyle = '#f472b6'; ctx.beginPath(); for(let i=0; i<6; i++) ctx.arc(f.x + Math.cos(i)*30, f.y + Math.sin(i)*30, 20, 0, Math.PI*2); ctx.fill();
+                ctx.fillStyle = '#fbbf24'; ctx.beginPath(); ctx.arc(f.x, f.y, 20, 0, Math.PI*2); ctx.fill();
+                const img = assets[f.word]; if (img && img.complete) ctx.drawImage(img, f.x - 20, f.y - 20, 40, 40);
+                ctx.fillStyle = 'black'; ctx.font = 'bold 12px Cairo'; ctx.textAlign = 'center'; ctx.fillText(f.word.toUpperCase(), f.x, f.y + 60);
             });
             requestAnimationFrame(animate);
         }
-        window.addEventListener('pointerdown', (e) => { if (isPaused) return;
-            balloons.forEach(b => { if (!b.popped && Math.hypot(e.clientX - b.x, e.clientY - b.y) < 60) {
-                b.popped = true; if (b.isCorrect) { score += 10; document.getElementById('score-count').innerText = score; isPaused = true;
-                    setTimeout(() => { document.getElementById('win-screen').style.display = 'flex'; speechSynthesis.speak(new SpeechSynthesisUtterance("Well done!")); }, 300);
-                } else { speechSynthesis.speak(new SpeechSynthesisUtterance("Try again")); setTimeout(() => b.popped = false, 1000); }
+        window.addEventListener('pointerdown', (e) => { if (isPaused) return; bee.x = e.clientX; bee.y = e.clientY;
+            flowers.forEach(f => { if (Math.hypot(bee.x - f.x, bee.y - f.y) < 50) {
+                if (f.isCorrect) { score += 10; isPaused = true; document.getElementById('win-screen').style.display = 'flex'; }
+                else { speechSynthesis.speak(new SpeechSynthesisUtterance("Try again")); }
             }});
         });
         
