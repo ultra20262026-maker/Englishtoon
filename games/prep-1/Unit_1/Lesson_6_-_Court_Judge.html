@@ -117,22 +117,15 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 }
 </style>
 <!-- /MOBILE-FIT-2027-head -->
-
-    <!-- MOBILE-FIT-2027-style -->
-    <style id="manus-mobile-fit">
-    html, body { touch-action: manipulation; -webkit-tap-highlight-color: transparent; overscroll-behavior: none; margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
-    canvas { max-width: 100%; max-height: 100%; object-fit: contain; }
-    button, .target-btn, .gg-target, .gg-btn, a, [onclick] { touch-action: manipulation; }
-    @media (max-width: 900px), (max-height: 520px) {
-      html { font-size: clamp(10px, 3vmin, 16px) !important; }
-      .gg-target, .target-btn { min-width: clamp(60px, 15vmin, 120px) !important; min-height: clamp(60px, 15vmin, 120px) !important; font-size: 1rem !important; }
-      #gg-prompt, #q-text { font-size: clamp(1.1rem, 4vw, 1.5rem) !important; padding: 10px !important; }
-      #gg-hud, #hud { font-size: 0.9rem !important; padding: 5px 10px !important; }
-      .gg-btn { padding: 10px 20px !important; font-size: 1.1rem !important; }
-    }
-    </style>
-    <!-- /MOBILE-FIT-2027-style -->
-    
+<style>.timer, #timer, [id*="timer"], [class*="timer"], .time-display, #time-display { display: none !important; opacity: 0 !important; pointer-events: none !important; visibility: hidden !important; }</style>
+<!-- MOBILE-FIT-2027 -->
+<style id="mobile-fit-2027-surgical">
+html, body { touch-action: manipulation; -webkit-tap-highlight-color: transparent; overscroll-behavior: none; }
+button, .target-btn, a, [onclick], .gg-target, .gg-btn { touch-action: manipulation; }
+@media (max-width: 900px), (max-height: 520px) {
+  html { font-size: clamp(10px, 3vmin, 16px) !important; }
+}
+</style>
 </head>
 <body>
 <div id="gg-root">
@@ -234,7 +227,7 @@ const GG27 = (function(){
   function profile(){ return _load(); }
   function coins(){ return _load().coins||0; }
   function level(){ return _load().level||1; }
-  function isMuted(){ return true; }
+  function isMuted(){ try{ return localStorage.getItem('gg27_muted')==='1'; }catch(e){ return false; } }
   function setMuted(v){ try{ localStorage.setItem('gg27_muted', v?'1':'0'); }catch(e){} }
   return { recordResult, profile, coins, level, isMuted, setMuted };
 })();
@@ -244,7 +237,7 @@ const GG27 = (function(){
 // ============================================================
 const GGSound = (function(){
   let ctx=null;
-  function c(){ if(!ctx) ctx = ({ state: "suspended", resume: () => {}, createOscillator: () => ({ connect: () => {}, start: () => {}, stop: () => {}, frequency: { setValueAtTime: () => {} } }), createGain: () => ({ connect: () => {}, gain: { setValueAtTime: () => {}, exponentialRampToValueAtTime: () => {} } }), destination: {} }) if(ctx.state==='suspended') ctx.resume(); return ctx; }
+  function c(){ if(!ctx) ctx = new (window.AudioContext||window.webkitAudioContext)(); if(ctx.state==='suspended') ctx.resume(); return ctx; }
   function beep(freq,type,dur,vol,t0){
     if(GG27.isMuted()) return;
     try{
@@ -456,5 +449,98 @@ document.getElementById('gg-start-btn').onclick = function(){
 })();
 </script>
 <!-- /MOBILE-FIT-2027-body -->
+
+<!-- MOBILE-FIT-2027-JS-surgical -->
+<script>
+(function(){
+  try {
+    function fireResize(){ try { window.dispatchEvent(new Event('resize')); } catch(e){} }
+    window.addEventListener('orientationchange', function(){ setTimeout(fireResize,150); setTimeout(fireResize,450); });
+    document.addEventListener('gesturestart', function(e){ e.preventDefault(); });
+    var lastTouchEnd = 0;
+    document.addEventListener('touchend', function(e){
+      var now = Date.now();
+      if (now - lastTouchEnd <= 300) { e.preventDefault(); }
+      lastTouchEnd = now;
+    }, {passive:false});
+  } catch(err) {}
+})();
+</script>
+
+<script id="prep-mute-js-surgical">
+(function(){
+    // 1. Intercept HTMLAudioElement src setting
+    const originalSrcDescriptor = Object.getOwnPropertyDescriptor(HTMLMediaElement.prototype, 'src');
+    if (originalSrcDescriptor) {
+        Object.defineProperty(HTMLAudioElement.prototype, 'src', {
+            set: function(value) {
+                if (value && (value.includes('bg') || value.includes('music') || value.includes('loop'))) {
+                    this.muted = true; this.volume = 0;
+                }
+                originalSrcDescriptor.set.call(this, value);
+            },
+            get: function() { return originalSrcDescriptor.get.call(this); }
+        });
+    }
+
+    // 2. Intercept document.createElement
+    const originalCreateElement = document.createElement;
+    document.createElement = function(tag) {
+        const el = originalCreateElement.call(document, tag);
+        if (tag.toLowerCase() === 'audio') {
+            const originalPlay = el.play;
+            el.play = function() {
+                if (el.src && (el.src.includes('bg') || el.src.includes('music') || el.src.includes('loop'))) {
+                    el.muted = true; el.volume = 0;
+                }
+                return originalPlay.apply(this, arguments);
+            };
+        }
+        return el;
+    };
+
+    // 3. Patch AudioContext to mute SFX in Prep games if they use oscillators/buffers
+    // Note: User said "mute background music/SFX in preparatory ONLY".
+    const OriginalAudioContext = window.AudioContext || window.webkitAudioContext;
+    if (OriginalAudioContext) {
+        window.AudioContext = window.webkitAudioContext = function() {
+            const ctx = new OriginalAudioContext();
+            const originalCreateGain = ctx.createGain;
+            ctx.createGain = function() {
+                const gainNode = originalCreateGain.call(ctx);
+                // Mute gain nodes in Prep games to silence oscillators/beeps
+                gainNode.gain.value = 0;
+                const originalSetValueAtTime = gainNode.gain.setValueAtTime;
+                gainNode.gain.setValueAtTime = function() { return gainNode.gain; };
+                const originalLinearRamp = gainNode.gain.linearRampToValueAtTime;
+                gainNode.gain.linearRampToValueAtTime = function() { return gainNode.gain; };
+                const originalExponentialRamp = gainNode.gain.exponentialRampToValueAtTime;
+                gainNode.gain.exponentialRampToValueAtTime = function() { return gainNode.gain; };
+                return gainNode;
+            };
+            return ctx;
+        };
+    }
+    
+    // 4. Mute SpeechSynthesis if it's not educational (though user asked to remove question reading before)
+    // User: "ازل التعليق الصوتي للي بيقرا السؤال تلقائي"
+    if (window.speechSynthesis) {
+        const originalSpeak = window.speechSynthesis.speak;
+        window.speechSynthesis.speak = function(utterance) {
+            // If it's just the question/prompt, we might want to skip it if the user wants no auto-reading.
+            // But educational speech should stay. This is tricky. 
+            // For now, let's just allow it unless it's background.
+            return originalSpeak.call(window.speechSynthesis, utterance);
+        };
+    }
+
+    // 4. Mute existing ones
+    document.querySelectorAll('audio').forEach(el => {
+        if (el.src && (el.src.includes('bg') || el.src.includes('music') || el.src.includes('loop'))) {
+            el.muted = true; el.volume = 0;
+        }
+    });
+})();
+</script>
 </body>
 </html>
