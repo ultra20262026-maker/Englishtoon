@@ -63,22 +63,6 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 }
 </style>
 <!-- /MOBILE-FIT-2027-head -->
-
-    <!-- MOBILE-FIT-2027-style -->
-    <style id="manus-mobile-fit">
-    html, body { touch-action: manipulation; -webkit-tap-highlight-color: transparent; overscroll-behavior: none; margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
-    canvas { max-width: 100%; max-height: 100%; object-fit: contain; }
-    button, .target-btn, .gg-target, .gg-btn, a, [onclick] { touch-action: manipulation; }
-    @media (max-width: 900px), (max-height: 520px) {
-      html { font-size: clamp(10px, 3vmin, 16px) !important; }
-      .gg-target, .target-btn { min-width: clamp(60px, 15vmin, 120px) !important; min-height: clamp(60px, 15vmin, 120px) !important; font-size: 1rem !important; }
-      #gg-prompt, #q-text { font-size: clamp(1.1rem, 4vw, 1.5rem) !important; padding: 10px !important; }
-      #gg-hud, #hud { font-size: 0.9rem !important; padding: 5px 10px !important; }
-      .gg-btn { padding: 10px 20px !important; font-size: 1.1rem !important; }
-    }
-    </style>
-    <!-- /MOBILE-FIT-2027-style -->
-    
 </head>
 <body>
 
@@ -100,16 +84,22 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 </div>
 
 <script>
-window.isMuted = function() { return true; };
-
 const QS = [{"type": "mcq", "q": "Do you have any _____ about how to test this tool?", "choices": ["thoughts", "engineers", "impacts"], "answer": 0}, {"type": "mcq", "q": "A _____ engineer works to make cities safe and organized.", "choices": ["fashion", "civil", "computer"], "answer": 1}, {"type": "mcq", "q": "Learning a new language is a slow _____ that takes time and practice.", "choices": ["mistake", "process", "object"], "answer": 1}, {"type": "mcq", "q": "Biomedical engineers use tools like _____ to help patients.", "choices": ["senses", "screens", "sensors"], "answer": 2}, {"type": "mcq", "q": "He wore special shoes to stop himself from _____ on the wet ground.", "choices": ["slips", "slip", "slipping"], "answer": 2}, {"type": "mcq", "q": "She would pass the exam if she _____ harder.", "choices": ["studied", "studies", "study"], "answer": 0}, {"type": "mcq", "q": "If I _____ fly, I would visit every country in the world.", "choices": ["can", "could", "will"], "answer": 1}, {"type": "mcq", "q": "If you _____ me with homework, I will finish early.", "choices": ["helped", "help", "helps"], "answer": 1}, {"type": "mcq", "q": "If we _____ in Paris, we would visit the Eiffel Tower.", "choices": ["are", "were", "was"], "answer": 1}, {"type": "mcq", "q": "If I had a plane, I _____ to many countries in the world.", "choices": ["will travel", "travel", "would travel"], "answer": 2}, {"type": "mcq", "q": "If Hany _____ more carefully, he would make fewer mistakes.", "choices": ["works", "worked", "working"], "answer": 1}, {"type": "mcq", "q": "If I _____ you, I would see a doctor.", "choices": ["were", "was", "am"], "answer": 0}, {"type": "mcq", "q": "What would you do if you _____ a lot of money?", "choices": ["wins", "won", "win"], "answer": 1}, {"type": "mcq", "q": "If he _____ the answer, he would tell us.", "choices": ["knew", "knows", "know"], "answer": 0}, {"type": "mcq", "q": "We would buy a bigger house if we _____ rich.", "choices": ["is", "are", "were"], "answer": 2}, {"type": "mcq", "q": "If she didn't feel well, she _____ stay at home.", "choices": ["will", "can", "would"], "answer": 2}, {"type": "mcq", "q": "I _____ help you if I had more time.", "choices": ["would", "can", "will"], "answer": 0}, {"type": "mcq", "q": "If it rains tomorrow, we _____ go to the club.", "choices": ["don't", "won't", "wouldn't"], "answer": 1}, {"type": "mcq", "q": "If you heat ice, it _____.", "choices": ["melt", "melted", "melts"], "answer": 2}, {"type": "mcq", "q": "They will pass the test if they _____ hard.", "choices": ["study", "studied", "studies"], "answer": 0}, {"type": "mcq", "q": "If he _____ fast, he wouldn't miss the train.", "choices": ["ran", "run", "runs"], "answer": 0}, {"type": "mcq", "q": "She _____ come to the party if you invited her.", "choices": ["would", "can", "will"], "answer": 0}, {"type": "mcq", "q": "If we _____ tickets, we would go to the concert.", "choices": ["has", "had", "have"], "answer": 1}, {"type": "mcq", "q": "What will happen if you _____ the deadline?", "choices": ["miss", "misses", "missed"], "answer": 0}, {"type": "mcq", "q": "If people used less plastic, the oceans _____ cleaner.", "choices": ["are", "will be", "would be"], "answer": 2}];
 const cv = document.getElementById('cv');
 const ctx = cv.getContext('2d');
 cv.width = window.innerWidth; cv.height = window.innerHeight;
 window.addEventListener('resize', () => { cv.width = window.innerWidth; cv.height = window.innerHeight; });
 
-const AC = ({ state: "suspended", resume: () => {}, createOscillator: () => ({ connect: () => {}, start: () => {}, stop: () => {}, frequency: { setValueAtTime: () => {} } }), createGain: () => ({ connect: () => {}, gain: { setValueAtTime: () => {}, exponentialRampToValueAtTime: () => {} } }), destination: {} })
-function tone() {}
+const AC = new (window.AudioContext||window.webkitAudioContext)();
+function tone(f,d,t='sine',v=0.4){
+    if(AC.state==='suspended') AC.resume();
+    const o=AC.createOscillator(),g=AC.createGain();
+    o.connect(g);g.connect(AC.destination);
+    o.type=t;o.frequency.value=f;
+    g.gain.setValueAtTime(v,AC.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+d);
+    o.start();o.stop(AC.currentTime+d);
+}
 function sndCorrect(){ tone(523,.1); setTimeout(()=>tone(784,.3),100); }
 function sndWrong(){ tone(150,.6,'sawtooth'); setTimeout(()=>tone(100,.6,'sawtooth'),150); }
 function sndShoot(){ tone(300,.1,'square',0.1); }
@@ -174,7 +164,7 @@ function handleChoice(btn, isCorrect, index) {
                 if(b !== btn) b.style.opacity = '0.3';
             });
         }
-        // autoAdvanceTimer cleared // autoAdvance disabled }, isCorrect ? 1000 : 1500);
+        clearTimeout(autoAdvanceTimer); autoAdvanceTimer = setTimeout(() => { qIdx++; loadQ(); }, isCorrect ? 1000 : 1500);
     });
 }
 
@@ -283,5 +273,23 @@ mainLoop();
 })();
 </script>
 <!-- /MOBILE-FIT-2027-body -->
+
+<script id="prep-mute-js">
+(function(){
+    const originalCreateElement = document.createElement;
+    document.createElement = function(tag) {
+        const el = originalCreateElement.call(document, tag);
+        if (tag.toLowerCase() === 'audio') {
+            setTimeout(() => {
+                if (el.src && (el.src.includes('bg') || el.src.includes('music'))) {
+                    el.muted = true;
+                    el.volume = 0;
+                }
+            }, 0);
+        }
+        return el;
+    };
+})();
+</script>
 </body>
 </html>
