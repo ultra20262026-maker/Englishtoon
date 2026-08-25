@@ -1,109 +1,47 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>Burger Chef</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Cairo:wght@700;800&display=swap" rel="stylesheet">
+<title>Burger Chef — Gameplay</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
 <style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Nunito', sans-serif; overflow: hidden; width: 100vw; height: 100vh; background: #000; user-select: none; }
 
-:root{
-  --gg-bg:#0f1226; --gg-panel:#171b3a; --gg-accent:#ffd166; --gg-good:#31d0aa;
-  --gg-bad:#ff6b6b; --gg-text:#f4f6ff; --gg-muted:#9aa0c3;
-}
-*,*::before,*::after{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-html,body{margin:0;padding:0;height:100%;overscroll-behavior:none;}
-body{
-  font-family:'Baloo 2','Cairo','Nunito',system-ui,sans-serif;
-  background:var(--stage-bg, radial-gradient(circle at 50% 0%,#232a5c,#0f1226 70%));
-  color:var(--gg-text); overflow:hidden; touch-action:none; user-select:none;
-  height:100dvh; width:100vw; position:fixed; inset:0;
-}
-#gg-root{position:absolute; inset:0; display:flex; flex-direction:column;}
-#gg-hud{
-  position:relative; z-index:40; display:flex; align-items:center; justify-content:space-between;
-  padding:calc(env(safe-area-inset-top,0px) + 8px) 10px 8px; gap:8px; flex-wrap:wrap;
-  background:linear-gradient(180deg,rgba(0,0,0,.55),transparent);
-}
-.gg-pill{
-  display:flex; align-items:center; gap:6px; background:rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.16); border-radius:999px; padding:6px 12px;
-  font-weight:800; font-size:clamp(12px,3.4vw,15px); backdrop-filter:blur(6px);
-}
-.gg-pill.coins{color:var(--gg-accent);}
-.gg-pill.level{color:#8ec5ff;}
-#gg-back,#gg-mute{
-  border:none; background:rgba(255,255,255,.1); color:var(--gg-text); border-radius:12px;
-  width:38px; height:38px; font-size:18px; display:flex; align-items:center; justify-content:center;
-  cursor:pointer;
-}
-#gg-back:active,#gg-mute:active{transform:scale(.9);}
-#gg-stage{position:relative; flex:1; min-height:0; overflow:hidden;}
-#gg-instructions{
-  font-size:clamp(13px,3.6vw,17px); text-align:center; padding:0 16px 10px; color:var(--gg-muted); font-weight:700;
-}
-.gg-btn{
-  font-family:inherit; font-weight:900; border:none; border-radius:16px; cursor:pointer;
-  color:#221a00; background:linear-gradient(180deg,#ffe08a,var(--gg-accent));
-  box-shadow:0 6px 0 #b8871f, 0 10px 18px rgba(0,0,0,.35);
-  padding:14px 30px; font-size:clamp(16px,4.6vw,22px); touch-action:manipulation;
-}
-.gg-btn:active{transform:translateY(5px); box-shadow:0 1px 0 #b8871f;}
-.gg-btn.secondary{
-  background:linear-gradient(180deg,#7c8cff,#5661d8); color:#fff; box-shadow:0 6px 0 #3b428f, 0 10px 18px rgba(0,0,0,.35);
-}
-.gg-screen{
-  position:absolute; inset:0; z-index:60; display:flex; flex-direction:column; align-items:center;
-  justify-content:center; gap:16px; text-align:center; padding:24px;
-  background:radial-gradient(circle at 50% 20%,rgba(30,36,80,.97),rgba(6,8,20,.98));
-}
-.gg-hidden{display:none !important;}
-.gg-title{font-size:clamp(24px,7vw,40px); font-weight:900; text-shadow:0 4px 0 rgba(0,0,0,.35);}
-.gg-sub{font-size:clamp(14px,4vw,18px); color:var(--gg-muted); font-weight:700; max-width:520px;}
-#gg-stars{font-size:clamp(30px,9vw,54px); letter-spacing:6px;}
-.gg-row{display:flex; gap:12px; flex-wrap:wrap; justify-content:center;}
-.gg-toast{
-  position:absolute; top:14%; left:50%; transform:translate(-50%,0); z-index:80;
-  font-weight:900; font-size:clamp(18px,6vw,28px); padding:8px 18px; border-radius:14px;
-  pointer-events:none; opacity:0; transition:all .5s ease;
-}
-.gg-toast.show{opacity:1; transform:translate(-50%,-14px);}
-.gg-toast.good{background:rgba(49,208,170,.92); color:#00281f;}
-.gg-toast.bad{background:rgba(255,107,107,.92); color:#3a0000;}
-.gg-coinburst{position:absolute; z-index:90; font-size:22px; pointer-events:none; animation:gg-fly 1s ease-out forwards;}
-@keyframes gg-fly{
-  0%{transform:translate(0,0) scale(1); opacity:1;}
-  100%{transform:translate(var(--dx,0px),-90px) scale(.5); opacity:0;}
-}
-#gg-badge-pop{
-  position:absolute; z-index:95; inset:0; display:flex; align-items:center; justify-content:center;
-  pointer-events:none;
-}
-.gg-badge-card{
-  background:linear-gradient(160deg,#2c2f66,#171935); border:2px solid var(--gg-accent); border-radius:20px;
-  padding:18px 28px; text-align:center; box-shadow:0 20px 40px rgba(0,0,0,.5); animation:gg-pop .5s ease;
-}
-@keyframes gg-pop{0%{transform:scale(.4) rotate(-8deg); opacity:0;}70%{transform:scale(1.08) rotate(2deg);} 100%{transform:scale(1) rotate(0); opacity:1;}}
-.gg-progress-wrap{width:min(320px,80vw); height:10px; border-radius:8px; background:rgba(255,255,255,.12); overflow:hidden;}
-.gg-progress-bar{height:100%; background:linear-gradient(90deg,#31d0aa,#8ec5ff); width:0%; transition:width .4s ease;}
-@media (max-height:480px){ #gg-instructions{display:none;} }
+/* HUD */
+#hud { position: fixed; top: 0; left: 0; right: 0; padding: 15px 30px; display: flex; justify-content: space-between; color: white; font-size: 1.5rem; font-weight: 900; z-index: 200; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); pointer-events: none; }
+#score-val { color: #f1c40f; }
 
-:root{ --stage-bg: radial-gradient(circle at 50% 0%,#3a2f1f,#0f1226 70%); }
+/* Question Panel */
+#q-panel { position: fixed; top: 70px; left: 0; right: 0; display: flex; justify-content: center; z-index: 150; pointer-events: none; }
+#q-text { background: rgba(0,0,0,0.7); border: 2px solid rgba(255,255,255,0.2); padding: 15px 40px; border-radius: 30px; color: white; font-size: 1.8rem; font-weight: 900; max-width: 80%; text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.5); line-height: 1.4; }
 
-#gg-arena{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:space-between; padding:70px 14px 24px;}
-#gg-prompt{font-size:clamp(18px,5.6vw,28px); font-weight:900; text-align:center; background:rgba(255,255,255,.08); border-radius:16px; padding:10px 18px; max-width:92vw;}
-#gg-target-slot{width:min(30vw,130px); height:min(30vw,130px); border-radius:24px; border:4px dashed #ffd166; display:flex; align-items:center; justify-content:center; font-size:44px; margin:8px auto; background:rgba(255,255,255,.05);}
-#gg-target-slot.filled{border-style:solid; background:linear-gradient(160deg,#ffe08a,#ffd166);}
-#gg-choices{display:flex; gap:14px; flex-wrap:wrap; justify-content:center;}
-.gg-piece{
-  min-width:96px; min-height:76px; border-radius:16px; border:none; cursor:pointer; font-weight:900;
-  background:linear-gradient(160deg,#8ea5ff,#5b6fe6); color:#fff; font-size:clamp(15px,4.2vw,19px);
-  box-shadow:0 6px 0 #38408f; padding:8px 14px;
+/* Targets Container */
+#targets { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 100; pointer-events: none; }
+.target-btn { position: absolute; transform: translate(-50%, -50%); pointer-events: auto; cursor: pointer; border: none; font-family: 'Fredoka One', cursive; font-size: 1.4rem; color: white; text-shadow: 2px 2px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; display: flex; justify-content: center; align-items: center; text-align: center; line-height: 1.2; padding: 10px; transition: filter 0.2s; }
+.target-btn:hover { filter: brightness(1.2); }
+.target-btn:disabled { cursor: not-allowed; }
+
+/* Canvas */
+canvas { display: block; position: fixed; top: 0; left: 0; z-index: 10; }
+
+/* End Screen */
+#end-screen { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 300; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; }
+#end-screen.show { display: flex; }
+#end-screen h1 { font-size: 4rem; margin-bottom: 20px; font-family: 'Fredoka One', cursive; }
+#end-screen p { font-size: 2rem; color: #f1c40f; margin-bottom: 30px; font-weight: 900; }
+#end-screen button { padding: 15px 50px; background: #e74c3c; color: white; border: none; border-radius: 40px; font-size: 1.5rem; font-weight: 900; cursor: pointer; font-family: 'Nunito', sans-serif; transition: transform 0.2s; }
+#end-screen button:hover { transform: scale(1.1); background: #c0392b; }
+
+
+body { background: #1abc9c; }
+.target-btn {
+    width: 130px; height: 130px;
+    background: radial-gradient(circle, #34495e, #2c3e50);
+    border: 6px dotted #e74c3c; border-radius: 50%;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
 }
-.gg-piece:active{transform:translateY(4px); box-shadow:0 2px 0 #38408f;}
-.gg-piece.bad{background:linear-gradient(160deg,#ff9d9d,#c94848); animation:gg-shake .4s;}
-@keyframes gg-shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-6px);}75%{transform:translateX(6px);}}
 
 </style>
 <!-- MOBILE-FIT-2027 -->
@@ -112,6 +50,16 @@ html, body { touch-action: manipulation; -webkit-tap-highlight-color: transparen
 button, .target-btn, a, [onclick] { touch-action: manipulation; }
 @media (max-width: 900px), (max-height: 520px) {
   html { font-size: clamp(11px, 3.4vmin, 16px) !important; }
+}
+</style>
+<style id="mobile-fit-2027-2a">
+@media (max-width: 900px), (max-height: 520px) {
+  .target-btn { width: clamp(56px, 15vmin, 140px) !important; height: clamp(56px, 15vmin, 140px) !important; font-size: clamp(0.7rem, 3.2vmin, 1.4rem) !important; }
+  #q-text { font-size: clamp(0.85rem, 3.4vmin, 1.8rem) !important; padding: clamp(8px,2vmin,15px) clamp(14px,4vmin,40px) !important; max-width: 94% !important; }
+  #hud { font-size: clamp(0.8rem, 3vmin, 1.5rem) !important; padding: 10px 14px !important; }
+  #end-screen h1 { font-size: clamp(1.8rem, 8vmin, 4rem) !important; }
+  #end-screen p { font-size: clamp(1.1rem, 4.5vmin, 2rem) !important; }
+  #end-screen button { padding: clamp(10px,3vmin,15px) clamp(24px,8vmin,50px) !important; font-size: clamp(0.95rem, 3.6vmin, 1.5rem) !important; }
 }
 </style>
 <!-- /MOBILE-FIT-2027-head -->
@@ -183,301 +131,203 @@ button, .target-btn, a, [onclick], .gg-target, .gg-btn { touch-action: manipulat
 <!-- /PREP-NO-TIMER-NO-SOUND-2027 -->
 </head>
 <body>
-<div id="gg-root">
-  <div id="gg-hud">
-    <div style="display:flex;gap:8px;align-items:center;">
-      <button id="gg-back">‹</button>
-      <div class="gg-pill coins">🪙 <span id="gg-coins-val">0</span></div>
-      <div class="gg-pill level">🎖️ Lv<span id="gg-level-val">1</span></div>
-    </div>
-    <button id="gg-mute">🔊</button>
-  </div>
-  <div id="gg-instructions">اقرأ السؤال واختر الإجابة الصحيحة</div>
-  <div id="gg-stage">
+
+<div id="hud">
+    <div>Burger Chef</div>
+    <div id="q-num">Q 1/25</div>
+    <div>Score: <span id="score-val">0</span></div>
+</div>
+
+<div id="q-panel"><div id="q-text"></div></div>
+
+<div id="targets"></div>
+<canvas id="cv"></canvas>
+
+<div id="end-screen">
+    <h1 id="end-title">Game Over!</h1>
+    <p id="end-score">Score: 0</p>
+    <button onclick="location.reload()">Play Again</button>
+</div>
+
+<script>
+let autoAdvanceTimer = null;
+const QS = [{"type": "mcq", "q": "You should think about the _____ and negative sides of your choices.", "choices": ["difficult", "positive", "careless"], "answer": 1}, {"type": "mcq", "q": "_____ means not caring about your actions.", "choices": ["Careless", "Responsible", "Polite"], "answer": 0}, {"type": "mcq", "q": "You should think well before taking a _____.", "choices": ["decision", "party", "success"], "answer": 0}, {"type": "mcq", "q": "My father encouraged me to be _____.", "choices": ["uncomfortable", "responsible", "negative"], "answer": 1}, {"type": "mcq", "q": "Negative means bad or _____.", "choices": ["comfortable", "hopeful", "harmful"], "answer": 2}, {"type": "mcq", "q": "All our choices have _____.", "choices": ["consequences", "mistakes", "benefits"], "answer": 0}, {"type": "mcq", "q": "A/An _____ means something you want to achieve.", "choices": ["problem", "opinion", "goal"], "answer": 2}, {"type": "mcq", "q": "_____ bad choices means we don't think carefully.", "choices": ["Making", "Behaving", "Doing"], "answer": 0}, {"type": "mcq", "q": "We should _____ the consequences before we decide.", "choices": ["evaluate", "want", "take"], "answer": 0}, {"type": "mcq", "q": "What are the _____ of eating healthy food?", "choices": ["mistakes", "dangers", "benefits"], "answer": 2}, {"type": "mcq", "q": "You should _____ well with people.", "choices": ["behaving", "behaved", "behave"], "answer": 2}, {"type": "mcq", "q": "When we are _____, we think about how our actions affect others.", "choices": ["careless", "responsible", "negative"], "answer": 1}, {"type": "mcq", "q": "It is important to consider the _____ sides of a problem.", "choices": ["careless", "positive", "harmful"], "answer": 1}, {"type": "mcq", "q": "A bad choice can be _____ to your future.", "choices": ["hopeful", "harmful", "positive"], "answer": 1}, {"type": "mcq", "q": "To _____ a choice is to think about its good and bad points.", "choices": ["ignore", "make", "evaluate"], "answer": 2}, {"type": "mcq", "q": "We must be careful not to make _____ mistakes.", "choices": ["foolish", "smart", "wise"], "answer": 0}, {"type": "mcq", "q": "A _____ is a choice that you make after thinking.", "choices": ["consequence", "goal", "decision"], "answer": 2}, {"type": "mcq", "q": "A _____ consequence is a bad result of an action.", "choices": ["hopeful", "positive", "negative"], "answer": 2}, {"type": "mcq", "q": "A _____ consequence is a good result of an action.", "choices": ["negative", "positive", "harmful"], "answer": 1}, {"type": "mcq", "q": "Taking a good _____ helps you achieve your goals.", "choices": ["decision", "problem", "mistake"], "answer": 0}, {"type": "mcq", "q": "Careless driving can cause terrible _____.", "choices": ["consequences", "goals", "benefits"], "answer": 0}, {"type": "mcq", "q": "You should set a _____ for your studies this year.", "choices": ["mistake", "carelessness", "goal"], "answer": 2}, {"type": "mcq", "q": "_____ means producing a good or helpful result.", "choices": ["Harmful", "Negative", "Positive"], "answer": 2}, {"type": "mcq", "q": "He was very _____ when he broke the window and didn't apologize.", "choices": ["careless", "polite", "responsible"], "answer": 0}, {"type": "mcq", "q": "I felt very _____ about passing the exam.", "choices": ["harmful", "negative", "hopeful"], "answer": 2}];
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+cv.width = window.innerWidth; cv.height = window.innerHeight;
+window.addEventListener('resize', () => { cv.width = window.innerWidth; cv.height = window.innerHeight; });
+
+const AC = new (window.AudioContext||window.webkitAudioContext)();
+function tone(f,d,t='sine',v=0.4){
+    if(AC.state==='suspended') AC.resume();
+    const o=AC.createOscillator(),g=AC.createGain();
+    o.connect(g);g.connect(AC.destination);
+    o.type=t;o.frequency.value=f;
+    g.gain.setValueAtTime(v,AC.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+d);
+    o.start();o.stop(AC.currentTime+d);
+}
+function sndCorrect(){ tone(523,.1); setTimeout(()=>tone(784,.3),100); }
+function sndWrong(){ tone(150,.6,'sawtooth'); setTimeout(()=>tone(100,.6,'sawtooth'),150); }
+function sndShoot(){ tone(300,.1,'square',0.1); }
+
+let qIdx = 0, score = 0, locked = false;
+let particles = [];
+
+function loadQ() {
+    if(qIdx >= QS.length) { showEndScreen(); return; }
+    const q = QS[qIdx];
+    locked = false;
+    document.getElementById('q-text').textContent = q.q;
+    document.getElementById('q-num').textContent = `Q ${qIdx+1}/${QS.length}`;
     
-<div style="display:flex;align-items:center;gap:10px;position:absolute;top:calc(env(safe-area-inset-top,0px) + 54px);left:0;right:0;z-index:35;padding:0 14px;justify-content:space-between;">
-  <div class="gg-progress-wrap"><div class="gg-progress-bar" id="gg-progress-bar"></div></div>
-  <div id="gg-lives" style="font-size:16px;white-space:nowrap;">❤️❤️❤️</div>
-</div>
-
-<div id="gg-start" class="gg-screen">
-  <div style="font-size:54px;">🧱</div>
-  <div class="gg-title">Burger Chef</div>
-  <div class="gg-sub">العب وتعلّم مع المكافآت!</div>
-  <button class="gg-btn" id="gg-start-btn">ابدأ البناء ▶</button>
-</div>
-
-<div id="gg-arena">
-  <div id="gg-prompt"></div>
-  <div id="gg-target-slot">🧩</div>
-  <div id="gg-choices"></div>
-</div>
-
-    <div id="gg-badge-pop" class="gg-hidden"></div>
-  </div>
-</div>
-
-<div id="gg-result" class="gg-screen gg-hidden">
-  <div class="gg-title" id="gg-result-title">أحسنت! 🎉</div>
-  <div id="gg-stars">☆☆☆</div>
-  <div class="gg-sub" id="gg-result-sub">0 / 0</div>
-  <div class="gg-pill coins" id="gg-coins-earned" style="font-size:20px;">+0 🪙</div>
-  <div class="gg-row">
-    <button class="gg-btn" id="gg-replay">العب مرة أخرى 🔁</button>
-  </div>
-</div>
-
-<script>
-
-// ============================================================
-//  GG27 — نظام المكافآت الموحّد (نقاط/نجوم/عملات/شارات/مستويات)
-// ============================================================
-const GG27 = (function(){
-  const KEY = 'gg27_profile_v1';
-  function _load(){
-    try { return JSON.parse(localStorage.getItem(KEY)) || _fresh(); }
-    catch(e){ return _fresh(); }
-  }
-  function _fresh(){
-    return { coins:0, xp:0, level:1, badges:{}, streak:0, lastDate:'', lessons:{} };
-  }
-  function _save(p){ try{ localStorage.setItem(KEY, JSON.stringify(p)); }catch(e){} }
-  function _levelFor(xp){ return Math.max(1, Math.floor(xp/150)+1); }
-
-  function today(){ return new Date().toISOString().slice(0,10); }
-
-  function bumpStreak(p){
-    const t = today();
-    if(p.lastDate === t) return;
-    const y = new Date(Date.now()-86400000).toISOString().slice(0,10);
-    p.streak = (p.lastDate === y) ? (p.streak||0)+1 : 1;
-    p.lastDate = t;
-  }
-
-  function recordResult(lessonKey, res){
-    // res = { stars, score, total, coins }
-    const p = _load();
-    bumpStreak(p);
-    const prev = p.lessons[lessonKey] || { stars:0, best:0, plays:0, coins:0 };
-    prev.stars = Math.max(prev.stars, res.stars||0);
-    prev.best  = Math.max(prev.best, res.score||0);
-    prev.plays = (prev.plays||0)+1;
-    prev.coins = (prev.coins||0) + (res.coins||0);
-    p.lessons[lessonKey] = prev;
-    p.coins = (p.coins||0) + (res.coins||0);
-    p.xp = (p.xp||0) + (res.coins||0) + (res.stars||0)*10;
-    const newLevel = _levelFor(p.xp);
-    const leveledUp = newLevel > p.level;
-    p.level = newLevel;
-    const newBadges = [];
-    if(res.stars>=3 && !p.badges['perfect_'+lessonKey]){ p.badges['perfect_'+lessonKey]=true; newBadges.push('نجمة كاملة ⭐'); }
-    if(prev.plays===1 && !p.badges['first_'+lessonKey]){ p.badges['first_'+lessonKey]=true; }
-    if(p.streak===3 && !p.badges['streak3']){ p.badges['streak3']=true; newBadges.push('3 أيام متتالية 🔥'); }
-    if(p.streak===7 && !p.badges['streak7']){ p.badges['streak7']=true; newBadges.push('أسبوع كامل 🔥🔥'); }
-    if(Object.keys(p.lessons).length===5 && !p.badges['five']){ p.badges['five']=true; newBadges.push('٥ ألعاب مكتملة 🏅'); }
-    _save(p);
-    return { profile:p, leveledUp, newBadges };
-  }
-  function profile(){ return _load(); }
-  function coins(){ return _load().coins||0; }
-  function level(){ return _load().level||1; }
-  function isMuted(){ try{ return localStorage.getItem('gg27_muted')==='1'; }catch(e){ return false; } }
-  function setMuted(v){ try{ localStorage.setItem('gg27_muted', v?'1':'0'); }catch(e){} }
-  return { recordResult, profile, coins, level, isMuted, setMuted };
-})();
-
-// ============================================================
-//  محرك صوت بسيط (Web Audio) — بدون أي ملفات خارجية
-// ============================================================
-const GGSound = (function(){
-  let ctx=null;
-  function c(){ if(!ctx) ctx = new (window.AudioContext||window.webkitAudioContext)(); if(ctx.state==='suspended') ctx.resume(); return ctx; }
-  function beep(freq,type,dur,vol,t0){
-    if(GG27.isMuted()) return;
-    try{
-      const ac=c(); const o=ac.createOscillator(); const g=ac.createGain();
-      o.connect(g); g.connect(ac.destination); o.type=type||'sine';
-      o.frequency.setValueAtTime(freq, ac.currentTime+(t0||0));
-      g.gain.setValueAtTime(vol||.25, ac.currentTime+(t0||0));
-      g.gain.exponentialRampToValueAtTime(.001, ac.currentTime+(t0||0)+dur);
-      o.start(ac.currentTime+(t0||0)); o.stop(ac.currentTime+(t0||0)+dur+.02);
-    }catch(e){}
-  }
-  return {
-    correct(){ beep(523,'sine',.12,.3); beep(659,'sine',.12,.3,.09); beep(880,'sine',.18,.3,.18); },
-    wrong(){ beep(220,'sawtooth',.18,.25); beep(160,'sawtooth',.22,.2,.12); },
-    coin(){ beep(988,'square',.08,.18); beep(1318,'square',.1,.18,.06); },
-    tap(){ beep(700,'square',.05,.12); },
-    win(){ [523,659,784,1047].forEach((f,i)=>beep(f,'sine',.16,.3,i*.11)); },
-    lose(){ beep(311,'sawtooth',.3,.3); beep(196,'sawtooth',.5,.3,.22); },
-    badge(){ beep(784,'triangle',.15,.3); beep(1047,'triangle',.2,.3,.12); }
-  };
-})();
-
-function ggSpeak(text, lang){
-  try{
-    if(!window.speechSynthesis) return;
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = lang || 'en-US'; u.rate = .92; u.pitch = 1.05;
-    window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(u);
-  }catch(e){}
-}
-function ggShuffle(arr){
-  const a=arr.slice();
-  for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
-  return a;
-}
-function ggVibrate(ms){ try{ if(navigator.vibrate) navigator.vibrate(ms); }catch(e){} }
-
-function ggCoinBurst(x,y,n){
-  const root = document.getElementById('gg-stage');
-  if(!root) return;
-  for(let i=0;i<(n||3);i++){
-    const s = document.createElement('div');
-    s.className='gg-coinburst'; s.textContent='🪙';
-    s.style.left=(x)+'px'; s.style.top=(y)+'px';
-    s.style.setProperty('--dx', ((Math.random()*80)-40)+'px');
-    root.appendChild(s);
-    setTimeout(()=>s.remove(), 1000);
-  }
+    const container = document.getElementById('targets');
+    container.innerHTML = '';
+    
+    let choices = [...q.choices];
+    while(choices.length < 3) choices.push('...');
+    choices = choices.slice(0, 3);
+    const correctText = q.choices[q.answer] || q.choices[0];
+    
+    const labeled = choices.map(c => ({ text: c, isCorrect: c === correctText }));
+    labeled.sort(() => Math.random() - 0.5); 
+    
+    labeled.forEach((item, i) => {
+        if(!item.text) return;
+        const btn = document.createElement('button');
+        btn.className = 'target-btn';
+        btn.textContent = item.text;
+        btn.onclick = () => handleChoice(btn, item.isCorrect, i);
+        container.appendChild(btn);
+        gameInitTarget(btn, i, labeled.length);
+    });
+    
+    if(typeof gameOnLoadQ === 'function') gameOnLoadQ();
 }
 
-function ggToast(msg, kind){
-  const stage = document.getElementById('gg-stage');
-  if(!stage) return;
-  const t = document.createElement('div');
-  t.className = 'gg-toast ' + (kind||'good');
-  t.textContent = msg;
-  stage.appendChild(t);
-  requestAnimationFrame(()=>t.classList.add('show'));
-  setTimeout(()=>{ t.classList.remove('show'); setTimeout(()=>t.remove(),400); }, 900);
+function handleChoice(btn, isCorrect, index) {
+    if(locked) return;
+    locked = true;
+    document.querySelectorAll('.target-btn').forEach(b => b.disabled = true);
+    
+    const rect = btn.getBoundingClientRect();
+    const tx = rect.left + rect.width / 2;
+    const ty = rect.top + rect.height / 2;
+    
+    gameAnimateAction(tx, ty, isCorrect, btn, () => {
+        if(isCorrect) {
+            score += 100;
+            document.getElementById('score-val').textContent = score;
+            sndCorrect();
+            createParticles(tx, ty, '#2ecc71', 30);
+            btn.style.transform += ' scale(0)';
+        } else {
+            sndWrong();
+            createParticles(tx, ty, '#e74c3c', 30);
+            btn.style.transform += ' scale(0)';
+            document.querySelectorAll('.target-btn').forEach(b => {
+                if(b !== btn) b.style.opacity = '0.3';
+            });
+        }
+        clearTimeout(autoAdvanceTimer); autoAdvanceTimer = setTimeout(() => { qIdx++; loadQ(); }, isCorrect ? 1000 : 1500);
+    });
 }
 
-function ggInitHud(opts){
-  document.getElementById('gg-coins-val').textContent = GG27.coins();
-  document.getElementById('gg-level-val').textContent = GG27.level();
-  const muteBtn = document.getElementById('gg-mute');
-  function refreshMute(){ muteBtn.textContent = GG27.isMuted() ? '🔇' : '🔊'; }
-  refreshMute();
-  muteBtn.onclick = () => { GG27.setMuted(!GG27.isMuted()); refreshMute(); GGSound.tap(); };
-  document.getElementById('gg-back').onclick = () => {
-    if (opts && opts.homeHref) { location.href = opts.homeHref; }
-    else if (document.referrer) { history.back(); }
-    else { history.back(); }
-  };
+function createParticles(x, y, color, count) {
+    for(let i=0; i<count; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 8 + 2;
+        particles.push({
+            x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed,
+            life: 1, color, size: Math.random() * 5 + 3
+        });
+    }
 }
 
-function ggShowResult(opts){
-  // opts = { correct, total, coinsEarned, lessonKey, titleWin, titleLose, onReplay }
-  const total = Math.max(1, opts.total);
-  const ratio = opts.correct / total;
-  const stars = ratio >= .95 ? 3 : ratio >= .7 ? 2 : ratio > 0 ? 1 : 0;
-  const rec = GG27.recordResult(opts.lessonKey, { stars, score:opts.correct, total, coins:opts.coinsEarned });
-  const scr = document.getElementById('gg-result');
-  scr.classList.remove('gg-hidden');
-  document.getElementById('gg-result-title').textContent = stars>=2 ? (opts.titleWin||'أحسنت! 🎉') : (opts.titleLose||'حاول مرة أخرى 💪');
-  document.getElementById('gg-result-sub').textContent = `${opts.correct} / ${total} إجابة صحيحة`;
-  document.getElementById('gg-stars').textContent = '⭐'.repeat(stars) + '☆'.repeat(3-stars);
-  document.getElementById('gg-coins-earned').textContent = '+' + opts.coinsEarned + ' 🪙';
-  document.getElementById('gg-coins-val').textContent = rec.profile.coins;
-  document.getElementById('gg-level-val').textContent = rec.profile.level;
-  if(!GG27.isMuted()){ (stars>=2 ? GGSound.win : GGSound.lose)(); }
-  if(rec.newBadges && rec.newBadges.length){
-    setTimeout(()=>{
-      const pop = document.getElementById('gg-badge-pop');
-      pop.innerHTML = `<div class="gg-badge-card"><div style="font-size:15px;color:var(--gg-muted);font-weight:800;">شارة جديدة</div><div style="font-size:22px;font-weight:900;margin-top:6px;">${rec.newBadges[0]}</div></div>`;
-      pop.classList.remove('gg-hidden'); GGSound.badge(); ggVibrate(40);
-      setTimeout(()=>pop.classList.add('gg-hidden'), 1800);
-    }, 500);
-  }
-  document.getElementById('gg-replay').onclick = () => { scr.classList.add('gg-hidden'); if(opts.onReplay) opts.onReplay(); };
+function updateAndDrawParticles() {
+    particles = particles.filter(p => p.life > 0);
+    particles.forEach(p => {
+        p.x += p.vx; p.y += p.vy; p.vy += 0.2; 
+        p.life -= 0.02;
+        ctx.globalAlpha = Math.max(0, p.life);
+        ctx.fillStyle = p.color;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
+        ctx.globalAlpha = 1;
+    });
 }
 
-ggInitHud({});
-const LESSON_KEY = "prep1-unit4-Lesson 1 - Burger Chef.html";
-const SPEAK_LANG = "en-US";
-</script>
-<script>
-
-// ---------- منطق مشترك بين كل المحركات ----------
-function ggBuildRounds(raw, maxRounds){
-  const rs = ggShuffle(raw).slice(0, maxRounds || 8);
-  return rs.map(r => {
-    const correctText = r.choices[r.correct];
-    const order = ggShuffle(r.choices.map((c,i)=>i));
-    return { prompt:r.prompt, choices: order.map(i=>r.choices[i]), correct: order.indexOf(r.correct), speak_word:r.speak_word };
-  });
-}
-let GG_STATE = { i:0, rounds:[], correct:0, lives:3, coins:0, perfect:true, meta:null };
-
-function ggStartSession(meta){
-  GG_STATE = { i:0, rounds: ggBuildRounds(meta.rawRounds, meta.maxRounds||8), correct:0, lives:3, coins:0, perfect:true, meta };
-  document.getElementById('gg-progress-bar').style.width='0%';
-  ggRenderRound();
-}
-function ggProgressUpdate(){
-  const p = Math.round((GG_STATE.i)/GG_STATE.rounds.length*100);
-  const bar = document.getElementById('gg-progress-bar'); if(bar) bar.style.width = p+'%';
-}
-function ggEndSession(){
-  const coinsEarned = GG_STATE.coins + (GG_STATE.perfect ? 15 : 0);
-  ggShowResult({
-    correct: GG_STATE.correct, total: GG_STATE.rounds.length, coinsEarned,
-    lessonKey: LESSON_KEY,
-    onReplay: () => ggStartSession(GG_STATE.meta)
-  });
-}
-function ggRegisterAnswer(isCorrect, elCoinOriginEvent){
-  if(isCorrect){
-    GG_STATE.correct++; GG_STATE.coins += 10; GGSound.correct(); ggVibrate(15);
-    ggToast('صح! 🎉','good');
-    try{
-      const ev = elCoinOriginEvent;
-      const x = (ev && ev.touches && ev.touches[0]) ? ev.touches[0].clientX : (ev? ev.clientX : window.innerWidth/2);
-      const y = (ev && ev.touches && ev.touches[0]) ? ev.touches[0].clientY : (ev? ev.clientY : window.innerHeight/2);
-      ggCoinBurst(x,y,3);
-    }catch(e){}
-  } else {
-    GG_STATE.perfect = false; GG_STATE.lives--; GGSound.wrong(); ggVibrate([20,30,20]);
-    ggToast('حاول تاني','bad');
-  }
-  const lv = document.getElementById('gg-lives'); if(lv) lv.textContent = '❤️'.repeat(Math.max(0,GG_STATE.lives)) + '🖤'.repeat(3-Math.max(0,GG_STATE.lives));
-  GG_STATE.i++;
-  ggProgressUpdate();
-  setTimeout(()=>{
-    if(GG_STATE.lives<=0 || GG_STATE.i >= GG_STATE.rounds.length){ ggEndSession(); }
-    else { ggRenderRound(); }
-  }, isCorrect ? 750 : 900);
+function showEndScreen() {
+    document.getElementById('end-screen').classList.add('show');
+    document.getElementById('end-title').textContent = score >= (QS.length*70) ? 'Awesome!' : 'Good Effort!';
+    document.getElementById('end-score').textContent = `Final Score: ${score}`;
 }
 
-const META = {"speak": true, "maxRounds": 10, "rawRounds": [{"prompt": "You should think about the _____ and negative sides of your choices.", "choices": ["difficult", "positive", "careless"], "correct": 1}, {"prompt": "_____ means not caring about your actions.", "choices": ["Careless", "Responsible", "Polite"], "correct": 0}, {"prompt": "You should think well before taking a _____.", "choices": ["decision", "party", "success"], "correct": 0}, {"prompt": "My father encouraged me to be _____.", "choices": ["uncomfortable", "responsible", "negative"], "correct": 1}, {"prompt": "Negative means bad or _____.", "choices": ["comfortable", "hopeful", "harmful"], "correct": 2}, {"prompt": "All our choices have _____.", "choices": ["consequences", "mistakes", "benefits"], "correct": 0}, {"prompt": "A/An _____ means something you want to achieve.", "choices": ["problem", "opinion", "goal"], "correct": 2}, {"prompt": "_____ bad choices means we don't think carefully.", "choices": ["Making", "Behaving", "Doing"], "correct": 0}, {"prompt": "We should _____ the consequences before we decide.", "choices": ["evaluate", "want", "take"], "correct": 0}, {"prompt": "What are the _____ of eating healthy food?", "choices": ["mistakes", "dangers", "benefits"], "correct": 2}, {"prompt": "You should _____ well with people.", "choices": ["behaving", "behaved", "behave"], "correct": 2}, {"prompt": "When we are _____, we think about how our actions affect others.", "choices": ["careless", "responsible", "negative"], "correct": 1}, {"prompt": "It is important to consider the _____ sides of a problem.", "choices": ["careless", "positive", "harmful"], "correct": 1}, {"prompt": "A bad choice can be _____ to your future.", "choices": ["hopeful", "harmful", "positive"], "correct": 1}, {"prompt": "To _____ a choice is to think about its good and bad points.", "choices": ["ignore", "make", "evaluate"], "correct": 2}, {"prompt": "We must be careful not to make _____ mistakes.", "choices": ["foolish", "smart", "wise"], "correct": 0}, {"prompt": "A _____ is a choice that you make after thinking.", "choices": ["consequence", "goal", "decision"], "correct": 2}, {"prompt": "A _____ consequence is a bad result of an action.", "choices": ["hopeful", "positive", "negative"], "correct": 2}, {"prompt": "A _____ consequence is a good result of an action.", "choices": ["negative", "positive", "harmful"], "correct": 1}, {"prompt": "Taking a good _____ helps you achieve your goals.", "choices": ["decision", "problem", "mistake"], "correct": 0}, {"prompt": "Careless driving can cause terrible _____.", "choices": ["consequences", "goals", "benefits"], "correct": 0}, {"prompt": "You should set a _____ for your studies this year.", "choices": ["mistake", "carelessness", "goal"], "correct": 2}, {"prompt": "_____ means producing a good or helpful result.", "choices": ["Harmful", "Negative", "Positive"], "correct": 2}, {"prompt": "He was very _____ when he broke the window and didn't apologize.", "choices": ["careless", "polite", "responsible"], "correct": 0}, {"prompt": "I felt very _____ about passing the exam.", "choices": ["harmful", "negative", "hopeful"], "correct": 2}]};
-function ggRenderRound(){
-  const r = GG_STATE.rounds[GG_STATE.i];
-  document.getElementById('gg-prompt').textContent = r.prompt;
-  if(META.speak) ggSpeak(r.speak_word || r.prompt, SPEAK_LANG);
-  const slot = document.getElementById('gg-target-slot'); slot.textContent='🧩'; slot.classList.remove('filled');
-  const wrap = document.getElementById('gg-choices'); wrap.innerHTML='';
-  r.choices.forEach((c,idx)=>{
-    const b = document.createElement('button'); b.className='gg-piece'; b.textContent=c;
-    b.onclick = (ev)=>{
-      if(wrap.dataset.locked) return;
-      const ok = idx===r.correct;
-      if(ok){ wrap.dataset.locked='1'; slot.textContent=c; slot.classList.add('filled'); Array.from(wrap.children).forEach(x=>x.disabled=true); }
-      else { b.classList.add('bad'); setTimeout(()=>b.classList.remove('bad'),400); }
-      ggRegisterAnswer(ok, ev);
-    };
-    wrap.appendChild(b);
-  });
+function mainLoop() {
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    try { gameDrawBackground(); gameDrawForeground(); } catch (frameError) { console.warn('Gameplay frame recovered', frameError); }
+    updateAndDrawParticles();
+    requestAnimationFrame(mainLoop);
 }
 
-document.getElementById('gg-start-btn').onclick = function(){
-  document.getElementById('gg-start').classList.add('gg-hidden');
-  
-  ggStartSession(META);
-  GGSound.tap();
-};
 
+let torpedo = null;
+let bgTime = 0;
+function gameInitTarget(btn, i, total) {
+    const spacing = window.innerWidth / (total + 1);
+    btn.dataset.baseX = spacing * (i + 1);
+    btn.dataset.baseY = window.innerHeight * 0.4;
+    btn.style.left = btn.dataset.baseX + 'px';
+    btn.style.top = btn.dataset.baseY + 'px';
+}
+function gameOnLoadQ() { torpedo = null; }
+function gameAnimateAction(tx, ty, isCorrect, btn, cb) {
+    sndShoot();
+    torpedo = { x: cv.width/2, y: cv.height - 100, tx, ty, cb };
+}
+function gameDrawBackground() {
+    bgTime++;
+    // Float targets slightly
+    if(!locked) {
+        document.querySelectorAll('.target-btn').forEach((btn, i) => {
+            const bx = parseFloat(btn.dataset.baseX);
+            const by = parseFloat(btn.dataset.baseY);
+            btn.style.top = (by + Math.sin(bgTime * 0.05 + i) * 15) + 'px';
+        });
+    }
+    // Submarine
+    ctx.save();
+    ctx.translate(cv.width/2, cv.height - 50);
+    ctx.fillStyle = '#f1c40f'; ctx.beginPath(); ctx.ellipse(0, 0, 100, 40, 0, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#e67e22'; ctx.fillRect(-20, -60, 40, 40);
+    ctx.fillStyle = '#bdc3c7'; ctx.beginPath(); ctx.arc(10, -70, 10, 0, Math.PI*2); ctx.fill();
+    ctx.restore();
+}
+function gameDrawForeground() {
+    if(torpedo) {
+        const dx = torpedo.tx - torpedo.x;
+        const dy = torpedo.ty - torpedo.y;
+        const angle = Math.atan2(dy, dx);
+        torpedo.x += Math.cos(angle) * 15;
+        torpedo.y += Math.sin(angle) * 15;
+        
+        ctx.save();
+        ctx.translate(torpedo.x, torpedo.y);
+        ctx.rotate(angle);
+        ctx.fillStyle = '#bdc3c7'; ctx.fillRect(-15, -5, 30, 10);
+        ctx.fillStyle = '#e74c3c'; ctx.beginPath(); ctx.arc(15, 0, 5, -Math.PI/2, Math.PI/2); ctx.fill();
+        ctx.restore();
+        
+        // bubbles
+        createParticles(torpedo.x, torpedo.y, 'rgba(255,255,255,0.5)', 1);
+        
+        if(Math.hypot(dx, dy) < 15) {
+            torpedo.cb(); torpedo = null;return;
+        }
+    }
+}
+
+loadQ();
+mainLoop();
 </script>
 <!-- MOBILE-FIT-2027-body -->
 <script id="mobile-fit-2027-js">
@@ -514,5 +364,8 @@ document.getElementById('gg-start-btn').onclick = function(){
   } catch(err) {}
 })();
 </script>
+<!-- GAMEPLAY-LOOP-SAFETY-2027 -->
+<!-- CALLBACK-NULL-RESET-GUARD-2027 -->
+<!-- PREP1-ACTION-GAMEPLAY-RESTORED-2027; source=META.rawRounds from Lesson_1_-_Burger_Chef.html; template=Lesson1_Submarine.html -->
 </body>
 </html>
