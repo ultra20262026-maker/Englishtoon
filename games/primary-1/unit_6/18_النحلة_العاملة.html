@@ -58,6 +58,8 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
         <button class="start" onclick="startGame()">العب!</button>
     </div>
     <script>
+let autoAdvanceTimer = null; // PRIMARY-AUTO-TIMER-FIX-2027
+
         
 const wordsData = [
   { word: "lion", image: "🦁", type: "emoji" },
@@ -184,5 +186,6 @@ function speak(text) {
 <!-- PRIMARY-MOBILE-FIT-2027-GLOBAL-JS -->
 <script id="primary-mobile-fit-2027-global-js">(function(){'use strict';var ids=[],last=0;function fit(){try{window.dispatchEvent(new Event('resize'))}catch(e){}}function schedule(){ids.forEach(clearTimeout);ids=[80,320,800].map(function(n){return setTimeout(fit,n)})}window.addEventListener('orientationchange',schedule,{passive:true});window.addEventListener('resize',function(){document.documentElement.style.setProperty('--safe-vh',(window.innerHeight*.01)+'px')},{passive:true});document.addEventListener('visibilitychange',function(){if(!document.hidden)schedule()},{passive:true});if(window.visualViewport)window.visualViewport.addEventListener('resize',schedule,{passive:true});document.addEventListener('touchend',function(e){var n=Date.now();if(n-last<280)e.preventDefault();last=n},{passive:false});schedule()})();</script>
 <!-- /PRIMARY-MOBILE-FIT-2027-GLOBAL-JS -->
+<!-- PRIMARY-AUTO-TIMER-FIX-2027 -->
 </body>
 </html>
