@@ -165,13 +165,12 @@ body{background:#1a0a2e;color:white;font-family:'Nunito',sans-serif;overflow:hid
         overflow: visible !important;
         position: relative !important;
         transform: none !important;
-        left: auto !important;
-        top: auto !important;
+        /* preserve animated inline left/top coordinates */
     }
     .target-btn:hover, .choice-btn:hover, .option-btn:hover { background-color: #f8f9fa !important; border-color: #ddd !important; }
     
     /* Ensure choice containers don't overlap */
-    #targets, #choices, #options-container {
+    #targets, #choices, #options-container, #tg {
         display: flex !important;
         flex-direction: column !important;
         align-items: center !important;
@@ -248,14 +247,13 @@ body{background:#1a0a2e;color:white;font-family:'Nunito',sans-serif;overflow:hid
         color: #333 !important;
         border: 2px solid #ddd !important;
         position: relative !important;
-        left: auto !important;
-        top: auto !important;
+        /* preserve animated inline left/top coordinates */
         transform: none !important;
         z-index: 100 !important;
         pointer-events: auto !important;
     }
     
-    #targets, #choices, #options-container {
+    #targets, #choices, #options-container, #tg {
         display: flex !important;
         flex-direction: column !important;
         align-items: center !important;
@@ -322,6 +320,83 @@ body{background:#1a0a2e;color:white;font-family:'Nunito',sans-serif;overflow:hid
 })();
 </script>
 <!-- /PREP-NO-TIMER-NO-SOUND-2027 -->
+<style id="PREP-HORIZONTAL-CHOICES-2027">
+/* Horizontal, high-contrast action targets for mobile. Keep absolute positions so each template's animation remains active. */
+#targets, #choices, #options-container, #tg {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  display: block !important;
+  pointer-events: none !important;
+  z-index: 160 !important;
+}
+#targets .target-btn, #choices .target-btn, #options-container .target-btn, #tg .tbtn {
+  position: absolute !important;
+  transform: translate(-50%, -50%) !important;
+  width: clamp(74px, 22vw, 140px) !important;
+  max-width: 24vw !important;
+  min-width: 0 !important;
+  height: clamp(58px, 13vh, 132px) !important;
+  max-height: 18vh !important;
+  margin: 0 !important;
+  padding: clamp(5px, 1.4vmin, 12px) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  overflow-wrap: anywhere !important;
+  white-space: normal !important;
+  line-height: 1.1 !important;
+  font-size: clamp(.68rem, 2.7vmin, 1.12rem) !important;
+  font-weight: 900 !important;
+  color: #ffffff !important;
+  text-shadow: 0 2px 3px #000000, 0 0 2px #000000 !important;
+  background: linear-gradient(135deg, #0b2f6b 0%, #1261c9 100%) !important;
+  border: 3px solid #ffe36e !important;
+  border-radius: 16px !important;
+  box-shadow: 0 0 0 2px rgba(0,0,0,.72), 0 0 18px rgba(255,227,110,.48) !important;
+  pointer-events: auto !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  z-index: 170 !important;
+}
+#targets .target-btn:hover, #targets .target-btn:focus-visible, #tg .tbtn:hover, #tg .tbtn:focus-visible,
+#choices .target-btn:hover, #choices .target-btn:focus-visible,
+#options-container .target-btn:hover, #options-container .target-btn:focus-visible, #tg .tbtn:active {
+  background: linear-gradient(135deg, #1d8cff 0%, #34d7ff 100%) !important;
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+  outline: 3px solid #111827 !important;
+  outline-offset: 2px !important;
+  filter: brightness(1.12) !important;
+}
+#targets .target-btn.selected, #choices .target-btn.selected, #options-container .target-btn.selected, #tg .tbtn.selected {
+  background: linear-gradient(135deg, #ffe600 0%, #ff9800 100%) !important;
+  color: #111827 !important;
+  border-color: #ffffff !important;
+  text-shadow: none !important;
+  box-shadow: 0 0 0 3px #111827, 0 0 26px #ffe600 !important;
+  transform: translate(-50%, -50%) scale(.94) !important;
+  filter: none !important;
+}
+#targets .target-btn:disabled, #choices .target-btn:disabled, #options-container .target-btn:disabled, #tg .tbtn:disabled {
+  opacity: 1 !important;
+  filter: none !important;
+}
+@media (max-width: 420px) {
+  #targets .target-btn, #choices .target-btn, #options-container .target-btn, #tg .tbtn {
+    width: clamp(72px, 22vw, 104px) !important;
+    height: clamp(54px, 10vh, 92px) !important;
+    max-width: 24vw !important;
+    font-size: clamp(.62rem, 2.8vmin, .9rem) !important;
+    border-width: 2px !important;
+    border-radius: 12px !important;
+  }
+}
+</style>
 </head>
 
 
@@ -396,7 +471,9 @@ function loadQ(){
 }
 
 function pick(btn,good,i){
-  if(locked)return;locked=true;
+  if(locked)return;
+  btn.classList.add('selected');
+  locked=true;
   document.querySelectorAll('.tbtn').forEach(b=>b.disabled=true);
   const r=btn.getBoundingClientRect();const tx=r.left+r.width/2,ty=r.top+r.height/2;
   doShoot(tx,ty,good,btn,()=>{
