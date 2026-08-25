@@ -111,6 +111,23 @@ button, .target-btn, a, [onclick], .gg-target, .gg-btn { touch-action: manipulat
     }
 })();
 </script>
+<!-- PREP-NO-TIMER-NO-SOUND-2027 -->
+<style id="prep-no-timer-no-sound-2027">
+/* User-requested middle-school mode: no visible timer, sound, or speech. */
+.timer,#timer,[id*="timer" i],[class*="timer" i],.time-display,#time-display,#timerBar,.timer-bar,.time-bar,.timer-container,#bigTimer,.big-timer,[id*="mute" i],[id*="sound" i],#gg-mute,#mute-btn,#soundToggle,#soundButton,.sound-btn,.mute-btn{display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important}
+</style>
+<script id="prep-no-timer-no-sound-2027-js">
+(function(){'use strict';
+  try{if(window.speechSynthesis){window.speechSynthesis.cancel();window.speechSynthesis.speak=function(){};}}catch(e){}
+  try{var AC0=window.AudioContext||window.webkitAudioContext;if(AC0&&!AC0.__prepSilent){
+    function SilentAudioContext(){var c=new AC0();var cg=c.createGain.bind(c);c.createGain=function(){var g=cg();try{g.gain.value=0;g.gain.setValueAtTime=function(){return g.gain};g.gain.linearRampToValueAtTime=function(){return g.gain};g.gain.exponentialRampToValueAtTime=function(){return g.gain};g.gain.setTargetAtTime=function(){return g.gain};}catch(e){}return g;};return c;}
+    SilentAudioContext.prototype=AC0.prototype;SilentAudioContext.__prepSilent=true;window.AudioContext=window.webkitAudioContext=SilentAudioContext;
+  }}catch(e){}
+  try{if(window.HTMLMediaElement){HTMLMediaElement.prototype.play=function(){try{this.muted=true;this.volume=0;}catch(e){}return Promise.resolve();};}}catch(e){}
+  document.addEventListener('DOMContentLoaded',function(){try{document.querySelectorAll('audio,video').forEach(function(x){x.muted=true;x.volume=0;});}catch(e){}});
+})();
+</script>
+<!-- /PREP-NO-TIMER-NO-SOUND-2027 -->
 </head>
 <body>
 

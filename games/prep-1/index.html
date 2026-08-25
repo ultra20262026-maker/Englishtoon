@@ -430,7 +430,7 @@ const GG27 = (function(){
 // ============================================================
 const GGSound = (function(){
   let ctx=null;
-  function c(){ if(!ctx) ctx = ({ state: "suspended", resume: () => {}, createOscillator: () => ({ connect: () => {}, start: () => {}, stop: () => {}, frequency: { setValueAtTime: () => {} } }), createGain: () => ({ connect: () => {}, gain: { setValueAtTime: () => {}, exponentialRampToValueAtTime: () => {} } }), destination: {} }) if(ctx.state==='suspended') ctx.resume(); return ctx; }
+  function c(){ if(!ctx) ctx = ({ state: "suspended", resume: () => {}, createOscillator: () => ({ connect: () => {}, start: () => {}, stop: () => {}, frequency: { setValueAtTime: () => {} } }), createGain: () => ({ connect: () => {}, gain: { setValueAtTime: () => {}, exponentialRampToValueAtTime: () => {} } }), destination: {} }); if(ctx.state==='suspended') ctx.resume(); return ctx; }
   function beep(freq,type,dur,vol,t0){
     if(GG27.isMuted()) return;
     try{
