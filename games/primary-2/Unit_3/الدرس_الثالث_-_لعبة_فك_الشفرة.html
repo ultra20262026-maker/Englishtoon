@@ -378,6 +378,13 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 <!-- /PRIMARY-MOBILE-FIT-2027-GLOBAL -->
 <style id="PRIMARY-CANVAS-FIT-FIX-2027">#game-wrap{height:100dvh!important;min-height:100dvh!important;flex:0 0 100dvh!important}#game-wrap>canvas#c{width:100%!important;height:100%!important;max-width:none!important}</style>
 <style id="PRIMARY2-NOT-WORKING-FIX-2027">#screen-intro,#screen-intro *{pointer-events:all!important}</style>
+<script id="ENG_TOON-AUDIO-MUTED-2027">
+(function(){
+  window.ENG_TOON_AUDIO_MUTED = true;
+  try{ localStorage.setItem('eduquest-muted','true'); localStorage.setItem('gg27_muted','1'); }catch(e){}
+  try{ if(window.speechSynthesis) window.speechSynthesis.cancel(); }catch(e){}
+})();
+</script>
 </head>
 <body>
 <canvas id="matrix-canvas"></canvas>
@@ -441,7 +448,7 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 const SoundEngine = (() => {
   let ctx = null;
   let bgNode = null, bgGain = null;
-  let muted = false;
+  let muted = true;
   const KEY = 'eduquest-muted';
   muted = localStorage.getItem(KEY) === 'true';
 
@@ -452,6 +459,7 @@ const SoundEngine = (() => {
   }
 
   function beep(freq, type, duration, vol=0.3, startTime=0) {
+    if(window.ENG_TOON_AUDIO_MUTED) return;
     if (muted) return;
     try {
       const c = getCtx();
@@ -662,157 +670,33 @@ const CURRICULUM = {
             "questions": [
               {
                 "type": "mcq",
-                "q": "Choose the correct word. Then write: Lect saneamconvarnaion ee AlCirele,",
+                "q": "Choose the correct answer: t-h-e-r-f-a",
                 "choices": [
-                  "open",
-                  "draw"
+                  "father",
+                  "mother",
+                  "house"
                 ],
-                "answer": 1
-              },
-              {
-                "type": "fill",
-                "q": "2. She is .................the desk.",
-                "answer": "cleaning"
-              },
-              {
-                "type": "fill",
-                "q": "3. ‏ممم نآ‎ in my notebook.",
-                "answer": "write"
-              },
-              {
-                "type": "fill",
-                "q": "Tm Noura. At the classroom, I ‏ه................(1)................‎ the board.",
-                "answer": "write"
-              },
-              {
-                "type": "fill",
-                "q": "I... (2)..ese0eemy hand to speak.",
-                "answer": "raise"
-              },
-              {
-                "type": "fill",
-                "q": "I.......(3)...........With my friends after school.",
-                "answer": "play"
-              },
-              {
-                "type": "fill",
-                "q": "1.............0n a chair.",
-                "answer": "sit"
-              },
-              {
-                "type": "fill",
-                "q": "Reorder the words to make a sentence : 1. desk . / clean / my /I",
-                "answer": "I clean my desk."
-              },
-              {
-                "type": "fill",
-                "q": "Reorder the words to make a sentence : 3. story. / I/ read",
-                "answer": "I read a story."
-              },
-              {
-                "type": "fill",
-                "q": "In class, I draw a picture. I ............my desk.",
-                "answer": "clean"
-              },
-              {
-                "type": "fill",
-                "q": "see/ I / cat./a",
-                "answer": "I see a cat."
-              },
-              {
-                "type": "fill",
-                "q": "Sis This /desk/my",
-                "answer": "This is my desk."
+                "answer": 0
               },
               {
                 "type": "mcq",
-                "q": "2. seeeeseeeeeseeeeee-s our hand to speak.",
+                "q": "Choose the correct answer: t-h-e-r-m-o",
                 "choices": [
-                  "Write",
-                  "Raise",
-                  "Sit"
+                  "mother",
+                  "father",
+                  "house"
                 ],
-                "answer": 1
+                "answer": 0
               },
               {
                 "type": "mcq",
-                "q": "3. seeeeseeeeeeeeess YOU Name in your notebook.",
+                "q": "Choose the correct answer: h-o-u-s-e",
                 "choices": [
-                  "Draw",
-                  "Write",
-                  "Raise"
+                  "house",
+                  "father",
+                  "mother"
                 ],
-                "answer": 1
-              },
-              {
-                "type": "mcq",
-                "q": "4.1 ................0n a chair.",
-                "choices": [
-                  "read",
-                  "sit",
-                  "clap"
-                ],
-                "answer": 1
-              },
-              {
-                "type": "mcq",
-                "q": "5. ‏مآ‎ 2 song with my friends.",
-                "choices": [
-                  "clap",
-                  "sing",
-                  "draw"
-                ],
-                "answer": 1
-              },
-              {
-                "type": "mcq",
-                "q": "6. The boy is ...................a book.",
-                "choices": [
-                  "standing",
-                  "reading",
-                  "signing"
-                ],
-                "answer": 1
-              },
-              {
-                "type": "mcq",
-                "q": "Zack: ‏ممسسم م سس صمت‎ MY desk,",
-                "choices": [
-                  "sing",
-                  "clean",
-                  "draw"
-                ],
-                "answer": 1
-              },
-              {
-                "type": "mcq",
-                "q": "8. There are.................... squares on the board.",
-                "choices": [
-                  "cats",
-                  "three",
-                  "pencils"
-                ],
-                "answer": 1
-              },
-              {
-                "type": "mcq",
-                "q": "9. sees a triangle on the board.",
-                "choices": [
-                  "Sing",
-                  "Draw",
-                  "Open"
-                ],
-                "answer": 1
-              },
-              {
-                "type": "mcq",
-                "q": ".I.....................with my friends after school.",
-                "choices": [
-                  "say",
-                  "raise",
-                  "play"
-                ],
-                "answer": 2
+                "answer": 0
               }
             ]
           },

@@ -518,6 +518,13 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 <!-- /PRIMARY-MOBILE-FIT-2027-GLOBAL -->
 <style id="PRIMARY-CANVAS-FIT-FIX-2027">#game-wrap{height:100dvh!important;min-height:100dvh!important;flex:0 0 100dvh!important}#game-wrap>canvas#c{width:100%!important;height:100%!important;max-width:none!important}</style>
 <style id="PRIMARY2-NOT-WORKING-FIX-2027">#screen-intro,#screen-intro *{pointer-events:all!important}</style>
+<script id="ENG_TOON-AUDIO-MUTED-2027">
+(function(){
+  window.ENG_TOON_AUDIO_MUTED = true;
+  try{ localStorage.setItem('eduquest-muted','true'); localStorage.setItem('gg27_muted','1'); }catch(e){}
+  try{ if(window.speechSynthesis) window.speechSynthesis.cancel(); }catch(e){}
+})();
+</script>
 </head>
 <body>
 <div id="game-wrap">
@@ -601,7 +608,7 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 const SoundEngine = (() => {
   let ctx = null;
   let bgNode = null, bgGain = null;
-  let muted = false;
+  let muted = true;
   const KEY = 'eduquest-muted';
   muted = localStorage.getItem(KEY) === 'true';
 
@@ -612,6 +619,7 @@ const SoundEngine = (() => {
   }
 
   function beep(freq, type, duration, vol=0.3, startTime=0) {
+    if(window.ENG_TOON_AUDIO_MUTED) return;
     if (muted) return;
     try {
       const c = getCtx();
@@ -859,24 +867,78 @@ const CURRICULUM = {
             "gameType": "word-snake",
             "questions": [
               {
-                "type": "fill",
-                "q": "is / That / a/ board.‏ .1",
-                "answer": "That is a board."
+                "type": "mcq",
+                "q": "Choose the correct answer: is / That / a / board.",
+                "choices": [
+                  "That is a board.",
+                  "That is a pencil case.",
+                  "This is my bag.",
+                  "That is an eraser."
+                ],
+                "answer": 0
               },
               {
-                "type": "fill",
-                "q": "a/ That / is/ pencil case. -----------------------------------‏ .2",
-                "answer": "That is a pencil case."
+                "type": "mcq",
+                "q": "Choose the correct answer: a / That / is / pencil case.",
+                "choices": [
+                  "That is a pencil case.",
+                  "That is a board.",
+                  "This is my bag.",
+                  "That is an eraser."
+                ],
+                "answer": 0
               },
               {
-                "type": "fill",
-                "q": "my bag. / is/ This‏ .3",
-                "answer": "This is my bag."
+                "type": "mcq",
+                "q": "Choose the correct answer: my bag. / is / This",
+                "choices": [
+                  "This is my bag.",
+                  "That is a board.",
+                  "That is a pencil case.",
+                  "That is an eraser."
+                ],
+                "answer": 0
               },
               {
-                "type": "fill",
-                "q": "an eraser. / That / is nose nnn nen nee‏ .4",
-                "answer": "That is an eraser."
+                "type": "mcq",
+                "q": "Choose the correct answer: an eraser. / That / is",
+                "choices": [
+                  "That is an eraser.",
+                  "That is a board.",
+                  "That is a pencil case.",
+                  "This is my bag."
+                ],
+                "answer": 0
+              },
+              {
+                "type": "mcq",
+                "q": "Choose the correct answer: A bird ...",
+                "choices": [
+                  "hen",
+                  "pen",
+                  "bin"
+                ],
+                "answer": 0
+              },
+              {
+                "type": "mcq",
+                "q": "Choose the correct answer: A tool ...",
+                "choices": [
+                  "pen",
+                  "hen",
+                  "bin"
+                ],
+                "answer": 0
+              },
+              {
+                "type": "mcq",
+                "q": "Choose the correct answer: A container ...",
+                "choices": [
+                  "bin",
+                  "hen",
+                  "pen"
+                ],
+                "answer": 0
               }
             ]
           }

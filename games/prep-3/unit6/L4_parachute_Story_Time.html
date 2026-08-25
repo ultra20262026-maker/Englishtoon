@@ -397,6 +397,13 @@ body{background:#1d3557;color:white;font-family:'Nunito',sans-serif;overflow:hid
   }
 }
 </style>
+<script id="ENG_TOON-AUDIO-MUTED-2027">
+(function(){
+  window.ENG_TOON_AUDIO_MUTED = true;
+  try{ localStorage.setItem('eduquest-muted','true'); localStorage.setItem('gg27_muted','1'); }catch(e){}
+  try{ if(window.speechSynthesis) window.speechSynthesis.cancel(); }catch(e){}
+})();
+</script>
 </head>
 
 
@@ -438,7 +445,8 @@ function drawFG(){
 }
 
 function SS(){if(AC.state==='suspended')AC.resume();const o=AC.createOscillator(),gn=AC.createGain();o.connect(gn);gn.connect(AC.destination);o.type='square';o.frequency.value=400;gn.gain.setValueAtTime(0.15,AC.currentTime);gn.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+0.05);o.start();o.stop(AC.currentTime+0.05);}
-function tone(f,d,t,v){if(!AC)return;if(AC.state==='suspended')AC.resume();const o=AC.createOscillator(),gn=AC.createGain();o.connect(gn);gn.connect(AC.destination);o.type=t||'sine';o.frequency.value=f;gn.gain.setValueAtTime(v||0.4,AC.currentTime);gn.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+d);o.start();o.stop(AC.currentTime+d);}
+function tone(f,d,t,v){
+    if(window.ENG_TOON_AUDIO_MUTED) return;if(!AC)return;if(AC.state==='suspended')AC.resume();const o=AC.createOscillator(),gn=AC.createGain();o.connect(gn);gn.connect(AC.destination);o.type=t||'sine';o.frequency.value=f;gn.gain.setValueAtTime(v||0.4,AC.currentTime);gn.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+d);o.start();o.stop(AC.currentTime+d);}
 function ok_snd(){tone(523,.08);setTimeout(()=>tone(659,.08),90);setTimeout(()=>tone(784,.3),180);}
 function fail_snd(){tone(200,.2,'sawtooth');setTimeout(()=>tone(150,.4,'sawtooth'),220);}
 function burst(x,y,color,n){for(let i=0;i<n;i++){const a=Math.random()*Math.PI*2,sp=Math.random()*9+2;parts.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,life:1,color,sz:Math.random()*5+2});};}

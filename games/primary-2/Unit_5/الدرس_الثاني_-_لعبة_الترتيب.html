@@ -391,6 +391,13 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 <!-- /PRIMARY-MOBILE-FIT-2027-GLOBAL -->
 <style id="PRIMARY-CANVAS-FIT-FIX-2027">#game-wrap{height:100dvh!important;min-height:100dvh!important;flex:0 0 100dvh!important}#game-wrap>canvas#c{width:100%!important;height:100%!important;max-width:none!important}</style>
 <style id="PRIMARY2-NOT-WORKING-FIX-2027">#screen-intro,#screen-intro *{pointer-events:all!important}</style>
+<script id="ENG_TOON-AUDIO-MUTED-2027">
+(function(){
+  window.ENG_TOON_AUDIO_MUTED = true;
+  try{ localStorage.setItem('eduquest-muted','true'); localStorage.setItem('gg27_muted','1'); }catch(e){}
+  try{ if(window.speechSynthesis) window.speechSynthesis.cancel(); }catch(e){}
+})();
+</script>
 </head>
 <body>
 <div id="app">
@@ -454,7 +461,7 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 const SoundEngine = (() => {
   let ctx = null;
   let bgNode = null, bgGain = null;
-  let muted = false;
+  let muted = true;
   const KEY = 'eduquest-muted';
   muted = localStorage.getItem(KEY) === 'true';
 
@@ -465,6 +472,7 @@ const SoundEngine = (() => {
   }
 
   function beep(freq, type, duration, vol=0.3, startTime=0) {
+    if(window.ENG_TOON_AUDIO_MUTED) return;
     if (muted) return;
     try {
       const c = getCtx();
@@ -615,64 +623,34 @@ const CURRICULUM = {
             "gameType": "scramble-it",
             "questions": [
               {
-                "type": "fill",
-                "q": "This is my bedroom. There is a ...(1)........ I Be 1 on the table.",
-                "answer": "lamp"
+                "type": "mcq",
+                "q": "Choose the correct answer: d-o-c-t-o-r",
+                "choices": [
+                  "doctor",
+                  "teacher",
+                  "vet"
+                ],
+                "answer": 0
               },
               {
-                "type": "fill",
-                "q": "There is a chair .....)2(...... the Gy x7 bed.",
-                "answer": "next to"
+                "type": "mcq",
+                "q": "Choose the correct answer: t-e-a-c-h-e-r",
+                "choices": [
+                  "teacher",
+                  "doctor",
+                  "vet"
+                ],
+                "answer": 0
               },
               {
-                "type": "fill",
-                "q": "I clean my ...(3).....every day. al",
-                "answer": "room"
-              },
-              {
-                "type": "fill",
-                "q": "1. The flowers / in / the garden. / are",
-                "answer": "The flowers are in the garden."
-              },
-              {
-                "type": "fill",
-                "q": "2. There / a couch / the living room . / is / in",
-                "answer": "There is a couch in the living room."
-              },
-              {
-                "type": "fill",
-                "q": "3. Where / the bed? / is",
-                "answer": "Where is the bed?"
-              },
-              {
-                "type": "fill",
-                "q": "B. Reorder the words to make a sentence:\n1. is / The lamp / the table ./ on",
-                "answer": "The lamp is on the table."
-              },
-              {
-                "type": "fill",
-                "q": "2. is / There / in / a bed / the bedroom .",
-                "answer": "There is a bed in the bedroom."
-              },
-              {
-                "type": "fill",
-                "q": "3. couch / a/ in / There / the living room ./ is",
-                "answer": "There is a couch in the living room."
-              },
-              {
-                "type": "fill",
-                "q": "B.Reorder the words to make a sentence:\n1. There / ball / a/ the table. / under/ is",
-                "answer": "There is a ball under the table."
-              },
-              {
-                "type": "fill",
-                "q": "2. is / a / the kitchen./ table / There/in",
-                "answer": "There is a table in the kitchen."
-              },
-              {
-                "type": "fill",
-                "q": "3. is / The cat / the / in / box.",
-                "answer": "The cat is in the box."
+                "type": "mcq",
+                "q": "Choose the correct answer: v-e-t",
+                "choices": [
+                  "vet",
+                  "doctor",
+                  "teacher"
+                ],
+                "answer": 0
               }
             ]
           },

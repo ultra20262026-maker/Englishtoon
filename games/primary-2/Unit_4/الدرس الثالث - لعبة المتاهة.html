@@ -366,6 +366,13 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 <!-- /PRIMARY-MOBILE-FIT-2027-GLOBAL -->
 <style id="PRIMARY-CANVAS-FIT-FIX-2027">#game-wrap{height:100dvh!important;min-height:100dvh!important;flex:0 0 100dvh!important}#game-wrap>canvas#c{width:100%!important;height:100%!important;max-width:none!important}</style>
 <style id="PRIMARY2-NOT-WORKING-FIX-2027">#screen-intro,#screen-intro *{pointer-events:all!important}</style>
+<script id="ENG_TOON-AUDIO-MUTED-2027">
+(function(){
+  window.ENG_TOON_AUDIO_MUTED = true;
+  try{ localStorage.setItem('eduquest-muted','true'); localStorage.setItem('gg27_muted','1'); }catch(e){}
+  try{ if(window.speechSynthesis) window.speechSynthesis.cancel(); }catch(e){}
+})();
+</script>
 </head>
 <body>
 <canvas id="game-canvas"></canvas>
@@ -437,7 +444,7 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 const SoundEngine = (() => {
   let ctx = null;
   let bgNode = null, bgGain = null;
-  let muted = false;
+  let muted = true;
   const KEY = 'eduquest-muted';
   muted = localStorage.getItem(KEY) === 'true';
 
@@ -448,6 +455,7 @@ const SoundEngine = (() => {
   }
 
   function beep(freq, type, duration, vol=0.3, startTime=0) {
+    if(window.ENG_TOON_AUDIO_MUTED) return;
     if (muted) return;
     try {
       const c = getCtx();
@@ -717,19 +725,34 @@ const CURRICULUM = {
             "gameType": "maze-quest",
             "questions": [
               {
-                "type": "fill",
-                "q": "1. brush / I/ teeth./ my",
-                "answer": "I brush my teeth."
+                "type": "mcq",
+                "q": "Choose the correct answer: h-e-a-d",
+                "choices": [
+                  "head",
+                  "hand",
+                  "eyes"
+                ],
+                "answer": 0
               },
               {
-                "type": "fill",
-                "q": "2. eats / She / lunch.",
-                "answer": "She eats lunch."
+                "type": "mcq",
+                "q": "Choose the correct answer: h-a-n-d",
+                "choices": [
+                  "hand",
+                  "head",
+                  "eyes"
+                ],
+                "answer": 0
               },
               {
-                "type": "fill",
-                "q": "3. at / seven./ wake up / I",
-                "answer": "I wake up at seven."
+                "type": "mcq",
+                "q": "Choose the correct answer: e-y-e-s",
+                "choices": [
+                  "eyes",
+                  "head",
+                  "hand"
+                ],
+                "answer": 0
               }
             ]
           },

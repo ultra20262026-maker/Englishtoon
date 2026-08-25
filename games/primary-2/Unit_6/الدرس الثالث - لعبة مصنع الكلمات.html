@@ -378,6 +378,13 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 <!-- /PRIMARY-MOBILE-FIT-2027-GLOBAL -->
 <style id="PRIMARY-CANVAS-FIT-FIX-2027">#game-wrap{height:100dvh!important;min-height:100dvh!important;flex:0 0 100dvh!important}#game-wrap>canvas#c{width:100%!important;height:100%!important;max-width:none!important}</style>
 <style id="PRIMARY2-NOT-WORKING-FIX-2027">#screen-intro,#screen-intro *{pointer-events:all!important}</style>
+<script id="ENG_TOON-AUDIO-MUTED-2027">
+(function(){
+  window.ENG_TOON_AUDIO_MUTED = true;
+  try{ localStorage.setItem('eduquest-muted','true'); localStorage.setItem('gg27_muted','1'); }catch(e){}
+  try{ if(window.speechSynthesis) window.speechSynthesis.cancel(); }catch(e){}
+})();
+</script>
 </head>
 <body>
 <div id="game-wrap">
@@ -448,7 +455,7 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 const SoundEngine = (() => {
   let ctx = null;
   let bgNode = null, bgGain = null;
-  let muted = false;
+  let muted = true;
   const KEY = 'eduquest-muted';
   muted = localStorage.getItem(KEY) === 'true';
 
@@ -459,6 +466,7 @@ const SoundEngine = (() => {
   }
 
   function beep(freq, type, duration, vol=0.3, startTime=0) {
+    if(window.ENG_TOON_AUDIO_MUTED) return;
     if (muted) return;
     try {
       const c = getCtx();
@@ -637,56 +645,34 @@ const CURRICULUM = {
             "gameType": "word-forge",
             "questions": [
               {
-                "type": "fill",
-                "q": "Activity 1 ) Listen and complete:\n2. The flowers are............ the garden.",
-                "answer": "in the garden"
-              },
-              {
                 "type": "mcq",
-                "q": "Activity 3 Circle the correct answer. Then write:\n1. There ..............a lamp on the table. (is / are)",
+                "q": "Choose the correct answer: l-i-o-n",
                 "choices": [
-                  "is",
-                  "are"
+                  "lion",
+                  "duck",
+                  "tree"
                 ],
                 "answer": 0
               },
               {
                 "type": "mcq",
-                "q": "Activity 3 Circle the correct answer. Then write:\n2. There ............. chairs in the dining room. (is / are)",
+                "q": "Choose the correct answer: d-u-c-k",
                 "choices": [
-                  "is",
-                  "are"
+                  "duck",
+                  "lion",
+                  "tree"
                 ],
-                "answer": 1
+                "answer": 0
               },
               {
                 "type": "mcq",
-                "q": "Activity 3 Circle the correct answer. Then write:\n3. There ................. 2 fridge in the kitchen. (is / are)",
+                "q": "Choose the correct answer: t-r-e-e",
                 "choices": [
-                  "is",
-                  "are"
+                  "tree",
+                  "lion",
+                  "duck"
                 ],
-                "answer": 1
-              },
-              {
-                "type": "fill",
-                "q": "Homework Activity\nComplete using (There is / There are):\n1. L. eeeeeeeeeeeseeeeeeeeesee- tables in the kitchen.",
-                "answer": "There are"
-              },
-              {
-                "type": "fill",
-                "q": "Homework Activity\nComplete using (There is / There are):\n2. Qe ‏ممم تت تت‎ a TV in the living room.",
-                "answer": "There is"
-              },
-              {
-                "type": "fill",
-                "q": "Homework Activity\nComplete using (There is / There are):\n3. cessseeeeeeseesseessseeeees three trees in the garden..",
-                "answer": "There are"
-              },
-              {
-                "type": "fill",
-                "q": "Homework Activity\nComplete using (There is / There are):\n4... ‏ممم‎ a couch and a bed in the bedroom.",
-                "answer": "There are"
+                "answer": 0
               }
             ]
           },

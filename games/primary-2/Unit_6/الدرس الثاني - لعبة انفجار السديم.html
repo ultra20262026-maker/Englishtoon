@@ -436,6 +436,13 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 <!-- /PRIMARY-MOBILE-FIT-2027-GLOBAL -->
 <style id="PRIMARY-CANVAS-FIT-FIX-2027">#game-wrap{height:100dvh!important;min-height:100dvh!important;flex:0 0 100dvh!important}#game-wrap>canvas#c{width:100%!important;height:100%!important;max-width:none!important}</style>
 <style id="PRIMARY2-NOT-WORKING-FIX-2027">#screen-intro,#screen-intro *{pointer-events:all!important}</style>
+<script id="ENG_TOON-AUDIO-MUTED-2027">
+(function(){
+  window.ENG_TOON_AUDIO_MUTED = true;
+  try{ localStorage.setItem('eduquest-muted','true'); localStorage.setItem('gg27_muted','1'); }catch(e){}
+  try{ if(window.speechSynthesis) window.speechSynthesis.cancel(); }catch(e){}
+})();
+</script>
 </head>
 <body>
 <div id="app">
@@ -510,7 +517,7 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 const SoundEngine = (() => {
   let ctx = null;
   let bgNode = null, bgGain = null;
-  let muted = false;
+  let muted = true;
   const KEY = 'eduquest-muted';
   muted = localStorage.getItem(KEY) === 'true';
 
@@ -521,6 +528,7 @@ const SoundEngine = (() => {
   }
 
   function beep(freq, type, duration, vol=0.3, startTime=0) {
+    if(window.ENG_TOON_AUDIO_MUTED) return;
     if (muted) return;
     try {
       const c = getCtx();
@@ -641,49 +649,34 @@ const CURRICULUM = {
             "gameType": "nebula-burst",
             "questions": [
               {
-                "type": "fill",
-                "q": "1. do / Where/ brush / teeth? / your / you",
-                "answer": "Where do you brush your teeth?"
+                "type": "mcq",
+                "q": "Choose the correct answer: l-i-o-n",
+                "choices": [
+                  "lion",
+                  "duck",
+                  "tree"
+                ],
+                "answer": 0
               },
               {
-                "type": "fill",
-                "q": "2. wash / hands / in / my / 1 / the bathroom.",
-                "answer": "I wash my hands in the bathroom."
+                "type": "mcq",
+                "q": "Choose the correct answer: d-u-c-k",
+                "choices": [
+                  "duck",
+                  "lion",
+                  "tree"
+                ],
+                "answer": 0
               },
               {
-                "type": "fill",
-                "q": "3. is / ‏صذ / ج‎ / the bedroom. / bed / There",
-                "answer": "There is a bed in the bedroom."
-              },
-              {
-                "type": "fill",
-                "q": "is / the table ?/ Where‏ .1",
-                "answer": "Where is the table?"
-              },
-              {
-                "type": "fill",
-                "q": "eat / in/ the dining room./ I‏ .2",
-                "answer": "I eat in the dining room."
-              },
-              {
-                "type": "fill",
-                "q": "lamp / on / is / The / the table.‏ .3",
-                "answer": "The lamp is on the table."
-              },
-              {
-                "type": "fill",
-                "q": "do / watch / Where / you / TV?‏ .1",
-                "answer": "Where do you watch TV?"
-              },
-              {
-                "type": "fill",
-                "q": "is / next to / It / the window.‏ .2",
-                "answer": "It is next to the window."
-              },
-              {
-                "type": "fill",
-                "q": "is / 2 / That / fridge.‏ .3",
-                "answer": "That is a fridge."
+                "type": "mcq",
+                "q": "Choose the correct answer: t-r-e-e",
+                "choices": [
+                  "tree",
+                  "lion",
+                  "duck"
+                ],
+                "answer": 0
               }
             ]
           },

@@ -379,6 +379,13 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 <!-- /PRIMARY-MOBILE-FIT-2027-GLOBAL -->
 <style id="PRIMARY-CANVAS-FIT-FIX-2027">#game-wrap{height:100dvh!important;min-height:100dvh!important;flex:0 0 100dvh!important}#game-wrap>canvas#c{width:100%!important;height:100%!important;max-width:none!important}</style>
 <style id="PRIMARY2-NOT-WORKING-FIX-2027">#screen-intro,#screen-intro *{pointer-events:all!important}</style>
+<script id="ENG_TOON-AUDIO-MUTED-2027">
+(function(){
+  window.ENG_TOON_AUDIO_MUTED = true;
+  try{ localStorage.setItem('eduquest-muted','true'); localStorage.setItem('gg27_muted','1'); }catch(e){}
+  try{ if(window.speechSynthesis) window.speechSynthesis.cancel(); }catch(e){}
+})();
+</script>
 </head>
 <body>
 <canvas id="game-canvas"></canvas>
@@ -448,7 +455,7 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 const SoundEngine = (() => {
   let ctx = null;
   let bgNode = null, bgGain = null;
-  let muted = false;
+  let muted = true;
   const KEY = 'eduquest-muted';
   muted = localStorage.getItem(KEY) === 'true';
 
@@ -459,6 +466,7 @@ const SoundEngine = (() => {
   }
 
   function beep(freq, type, duration, vol=0.3, startTime=0) {
+    if(window.ENG_TOON_AUDIO_MUTED) return;
     if (muted) return;
     try {
       const c = getCtx();
@@ -835,129 +843,34 @@ const CURRICULUM = {
             "gameType": "answer-dash",
             "questions": [
               {
-                "type": "fill",
-                "q": "Activity 1 ) Look, read , and write:\n1.............0n a chair.",
-                "answer": "sit"
-              },
-              {
-                "type": "fill",
-                "q": "Activity 2 | Reorder the words to make a sentence :\n1. desk . / clean / my /I",
-                "answer": "I clean my desk."
-              },
-              {
-                "type": "fill",
-                "q": "A. Reorder the words to make a sentence:\n1. see/ I / cat./a",
-                "answer": "I see a cat."
-              },
-              {
-                "type": "fill",
-                "q": "A. Reorder the words to make a sentence:\nris /Thispencimy",
-                "answer": "This is my pencil."
-              },
-              {
-                "type": "fill",
-                "q": "A. Reorder the words to make a sentence:\nSis This /desk/my",
-                "answer": "This is my desk."
-              },
-              {
-                "type": "fill",
-                "q": "A. Reorder the words to make a sentence:\n10. play (fiends my",
-                "answer": "I play with my friends."
-              },
-              {
-                "type": "fill",
-                "q": "A. Reorder the words to make a sentence:\nbiread// book! my",
-                "answer": "I read my book!"
+                "type": "mcq",
+                "q": "Choose the correct answer: t-h-e-r-f-a",
+                "choices": [
+                  "father",
+                  "mother",
+                  "house"
+                ],
+                "answer": 0
               },
               {
                 "type": "mcq",
-                "q": "B. Choose the correct answer from a, b or c:\n2. seeeeseeeeeseeeeee-s our hand to speak.",
+                "q": "Choose the correct answer: t-h-e-r-m-o",
                 "choices": [
-                  "Write",
-                  "Raise",
-                  "Sit"
+                  "mother",
+                  "father",
+                  "house"
                 ],
-                "answer": 1
+                "answer": 0
               },
               {
                 "type": "mcq",
-                "q": "B. Choose the correct answer from a, b or c:\n3. seeeeseeeeeeeeess YOU Name in your notebook.",
+                "q": "Choose the correct answer: h-o-u-s-e",
                 "choices": [
-                  "Draw",
-                  "Write",
-                  "Raise"
+                  "house",
+                  "father",
+                  "mother"
                 ],
-                "answer": 1
-              },
-              {
-                "type": "mcq",
-                "q": "B. Choose the correct answer from a, b or c:\n4.1 ................0n a chair.",
-                "choices": [
-                  "read",
-                  "sit",
-                  "clap"
-                ],
-                "answer": 1
-              },
-              {
-                "type": "mcq",
-                "q": "B. Choose the correct answer from a, b or c:\n5. ‏مآ‎ 2 song with my friends.",
-                "choices": [
-                  "clap",
-                  "sing",
-                  "draw"
-                ],
-                "answer": 1
-              },
-              {
-                "type": "mcq",
-                "q": "B. Choose the correct answer from a, b or c:\n6. The boy is ...................a book.",
-                "choices": [
-                  "standing",
-                  "reading",
-                  "signing"
-                ],
-                "answer": 1
-              },
-              {
-                "type": "mcq",
-                "q": "B. Choose the correct answer from a, b or c:\n7. Zack: ‏ممسسم م سس صمت‎ MY desk,",
-                "choices": [
-                  "sing",
-                  "clean",
-                  "draw"
-                ],
-                "answer": 1
-              },
-              {
-                "type": "mcq",
-                "q": "B. Choose the correct answer from a, b or c:\n8. There are.................... squares on the board.",
-                "choices": [
-                  "cats",
-                  "three",
-                  "pencils"
-                ],
-                "answer": 1
-              },
-              {
-                "type": "mcq",
-                "q": "B. Choose the correct answer from a, b or c:\n9. sees a triangle on the board.",
-                "choices": [
-                  "Sing",
-                  "Draw",
-                  "Open"
-                ],
-                "answer": 1
-              },
-              {
-                "type": "mcq",
-                "q": "B. Choose the correct answer from a, b or c:\n10. .I.....................with my friends after school.",
-                "choices": [
-                  "say",
-                  "raise",
-                  "play"
-                ],
-                "answer": 2
+                "answer": 0
               }
             ]
           }

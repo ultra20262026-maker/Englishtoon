@@ -320,6 +320,13 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 <!-- /PRIMARY-MOBILE-FIT-2027-GLOBAL -->
 <style id="PRIMARY-CANVAS-FIT-FIX-2027">#game-wrap{height:100dvh!important;min-height:100dvh!important;flex:0 0 100dvh!important}#game-wrap>canvas#c{width:100%!important;height:100%!important;max-width:none!important}</style>
 <style id="PRIMARY2-NOT-WORKING-FIX-2027">#screen-intro,#screen-intro *{pointer-events:all!important}</style>
+<script id="ENG_TOON-AUDIO-MUTED-2027">
+(function(){
+  window.ENG_TOON_AUDIO_MUTED = true;
+  try{ localStorage.setItem('eduquest-muted','true'); localStorage.setItem('gg27_muted','1'); }catch(e){}
+  try{ if(window.speechSynthesis) window.speechSynthesis.cancel(); }catch(e){}
+})();
+</script>
 </head>
 <body>
 <div id="game-wrap">
@@ -390,7 +397,7 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 const SoundEngine = (() => {
   let ctx = null;
   let bgNode = null, bgGain = null;
-  let muted = false;
+  let muted = true;
   const KEY = 'eduquest-muted';
   muted = localStorage.getItem(KEY) === 'true';
 
@@ -401,6 +408,7 @@ const SoundEngine = (() => {
   }
 
   function beep(freq, type, duration, vol=0.3, startTime=0) {
+    if(window.ENG_TOON_AUDIO_MUTED) return;
     if (muted) return;
     try {
       const c = getCtx();
@@ -528,88 +536,146 @@ const CURRICULUM = {
             "questions": [
               {
                 "type": "mcq",
-                "q": "Circle the correct answer: 1. Isee a man. I see a map. Isee a cap.",
+                "q": "Choose the correct answer: f-a-n",
                 "choices": [
-                  "Isee a man.",
-                  "I see a map.",
-                  "Isee a cap."
+                  "fan",
+                  "cat",
+                  "hat",
+                  "man"
                 ],
-                "answer": 1
+                "answer": 0
               },
               {
-                "type": "fill",
-                "q": "is a......(1)..........0n the wall.",
-                "answer": "map"
+                "type": "mcq",
+                "q": "Choose the correct answer: c-a-t",
+                "choices": [
+                  "cat",
+                  "fan",
+                  "hat",
+                  "man"
+                ],
+                "answer": 0
               },
               {
-                "type": "fill",
-                "q": "Unscramble and write: riach",
-                "answer": "chair"
+                "type": "mcq",
+                "q": "Choose the correct answer: h-a-t",
+                "choices": [
+                  "hat",
+                  "fan",
+                  "cat",
+                  "man"
+                ],
+                "answer": 0
               },
               {
-                "type": "fill",
-                "q": "is / This / cat./ a",
-                "answer": "This is a cat."
+                "type": "mcq",
+                "q": "Choose the correct answer: m-a-n",
+                "choices": [
+                  "man",
+                  "fan",
+                  "cat",
+                  "hat"
+                ],
+                "answer": 0
               },
               {
-                "type": "fill",
-                "q": "is / 2 / This / map.",
-                "answer": "This is a map."
+                "type": "mcq",
+                "q": "Choose the correct answer: I see a ...",
+                "choices": [
+                  "man",
+                  "fan",
+                  "cat",
+                  "hat"
+                ],
+                "answer": 0
               },
               {
-                "type": "fill",
-                "q": "teacher. / is /She / a",
-                "answer": "She is a teacher."
+                "type": "mcq",
+                "q": "Choose the correct answer: I see a ...",
+                "choices": [
+                  "map",
+                  "fan",
+                  "cat",
+                  "hat"
+                ],
+                "answer": 0
               },
               {
-                "type": "fill",
-                "q": "Unscramble and write: chetear",
-                "answer": "teacher"
+                "type": "mcq",
+                "q": "Choose the correct answer: I see a ...",
+                "choices": [
+                  "cap",
+                  "fan",
+                  "cat",
+                  "hat"
+                ],
+                "answer": 0
               },
               {
-                "type": "fill",
-                "q": "Unscramble and write: amp",
-                "answer": "map"
+                "type": "mcq",
+                "q": "Choose the correct answer: I see a ...",
+                "choices": [
+                  "hat",
+                  "fan",
+                  "cat",
+                  "man"
+                ],
+                "answer": 0
               },
               {
-                "type": "fill",
-                "q": "is /a/ red/ It/ cap.",
-                "answer": "It is a red cap."
+                "type": "mcq",
+                "q": "Choose the correct answer: I see a ...",
+                "choices": [
+                  "student",
+                  "fan",
+                  "cat",
+                  "hat"
+                ],
+                "answer": 0
               },
               {
-                "type": "fill",
-                "q": "fan./ This / a/ is",
-                "answer": "This is a fan."
+                "type": "mcq",
+                "q": "Choose the correct answer: I see a ...",
+                "choices": [
+                  "desk",
+                  "fan",
+                  "cat",
+                  "hat"
+                ],
+                "answer": 0
               },
               {
-                "type": "fill",
-                "q": "teacher. / a/ is / He",
-                "answer": "He is a teacher."
+                "type": "mcq",
+                "q": "Choose the correct answer: There is a ... on the wall.",
+                "choices": [
+                  "map",
+                  "fan",
+                  "cat",
+                  "hat"
+                ],
+                "answer": 0
               },
               {
-                "type": "fill",
-                "q": "Unscramble and write: esdk",
-                "answer": "desk"
+                "type": "mcq",
+                "q": "Choose the correct answer: I sat on a ...",
+                "choices": [
+                  "chair",
+                  "fan",
+                  "cat",
+                  "hat"
+                ],
+                "answer": 0
               },
               {
-                "type": "fill",
-                "q": "Unscramble and write: nam",
-                "answer": "man"
-              },
-              {
-                "type": "fill",
-                "q": "a/ cat. /is/ It",
-                "answer": "It is a cat."
-              },
-              {
-                "type": "fill",
-                "q": "student. /a/ is / He",
-                "answer": "He is a student."
-              },
-              {
-                "type": "fill",
-                "q": "is / 2 / This / hat.",
-                "answer": "This is a hat."
+                "type": "mcq",
+                "q": "Choose the correct answer: At the end of the day, I say ...",
+                "choices": [
+                  "goodbye",
+                  "fan",
+                  "cat",
+                  "hat"
+                ],
+                "answer": 0
               }
             ]
           },

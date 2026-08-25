@@ -493,6 +493,13 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 <!-- /PRIMARY-MOBILE-FIT-2027-GLOBAL -->
 <style id="PRIMARY-CANVAS-FIT-FIX-2027">#game-wrap{height:100dvh!important;min-height:100dvh!important;flex:0 0 100dvh!important}#game-wrap>canvas#c{width:100%!important;height:100%!important;max-width:none!important}</style>
 <style id="PRIMARY2-NOT-WORKING-FIX-2027">#screen-intro,#screen-intro *{pointer-events:all!important}</style>
+<script id="ENG_TOON-AUDIO-MUTED-2027">
+(function(){
+  window.ENG_TOON_AUDIO_MUTED = true;
+  try{ localStorage.setItem('eduquest-muted','true'); localStorage.setItem('gg27_muted','1'); }catch(e){}
+  try{ if(window.speechSynthesis) window.speechSynthesis.cancel(); }catch(e){}
+})();
+</script>
 </head>
 <body>
 <div id="game-wrap">
@@ -563,7 +570,7 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 const SoundEngine = (() => {
   let ctx = null;
   let bgNode = null, bgGain = null;
-  let muted = false;
+  let muted = true;
   const KEY = 'eduquest-muted';
   muted = localStorage.getItem(KEY) === 'true';
 
@@ -574,6 +581,7 @@ const SoundEngine = (() => {
   }
 
   function beep(freq, type, duration, vol=0.3, startTime=0) {
+    if(window.ENG_TOON_AUDIO_MUTED) return;
     if (muted) return;
     try {
       const c = getCtx();
@@ -793,24 +801,165 @@ const CURRICULUM = {
             "gameType": "bubble-pop",
             "questions": [
               {
-                "type": "fill",
-                "q": "4. hen",
-                "answer": "hen"
+                "type": "mcq",
+                "q": "Choose the correct answer: p-e-n",
+                "choices": [
+                  "pen",
+                  "bin",
+                  "zip",
+                  "e"
+                ],
+                "answer": 0
               },
               {
-                "type": "fill",
-                "q": "3 امود اح اامماو سو ع ‎Ly put My pens if MY.‏",
-                "answer": "pencil case"
+                "type": "mcq",
+                "q": "Choose the correct answer: b-i-n",
+                "choices": [
+                  "bin",
+                  "pen",
+                  "zip",
+                  "e"
+                ],
+                "answer": 0
               },
               {
-                "type": "fill",
-                "q": "مومسم مسحي وسو عمو وو ‎My teacher‘writes on the‏ ..2",
-                "answer": "board"
+                "type": "mcq",
+                "q": "Choose the correct answer: z-i-p",
+                "choices": [
+                  "zip",
+                  "pen",
+                  "bin",
+                  "e"
+                ],
+                "answer": 0
               },
               {
-                "type": "fill",
-                "q": "« ممم سيو دومعو ممم مع ممم مس10 ‎Tput my: books in‏ .3",
-                "answer": "bag"
+                "type": "mcq",
+                "q": "Choose the correct answer: p...n",
+                "choices": [
+                  "e",
+                  "pen",
+                  "bin",
+                  "zip"
+                ],
+                "answer": 0
+              },
+              {
+                "type": "mcq",
+                "q": "Choose the correct answer: f...g",
+                "choices": [
+                  "i",
+                  "pen",
+                  "bin",
+                  "zip"
+                ],
+                "answer": 0
+              },
+              {
+                "type": "mcq",
+                "q": "Choose the correct answer: b...n",
+                "choices": [
+                  "i",
+                  "pen",
+                  "bin",
+                  "zip"
+                ],
+                "answer": 0
+              },
+              {
+                "type": "mcq",
+                "q": "Choose the correct answer: h...n",
+                "choices": [
+                  "e",
+                  "pen",
+                  "bin",
+                  "zip"
+                ],
+                "answer": 0
+              },
+              {
+                "type": "mcq",
+                "q": "Choose the correct answer: I put my pens in my ...",
+                "choices": [
+                  "pencil case",
+                  "I sit on a chair.",
+                  "This is my bag."
+                ],
+                "answer": 0
+              },
+              {
+                "type": "mcq",
+                "q": "Choose the correct answer: My teacher writes on the ...",
+                "choices": [
+                  "board",
+                  "pen",
+                  "bin",
+                  "zip"
+                ],
+                "answer": 0
+              },
+              {
+                "type": "mcq",
+                "q": "Choose the correct answer: I put my books in the ...",
+                "choices": [
+                  "bag",
+                  "pen",
+                  "bin",
+                  "zip"
+                ],
+                "answer": 0
+              },
+              {
+                "type": "mcq",
+                "q": "Choose the correct answer: Open the ..., please!",
+                "choices": [
+                  "door",
+                  "pen",
+                  "bin",
+                  "zip"
+                ],
+                "answer": 0
+              },
+              {
+                "type": "mcq",
+                "q": "Choose the correct answer: This is my ...",
+                "choices": [
+                  "bag",
+                  "pen",
+                  "bin",
+                  "zip"
+                ],
+                "answer": 0
+              },
+              {
+                "type": "mcq",
+                "q": "Choose the correct answer: I put it in my ...",
+                "choices": [
+                  "pencil case",
+                  "I sit on a chair.",
+                  "This is my bag."
+                ],
+                "answer": 0
+              },
+              {
+                "type": "mcq",
+                "q": "Choose the correct answer: chair / I / on / sit / a",
+                "choices": [
+                  "I sit on a chair.",
+                  "pencil case",
+                  "This is my bag."
+                ],
+                "answer": 0
+              },
+              {
+                "type": "mcq",
+                "q": "Choose the correct answer: my / is / This / bag",
+                "choices": [
+                  "This is my bag.",
+                  "pencil case",
+                  "I sit on a chair."
+                ],
+                "answer": 0
               }
             ]
           },

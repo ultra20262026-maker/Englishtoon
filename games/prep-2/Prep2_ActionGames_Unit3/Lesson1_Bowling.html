@@ -209,6 +209,13 @@ button, .target-btn, a, [onclick], .gg-target, .gg-btn { touch-action: manipulat
   }
 }
 </style>
+<script id="ENG_TOON-AUDIO-MUTED-2027">
+(function(){
+  window.ENG_TOON_AUDIO_MUTED = true;
+  try{ localStorage.setItem('eduquest-muted','true'); localStorage.setItem('gg27_muted','1'); }catch(e){}
+  try{ if(window.speechSynthesis) window.speechSynthesis.cancel(); }catch(e){}
+})();
+</script>
 </head>
 <body>
 
@@ -239,6 +246,7 @@ window.addEventListener('resize', () => { cv.width = window.innerWidth; cv.heigh
 
 const AC = new (window.AudioContext||window.webkitAudioContext)();
 function tone(f,d,t='sine',v=0.4){
+    if(window.ENG_TOON_AUDIO_MUTED) return;
     if(AC.state==='suspended') AC.resume();
     const o=AC.createOscillator(),g=AC.createGain();
     o.connect(g);g.connect(AC.destination);

@@ -525,6 +525,13 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 <!-- /PRIMARY-MOBILE-FIT-2027-GLOBAL -->
 <style id="PRIMARY-CANVAS-FIT-FIX-2027">#game-wrap{height:100dvh!important;min-height:100dvh!important;flex:0 0 100dvh!important}#game-wrap>canvas#c{width:100%!important;height:100%!important;max-width:none!important}</style>
 <style id="PRIMARY2-NOT-WORKING-FIX-2027">#screen-intro,#screen-intro *{pointer-events:all!important}</style>
+<script id="ENG_TOON-AUDIO-MUTED-2027">
+(function(){
+  window.ENG_TOON_AUDIO_MUTED = true;
+  try{ localStorage.setItem('eduquest-muted','true'); localStorage.setItem('gg27_muted','1'); }catch(e){}
+  try{ if(window.speechSynthesis) window.speechSynthesis.cancel(); }catch(e){}
+})();
+</script>
 </head>
 <body>
 <div id="app">
@@ -607,7 +614,7 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 const SoundEngine = (() => {
   let ctx = null;
   let bgNode = null, bgGain = null;
-  let muted = false;
+  let muted = true;
   const KEY = 'eduquest-muted';
   muted = localStorage.getItem(KEY) === 'true';
 
@@ -618,6 +625,7 @@ const SoundEngine = (() => {
   }
 
   function beep(freq, type, duration, vol=0.3, startTime=0) {
+    if(window.ENG_TOON_AUDIO_MUTED) return;
     if (muted) return;
     try {
       const c = getCtx();
@@ -836,14 +844,34 @@ const CURRICULUM = {
             "gameType": "lightning-round",
             "questions": [
               {
-                "type": "fill",
-                "q": "Write the missing letters: mo- - er",
-                "answer": "mother"
+                "type": "mcq",
+                "q": "Choose the correct answer: d-o-c-t-o-r",
+                "choices": [
+                  "doctor",
+                  "teacher",
+                  "vet"
+                ],
+                "answer": 0
               },
               {
-                "type": "fill",
-                "q": "Write the missing letters: fa - - er",
-                "answer": "th"
+                "type": "mcq",
+                "q": "Choose the correct answer: t-e-a-c-h-e-r",
+                "choices": [
+                  "teacher",
+                  "doctor",
+                  "vet"
+                ],
+                "answer": 0
+              },
+              {
+                "type": "mcq",
+                "q": "Choose the correct answer: v-e-t",
+                "choices": [
+                  "vet",
+                  "doctor",
+                  "teacher"
+                ],
+                "answer": 0
               }
             ]
           },

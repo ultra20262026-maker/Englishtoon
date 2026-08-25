@@ -329,6 +329,13 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 <!-- /PRIMARY-MOBILE-FIT-2027-GLOBAL -->
 <style id="PRIMARY-CANVAS-FIT-FIX-2027">#game-wrap{height:100dvh!important;min-height:100dvh!important;flex:0 0 100dvh!important}#game-wrap>canvas#c{width:100%!important;height:100%!important;max-width:none!important}</style>
 <style id="PRIMARY2-NOT-WORKING-FIX-2027">#screen-intro,#screen-intro *{pointer-events:all!important}</style>
+<script id="ENG_TOON-AUDIO-MUTED-2027">
+(function(){
+  window.ENG_TOON_AUDIO_MUTED = true;
+  try{ localStorage.setItem('eduquest-muted','true'); localStorage.setItem('gg27_muted','1'); }catch(e){}
+  try{ if(window.speechSynthesis) window.speechSynthesis.cancel(); }catch(e){}
+})();
+</script>
 </head>
 <body>
 <div id="game-wrap">
@@ -400,7 +407,7 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 const SoundEngine = (() => {
   let ctx = null;
   let bgNode = null, bgGain = null;
-  let muted = false;
+  let muted = true;
   const KEY = 'eduquest-muted';
   muted = localStorage.getItem(KEY) === 'true';
 
@@ -411,6 +418,7 @@ const SoundEngine = (() => {
   }
 
   function beep(freq, type, duration, vol=0.3, startTime=0) {
+    if(window.ENG_TOON_AUDIO_MUTED) return;
     if (muted) return;
     try {
       const c = getCtx();
@@ -623,44 +631,34 @@ const CURRICULUM = {
             "gameType": "word-racer",
             "questions": [
               {
-                "type": "fill",
-                "q": "Unscramble and write: rapges",
-                "answer": "grapes"
+                "type": "mcq",
+                "q": "Choose the correct answer: n-e-o",
+                "choices": [
+                  "one",
+                  "two",
+                  "three"
+                ],
+                "answer": 0
               },
               {
-                "type": "fill",
-                "q": "Unscramble and write: veca",
-                "answer": "cave"
+                "type": "mcq",
+                "q": "Choose the correct answer: w-t-o",
+                "choices": [
+                  "two",
+                  "one",
+                  "three"
+                ],
+                "answer": 0
               },
               {
-                "type": "fill",
-                "q": "Unscramble and write: ecak",
-                "answer": "cake"
-              },
-              {
-                "type": "fill",
-                "q": "Unscramble and write: knase",
-                "answer": "snake"
-              },
-              {
-                "type": "fill",
-                "q": "Reorder the words to make a sentence: pencils / How / are / many / there?",
-                "answer": "How many pencils are there?"
-              },
-              {
-                "type": "fill",
-                "q": "Reorder the words to make a sentence: is / one / There / cat.",
-                "answer": "There is one cat."
-              },
-              {
-                "type": "fill",
-                "q": "Reorder the words to make a sentence: are / There / notebooks. / four",
-                "answer": "There are four notebooks."
-              },
-              {
-                "type": "fill",
-                "q": "Reorder the words to make a sentence: clean/ I / class./ my",
-                "answer": "I clean my class."
+                "type": "mcq",
+                "q": "Choose the correct answer: e-e-r-h-t",
+                "choices": [
+                  "three",
+                  "one",
+                  "two"
+                ],
+                "answer": 0
               }
             ]
           }

@@ -323,6 +323,13 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 <!-- /PRIMARY-MOBILE-FIT-2027-GLOBAL -->
 <style id="PRIMARY-CANVAS-FIT-FIX-2027">#game-wrap{height:100dvh!important;min-height:100dvh!important;flex:0 0 100dvh!important}#game-wrap>canvas#c{width:100%!important;height:100%!important;max-width:none!important}</style>
 <style id="PRIMARY2-NOT-WORKING-FIX-2027">#screen-intro,#screen-intro *{pointer-events:all!important}</style>
+<script id="ENG_TOON-AUDIO-MUTED-2027">
+(function(){
+  window.ENG_TOON_AUDIO_MUTED = true;
+  try{ localStorage.setItem('eduquest-muted','true'); localStorage.setItem('gg27_muted','1'); }catch(e){}
+  try{ if(window.speechSynthesis) window.speechSynthesis.cancel(); }catch(e){}
+})();
+</script>
 </head>
 <body>
 <div id="game-wrap">
@@ -393,7 +400,7 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 const SoundEngine = (() => {
   let ctx = null;
   let bgNode = null, bgGain = null;
-  let muted = false;
+  let muted = true;
   const KEY = 'eduquest-muted';
   muted = localStorage.getItem(KEY) === 'true';
 
@@ -404,6 +411,7 @@ const SoundEngine = (() => {
   }
 
   function beep(freq, type, duration, vol=0.3, startTime=0) {
+    if(window.ENG_TOON_AUDIO_MUTED) return;
     if (muted) return;
     try {
       const c = getCtx();
@@ -518,43 +526,110 @@ const CURRICULUM = {
             "questions": [
               {
                 "type": "mcq",
-                "q": "1. This isa .",
+                "q": "Choose the correct answer: This is a ... (green / circle / blue)",
                 "choices": [
-                  "green",
                   "circle",
-                  "blue"
-                ],
-                "answer": 1
-              },
-              {
-                "type": "mcq",
-                "q": "2. The shape has 3 sides. It is a ‘",
-                "choices": [
                   "triangle",
-                  "square",
-                  "red"
+                  "blue"
                 ],
                 "answer": 0
               },
               {
-                "type": "fill",
-                "q": "Reorder the words to make a sentence:\n1. is / 2 triangle. / blue / This",
-                "answer": "This is a blue triangle."
+                "type": "mcq",
+                "q": "Choose the correct answer: The shape has 3 sides. It is a ... (triangle / square / red)",
+                "choices": [
+                  "triangle",
+                  "circle",
+                  "blue"
+                ],
+                "answer": 0
               },
               {
-                "type": "fill",
-                "q": "Reorder the words to make a sentence:\n2 red / ‘This /a/is/ circle.",
-                "answer": "This is a red circle."
+                "type": "mcq",
+                "q": "Choose the correct answer: This is a ... square. (circle / blue / triangle)",
+                "choices": [
+                  "blue",
+                  "circle",
+                  "triangle"
+                ],
+                "answer": 0
               },
               {
-                "type": "fill",
-                "q": "Reorder the words to make a sentence:\n3 is/What/this? 0",
-                "answer": "What is this?"
+                "type": "mcq",
+                "q": "Choose the correct answer: d-e-r  c-i-r-c-l-e",
+                "choices": [
+                  "red circle",
+                  "blue triangle",
+                  "green square",
+                  "This is a blue triangle."
+                ],
+                "answer": 0
               },
               {
-                "type": "fill",
-                "q": "Reorder the words to make a sentence:\n4. This ais square",
-                "answer": "This is a square."
+                "type": "mcq",
+                "q": "Choose the correct answer: e-l-u-b  t-r-i-a-n-g-l-e",
+                "choices": [
+                  "blue triangle",
+                  "red circle",
+                  "green square",
+                  "This is a blue triangle."
+                ],
+                "answer": 0
+              },
+              {
+                "type": "mcq",
+                "q": "Choose the correct answer: n-e-e-r-g  s-q-u-a-r-e",
+                "choices": [
+                  "green square",
+                  "red circle",
+                  "blue triangle",
+                  "This is a blue triangle."
+                ],
+                "answer": 0
+              },
+              {
+                "type": "mcq",
+                "q": "Choose the correct answer: is / a / triangle. / blue / This",
+                "choices": [
+                  "This is a blue triangle.",
+                  "red circle",
+                  "blue triangle",
+                  "green square"
+                ],
+                "answer": 0
+              },
+              {
+                "type": "mcq",
+                "q": "Choose the correct answer: red / This / a / is / circle.",
+                "choices": [
+                  "This is a red circle.",
+                  "red circle",
+                  "blue triangle",
+                  "green square"
+                ],
+                "answer": 0
+              },
+              {
+                "type": "mcq",
+                "q": "Choose the correct answer: is / What / this ?",
+                "choices": [
+                  "What is this?",
+                  "red circle",
+                  "blue triangle",
+                  "green square"
+                ],
+                "answer": 0
+              },
+              {
+                "type": "mcq",
+                "q": "Choose the correct answer: This / a / is / square.",
+                "choices": [
+                  "This is a square.",
+                  "red circle",
+                  "blue triangle",
+                  "green square"
+                ],
+                "answer": 0
               }
             ]
           },
