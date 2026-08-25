@@ -1067,11 +1067,41 @@ const GameBase = (() => {
   function getInfo()      { return { GRADE, UNIT_ID, LES_ID, LESSON_KEY }; }
 
   // ── Load questions from curriculum ────────────────────────────
+  // MCQ-ONLY-2027: normalize every curriculum item to multiple choice.
+  function normalizeAllMcq(all) {
+    const source = Array.isArray(all) ? all : [];
+    const pool = [];
+    source.forEach(item => {
+      if (!item || typeof item !== 'object') return;
+      (Array.isArray(item.choices) ? item.choices : []).forEach(v => {
+        const t = String(v ?? '').trim(); if (t && !pool.includes(t)) pool.push(t);
+      });
+      if (item.type === 'fill' && item.answer != null) {
+        const t = String(item.answer).trim(); if (t && t.length < 80 && !pool.includes(t)) pool.push(t);
+      }
+    });
+    const fallback = ['none of these', 'another answer', 'not mentioned', 'a different answer', 'the opposite answer', 'not given'];
+    return source.filter(item => item && typeof item === 'object').map((item, qi) => {
+      if (item.type !== 'fill') {
+        const choices = Array.isArray(item.choices) ? item.choices.map(v => String(v ?? '')) : [];
+        const answer = Number.isInteger(item.answer) ? item.answer : 0;
+        return {...item, type:'mcq', choices, answer};
+      }
+      const answerText = String(item.answer ?? '').trim();
+      const choices = [];
+      const add = value => { const t=String(value ?? '').trim(); if (t && !choices.includes(t) && t !== answerText) choices.push(t); };
+      // Prefer distractors already present in the same lesson bank.
+      pool.forEach(v => { if (choices.length < 3) add(v); });
+      fallback.forEach(v => { if (choices.length < 3) add(v); });
+      return {...item, type:'mcq', choices:[answerText, ...choices.slice(0,3)], answer:0};
+    });
+  }
+
   function loadQuestions() {
     const g = CURRICULUM[GRADE];
     const u = g?.units.find(x => x.id === UNIT_ID);
     const l = u?.lessons.find(x => x.id === LES_ID);
-    return l?.questions || [];
+    return normalizeAllMcq(l?.questions || []);
   }
 
   // ── Expose ────────────────────────────────────────────────────
@@ -1093,6 +1123,7 @@ window.GameBase = GameBase;
 <script>
 const canvas=document.getElementById('game-canvas'),ctx=canvas.getContext('2d');
 let W=0,H=0;
+let gameActive=false;
 function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;if(gameActive)buildMaze();}
 resize();let _lastWinW = window.innerWidth;
 window.addEventListener('resize', () => {
@@ -1103,7 +1134,6 @@ window.addEventListener('resize', () => {
 });
 
 // Maze state
-let gameActive=false;
 let playerX=0,playerY=0;
 let playerVX=0,playerVY=0;
 let doors=[]; // [{x,y,label,index}]
