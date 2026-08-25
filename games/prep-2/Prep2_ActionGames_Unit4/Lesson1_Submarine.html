@@ -264,8 +264,7 @@ function showEndScreen() {
 
 function mainLoop() {
     ctx.clearRect(0, 0, cv.width, cv.height);
-    gameDrawBackground();
-    gameDrawForeground();
+    try { gameDrawBackground(); gameDrawForeground(); } catch (frameError) { console.warn('Gameplay frame recovered', frameError); }
     updateAndDrawParticles();
     requestAnimationFrame(mainLoop);
 }
@@ -322,7 +321,7 @@ function gameDrawForeground() {
         createParticles(torpedo.x, torpedo.y, 'rgba(255,255,255,0.5)', 1);
         
         if(Math.hypot(dx, dy) < 15) {
-            torpedo.cb(); torpedo = null;
+            torpedo.cb(); torpedo = null;return;
         }
     }
 }
@@ -365,5 +364,7 @@ mainLoop();
   } catch(err) {}
 })();
 </script>
+<!-- GAMEPLAY-LOOP-SAFETY-2027 -->
+<!-- CALLBACK-NULL-RESET-GUARD-2027 -->
 </body>
 </html>

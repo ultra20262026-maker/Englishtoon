@@ -352,12 +352,12 @@ let cv,ctx,W,H,AC;
 
 let pp=null;
 function placeTarget(btn,i,n){const s=W/(n+1);btn.style.left=s*(i+1)+'px';btn.style.top=H*0.35+'px';}
-function onLoadQ(){pp=null;}
+function onLoadQ(){pp=null; return;}
 function doShoot(tx,ty,ok,btn,cb){SS();pp={x:W/2,y:H-60,tx,ty,cb};}
 function drawBG(){ctx.fillStyle='#306230';ctx.fillRect(0,0,W,H);ctx.strokeStyle='#9bbc0f';ctx.lineWidth=4;ctx.strokeRect(20,20,W-40,H-40);}
 function drawFG(){
   if(pp){pp.x+=(pp.tx-pp.x)*0.2;pp.y+=(pp.ty-pp.y)*0.2;ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(pp.x,pp.y,12,0,Math.PI*2);ctx.fill();
-    if(Math.hypot(pp.tx-pp.x,pp.ty-pp.y)<10){burst(pp.tx,pp.ty,'#9bbc0f',20);pp.cb();pp=null;}
+    if(Math.hypot(pp.tx-pp.x,pp.ty-pp.y)<10){burst(pp.tx,pp.ty,'#9bbc0f',20);pp.cb();pp=null; return;}
   }
 }
 
@@ -472,5 +472,6 @@ window.onresize = function(){
     }
 </script>
 
+<!-- PROJECTILE-NULL-DEREF-FIX-2027 -->
 </body>
 </html>

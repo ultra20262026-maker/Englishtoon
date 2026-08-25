@@ -352,14 +352,14 @@ let cv,ctx,W,H,AC;
 
 let plane=null;
 function placeTarget(btn,i,n){const s=W/(n+1);btn.style.left=s*(i+1)+'px';btn.style.top=H*0.4+'px';}
-function onLoadQ(){plane=null;}
+function onLoadQ(){plane=null; return;}
 function doShoot(tx,ty,ok,btn,cb){SS();plane={x:0,y:H,tx,ty,cb};}
 function drawBG(){ctx.fillStyle='#0d1b2a';ctx.fillRect(0,0,W,H);}
 function drawFG(){
   if(plane){plane.x+=(plane.tx-plane.x)*0.12;plane.y+=(plane.ty-plane.y)*0.12;
     ctx.save();ctx.translate(plane.x,plane.y);ctx.rotate(Math.atan2(plane.ty-plane.y,plane.tx-plane.x));
     ctx.fillStyle='#fff';ctx.beginPath();ctx.moveTo(25,0);ctx.lineTo(-20,-12);ctx.lineTo(-10,0);ctx.lineTo(-20,12);ctx.fill();ctx.restore();
-    if(Math.hypot(plane.tx-plane.x,plane.ty-plane.y)<10){plane.cb();plane=null;}
+    if(Math.hypot(plane.tx-plane.x,plane.ty-plane.y)<10){plane.cb();plane=null; return;}
   }
 }
 
@@ -474,5 +474,6 @@ window.onresize = function(){
     }
 </script>
 
+<!-- PROJECTILE-NULL-DEREF-FIX-2027 -->
 </body>
 </html>

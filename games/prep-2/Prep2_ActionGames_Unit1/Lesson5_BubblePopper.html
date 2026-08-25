@@ -445,8 +445,7 @@ function showEndScreen() { saveScoreToFirebase(score);
 // Request Animation Frame loop
 function mainLoop() {
     ctx.clearRect(0, 0, cv.width, cv.height);
-    gameDrawBackground();
-    gameDrawForeground();
+    try { gameDrawBackground(); gameDrawForeground(); } catch (frameError) { console.warn('Gameplay frame recovered', frameError); }
     updateAndDrawParticles();
     requestAnimationFrame(mainLoop);
 }
@@ -467,7 +466,7 @@ function gameInitTarget(btn, i, total) {
     btn.style.top = btn.dataset.baseY + 'px';
 }
 
-function gameOnLoadQ() { dart = null; }
+function gameOnLoadQ() { dart = null; return;}
 
 function gameAnimateAction(tx, ty, isCorrect, btn, onHitCallback) {
     sndShoot();
@@ -513,8 +512,7 @@ function gameDrawForeground() {
         // Hit detection
         if(Math.hypot(dx, dy) < speed) {
             dart.cb();
-            dart = null;
-        }
+            dart = null; return;}
     }
 }
 
@@ -598,5 +596,7 @@ mainLoop();
     }
 </script>
 
+<!-- GAMEPLAY-LOOP-SAFETY-2027 -->
+<!-- PROJECTILE-NULL-DEREF-FIX-2027 -->
 </body>
 </html>

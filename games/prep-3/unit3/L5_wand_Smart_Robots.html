@@ -352,7 +352,7 @@ let cv,ctx,W,H,AC;
 
 let wand=null;let wT=0;
 function placeTarget(btn,i,n){const s=W/(n+1);btn.dataset.y=H*0.4;btn.style.left=s*(i+1)+'px';btn.style.top=btn.dataset.y+'px';}
-function onLoadQ(){wand=null;}
+function onLoadQ(){wand=null; return;}
 function doShoot(tx,ty,ok,btn,cb){SS();wand={x:W/2,y:H,tx,ty,cb,btn};}
 function drawBG(){wT++;for(let i=0;i<60;i++){ctx.fillStyle='rgba(241,196,15,'+(0.3+Math.sin(wT*0.05+i)*0.2)+')';ctx.beginPath();ctx.arc((i*173+11)%W,(i*127+23)%H,i%5?1:2.5,0,Math.PI*2);ctx.fill();}if(!locked)document.querySelectorAll('.tbtn').forEach((b,i)=>{b.style.top=(parseFloat(b.dataset.y)+Math.sin(wT*0.05+i)*15)+'px';});}
 function drawFG(){
@@ -360,7 +360,7 @@ function drawFG(){
     ctx.save();ctx.translate(wand.x,wand.y);ctx.fillStyle='#8B4513';ctx.fillRect(-5,0,10,55);
     const wg=ctx.createRadialGradient(0,0,3,0,0,16);wg.addColorStop(0,'#fff');wg.addColorStop(0.4,'#f1c40f');wg.addColorStop(1,'rgba(241,196,15,0)');
     ctx.fillStyle=wg;ctx.beginPath();ctx.arc(0,0,16,0,Math.PI*2);ctx.fill();ctx.restore();
-    if(Math.hypot(wand.tx-wand.x,wand.ty-wand.y)<10){burst(wand.tx,wand.ty,'#f1c40f',50);wand.btn.style.background='#f1c40f';wand.cb();wand=null;}
+    if(Math.hypot(wand.tx-wand.x,wand.ty-wand.y)<10){burst(wand.tx,wand.ty,'#f1c40f',50);wand.btn.style.background='#f1c40f';wand.cb();wand=null; return;}
   }
 }
 
@@ -475,5 +475,6 @@ window.onresize = function(){
     }
 </script>
 
+<!-- PROJECTILE-NULL-DEREF-FIX-2027 -->
 </body>
 </html>

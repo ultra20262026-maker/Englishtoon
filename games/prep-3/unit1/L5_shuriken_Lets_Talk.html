@@ -352,7 +352,7 @@ let cv,ctx,W,H,AC;
 
 let star=null;
 function placeTarget(btn,i,n){const s=W/(n+1);btn.style.left=s*(i+1)+'px';btn.style.top=H*0.35+'px';}
-function onLoadQ(){star=null;}
+function onLoadQ(){star=null; return;}
 function doShoot(tx,ty,ok,btn,cb){SS();star={x:W/2,y:H-60,tx,ty,cb,a:0,trail:[]};}
 function drawBG(){
   ctx.fillStyle='#2c2c2c';ctx.fillRect(0,0,W,H);ctx.fillStyle='#222';ctx.fillRect(0,H*0.75,W,H*0.25);
@@ -366,7 +366,7 @@ function drawFG(){
     star.x+=(star.tx-star.x)*0.16;star.y+=(star.ty-star.y)*0.16;
     ctx.globalAlpha=1;ctx.save();ctx.translate(star.x,star.y);ctx.rotate(star.a);
     ctx.fillStyle='#bdc3c7';for(let k=0;k<4;k++){ctx.beginPath();ctx.moveTo(0,-10);ctx.lineTo(18,0);ctx.lineTo(0,10);ctx.fill();ctx.rotate(Math.PI/2);}
-    ctx.restore();if(Math.hypot(star.tx-star.x,star.ty-star.y)<10){star.cb();star=null;}
+    ctx.restore();if(Math.hypot(star.tx-star.x,star.ty-star.y)<10){star.cb();star=null; return;}
   }
 }
 
@@ -481,5 +481,6 @@ window.onresize = function(){
     }
 </script>
 
+<!-- PROJECTILE-NULL-DEREF-FIX-2027 -->
 </body>
 </html>

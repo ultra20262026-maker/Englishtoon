@@ -352,7 +352,7 @@ let cv,ctx,W,H,AC;
 
 let ball=null;
 function placeTarget(btn,i,n){const s=W/(n+1);btn.style.left=s*(i+1)+'px';btn.style.top=H*0.38+'px';}
-function onLoadQ(){ball=null;}
+function onLoadQ(){ball=null; return;}
 function doShoot(tx,ty,ok,btn,cb){SS();ball={x:W/2,y:H-60,tx,ty,cb,r:22,trail:[]};}
 function drawBG(){
   ctx.fillStyle='#2c3e50';ctx.fillRect(0,H-70,W,70);
@@ -368,7 +368,7 @@ function drawFG(){
     ball.trail.forEach((p,i)=>{ctx.globalAlpha=(i/ball.trail.length)*0.35;ctx.fillStyle='#e74c3c';ctx.beginPath();ctx.arc(p.x,p.y,ball.r*(i/ball.trail.length),0,Math.PI*2);ctx.fill();});
     ctx.globalAlpha=1;ball.x+=(ball.tx-ball.x)*0.12;ball.y+=(ball.ty-ball.y)*0.12;
     ctx.fillStyle='#c0392b';ctx.beginPath();ctx.arc(ball.x,ball.y,ball.r,0,Math.PI*2);ctx.fill();
-    if(Math.hypot(ball.tx-ball.x,ball.ty-ball.y)<8){ball.cb();ball=null;}
+    if(Math.hypot(ball.tx-ball.x,ball.ty-ball.y)<8){ball.cb();ball=null; return;}
   }
 }
 
@@ -483,5 +483,6 @@ window.onresize = function(){
     }
 </script>
 
+<!-- PROJECTILE-NULL-DEREF-FIX-2027 -->
 </body>
 </html>

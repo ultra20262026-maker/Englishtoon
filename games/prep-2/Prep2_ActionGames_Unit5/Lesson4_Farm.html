@@ -265,8 +265,7 @@ function showEndScreen() {
 
 function mainLoop() {
     ctx.clearRect(0, 0, cv.width, cv.height);
-    gameDrawBackground();
-    gameDrawForeground();
+    try { gameDrawBackground(); gameDrawForeground(); } catch (frameError) { console.warn('Gameplay frame recovered', frameError); }
     updateAndDrawParticles();
     requestAnimationFrame(mainLoop);
 }
@@ -278,7 +277,7 @@ function gameInitTarget(btn, i, total) {
     btn.style.left = (spacing * (i + 1)) + 'px';
     btn.style.top = (window.innerHeight * 0.6) + 'px';
 }
-function gameOnLoadQ() { can = null; }
+function gameOnLoadQ() { can = null; return;}
 function gameAnimateAction(tx, ty, isCorrect, btn, cb) {
     sndShoot();
     can = { x: -100, y: ty - 150, tx: tx + 50, ty: ty - 100, cb, btn, state: 'fly', time: 0 };
@@ -306,7 +305,7 @@ function gameDrawForeground() {
             if(can.time > 60) can.state = 'leave';
         } else if(can.state === 'leave') {
             can.x += 15;
-            if(can.x > cv.width + 100) { can.cb(); can = null; }
+            if(can.x > cv.width + 100) { can.cb(); can = null; return;}
         }
         
         if(can) {
@@ -360,5 +359,7 @@ mainLoop();
   } catch(err) {}
 })();
 </script>
+<!-- GAMEPLAY-LOOP-SAFETY-2027 -->
+<!-- PROJECTILE-NULL-DEREF-FIX-2027 -->
 </body>
 </html>

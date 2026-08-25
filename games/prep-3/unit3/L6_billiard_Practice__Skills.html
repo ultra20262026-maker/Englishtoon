@@ -352,13 +352,13 @@ let cv,ctx,W,H,AC;
 
 let cue=null;
 function placeTarget(btn,i,n){const s=W/(n+1);btn.style.left=s*(i+1)+'px';btn.style.top=H*0.35+'px';}
-function onLoadQ(){cue=null;}
+function onLoadQ(){cue=null; return;}
 function doShoot(tx,ty,ok,btn,cb){SS();cue={x:W/2,y:H-80,tx,ty,cb,btn,state:'roll'};}
 function drawBG(){ctx.fillStyle='#1e8449';ctx.fillRect(20,20,W-40,H-40);ctx.strokeStyle='#27ae60';ctx.lineWidth=4;ctx.strokeRect(20,20,W-40,H-40);ctx.fillStyle='#155724';ctx.fillRect(20,20,W-40,H-40);ctx.fillStyle='#1e8449';ctx.fillRect(40,40,W-80,H-80);}
 function drawFG(){
   if(cue){
     if(cue.state==='roll'){cue.x+=(cue.tx-cue.x)*0.18;cue.y+=(cue.ty-cue.y)*0.18;ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(cue.x,cue.y,20,0,Math.PI*2);ctx.fill();if(Math.hypot(cue.tx-cue.x,cue.ty-cue.y)<25){cue.state='hit';cue.vx=(cue.tx-W/2)*0.1;cue.vy=-28;SS();}}
-    else if(cue.state==='hit'){let bx=parseFloat(cue.btn.style.left),by=parseFloat(cue.btn.style.top);bx+=cue.vx;by+=cue.vy;cue.vy+=1;cue.btn.style.left=bx+'px';cue.btn.style.top=by+'px';if(by>H+100||bx<-100||bx>W+100){cue.cb();cue=null;}}
+    else if(cue.state==='hit'){let bx=parseFloat(cue.btn.style.left),by=parseFloat(cue.btn.style.top);bx+=cue.vx;by+=cue.vy;cue.vy+=1;cue.btn.style.left=bx+'px';cue.btn.style.top=by+'px';if(by>H+100||bx<-100||bx>W+100){cue.cb();cue=null; return;}}
   }
 }
 
@@ -473,5 +473,6 @@ window.onresize = function(){
     }
 </script>
 
+<!-- PROJECTILE-NULL-DEREF-FIX-2027 -->
 </body>
 </html>

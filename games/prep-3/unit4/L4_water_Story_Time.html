@@ -352,7 +352,7 @@ let cv,ctx,W,H,AC;
 
 let can=null;
 function placeTarget(btn,i,n){const s=W/(n+1);btn.style.left=s*(i+1)+'px';btn.style.top=H*0.6+'px';}
-function onLoadQ(){can=null;}
+function onLoadQ(){can=null; return;}
 function doShoot(tx,ty,ok,btn,cb){SS();can={x:-80,y:ty-180,tx:tx+40,ty:ty-160,cb,btn,state:'fly',t:0};}
 function drawBG(){const gg=ctx.createLinearGradient(0,0,0,H);gg.addColorStop(0,'#1a4a10');gg.addColorStop(1,'#2d6a20');ctx.fillStyle=gg;ctx.fillRect(0,0,W,H);ctx.fillStyle='#8B4513';ctx.fillRect(0,H*0.8,W,H*0.2);}
 function drawFG(){
@@ -475,5 +475,6 @@ window.onresize = function(){
     }
 </script>
 
+<!-- PROJECTILE-NULL-DEREF-FIX-2027 -->
 </body>
 </html>

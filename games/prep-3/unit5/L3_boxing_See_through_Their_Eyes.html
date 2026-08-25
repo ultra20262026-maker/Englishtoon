@@ -352,14 +352,14 @@ let cv,ctx,W,H,AC;
 
 let glove=null;
 function placeTarget(btn,i,n){const s=W/(n+1);btn.style.left=s*(i+1)+'px';btn.style.top=H*0.35+'px';}
-function onLoadQ(){glove=null;}
+function onLoadQ(){glove=null; return;}
 function doShoot(tx,ty,ok,btn,cb){SS();glove={x:W/2,y:H,tx,ty,cb,btn};}
 function drawBG(){ctx.fillStyle='#1a0000';ctx.fillRect(0,0,W,H);ctx.strokeStyle='#e74c3c';ctx.lineWidth=4;ctx.strokeRect(30,30,W-60,H-60);}
 function drawFG(){
   if(glove){glove.x+=(glove.tx-glove.x)*0.2;glove.y+=(glove.ty-glove.y)*0.2;
     ctx.strokeStyle='#f39c12';ctx.lineWidth=8;ctx.beginPath();ctx.moveTo(W/2,H);ctx.lineTo(glove.x,glove.y);ctx.stroke();
     ctx.fillStyle='#e74c3c';ctx.beginPath();ctx.arc(glove.x,glove.y,35,0,Math.PI*2);ctx.fill();
-    if(Math.hypot(glove.tx-glove.x,glove.ty-glove.y)<15){burst(glove.tx,glove.ty,'#e74c3c',30);glove.cb();glove=null;}
+    if(Math.hypot(glove.tx-glove.x,glove.ty-glove.y)<15){burst(glove.tx,glove.ty,'#e74c3c',30);glove.cb();glove=null; return;}
   }
 }
 
@@ -474,5 +474,6 @@ window.onresize = function(){
     }
 </script>
 
+<!-- PROJECTILE-NULL-DEREF-FIX-2027 -->
 </body>
 </html>

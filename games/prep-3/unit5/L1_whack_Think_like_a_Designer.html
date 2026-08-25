@@ -352,12 +352,12 @@ let cv,ctx,W,H,AC;
 
 let hammer=null;
 function placeTarget(btn,i,n){const s=W/(n+1);btn.style.left=s*(i+1)+'px';btn.style.top=H*0.55+'px';}
-function onLoadQ(){hammer=null;}
+function onLoadQ(){hammer=null; return;}
 function doShoot(tx,ty,ok,btn,cb){SS();hammer={x:tx+60,y:ty-80,tx,ty,cb,btn,a:0.8};}
 function drawBG(){ctx.fillStyle='#5d4037';ctx.fillRect(0,0,W,H);for(let i=0;i<4;i++){ctx.fillStyle='#3e2723';ctx.beginPath();ctx.ellipse((i+1)*(W/5),H*0.55+20,60,22,0,0,Math.PI*2);ctx.fill();}}
 function drawFG(){
   if(hammer){hammer.a-=0.06;ctx.save();ctx.translate(hammer.tx,hammer.ty);ctx.rotate(hammer.a);ctx.fillStyle='#8d6e63';ctx.fillRect(0,-15,20,80);ctx.fillStyle='#3e2723';ctx.fillRect(-25,-35,70,40);ctx.restore();
-    if(hammer.a<=0){burst(hammer.tx,hammer.ty,'#d35400',25);hammer.cb();hammer=null;}
+    if(hammer.a<=0){burst(hammer.tx,hammer.ty,'#d35400',25);hammer.cb();hammer=null; return;}
   }
 }
 
@@ -472,5 +472,6 @@ window.onresize = function(){
     }
 </script>
 
+<!-- PROJECTILE-NULL-DEREF-FIX-2027 -->
 </body>
 </html>

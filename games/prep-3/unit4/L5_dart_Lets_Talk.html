@@ -352,7 +352,7 @@ let cv,ctx,W,H,AC;
 
 let dart=null;
 function placeTarget(btn,i,n){const s=W/(n+1);btn.style.left=s*(i+1)+'px';btn.style.top=H*0.35+'px';}
-function onLoadQ(){dart=null;}
+function onLoadQ(){dart=null; return;}
 function doShoot(tx,ty,ok,btn,cb){SS();const t=30,g=0.4,vx=(tx-W/2)/t,vy=(ty-(H-60)-0.5*g*t*t)/t;dart={x:W/2,y:H-60,vx,vy,g,cb,tx,ty};}
 function drawBG(){ctx.fillStyle='#5D4037';ctx.fillRect(0,0,W,H);}
 function drawFG(){
@@ -360,7 +360,7 @@ function drawFG(){
     const ang=Math.atan2(dart.vy,dart.vx);ctx.save();ctx.translate(dart.x,dart.y);ctx.rotate(ang);
     ctx.fillStyle='#e74c3c';ctx.beginPath();ctx.moveTo(12,0);ctx.lineTo(-5,-4);ctx.lineTo(-5,4);ctx.fill();
     ctx.fillStyle='#bdc3c7';ctx.fillRect(-25,-3,20,6);ctx.fillStyle='#2ecc71';ctx.fillRect(-28,-5,6,10);ctx.restore();
-    if((dart.vy>0&&dart.y>dart.ty)||dart.y>H){dart.cb();dart=null;}
+    if((dart.vy>0&&dart.y>dart.ty)||dart.y>H){dart.cb();dart=null; return;}
   }
 }
 
@@ -475,5 +475,6 @@ window.onresize = function(){
     }
 </script>
 
+<!-- PROJECTILE-NULL-DEREF-FIX-2027 -->
 </body>
 </html>

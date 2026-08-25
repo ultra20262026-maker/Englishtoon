@@ -352,7 +352,7 @@ let cv,ctx,W,H,AC;
 
 let arrow=null;
 function placeTarget(btn,i,n){const s=W/(n+1);btn.style.left=s*(i+1)+'px';btn.style.top=H*0.35+'px';}
-function onLoadQ(){arrow=null;}
+function onLoadQ(){arrow=null; return;}
 function doShoot(tx,ty,ok,btn,cb){SS();const t=35,g=0.5,vx=(tx-W/2)/t,vy=(ty-(H-60)-0.5*g*t*t)/t;arrow={x:W/2,y:H-60,vx,vy,g,cb,tx,ty};}
 function drawBG(){
   ctx.fillStyle='#1a3a2a';ctx.fillRect(0,H*0.65,W,H*0.35);
@@ -366,7 +366,7 @@ function drawFG(){
     ctx.fillStyle='#8B4513';ctx.fillRect(-25,-3,45,6);
     ctx.fillStyle='#bdc3c7';ctx.beginPath();ctx.moveTo(20,-7);ctx.lineTo(32,0);ctx.lineTo(20,7);ctx.fill();
     ctx.fillStyle='#27ae60';ctx.fillRect(-28,-5,8,10);ctx.restore();
-    if((arrow.vy>0&&arrow.y>arrow.ty)||arrow.y>H){arrow.cb();arrow=null;}
+    if((arrow.vy>0&&arrow.y>arrow.ty)||arrow.y>H){arrow.cb();arrow=null; return;}
   }
 }
 
@@ -481,5 +481,6 @@ window.onresize = function(){
     }
 </script>
 
+<!-- PROJECTILE-NULL-DEREF-FIX-2027 -->
 </body>
 </html>

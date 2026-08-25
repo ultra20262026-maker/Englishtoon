@@ -352,12 +352,12 @@ let cv,ctx,W,H,AC;
 
 let rock=null;
 function placeTarget(btn,i,n){const s=W/(n+1);btn.style.left=s*(i+1)+'px';btn.style.top=H*0.35+'px';}
-function onLoadQ(){rock=null;}
+function onLoadQ(){rock=null; return;}
 function doShoot(tx,ty,ok,btn,cb){SS();const t=32,g=0.7,vx=(tx-100)/t,vy=(ty-(H-80)-0.5*g*t*t)/t;rock={x:100,y:H-80,vx,vy,g,cb,tx,ty};}
 function drawBG(){ctx.fillStyle='#1e140e';ctx.fillRect(0,0,W,H);ctx.fillStyle='#8d6e63';ctx.fillRect(60,H-80,80,80);}
 function drawFG(){
   if(rock){rock.vy+=rock.g;rock.x+=rock.vx;rock.y+=rock.vy;ctx.fillStyle='#7f8c8d';ctx.beginPath();ctx.arc(rock.x,rock.y,20,0,Math.PI*2);ctx.fill();
-    if((rock.vy>0&&rock.y>rock.ty)||rock.y>H){burst(rock.tx,rock.ty,'#e67e22',35);rock.cb();rock=null;}
+    if((rock.vy>0&&rock.y>rock.ty)||rock.y>H){burst(rock.tx,rock.ty,'#e67e22',35);rock.cb();rock=null; return;}
   }
 }
 
@@ -472,5 +472,6 @@ window.onresize = function(){
     }
 </script>
 
+<!-- PROJECTILE-NULL-DEREF-FIX-2027 -->
 </body>
 </html>

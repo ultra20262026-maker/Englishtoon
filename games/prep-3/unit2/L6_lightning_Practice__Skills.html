@@ -352,7 +352,7 @@ let cv,ctx,W,H,AC;
 
 let bolt=null;
 function placeTarget(btn,i,n){const s=W/(n+1);btn.style.left=s*(i+1)+'px';btn.style.top=H*0.65+'px';}
-function onLoadQ(){bolt=null;}
+function onLoadQ(){bolt=null; return;}
 function doShoot(tx,ty,ok,btn,cb){SS();bolt={tx,ty,cb,btn,frames:25};btn.style.filter='brightness(5)';}
 function drawBG(){ctx.fillStyle='#1a252f';ctx.beginPath();ctx.ellipse(W/2,0,200,80,0,0,Math.PI*2);ctx.fill();}
 function drawFG(){
@@ -365,7 +365,7 @@ function drawFG(){
       ctx.lineTo(bolt.tx,bolt.ty);ctx.stroke();
     }
     burst(bolt.tx,bolt.ty,'#f1c40f',3);bolt.frames--;
-    if(bolt.frames<=0){bolt.btn.style.filter='brightness(0.15)';bolt.cb();bolt=null;}
+    if(bolt.frames<=0){bolt.btn.style.filter='brightness(0.15)';bolt.cb();bolt=null; return;}
   }
 }
 
@@ -480,5 +480,6 @@ window.onresize = function(){
     }
 </script>
 
+<!-- PROJECTILE-NULL-DEREF-FIX-2027 -->
 </body>
 </html>

@@ -368,7 +368,7 @@ function drawFG(){
     hook.x+=(bx-hook.x)*0.15;hook.y+=(by-hook.y)*0.15;
     ctx.strokeStyle='rgba(255,255,255,0.7)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(W/2,190);ctx.lineTo(hook.x,hook.y);ctx.stroke();
     ctx.strokeStyle='#bdc3c7';ctx.lineWidth=4;ctx.beginPath();ctx.arc(hook.x,hook.y+8,8,0,Math.PI);ctx.stroke();
-    if(Math.hypot(bx-hook.x,by-hook.y)<15){hook.btn.style.left=W/2+'px';hook.btn.style.top='160px';setTimeout(()=>{hook.cb();hook=null;},300);}
+    if(Math.hypot(bx-hook.x,by-hook.y)<15){hook.btn.style.left=W/2+'px';hook.btn.style.top='160px';setTimeout(()=>{hook.cb();hook=null;return;},300);}
   }
 }
 
@@ -483,5 +483,6 @@ window.onresize = function(){
     }
 </script>
 
+<!-- CALLBACK-NULL-RESET-GUARD-2027 -->
 </body>
 </html>

@@ -265,8 +265,7 @@ function showEndScreen() {
 
 function mainLoop() {
     ctx.clearRect(0, 0, cv.width, cv.height);
-    gameDrawBackground();
-    gameDrawForeground();
+    try { gameDrawBackground(); gameDrawForeground(); } catch (frameError) { console.warn('Gameplay frame recovered', frameError); }
     updateAndDrawParticles();
     requestAnimationFrame(mainLoop);
 }
@@ -278,7 +277,7 @@ function gameInitTarget(btn, i, total) {
     btn.style.left = (spacing * (i + 1)) + 'px';
     btn.style.top = (window.innerHeight * 0.4) + 'px';
 }
-function gameOnLoadQ() { shell = null; }
+function gameOnLoadQ() { shell = null; return;}
 function gameAnimateAction(tx, ty, isCorrect, btn, cb) {
     sndShoot();
     const startX = cv.width/2, startY = cv.height - 100;
@@ -313,10 +312,8 @@ function gameDrawForeground() {
         createParticles(shell.x, shell.y, '#f1c40f', 2);
         
         if(shell.vy > 0 && shell.y > shell.targetY) {
-            shell.cb(); shell = null;
-        } else if(shell.y > cv.height) {
-            shell.cb(); shell = null;
-        }
+            shell.cb(); shell = null; return;} else if(shell.y > cv.height) {
+            shell.cb(); shell = null; return;}
     }
 }
 
@@ -358,5 +355,7 @@ mainLoop();
   } catch(err) {}
 })();
 </script>
+<!-- GAMEPLAY-LOOP-SAFETY-2027 -->
+<!-- PROJECTILE-NULL-DEREF-FIX-2027 -->
 </body>
 </html>

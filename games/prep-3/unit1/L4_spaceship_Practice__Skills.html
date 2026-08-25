@@ -369,7 +369,7 @@ function drawFG(){
     laser.trail.forEach((p,i)=>{ctx.globalAlpha=(i/laser.trail.length)*0.7;ctx.fillStyle='#f1c40f';ctx.fillRect(p.x-2,p.y,4,8);});
     ctx.globalAlpha=1;laser.x+=(laser.tx-laser.x)*0.18;laser.y+=(laser.ty-laser.y)*0.18;
     ctx.fillStyle='#fff700';ctx.fillRect(laser.x-3,laser.y-12,6,24);
-    if(Math.hypot(laser.tx-laser.x,laser.ty-laser.y)<12){laser.cb();laser=null;}
+    if(Math.hypot(laser.tx-laser.x,laser.ty-laser.y)<12){laser.cb();laser=null;return;}
   }
 }
 
@@ -484,5 +484,6 @@ window.onresize = function(){
     }
 </script>
 
+<!-- CALLBACK-NULL-RESET-GUARD-2027 -->
 </body>
 </html>

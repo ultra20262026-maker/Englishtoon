@@ -352,7 +352,7 @@ let cv,ctx,W,H,AC;
 
 let bb=null;
 function placeTarget(btn,i,n){const s=W/(n+1);btn.style.left=s*(i+1)+'px';btn.style.top=H*0.22+'px';}
-function onLoadQ(){bb=null;}
+function onLoadQ(){bb=null; return;}
 function doShoot(tx,ty,ok,btn,cb){SS();const t=38,g=0.6,vx=(tx-W/2)/t,vy=(ty-(H-80)-0.5*g*t*t)/t;bb={x:W/2,y:H-80,vx,vy,g,cb,tx,ty,r:25,rot:0};}
 function drawBG(){
   ctx.fillStyle='#8B4513';ctx.fillRect(0,H*0.6,W,H*0.4);
@@ -365,7 +365,7 @@ function drawFG(){
     const bg=ctx.createRadialGradient(-6,-6,3,0,0,bb.r);bg.addColorStop(0,'#f39c12');bg.addColorStop(1,'#d35400');
     ctx.fillStyle=bg;ctx.beginPath();ctx.arc(0,0,bb.r,0,Math.PI*2);ctx.fill();
     ctx.strokeStyle='#7f3200';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-bb.r,0);ctx.lineTo(bb.r,0);ctx.stroke();
-    ctx.restore();if((bb.vy>0&&bb.y>bb.ty)||bb.y>H){bb.cb();bb=null;}
+    ctx.restore();if((bb.vy>0&&bb.y>bb.ty)||bb.y>H){bb.cb();bb=null; return;}
   }
 }
 
@@ -480,5 +480,6 @@ window.onresize = function(){
     }
 </script>
 
+<!-- PROJECTILE-NULL-DEREF-FIX-2027 -->
 </body>
 </html>

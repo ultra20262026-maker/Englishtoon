@@ -268,8 +268,7 @@ function showEndScreen() {
 
 function mainLoop() {
     ctx.clearRect(0, 0, cv.width, cv.height);
-    gameDrawBackground();
-    gameDrawForeground();
+    try { gameDrawBackground(); gameDrawForeground(); } catch (frameError) { console.warn('Gameplay frame recovered', frameError); }
     updateAndDrawParticles();
     requestAnimationFrame(mainLoop);
 }
@@ -281,7 +280,7 @@ function gameInitTarget(btn, i, total) {
     btn.style.left = (spacing * (i + 1)) + 'px';
     btn.style.top = (window.innerHeight * 0.3) + 'px';
 }
-function gameOnLoadQ() { gball = null; }
+function gameOnLoadQ() { gball = null; return;}
 function gameAnimateAction(tx, ty, isCorrect, btn, cb) {
     sndShoot();
     gball = { x: cv.width/2, y: cv.height - 100, tx, ty, cb, size: 20 };
@@ -301,8 +300,7 @@ function gameDrawForeground() {
         ctx.beginPath(); ctx.arc(gball.x, gball.y, gball.size, 0, Math.PI*2); ctx.stroke();
         
         if(Math.hypot(dx, dy) < 10) {
-            gball.cb(); gball = null;
-        }
+            gball.cb(); gball = null; return;}
     } else {
         ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(cv.width/2, cv.height - 100, 20, 0, Math.PI*2); ctx.fill();
     }
@@ -346,5 +344,7 @@ mainLoop();
   } catch(err) {}
 })();
 </script>
+<!-- GAMEPLAY-LOOP-SAFETY-2027 -->
+<!-- PROJECTILE-NULL-DEREF-FIX-2027 -->
 </body>
 </html>

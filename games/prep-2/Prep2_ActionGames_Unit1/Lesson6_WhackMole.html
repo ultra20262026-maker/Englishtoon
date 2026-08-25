@@ -445,8 +445,7 @@ function showEndScreen() { saveScoreToFirebase(score);
 // Request Animation Frame loop
 function mainLoop() {
     ctx.clearRect(0, 0, cv.width, cv.height);
-    gameDrawBackground();
-    gameDrawForeground();
+    try { gameDrawBackground(); gameDrawForeground(); } catch (frameError) { console.warn('Gameplay frame recovered', frameError); }
     updateAndDrawParticles();
     requestAnimationFrame(mainLoop);
 }
@@ -577,5 +576,6 @@ mainLoop();
     }
 </script>
 
+<!-- GAMEPLAY-LOOP-SAFETY-2027 -->
 </body>
 </html>

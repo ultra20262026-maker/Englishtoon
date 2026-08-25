@@ -352,13 +352,13 @@ let cv,ctx,W,H,AC;
 
 let car=null;
 function placeTarget(btn,i,n){const s=W/(n+1);btn.style.left=s*(i+1)+'px';btn.style.top=H*0.3+'px';}
-function onLoadQ(){car=null;}
+function onLoadQ(){car=null; return;}
 function doShoot(tx,ty,ok,btn,cb){SS();car={x:-120,y:H*0.72,tx,ty,cb,btn,state:'drive'};}
 function drawBG(){ctx.fillStyle='#555';ctx.fillRect(0,H*0.65,W,H*0.22);ctx.fillStyle='rgba(255,255,255,0.6)';for(let i=0;i<W;i+=65)ctx.fillRect(i,H*0.755,35,8);ctx.fillStyle='#333';ctx.fillRect(0,0,W,H*0.63);}
 function drawFG(){
   if(car){
     if(car.state==='drive'){car.x+=22;if(car.x>=car.tx)car.state='turn';}
-    else if(car.state==='turn'){car.y-=22;if(car.y<=car.ty+65){burst(car.x,car.y,'#e74c3c',20);car.btn.style.transform+=' scale(0)';car.cb();car=null;}}
+    else if(car.state==='turn'){car.y-=22;if(car.y<=car.ty+65){burst(car.x,car.y,'#e74c3c',20);car.btn.style.transform+=' scale(0)';car.cb();car=null; return;}}
     if(car){ctx.save();ctx.translate(car.x,car.y);if(car.state==='turn'){ctx.rotate(-Math.PI/2);}ctx.fillStyle='#e74c3c';ctx.fillRect(-45,-18,90,36);ctx.fillStyle='#1a1a1a';ctx.beginPath();ctx.arc(-28,18,12,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(28,18,12,0,Math.PI*2);ctx.fill();ctx.restore();}
   }
 }
@@ -474,5 +474,6 @@ window.onresize = function(){
     }
 </script>
 
+<!-- PROJECTILE-NULL-DEREF-FIX-2027 -->
 </body>
 </html>

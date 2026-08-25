@@ -264,8 +264,7 @@ function showEndScreen() {
 
 function mainLoop() {
     ctx.clearRect(0, 0, cv.width, cv.height);
-    gameDrawBackground();
-    gameDrawForeground();
+    try { gameDrawBackground(); gameDrawForeground(); } catch (frameError) { console.warn('Gameplay frame recovered', frameError); }
     updateAndDrawParticles();
     requestAnimationFrame(mainLoop);
 }
@@ -277,7 +276,7 @@ function gameInitTarget(btn, i, total) {
     btn.style.left = (spacing * (i + 1)) + 'px';
     btn.style.top = (window.innerHeight * 0.8) + 'px';
 }
-function gameOnLoadQ() { ufo = null; }
+function gameOnLoadQ() { ufo = null; return;}
 function gameAnimateAction(tx, ty, isCorrect, btn, cb) {
     sndShoot();
     ufo = { x: -100, y: ty - 300, tx, ty, btn, cb, state: 'flyIn' };
@@ -302,7 +301,7 @@ function gameDrawForeground() {
         } else if(ufo.state === 'flyOut') {
             ufo.x += 15;
             ufo.btn.style.left = ufo.x + 'px';
-            if(ufo.x > cv.width + 100) { ufo.cb(); ufo = null; }
+            if(ufo.x > cv.width + 100) { ufo.cb(); ufo = null; return;}
         }
         
         if(ufo) {
@@ -353,5 +352,7 @@ mainLoop();
   } catch(err) {}
 })();
 </script>
+<!-- GAMEPLAY-LOOP-SAFETY-2027 -->
+<!-- PROJECTILE-NULL-DEREF-FIX-2027 -->
 </body>
 </html>

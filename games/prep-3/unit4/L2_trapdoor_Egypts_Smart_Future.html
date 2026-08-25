@@ -352,11 +352,11 @@ let cv,ctx,W,H,AC;
 
 let trap=null;let tT=0;
 function placeTarget(btn,i,n){const s=W/(n+1);btn.dataset.x=s*(i+1);btn.dataset.y=H*0.4;btn.style.left=btn.dataset.x+'px';btn.style.top=btn.dataset.y+'px';}
-function onLoadQ(){trap=null;}
+function onLoadQ(){trap=null; return;}
 function doShoot(tx,ty,ok,btn,cb){SS();trap={btn,vy:0,cb,tx,ty,t:0};}
 function drawBG(){tT++;ctx.fillStyle='#8e44ad';ctx.fillRect(0,0,W,H);for(let i=0;i<15;i++){ctx.fillStyle='rgba(255,255,255,0.04)';ctx.fillRect(i*(W/15),0,W/30,H);}
   document.querySelectorAll('.tbtn').forEach((btn,i)=>{const bx=parseFloat(btn.dataset.x),by=parseFloat(btn.dataset.y);if(trap&&trap.btn===btn){const off=Math.min(55,trap.t*5);ctx.fillStyle='#f39c12';ctx.fillRect(bx-75-off,by+72,75,15);ctx.fillRect(bx+off,by+72,75,15);}else{ctx.fillStyle='#f39c12';ctx.fillRect(bx-75,by+72,150,15);}});}
-function drawFG(){if(trap){trap.t++;trap.vy+=0.9;let by=parseFloat(trap.btn.style.top);by+=trap.vy;trap.btn.style.top=by+'px';if(by>H+100){trap.cb();trap=null;}}}
+function drawFG(){if(trap){trap.t++;trap.vy+=0.9;let by=parseFloat(trap.btn.style.top);by+=trap.vy;trap.btn.style.top=by+'px';if(by>H+100){trap.cb();trap=null; return;}}}
 
 function SS(){if(AC.state==='suspended')AC.resume();const o=AC.createOscillator(),gn=AC.createGain();o.connect(gn);gn.connect(AC.destination);o.type='square';o.frequency.value=400;gn.gain.setValueAtTime(0.15,AC.currentTime);gn.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+0.05);o.start();o.stop(AC.currentTime+0.05);}
 function tone(f,d,t,v){if(!AC)return;if(AC.state==='suspended')AC.resume();const o=AC.createOscillator(),gn=AC.createGain();o.connect(gn);gn.connect(AC.destination);o.type=t||'sine';o.frequency.value=f;gn.gain.setValueAtTime(v||0.4,AC.currentTime);gn.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+d);o.start();o.stop(AC.currentTime+d);}
@@ -469,5 +469,6 @@ window.onresize = function(){
     }
 </script>
 
+<!-- PROJECTILE-NULL-DEREF-FIX-2027 -->
 </body>
 </html>

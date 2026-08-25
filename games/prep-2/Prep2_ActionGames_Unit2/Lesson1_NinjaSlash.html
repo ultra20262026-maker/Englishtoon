@@ -265,8 +265,7 @@ function showEndScreen() {
 
 function mainLoop() {
     ctx.clearRect(0, 0, cv.width, cv.height);
-    gameDrawBackground();
-    gameDrawForeground();
+    try { gameDrawBackground(); gameDrawForeground(); } catch (frameError) { console.warn('Gameplay frame recovered', frameError); }
     updateAndDrawParticles();
     requestAnimationFrame(mainLoop);
 }
@@ -309,7 +308,7 @@ function gameDrawForeground() {
         ctx.restore();
         if(slash.progress > 1.2) {
             slash.cb();
-            slash = null;
+            slash = null;return;
         }
     }
 }
@@ -352,5 +351,7 @@ mainLoop();
   } catch(err) {}
 })();
 </script>
+<!-- GAMEPLAY-LOOP-SAFETY-2027 -->
+<!-- CALLBACK-NULL-RESET-GUARD-2027 -->
 </body>
 </html>

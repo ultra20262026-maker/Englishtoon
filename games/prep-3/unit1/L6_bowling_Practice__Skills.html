@@ -352,7 +352,7 @@ let cv,ctx,W,H,AC;
 
 let ball=null;
 function placeTarget(btn,i,n){const s=W/(n+1);btn.style.left=s*(i+1)+'px';btn.style.top=H*0.38+'px';}
-function onLoadQ(){ball=null;}
+function onLoadQ(){ball=null; return;}
 function doShoot(tx,ty,ok,btn,cb){SS();ball={x:W/2,y:H,tx,ty,cb,r:38,trail:[]};}
 function drawBG(){
   const g=ctx.createLinearGradient(W*0.05,0,W*0.95,0);g.addColorStop(0,'#5D4037');g.addColorStop(0.5,'#8D6E63');g.addColorStop(1,'#5D4037');
@@ -367,7 +367,7 @@ function drawFG(){
     const bg=ctx.createRadialGradient(ball.x-10,ball.y-10,5,ball.x,ball.y,ball.r);bg.addColorStop(0,'#555');bg.addColorStop(1,'#111');
     ctx.fillStyle=bg;ctx.beginPath();ctx.arc(ball.x,ball.y,ball.r,0,Math.PI*2);ctx.fill();
     ctx.fillStyle='#000';ctx.beginPath();ctx.arc(ball.x-10,ball.y-10,5,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(ball.x+8,ball.y-8,5,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(ball.x,ball.y+12,5,0,Math.PI*2);ctx.fill();
-    if(Math.hypot(ball.tx-ball.x,ball.ty-ball.y)<10){ball.cb();ball=null;}
+    if(Math.hypot(ball.tx-ball.x,ball.ty-ball.y)<10){ball.cb();ball=null; return;}
   }
 }
 
@@ -482,5 +482,6 @@ window.onresize = function(){
     }
 </script>
 
+<!-- PROJECTILE-NULL-DEREF-FIX-2027 -->
 </body>
 </html>

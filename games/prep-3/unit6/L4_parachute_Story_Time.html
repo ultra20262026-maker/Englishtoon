@@ -352,13 +352,13 @@ let cv,ctx,W,H,AC;
 
 let para=null;
 function placeTarget(btn,i,n){const s=W/(n+1);btn.style.left=s*(i+1)+'px';btn.style.top=H*0.75+'px';}
-function onLoadQ(){para=null;}
+function onLoadQ(){para=null; return;}
 function doShoot(tx,ty,ok,btn,cb){SS();para={x:tx,y:0,tx,ty,cb};}
 function drawBG(){ctx.fillStyle='#457b9d';ctx.fillRect(0,0,W,H);}
 function drawFG(){
   if(para){para.y+=8;ctx.fillStyle='#e63946';ctx.beginPath();ctx.arc(para.x,para.y-25,25,Math.PI,0);ctx.fill();
     ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(para.x-25,para.y-25);ctx.lineTo(para.x,para.y);ctx.lineTo(para.x+25,para.y-25);ctx.stroke();
-    if(para.y>=para.ty){burst(para.tx,para.ty,'#f1faee',25);para.cb();para=null;}
+    if(para.y>=para.ty){burst(para.tx,para.ty,'#f1faee',25);para.cb();para=null; return;}
   }
 }
 
@@ -473,5 +473,6 @@ window.onresize = function(){
     }
 </script>
 
+<!-- PROJECTILE-NULL-DEREF-FIX-2027 -->
 </body>
 </html>

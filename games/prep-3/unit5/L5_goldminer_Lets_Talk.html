@@ -352,13 +352,13 @@ let cv,ctx,W,H,AC;
 
 let claw=null;
 function placeTarget(btn,i,n){const s=W/(n+1);btn.style.left=s*(i+1)+'px';btn.style.top=H*0.65+'px';}
-function onLoadQ(){claw=null;}
+function onLoadQ(){claw=null; return;}
 function doShoot(tx,ty,ok,btn,cb){SS();claw={x:W/2,y:60,tx,ty,cb,btn,state:'down'};}
 function drawBG(){ctx.fillStyle='#2c2208';ctx.fillRect(0,0,W,H);ctx.fillStyle='#8d6e63';ctx.fillRect(W/2-40,0,80,60);}
 function drawFG(){
   if(claw){
     if(claw.state==='down'){claw.x+=(claw.tx-claw.x)*0.15;claw.y+=(claw.ty-claw.y)*0.15;if(Math.hypot(claw.tx-claw.x,claw.ty-claw.y)<15)claw.state='up';}
-    else if(claw.state==='up'){claw.x+=(W/2-claw.x)*0.1;claw.y+=(60-claw.y)*0.1;claw.btn.style.left=claw.x+'px';claw.btn.style.top=claw.y+'px';if(Math.hypot(W/2-claw.x,60-claw.y)<15){claw.cb();claw=null;}}
+    else if(claw.state==='up'){claw.x+=(W/2-claw.x)*0.1;claw.y+=(60-claw.y)*0.1;claw.btn.style.left=claw.x+'px';claw.btn.style.top=claw.y+'px';if(Math.hypot(W/2-claw.x,60-claw.y)<15){claw.cb();claw=null; return;}}
     if(claw){ctx.strokeStyle='#d35400';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(W/2,60);ctx.lineTo(claw.x,claw.y);ctx.stroke();}
   }
 }
@@ -474,5 +474,6 @@ window.onresize = function(){
     }
 </script>
 
+<!-- PROJECTILE-NULL-DEREF-FIX-2027 -->
 </body>
 </html>

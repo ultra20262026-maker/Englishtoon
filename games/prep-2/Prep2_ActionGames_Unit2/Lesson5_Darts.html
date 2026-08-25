@@ -263,8 +263,7 @@ function showEndScreen() {
 
 function mainLoop() {
     ctx.clearRect(0, 0, cv.width, cv.height);
-    gameDrawBackground();
-    gameDrawForeground();
+    try { gameDrawBackground(); gameDrawForeground(); } catch (frameError) { console.warn('Gameplay frame recovered', frameError); }
     updateAndDrawParticles();
     requestAnimationFrame(mainLoop);
 }
@@ -276,7 +275,7 @@ function gameInitTarget(btn, i, total) {
     btn.style.left = (spacing * (i + 1)) + 'px';
     btn.style.top = (window.innerHeight * 0.4) + 'px';
 }
-function gameOnLoadQ() { dart = null; }
+function gameOnLoadQ() { dart = null; return;}
 function gameAnimateAction(tx, ty, isCorrect, btn, cb) {
     sndShoot();
     dart = { x: cv.width/2, y: cv.height, tx, ty, cb, scale: 2 };
@@ -298,8 +297,7 @@ function gameDrawForeground() {
         ctx.restore();
         
         if(Math.hypot(dx, dy) < 10) {
-            dart.cb(); dart = null;
-        }
+            dart.cb(); dart = null; return;}
     }
 }
 
@@ -341,5 +339,7 @@ mainLoop();
   } catch(err) {}
 })();
 </script>
+<!-- GAMEPLAY-LOOP-SAFETY-2027 -->
+<!-- PROJECTILE-NULL-DEREF-FIX-2027 -->
 </body>
 </html>

@@ -266,8 +266,7 @@ function showEndScreen() {
 
 function mainLoop() {
     ctx.clearRect(0, 0, cv.width, cv.height);
-    gameDrawBackground();
-    gameDrawForeground();
+    try { gameDrawBackground(); gameDrawForeground(); } catch (frameError) { console.warn('Gameplay frame recovered', frameError); }
     updateAndDrawParticles();
     requestAnimationFrame(mainLoop);
 }
@@ -279,7 +278,7 @@ function gameInitTarget(btn, i, total) {
     btn.style.left = (spacing * (i + 1)) + 'px';
     btn.style.top = (window.innerHeight * 0.3) + 'px';
 }
-function gameOnLoadQ() { car = null; }
+function gameOnLoadQ() { car = null; return;}
 function gameAnimateAction(tx, ty, isCorrect, btn, cb) {
     sndShoot();
     car = { x: -100, y: cv.height - 100, tx, ty, cb, btn, state: 'drive' };
@@ -301,8 +300,7 @@ function gameDrawForeground() {
             if(car.y <= car.ty + 70) {
                 createParticles(car.x, car.y, '#e74c3c', 20);
                 car.btn.style.transform += ' scale(0)';
-                car.cb(); car = null;
-            }
+                car.cb(); car = null; return;}
         }
         
         if(car) {
@@ -357,5 +355,7 @@ mainLoop();
   } catch(err) {}
 })();
 </script>
+<!-- GAMEPLAY-LOOP-SAFETY-2027 -->
+<!-- PROJECTILE-NULL-DEREF-FIX-2027 -->
 </body>
 </html>

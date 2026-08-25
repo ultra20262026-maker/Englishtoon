@@ -352,7 +352,7 @@ let cv,ctx,W,H,AC;
 
 let shell=null;
 function placeTarget(btn,i,n){const s=W/(n+1);btn.style.left=s*(i+1)+'px';btn.style.top=H*0.38+'px';}
-function onLoadQ(){shell=null;}
+function onLoadQ(){shell=null; return;}
 function doShoot(tx,ty,ok,btn,cb){SS();const t=30,g=0.8,vx=(tx-W/2)/t,vy=(ty-(H-100)-0.5*g*t*t)/t;shell={x:W/2,y:H-100,vx,vy,g,cb,tx,ty};}
 function drawBG(){
   ctx.fillStyle='#c9772a';ctx.fillRect(0,H*0.7,W,H*0.3);
@@ -364,7 +364,7 @@ function drawBG(){
 function drawFG(){
   if(shell){shell.vy+=shell.g;shell.x+=shell.vx;shell.y+=shell.vy;
     ctx.fillStyle='#c0392b';ctx.beginPath();ctx.arc(shell.x,shell.y,8,0,Math.PI*2);ctx.fill();burst(shell.x,shell.y,'#f39c12',2);
-    if((shell.vy>0&&shell.y>shell.ty)||shell.y>H){shell.cb();shell=null;}
+    if((shell.vy>0&&shell.y>shell.ty)||shell.y>H){shell.cb();shell=null; return;}
   }
 }
 
@@ -479,5 +479,6 @@ window.onresize = function(){
     }
 </script>
 
+<!-- PROJECTILE-NULL-DEREF-FIX-2027 -->
 </body>
 </html>

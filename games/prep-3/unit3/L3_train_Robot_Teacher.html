@@ -352,7 +352,7 @@ let cv,ctx,W,H,AC;
 
 let train=null;
 function placeTarget(btn,i,n){const s=W/(n+1);btn.style.left=s*(i+1)+'px';btn.style.top=H*0.3+'px';}
-function onLoadQ(){train=null;}
+function onLoadQ(){train=null; return;}
 function doShoot(tx,ty,ok,btn,cb){SS();train={x:-180,y:H*0.72,tx,ty,cb,btn,vx:18};}
 function drawBG(){
   ctx.fillStyle='#95a5a6';ctx.fillRect(0,H*0.78,W,20);ctx.fillStyle='#7f8c8d';for(let i=0;i<W;i+=45)ctx.fillRect(i,H*0.76,20,25);
@@ -367,7 +367,7 @@ function drawFG(){
     ctx.fillStyle='#f1c40f';ctx.fillRect(90,-10,10,20);
     ctx.fillStyle='#1a1a1a';ctx.beginPath();ctx.arc(-60,0,22,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(0,0,22,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(60,0,22,0,Math.PI*2);ctx.fill();
     ctx.restore();
-    if(Math.abs(train.x-train.tx)<5){burst(train.x,train.y-35,'#f1c40f',20);train.btn.style.transform+=' scale(0)';train.cb();train=null;}
+    if(Math.abs(train.x-train.tx)<5){burst(train.x,train.y-35,'#f1c40f',20);train.btn.style.transform+=' scale(0)';train.cb();train=null; return;}
   }
 }
 
@@ -482,5 +482,6 @@ window.onresize = function(){
     }
 </script>
 
+<!-- PROJECTILE-NULL-DEREF-FIX-2027 -->
 </body>
 </html>

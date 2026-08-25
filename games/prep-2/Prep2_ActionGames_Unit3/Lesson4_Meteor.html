@@ -262,8 +262,7 @@ function showEndScreen() {
 
 function mainLoop() {
     ctx.clearRect(0, 0, cv.width, cv.height);
-    gameDrawBackground();
-    gameDrawForeground();
+    try { gameDrawBackground(); gameDrawForeground(); } catch (frameError) { console.warn('Gameplay frame recovered', frameError); }
     updateAndDrawParticles();
     requestAnimationFrame(mainLoop);
 }
@@ -315,7 +314,7 @@ function gameDrawForeground() {
         ctx.restore();
         
         if(Math.hypot(dx, dy) < 30) {
-            missile.cb(); missile = null;
+            missile.cb(); missile = null;return;
         }
     }
 }
@@ -358,5 +357,7 @@ mainLoop();
   } catch(err) {}
 })();
 </script>
+<!-- GAMEPLAY-LOOP-SAFETY-2027 -->
+<!-- CALLBACK-NULL-RESET-GUARD-2027 -->
 </body>
 </html>
