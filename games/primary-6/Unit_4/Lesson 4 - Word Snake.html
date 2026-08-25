@@ -526,6 +526,10 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
   try{ if(window.speechSynthesis) window.speechSynthesis.cancel(); }catch(e){}
 })();
 </script>
+<style id="ENG_TOON-AUDIO-CONTROLS-HIDDEN-2027">
+/* Audio is intentionally disabled for the curriculum games. */
+#mute-btn, #sound-btn, .sound-btn, .audio-toggle, [aria-label*="sound" i], [aria-label*="mute" i] { display:none !important; }
+</style>
 </head>
 <body>
 <div id="game-wrap">
@@ -685,10 +689,10 @@ const SoundEngine = (() => {
 
   function play(name) { if (sounds[name]) sounds[name](); }
   function toggleMute() {
-    muted = !muted;
-    localStorage.setItem(KEY, muted);
-    if (muted) stopBg();
-    return muted;
+    muted = true;
+    localStorage.setItem(KEY, 'true');
+    stopBg();
+    return true;
   }
   function isMuted() { return muted; }
 
