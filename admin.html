@@ -312,7 +312,7 @@
         // Check Authentication - Strictly Admin Only
         checkAuth();
         const loggedUser = (localStorage.getItem('currentUser') || '').trim().toLowerCase();
-        const isAdminUserPage = (loggedUser === 'admin' || loggedUser === '01208609509' || loggedUser === 'mm01208609509');
+        const isAdminUserPage = (loggedUser === 'admin');
         if (!isAdminUserPage) {
             alert('عذراً، هذه الصفحة مخصصة للأدمن فقط. يرجى تسجيل الدخول بحساب الإدارة.');
             window.location.href = 'index.html';

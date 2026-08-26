@@ -188,7 +188,7 @@ function checkAuth() {
 
 function setupAdminHeader() {
     const currUser = (localStorage.getItem('currentUser') || '').trim().toLowerCase();
-    const isAdmin = (currUser === 'admin' || currUser === '01208609509' || currUser === 'mm01208609509');
+    const isAdmin = (currUser === 'admin');
 
     const userDisplay = document.getElementById('user-display');
     if (userDisplay) {
