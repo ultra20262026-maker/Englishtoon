@@ -199,6 +199,10 @@
                 tab.dataset.grade = grade.id;
                 tab.innerHTML = `<img class="et-tab-icon" src="${grade.image}" alt=""><span class="et-tab-label">${grade.name.replace('الصف ', '')}</span>`;
                 tab.addEventListener('click', () => openGradeTab(grade.id));
+                tab.querySelector('.et-tab-icon').addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    window.location.href = `exams-grades-view.html?id=${grade.id}`;
+                });
                 gradeTabs.appendChild(tab);
 
                 const panel = document.createElement('div');
