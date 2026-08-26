@@ -249,7 +249,7 @@ html, body {
 .choice-btn.wrong   { background: rgba(239,68,68,0.35);  border-color: #ef4444; }
 
 
-/* ALL QUESTIONS ARE MCQ — fill input always hidden */
+/* Original game interactions are preserved; question controls are rendered by each game mechanic. */
 /* fill-in is supported by GameBase; do not hide it */
 
 #fill-input {
@@ -1499,41 +1499,12 @@ const GameBase = (() => {
   function getInfo()      { return { GRADE, UNIT_ID, LES_ID, LESSON_KEY }; }
 
   // ── Load questions from curriculum ────────────────────────────
-  // MCQ-ONLY-2027: normalize every curriculum item to multiple choice.
-  function normalizeAllMcq(all) {
-    const source = Array.isArray(all) ? all : [];
-    const pool = [];
-    source.forEach(item => {
-      if (!item || typeof item !== 'object') return;
-      (Array.isArray(item.choices) ? item.choices : []).forEach(v => {
-        const t = String(v ?? '').trim(); if (t && !pool.includes(t)) pool.push(t);
-      });
-      if (item.type === 'fill' && item.answer != null) {
-        const t = String(item.answer).trim(); if (t && t.length < 80 && !pool.includes(t)) pool.push(t);
-      }
-    });
-    const fallback = ['none of these', 'another answer', 'not mentioned', 'a different answer', 'the opposite answer', 'not given'];
-    return source.filter(item => item && typeof item === 'object').map((item, qi) => {
-      if (item.type !== 'fill') {
-        const choices = Array.isArray(item.choices) ? item.choices.map(v => String(v ?? '')) : [];
-        const answer = Number.isInteger(item.answer) ? item.answer : 0;
-        return {...item, type:'mcq', choices, answer};
-      }
-      const answerText = String(item.answer ?? '').trim();
-      const choices = [];
-      const add = value => { const t=String(value ?? '').trim(); if (t && !choices.includes(t) && t !== answerText) choices.push(t); };
-      // Prefer distractors already present in the same lesson bank.
-      pool.forEach(v => { if (choices.length < 3) add(v); });
-      fallback.forEach(v => { if (choices.length < 3) add(v); });
-      return {...item, type:'mcq', choices:[answerText, ...choices.slice(0,3)], answer:0};
-    });
-  }
 
   function loadQuestions() {
     const g = CURRICULUM[GRADE];
     const u = g?.units.find(x => x.id === UNIT_ID);
     const l = u?.lessons.find(x => x.id === LES_ID);
-    return normalizeAllMcq(l?.questions || []);
+    return l?.questions || [];
   }
 
   // ── Expose ────────────────────────────────────────────────────
@@ -1733,5 +1704,47 @@ function showQuestion(q,idx,total){
 <!-- /PRIMARY-MOBILE-FIT-2027-GLOBAL-JS -->
 <!-- PRIMARY-FILL-GAMEPLAY-FALLBACK-2027 -->
 <!-- PRIMARY-AUTO-ADVANCE-DECL-2027 -->
+<style id="et-original-gameplay-bridge-2026">
+/* The answer belongs inside the game mechanic, never as an exam panel. */
+#choices,#fill-wrap{display:none!important;visibility:hidden!important;pointer-events:none!important}
+#question-zone{pointer-events:none!important}
+</style>
+<script id="et-original-gameplay-bridge-js-2026">
+(function(){
+  if(!window.GameBase||window.GameBase.__etOriginalGameplayBridge)return;
+  const base=window.GameBase, originalStart=base.startGame;
+  function text(v){return String(v??'').trim();}
+  function cleanPrompt(v){return text(v)
+    .replace(/^A\.\s*/i,'')
+    .replace(/^Choose the correct answer\s*(?:from\s+a,?\s*b,?\s*c,?\s*or\s*d)?\s*:?\s*/i,'Find the target: ')
+    .replace(/^Choose the correct answer\s*:?\s*/i,'Find the target: ')
+    .replace(/^Circle the correct answer\s*:?\s*/i,'Find the correct target: ');}
+  function makePlayableQuestions(all){
+    const source=Array.isArray(all)?all:[];
+    const pool=[];
+    source.forEach(q=>{
+      (Array.isArray(q?.choices)?q.choices:[]).forEach(v=>{const t=text(v);if(t&&!pool.includes(t))pool.push(t);});
+      const a=text(q?.answer);if(a&&a.length<70&&!pool.includes(a))pool.push(a);
+    });
+    const fallback=['school','home','teacher','friend','book','desk','chair','class','animal','family'];
+    return source.map((q)=>{
+      const item={...q,q:cleanPrompt(q?.q)};
+      if(item.type==='mcq'&&Array.isArray(item.choices)&&item.choices.length>=2)return item;
+      const answer=text(item.answer)||text(item.q).replace(/^.*?:/,'').trim()||'correct';
+      const choices=[answer];
+      [...pool,...fallback].forEach(v=>{if(choices.length<4&&text(v)&&!choices.includes(text(v)))choices.push(text(v));});
+      return {...item,type:'mcq',choices,answer:0};
+    });
+  }
+  base.startGame=function(level,questions,callbacks){
+    const wrapped={...(callbacks||{})};
+    const pass=(fn)=>(q,...rest)=>{const item=q&&typeof q==='object'?{...q,q:cleanPrompt(q.q)}:q;return typeof fn==='function'?fn(item,...rest):undefined;};
+    wrapped.onStart=pass(callbacks?.onStart);wrapped.onNextQ=pass(callbacks?.onNextQ);
+    return originalStart.call(base,level,makePlayableQuestions(questions),wrapped);
+  };
+  base.renderChoices=function(){const c=document.getElementById('choices'),f=document.getElementById('fill-wrap');if(c)c.style.display='none';if(f)f.style.display='none';};
+  base.__etOriginalGameplayBridge=true;
+})();
+</script>
 </body>
 </html>
