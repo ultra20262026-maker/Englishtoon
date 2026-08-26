@@ -1,20 +1,159 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-<title>لوحة EnglishToon</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700;800;900&display=swap" rel="stylesheet">
-<script>window.ET_HUB_PAGE=true;</script>
-<script src="englishtoon_profile.js?v=2"></script><script src="student_hub.js?v=2" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الرئيسية | English Toon</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Outfit:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Cairo', 'sans-serif'],
+                        en: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#ec4899',
+                        accent: '#f59e0b',
+                        success: '#10b981',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #f8fafc; min-height: 100vh; }
+        .category-card {
+            background: white;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+            border-radius: 1.5rem;
+            cursor: pointer;
+        }
+        .category-card:hover {
+            transform: translateY(-5px);
+            border-color: #3b82f6;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+    </style>
 </head>
-<body>
-<div class="hub-shell" data-hub="dashboard">
-<header class="hub-nav"><div class="hub-brand">English<span>Toon</span> <small style="font-size:12px;color:#9eafd9">لوحة البطل</small></div><nav class="hub-links"><a class="hub-link" data-grade-link="leaderboard.html">🏆 المتصدرون</a><a class="hub-link" data-grade-link="shop.html">🛒 المتجر</a><a class="hub-link" data-grade-link="games.html">🎮 الألعاب</a></nav></header>
-<section class="hub-hero"><div class="hub-card"><div class="hub-muted">الصف الحالي</div><h1 data-name>بطل التوون</h1><p class="hub-muted">اختر الصف لتشاهد نقاط الطالب ونتائجه في هذا الصف فقط.</p><input class="hub-input" data-name-input maxlength="40" placeholder="اكتب أو غيّر اسم الطالب"><button class="hub-btn primary" data-save-name>حفظ اسم الطالب</button></div><div class="hub-card" style="display:flex;flex-direction:column;justify-content:center;text-align:center"><div class="hub-hero-art">🎮</div><div class="hub-muted">رصيد الطالب في الصف</div><div class="hub-points" data-points>0</div><div style="color:#ffd166;font-weight:900">نقطة قابلة للإنفاق</div></div></section>
-<section class="hub-section"><h2>اختر الصف</h2><div class="hub-tabs" data-tabs></div></section>
-<section class="hub-grid hub-section"><div class="hub-stat"><span class="hub-muted">الألعاب المكتملة</span><strong data-games>0</strong></div><div class="hub-stat"><span class="hub-muted">أفضل نتيجة في لعبة</span><strong data-best>0</strong></div><div class="hub-stat"><span class="hub-muted">المتصدر الحالي</span><strong data-top style="font-size:16px">لا توجد نتائج بعد</strong></div></section>
-<section class="hub-grid hub-section"><a class="hub-card" data-grade-link="games.html" style="text-decoration:none"><div class="hub-hero-art" style="font-size:52px">🚀</div><h2>ابدأ الألعاب</h2><p class="hub-muted">اجمع نقاطًا أكثر من خلال اللعب والإجابة.</p></a><a class="hub-card" data-grade-link="leaderboard.html" style="text-decoration:none"><div class="hub-hero-art" style="font-size:52px">🏆</div><h2>لوحة المتصدرين</h2><p class="hub-muted">اعرف أعلى سكور في صفك.</p></a><a class="hub-card" data-grade-link="shop.html" style="text-decoration:none"><div class="hub-hero-art" style="font-size:52px">🛒</div><h2>متجر الجوائز</h2><p class="hub-muted">اشترِ أفاتارات وشارات وخلفيات بالنقاط.</p></a></section>
-<div class="hub-note hub-section">الحفظ الحالي محلي على هذا الجهاز. كل صف له اسم ورصيد ونتائج ومشتريات منفصلة.</div>
-</div>
-<script>if(localStorage.getItem('isLoggedIn')!=='true'){/* Keep dashboard usable in static preview; login page may set this flag. */}</script>
-</body></html>
+<body class="text-slate-800 pb-20">
+
+    <!-- Header -->
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-lg bg-blue-600 flex items-center justify-center text-white">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div>
+                    <h1 class="font-black text-lg leading-tight">EnglishToon</h1>
+                    <p id="student-name-display" class="text-[10px] font-bold text-blue-500">بطل التوون</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <a href="shop.html" class="stat-badge bg-blue-50 px-3 py-1.5 rounded-xl border border-blue-100 flex items-center gap-2 text-blue-600 font-black text-xs">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span>المتجر</span>
+                </a>
+                <div class="stat-badge bg-amber-50 px-3 py-1.5 rounded-xl border border-amber-100 flex items-center gap-2 text-amber-600 font-black text-xs">
+                    <span id="totalCoins">0</span>
+                    <i class="fa-solid fa-coins"></i>
+                </div>
+                <button onclick="logout()" class="w-8 h-8 rounded-full bg-red-50 text-red-500 flex items-center justify-center">
+                    <i class="fa-solid fa-power-off text-xs"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 mt-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <!-- Games -->
+            <div onclick="window.location.href='games.html?v=' + new Date().getTime()" class="category-card p-6 flex items-center gap-4">
+                <div class="w-16 h-16 rounded-2xl bg-blue-100 flex items-center justify-center text-blue-600 text-3xl">
+                    <i class="fa-solid fa-gamepad"></i>
+                </div>
+                <div>
+                    <h4 class="text-xl font-black text-slate-800">الألعاب التعليمية</h4>
+                    <p class="text-slate-500 font-bold text-xs">ابدأ المغامرة الآن</p>
+                </div>
+            </div>
+
+            <!-- Admin Panel (Moved to top for visibility) -->
+            <div onclick="window.location.href='admin.html'" class="category-card p-6 border-red-200 bg-red-50 flex items-center gap-4">
+                <div class="w-16 h-16 rounded-2xl bg-red-500 flex items-center justify-center text-white text-3xl">
+                    <i class="fa-solid fa-user-shield"></i>
+                </div>
+                <div>
+                    <h4 class="text-xl font-black text-red-600">لوحة الإدارة</h4>
+                    <p class="text-red-400 font-bold text-xs">التحكم في الطلاب والنتائج</p>
+                </div>
+            </div>
+
+            <!-- Leaderboard -->
+            <div onclick="window.location.href='leaderboard.html?v=' + new Date().getTime()" class="category-card p-6 border-amber-200 bg-amber-50 flex items-center gap-4">
+                <div class="w-16 h-16 rounded-2xl bg-amber-500 flex items-center justify-center text-white text-3xl">
+                    <i class="fa-solid fa-trophy"></i>
+                </div>
+                <div>
+                    <h4 class="text-xl font-black text-amber-600">لوحة الأبطال</h4>
+                    <p class="text-amber-400 font-bold text-xs">الترتيب العام</p>
+                </div>
+            </div>
+
+            <!-- Voice Checker -->
+            <div onclick="window.location.href='voice-checker.html?v=' + new Date().getTime()" class="category-card p-6 flex items-center gap-4 bg-blue-600 text-white border-none">
+                <div class="w-16 h-16 rounded-2xl bg-white/20 flex items-center justify-center text-white text-3xl">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
+                <div>
+                    <h4 class="text-xl font-black">مدقق النطق الذكي</h4>
+                    <p class="text-white/80 font-bold text-xs">تحدث مع الذكاء الاصطناعي</p>
+                </div>
+            </div>
+
+            <!-- Exams -->
+            <div onclick="window.location.href='exams.html'" class="category-card p-6 flex items-center gap-4">
+                <div class="w-16 h-16 rounded-2xl bg-amber-100 flex items-center justify-center text-amber-600 text-3xl">
+                    <i class="fa-solid fa-file-signature"></i>
+                </div>
+                <div>
+                    <h4 class="text-xl font-black text-slate-800">الامتحانات</h4>
+                    <p class="text-slate-500 font-bold text-xs">اختبر مستواك الدراسي</p>
+                </div>
+            </div>
+
+            <!-- Books -->
+            <div onclick="window.location.href='books.html'" class="category-card p-6 flex items-center gap-4">
+                <div class="w-16 h-16 rounded-2xl bg-emerald-100 flex items-center justify-center text-emerald-600 text-3xl">
+                    <i class="fa-solid fa-book-open"></i>
+                </div>
+                <div>
+                    <h4 class="text-xl font-black text-slate-800">الكتاب التفاعلي</h4>
+                    <p class="text-slate-500 font-bold text-xs">تصفح الكتب بمتعة</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('isLoggedIn') !== 'true') {
+                window.location.replace('index.html');
+                return;
+            }
+            document.getElementById('student-name-display').textContent = localStorage.getItem('et_student_name') || 'بطل التوون';
+            document.getElementById('totalCoins').textContent = localStorage.getItem('englishtoon_total_score') || '0';
+        });
+        function logout() { localStorage.clear(); window.location.replace('index.html'); }
+    </script>
+</body>
+</html>
