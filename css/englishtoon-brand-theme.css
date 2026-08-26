@@ -119,3 +119,23 @@ body.toon-scene-exam-units.grade-prep {
   .game-grade-tab { padding: .5rem; font-size: .74rem; }
   .game-grade-tab img { width: 34px; height: 34px; }
 }
+
+.dictation-grade-tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .65rem; margin: 0 0 1rem; }
+.dictation-grade-tab { display: flex; align-items: center; gap: .6rem; min-width: 0; padding: .62rem .72rem; border: 1px solid rgba(112,151,214,.42); border-radius: 1rem; color: #dce7ff; background: rgba(11,24,53,.82); cursor: pointer; font: 900 .82rem/1.25 Cairo, sans-serif; transition: transform .18s ease, background .18s ease, border-color .18s ease; }
+.dictation-grade-tab:hover, .dictation-grade-tab:focus-visible { transform: translateY(-2px); border-color: var(--et-yellow); outline: none; }
+.dictation-grade-tab.active { background: linear-gradient(135deg, #5577ff, #3d52c6); border-color: #aab8ff; color: #fff; }
+.dictation-grade-tab img { flex: 0 0 auto; width: 42px; height: 42px; object-fit: cover; border-radius: .75rem; box-shadow: 0 4px 10px rgba(0,0,0,.25); }
+.dictation-hub-grid { display: block; }
+.dictation-hub-grid .dictation-grade { display: none; }
+.dictation-hub-grid .dictation-grade.active { display: block; }
+@media (max-width: 560px) {
+  .dictation-grade-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .5rem; }
+  .dictation-grade-tab { padding: .5rem; font-size: .74rem; }
+  .dictation-grade-tab img { width: 34px; height: 34px; }
+}
+
+/* Grade chooser: one clear row per grade, optimized for touch on phones. */
+.game-grade-tabs, .dictation-grade-tabs { grid-template-columns: 1fr !important; width: min(100%, 680px); margin-inline: auto; }
+.game-grade-tab, .dictation-grade-tab { width: 100%; min-height: 58px; justify-content: flex-start; text-align: right; }
+.game-grade-tab img { width: 48px; height: 48px; flex: 0 0 48px; }
+.game-grade-tabs + .game-grade-panels { margin-top: 1rem; }

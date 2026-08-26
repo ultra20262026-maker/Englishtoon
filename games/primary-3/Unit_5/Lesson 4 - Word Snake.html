@@ -539,5 +539,46 @@ document.getElementById('gg-start-btn').onclick = function(){
 <!-- PRIMARY-MOBILE-FIT-2027-GLOBAL-JS -->
 <script id="primary-mobile-fit-2027-global-js">(function(){'use strict';var ids=[],last=0;function fit(){try{window.dispatchEvent(new Event('resize'))}catch(e){}}function schedule(){ids.forEach(clearTimeout);ids=[80,320,800].map(function(n){return setTimeout(fit,n)})}window.addEventListener('orientationchange',schedule,{passive:true});window.addEventListener('resize',function(){document.documentElement.style.setProperty('--safe-vh',(window.innerHeight*.01)+'px')},{passive:true});document.addEventListener('visibilitychange',function(){if(!document.hidden)schedule()},{passive:true});if(window.visualViewport)window.visualViewport.addEventListener('resize',schedule,{passive:true});document.addEventListener('touchend',function(e){var n=Date.now();if(n-last<280)e.preventDefault();last=n},{passive:false});schedule()})();</script>
 <!-- /PRIMARY-MOBILE-FIT-2027-GLOBAL-JS -->
+<style id="GG27-ORIGINAL-GAMEPLAY-SKIN-2027">
+/* Distinct in-game answer objects: answers remain interactive, but are not exam cards. */
+html[data-gg-game="space"] #gg-stage{background:radial-gradient(circle at 50% 35%,rgba(28,64,130,.6),transparent 42%),linear-gradient(180deg,#070b24,#020617)!important;}
+html[data-gg-game="space"] #gg-stage::before{content:"✦   ·   ✧   ·   ✦   ·   ✧   ·   ✦";position:absolute;inset:18% 0 auto;text-align:center;color:rgba(150,210,255,.55);font-size:clamp(18px,5vw,38px);letter-spacing:1.2em;pointer-events:none;animation:gg-stars-drift 7s linear infinite;}
+html[data-gg-game="space"] #gg-stage::after{content:"🚀";position:absolute;left:50%;bottom:8%;transform:translateX(-50%);font-size:clamp(38px,12vw,74px);filter:drop-shadow(0 0 16px #23c7ff);pointer-events:none;animation:gg-player-hover 1.8s ease-in-out infinite;}
+html[data-gg-game="space"] #gg-choices{position:relative;z-index:3;gap:clamp(10px,3vw,22px);}
+html[data-gg-game="space"] .gg-target{position:relative;overflow:hidden;min-width:clamp(108px,25vw,168px);min-height:clamp(70px,14vw,112px);border-radius:42% 42% 52% 52%;border:3px solid #7dd3fc;background:linear-gradient(160deg,#ef476f 0%,#9d174d 55%,#4c0519 100%);box-shadow:0 0 0 3px rgba(15,23,42,.9),0 0 20px rgba(244,63,94,.7),inset 0 8px 14px rgba(255,255,255,.28);animation:gg-enemy-drift 2.2s ease-in-out infinite;}
+html[data-gg-game="space"] .gg-target:nth-child(2n){animation-delay:-.7s;}
+html[data-gg-game="space"] .gg-target::before{content:"✦";position:absolute;top:6px;left:50%;transform:translateX(-50%);font-size:20px;color:#fde68a;text-shadow:0 0 8px #fff;pointer-events:none;}
+html[data-gg-game="space"] .gg-target.hit{background:linear-gradient(160deg,#fde047,#f97316)!important;box-shadow:0 0 30px #facc15!important;animation:gg-hit-pop .45s ease!important;}
+html[data-gg-game="archery"] #gg-stage{background:radial-gradient(ellipse at 50% 35%,rgba(87,61,24,.7),transparent 48%),linear-gradient(180deg,#172554,#422006)!important;}
+html[data-gg-game="archery"] #gg-stage::after{content:"🏹";position:absolute;left:50%;bottom:10%;transform:translateX(-50%);font-size:clamp(40px,14vw,82px);filter:drop-shadow(0 0 12px #fbbf24);pointer-events:none;animation:gg-player-hover 1.8s ease-in-out infinite;}
+html[data-gg-game="archery"] .gg-target{min-width:clamp(100px,23vw,154px);min-height:clamp(100px,23vw,154px);aspect-ratio:1;border-radius:50%;border:10px solid #f8fafc;background:radial-gradient(circle,#ef4444 0 18%,#f8fafc 19% 35%,#2563eb 36% 54%,#fbbf24 55% 72%,#b91c1c 73% 100%);color:#111827;box-shadow:0 0 0 4px #111827,0 0 24px rgba(251,191,36,.55);animation:gg-target-bob 2s ease-in-out infinite;}
+html[data-gg-game="archery"] .gg-target:nth-child(2){animation-delay:-.4s;} html[data-gg-game="archery"] .gg-target:nth-child(3){animation-delay:-.8s;}
+html[data-gg-game="bubble"] #gg-stage{background:radial-gradient(circle at 50% 40%,rgba(14,116,144,.85),transparent 50%),linear-gradient(180deg,#082f49,#083344)!important;}
+html[data-gg-game="bubble"] #gg-stage::before{content:"🫧  ·  🫧     ·  🫧  ·  🫧";position:absolute;inset:24% 0 auto;text-align:center;font-size:clamp(22px,7vw,50px);opacity:.65;animation:gg-bubbles-rise 4s ease-in-out infinite;pointer-events:none;}
+html[data-gg-game="bubble"] .gg-target{min-width:clamp(105px,24vw,160px);min-height:clamp(105px,24vw,160px);aspect-ratio:1;border-radius:50%;border:3px solid rgba(224,242,254,.9);background:radial-gradient(circle at 32% 25%,#e0f2fe 0 5%,#67e8f9 12%,#0891b2 55%,#155e75 100%);box-shadow:inset -14px -18px 24px rgba(8,47,73,.55),inset 10px 10px 14px rgba(255,255,255,.4),0 0 24px rgba(34,211,238,.6);animation:gg-bubble-float 2.7s ease-in-out infinite;}
+html[data-gg-game="bubble"] .gg-target:nth-child(2){animation-delay:-.8s;} html[data-gg-game="bubble"] .gg-target:nth-child(3){animation-delay:-1.5s;}
+html[data-gg-game="snake"] #gg-stage{background:linear-gradient(180deg,#052e16,#022c22)!important;}
+html[data-gg-game="snake"] #gg-stage::before{content:"🟢━━━━🟢━━━━🟢━━━━🟢";position:absolute;left:5%;right:5%;bottom:18%;color:#86efac;font-size:clamp(22px,6vw,44px);opacity:.38;white-space:nowrap;overflow:hidden;pointer-events:none;animation:gg-snake-slide 5s linear infinite;}
+html[data-gg-game="snake"] .gg-target{min-width:clamp(110px,25vw,170px);min-height:clamp(66px,13vw,98px);border:3px solid #86efac;border-radius:24px 8px 24px 8px;background:linear-gradient(135deg,#22c55e,#166534);box-shadow:0 0 0 3px #052e16,0 0 22px rgba(74,222,128,.5),inset 0 6px 10px rgba(255,255,255,.25);animation:gg-snake-wiggle 1.8s ease-in-out infinite;}
+html[data-gg-game="snake"] .gg-target:nth-child(2){animation-delay:-.5s;} html[data-gg-game="snake"] .gg-target:nth-child(3){animation-delay:-1s;}
+@keyframes gg-stars-drift{from{transform:translateX(-10%)}to{transform:translateX(10%)}}
+@keyframes gg-player-hover{0%,100%{margin-bottom:0}50%{margin-bottom:10px}}
+@keyframes gg-enemy-drift{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-12px) rotate(2deg)}}
+@keyframes gg-target-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px) rotate(2deg)}}
+@keyframes gg-bubble-float{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-14px) scale(1.04)}}
+@keyframes gg-bubbles-rise{0%,100%{transform:translateY(18px);opacity:.3}50%{transform:translateY(-18px);opacity:.75}}
+@keyframes gg-snake-wiggle{0%,100%{transform:translateX(0) rotate(-1deg)}50%{transform:translateX(8px) rotate(1deg)}}
+@keyframes gg-snake-slide{from{transform:translateX(-4%)}to{transform:translateX(4%)}}
+@keyframes gg-hit-pop{0%{transform:scale(1)}60%{transform:scale(1.18)}100%{transform:scale(1)}}
+@media(max-width:420px){html[data-gg-game] .gg-target{font-size:clamp(15px,4vw,24px)!important;padding:7px!important;}html[data-gg-game="archery"] .gg-target{border-width:7px!important;}}
+</style>
+<script id="GG27-ORIGINAL-GAMEPLAY-SKIN-JS-2027">(function(){
+  var text=((document.title||'')+' '+(document.querySelector('.gg-title')?.textContent||'')).toLowerCase();
+  var kind=text.includes('space')?'space':text.includes('archery')?'archery':text.includes('bubble')?'bubble':text.includes('snake')?'snake':'';
+  if(!kind)return; document.documentElement.dataset.ggGame=kind;
+  var wrap=document.getElementById('gg-choices'); if(!wrap)return;
+  var decorate=function(){Array.from(wrap.children).forEach(function(b){b.classList.add('gg-in-game-target');});};
+  decorate(); new MutationObserver(decorate).observe(wrap,{childList:true});
+})();</script>
 </body>
 </html>

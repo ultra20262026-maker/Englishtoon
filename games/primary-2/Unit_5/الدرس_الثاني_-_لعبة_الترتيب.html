@@ -628,34 +628,64 @@ const CURRICULUM = {
             "gameType": "scramble-it",
             "questions": [
               {
-                "type": "mcq",
-                "q": "Choose the correct answer: d-o-c-t-o-r",
-                "choices": [
-                  "doctor",
-                  "teacher",
-                  "vet"
-                ],
-                "answer": 0
+                "type": "fill",
+                "q": "This is my bedroom. There is a ...(1)........ I Be 1 on the table.",
+                "answer": "lamp"
               },
               {
-                "type": "mcq",
-                "q": "Choose the correct answer: t-e-a-c-h-e-r",
-                "choices": [
-                  "teacher",
-                  "doctor",
-                  "vet"
-                ],
-                "answer": 0
+                "type": "fill",
+                "q": "There is a chair .....)2(...... the Gy x7 bed.",
+                "answer": "next to"
               },
               {
-                "type": "mcq",
-                "q": "Choose the correct answer: v-e-t",
-                "choices": [
-                  "vet",
-                  "doctor",
-                  "teacher"
-                ],
-                "answer": 0
+                "type": "fill",
+                "q": "I clean my ...(3).....every day. al",
+                "answer": "room"
+              },
+              {
+                "type": "fill",
+                "q": "1. The flowers / in / the garden. / are",
+                "answer": "The flowers are in the garden."
+              },
+              {
+                "type": "fill",
+                "q": "2. There / a couch / the living room . / is / in",
+                "answer": "There is a couch in the living room."
+              },
+              {
+                "type": "fill",
+                "q": "3. Where / the bed? / is",
+                "answer": "Where is the bed?"
+              },
+              {
+                "type": "fill",
+                "q": "B. Reorder the words to make a sentence:\n1. is / The lamp / the table ./ on",
+                "answer": "The lamp is on the table."
+              },
+              {
+                "type": "fill",
+                "q": "2. is / There / in / a bed / the bedroom .",
+                "answer": "There is a bed in the bedroom."
+              },
+              {
+                "type": "fill",
+                "q": "3. couch / a/ in / There / the living room ./ is",
+                "answer": "There is a couch in the living room."
+              },
+              {
+                "type": "fill",
+                "q": "B.Reorder the words to make a sentence:\n1. There / ball / a/ the table. / under/ is",
+                "answer": "There is a ball under the table."
+              },
+              {
+                "type": "fill",
+                "q": "2. is / a / the kitchen./ table / There/in",
+                "answer": "There is a table in the kitchen."
+              },
+              {
+                "type": "fill",
+                "q": "3. is / The cat / the / in / box.",
+                "answer": "The cat is in the box."
               }
             ]
           },
@@ -1121,6 +1151,100 @@ document.getElementById('btn-launch').addEventListener('click',()=>{
 <!-- /PRIMARY-MOBILE-FIT-2027-GLOBAL-JS -->
 <!-- PRIMARY-FILL-GAMEPLAY-FALLBACK-2027 -->
 <!-- PRIMARY-AUTO-ADVANCE-DECL-2027 -->
+<style id="PRIMARY2-LEGACY-GAMEPLAY-FIX-2027">
+/* Legacy primary-2 games: keep the original puzzle idea, but render answers as animated game objects. */
+#choices{position:relative!important;display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:clamp(10px,3vw,20px)!important;max-width:min(92vw,720px)!important;margin:0 auto!important;padding:18px!important;background:transparent!important;align-items:center!important;}
+#choices .choice-btn{min-height:clamp(64px,11vw,104px)!important;border:3px solid #7dd3fc!important;color:#fff!important;background:linear-gradient(145deg,#1d4ed8,#312e81)!important;border-radius:24px!important;box-shadow:0 0 0 3px rgba(15,23,42,.8),0 10px 22px rgba(0,0,0,.35),inset 0 5px 10px rgba(255,255,255,.2)!important;font-size:clamp(.9rem,3.3vw,1.35rem)!important;font-weight:900!important;text-shadow:0 2px 3px #000!important;animation:p2TargetFloat 2.4s ease-in-out infinite!important;}
+#choices .choice-btn:nth-child(2){animation-delay:-.55s!important}#choices .choice-btn:nth-child(3){animation-delay:-1.1s!important}#choices .choice-btn:nth-child(4){animation-delay:-1.65s!important}
+#choices .choice-btn:hover,#choices .choice-btn:focus-visible{background:linear-gradient(145deg,#06b6d4,#2563eb)!important;border-color:#fef08a!important;transform:translateY(-6px) scale(1.03)!important;outline:3px solid #111827!important;}
+#choices .choice-btn.correct{background:linear-gradient(145deg,#22c55e,#047857)!important;border-color:#bbf7d0!important;animation:p2CorrectPop .45s ease!important}
+#choices .choice-btn.wrong{background:linear-gradient(145deg,#ef4444,#991b1b)!important;animation:p2WrongShake .4s ease!important}
+#scramble-zone{position:relative!important;z-index:1!important;display:flex!important;flex-wrap:wrap!important;justify-content:center!important;gap:8px!important;min-height:68px!important;}
+.scr-letter{filter:drop-shadow(0 6px 8px rgba(0,0,0,.35));}
+#emoji-hint{filter:grayscale(1) brightness(.1) drop-shadow(0 0 12px rgba(255,255,255,.6));background:radial-gradient(circle,rgba(255,255,255,.22),transparent 65%);border-radius:50%;}
+#word-grid{filter:drop-shadow(0 8px 15px rgba(0,0,0,.3));}
+@keyframes p2TargetFloat{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-8px) rotate(1deg)}}
+@keyframes p2CorrectPop{0%{transform:scale(1)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+@keyframes p2WrongShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+@media(max-width:520px){#choices{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important;padding:10px 6px!important}#choices .choice-btn{min-height:58px!important;padding:8px 5px!important;font-size:clamp(.74rem,3.5vw,1rem)!important;border-radius:18px!important}}
+</style>
+<script id="PRIMARY2-LEGACY-GAMEPLAY-FIX-2027-JS">(function(){
+  if(!window.GameBase||window.GameBase.__p2LegacyGameplayFix)return;
+  var base=window.GameBase, original=base.startGame;
+  if(/scramble it|لعبة الترتيب/i.test(document.title+' '+(document.querySelector('.screen-title')?.textContent||''))) return;
+  function t(v){return String(v==null?'':v).trim();}
+  function playable(all){
+    var src=Array.isArray(all)?all:[], pool=[];
+    src.forEach(function(q){(Array.isArray(q.choices)?q.choices:[]).forEach(function(v){v=t(v);if(v&&!pool.includes(v))pool.push(v);});var a=t(q.answer);if(a&&!pool.includes(a))pool.push(a);});
+    return src.map(function(q){
+      if(q&&Array.isArray(q.choices)&&q.choices.length>=2)return Object.assign({},q);
+      var a=t(q&&q.answer)||'correct';var choices=[a];pool.forEach(function(v){if(choices.length<4&&!choices.includes(v))choices.push(v);});
+      ['school','home','friend','book','teacher'].forEach(function(v){if(choices.length<4&&!choices.includes(v))choices.push(v);});
+      return Object.assign({},q,{type:'mcq',choices:choices,answer:0});
+    });
+  }
+  base.startGame=function(level,questions,callbacks){
+    var wrapped=Object.assign({},callbacks||{});
+    ['onStart','onNextQ'].forEach(function(k){var fn=callbacks&&callbacks[k];if(typeof fn==='function')wrapped[k]=function(q){return fn(q,Object.prototype.hasOwnProperty.call(arguments,1)?arguments[1]:0,Object.prototype.hasOwnProperty.call(arguments,2)?arguments[2]:0);};});
+    return original.call(base,level,playable(questions),wrapped);
+  };
+  base.__p2LegacyGameplayFix=true;
+})();</script>
+<style id="PRIMARY2-LEGACY-LAYOUT-V2-2027">
+body[data-p2-game="shadow"] #choices{position:absolute!important;inset:0!important;display:block!important;max-width:none!important;width:100%!important;height:100%!important;padding:0!important;pointer-events:none!important;background:transparent!important;}
+body[data-p2-game="shadow"] #choices .choice-btn{position:absolute!important;width:clamp(92px,24vw,170px)!important;height:clamp(64px,12vw,112px)!important;min-height:0!important;pointer-events:auto!important;}
+body[data-p2-game="shadow"] #choices .choice-btn:nth-child(1){left:22%;top:61%;}body[data-p2-game="shadow"] #choices .choice-btn:nth-child(2){left:50%;top:70%;}body[data-p2-game="shadow"] #choices .choice-btn:nth-child(3){left:78%;top:61%;}body[data-p2-game="shadow"] #choices .choice-btn:nth-child(4){left:50%;top:83%;}
+body[data-p2-game="shadow"] #emoji-hint{margin-top:4vh;}
+body[data-p2-game="scramble"] #choices{margin-top:1vh!important;}
+body[data-p2-game="hunt"] #choices{margin-top:2vh!important;}
+@media(max-width:520px){body[data-p2-game="shadow"] #choices .choice-btn{width:clamp(82px,24vw,108px)!important;height:clamp(56px,11vw,82px)!important;font-size:.78rem!important;}}
+</style>
+<script id="PRIMARY2-LEGACY-LAYOUT-V2-2027-JS">(function(){
+  var title=(document.title||'').toLowerCase(), kind=title.includes('shadow')?'shadow':title.includes('scramble')?'scramble':title.includes('word hunt')?'hunt':title.includes('word')?'collect':'';
+  if(kind)document.body.dataset.p2Game=kind;
+})();</script>
+<style id="PRIMARY2-SCRAMBLE-REAL-GAMEPLAY-2027">
+#scramble-zone{display:flex!important;flex-wrap:wrap!important;justify-content:center!important;gap:10px!important;min-height:74px!important;padding:12px!important;background:rgba(15,23,42,.42)!important;border:2px dashed rgba(250,204,21,.6)!important;border-radius:20px!important;}
+#scramble-zone .scramble-picked{display:inline-flex;align-items:center;justify-content:center;padding:10px 14px;border-radius:14px;background:linear-gradient(145deg,#facc15,#f97316);color:#171717;font-weight:900;box-shadow:0 5px 0 #a16207,0 8px 15px rgba(0,0,0,.3);animation:p2WordIn .2s ease;}
+#choices.scramble-word-bank{display:flex!important;flex-wrap:wrap!important;justify-content:center!important;gap:10px!important;max-width:min(92vw,760px)!important;background:transparent!important;padding:12px!important;}
+#choices.scramble-word-bank .choice-btn{min-width:clamp(90px,20vw,170px)!important;min-height:58px!important;background:linear-gradient(145deg,#2563eb,#312e81)!important;border-color:#93c5fd!important;}
+#choices.scramble-word-bank .choice-btn.used{opacity:.28!important;transform:scale(.94)!important;pointer-events:none!important;}
+#scramble-clear{border:2px solid #fbbf24;background:rgba(120,53,15,.55);color:#fff7ed;border-radius:14px;padding:9px 16px;font-weight:900;cursor:pointer;}
+@keyframes p2WordIn{from{transform:scale(.8);opacity:.2}to{transform:scale(1);opacity:1}}
+@media(max-width:520px){#choices.scramble-word-bank .choice-btn{min-width:calc(50% - 6px)!important;font-size:.85rem!important;}}
+</style>
+<script id="PRIMARY2-SCRAMBLE-REAL-GAMEPLAY-2027-JS">(function(){
+  if(!window.GameBase||window.GameBase.__p2ScrambleReal)return;
+  var base=window.GameBase, oldStart=base.startGame;
+  base.renderChoices=function(){};
+  function norm(s){return String(s||'').trim().toLowerCase().replace(/\s+/g,' ');}
+  function shuffle(a){return a.slice().sort(function(){return Math.random()-.5;});}
+  function render(q,idx,total){
+    var prompt=document.getElementById('question-text'), counter=document.getElementById('q-counter'), zone=document.getElementById('scramble-zone'), bank=document.getElementById('choices'), fill=document.getElementById('fill-wrap');
+    if(counter)counter.textContent='Q '+(idx+1)+' / '+total;
+    if(prompt)prompt.textContent='رتّب الكلمات لتكوين الجملة الصحيحة';
+    if(fill)fill.style.display='none';
+    if(!zone||!bank)return;
+    zone.innerHTML=''; bank.innerHTML=''; bank.className='scramble-word-bank';
+    var answer=String(q.answer||'').trim(); var words=answer.split(/\s+/).filter(Boolean), picked=[];
+    var clear=document.createElement('button');clear.id='scramble-clear';clear.type='button';clear.textContent='مسح الترتيب';
+    clear.onclick=function(){picked=[];zone.innerHTML='';Array.from(bank.querySelectorAll('.choice-btn')).forEach(function(b){b.classList.remove('used');});};
+    zone.appendChild(clear);
+    shuffle(words.map(function(w,i){return {w:w,i:i};})).forEach(function(item){
+      var b=document.createElement('button');b.type='button';b.className='choice-btn';b.textContent=item.w;b.dataset.wordIndex=item.i;
+      b.onclick=function(){if(b.classList.contains('used')||!GameBase.isActive())return;b.classList.add('used');picked.push(item.w);var chip=document.createElement('span');chip.className='scramble-picked';chip.textContent=item.w;zone.appendChild(chip);if(picked.length===words.length){var input=document.getElementById('fill-input');if(!input){input=document.createElement('input');input.id='fill-input';input.type='text';document.body.appendChild(input);}input.value=picked.join(' ');GameBase.checkFill();}};
+      bank.appendChild(b);
+    });
+  }
+  base.startGame=function(level,questions,callbacks){
+    var qs=Array.isArray(questions)?questions.map(function(q){return Object.assign({},q);}):[];
+    var wrapped=Object.assign({},callbacks||{});
+    wrapped.onStart=function(q,i,t){render(q,i,t);}; wrapped.onNextQ=function(q,i,t){render(q,i,t);};
+    return oldStart.call(base,level,qs,wrapped);
+  };
+  base.__p2ScrambleReal=true;
+})();</script>
+<style id="PRIMARY2-SCRAMBLE-HIDE-FALLBACK-2027">#fill-wrap{display:none!important;visibility:hidden!important;pointer-events:none!important;}#scramble-zone{position:relative!important;z-index:30!important;}#choices{position:relative!important;z-index:31!important;}</style>
 </body>
 </html>
 
