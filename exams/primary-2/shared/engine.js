@@ -11,6 +11,23 @@
 
   let studentName = "";
   let lastResults = [];
+  let activeQuestions = [];
+
+  function shuffleCopy(arr) {
+    const copy = arr.slice();
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+  }
+
+  function prepareQuestions(source) {
+    return source.map((q) => {
+      if (q.type !== "mcq") return { ...q };
+      return { ...q, options: shuffleCopy(q.options) };
+    });
+  }
 
   // ---------- أدوات مساعدة للتصحيح ----------
   function normalize(str) {
@@ -71,12 +88,13 @@
 
   // ---------- شاشة الأسئلة ----------
   function renderQuiz() {
+    activeQuestions = prepareQuestions(QUIZ.questions);
     let html = `<div class="card">
       <h2>مرحبا يا ${esc(studentName)} 🌟</h2>
       <p>جاوب على كل الأسئلة الآتية وبعدين اضغط "سلم الإجابات":</p>
       <form id="quizForm">`;
 
-    QUIZ.questions.forEach(function (q, i) {
+    activeQuestions.forEach(function (q, i) {
       html += `<div class="question">
         <div class="q-number">سؤال ${i + 1} من ${QUIZ.questions.length}</div>`;
 
@@ -90,7 +108,7 @@
         q.options.forEach(function (opt, oi) {
           html += `<label class="option">
             <input type="radio" name="q${i}" value="${esc(opt)}" />
-            <span dir="ltr">${esc(opt)}</span>
+            <span dir="ltr"><b>${String.fromCharCode(65 + oi)}.</b> ${esc(opt)}</span>
           </label>`;
         });
       } else if (q.type === "unscramble") {
@@ -129,7 +147,7 @@
     const form = document.getElementById("quizForm");
     let score = 0;
 
-    lastResults = QUIZ.questions.map(function (q, i) {
+    lastResults = activeQuestions.map(function (q, i) {
       let given = "";
       if (q.type === "mcq") {
         const checked = form.querySelector('input[name="q' + i + '"]:checked');

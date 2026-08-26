@@ -13,6 +13,25 @@
   const app = document.getElementById('quiz-app');
   let studentName = '';
   const answers = {}; // qid -> value
+  let activeQuestions = [];
+
+  function shuffleCopy(arr) {
+    const copy = arr.slice();
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+  }
+
+  function prepareQuestions(source) {
+    return source.map((q) => {
+      if (q.type !== 'mcq') return { ...q };
+      const correctText = q.options[q.correct];
+      const options = shuffleCopy(q.options);
+      return { ...q, options, correct: options.indexOf(correctText) };
+    });
+  }
 
   // ---------- normalization helpers ----------
   function normLoose(s) {
@@ -134,6 +153,7 @@
   }
 
   function renderQuiz() {
+    activeQuestions = prepareQuestions(lesson.questions);
     let html = `
       <div class="hero" style="padding:18px 22px;">
         <h1>أهلًا ${studentName} 👋</h1>
@@ -146,7 +166,7 @@
     `;
     app.innerHTML = html;
     const qbox = document.getElementById('questions');
-    qbox.innerHTML = lesson.questions.map((q, i) => renderQuestion(q, i)).join('');
+    qbox.innerHTML = activeQuestions.map((q, i) => renderQuestion(q, i)).join('');
 
     // option highlight
     qbox.querySelectorAll('.options').forEach((optWrap) => {
@@ -163,7 +183,7 @@
   }
 
   function collectAnswers() {
-    lesson.questions.forEach((q) => {
+    activeQuestions.forEach((q) => {
       if (q.type === 'mcq') {
         const sel = document.querySelector(`input[name="${q.id}"]:checked`);
         answers[q.id] = sel ? sel.value : undefined;
@@ -186,8 +206,8 @@
 
   function renderResults() {
     let score = 0;
-    const total = lesson.questions.length;
-    const reviewHtml = lesson.questions
+    const total = activeQuestions.length;
+    const reviewHtml = activeQuestions
       .map((q, i) => {
         const val = answers[q.id];
         const ok = checkAnswer(q, val);
@@ -289,7 +309,7 @@
     lines.push(`✅ النتيجة: ${score} / ${total}`);
     lines.push('');
     lines.push('———— تفاصيل الإجابات ————');
-    lesson.questions.forEach((q, i) => {
+    activeQuestions.forEach((q, i) => {
       const val = answers[q.id];
       const ok = checkAnswer(q, val);
       let userAnsLabel = '';

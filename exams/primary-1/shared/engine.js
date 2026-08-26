@@ -31,6 +31,23 @@ function el(tag, attrs, html) {
 function initQuiz(META, QUESTIONS) {
   document.title = META.unitName + " - " + META.lessonName;
   const app = document.getElementById("app");
+  let activeQuestions = [];
+  function shuffleCopy(arr) {
+    const copy = arr.slice();
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+  }
+  function prepareQuestions(source) {
+    return source.map((q) => {
+      if (q.type !== "mcq") return { ...q };
+      const correctText = q.options[q.correct];
+      const options = shuffleCopy(q.options);
+      return { ...q, options, correct: options.indexOf(correctText) };
+    });
+  }
 
   // ---------- شاشة 1: الاسم ----------
   function renderStart() {
@@ -58,13 +75,14 @@ function initQuiz(META, QUESTIONS) {
 
   // ---------- شاشة 2: الأسئلة ----------
   function renderQuiz() {
+    activeQuestions = prepareQuestions(QUESTIONS);
     app.innerHTML = "";
     const card = el("div", { class: "card" });
     card.appendChild(el("div", { class: "badge" }, META.unitName));
     card.appendChild(el("h1", {}, META.lessonName));
     card.appendChild(el("h2", { class: "sub" }, "أهلاً " + window._studentName + " 👋 جاوب على كل الأسئلة وبعدين اضغط تسليم"));
 
-    QUESTIONS.forEach((q, i) => {
+    activeQuestions.forEach((q, i) => {
       const qDiv = el("div", { class: "q" });
       const title = el("div", { class: "q-title" });
       title.innerHTML = '<span class="q-num">' + (i + 1) + "</span>" + q.q;
@@ -74,7 +92,8 @@ function initQuiz(META, QUESTIONS) {
         q.options.forEach((opt, idx) => {
           const label = el("label", { class: "opt" });
           label.innerHTML =
-            '<input type="radio" name="q' + i + '" value="' + idx + '"> ' + opt;
+            '<input type="radio" name="q' + i + '" value="' + idx + '"> ' +
+            '<b class="option-letter">' + String.fromCharCode(65 + idx) + '.</b> ' + opt;
           qDiv.appendChild(label);
         });
       } else {
@@ -98,7 +117,7 @@ function initQuiz(META, QUESTIONS) {
   function gradeQuiz() {
     let score = 0;
     const details = [];
-    QUESTIONS.forEach((q, i) => {
+    activeQuestions.forEach((q, i) => {
       let userVal = "";
       if (q.type === "mcq") {
         const checked = document.querySelector('input[name="q' + i + '"]:checked');
