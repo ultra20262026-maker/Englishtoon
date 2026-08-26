@@ -41,6 +41,20 @@ button, .target-btn, a, [onclick] { touch-action: manipulation; }
 <!-- /PRIMARY-MOBILE-FIT-2027-GLOBAL -->
 <style id="PRIMARY-CANVAS-FIT-FIX-2027">#game-wrap{height:100dvh!important;min-height:100dvh!important;flex:0 0 100dvh!important}#game-wrap>canvas#c{width:100%!important;height:100%!important;max-width:none!important}</style>
 <script src="../../../englishtoon_profile.js" defer></script>
+<style id="PRIMARY1-MOBILE-CHROME-FIX-2026">
+html,body{width:100%;min-width:0;max-width:100%;overflow-x:hidden}
+#et-score-chip{position:fixed!important;left:50%!important;right:auto!important;bottom:5px!important;transform:translateX(-50%)!important;z-index:99999!important;max-width:calc(100vw - 24px)!important;white-space:nowrap!important;direction:rtl!important;background:rgba(7,17,38,.94)!important;color:#ffd166!important;border:1px solid rgba(255,209,102,.7)!important;border-radius:10px!important;padding:5px 10px!important;font:900 11px Arial,sans-serif!important;line-height:1.2!important;box-shadow:0 3px 10px rgba(0,0,0,.35)!important}
+img{max-width:100%;object-fit:contain}
+@media(max-width:600px){
+  body{padding:8px!important}
+  .game-container,#game-container,.game-wrap,#game-wrap,.game-area,.game-wrapper{width:min(100%,calc(100vw - 16px))!important;max-width:calc(100vw - 16px)!important;min-width:0!important;max-height:calc(100dvh - 16px)!important}
+  .ui-top{left:8px!important;right:8px!important;top:7px!important;font-size:clamp(.78rem,3.7vw,1.15rem)!important;line-height:1.25!important}
+  .question-box{max-width:82vw!important;max-height:23vh!important;margin-bottom:8px!important;padding:6px!important}
+  .question-box img{width:min(22vw,80px)!important;height:min(22vw,80px)!important}
+  .options,.choices{width:min(94%,480px)!important;max-width:94%!important;gap:7px!important;flex-wrap:wrap!important;justify-content:center!important;padding:8px!important}
+  .opt-btn,.option-btn,.choice-btn{min-width:0!important;max-width:31vw!important;padding:8px 10px!important;font-size:clamp(.78rem,3.8vw,1.15rem)!important;line-height:1.2!important;white-space:normal!important}
+}
+</style>
 </head>
 <body>
     <div class="game-container" id="game-container">
@@ -64,22 +78,22 @@ let autoAdvanceTimer = null; // PRIMARY-AUTO-TIMER-FIX-2027
 
         
 const wordsData = [
-  { word: "eye", image: "../images_unit4/pixar_eye_1782050332022.png", type: "img" },
-  { word: "mouth", image: "../images_unit4/pixar_mouth_1782050342052.png", type: "img" },
-  { word: "ear", image: "../images_unit4/pixar_ear_1782050353890.png", type: "img" },
-  { word: "head", image: "../images_unit4/pixar_head_1782050365861.png", type: "img" },
-  { word: "tongue", image: "../images_unit4/pixar_tongue_1782050382757.png", type: "img" },
-  { word: "arm", image: "../images_unit4/pixar_arm_1782050393224.png", type: "img" },
-  { word: "leg", image: "../images_unit4/pixar_leg_1782050404201.png", type: "img" },
-  { word: "foot", image: "../images_unit4/pixar_foot_1782050415844.png", type: "img" },
-  { word: "feet", image: "../images_unit4/pixar_feet_1782050434707.png", type: "img" },
-  { word: "toes", image: "../images_unit4/pixar_toes_1782050446071.png", type: "img" },
-  { word: "red", image: "../images_unit4/pixar_red_1782050458088.png", type: "img" },
-  { word: "rocket", image: "../images_unit4/pixar_rocket_1782050469083.png", type: "img" },
-  { word: "ring", image: "../images_unit4/pixar_ring_1782050484208.png", type: "img" },
-  { word: "rabbit", image: "../images_unit4/pixar_rabbit_1782050494082.png", type: "img" },
-  { word: "robot", image: "../images_unit4/pixar_robot_1782050505802.png", type: "img" },
-  { word: "egg", image: "../images_unit4/pixar_egg_1782050517755.png", type: "img" },
+  { word: "eye", image: "../../../images/games/p1/eye.png", type: "img" },
+  { word: "mouth", image: "../../../images/games/p1/mouth.png", type: "img" },
+  { word: "ear", image: "../../../images/games/p1/ear.png", type: "img" },
+  { word: "head", image: "../../../images/games/p1/head.png", type: "img" },
+  { word: "tongue", image: "../../../images/games/p1/tongue.png", type: "img" },
+  { word: "arm", image: "../../../images/games/p1/arm.png", type: "img" },
+  { word: "leg", image: "../../../images/games/p1/leg.png", type: "img" },
+  { word: "foot", image: "../../../images/games/p1/foot.png", type: "img" },
+  { word: "feet", image: "../../../images/games/p1/feet.png", type: "img" },
+  { word: "toes", image: "../../../images/games/p1/toes.png", type: "img" },
+  { word: "red", image: "../../../images/games/p1/red.png", type: "img" },
+  { word: "rocket", image: "../../../images/games/p1/rocket.png", type: "img" },
+  { word: "ring", image: "../../../images/games/p1/ring.png", type: "img" },
+  { word: "rabbit", image: "../../../images/games/p1/rabbit.png", type: "img" },
+  { word: "robot", image: "../../../images/games/p1/robot.png", type: "img" },
+  { word: "egg", image: "../../../images/games/p1/egg.png", type: "img" },
   { word: "eggplant", image: "🍆", type: "emoji" },
   { word: "enter", image: "🚪", type: "emoji" },
   { word: "elephant", image: "🐘", type: "emoji" },
