@@ -2902,6 +2902,333 @@ const GRAMMAR_GAMES_MAP = {"primary-1": {
   }
 };
 const EXAMS_MAP = {
+
+    "primary-1": {
+        "1": [
+            {
+                "name": "Lesson1 Greetings",
+                "file": "Lesson1_Greetings.html"
+            },
+            {
+                "name": "Lesson2 Phonics",
+                "file": "Lesson2_Phonics.html"
+            },
+            {
+                "name": "Lesson3 Around My Classroom",
+                "file": "Lesson3_Around_My_Classroom.html"
+            },
+            {
+                "name": "Lesson4 Phonics",
+                "file": "Lesson4_Phonics.html"
+            }
+        ],
+        "2": [
+            {
+                "name": "Lesson1 In the Garden",
+                "file": "Lesson1_In_the_Garden.html"
+            },
+            {
+                "name": "Lesson2 Phonics",
+                "file": "Lesson2_Phonics.html"
+            },
+            {
+                "name": "Lesson3 Shapes and Colors",
+                "file": "Lesson3_Shapes_and_Colors.html"
+            },
+            {
+                "name": "Lesson4 Phonics",
+                "file": "Lesson4_Phonics.html"
+            }
+        ],
+        "3": [
+            {
+                "name": "Lesson1 Whos in My Family",
+                "file": "Lesson1_Whos_in_My_Family.html"
+            },
+            {
+                "name": "Lesson2 Phonics",
+                "file": "Lesson2_Phonics.html"
+            },
+            {
+                "name": "Lesson3 Numbers 1 to 5",
+                "file": "Lesson3_Numbers_1_to_5.html"
+            },
+            {
+                "name": "Lesson4 Phonics",
+                "file": "Lesson4_Phonics.html"
+            }
+        ],
+        "4": [
+            {
+                "name": "Lesson1 Head to Toe",
+                "file": "Lesson1_Head_to_Toe.html"
+            },
+            {
+                "name": "Lesson2 Phonics",
+                "file": "Lesson2_Phonics.html"
+            },
+            {
+                "name": "Lesson3 My 5 Senses",
+                "file": "Lesson3_My_5_Senses.html"
+            },
+            {
+                "name": "Lesson4 Phonics",
+                "file": "Lesson4_Phonics.html"
+            }
+        ],
+        "5": [
+            {
+                "name": "Lesson1 Welcome to the Farm",
+                "file": "Lesson1_Welcome_to_the_Farm.html"
+            },
+            {
+                "name": "Lesson2 Phonics",
+                "file": "Lesson2_Phonics.html"
+            },
+            {
+                "name": "Lesson3 Numbers 6 to 10",
+                "file": "Lesson3_Numbers_6_to_10.html"
+            },
+            {
+                "name": "Lesson4 Phonics",
+                "file": "Lesson4_Phonics.html"
+            }
+        ],
+        "6": [
+            {
+                "name": "Lesson1 Welcome to the Jungle",
+                "file": "Lesson1_Welcome_to_the_Jungle.html"
+            },
+            {
+                "name": "Lesson2 Phonics",
+                "file": "Lesson2_Phonics.html"
+            },
+            {
+                "name": "Lesson3 My Pets",
+                "file": "Lesson3_My_Pets.html"
+            },
+            {
+                "name": "Lesson4 Phonics",
+                "file": "Lesson4_Phonics.html"
+            }
+        ]
+    },
+    "primary-2": {
+        "1": [
+            {
+                "name": "lesson1 classroom greetings",
+                "file": "lesson1_classroom_greetings.html"
+            },
+            {
+                "name": "lesson2 around the classroom",
+                "file": "lesson2_around_the_classroom.html"
+            },
+            {
+                "name": "lesson3 our classroom objects",
+                "file": "lesson3_our_classroom_objects.html"
+            },
+            {
+                "name": "lesson4 let s write together",
+                "file": "lesson4_let_s_write_together.html"
+            }
+        ],
+        "2": [
+            {
+                "name": "lesson1 colors and shapes",
+                "file": "lesson1_colors_and_shapes.html"
+            },
+            {
+                "name": "lesson2 shapes and colors around us",
+                "file": "lesson2_shapes_and_colors_around_us.html"
+            },
+            {
+                "name": "lesson3 numbers and counting",
+                "file": "lesson3_numbers_and_counting.html"
+            },
+            {
+                "name": "lesson4 let s count together",
+                "file": "lesson4_let_s_count_together.html"
+            }
+        ],
+        "3": [
+            {
+                "name": "lesson1 classroom actions",
+                "file": "lesson1_classroom_actions.html"
+            },
+            {
+                "name": "lesson2 let s talk about class routines",
+                "file": "lesson2_let_s_talk_about_class_routines.html"
+            },
+            {
+                "name": "lesson3 all about our classroom",
+                "file": "lesson3_all_about_our_classroom.html"
+            },
+            {
+                "name": "lesson4 writing about our class",
+                "file": "lesson4_writing_about_our_class.html"
+            }
+        ],
+        "4": [
+            {
+                "name": "lesson1 my family",
+                "file": "lesson1_my_family.html"
+            },
+            {
+                "name": "lesson2 all about me",
+                "file": "lesson2_all_about_me.html"
+            },
+            {
+                "name": "lesson3 my life at home",
+                "file": "lesson3_my_life_at_home.html"
+            },
+            {
+                "name": "lesson4 me and my family",
+                "file": "lesson4_me_and_my_family.html"
+            }
+        ],
+        "5": [
+            {
+                "name": "lesson1 inside my home",
+                "file": "lesson1_inside_my_home.html"
+            },
+            {
+                "name": "lesson2 what s in my home",
+                "file": "lesson2_what_s_in_my_home.html"
+            },
+            {
+                "name": "lesson3 my favorite room",
+                "file": "lesson3_my_favorite_room.html"
+            },
+            {
+                "name": "lesson4 actions at home",
+                "file": "lesson4_actions_at_home.html"
+            }
+        ],
+        "6": [
+            {
+                "name": "lesson1 my home",
+                "file": "lesson1_my_home.html"
+            },
+            {
+                "name": "lesson2 let s talk about our home",
+                "file": "lesson2_let_s_talk_about_our_home.html"
+            },
+            {
+                "name": "lesson3 where things are in my home",
+                "file": "lesson3_where_things_are_in_my_home.html"
+            },
+            {
+                "name": "lesson4 i can read and write about my home",
+                "file": "lesson4_i_can_read_and_write_about_my_home.html"
+            }
+        ]
+    },
+    "primary-3": {
+        "1": [
+            {
+                "name": "lesson1",
+                "file": "lesson1.html"
+            },
+            {
+                "name": "lesson2",
+                "file": "lesson2.html"
+            },
+            {
+                "name": "lesson3",
+                "file": "lesson3.html"
+            },
+            {
+                "name": "lesson4",
+                "file": "lesson4.html"
+            }
+        ],
+        "2": [
+            {
+                "name": "lesson1",
+                "file": "lesson1.html"
+            },
+            {
+                "name": "lesson2",
+                "file": "lesson2.html"
+            },
+            {
+                "name": "lesson3",
+                "file": "lesson3.html"
+            },
+            {
+                "name": "lesson4",
+                "file": "lesson4.html"
+            }
+        ],
+        "3": [
+            {
+                "name": "lesson1",
+                "file": "lesson1.html"
+            },
+            {
+                "name": "lesson2",
+                "file": "lesson2.html"
+            },
+            {
+                "name": "lesson3",
+                "file": "lesson3.html"
+            },
+            {
+                "name": "lesson4",
+                "file": "lesson4.html"
+            }
+        ],
+        "4": [
+            {
+                "name": "lesson1",
+                "file": "lesson1.html"
+            },
+            {
+                "name": "lesson2",
+                "file": "lesson2.html"
+            },
+            {
+                "name": "lesson3",
+                "file": "lesson3.html"
+            }
+        ],
+        "5": [
+            {
+                "name": "lesson1",
+                "file": "lesson1.html"
+            },
+            {
+                "name": "lesson2",
+                "file": "lesson2.html"
+            },
+            {
+                "name": "lesson3",
+                "file": "lesson3.html"
+            },
+            {
+                "name": "lesson4",
+                "file": "lesson4.html"
+            }
+        ],
+        "6": [
+            {
+                "name": "lesson1",
+                "file": "lesson1.html"
+            },
+            {
+                "name": "lesson2",
+                "file": "lesson2.html"
+            },
+            {
+                "name": "lesson3",
+                "file": "lesson3.html"
+            },
+            {
+                "name": "lesson4",
+                "file": "lesson4.html"
+            }
+        ]
+    },
     "primary-4": {
         "1": [
             {

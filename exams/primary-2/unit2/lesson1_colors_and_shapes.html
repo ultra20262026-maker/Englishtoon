@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 1: Colors and Shapes - Unit 2: Colors, Shapes, and Numbers</title>
+<link rel="stylesheet" href="../shared/style.css">
+</head>
+<body>
+  <div class="top-bar">
+    <div class="school-name"></div>
+    <h1 class="page-title">📚 امتحان إلكتروني</h1>
+    <div class="subtitle">الوحدة الثانية: الألوان والأشكال والأرقام <span class="en">(Unit 2: Colors, Shapes, and Numbers)</span></div>
+    <div class="subtitle">الدرس الأول: الألوان والأشكال <span class="en">(Lesson 1: Colors and Shapes)</span></div>
+  </div>
+
+  <div id="quiz-root"></div>
+
+  <footer class="site-footer">English Language – Primary Stage: Year 2 – First Term</footer>
+
+<script src="../shared/config.js"></script>
+<script>
+const QUIZ = {
+  "unitName": "Unit 2: Colors, Shapes, and Numbers",
+  "unitNameAr": "الوحدة الثانية: الألوان والأشكال والأرقام",
+  "lessonName": "Lesson 1: Colors and Shapes",
+  "lessonNameAr": "الدرس الأول: الألوان والأشكال",
+  "questions": [
+    {
+      "type": "mcq",
+      "q": "This is a ___.",
+      "options": [
+        "green",
+        "circle",
+        "blue"
+      ],
+      "answer": "circle"
+    },
+    {
+      "type": "mcq",
+      "q": "The shape has 3 sides. It is a ___.",
+      "options": [
+        "triangle",
+        "square",
+        "red"
+      ],
+      "answer": "triangle"
+    },
+    {
+      "type": "mcq",
+      "q": "This is a ___ square.",
+      "options": [
+        "circle",
+        "blue",
+        "triangle"
+      ],
+      "answer": "blue"
+    },
+    {
+      "type": "fill",
+      "q": "This is a red ___. (shape)",
+      "answer": [
+        "circle"
+      ]
+    },
+    {
+      "type": "fill",
+      "q": "This is a blue ___. (shape)",
+      "answer": [
+        "triangle"
+      ]
+    },
+    {
+      "type": "reorder",
+      "q": "Reorder the words to make a sentence:",
+      "words": [
+        "is",
+        "a",
+        "triangle.",
+        "blue",
+        "This"
+      ],
+      "answer": [
+        "This is a blue triangle."
+      ]
+    },
+    {
+      "type": "reorder",
+      "q": "Reorder the words to make a sentence:",
+      "words": [
+        "is",
+        "What",
+        "this",
+        "?"
+      ],
+      "answer": [
+        "What is this?"
+      ]
+    }
+  ]
+};
+</script>
+<script src="../shared/engine.js"></script>
+</body>
+</html>
