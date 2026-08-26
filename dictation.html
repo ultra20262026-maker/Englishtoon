@@ -10,8 +10,9 @@
 <script src="englishtoon_profile.js"></script>
 <script src="dictation_data.js"></script>
 <script src="dictation_audio.js"></script>
+<link rel="stylesheet" href="css/englishtoon-brand-theme.css?v=1">
 </head>
-<body><div class="wrap">
+<body class="toon-brand-page"><div class="wrap">
 <header class="top"><a class="brand" href="games.html">English<span>Toon</span></a><a class="back" href="games.html">↩ قسم الألعاب</a></header>
 <section class="card hero"><div class="eyebrow">✍️ لعبة الإملاء التفاعلية</div><h1>Dictation</h1><p>استمع إلى الكلمة من زر السماعة، ثم رتّب حروفها المتلخبطة. كل إجابة صحيحة تمنحك نقاطًا في صفك.</p><div id="lesson" class="lesson">تحميل الدرس...</div></section>
 <section id="play" class="card play"><div class="hud"><div class="stat"><small>السؤال</small><strong id="progress">1 / 5</strong></div><div class="stat"><small>الإجابات الصحيحة</small><strong id="correct">0</strong></div><div class="stat"><small>النقاط</small><strong id="score">0</strong></div></div><div class="prompt"><div class="prompt-label">رتب الحروف المتلخبطة لتكوين الكلمة الصحيحة</div><div id="word" class="word scrambled">...</div><button id="speak" class="speak-btn" type="button" aria-label="استمع إلى الكلمة">🔊 استمع إلى الكلمة</button><audio id="word-audio" preload="auto"></audio></div><div id="built" class="built" aria-live="polite">إجابتك ستظهر هنا</div><div id="tiles" class="tiles" aria-label="حروف الكلمة"></div><div class="controls"><button id="shuffle" class="btn">خلط الحروف</button><button id="clear" class="btn">مسح الإجابة</button></div><div class="controls"><button id="check" class="btn primary">تحقق من الترتيب</button></div><div id="feedback" class="feedback" aria-live="polite"></div><div class="tip">اضغط الحروف بالترتيب الصحيح. الكلمات المكوّنة من أكثر من جزء تظهر حروفها معًا بدون كشف ترتيبها.</div></section>

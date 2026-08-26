@@ -101,6 +101,7 @@
         .anim-delay-3 { animation-delay: 0.3s; }
     </style>
     <link rel="stylesheet" href="css/englishtoon-3d-backgrounds.css?v=1">
+    <link rel="stylesheet" href="css/englishtoon-brand-theme.css?v=1">
 </head>
 <body class="text-slate-800 pb-20 toon-scene-exams">
 
@@ -155,39 +156,18 @@
             </div>
         </div>
 
-        <!-- Grade Filter Pills -->
-        <div class="flex justify-center flex-wrap gap-2 mb-10" id="gradePills">
-            <div class="grade-pill active" data-grade="all" onclick="filterGrades('all', this)">كل الصفوف</div>
-            <div class="grade-pill" data-grade="primary-1" onclick="filterGrades('primary-1', this)">الأول الابتدائي</div>
-            <div class="grade-pill" data-grade="primary-2" onclick="filterGrades('primary-2', this)">الثاني الابتدائي</div>
-            <div class="grade-pill" data-grade="primary-3" onclick="filterGrades('primary-3', this)">الثالث الابتدائي</div>
-            <div class="grade-pill" data-grade="primary-4" onclick="filterGrades('primary-4', this)">الرابع الابتدائي</div>
-            <div class="grade-pill" data-grade="primary-5" onclick="filterGrades('primary-5', this)">الخامس الابتدائي</div>
-            <div class="grade-pill" data-grade="primary-6" onclick="filterGrades('primary-6', this)">السادس الابتدائي</div>
-            <div class="grade-pill" data-grade="prep-1" onclick="filterGrades('prep-1', this)">الأول الإعدادي</div>
-            <div class="grade-pill" data-grade="prep-2" onclick="filterGrades('prep-2', this)">الثاني الإعدادي</div>
-            <div class="grade-pill" data-grade="prep-3" onclick="filterGrades('prep-3', this)">الثالث الإعدادي</div>
-        </div>
-
-        <!-- Primary Section -->
-        <div id="primary-section" class="mb-12">
-            <h3 class="text-2xl font-black text-slate-800 mb-6 flex items-center gap-3">
-                <i class="fa-solid fa-child text-success"></i> المرحلة الابتدائية
-            </h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="primary-grid">
-                <!-- Rendered via JS -->
+        <!-- Grade Tabs -->
+        <section class="et-primary-surface rounded-[2rem] p-4 sm:p-6 md:p-8 shadow-xl mb-12">
+            <div class="flex items-center justify-between gap-3 mb-5">
+                <div>
+                    <p class="text-xs font-black text-success mb-1">اختر تبويب صفك</p>
+                    <h2 class="text-2xl md:text-3xl font-black text-slate-800">امتحانات كل صف في مكانه</h2>
+                </div>
+                <div class="hidden sm:flex w-12 h-12 rounded-2xl bg-white/85 items-center justify-center text-success shadow-sm"><i class="fa-solid fa-layer-group text-xl"></i></div>
             </div>
-        </div>
-
-        <!-- Prep Section -->
-        <div id="prep-section">
-            <h3 class="text-2xl font-black text-slate-800 mb-6 flex items-center gap-3">
-                <i class="fa-solid fa-school text-indigo-500"></i> المرحلة الإعدادية
-            </h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="prep-grid">
-                <!-- Rendered via JS -->
-            </div>
-        </div>
+            <div class="et-grade-tabs" id="gradeTabs" role="tablist" aria-label="صفوف الامتحانات"></div>
+            <div id="gradePanels"></div>
+        </section>
     </main>
 
     <script src="js/data.js?v=202701"></script>
@@ -205,90 +185,56 @@
             const currentUser = localStorage.getItem('currentUser') || 'طالبنا المتميز';
             document.getElementById('userNameDisplay').textContent = currentUser;
 
-            const primaryGrid = document.getElementById('primary-grid');
-            const prepGrid = document.getElementById('prep-grid');
+            const gradeTabs = document.getElementById('gradeTabs');
+            const gradePanels = document.getElementById('gradePanels');
 
-            // Render all grades from GRADES_DATA
-            GRADES_DATA.forEach(grade => {
-                const isPrimary = grade.id.startsWith('primary');
-                
-                // Check if grade has exams
-                let gradeHasExams = false;
-                if (typeof EXAMS_MAP !== 'undefined' && EXAMS_MAP[grade.id]) {
-                    for (const unit in EXAMS_MAP[grade.id]) {
-                        if (EXAMS_MAP[grade.id][unit] && EXAMS_MAP[grade.id][unit].length > 0) {
-                            gradeHasExams = true;
-                            break;
-                        }
-                    }
-                }
+            GRADES_DATA.forEach((grade, index) => {
+                const exams = (typeof EXAMS_MAP !== 'undefined' && EXAMS_MAP[grade.id]) ? EXAMS_MAP[grade.id] : {};
+                const hasExams = Object.values(exams).some(unit => Array.isArray(unit) && unit.length > 0);
+                const tab = document.createElement('button');
+                tab.type = 'button';
+                tab.className = 'et-grade-tab' + (index === 0 ? ' active' : '');
+                tab.setAttribute('role', 'tab');
+                tab.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
+                tab.dataset.grade = grade.id;
+                tab.innerHTML = `<img class="et-tab-icon" src="${grade.image}" alt=""><span class="et-tab-label">${grade.name.replace('الصف ', '')}</span>`;
+                tab.addEventListener('click', () => openGradeTab(grade.id));
+                gradeTabs.appendChild(tab);
 
-                let cardHtml = '';
-                if (gradeHasExams) {
-                    cardHtml = `
-                        <a href="exams-grades-view.html?id=${grade.id}" class="exam-card block p-0 group">
-                            <img class="w-full h-40 object-cover border-b-2 border-white/50" src="${grade.image}" alt="${grade.name}" onerror="this.src='images/prep_card.jpg'">
-                            <div class="p-5 flex items-center justify-between bg-white/80">
-                                <span class="text-xl font-black text-slate-800">${grade.name}</span>
-                                <span class="bg-gradient-to-r from-success to-emerald-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-sm">امتحانات <i class="fa-solid fa-file-pen ml-1"></i></span>
-                            </div>
-                        </a>
-                    `;
+                const panel = document.createElement('div');
+                panel.id = `panel-${grade.id}`;
+                panel.className = 'et-grade-panel' + (index === 0 ? ' active' : '');
+                panel.setAttribute('role', 'tabpanel');
+                panel.innerHTML = `
+                    <div class="et-panel-heading">
+                        <img src="${grade.image}" alt="${grade.name}">
+                        <div><h3>${grade.name}</h3><p>${hasExams ? 'اختبارات إلكترونية جاهزة للمراجعة' : 'الامتحانات قيد الإعداد'}</p></div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="grid-${grade.id}"></div>`;
+                gradePanels.appendChild(panel);
+
+                const grid = panel.querySelector(`#grid-${grade.id}`);
+                if (hasExams) {
+                    grid.innerHTML = `<a href="exams-grades-view.html?id=${grade.id}" class="exam-card block p-0 group">
+                        <img class="w-full h-44 object-cover border-b-2 border-white/50" src="${grade.image}" alt="${grade.name}">
+                        <div class="p-5 flex items-center justify-between bg-white/85"><span class="text-lg font-black text-slate-800">فتح امتحانات ${grade.name.replace('الصف ', '')}</span><span class="bg-gradient-to-r from-success to-emerald-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-sm">ابدأ <i class="fa-solid fa-arrow-left ml-1"></i></span></div>
+                    </a>`;
                 } else {
-                    cardHtml = `
-                        <div onclick="alert('امتحانات هذا الصف قريباً إن شاء الله!')" class="exam-card block p-0 group cursor-pointer opacity-80 grayscale-[20%]">
-                            <div class="relative">
-                                <img class="w-full h-40 object-cover border-b-2 border-white/50" src="${grade.image}" alt="${grade.name}" onerror="this.src='images/prep_card.jpg'">
-                                <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
-                                    <span class="bg-yellow-400 text-slate-800 px-4 py-2 rounded-full font-black text-sm shadow-lg transform -rotate-12 border-2 border-white">قريباً ⏳</span>
-                                </div>
-                            </div>
-                            <div class="p-5 flex items-center justify-between bg-white/80">
-                                <span class="text-xl font-black text-slate-800">${grade.name}</span>
-                                <span class="bg-slate-300 text-slate-500 px-3 py-1 rounded-full text-xs font-bold">غير متوفر</span>
-                            </div>
-                        </div>
-                    `;
-                }
-                
-                if (isPrimary) {
-                    primaryGrid.innerHTML += cardHtml;
-                } else {
-                    prepGrid.innerHTML += cardHtml;
+                    grid.innerHTML = `<div class="exam-card p-8 text-center bg-white/75"><i class="fa-solid fa-hourglass-half text-4xl text-accent mb-4"></i><p class="font-black text-slate-700">امتحانات هذا الصف قريبًا إن شاء الله</p></div>`;
                 }
             });
+
+            window.openGradeTab = function(gradeId) {
+                document.querySelectorAll('.et-grade-tab').forEach(tab => {
+                    const active = tab.dataset.grade === gradeId;
+                    tab.classList.toggle('active', active);
+                    tab.setAttribute('aria-selected', active ? 'true' : 'false');
+                });
+                document.querySelectorAll('.et-grade-panel').forEach(panel => panel.classList.toggle('active', panel.id === `panel-${gradeId}`));
+            };
         });
 
-        function filterGrades(grade, pillEl) {
-            // Highlight pill
-            document.querySelectorAll('.grade-pill').forEach(p => p.classList.remove('active'));
-            if (pillEl) {
-                pillEl.classList.add('active');
-            }
 
-            // Filter cards
-            document.querySelectorAll('.exam-card').forEach(card => {
-                // To filter we need data-grade on the card. Wait, I forgot to add data-grade to the anchor!
-                // I will use URL matching for now, or just re-render. Let's add data-grade logic.
-            });
-            // Actually, a simpler filtering:
-            document.querySelectorAll('#primary-grid > a, #prep-grid > a').forEach(card => {
-                const url = new URL(card.href);
-                const cardGrade = url.searchParams.get('id');
-                if (grade === 'all' || cardGrade === grade) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-
-            // Show/hide sections
-            const primaryVisible = (grade === 'all' || grade.startsWith('primary-'));
-            const prepVisible = (grade === 'all' || grade.startsWith('prep-'));
-
-            document.getElementById('primary-section').style.display = primaryVisible ? 'block' : 'none';
-            document.getElementById('prep-section').style.display = prepVisible ? 'block' : 'none';
-        }
     </script>
 </body>
 </html>

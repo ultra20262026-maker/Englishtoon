@@ -131,8 +131,9 @@
         }
     </style>
     <link rel="stylesheet" href="css/englishtoon-3d-backgrounds.css?v=1">
+    <link rel="stylesheet" href="css/englishtoon-brand-theme.css?v=1">
 </head>
-<body class="text-slate-800 pb-20 toon-scene-exam-units">
+<body class="text-slate-800 pb-20 toon-scene-exam-units toon-brand-page">
 
     <!-- Header -->
     <header class="glass-header sticky top-0 z-50 transition-all duration-300">
@@ -186,6 +187,7 @@
                 return;
             }
 
+            document.body.classList.add(gradeId.startsWith('primary-') ? 'grade-primary' : 'grade-prep');
             document.getElementById('grade-title').textContent = grade.name;
             const container = document.getElementById('units-container');
             const allowedUnitsStr = localStorage.getItem('allowedUnits');

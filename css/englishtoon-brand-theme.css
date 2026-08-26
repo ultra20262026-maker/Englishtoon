@@ -1,0 +1,103 @@
+/* EnglishToon generated visual identity */
+:root {
+  --et-blue: #1689d4;
+  --et-navy: #123b68;
+  --et-coral: #ff6f61;
+  --et-yellow: #ffc83d;
+  --et-mint: #36c4b3;
+  --et-cream: #fff8e8;
+  --et-shadow: 0 18px 45px rgba(18, 59, 104, .16);
+}
+
+body.toon-brand-page,
+body.toon-scene-exams {
+  background-color: #eaf7ff;
+  background-image: linear-gradient(180deg, rgba(234,247,255,.80), rgba(255,248,232,.88)), url('../images/brand/backgrounds/site-main.webp');
+  background-position: center top;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+body.toon-scene-exams {
+  background-image: linear-gradient(180deg, rgba(9,43,92,.14), rgba(9,43,92,.06)), url('../images/brand/backgrounds/exams-pages.webp');
+}
+
+body.toon-scene-exam-units.grade-primary {
+  background-image: linear-gradient(180deg, rgba(234,247,255,.72), rgba(255,248,232,.84)), url('../images/brand/backgrounds/primary-pages.webp');
+}
+
+body.toon-scene-exam-units.grade-prep {
+  background-image: linear-gradient(180deg, rgba(8,44,93,.28), rgba(8,44,93,.18)), url('../images/brand/backgrounds/prep-pages.webp');
+}
+
+.et-brand-hero {
+  position: relative;
+  isolation: isolate;
+  background-image: linear-gradient(90deg, rgba(8,55,108,.84), rgba(8,55,108,.54)), url('../images/brand/backgrounds/site-main.webp');
+  background-size: cover;
+  background-position: center;
+  box-shadow: var(--et-shadow);
+}
+
+.et-primary-surface {
+  background-image: linear-gradient(180deg, rgba(255,255,255,.78), rgba(255,248,232,.92)), url('../images/brand/backgrounds/primary-pages.webp');
+  background-size: cover;
+  background-position: center;
+}
+
+.et-prep-surface {
+  background-image: linear-gradient(180deg, rgba(8,44,93,.82), rgba(14,95,119,.72)), url('../images/brand/backgrounds/prep-pages.webp');
+  background-size: cover;
+  background-position: center;
+}
+
+.et-grade-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .75rem;
+  margin: 0 auto 1.75rem;
+}
+
+.et-grade-tab {
+  appearance: none;
+  border: 1px solid rgba(255,255,255,.75);
+  border-radius: 1.25rem;
+  padding: .8rem .7rem;
+  color: #17446d;
+  background: rgba(255,255,255,.78);
+  box-shadow: 0 8px 18px rgba(18,59,104,.10);
+  cursor: pointer;
+  font: 800 .92rem/1.25 Cairo, sans-serif;
+  transition: transform .18s ease, background .18s ease, color .18s ease, box-shadow .18s ease;
+}
+
+.et-grade-tab:hover,
+.et-grade-tab:focus-visible { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(18,59,104,.16); outline: none; }
+.et-grade-tab.active { color: #fff; background: linear-gradient(135deg, var(--et-blue), var(--et-mint)); box-shadow: 0 12px 24px rgba(22,137,212,.28); }
+.et-grade-tab .et-tab-icon { width: 52px; height: 52px; object-fit: cover; display: block; margin: 0 auto .45rem; border-radius: 1rem; box-shadow: 0 5px 12px rgba(18,59,104,.16); }
+.et-grade-tab .et-tab-label { display: block; }
+
+.et-grade-panel { display: none; animation: etPanelIn .24s ease-out; }
+.et-grade-panel.active { display: block; }
+.et-panel-heading { display: flex; align-items: center; gap: .8rem; margin-bottom: 1rem; color: #123b68; }
+.et-panel-heading img { width: 58px; height: 58px; border-radius: 1.1rem; object-fit: cover; box-shadow: 0 8px 18px rgba(18,59,104,.16); }
+.et-panel-heading h3 { margin: 0; font-size: clamp(1.25rem, 3vw, 1.8rem); font-weight: 900; }
+.et-panel-heading p { margin: .15rem 0 0; font-size: .82rem; font-weight: 700; color: #397296; }
+
+.exam-card { border-radius: 1.65rem !important; }
+.exam-card img { object-position: center; }
+
+@keyframes etPanelIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 640px) {
+  body.toon-brand-page,
+  body.toon-scene-exams { background-attachment: scroll; background-size: auto 100%; }
+  .et-grade-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6rem; }
+  .et-grade-tab { min-height: 104px; padding: .6rem .45rem; font-size: .8rem; border-radius: 1rem; }
+  .et-grade-tab .et-tab-icon { width: 44px; height: 44px; border-radius: .8rem; }
+  .et-panel-heading img { width: 50px; height: 50px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .et-grade-tab, .et-grade-panel { transition: none; animation: none; }
+}
