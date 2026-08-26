@@ -139,6 +139,17 @@ document.getElementById('startExamBtn').addEventListener('click', () => {
   showScreen('screen-exam');
 });
 
+
+(function(){
+  function mix(qs){
+    qs.forEach(function(q){
+      var opts=q.options.slice(), correctText=opts[q.correct];
+      for(var i=opts.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),tmp=opts[i];opts[i]=opts[j];opts[j]=tmp;}
+      q.options=opts; q.correct=opts.indexOf(correctText);
+    });
+  }
+  mix(QUESTIONS);
+})();
 function renderExam(){
   const container = document.getElementById('questionsContainer');
   container.innerHTML = '';
@@ -150,7 +161,7 @@ function renderExam(){
     q[1].forEach((optText, oi) => {
       const b = document.createElement('button');
       b.className = 'opt';
-      b.textContent = optText;
+      b.textContent = String.fromCharCode(65 + oi) + '. ' + optText;
       b.type = 'button';
       b.addEventListener('click', () => {
         userAnswers[qi] = oi;

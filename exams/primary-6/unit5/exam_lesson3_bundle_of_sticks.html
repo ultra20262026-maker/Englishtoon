@@ -110,6 +110,14 @@ const questions = [
   { type:"tf", q:"The farmer's lesson taught his sons to fight more.", answer:false, correction:"The farmer's lesson taught his sons to work together." },
 ];
 
+(function(){
+  questions.forEach(function(item){
+    if(item.type !== 'mcq' || !Array.isArray(item.choices)) return;
+    var choices=item.choices.slice(), correctText=choices[item.answer];
+    for(var i=choices.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),tmp=choices[i];choices[i]=choices[j];choices[j]=tmp;}
+    item.choices=choices; item.answer=choices.indexOf(correctText);
+  });
+})();
 let qi = 0, score = 0, locked = false;
 
 function buildStars(){ const s=document.getElementById('stars'); for(let i=0;i<50;i++){ const d=document.createElement('div'); d.className='star'; d.style.left=Math.random()*100+'%'; d.style.top=Math.random()*100+'%'; d.style.animationDelay=(Math.random()*3)+'s'; s.appendChild(d); } }
@@ -170,7 +178,7 @@ function renderQuestion(){
     const box = document.getElementById('choicesBox');
     item.choices.forEach((c,i)=>{
       const b = document.createElement('button');
-      b.className='choice'; b.textContent=c;
+      b.className='choice'; b.textContent=String.fromCharCode(65+i)+'. '+c;
       b.onclick = ()=>answerMCQ(i,b);
       box.appendChild(b);
     });

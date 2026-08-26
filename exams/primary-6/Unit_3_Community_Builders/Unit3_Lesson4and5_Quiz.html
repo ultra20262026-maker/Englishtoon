@@ -258,6 +258,17 @@ function startQuiz() {
   document.getElementById('screen-quiz').classList.remove('hidden');
 }
 
+
+(function(){
+  function mix(qs){
+    qs.forEach(function(q){
+      var opts=q.options.slice(), correctText=opts[q.correct];
+      for(var i=opts.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),tmp=opts[i];opts[i]=opts[j];opts[j]=tmp;}
+      q.options=opts; q.correct=opts.indexOf(correctText);
+    });
+  }
+  mix(QUESTIONS);
+})();
 function renderQuestions() {
   const container = document.getElementById('questionsContainer');
   container.innerHTML = '';
@@ -269,7 +280,7 @@ function renderQuestions() {
       optionsHtml += `
         <label id="opt-${qi}-${oi}">
           <input type="radio" name="q${qi}" value="${oi}" onchange="selectAnswer(${qi}, ${oi})">
-          ${opt}
+          ${String.fromCharCode(65 + oi)}. ${opt}
         </label>`;
     });
     div.innerHTML = `<p class="qtext"><span class="qnum">${qi+1}</span>${q.text}</p><div class="options">${optionsHtml}</div>`;

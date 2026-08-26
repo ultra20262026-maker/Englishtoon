@@ -175,6 +175,17 @@ function startQuiz(){
   renderQuestions();
 }
 
+
+(function(){
+  function mix(qs){
+    qs.forEach(function(q){
+      var opts=q.options.slice(), correctText=opts[q.answer];
+      for(var i=opts.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),tmp=opts[i];opts[i]=opts[j];opts[j]=tmp;}
+      q.options=opts; q.answer=opts.indexOf(correctText);
+    });
+  }
+  mix(QUESTIONS);
+})();
 function renderQuestions(){
   const form = document.getElementById('quizForm');
   let html = "";
