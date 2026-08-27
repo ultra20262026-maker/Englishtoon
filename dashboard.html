@@ -83,11 +83,12 @@
       <section aria-labelledby="services-title">
         <div class="section-heading"><div><h3 id="services-title">ماذا تريد أن تفعل اليوم؟</h3><p>اختر مغامرتك من البطاقات التالية</p></div></div>
         <div class="dashboard-grid">
-          <a class="home-card" href="games.html"><div class="card-art"><img src="images/brand/home-cards/games.webp" alt=""></div><div class="card-body"><div><h4>الألعاب التعليمية</h4><p>ألعاب الكتاب التفاعلية وتسميع الكلمات</p></div><span class="card-arrow"><i class="fa-solid fa-arrow-left"></i></span></div></a>
+          <a class="home-card" href="games.html"><div class="card-art"><img src="images/brand/home-cards/games.webp" alt=""></div><div class="card-body"><div><h4>ألعاب الكتاب</h4><p>ألعاب الكتاب التفاعلية والمغامرات الحركية</p></div><span class="card-arrow"><i class="fa-solid fa-arrow-left"></i></span></div></a>
+          <a class="home-card" href="dictation-hub.html"><div class="card-art"><img src="images/brand/home-cards/dictation.webp" alt=""></div><div class="card-body"><div><h4>تسميع الكلمات</h4><p>رتّب الحروف واستمع إلى نطق كلمات كل درس</p></div><span class="card-arrow"><i class="fa-solid fa-arrow-left"></i></span></div></a>
           <a class="home-card" href="books.html"><div class="card-art"><img src="images/brand/home-cards/books.webp" alt=""></div><div class="card-body"><div><h4>الكتاب التفاعلي</h4><p>راجع الدروس والأنشطة بطريقة ممتعة</p></div><span class="card-arrow"><i class="fa-solid fa-arrow-left"></i></span></div></a>
           <a class="home-card" href="exams.html"><div class="card-art"><img src="images/brand/home-cards/exams.webp" alt=""></div><div class="card-body"><div><h4>الامتحانات الإلكترونية</h4><p>اختبر مستواك في صفحة الامتحانات المستقلة</p></div><span class="card-arrow"><i class="fa-solid fa-arrow-left"></i></span></div></a>
           <a class="home-card" href="leaderboard.html"><div class="card-art"><img src="images/brand/home-cards/leaderboard.webp" alt=""></div><div class="card-body"><div><h4>لوحة الأبطال</h4><p>شاهد أعلى النقاط وتابع تقدمك</p></div><span class="card-arrow"><i class="fa-solid fa-arrow-left"></i></span></div></a>
-          <a class="home-card" href="voice-checker.html"><div class="card-art"><img src="images/brand/home-cards/voice.webp" alt=""></div><div class="card-body"><div><h4>مدقق النطق الذكي</h4><p>تدرّب على النطق مع المساعد الصوتي</p></div><span class="card-arrow"><i class="fa-solid fa-arrow-left"></i></span></div></a>
+          <a class="home-card" href="voice-checker.html"><div class="card-art"><img src="images/brand/home-cards/voice-checker.webp" alt=""></div><div class="card-body"><div><h4>مدقق النطق الذكي</h4><p>تدرّب على النطق مع المساعد الصوتي</p></div><span class="card-arrow"><i class="fa-solid fa-arrow-left"></i></span></div></a>
           <a class="home-card" href="shop.html"><div class="card-art"><img src="images/brand/home-cards/leaderboard.webp" alt=""></div><div class="card-body"><div><h4>متجر المكافآت</h4><p>حوّل نقاطك إلى أدوات ومكافآت</p></div><span class="card-arrow"><i class="fa-solid fa-arrow-left"></i></span></div></a>
           <a id="admin-card" class="home-card admin-card" href="admin.html"><div class="card-art"><img src="images/brand/home-cards/exams.webp" alt=""></div><div class="card-body"><div><h4>لوحة الإدارة</h4><p>إدارة الطلاب والنتائج — admin فقط</p></div><span class="card-arrow"><i class="fa-solid fa-shield-halved"></i></span></div></a>
         </div>
@@ -106,6 +107,9 @@
       scoreEl.textContent = localStorage.getItem('englishtoon_total_score') || '0';
       const adminCard=document.getElementById('admin-card');
       if (isAdminSession()) adminCard.style.display='flex'; else adminCard.remove();
+      const currentGrade=localStorage.getItem('et_current_grade');
+      const examCard=document.querySelector('.home-card[href="exams.html"]');
+      if (examCard && currentGrade) examCard.href='exams-grades-view.html?id='+encodeURIComponent(currentGrade);
       if (!isAdminSession() && window.EnglishtoonCloud && window.EnglishtoonProfile) {
         const g=localStorage.getItem('et_current_grade') || 'primary-1';
         await window.EnglishtoonCloud.syncProfile(g);
