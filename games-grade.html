@@ -36,7 +36,7 @@
       'prep-2':{name:'الصف الثاني الإعدادي',root:'games/prep-2/Prep2_ActionGames_Unit',icon:'prep-2'},
       'prep-3':{name:'الصف الثالث الإعدادي',root:'games/prep-3/unit',icon:'prep-3'}
     };
-    const params=new URLSearchParams(location.search); const gradeId=params.get('grade')||'primary-1'; const mode=params.get('mode')==='dictation'?'dictation':'games'; const grade=grades[gradeId]||grades['primary-1'];
+    const params=new URLSearchParams(location.search); const gradeId=params.get('grade')||'primary-1'; const mode=params.get('mode')==='dictation'?'dictation':'games'; const grade=grades[gradeId]||grades['primary-1']; localStorage.setItem('et_current_grade',gradeId);
     const unitPath=(n)=>grade.root+n+'/index.html';
     const units=Array.from({length:6},(_,i)=>i+1);
     const unitCards=mode==='games'?`<section><div class="section-head"><div><h2>وحدات الصف</h2><p>اختر الوحدة لتدخل إلى ألعابها التفاعلية.</p></div></div><div class="units-grid">${units.map(n=>`<a class="unit-card" href="${unitPath(n)}"><span class="unit-number">${n}</span><h3>الوحدة ${n}</h3><p>ألعاب الكتاب والمغامرات التفاعلية</p><span class="unit-link">دخول إلى الوحدة <span>←</span></span></a>`).join('')}</div></section>`:`<section><div class="section-head"><div><h2>دروس تسميع الكلمات</h2><p>اختر الوحدة ثم الدرس لترتيب الكلمة وسماع نطقها.</p></div></div><div class="dictation-grid">${units.map(n=>`<div class="unit-card"><span class="unit-number">${n}</span><h3>الوحدة ${n}</h3><p>أربع مغامرات إملاء</p><div class="lesson-list">${[1,2,3,4].map(l=>`<a class="lesson-link" href="dictation.html?grade=${encodeURIComponent(gradeId)}&unit=${n}&lesson=${l}">L${l}</a>`).join('')}</div></div>`).join('')}</div></section>`;

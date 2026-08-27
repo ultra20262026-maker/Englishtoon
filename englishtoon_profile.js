@@ -7,7 +7,8 @@
   };
   function gradeFromPath(){
     const m=location.pathname.match(/(?:games\/)(primary-[1-6]|prep-[1-3])(?:\/|$)/i);
-    return (m&&m[1].toLowerCase()) || localStorage.getItem('et_current_grade') || 'primary-1';
+    const q=new URLSearchParams(location.search).get('grade');
+    return (m&&m[1].toLowerCase()) || (q&&LABELS[q]?q:null) || localStorage.getItem('et_current_grade') || 'primary-1';
   }
   function key(g){return `et_grade_profile_${g}_${VERSION}`;}
   function fresh(){return {activeName:'',players:{}};}
@@ -31,21 +32,24 @@
   function equip(g,itemId){g=g||gradeFromPath();const p=load(g);if(!p.activeName)return null;p.players=p.players||{};p.players[p.activeName] ||= {name:p.activeName,points:0,bestScore:0,games:0,correct:0,items:[],lastPlayed:''};const pl=p.players[p.activeName];pl.equipped=pl.equipped||{};pl.equipped[itemId]=true;save(g,p);return pl;}
   function name(g){return get(g||gradeFromPath()).activeName||'';}
   function installNameGate(){
-    const g=gradeFromPath();localStorage.setItem('et_current_grade',g);
+    const g=gradeFromPath();
     if(document.getElementById('et-name-gate'))return;
-    const p=get(g);const existing=p.activeName||'';
+    const p=get(g),existing=p.activeName||'',pendingName=localStorage.getItem('et_pending_name')||'',confirmed=localStorage.getItem('et_grade_confirmed_'+g)==='true';
+    if(existing&&confirmed){showChip(g);return;}
     const style=document.createElement('style');style.id='et-profile-style';style.textContent=`
 #et-name-gate{position:fixed;inset:0;z-index:100000;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 15%,#26366f,#080b1b 72%);padding:20px;font-family:Cairo,Arial,sans-serif}
-#et-name-gate.et-gone{display:none!important}.et-name-card{width:min(460px,94vw);padding:28px 22px;border-radius:28px;text-align:center;color:#fff;background:linear-gradient(145deg,rgba(31,45,93,.98),rgba(10,14,35,.98));border:2px solid rgba(255,209,102,.5);box-shadow:0 24px 70px rgba(0,0,0,.45)}.et-name-card h2{margin:0 0 8px;font-size:clamp(22px,6vw,34px)}.et-name-card p{margin:0 0 18px;color:#b9c5ef;font-weight:700}.et-name-card input{width:100%;padding:14px 16px;border-radius:15px;border:2px solid #6176cf;background:#101735;color:#fff;font-size:18px;text-align:center;outline:none}.et-name-card input:focus{border-color:#ffd166;box-shadow:0 0 0 4px rgba(255,209,102,.15)}.et-name-card button{margin-top:14px;width:100%;padding:14px;border:0;border-radius:15px;background:linear-gradient(135deg,#ffd166,#f59e0b);color:#251a00;font-weight:900;font-size:18px;cursor:pointer}.et-name-skip{display:block;margin:12px auto 0;color:#a9b6e8;background:none;border:0;font-weight:700;cursor:pointer}.et-score-chip,#et-score-chip{position:fixed;left:12px;bottom:12px;z-index:9990;padding:8px 13px;border-radius:14px;background:rgba(9,15,39,.88);color:#ffd166;border:1px solid rgba(255,209,102,.45);font:900 13px Cairo,Arial,sans-serif}
+#et-name-gate.et-gone{display:none!important}.et-name-card{width:min(460px,94vw);padding:28px 22px;border-radius:28px;text-align:center;color:#fff;background:linear-gradient(145deg,rgba(31,45,93,.98),rgba(10,14,35,.98));border:2px solid rgba(255,209,102,.5);box-shadow:0 24px 70px rgba(0,0,0,.45)}.et-name-card h2{margin:0 0 8px;font-size:clamp(22px,6vw,34px)}.et-name-card p{margin:0 0 18px;color:#b9c5ef;font-weight:700}.et-name-card label{display:block;text-align:right;margin:0 2px 6px;color:#ffd166;font-size:13px;font-weight:900}.et-name-card select,.et-name-card input{width:100%;padding:14px 16px;border-radius:15px;border:2px solid #6176cf;background:#101735;color:#fff;font-size:18px;text-align:center;outline:none;margin-bottom:10px}.et-name-card select:focus,.et-name-card input:focus{border-color:#ffd166;box-shadow:0 0 0 4px rgba(255,209,102,.15)}.et-name-card button{margin-top:8px;width:100%;padding:14px;border:0;border-radius:15px;background:linear-gradient(135deg,#ffd166,#f59e0b);color:#251a00;font-weight:900;font-size:18px;cursor:pointer}.et-name-card button:disabled{opacity:.45;filter:grayscale(1);cursor:not-allowed}.et-name-skip{display:block;margin:12px auto 0!important;color:#a9b6e8!important;background:none!important;border:0!important;font-weight:700!important;cursor:pointer;font-size:14px!important}
 /* Universal visibility fallback for answer controls in all game engines. */
 #choices>* ,#gg-choices>* ,#targets>* ,#tg>* ,.choices>* ,.options>* ,.answers>* ,.target-btn,.choice-btn,.option-btn,.tbtn,.gg-target,.gg-food,.letter-btn,.word-btn,.answer-btn{visibility:visible;color:#fff;text-shadow:0 2px 3px rgba(0,0,0,.88);pointer-events:auto!important}
 #choices>*,#gg-choices>*,#targets>*,#tg>*,.choices>*,.options>*,.answers>*{border-color:rgba(255,209,102,.9)!important}
 `;
     document.head.appendChild(style);
-    if(existing) return;
-    const gate=document.createElement('div');gate.id='et-name-gate';gate.innerHTML=`<div class="et-name-card"><div style="font-size:48px">🎮</div><h2>${LABELS[g]||'EnglishToon'}</h2><p>اكتب اسم الطالب قبل بدء اللعب</p><input id="et-name-input" maxlength="40" autocomplete="name" placeholder="اسم الطالب"><button id="et-name-save">دخول إلى اللعبة ▶</button><button class="et-name-skip" id="et-name-skip">المتابعة باسم بطل التوون</button></div>`;document.body.appendChild(gate);
-    const input=gate.querySelector('#et-name-input');const finish=(fallback)=>{const n=(input.value||fallback||'بطل التوون').trim();setName(g,n);gate.classList.add('et-gone');showChip(g);};
-    gate.querySelector('#et-name-save').onclick=()=>finish('');gate.querySelector('#et-name-skip').onclick=()=>finish('بطل التوون');input.addEventListener('keydown',e=>{if(e.key==='Enter')finish('');});setTimeout(()=>input.focus(),50);
+    const options='<option value="" selected disabled>اختر الصف الدراسي</option>'+Object.entries(LABELS).map(([id,label])=>`<option value="${id}">${label}</option>`).join('');
+    const gate=document.createElement('div');gate.id='et-name-gate';gate.innerHTML=`<div class="et-name-card"><div style="font-size:48px">🎮</div><h2>ابدأ باختيار صفك</h2><p>اختر صفك أولًا حتى تُحفظ النتيجة في ترتيبه الصحيح، ثم اكتب اسم الطالب</p><label for="et-grade-select">الصف الدراسي</label><select id="et-grade-select">${options}</select><input id="et-name-input" maxlength="40" autocomplete="name" placeholder="اسم الطالب" value="${String(existing||pendingName).replace(/"/g,'&quot;')}"><button id="et-name-save">تأكيد الصف والدخول إلى اللعبة ▶</button></div>`;document.body.appendChild(gate);
+    const input=gate.querySelector('#et-name-input'),gradeSelect=gate.querySelector('#et-grade-select'),saveButton=gate.querySelector('#et-name-save');saveButton.disabled=true;gradeSelect.addEventListener('change',()=>{saveButton.disabled=!LABELS[gradeSelect.value];});
+    const chooseGrade=(nameForTransfer)=>{const selected=gradeSelect.value;if(selected!==g){localStorage.setItem('et_current_grade',selected);localStorage.setItem('et_pending_grade',selected);localStorage.setItem('et_pending_name',nameForTransfer||'');const base=location.pathname.includes('/games/')?location.origin+location.pathname.split('/games/')[0]+'/':new URL('./',location.href).href;location.href=base+'games-grade.html?grade='+encodeURIComponent(selected)+'&mode='+(location.pathname.includes('dictation')?'dictation':'games');return false;}return true;};
+    const finish=(fallback)=>{const n=(input.value||fallback||'بطل التوون').trim();if(!chooseGrade(n))return;setName(g,n);localStorage.removeItem('et_pending_name');localStorage.setItem('et_grade_confirmed_'+g,'true');gate.classList.add('et-gone');showChip(g);};
+    gate.querySelector('#et-name-save').onclick=()=>finish('');input.addEventListener('keydown',e=>{if(e.key==='Enter')finish('');});setTimeout(()=>input.focus(),50);
   }
   function showChip(g){let c=document.getElementById('et-score-chip');if(!c){c=document.createElement('div');c.id='et-score-chip';document.body.appendChild(c);}const x=profile(g);c.textContent=`${x?.name||'بطل التوون'}  •  ${x?.points||0} نقطة`;}
   function wrapOnce(obj,name,handler){if(!obj||typeof obj[name]!=='function'||obj[name].__etWrapped)return false;const orig=obj[name];const w=function(){return handler.call(this,orig,arguments);};w.__etWrapped=true;obj[name]=w;return true;}
