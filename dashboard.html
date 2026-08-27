@@ -50,6 +50,9 @@
     .card-body p { margin:5px 0 0; color:#668397; font-size:.78rem; font-weight:700; line-height:1.7; }
     .card-arrow { width:34px; height:34px; display:grid; place-items:center; flex:none; border-radius:12px; color:#1687d9; background:#edf8ff; }
     .admin-card { display:none; }
+    #student-setup{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(8,36,64,.58);backdrop-filter:blur(10px)}
+    #student-setup.setup-hidden{display:none!important}.setup-card{width:min(480px,94vw);padding:28px 22px;border-radius:28px;background:linear-gradient(145deg,#fffdf7,#eaf8ff);border:3px solid #f6c957;box-shadow:0 24px 70px rgba(11,56,90,.35);text-align:center}.setup-icon{font-size:48px;line-height:1}.setup-card h2{margin:10px 0 6px;color:var(--navy);font-size:clamp(24px,6vw,34px);font-weight:900}.setup-card p{margin:0 0 18px;color:#4a6a7d;font-weight:800;line-height:1.8}.setup-card label{display:block;text-align:right;color:var(--navy);font-size:.8rem;font-weight:900;margin:8px 2px 6px}.setup-card select,.setup-card input{width:100%;padding:14px 15px;border:2px solid #b9d9ea;border-radius:15px;background:#fff;color:var(--navy);font:800 17px Cairo;text-align:center;outline:none}.setup-card select:focus,.setup-card input:focus{border-color:#1687d9;box-shadow:0 0 0 4px rgba(22,135,217,.15)}.setup-card button{width:100%;margin-top:16px;padding:14px;border:0;border-radius:15px;background:linear-gradient(135deg,#1687d9,#2265bf);color:#fff;font:900 18px Cairo;box-shadow:0 6px 0 #124a91;cursor:pointer}.setup-card button:disabled{opacity:.45;filter:grayscale(1);cursor:not-allowed}.setup-error{min-height:22px;margin-top:8px;color:#cc4b42;font-size:.8rem;font-weight:900}
+
     .footer-note { padding-top:30px; text-align:center; color:#658195; font-size:.78rem; font-weight:800; }
     @media (max-width:820px) { .hero { grid-template-columns:1fr; padding:38px 12px 30px; text-align:center; } .hero-copy { margin:auto; } .hero p { margin:auto; } .hero-cta { justify-content:center; } .hero-art { order:-1; } .hero-art img { width:min(74vw,300px); } .dashboard-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
     @media (max-width:560px) { .home-shell { padding:10px 12px 36px; } .topbar { border-radius:19px; padding:10px; } .brand-mark { width:44px; height:44px; } .brand h1 { font-size:1.05rem; } .brand p { font-size:.62rem; } .pill span { display:none; } .pill { padding:9px 10px; } .hero { min-height:0; padding-top:28px; } .hero h2 { font-size:2.2rem; } .dashboard-grid { grid-template-columns:1fr; gap:14px; } .home-card { min-height:260px; } .card-art { height:155px; } }
@@ -94,8 +97,10 @@
         </div>
       </section>
     </main>
+    <div id="student-setup" class="setup-hidden" aria-hidden="true"><div class="setup-card"><div class="setup-icon">🎓</div><h2>أهلًا بك في EnglishToon</h2><p>اكتب اسمك واختر صفك مرة واحدة، وبعدها ستدخل إلى كل الأقسام مباشرة. سيتم حفظ النتائج في ترتيب صفك.</p><label for="home-grade">الصف الدراسي</label><select id="home-grade"><option value="">اختر الصف الدراسي</option><option value="primary-1">الصف الأول الابتدائي</option><option value="primary-2">الصف الثاني الابتدائي</option><option value="primary-3">الصف الثالث الابتدائي</option><option value="primary-4">الصف الرابع الابتدائي</option><option value="primary-5">الصف الخامس الابتدائي</option><option value="primary-6">الصف السادس الابتدائي</option><option value="prep-1">الصف الأول الإعدادي</option><option value="prep-2">الصف الثاني الإعدادي</option><option value="prep-3">الصف الثالث الإعدادي</option></select><label for="home-student-name">اسم الطالب</label><input id="home-student-name" maxlength=40 placeholder="اكتب اسم الطالب" autocomplete="name"><div id="setup-error" class="setup-error" aria-live="polite"></div><button id="save-student-setup" disabled>حفظ البيانات والدخول إلى المنصة</button></div></div>
     <p class="footer-note">© 2026 English Toon · كل نقطة تقرّبك من مغامرة جديدة</p>
   </div>
+  <script>window.ET_DASHBOARD_PAGE=true;</script>
   <script src="englishtoon_profile.js?v=20270827" defer></script>
   <script src="js/englishtoon_cloud.js?v=20270827" defer></script>
   <script>
@@ -107,9 +112,16 @@
       scoreEl.textContent = localStorage.getItem('englishtoon_total_score') || '0';
       const adminCard=document.getElementById('admin-card');
       if (isAdminSession()) adminCard.style.display='flex'; else adminCard.remove();
+      const setup=document.getElementById('student-setup'),gradeSelect=document.getElementById('home-grade'),nameInput=document.getElementById('home-student-name'),saveSetup=document.getElementById('save-student-setup'),setupError=document.getElementById('setup-error');
+      const registered=localStorage.getItem('et_student_registered')==='true',savedGrade=localStorage.getItem('et_current_grade')||'',savedName=localStorage.getItem('et_student_name')||'';
+      if(!registered&&!isAdminSession()){setup.classList.remove('setup-hidden');setup.setAttribute('aria-hidden','false');}
+      else {gradeSelect.value=savedGrade;nameInput.value=savedName;}
+      const validateSetup=()=>{saveSetup.disabled=!(gradeSelect.value&&nameInput.value.trim());};gradeSelect.addEventListener('change',validateSetup);nameInput.addEventListener('input',validateSetup);
+      saveSetup.addEventListener('click',async()=>{const g=gradeSelect.value,n=nameInput.value.trim();if(!g||!n){setupError.textContent='اختر الصف واكتب اسم الطالب أولًا.';return;}saveSetup.disabled=true;saveSetup.textContent='جاري حفظ البيانات...';localStorage.setItem('et_current_grade',g);localStorage.setItem('et_student_name',n);localStorage.setItem('et_student_registered','true');localStorage.setItem('et_grade_confirmed_'+g,'true');if(window.EnglishtoonProfile)window.EnglishtoonProfile.setName(g,n);if(window.EnglishtoonCloud?.registerStudent)void window.EnglishtoonCloud.registerStudent(g,n).catch(()=>{});const selectedExamCard=document.querySelector('.home-card[href="exams.html"],.home-card[href^="exams-grades-view.html"]');if(selectedExamCard)selectedExamCard.href='exams-grades-view.html?id='+encodeURIComponent(g);setup.classList.add('setup-hidden');setup.setAttribute('aria-hidden','true');document.getElementById('student-name-display').textContent=n;void refreshDashboardScore(g);});
       const currentGrade=localStorage.getItem('et_current_grade');
       const examCard=document.querySelector('.home-card[href="exams.html"]');
       if (examCard && currentGrade) examCard.href='exams-grades-view.html?id='+encodeURIComponent(currentGrade);
+      async function refreshDashboardScore(g){if(window.EnglishtoonCloud&&window.EnglishtoonProfile){await window.EnglishtoonCloud.syncProfile(g);const synced=window.EnglishtoonProfile.profile(g);if(synced){scoreEl.textContent=String(synced.points||0);if(synced.name)document.getElementById('student-name-display').textContent=synced.name;}}}
       if (!isAdminSession() && window.EnglishtoonCloud && window.EnglishtoonProfile) {
         const g=localStorage.getItem('et_current_grade') || 'primary-1';
         await window.EnglishtoonCloud.syncProfile(g);

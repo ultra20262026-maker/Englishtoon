@@ -20,7 +20,7 @@
   function profile(g){const p=get(g);return p.activeName?(p.players[p.activeName]||{name:p.activeName,points:0,bestScore:0,games:0,correct:0}):null;}
   function hydrate(g,d){g=g||gradeFromPath();if(!d||!d.name)return null;const p=load(g);p.activeName=String(d.name).slice(0,40);p.players=p.players||{};p.players[p.activeName]=Object.assign({name:p.activeName,points:0,bestScore:0,games:0,correct:0,items:[]},d,{name:p.activeName,points:Number(d.points)||0,bestScore:Number(d.bestScore)||0,games:Number(d.games)||0,correct:Number(d.correct)||0,inventory:Array.isArray(d.inventory)?d.inventory:[]});save(g,p);return p.players[p.activeName];}
   function award(g,points,meta){
-    g=g||gradeFromPath();const p=load(g);if(!p.activeName)return null;p.players=p.players||{};p.players[p.activeName] ||= {name:p.activeName,points:0,bestScore:0,games:0,correct:0,items:[],lastPlayed:''};const pl=p.players[p.activeName];
+    g=g||gradeFromPath();const registeredGrade=localStorage.getItem('et_current_grade');if(localStorage.getItem('et_student_registered')==='true'&&registeredGrade&&registeredGrade!==g){console.warn('Score blocked: game grade does not match the student-selected grade.');return null;}const p=load(g);if(!p.activeName)return null;p.players=p.players||{};p.players[p.activeName] ||= {name:p.activeName,points:0,bestScore:0,games:0,correct:0,items:[],lastPlayed:''};const pl=p.players[p.activeName];
     const pts=Math.max(0,Math.round(Number(points)||0));pl.points+=pts;pl.games++;pl.correct+=Math.max(0,Math.round(Number(meta&&meta.correct)||0));pl.bestScore=Math.max(pl.bestScore,Math.round(Number(meta&&meta.score)||0));pl.lastPlayed=new Date().toISOString();
     if(meta&&meta.game)pl.items=(pl.items||[]).concat([{game:String(meta.game).slice(0,100),points:pts,at:pl.lastPlayed}]).slice(-30);
     save(g,p);if(window.EnglishtoonCloud?.recordAward)window.EnglishtoonCloud.recordAward(g,pl,pts,meta||{}).catch(()=>{});return pl;
@@ -34,6 +34,7 @@
   function installNameGate(){
     const g=gradeFromPath();
     if(document.getElementById('et-name-gate'))return;
+    if(localStorage.getItem('et_student_registered')==='true'){showChip(g);return;}
     const p=get(g),existing=p.activeName||'',pendingName=localStorage.getItem('et_pending_name')||'',confirmed=localStorage.getItem('et_grade_confirmed_'+g)==='true';
     if(existing&&confirmed){showChip(g);return;}
     const style=document.createElement('style');style.id='et-profile-style';style.textContent=`
@@ -70,5 +71,5 @@
     roots.forEach(root=>{const rs=getComputedStyle(root);if(rs.display==='none'||rs.visibility==='hidden')return;root.querySelectorAll('button,[role="button"],.card,.target,.food,.gg-food,.gg-target,.choice-btn,.target-btn,.option-btn,.tbtn,.letter-btn,.word-btn,.answer-btn').forEach(el=>{const cs=getComputedStyle(el);if(cs.display==='none'&&!el.classList.contains('hidden')&&!el.classList.contains('gg-hidden'))el.style.display='flex';el.style.visibility='visible';el.style.opacity='1';el.style.pointerEvents='auto';el.style.zIndex='15';if(cs.color==='rgba(0, 0, 0, 0)'||cs.color==='transparent')el.style.color='#fff';});});
   }
   window.EnglishtoonProfile={grade:gradeFromPath,labels:LABELS,get,setName,profile,hydrate,award,leaderboard,points,name,spend,owns,equip,refresh:showChip};
-  document.addEventListener('DOMContentLoaded',()=>{if(window.ET_HUB_PAGE)return;installNameGate();showChip(gradeFromPath());installScoreBridges();observeResult(gradeFromPath());repairChoices();const mo=new MutationObserver(()=>{repairChoices();installScoreBridges();});mo.observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['style','class']});setInterval(installScoreBridges,500);});
+  document.addEventListener('DOMContentLoaded',()=>{if(window.ET_HUB_PAGE||window.ET_DASHBOARD_PAGE)return;installNameGate();showChip(gradeFromPath());installScoreBridges();observeResult(gradeFromPath());repairChoices();const mo=new MutationObserver(()=>{repairChoices();installScoreBridges();});mo.observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['style','class']});setInterval(installScoreBridges,500);});
 })();

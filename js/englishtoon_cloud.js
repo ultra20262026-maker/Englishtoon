@@ -32,6 +32,14 @@
     }catch(e){console.warn('Cloud profile sync unavailable:',e.message||e);}
     return local(g);
   }
+  async function registerStudent(g,name){
+    const account=user(),clean=String(name||'').trim().slice(0,40); if(!account||!clean)return null;
+    try{
+      const ref=(await db()).collection('student_profiles').doc(docId(g)),snap=await ref.get(),remote=snap.exists?snap.data():null,current=local(g)||{};
+      const data=Object.assign({},remote||{}, {accountId:account,grade:g,name:clean,points:Number(remote?.points??current.points)||0,bestScore:Number(remote?.bestScore??current.bestScore)||0,games:Number(remote?.games??current.games)||0,correct:Number(remote?.correct??current.correct)||0,inventory:Array.isArray(remote?.inventory)?remote.inventory:(Array.isArray(current.inventory)?current.inventory:[]),updatedAt:stamp()});
+      await ref.set(data,{merge:true}); window.EnglishtoonProfile.hydrate(g,data); return data;
+    }catch(e){console.warn('Cloud student registration unavailable:',e.message||e);return local(g);}
+  }
   async function recordAward(g,after,points,meta){
     const account=user(); if(!account||!after)return after;
     try{
@@ -69,5 +77,5 @@
       rows.sort((a,b)=>(b.points-a.points)||String(a.name).localeCompare(String(b.name)));return rows.slice(0,20);
     }catch(e){console.warn('Cloud leaderboard unavailable; local rows shown:',e.message||e);return window.EnglishtoonProfile?.leaderboard(g)||[];}
   }
-  window.EnglishtoonCloud={syncProfile,recordAward,spend,leaderboard};
+  window.EnglishtoonCloud={syncProfile,registerStudent,recordAward,spend,leaderboard};
 })();
