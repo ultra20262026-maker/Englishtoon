@@ -95,14 +95,23 @@
     </main>
     <p class="footer-note">© 2026 English Toon · كل نقطة تقرّبك من مغامرة جديدة</p>
   </div>
+  <script src="englishtoon_profile.js?v=20270827" defer></script>
+  <script src="js/englishtoon_cloud.js?v=20270827" defer></script>
   <script>
     function isAdminSession() { return (localStorage.getItem('currentUser')||'').trim().toLowerCase() === 'admin'; }
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
       if (localStorage.getItem('isLoggedIn') !== 'true') { window.location.replace('index.html'); return; }
       document.getElementById('student-name-display').textContent = localStorage.getItem('et_student_name') || (isAdminSession() ? 'admin' : 'بطل التوون');
-      document.getElementById('totalCoins').textContent = localStorage.getItem('englishtoon_total_score') || '0';
+      const scoreEl=document.getElementById('totalCoins');
+      scoreEl.textContent = localStorage.getItem('englishtoon_total_score') || '0';
       const adminCard=document.getElementById('admin-card');
       if (isAdminSession()) adminCard.style.display='flex'; else adminCard.remove();
+      if (!isAdminSession() && window.EnglishtoonCloud && window.EnglishtoonProfile) {
+        const g=localStorage.getItem('et_current_grade') || 'primary-1';
+        await window.EnglishtoonCloud.syncProfile(g);
+        const synced=window.EnglishtoonProfile.profile(g);
+        if (synced) { scoreEl.textContent=String(synced.points||0); if(synced.name)document.getElementById('student-name-display').textContent=synced.name; }
+      }
     });
     function logout() { localStorage.clear(); window.location.replace('index.html?logout=true'); }
   </script>
