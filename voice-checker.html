@@ -64,12 +64,12 @@
                 <div class="flex flex-col items-center gap-4 mb-8">
                     <h2 id="display-word" class="text-4xl font-black text-primary uppercase tracking-widest">Apple</h2>
                     <div class="flex items-center gap-3">
-                        <span id="word-phonetic" class="text-slate-400 font-bold">/ˈæp.əl/</span>
+                        <span id="word-phonetic" class="text-slate-400 font-bold">—</span>
                         <button onclick="playTargetVoice()" class="text-primary hover:scale-110 transition-transform">
                             <i class="fa-solid fa-volume-high text-2xl"></i>
                         </button>
                     </div>
-                    <p id="word-meaning" class="text-slate-600 font-bold text-lg bg-slate-50 px-6 py-2 rounded-full">تفاحة</p>
+                    <p id="word-meaning" class="text-slate-600 font-bold text-lg bg-slate-50 px-6 py-2 rounded-full">—</p>
                 </div>
 
                 <div class="border-t border-slate-100 pt-8 flex flex-col items-center gap-6">
@@ -96,6 +96,38 @@
         let recognition;
         let isRecording = false;
         let targetWord = "";
+
+        // Arabic meanings used by the curriculum checker. The old page had a
+        // fixed placeholder ("تفاحة") which stayed visible whenever the
+        // remote dictionary/translation request failed.
+        const LOCAL_MEANINGS = Object.freeze({
+            digital: "رقمي / رقمية", device: "جهاز", devices: "أجهزة", screen: "شاشة",
+            computer: "حاسوب", tablet: "جهاز لوحي", phone: "هاتف", internet: "الإنترنت",
+            website: "موقع إلكتروني", password: "كلمة مرور", camera: "كاميرا",
+            book: "كتاب", books: "كتب", teacher: "معلّم / معلّمة", student: "طالب / طالبة",
+            friend: "صديق / صديقة", friends: "أصدقاء", family: "عائلة", school: "مدرسة",
+            home: "منزل", house: "بيت", table: "طاولة", chair: "كرسي", bag: "حقيبة",
+            pencil: "قلم رصاص", pen: "قلم", board: "سبورة", tree: "شجرة", tiger: "نمر",
+            tomato: "طماطم", apple: "تفاحة", apples: "تفاح", orange: "برتقال",
+            banana: "موز", water: "ماء", food: "طعام", meal: "وجبة", recipe: "وصفة",
+            ingredients: "مكوّنات", delicious: "لذيذ", selfish: "أناني", flyer: "منشور إعلاني",
+            screen_time: "وقت استخدام الشاشة", privacy: "الخصوصية", identity: "الهوية",
+            community: "المجتمع", help: "يساعد / مساعدة", healthy: "صحي", strong: "قوي",
+            read: "يقرأ", write: "يكتب", play: "يلعب", work: "يعمل", eat: "يأكل",
+            drink: "يشرب", go: "يذهب", come: "يأتي", make: "يصنع", use: "يستخدم",
+            learn: "يتعلم", speak: "يتحدث", listen: "يستمع", hello: "مرحبًا", goodbye: "إلى اللقاء"
+        });
+        const normalizeLookup = value => String(value || "").toLowerCase().trim().replace(/\s+/g, "_");
+        async function translateWordFallback(word) {
+            try {
+                const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(word)}&langpair=en|ar`;
+                const response = await fetch(url, { headers: { Accept: "application/json" } });
+                const data = await response.json();
+                const translated = data?.responseData?.translatedText?.trim();
+                if (translated && translated.toLowerCase() !== word.toLowerCase() && !/\bapple\b|تفاحة/i.test(translated)) return translated;
+            } catch (error) { console.warn("Arabic translation fallback unavailable", error); }
+            return "";
+        }
 
         // Initialize Speech Recognition
         if ('webkitSpeechRecognition' in window) {
@@ -130,21 +162,29 @@
             document.getElementById('result-section').classList.remove('hidden');
             document.getElementById('score-container').classList.add('hidden');
             
+            const meaningEl = document.getElementById("word-meaning");
+            const phoneticEl = document.getElementById("word-phonetic");
+            const localMeaning = LOCAL_MEANINGS[normalizeLookup(targetWord)] || LOCAL_MEANINGS[targetWord];
+            phoneticEl.textContent = "—";
+            meaningEl.textContent = localMeaning || "جاري البحث عن المعنى العربي...";
             try {
-                const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${targetWord}`);
+                const controller = new AbortController();
+                const timeout = setTimeout(() => controller.abort(), 5000);
+                const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(targetWord)}`, { signal: controller.signal });
+                clearTimeout(timeout);
                 const data = await response.json();
-                
-                if (data.title === "No Definitions Found") {
-                    document.getElementById('word-phonetic').textContent = "";
-                    document.getElementById('word-meaning').textContent = "لم يتم العثور على معنى";
-                } else {
-                    const entry = data[0];
-                    document.getElementById('word-phonetic').textContent = entry.phonetic || "";
-                    document.getElementById('word-meaning').textContent = entry.meanings[0].definitions[0].definition;
-                    // Translate meaning roughly for UI (optional, here we keep English definition or user can translate)
+                const entry = Array.isArray(data) ? data[0] : null;
+                if (entry?.phonetic) phoneticEl.textContent = entry.phonetic;
+                if (!localMeaning) {
+                    const translated = await translateWordFallback(targetWord);
+                    meaningEl.textContent = translated || "لا توجد ترجمة عربية موثوقة لهذه الكلمة حاليًا";
                 }
             } catch (error) {
-                console.error("Error fetching dictionary:", error);
+                console.warn("Dictionary request unavailable; using Arabic fallback", error);
+                if (!localMeaning) {
+                    const translated = await translateWordFallback(targetWord);
+                    meaningEl.textContent = translated || "لا توجد ترجمة عربية موثوقة لهذه الكلمة حاليًا";
+                }
             }
         }
 
