@@ -43,4 +43,5 @@
   check.onclick=()=>{if(locked)return;const target=normalize(words[index]),value=normalize(chosen.join(''));if(!value){feedback.textContent='اضغط الحروف بالترتيب أولًا.';feedback.className='feedback bad';return;}if(value===target){correct++;score+=10;locked=true;feedback.textContent='ترتيب صحيح! +10 نقاط';feedback.className='feedback good';setTimeout(()=>{index++;if(index>=words.length)finish();else newRound();},650);}else{feedback.textContent='الترتيب غير صحيح — اضغط «مسح الإجابة» وحاول مرة أخرى.';feedback.className='feedback bad';}};
   $('again').onclick=()=>{index=0;correct=0;score=0;$('result').classList.remove('show');document.querySelector('#play').style.display='block';window.__DICTATION_AWARDED=false;newRound();};newRound();
 })();
-</script></body></html>
+</script><script src="js/grade_restriction.js?v=20260903"></script>
+</body></html>

@@ -12,7 +12,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-const CURRENT_APP_VERSION = "2026_08_29_GLOBAL_WIPE_V2";
+const CURRENT_APP_VERSION = "2026_09_03_GLOBAL_WIPE_V3";
 if (localStorage.getItem('app_ver') !== CURRENT_APP_VERSION) {
     localStorage.setItem('app_ver', CURRENT_APP_VERSION);
     if ('serviceWorker' in navigator) {
@@ -27,7 +27,7 @@ if (localStorage.getItem('app_ver') !== CURRENT_APP_VERSION) {
     }
 }
 
-const FORCE_LOGOUT_VERSION = "2026_08_29_FORCE_LOGOUT_V2";
+const FORCE_LOGOUT_VERSION = "2026_09_03_FORCE_LOGOUT_V3";
 
 async function login(username, password) {
     try {
